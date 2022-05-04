@@ -359,7 +359,7 @@ class khenthuonghosothiduaController extends Controller
             dd($inputs['thongtinquyetdinh']);
             $model = dshosokhenthuong::where('mahosokt', $inputs['mahosokt'])->first();
             $model->thongtinquyetdinh = $inputs['thongtinquyetdinh'];
-            $model->save();
+            //$model->save();
             return redirect('/KhenThuongHoSoThiDua/ThongTin');
         } else
             return view('errors.notlogin');
