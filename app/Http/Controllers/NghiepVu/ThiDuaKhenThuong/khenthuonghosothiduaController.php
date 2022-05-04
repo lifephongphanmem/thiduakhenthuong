@@ -357,6 +357,25 @@ class khenthuonghosothiduaController extends Controller
             return view('errors.notlogin');
     }
 
+    public function XemQuyetDinh(Request $request)
+    {
+        if (Session::has('admin')) {
+            $inputs = $request->all();
+            $model = dshosokhenthuong::where('mahosokt', $inputs['mahosokt'])->first();
+            if ($model->thongtinquyetdinh == '') {
+                $model->thongtinquyetdinh = getQuyetDinhCKE('QUYETDINH');
+            }
+            $model->thongtinquyetdinh = str_replace('<p>[sangtrangmoi]</p>', '<div class=&#34;sangtrangmoi&#34;></div>', $model->thongtinquyetdinh);
+            $model->tendanhhieutd = dmdanhhieuthidua::where('madanhhieutd', $model->madanhhieutd)->first()->tendanhhieutd ?? '';
+            $model->tenphongtrao = dsphongtraothidua::where('maphongtraotd', $model->maphongtraotd)->first()->tenphongtrao ?? '';
+            //dd($model);
+            return view('BaoCao.DonVi.XemQuyetDinh')
+                ->with('model', $model)
+                ->with('pageTitle', 'Quyết định khen thưởng');
+        } else
+            return view('errors.notlogin');
+    }
+
     public function MacDinhQuyetDinh(Request $request)
     {
         if (Session::has('admin')) {

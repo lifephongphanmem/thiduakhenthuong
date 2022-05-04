@@ -131,6 +131,10 @@
                                                     class="btn btn-sm btn-clean btn-icon" target="_blank">
                                                     <i class="icon-lg la fa-print text-dark"></i></a>
                                             @else
+                                            {{-- <a title="In quyết định khen thưởng"
+                                                    href="{{ url('/KhenThuongHoSoThiDua/QuyetDinh?mahosokt=' . $tt->mahosokt) }}"
+                                                    class="btn btn-sm btn-clean btn-icon">
+                                                    <i class="icon-lg la fa-print text-dark"></i></a> --}}
                                                 <a title="Thông tin hồ sơ khen thưởng"
                                                     href="{{ url('/KhenThuongHoSoThiDua/Xem?mahosokt=' . $tt->mahosokt) }}"
                                                     class="btn btn-sm btn-clean btn-icon" target="_blank">

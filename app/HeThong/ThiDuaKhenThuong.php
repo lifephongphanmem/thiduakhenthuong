@@ -15,18 +15,19 @@ function getQuyetDinhCKE($maso){
             <p style=&#34;margin-left:40px;text-align:justify;&#34;>Căn cứ Luật Thi đua, Khen thưởng ngày 26/11/2003 và Luật sửa đổi, bổ sung một số Điều của Luật Thi đua, Khen thưởng ngày 16/11 /2013;</p>
             <p style=&#34;margin-left:40px;text-align:justify;&#34;>Căn cứ Nghị định số 91/2017/NĐ-CP ngày 31/7/2017 của Chính phủ quy định chi tiết thi hành một số Điều của Luật thi đua, khen thưởng;</p>
             <p style=&#34;margin-left:40px;text-align:justify;&#34;>Căn cứ Quyết định số 35/2019/QĐ-UBND ngày 11/11/2019 của UBND Tỉnh ban hành quy chế Quy chế Thi đua, khen thưởng Tỉnh Quảng Bình;</p>
-            <p style=&#34;margin-left:40px;text-align:justify;&#34;>Xét đề nghị của …………………………………………………………………………………; đề nghị của Trưởng Ban Thi đua Khen thưởng tỉnh tại Tờ trình số ……….. &nbsp;ngày ………………….,&nbsp;</p>
+            <p style=&#34;margin-left:40px;text-align:justify;&#34;>Xét đề nghị của ………………………………………………………; đề nghị của Trưởng Ban Thi đua Khen thưởng tỉnh tại Tờ trình số ……….. &nbsp;ngày ………………….,&nbsp;</p>
             <p style=&#34;margin-left:25px;text-align:center;&#34;><strong>QUYẾT ĐỊNH:</strong></p>
             <p style=&#34;margin-left:25px;&#34;><strong>Điều 1.</strong></p>
             <p style=&#34;margin-left:25px;&#34;><strong>Điều 2.</strong></p>
-            <figure class=&#34;table&#34;><table>
+            <figure class=&#34;table newpage&#34;><table class=&#34;table newpage&#34;>
                 <tbody>
-                    <tr><td rowspan=&#34;4&#34;><p>Nơi nhận:</p><p style=&#34;margin-left:40px;&#34;>-Như điều 2</p><p style=&#34;margin-left:40px;&#34;>-Lưu VT, NC</p></td><td><p style=&#34;text-align:center;&#34;><strong>[chucvunguoiky]</strong></p></td></tr>
+                    <tr><td rowspan=&#34;4&#34;><p style=&#34;margin-left:25px;&#34;>Nơi nhận:</p><p style=&#34;margin-left:40px;&#34;>- Như điều 2</p><p style=&#34;margin-left:40px;&#34;>- Lưu VT, NC</p></td><td><p style=&#34;text-align:center;&#34;><strong>[chucvunguoiky]</strong></p></td></tr>
                     <tr><td>&nbsp;</td></tr><tr><td>&nbsp;</td></tr>
                     <tr><td><p style=&#34;text-align:center;&#34;><strong>[hotennguoiky]</strong></p></td></tr>
                 </tbody></table></figure>
-                <h3 style=&#34;margin-left:25px;text-align:center;&#34;><br>&nbsp;DANH SÁCH</h3>
-                <p style=&#34;margin-left:25px;text-align:center;&#34;>(<i>Kèm theo quyết định số ….. ngày …… tháng năm của ……..</i>)</p>
+                <p>[sangtrangmoi]</p>
+                <h3 style=&#34;margin-left:25px;text-align:center;&#34;>DANH SÁCH</h3>
+                <p style=&#34;margin-left:25px;text-align:center;&#34;>(<i>Kèm theo quyết định số .... ngày .... tháng ..... năm..... của .....</i>)</p>
                 <h4 style=&#34;margin-left:25px;&#34;>I. Cá nhân</h4>
                 <p style=&#34;margin-left:25px;&#34;>[khenthuongcanhan]</p>
                 <h4 style=&#34;margin-left:25px;&#34;>II. Tập thể</h4>
@@ -130,6 +131,7 @@ function getTrangThaiTDKT()
     return array(
         'CHUABATDAU' => 'Chưa bắt đầu nhận hồ sơ',
         'DANGNHAN' => 'Đang nhận hồ sơ',
+        'DXKT' => 'Đang xét khen thưởng',
         'KETTHUC' => 'Đã kết thúc nhận hồ sơ',
     );
 }
@@ -164,6 +166,13 @@ function getNam($all = false)
         $a_tl[$i] = $i;
     }
     return $a_tl;
+}
+
+function getDoiTuongKhenThuong($madonvi)
+{
+    $m_hoso = \App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong::where('madonvi',$madonvi)->get('mahosotdkt');
+    $model = \App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_khenthuong::wherein('mahosotdkt',$m_hoso->toarray())->get();    
+    return $model;
 }
 
 function getDiaBan_All($all = false)

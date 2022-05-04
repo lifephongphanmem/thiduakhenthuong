@@ -16,7 +16,32 @@
         jQuery(document).ready(function() {
             TableManaged3.init();
             TableManaged4.init();
-        });
+        });        
+
+        function confirmDoiTuong(id) {
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+                url: '/KhenThuongCongTrang/HoSoKhenThuong/LayDoiTuong',
+                type: 'GET',
+                data: {
+                    _token: CSRF_TOKEN,
+                    id: id,
+                },
+                dataType: 'JSON',
+                success: function(data) {
+                    var form = $('#frm_ThemCaNhan');
+                    form.find("[name='madoituong']").val(data.madoituong);
+                    form.find("[name='tendoituong']").val(data.tendoituong);
+                    form.find("[name='ngaysinh']").val(data.ngaysinh);
+                    form.find("[name='gioitinh']").val(data.gioitinh).trigger('change');;
+                    form.find("[name='chucvu']").val(data.chucvu);
+                    form.find("[name='maccvc']").val(data.maccvc);
+                    form.find("[name='lanhdao']").val(data.lanhdao).trigger('change');                    
+                }
+            })
+            $('#modal-doituong').modal("hide");
+        }
 
         function getTieuChuan(madoituong, madanhhieutd, tendt) {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
@@ -147,7 +172,7 @@
                     form.find("[name='donvicongnhan']").val(data.donvicongnhan);
                     form.find("[name='thoigiancongnhan']").val(data.thoigiancongnhan);
                     form.find("[name='thanhtichdatduoc']").val(data.thanhtichdatduoc);
-                    if(data.filedk != ''){
+                    if(data.filedk != null && data.filedk != '' ){
                         document.getElementById('filedk_canhan').style.visibility = "visible";
                         $('#filedk_canhan').attr("href", "/data/sangkien/" + data.filedk);
                     }
@@ -601,7 +626,38 @@
                     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
                 </div>
                 <div class="modal-body">
-
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-striped table-bordered table-hover dulieubang">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th width="10%">STT</th>
+                                        <th>Đơn vị công tác</th>
+                                        <th>Tên đối tượng</th>
+                                        <th>Chức vụ</th>
+                                        <th width="10%">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $i = 1; ?>
+                                    @foreach ($m_canhan as $key => $tt)
+                                        <tr class="odd gradeX">
+                                            <td class="text-center">{{ $i++ }}</td>
+                                            <td>{{ $tt->tendonvi }}</td>
+                                            <td>{{ $tt->tendoituong }}</td>
+                                            <td>{{ $tt->chucvu }}</td>
+                                            <td class="text-center">
+                                                <button title="Chọn đối tượng" type="button"
+                                                    onclick="confirmDoiTuong('{{ $tt->id }}')"
+                                                    class="btn btn-sm btn-clean btn-icon" data-toggle="modal">
+                                                    <i class="icon-lg la fa-check text-success"></i></button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>

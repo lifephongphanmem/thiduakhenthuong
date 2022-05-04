@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\NghiepVu\KhenThuongCongTrang;
+namespace App\Http\Controllers\NghiepVu\KhenThuongDotXuat;
 
 
 use Carbon\Carbon;
@@ -20,7 +20,7 @@ use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tieuchuan;
 use App\Model\View\viewdiabandonvi;
 use Illuminate\Support\Facades\Session;
 
-class dshosokhenthuongcongtrangController extends Controller
+class dshosokhenthuongdotxuatController extends Controller
 {
     public function ThongTin(Request $request)
     {
@@ -36,7 +36,7 @@ class dshosokhenthuongcongtrangController extends Controller
             $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
             $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
             $inputs['maloaihinhkt'] = $inputs['maloaihinhkt'] ?? 'ALL';
-            $model = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi'])->where('phanloai', 'KHENTHUONG');
+            $model = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi'])->where('phanloai', 'DOTXUAT');
             if ($inputs['maloaihinhkt'] != 'ALL')
                 $model = $model->where('maloaihinhkt', $inputs['maloaihinhkt']);
             $model = $model->orderby('ngayhoso')->get();
@@ -45,7 +45,7 @@ class dshosokhenthuongcongtrangController extends Controller
                 $model->mahosokt = $m_khenthuong->where('mahosotdkt', $hoso->mahosotdkt)->first()->mahosokt ?? null;
             }
 
-            return view('NghiepVu.KhenThuongCongTrang.HoSoKhenThuong.ThongTin')
+            return view('NghiepVu.KhenThuongDotXuat.HoSo.ThongTin')
                 ->with('model', $model)
                 ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))
                 ->with('a_capdo', getPhamViApDung())
@@ -54,7 +54,7 @@ class dshosokhenthuongcongtrangController extends Controller
                 ->with('a_donviql', getDonViQuanLyDiaBan($donvi->madiaban))
                 ->with('a_loaihinhkt', array_column($m_loaihinh->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
                 ->with('inputs', $inputs)
-                ->with('pageTitle', 'Danh sách hồ sơ khen thưởng');
+                ->with('pageTitle', 'Danh sách hồ sơ khen thưởng đột xuất');
         } else
             return view('errors.notlogin');
     }
@@ -72,15 +72,13 @@ class dshosokhenthuongcongtrangController extends Controller
             $m_donvi = getDonVi(session('admin')->capdo);
             $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
             $m_danhhieu = dmdanhhieuthidua::all();
-            $m_canhan = getDoiTuongKhenThuong($model->madonvi);
-            return view('NghiepVu.KhenThuongCongTrang.HoSoKhenThuong.ThayDoi')
+            return view('NghiepVu.KhenThuongDotXuat.HoSo.ThayDoi')
                 ->with('model', $model)
                 ->with('model_canhan', $m_khenthuong->where('phanloai', 'CANHAN'))
                 ->with('model_tapthe', $m_khenthuong->where('phanloai', 'TAPTHE'))
                 ->with('m_donvi', $m_donvi)
                 ->with('m_diaban', $m_diaban)
                 ->with('m_danhhieu', $m_danhhieu)
-                ->with('m_canhan', $m_canhan)
                 ->with('a_danhhieu', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
                 ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
                 ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
@@ -103,7 +101,7 @@ class dshosokhenthuongcongtrangController extends Controller
             $m_donvi = getDonVi(session('admin')->capdo);
             $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
             $m_danhhieu = dmdanhhieuthidua::all();
-            return view('NghiepVu.KhenThuongCongTrang.HoSoKhenThuong.Xem')
+            return view('NghiepVu.KhenThuongDotXuat.HoSo.Xem')
                 ->with('model', $model)
                 ->with('model_canhan', $m_khenthuong->where('phanloai', 'CANHAN'))
                 ->with('model_tapthe', $m_khenthuong->where('phanloai', 'TAPTHE'))
@@ -129,9 +127,9 @@ class dshosokhenthuongcongtrangController extends Controller
             $inputs = $request->all();
             $inputs['mahosotdkt'] = (string)getdate()[0];
             $inputs['trangthai'] = 'CC';
-            $inputs['phanloai'] = 'KHENTHUONG';
+            $inputs['phanloai'] = 'DOTXUAT';
             dshosothiduakhenthuong::create($inputs);
-            return redirect('/KhenThuongCongTrang/HoSoKhenThuong/Sua?mahosotdkt=' . $inputs['mahosotdkt']);
+            return redirect('/KhenThuongDotXuat/HoSo/Sua?mahosotdkt=' . $inputs['mahosotdkt']);
         } else
             return view('errors.notlogin');
     }
@@ -166,7 +164,7 @@ class dshosokhenthuongcongtrangController extends Controller
             }
             dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first()->update($inputs);
 
-            return redirect('/KhenThuongCongTrang/HoSoKhenThuong/ThongTin?madonvi=' . $inputs['madonvi']);
+            return redirect('/KhenThuongDotXuat/HoSo/ThongTin?madonvi=' . $inputs['madonvi']);
         } else
             return view('errors.notlogin');
     }
@@ -190,7 +188,7 @@ class dshosokhenthuongcongtrangController extends Controller
                 $filedk->move(public_path() . '/data/sangkien/', $inputs['filedk']);
             }
             //dd($inputs);
-            return redirect('KhenThuongCongTrang/HoSoKhenThuong/Sua?mahosotdkt=' . $inputs['mahosotdkt']);
+            return redirect('/KhenThuongDotXuat/HoSo/Sua?mahosotdkt=' . $inputs['mahosotdkt']);
         } else
             return view('errors.notlogin');
     }
@@ -214,7 +212,7 @@ class dshosokhenthuongcongtrangController extends Controller
                 $filedk->move(public_path() . '/data/sangkien/', $inputs['filedk']);
             }
             //dd($inputs);
-            return redirect('KhenThuongCongTrang/HoSoKhenThuong/Sua?mahosotdkt=' . $inputs['mahosotdkt']);
+            return redirect('/KhenThuongDotXuat/HoSo/Sua?mahosotdkt=' . $inputs['mahosotdkt']);
         } else
             return view('errors.notlogin');
     }
@@ -399,7 +397,7 @@ class dshosokhenthuongcongtrangController extends Controller
         $inputs = $request->all();
         $model = dshosothiduakhenthuong_khenthuong::findorfail($inputs['id']);
         $model->delete();
-        return redirect('/KhenThuongCongTrang/HoSoKhenThuong/Sua?mahosotdkt=' . $model->mahosotdkt);
+        return redirect('/KhenThuongDotXuat/HoSo/Sua?mahosotdkt=' . $model->mahosotdkt);
     }
 
     public function ChuyenHoSo(Request $request)
@@ -425,7 +423,7 @@ class dshosokhenthuongcongtrangController extends Controller
             $trangthai->thoigian = $model->thoigian;
             $trangthai->save();
 
-            return redirect('/KhenThuongCongTrang/HoSoKhenThuong/ThongTin?madonvi=' . $model->madonvi);
+            return redirect('/KhenThuongDotXuat/HoSo/ThongTin?madonvi=' . $model->madonvi);
         } else
             return view('errors.notlogin');
     }
