@@ -14,7 +14,7 @@ class view_cumkhoi_tapthe extends Model
 // CREATE OR ALTER VIEW [dbo].[view_cumkhoi_tapthe]
 // AS
 // SELECT        dbo.dshosokhenthuong_khenthuong.mahosokt, dbo.dshosokhenthuong_khenthuong.mahosotdkt, dbo.dshosokhenthuong_khenthuong.madanhhieutd, dbo.dshosokhenthuong_khenthuong.ketqua, 
-//                          dbo.dshosokhenthuong_khenthuong.mahinhthuckt, dbo.dshosokhenthuong_khenthuong.madonvi, dbo.dshosotdktcumkhoi_khenthuong.tensangkien, dbo.dshosotdktcumkhoi_khenthuong.donvicongnhan, 
+//                          dbo.dshosokhenthuong_khenthuong.mahinhthuckt, dbo.dshosotdktcumkhoi_khenthuong.madonvi, dbo.dshosotdktcumkhoi_khenthuong.tensangkien, dbo.dshosotdktcumkhoi_khenthuong.donvicongnhan, 
 //                          dbo.dshosotdktcumkhoi_khenthuong.thoigiancongnhan, dbo.dshosotdktcumkhoi_khenthuong.thanhtichdatduoc, dbo.dshosotdktcumkhoi_khenthuong.filedk, dbo.dshosokhenthuong_khenthuong.matapthe, 
 //                          dbo.dshosotdktcumkhoi_khenthuong.tentapthe
 // FROM            dbo.dshosokhenthuong_khenthuong INNER JOIN

@@ -32,42 +32,26 @@
                 <h3 class="card-label text-uppercase">In quyết định</h3>
             </div>
             <div class="card-toolbar">
-                <button onclick="setGiaTri()" class="btn btn-primary"><i class="fa fa-check"></i>Hoàn thành</button>
+                <a href="{{url('/KhenThuongHoSoThiDua/MacDinhQuyetDinh?maquyetdinh=QUYETDINH&mahosokt='.$model->mahosokt)}}" class="btn btn-primary"><i class="fa fa-check"></i>Tải mặc định</a>
             </div>
         </div>
-        {!! Form::model($model, ['method' => 'POST', 'url' => '/KhenThuongHoSoThiDua/InQuyetDinh', 'class' => 'form', 'id' => 'frm_KhenThuong', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
+        {!! Form::model($model, ['method' => 'POST', 'url' => '/KhenThuongHoSoThiDua/QuyetDinh', 'class' => 'form', 'id' => 'frm_In', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
         {{ Form::hidden('mahosokt', null) }}
         {{ Form::hidden('thongtinquyetdinh', null) }}
-        <div class="row">
-            <div class="col-lg-12">
-                <!--begin::Card-->
-                <div class="card card-custom gutter-b example example-compact">
-                    <div class="card-header">
-                        <h3 class="card-title">Decoupled Document Demo</h3>
-                        <div class="card-toolbar">
-                            <div class="example-tools justify-content-center">
-                                <span class="example-toggle" data-toggle="tooltip" title="View code"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div id="kt-ckeditor-1-toolbar"></div>
-                        <div id="kt-ckeditor-1">
-                            {!! html_entity_decode($model->thongtinquyetdinh) !!}                            
-                        </div>
-                    </div>
-                </div>
-                <!--end::Card-->
+        <div class="card-body">
+            <div id="kt-ckeditor-1-toolbar"></div>
+            <div id="kt-ckeditor-1">
+                {!! html_entity_decode($model->thongtinquyetdinh) !!}
             </div>
         </div>
-
         <div class="card-footer">
             <div class="row text-center">
                 <div class="col-lg-12">
                     <a href="{{ url('/KhenThuongHoSoThiDua/ThongTin?madonvi=' . $model->madonvi) }}"
                         class="btn btn-danger mr-5"><i class="fa fa-reply"></i>&nbsp;Quay lại</a>
                     {{-- <button onclick="setGiaTri()" class="btn btn-primary"><i class="fa fa-check"></i>Hoàn thành123</button> --}}
-                    {{-- <button type="submit" onclick="setGiaTri()" class="btn btn-primary"><i class="fa fa-check"></i>Hoàn thành</button> --}}
+                    <button type="submit" onclick="setGiaTri()" class="btn btn-primary"><i class="fa fa-check"></i>Hoàn
+                        thành</button>
                 </div>
             </div>
         </div>
@@ -75,14 +59,9 @@
     <!--end::Card-->
     {!! Form::close() !!}
     <script>
-        function setGiaTri() {            
-
-            
-                //var myHTML = myEditor.getdata;
-           
-            alert(myEditor.getData());
-            document.getElementById("thongtinquyetdinh").value = '123';
-
+        function setGiaTri() {
+            $('#frm_In').find("[name='thongtinquyetdinh']").val(myEditor.getData());
         }
+
     </script>
 @stop
