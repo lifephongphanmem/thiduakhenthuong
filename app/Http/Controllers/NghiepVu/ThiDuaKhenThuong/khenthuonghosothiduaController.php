@@ -350,7 +350,7 @@ class khenthuonghosothiduaController extends Controller
             $model->tendanhhieutd = dmdanhhieuthidua::where('madanhhieutd', $model->madanhhieutd)->first()->tendanhhieutd ?? '';
             $model->tenphongtrao = dsphongtraothidua::where('maphongtraotd', $model->maphongtraotd)->first()->tenphongtrao ?? '';
             //dd($model);
-            return view('BaoCao.DonVi.QuyetDinh')
+            return view('BaoCao.DonVi.QuyetDinh.PhongTrao')
                 ->with('model', $model)
                 ->with('pageTitle', 'Quyết định khen thưởng');
         } else
@@ -414,7 +414,7 @@ class khenthuonghosothiduaController extends Controller
 
             $model->thongtinquyetdinh = $thongtinquyetdinh;
             //dd($model);
-            return view('BaoCao.DonVi.QuyetDinh')
+            return view('BaoCao.DonVi.QuyetDinh.PhongTrao')
                 ->with('model', $model)
                 ->with('pageTitle', 'Quyết định khen thưởng');
         } else

@@ -72,6 +72,8 @@ class dshosokhenthuongdotxuatController extends Controller
             $m_donvi = getDonVi(session('admin')->capdo);
             $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
             $m_danhhieu = dmdanhhieuthidua::all();
+            $m_canhan = getDoiTuongKhenThuong($model->madonvi);
+            $m_tapthe = getTapTheKhenThuong($model->madonvi);
             return view('NghiepVu.KhenThuongDotXuat.HoSo.ThayDoi')
                 ->with('model', $model)
                 ->with('model_canhan', $m_khenthuong->where('phanloai', 'CANHAN'))
@@ -79,6 +81,8 @@ class dshosokhenthuongdotxuatController extends Controller
                 ->with('m_donvi', $m_donvi)
                 ->with('m_diaban', $m_diaban)
                 ->with('m_danhhieu', $m_danhhieu)
+                ->with('m_canhan', $m_canhan)
+                ->with('m_tapthe', $m_tapthe)
                 ->with('a_danhhieu', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
                 ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
                 ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
@@ -101,6 +105,8 @@ class dshosokhenthuongdotxuatController extends Controller
             $m_donvi = getDonVi(session('admin')->capdo);
             $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
             $m_danhhieu = dmdanhhieuthidua::all();
+            $m_canhan = getDoiTuongKhenThuong($model->madonvi);
+            $m_tapthe = getTapTheKhenThuong($model->madonvi);
             return view('NghiepVu.KhenThuongDotXuat.HoSo.Xem')
                 ->with('model', $model)
                 ->with('model_canhan', $m_khenthuong->where('phanloai', 'CANHAN'))
@@ -108,6 +114,8 @@ class dshosokhenthuongdotxuatController extends Controller
                 ->with('m_donvi', $m_donvi)
                 ->with('m_diaban', $m_diaban)
                 ->with('m_danhhieu', $m_danhhieu)
+                ->with('m_canhan', $m_canhan)
+                ->with('m_tapthe', $m_tapthe)
                 ->with('a_danhhieu', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
                 ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
                 ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))

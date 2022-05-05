@@ -95,6 +95,11 @@ $(function () {
     if (index > 0) {
         url = url.substring(0, index - 1) + '/ThongTin';
     }
+
+    var index = url.indexOf('QuyetDinh');
+    if (index > 0) {
+        url = url.substring(0, index - 1) + '/ThongTin';
+    }
     //
     chk = url.split('/');
     //alert(url);

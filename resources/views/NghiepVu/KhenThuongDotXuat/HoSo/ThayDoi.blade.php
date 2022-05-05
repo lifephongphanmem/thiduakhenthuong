@@ -23,7 +23,7 @@
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
             $.ajax({
-                url: '/KhenThuongCongTrang/HoSoKhenThuong/LayDoiTuong',
+                url: '/KhenThuongDotXuat/HoSo/LayDoiTuong',
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,
@@ -58,7 +58,7 @@
             $('#madanhhieutd_tc').val(madanhhieutd).trigger('change');
 
             $.ajax({
-                url: '/KhenThuongCongTrang/HoSoKhenThuong/LayTieuChuan',
+                url: '/KhenThuongDotXuat/HoSo/LayTieuChuan',
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,
@@ -87,7 +87,7 @@
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
             $.ajax({
-                url: '/KhenThuongCongTrang/HoSoKhenThuong/LuuTieuChuan',
+                url: '/KhenThuongDotXuat/HoSo/LuuTieuChuan',
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,
@@ -116,7 +116,7 @@
         function deleteRow() {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
-                url: '/KhenThuongCongTrang/HoSoKhenThuong/XoaDoiTuong',
+                url: '/KhenThuongDotXuat/HoSo/XoaDoiTuong',
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,
@@ -158,7 +158,7 @@
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
             $.ajax({
-                url: '/KhenThuongCongTrang/HoSoKhenThuong/LayDoiTuong',
+                url: '/KhenThuongDotXuat/HoSo/LayDoiTuong',
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,
@@ -194,7 +194,7 @@
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
             $.ajax({
-                url: '/KhenThuongCongTrang/HoSoKhenThuong/LayDoiTuong',
+                url: '/KhenThuongDotXuat/HoSo/LayDoiTuong',
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,
@@ -220,7 +220,7 @@
     <div class="card card-custom" style="min-height: 600px">
         <div class="card-header">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Thông tin hồ sơ đề nghị khen thưởng</h3>
+                <h3 class="card-label text-uppercase">Thông tin hồ sơ đề nghị khen thưởng đột xuất</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
@@ -228,7 +228,7 @@
             </div>
         </div>
 
-        {!! Form::model($model, ['method' => 'POST', 'url' => '/KhenThuongCongTrang/HoSoKhenThuong/Sua', 'class' => 'form', 'id' => 'frm_ThayDoi', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
+        {!! Form::model($model, ['method' => 'POST', 'url' => '/KhenThuongDotXuat/HoSo/Sua', 'class' => 'form', 'id' => 'frm_ThayDoi', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
         {{ Form::hidden('madonvi', null, ['id' => 'madonvi']) }}
         {{ Form::hidden('mahosotdkt', null, ['id' => 'mahosotdkt']) }}
         <div class="card-body">
@@ -417,7 +417,7 @@
         <div class="card-footer">
             <div class="row text-center">
                 <div class="col-lg-12">
-                    <a href="{{ url('/KhenThuongCongTrang/HoSoKhenThuong/ThongTin?madonvi=' . $model->madonvi) }}"
+                    <a href="{{ url('/KhenThuongDotXuat/HoSo/ThongTin?madonvi=' . $model->madonvi) }}"
                         class="btn btn-danger mr-5"><i class="fa fa-reply"></i>&nbsp;Quay lại</a>
                     <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i>Hoàn thành</button>
 
@@ -429,7 +429,7 @@
     <!--end::Card-->
 
     {{-- Cá nhân --}}
-    {!! Form::open(['url' => '/KhenThuongCongTrang/HoSoKhenThuong/CaNhan', 'id' => 'frm_ThemCaNhan', 'class' => 'form', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
+    {!! Form::open(['url' => '/KhenThuongDotXuat/HoSo/CaNhan', 'id' => 'frm_ThemCaNhan', 'class' => 'form', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
     <input type="hidden" name="madoituong" id="madoituong" />
     <input type="hidden" name="mahosotdkt" value="{{ $model->mahosotdkt }}" />
     <div class="modal fade bs-modal-lg" id="modal-create" tabindex="-1" role="dialog" aria-hidden="true">
@@ -542,7 +542,7 @@
     {!! Form::close() !!}
 
     {{-- tập thể --}}
-    {!! Form::open(['url' => '/KhenThuongCongTrang/HoSoKhenThuong/TapThe', 'id' => 'frm_ThemTapThe', 'class' => 'form', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
+    {!! Form::open(['url' => '/KhenThuongDotXuat/HoSo/TapThe', 'id' => 'frm_ThemTapThe', 'class' => 'form', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
     <input type="hidden" name="mahosotdkt" value="{{ $model->mahosotdkt }}" />
     <input type="hidden" name="matapthe" />
     <div class="modal fade bs-modal-lg" id="modal-create-tapthe" tabindex="-1" role="dialog" aria-hidden="true">
@@ -765,7 +765,7 @@
     </div>
 
     {{-- Xóa khen thưởng ca nhân --}}
-    {!! Form::open(['url' => '/KhenThuongCongTrang/HoSoKhenThuong/XoaDoiTuong', 'id' => 'frm_ThemTapThe', 'class' => 'form', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
+    {!! Form::open(['url' => '/KhenThuongDotXuat/HoSo/XoaDoiTuong', 'id' => 'frm_ThemTapThe', 'class' => 'form', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
     <div class="modal fade" id="modal-delete-khenthuong" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
         aria-hidden="true">
         <div class="modal-dialog ">

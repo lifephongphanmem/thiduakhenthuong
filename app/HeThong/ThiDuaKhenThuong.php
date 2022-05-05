@@ -171,7 +171,14 @@ function getNam($all = false)
 function getDoiTuongKhenThuong($madonvi)
 {
     $m_hoso = \App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong::where('madonvi',$madonvi)->get('mahosotdkt');
-    $model = \App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_khenthuong::wherein('mahosotdkt',$m_hoso->toarray())->get();    
+    $model = \App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_khenthuong::wherein('mahosotdkt',$m_hoso->toarray())->where('phanloai','CANHAN')->get();    
+    return $model;
+}
+
+function getTapTheKhenThuong($madonvi)
+{
+    $m_hoso = \App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong::where('madonvi',$madonvi)->get('mahosotdkt');
+    $model = \App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_khenthuong::wherein('mahosotdkt',$m_hoso->toarray())->where('phanloai','TAPTHE')->get();    
     return $model;
 }
 
@@ -388,6 +395,8 @@ function setNhanHoSo($madonvi_nhan, $hoso, $a_hoanthanh)
     }
 
     if ($madonvi_nhan == $hoso->madonvi_nhan_t) {
+        if (isset($a_hoanthanh['madonvi']))
+            $hoso->madonvi = $a_hoanthanh['madonvi'];
         if (isset($a_hoanthanh['madonvi_nhan']))
             $hoso->madonvi_nhan_t = $a_hoanthanh['madonvi_nhan'];
         if (isset($a_hoanthanh['trangthai']))
@@ -401,6 +410,48 @@ function setNhanHoSo($madonvi_nhan, $hoso, $a_hoanthanh)
     if ($madonvi_nhan == $hoso->madonvi_nhan_tw) {
         if (isset($a_hoanthanh['madonvi_nhan']))
             $hoso->madonvi_nhan_tw = $a_hoanthanh['madonvi_nhan'];
+        if (isset($a_hoanthanh['trangthai']))
+            $hoso->trangthai_tw = $a_hoanthanh['trangthai'];
+        if (isset($a_hoanthanh['lydo']))
+            $hoso->lydo_tw = $a_hoanthanh['lydo'];
+        if (isset($a_hoanthanh['thoigian']))
+            $hoso->thoigian_tw = $a_hoanthanh['thoigian'];
+    }
+}
+
+function setTraLaiHoSo_Nhan($madonvi, $hoso, $a_hoanthanh)
+{
+    if ($madonvi == $hoso->madonvi_h) {
+        if (isset($a_hoanthanh['madonvi']))
+            $hoso->madonvi_h = $a_hoanthanh['madonvi'];
+        if (isset($a_hoanthanh['madonvi_nhan']))
+            $hoso->madonvi_nhan_h = $a_hoanthanh['madonvi_nhan'];   
+        if (isset($a_hoanthanh['trangthai']))
+            $hoso->trangthai_h = $a_hoanthanh['trangthai'];
+        if (isset($a_hoanthanh['lydo']))
+            $hoso->lydo_h = $a_hoanthanh['lydo'];
+        if (isset($a_hoanthanh['thoigian']))
+            $hoso->thoigian_h = $a_hoanthanh['thoigian'];
+    }
+
+    if ($madonvi == $hoso->madonvi_t) {
+        if (isset($a_hoanthanh['madonvi']))
+            $hoso->madonvi_t = $a_hoanthanh['madonvi'];
+        if (isset($a_hoanthanh['madonvi_nhan']))
+            $hoso->madonvi_nhan_t = $a_hoanthanh['madonvi_nhan'];   
+        if (isset($a_hoanthanh['trangthai']))
+            $hoso->trangthai_t = $a_hoanthanh['trangthai'];
+        if (isset($a_hoanthanh['lydo']))
+            $hoso->lydo_t = $a_hoanthanh['lydo'];
+        if (isset($a_hoanthanh['thoigian']))
+            $hoso->thoigian_t = $a_hoanthanh['thoigian'];
+    }
+
+    if ($madonvi == $hoso->madonvi_tw) {
+        if (isset($a_hoanthanh['madonvi']))
+            $hoso->madonvi_tw = $a_hoanthanh['madonvi'];
+        if (isset($a_hoanthanh['madonvi_nhan']))
+            $hoso->madonvi_nhan_tw = $a_hoanthanh['madonvi_nhan'];   
         if (isset($a_hoanthanh['trangthai']))
             $hoso->trangthai_tw = $a_hoanthanh['trangthai'];
         if (isset($a_hoanthanh['lydo']))

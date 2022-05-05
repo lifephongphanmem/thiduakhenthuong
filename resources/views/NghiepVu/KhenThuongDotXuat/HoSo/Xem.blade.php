@@ -23,7 +23,7 @@
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
             $.ajax({
-                url: '/KhenThuongCongTrang/HoSoKhenThuong/LayDoiTuong',
+                url: '/KhenThuongDotXuat/HoSo/LayDoiTuong',
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,
@@ -58,7 +58,7 @@
             $('#madanhhieutd_tc').val(madanhhieutd).trigger('change');
 
             $.ajax({
-                url: '/KhenThuongCongTrang/HoSoKhenThuong/LayTieuChuan',
+                url: '/KhenThuongDotXuat/HoSo/LayTieuChuan',
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,
@@ -87,7 +87,7 @@
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
             $.ajax({
-                url: '/KhenThuongCongTrang/HoSoKhenThuong/LuuTieuChuan',
+                url: '/KhenThuongDotXuat/HoSo/LuuTieuChuan',
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,
@@ -116,7 +116,7 @@
         function deleteRow() {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
-                url: '/KhenThuongCongTrang/HoSoKhenThuong/XoaDoiTuong',
+                url: '/KhenThuongDotXuat/HoSo/XoaDoiTuong',
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,
@@ -158,7 +158,7 @@
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
             $.ajax({
-                url: '/KhenThuongCongTrang/HoSoKhenThuong/LayDoiTuong',
+                url: '/KhenThuongDotXuat/HoSo/LayDoiTuong',
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,
@@ -194,7 +194,7 @@
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
             $.ajax({
-                url: '/KhenThuongCongTrang/HoSoKhenThuong/LayDoiTuong',
+                url: '/KhenThuongDotXuat/HoSo/LayDoiTuong',
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,
@@ -220,7 +220,7 @@
     <div class="card card-custom" style="min-height: 600px">
         <div class="card-header">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Thông tin hồ sơ đề nghị khen thưởng</h3>
+                <h3 class="card-label text-uppercase">Thông tin hồ sơ đề nghị khen thưởng đột xuất</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
@@ -228,10 +228,11 @@
             </div>
         </div>
 
-        {!! Form::model($model, ['method' => 'POST', 'url' => '/KhenThuongCongTrang/HoSoKhenThuong/Sua', 'class' => 'form', 'id' => 'frm_ThayDoi', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
+        {!! Form::model($model, ['method' => 'POST', 'url' => '', 'class' => 'form', 'id' => 'frm_ThayDoi', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
         {{ Form::hidden('madonvi', null, ['id' => 'madonvi']) }}
         {{ Form::hidden('mahosotdkt', null, ['id' => 'mahosotdkt']) }}
         <div class="card-body">
+            <h4 class="text-dark font-weight-bold mb-5">Thông tin chung</h4>
             <div class="form-group row">
                 <div class="col-lg-12">
                     <label>Tên đơn vị</label>
@@ -260,7 +261,6 @@
             <div class="form-group row">
                 <div class="col-lg-6">
                     <label>Báo cáo thành tích: </label>
-                    {!! Form::file('baocao', null, ['id' => 'baocao', 'class' => 'form-control']) !!}
                     @if ($model->baocao != '')
                         <span class="form-control" style="border-style: none">
                             <a href="{{ url('/data/baocao/' . $model->baocao) }}"
@@ -270,7 +270,6 @@
                 </div>
                 <div class="col-lg-6">
                     <label>Biên bản cuộc họp: </label>
-                    {!! Form::file('bienban', null, ['id' => 'bienban', 'class' => 'form-control']) !!}
                     @if ($model->bienban != '')
                         <span class="form-control" style="border-style: none">
                             <a href="{{ url('/data/bienban/' . $model->bienban) }}"
@@ -283,7 +282,6 @@
             <div class="form-group row">
                 <div class="col-lg-6">
                     <label>Tài liệu khác: </label>
-                    {!! Form::file('tailieukhac', null, ['id' => 'tailieukhac', 'class' => 'form-control']) !!}
                     @if ($model->tailieukhac != '')
                         <span class="form-control" style="border-style: none">
                             <a href="{{ url('/data/tailieukhac/' . $model->tailieukhac) }}"
@@ -292,17 +290,9 @@
                     @endif
                 </div>
             </div>
+
             <div class="separator separator-dashed my-5"></div>
             <h4 class="text-dark font-weight-bold mb-10">Danh sách khen thưởng cá nhân</h4>
-
-            <div class="form-group row">
-                <div class="col-lg-12">
-                    <button type="button" data-target="#modal-create" data-toggle="modal" class="btn btn-success btn-xs"
-                        onclick="setCaNhan()">
-                        <i class="fa fa-plus"></i>&nbsp;Thêm</button>
-                </div>
-            </div>
-
             <div class="row" id="dskhenthuong">
                 <div class="col-md-12">
                     <table id="sample_3" class="table table-striped table-bordered table-hover">
@@ -341,12 +331,6 @@
                                             class="btn btn-sm btn-clean btn-icon" data-target="#modal-create"
                                             data-toggle="modal">
                                             <i class="icon-lg la fa-edit text-primary"></i></button>
-                                        <button title="Xóa" type="button"
-                                            onclick="delKhenThuong('{{ $tt->id }}','CANHAN')"
-                                            class="btn btn-sm btn-clean btn-icon" data-target="#modal-delete-khenthuong"
-                                            data-toggle="modal">
-                                            <i class="icon-lg la fa-trash text-danger"></i></button>
-
                                     </td>
                                 </tr>
                             @endforeach
@@ -354,20 +338,9 @@
                     </table>
                 </div>
             </div>
+
             <div class="separator separator-dashed my-5"></div>
             <h4 class="text-dark font-weight-bold mb-10">Danh sách khen thưởng tập thể</h4>
-
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <button type="button" onclick="setTapThe()" data-target="#modal-create-tapthe" data-toggle="modal"
-                            class="btn btn-success btn-xs">
-                            <i class="fa fa-plus"></i>&nbsp;Thêm</button>
-                    </div>
-                </div>
-            </div>
-
             <div class="row" id="dskhenthuongtapthe">
                 <div class="col-md-12">
                     <table id="sample_4" class="table table-striped table-bordered table-hover">
@@ -400,11 +373,6 @@
                                             class="btn btn-sm btn-clean btn-icon" data-target="#modal-create-tapthe"
                                             data-toggle="modal">
                                             <i class="icon-lg la fa-edit text-primary"></i></button>
-                                        <button title="Xóa" type="button"
-                                            onclick="delKhenThuong('{{ $tt->id }}', 'TAPTHE')"
-                                            class="btn btn-sm btn-clean btn-icon" data-target="#modal-delete-khenthuong"
-                                            data-toggle="modal">
-                                            <i class="icon-lg la fa-trash text-danger"></i></button>
 
                                     </td>
                                 </tr>
@@ -417,10 +385,7 @@
         <div class="card-footer">
             <div class="row text-center">
                 <div class="col-lg-12">
-                    <a href="{{ url('/KhenThuongCongTrang/HoSoKhenThuong/ThongTin?madonvi=' . $model->madonvi) }}"
-                        class="btn btn-danger mr-5"><i class="fa fa-reply"></i>&nbsp;Quay lại</a>
-                    <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i>Hoàn thành</button>
-
+                    
                 </div>
             </div>
         </div>
@@ -429,7 +394,7 @@
     <!--end::Card-->
 
     {{-- Cá nhân --}}
-    {!! Form::open(['url' => '/KhenThuongCongTrang/HoSoKhenThuong/CaNhan', 'id' => 'frm_ThemCaNhan', 'class' => 'form', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
+    {!! Form::open(['url' => '/KhenThuongDotXuat/HoSo/CaNhan', 'id' => 'frm_ThemCaNhan', 'class' => 'form', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
     <input type="hidden" name="madoituong" id="madoituong" />
     <input type="hidden" name="mahosotdkt" value="{{ $model->mahosotdkt }}" />
     <div class="modal fade bs-modal-lg" id="modal-create" tabindex="-1" role="dialog" aria-hidden="true">
@@ -522,7 +487,6 @@
                     <div class="form-group row">
                         <div class="col-lg-12">
                             <label>Tài liệu đính kèm: </label>
-                            {!! Form::file('filedk', null, ['id' => 'filedk', 'class' => 'form-control']) !!}
                             <span class="form-control" style="border-style: none;visibility: hidden;">
                                 <a id="filedk_canhan" href="" target="_blank">Tải file</a>
                             </span>
@@ -532,7 +496,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-default">Thoát</button>
-                    <button type="submit" class="btn btn-primary">Hoàn thành</button>
                 </div>
                 <!-- /.modal-content -->
             </div>
@@ -542,7 +505,7 @@
     {!! Form::close() !!}
 
     {{-- tập thể --}}
-    {!! Form::open(['url' => '/KhenThuongCongTrang/HoSoKhenThuong/TapThe', 'id' => 'frm_ThemTapThe', 'class' => 'form', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
+    {!! Form::open(['url' => '/KhenThuongDotXuat/HoSo/TapThe', 'id' => 'frm_ThemTapThe', 'class' => 'form', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
     <input type="hidden" name="mahosotdkt" value="{{ $model->mahosotdkt }}" />
     <input type="hidden" name="matapthe" />
     <div class="modal fade bs-modal-lg" id="modal-create-tapthe" tabindex="-1" role="dialog" aria-hidden="true">
@@ -586,7 +549,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-default">Thoát</button>
-                    <button type="submit" class="btn btn-primary">Hoàn thành</button>
                 </div>
                 <!-- /.modal-content -->
             </div>
@@ -765,7 +727,7 @@
     </div>
 
     {{-- Xóa khen thưởng ca nhân --}}
-    {!! Form::open(['url' => '/KhenThuongCongTrang/HoSoKhenThuong/XoaDoiTuong', 'id' => 'frm_ThemTapThe', 'class' => 'form', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
+    {!! Form::open(['url' => '/KhenThuongDotXuat/HoSo/XoaDoiTuong', 'id' => 'frm_ThemTapThe', 'class' => 'form', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
     <div class="modal fade" id="modal-delete-khenthuong" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
         aria-hidden="true">
         <div class="modal-dialog ">

@@ -26,7 +26,7 @@
                 </a>
             </li>
             <li class="menu-item" aria-haspopup="true">
-                <a href="{{url('/KhenThuongDotXuat/hKhenThuong/ThongTin')}}" class="menu-link">
+                <a href="{{url('/KhenThuongDotXuat/KhenThuong/ThongTin')}}" class="menu-link">
                     <i class="menu-bullet menu-bullet-dot">
                         <span></span>
                     </i>

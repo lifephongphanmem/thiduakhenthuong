@@ -73,6 +73,7 @@ class dshosokhenthuongcongtrangController extends Controller
             $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
             $m_danhhieu = dmdanhhieuthidua::all();
             $m_canhan = getDoiTuongKhenThuong($model->madonvi);
+            $m_tapthe = getTapTheKhenThuong($model->madonvi);
             return view('NghiepVu.KhenThuongCongTrang.HoSoKhenThuong.ThayDoi')
                 ->with('model', $model)
                 ->with('model_canhan', $m_khenthuong->where('phanloai', 'CANHAN'))
@@ -81,6 +82,7 @@ class dshosokhenthuongcongtrangController extends Controller
                 ->with('m_diaban', $m_diaban)
                 ->with('m_danhhieu', $m_danhhieu)
                 ->with('m_canhan', $m_canhan)
+                ->with('m_tapthe', $m_tapthe)
                 ->with('a_danhhieu', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
                 ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
                 ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
@@ -103,6 +105,8 @@ class dshosokhenthuongcongtrangController extends Controller
             $m_donvi = getDonVi(session('admin')->capdo);
             $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
             $m_danhhieu = dmdanhhieuthidua::all();
+            $m_canhan = getDoiTuongKhenThuong($model->madonvi);
+            $m_tapthe = getTapTheKhenThuong($model->madonvi);
             return view('NghiepVu.KhenThuongCongTrang.HoSoKhenThuong.Xem')
                 ->with('model', $model)
                 ->with('model_canhan', $m_khenthuong->where('phanloai', 'CANHAN'))
@@ -110,6 +114,8 @@ class dshosokhenthuongcongtrangController extends Controller
                 ->with('m_donvi', $m_donvi)
                 ->with('m_diaban', $m_diaban)
                 ->with('m_danhhieu', $m_danhhieu)
+                ->with('m_canhan', $m_canhan)
+                ->with('m_tapthe', $m_tapthe)
                 ->with('a_danhhieu', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
                 ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
                 ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
@@ -397,7 +403,7 @@ class dshosokhenthuongcongtrangController extends Controller
         }
         //dd($request);
         $inputs = $request->all();
-        $model = dshosothiduakhenthuong_khenthuong::findorfail($inputs['id']);
+        $model = dshosothiduakhenthuong_khenthuong::findorfail($inputs['iddelete']);
         $model->delete();
         return redirect('/KhenThuongCongTrang/HoSoKhenThuong/Sua?mahosotdkt=' . $model->mahosotdkt);
     }
