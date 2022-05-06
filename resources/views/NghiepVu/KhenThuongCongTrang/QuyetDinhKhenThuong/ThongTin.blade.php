@@ -16,17 +16,17 @@
         jQuery(document).ready(function() {
             TableManaged3.init();
             $('#madonvi').change(function() {
-                window.location.href = '/KhenThuongCongTrang/QuyetDinhKhenThuong/ThongTin?madonvi=' + $(
+                window.location.href = '/KhenThuongCongTrang/KhenThuong/ThongTin?madonvi=' + $(
                         '#madonvi').val() +
                     '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
             });
             $('#maloaihinhkt').change(function() {
-                window.location.href = '/KhenThuongCongTrang/QuyetDinhKhenThuong/ThongTin?madonvi=' + $(
+                window.location.href = '/KhenThuongCongTrang/KhenThuong/ThongTin?madonvi=' + $(
                         '#madonvi').val() +
                     '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
             });
             $('#nam').change(function() {
-                window.location.href = '/KhenThuongCongTrang/QuyetDinhKhenThuong/ThongTin?madonvi=' + $(
+                window.location.href = '/KhenThuongCongTrang/KhenThuong/ThongTin?madonvi=' + $(
                         '#madonvi').val() +
                     '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
             });
@@ -113,7 +113,7 @@
 
                                     @if ($tt->trangthai == 'DXKT')
                                         <a title="Thông tin hồ sơ khen thưởng"
-                                            href="{{ url('/KhenThuongCongTrang/QuyetDinhKhenThuong/DanhSach?mahosokt=' . $tt->mahosokt) }}"
+                                            href="{{ url('/KhenThuongCongTrang/KhenThuong/DanhSach?mahosokt=' . $tt->mahosokt) }}"
                                             class="btn btn-sm btn-clean btn-icon">
                                             <i class="icon-lg la fa-user-check text-dark"></i></a>
                                         <button title="Phê duyệt hồ sơ khen thưởng" type="button"
@@ -121,13 +121,17 @@
                                             class="btn btn-sm btn-clean btn-icon" data-target="#modal-PheDuyet"
                                             data-toggle="modal">
                                             <i class="icon-lg la fa-check text-success"></i></button>
-                                    @endif
+                                    @endif                                   
 
                                     @if ($tt->trangthai == 'DKT')
                                         <a title="Thông tin hồ sơ khen thưởng"
-                                            href="{{ url('/KhenThuongCongTrang/QuyetDinhKhenThuong/Xem?mahosokt=' . $tt->mahosokt) }}"
+                                            href="{{ url('/KhenThuongCongTrang/KhenThuong/Xem?mahosokt=' . $tt->mahosokt) }}"
                                             class="btn btn-sm btn-clean btn-icon" target="_blank">
                                             <i class="icon-lg la fa-user-check text-dark"></i></a>
+                                            <a title="In quyết định khen thưởng"
+                                            href="{{ url('/KhenThuongCongTrang/KhenThuong/XemQuyetDinh?mahosokt=' . $tt->mahosokt) }}"
+                                            class="btn btn-sm btn-clean btn-icon" target="_blank">
+                                            <i class="icon-lg la fa-print text-dark"></i></a>
                                     @endif
                                 </td>
                             </tr>
@@ -144,7 +148,7 @@
      aria-hidden="true">
      <div class="modal-dialog">
          <div class="modal-content">
-             {!! Form::open(['url' => '/KhenThuongCongTrang/QuyetDinhKhenThuong/PheDuyet', 'method' => 'post', 'files' => true, 'id' => 'frm_PheDuyet', 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
+             {!! Form::open(['url' => '/KhenThuongCongTrang/KhenThuong/PheDuyet', 'method' => 'post', 'files' => true, 'id' => 'frm_PheDuyet', 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
              <div class="modal-header">
 
                  <h4 class="modal-title">Đồng ý phê duyệt hồ sơ khen thưởng?</h4>
@@ -171,7 +175,7 @@
 
  <!--Modal tạo hồ sơ-->
  <div id="khenthuong-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
-     {!! Form::open(['url' => '/KhenThuongCongTrang/QuyetDinhKhenThuong/KhenThuong', 'id' => 'frm_khenthuong']) !!}
+     {!! Form::open(['url' => '/KhenThuongCongTrang/KhenThuong/KhenThuong', 'id' => 'frm_khenthuong']) !!}
      <input type="hidden" name="mahosotdkt" />
      <input type="hidden" name="madonvi" />
      <div class="modal-dialog modal-lg">

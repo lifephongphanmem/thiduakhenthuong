@@ -139,10 +139,54 @@ function getTrangThaiTDKT()
 function getGioiTinh()
 {
     return array(
-        'NAM' => 'Giới tính Nam',
-        'NU' => 'Giới tính Nữ',
-        'KHAC' => 'Giới tính khác',
+        'NAM' => 'Nam',
+        'NU' => 'Nữ',
+        'KHAC' => 'Khác',
     );
+}
+
+function getThoiDiem(){
+    // return [
+    //     'nam'=>'Cả năm',
+    //     'quy1'=>'Quý I',
+    //     'quy2'=>'Quý II',
+    //     'quy3'=>'Quý III',
+    //     'quy4'=>'Quý IV',
+    //     'thang01'=>'Tháng 01',
+    //     'thang02'=>'Tháng 02',
+    //     'thang03'=>'Tháng 03',
+    //     'thang04'=>'Tháng 04',
+    //     'thang05'=>'Tháng 05',
+    //     'thang06'=>'Tháng 06',
+    //     'thang07'=>'Tháng 07',
+    //     'thang08'=>'Tháng 08',
+    //     'thang09'=>'Tháng 09',
+    //     'thang10'=>'Tháng 10',
+    //     'thang11'=>'Tháng 11',
+    //     'thang12'=>'Tháng 12',
+    // ];
+    return [
+        '06THANGDAUNAM'=>'Báo cáo 06 tháng đầu năm',
+        '06THANGCUOINAM'=>'Báo cáo06 tháng cuối năm',
+        'CANAM'=>'Báo cáo cả năm',
+        '05NAM'=>'Báo cáo 05 năm',
+        'quy1'=>'Quý I',
+        'quy2'=>'Quý II',
+        'quy3'=>'Quý III',
+        'quy4'=>'Quý IV',
+        'thang01'=>'Tháng 01',
+        'thang02'=>'Tháng 02',
+        'thang03'=>'Tháng 03',
+        'thang04'=>'Tháng 04',
+        'thang05'=>'Tháng 05',
+        'thang06'=>'Tháng 06',
+        'thang07'=>'Tháng 07',
+        'thang08'=>'Tháng 08',
+        'thang09'=>'Tháng 09',
+        'thang10'=>'Tháng 10',
+        'thang11'=>'Tháng 11',
+        'thang12'=>'Tháng 12',
+    ];
 }
 
 function getThang($all = false)
@@ -320,6 +364,11 @@ function chkPhanQuyen()
 }
 
 function getDonVi($capdo, $chucnang = null, $tenquyen = null)
+{
+    return App\Model\View\viewdiabandonvi::all();
+}
+
+function getDiaBan($capdo, $chucnang = null, $tenquyen = null)
 {
     return App\Model\View\viewdiabandonvi::all();
 }

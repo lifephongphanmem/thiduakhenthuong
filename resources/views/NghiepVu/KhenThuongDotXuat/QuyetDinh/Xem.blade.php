@@ -22,7 +22,7 @@
             $('#madanhhieutd_tc').val(madanhhieutd).trigger('change');
 
             $.ajax({
-                url: '/KhenThuongCongTrang/KhenThuong/LayTieuChuan',
+                url: '/KhenThuongDotXuat/KhenThuong/LayTieuChuan',
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,
@@ -45,7 +45,7 @@
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
             $.ajax({
-                url: '/KhenThuongCongTrang/HoSoKhenThuong/LayDoiTuong',
+                url: '/KhenThuongDotXuat/KhenThuong/LayDoiTuong',
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,
@@ -75,7 +75,7 @@
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
             $.ajax({
-                url: '/KhenThuongCongTrang/HoSoKhenThuong/LayDoiTuong',
+                url: '/KhenThuongDotXuat/KhenThuong/LayDoiTuong',
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,
@@ -98,9 +98,9 @@
     {!! Form::model($model, ['method' => 'POST','url'=>'', 'class' => 'form', 'id' => 'frm_ThayDoi', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
     {{ Form::hidden('mahosokt', null) }}
     <div class="card card-custom wave wave-animate-slow wave-info" style="min-height: 600px">
-        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+        <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Thông tin hồ sơ khen thưởng</h3>
+                <h3 class="card-label text-uppercase">Thông tin hồ sơ khen thưởng đột xuất</h3>
             </div>
             <div class="card-toolbar">
             </div>
@@ -173,7 +173,6 @@
                                     </td>
                                 @endif
                                 <td style="text-align: center">
-                                    
                                 </td>
                             </tr>
                         @endforeach
@@ -223,10 +222,10 @@
                                         onclick="getTieuChuan('{{ $tt->id }}','{{ $tt->madanhhieutd }}','{{ $tt->tendoituong }}')" class="btn btn-sm btn-clean btn-icon"
                                         data-target="#modal-tieuchuan" data-toggle="modal">
                                         <i class="icon-lg la fa-list text-dark"></i></button>
-                                    <a title="In kết quả" href="{{ url('/KhenThuongCongTrang/KhenThuong/InKetQua?id=' . $tt->id) }}"
+                                    <a title="In kết quả" href="{{ url('/KhenThuongDotXuat/KhenThuong/InKetQua?id=' . $tt->id) }}"
                                         class="btn btn-sm btn-clean btn-icon" target="_blank">
                                         <i class="icon-lg la fa-print text-dark"></i></a>
-                                    
+                                   
                                 </td>
                             </tr>
                         @endforeach
@@ -322,8 +321,7 @@
 
         <div class="card-footer">
             <div class="row text-center">
-                <div class="col-lg-12">
-                    
+                <div class="col-lg-12">           
                 </div>
             </div>
         </div>
@@ -332,7 +330,7 @@
     <!--end::Card-->
     {{-- Hồ sơ  --}}
     <div id="modal-hoso" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
-        {!! Form::open(['url' => '/KhenThuongCongTrang/KhenThuong/HoSo', 'id' => 'frm_hoso']) !!}
+        {!! Form::open(['url' => '/KhenThuongDotXuat/KhenThuong/HoSo', 'id' => 'frm_hoso']) !!}
         <input type="hidden" name="mahosokt" />
         <input type="hidden" name="mahosotdkt" />
         <div class="modal-dialog">
@@ -361,14 +359,13 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
-                    <button type="submit" data-dismiss="modal" class="btn btn-primary" onclick="clickHoSo()">Đồng ý</button>
                 </div>
             </div>
         </div>
         {!! Form::close() !!}
     </div>
     {{-- Kết quả --}}
-    {!! Form::open(['url' => '/KhenThuongCongTrang/KhenThuong/KetQua', 'id' => 'frm_KetQua', 'method' => 'post']) !!}
+    {!! Form::open(['url' => '/KhenThuongDotXuat/KhenThuong/KetQua', 'id' => 'frm_KetQua', 'method' => 'post']) !!}
     <div id="modal-ketqua" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
         <input type="hidden" name="id" />
         <div class="modal-dialog">
@@ -403,7 +400,14 @@
                             <label class="form-control-label">Hình thức khen thưởng</label>
                                 {!! Form::select('mahinhthuckt', $a_hinhthuckt, null, ['class' => 'form-control']) !!}
                         </div>
-                    </div>                    
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label>Nội dung khen thưởng</label>
+                            {!! Form::textarea('noidungkhenthuong', null, ['class' => 'form-control', 'rows' => '2']) !!}
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
@@ -504,7 +508,6 @@
                     <div class="form-group row">
                         <div class="col-lg-12">
                             <label>Tài liệu đính kèm: </label>
-                            {!! Form::file('filedk', null, ['id' => 'filedk', 'class' => 'form-control']) !!}
                             {{-- @if ($model->tailieukhac != '')
                                 <span class="form-control" style="border-style: none">
                                     <a href="{{ url('/data/tailieukhac/' . $model->tailieukhac) }}"

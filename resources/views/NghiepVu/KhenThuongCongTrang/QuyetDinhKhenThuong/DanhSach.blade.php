@@ -22,7 +22,7 @@
             $('#madanhhieutd_tc').val(madanhhieutd).trigger('change');
 
             $.ajax({
-                url: '/KhenThuongCongTrang/QuyetDinhKhenThuong/LayTieuChuan',
+                url: '/KhenThuongCongTrang/KhenThuong/LayTieuChuan',
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,
@@ -45,7 +45,7 @@
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
             $.ajax({
-                url: '/KhenThuongCongTrang/QuyetDinhKhenThuong/LayDoiTuong',
+                url: '/KhenThuongCongTrang/KhenThuong/LayDoiTuong',
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,
@@ -75,7 +75,7 @@
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
             $.ajax({
-                url: '/KhenThuongCongTrang/QuyetDinhKhenThuong/LayDoiTuong',
+                url: '/KhenThuongCongTrang/KhenThuong/LayDoiTuong',
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,
@@ -95,7 +95,7 @@
 
 @section('content')
     <!--begin::Card-->
-    {!! Form::model($model, ['method' => 'POST','url'=>'/KhenThuongCongTrang/QuyetDinhKhenThuong/DanhSach', 'class' => 'form', 'id' => 'frm_ThayDoi', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
+    {!! Form::model($model, ['method' => 'POST','url'=>'/KhenThuongCongTrang/KhenThuong/DanhSach', 'class' => 'form', 'id' => 'frm_ThayDoi', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
     {{ Form::hidden('mahosokt', null) }}
     <div class="card card-custom wave wave-animate-slow wave-info" style="min-height: 600px">
         <div class="card-header flex-wrap border-0 pt-6 pb-0">
@@ -226,7 +226,7 @@
                                         onclick="getTieuChuan('{{ $tt->id }}','{{ $tt->madanhhieutd }}','{{ $tt->tendoituong }}')" class="btn btn-sm btn-clean btn-icon"
                                         data-target="#modal-tieuchuan" data-toggle="modal">
                                         <i class="icon-lg la fa-list text-dark"></i></button>
-                                    <a title="In kết quả" href="{{ url('/KhenThuongCongTrang/QuyetDinhKhenThuong/InKetQua?id=' . $tt->id) }}"
+                                    <a title="In kết quả" href="{{ url('/KhenThuongCongTrang/KhenThuong/InKetQua?id=' . $tt->id) }}"
                                         class="btn btn-sm btn-clean btn-icon" target="_blank">
                                         <i class="icon-lg la fa-print text-dark"></i></a>
                                     <button title="Thay đổi" type="button"
@@ -341,7 +341,7 @@
         <div class="card-footer">
             <div class="row text-center">
                 <div class="col-lg-12">
-                    <a href="{{ url('/KhenThuongCongTrang/QuyetDinhKhenThuong/ThongTin?madonvi='.$model->madonvi) }}" class="btn btn-danger mr-5"><i
+                    <a href="{{ url('/KhenThuongCongTrang/KhenThuong/ThongTin?madonvi='.$model->madonvi) }}" class="btn btn-danger mr-5"><i
                             class="fa fa-reply"></i>&nbsp;Quay lại</a>
                    
                         <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i>Hoàn thành</button>                    
@@ -353,7 +353,7 @@
     <!--end::Card-->
     {{-- Hồ sơ  --}}
     <div id="modal-hoso" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
-        {!! Form::open(['url' => '/KhenThuongCongTrang/QuyetDinhKhenThuong/HoSo', 'id' => 'frm_hoso']) !!}
+        {!! Form::open(['url' => '/KhenThuongCongTrang/KhenThuong/HoSo', 'id' => 'frm_hoso']) !!}
         <input type="hidden" name="mahosokt" />
         <input type="hidden" name="mahosotdkt" />
         <div class="modal-dialog">
@@ -389,7 +389,7 @@
         {!! Form::close() !!}
     </div>
     {{-- Kết quả --}}
-    {!! Form::open(['url' => '/KhenThuongCongTrang/QuyetDinhKhenThuong/KetQua', 'id' => 'frm_KetQua', 'method' => 'post']) !!}
+    {!! Form::open(['url' => '/KhenThuongCongTrang/KhenThuong/KetQua', 'id' => 'frm_KetQua', 'method' => 'post']) !!}
     <div id="modal-ketqua" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
         <input type="hidden" name="id" />
         <div class="modal-dialog">

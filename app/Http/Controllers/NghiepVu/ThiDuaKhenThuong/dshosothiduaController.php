@@ -42,7 +42,7 @@ class dshosothiduaController extends Controller
             //dd($capdo);
             //Chưa xét trường hợp Huyện phát động            
             if($capdo != 'X'){
-                $model = viewdonvi_dsphongtrao::where('phamviapdung', 'TOANTINH')->orwhere('maphongtraotd', function ($qr) use ($capdo) {
+                $model = viewdonvi_dsphongtrao::where('phamviapdung', 'TOANTINH')->orwherein('maphongtraotd', function ($qr) use ($capdo) {
                     $qr->select('maphongtraotd')->from('viewdonvi_dsphongtrao')->where('phamviapdung', 'CUNGCAP')->where('capdo', $capdo)->get();
                 })->orderby('tungay')->get();
             }else{
@@ -118,6 +118,8 @@ class dshosothiduaController extends Controller
             //dd( $model);
             $m_donvi = dsdonvi::all();
             $m_diaban = dsdiaban::all();
+            $m_canhan = getDoiTuongKhenThuong($model->madonvi);
+            $m_tapthe = getTapTheKhenThuong($model->madonvi);
             return view('NghiepVu.ThiDuaKhenThuong.HoSoThiDua.ThayDoi')
                 ->with('model', $model)
                 ->with('model_khenthuong', $model_khenthuong->where('phanloai', 'CANHAN'))
@@ -125,6 +127,8 @@ class dshosothiduaController extends Controller
                 ->with('model_tieuchuan', $model_tieuchuan)
                 ->with('m_danhhieu', $m_danhhieu)
                 ->with('m_tieuchuan', $m_tieuchuan)
+                ->with('m_canhan', $m_canhan)
+                ->with('m_tapthe', $m_tapthe)
                 ->with('a_danhhieu', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
                 ->with('a_tieuchuan', array_column($m_tieuchuan->toArray(), 'tentieuchuandhtd', 'matieuchuandhtd'))
                 ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
@@ -158,6 +162,8 @@ class dshosothiduaController extends Controller
             //dd( $model);
             $m_donvi = dsdonvi::all();
             $m_diaban = dsdiaban::all();
+            $m_canhan = getDoiTuongKhenThuong($model->madonvi);
+            $m_tapthe = getTapTheKhenThuong($model->madonvi);
             return view('NghiepVu.ThiDuaKhenThuong.HoSoThiDua.ThayDoi')
                 ->with('model', $model)
                 ->with('model_khenthuong', $model_khenthuong->where('phanloai', 'CANHAN'))
@@ -165,6 +171,8 @@ class dshosothiduaController extends Controller
                 ->with('model_tieuchuan', $model_tieuchuan)
                 ->with('m_danhhieu', $m_danhhieu)
                 ->with('m_tieuchuan', $m_tieuchuan)
+                ->with('m_canhan', $m_canhan)
+                ->with('m_tapthe', $m_tapthe)
                 ->with('a_danhhieu', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
                 ->with('a_tieuchuan', array_column($m_tieuchuan->toArray(), 'tentieuchuandhtd', 'matieuchuandhtd'))
                 ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
@@ -246,6 +254,9 @@ class dshosothiduaController extends Controller
             if ($model == null) {
                 $inputs['trangthai'] = 'CC';
                 $inputs['phanloai'] = 'THIDUA';
+                $inputs['maloaihinhkt'] = dsphongtraothidua::where('maphongtraotd',$inputs['maphongtraotd'])->first()->maloaihinhkt;
+
+                //dd($inputs);
                 dshosothiduakhenthuong::create($inputs);
                 $trangthai = new trangthaihoso();
                 $trangthai->trangthai = $inputs['trangthai'];

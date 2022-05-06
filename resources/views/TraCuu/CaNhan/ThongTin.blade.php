@@ -22,7 +22,8 @@
 @section('content')
     <!--begin::Card-->
 
-    <div class="card card-custom" style="min-height: 600px">
+    {!! Form::open(['method' => 'POST', 'url' => '/TraCuu/CaNhan/ThongTin', 'class' => 'form', 'id' => 'frm_ThayDoi', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
+    <div class="card card-custom wave wave-animate-slow wave-info" style="min-height: 600px">
         <div class="card-header">
             <div class="card-title">
                 <h3 class="card-label text-uppercase">Thông tin tìm kiếm theo cá nhân</h3>
@@ -32,9 +33,7 @@
                 <!--end::Button-->
             </div>
         </div>
-
-        {!! Form::open(['method' => 'POST', 'url' => '/TraCuu/CaNhan/ThongTin', 'class' => 'form', 'id' => 'frm_ThayDoi', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
-
+        
         <div class="card-body">
             <div class="form-group row">
                 <div class="col-lg-5">

@@ -129,7 +129,7 @@
                                     @endif
                                     @if ($tt->trangthai == 'DKT')
                                         <a title="Thông tin hồ sơ khen thưởng"
-                                            href="{{ url('/KhenThuongDotXuat/QuyetDinh/Xem?mahosokt=' . $tt->mahosokt) }}"
+                                            href="{{ url('/KhenThuongDotXuat/KhenThuong/Xem?mahosokt=' . $tt->mahosokt) }}"
                                             class="btn btn-sm btn-clean btn-icon" target="_blank">
                                             <i class="icon-lg la fa-user-check text-dark"></i></a>
                                     @endif

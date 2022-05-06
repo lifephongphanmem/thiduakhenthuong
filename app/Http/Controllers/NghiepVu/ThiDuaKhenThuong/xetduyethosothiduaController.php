@@ -31,7 +31,7 @@ class xetduyethosothiduaController extends Controller
             $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
             $capdo = $donvi->capdo ?? '';
 
-            $model = viewdonvi_dsphongtrao::where('phamviapdung', 'TOANTINH')->orwhere('maphongtraotd', function ($qr) use ($capdo) {
+            $model = viewdonvi_dsphongtrao::where('phamviapdung', 'TOANTINH')->orwherein('maphongtraotd', function ($qr) use ($capdo) {
                 $qr->select('maphongtraotd')->from('viewdonvi_dsphongtrao')->where('phamviapdung', 'CUNGCAP')->where('capdo', $capdo)->get();
             })->orderby('tungay')->get();
 
