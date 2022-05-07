@@ -66,10 +66,13 @@
                                 <td>{{ $a_donvi[$tt->madonvi] ?? '' }}</td>
                                 <td>{{ $tt->noidung }}</td>
                                 <td class="text-center">
-                                    <a title="Thông tin hồ sơ đăng ký thi đua"
-                                        href="{{ url('/HoSoThiDua/Xem?mahosodk=' . $tt->mahosodk) }}"
+                                    @if ($tt->mahosodk)
+                                        <a title="Thông tin hồ sơ đăng ký thi đua"
+                                        href="{{ url('/DangKyDanhHieu/HoSo/Xem?mahosodk=' . $tt->mahosodk) }}"
                                         class="btn btn-sm btn-clean btn-icon" target="_blank">
                                         <i class="icon-lg la fa-eye text-dark"></i></a>
+                                    @endif
+                                    
                                 </td>
                                 <td class="text-center">{{ getDayVn($tt->thoigian_hoso) }}</td>
                                 <td class="text-center">

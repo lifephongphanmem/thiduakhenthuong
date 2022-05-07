@@ -81,7 +81,7 @@
                 </div>
             </li>
 
-            {{-- <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+            <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                 <a href="javascript:;" class="menu-link menu-toggle">
                     <i class="menu-bullet menu-bullet-dot">
                         <span></span>
@@ -93,32 +93,24 @@
                     <i class="menu-arrow"></i>
                     <ul class="menu-subnav">
                         <li class="menu-item" aria-haspopup="true">
-                            <a href="{{ url('/CumKhoiThiDua/HoSoKhenThuong/ThongTin') }}" class="menu-link">
+                            <a href="{{ url('/KhenCao/HoSo/ThongTin') }}" class="menu-link">
                                 <i class="menu-bullet menu-bullet-dot">
                                     <span></span>
                                 </i>
-                                <span class="menu-text">Tạo hồ sơ đề nghị khen thưởng</span>
+                                <span class="menu-text">Hồ sơ khen cao</span>
                             </a>
                         </li>
-                        <li class="menu-item" aria-haspopup="true">
+                        {{-- <li class="menu-item" aria-haspopup="true">
                             <a href="{{ url('/CumKhoiThiDua/XetDuyetHoSoKhenThuong/ThongTin') }}" class="menu-link">
                                 <i class="menu-bullet menu-bullet-dot">
                                     <span></span>
                                 </i>
                                 <span class="menu-text">Duyệt hồ sơ đề nghị khen thưởng</span>
                             </a>
-                        </li>
-                        <li class="menu-item" aria-haspopup="true">
-                            <a href="{{ url('/CumKhoiThiDua/KhenThuongHoSoKhenThuong/ThongTin') }}" class="menu-link">
-                                <i class="menu-bullet menu-bullet-dot">
-                                    <span></span>
-                                </i>
-                                <span class="menu-text">Khen thưởng hồ sơ đề nghị khen thưởng</span>
-                            </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
-            </li> --}}
+            </li>
         </ul>
     </div>
 </li>

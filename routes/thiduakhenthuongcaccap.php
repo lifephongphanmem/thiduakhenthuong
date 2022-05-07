@@ -153,3 +153,18 @@ Route::group(['prefix' => 'KhenThuongDotXuat'], function () {
     });
 });
 //
+//Khen cao
+Route::group(['prefix' => 'KhenCao'], function () {
+    Route::group(['prefix' => 'HoSo'], function () {
+        Route::get('ThongTin', 'NghiepVu\KhenCao\dshosokhencaoController@ThongTin');
+        Route::post('Them', 'NghiepVu\KhenCao\dshosokhencaoController@Them');
+        Route::get('Sua', 'NghiepVu\KhenCao\dshosokhencaoController@ThayDoi');
+        Route::post('Sua', 'NghiepVu\KhenCao\dshosokhencaoController@LuuHoSo');
+        Route::get('Xem', 'NghiepVu\KhenCao\dshosokhencaoController@XemHoSo');
+
+        Route::post('CaNhan', 'NghiepVu\KhenCao\dshosokhencaoController@ThemCaNhan');
+        Route::post('TapThe', 'NghiepVu\KhenCao\dshosokhencaoController@ThemTapThe');
+        Route::get('LayDoiTuong', 'NghiepVu\KhenCao\dshosokhencaoController@LayDoiTuong');
+        Route::post('NhanHoSo', 'NghiepVu\KhenCao\dshosokhencaoController@NhanHoSo');
+    });
+});

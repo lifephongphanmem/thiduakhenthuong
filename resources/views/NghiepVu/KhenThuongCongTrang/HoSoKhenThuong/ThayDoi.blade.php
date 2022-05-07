@@ -259,6 +259,17 @@
 
             <div class="form-group row">
                 <div class="col-lg-6">
+                    <label>Tờ trình: </label>
+                    {!! Form::file('totrinh', null, ['id' => 'totrinh', 'class' => 'form-control']) !!}
+                    @if ($model->baocao != '')
+                        <span class="form-control" style="border-style: none">
+                            <a href="{{ url('/data/totrinh/' . $model->totrinh) }}"
+                                target="_blank">{{ $model->totrinh }}</a>
+                        </span>
+                    @endif
+                </div>
+
+                <div class="col-lg-6">
                     <label>Báo cáo thành tích: </label>
                     {!! Form::file('baocao', null, ['id' => 'baocao', 'class' => 'form-control']) !!}
                     @if ($model->baocao != '')
@@ -268,6 +279,9 @@
                         </span>
                     @endif
                 </div>
+            </div>
+
+            <div class="form-group row">
                 <div class="col-lg-6">
                     <label>Biên bản cuộc họp: </label>
                     {!! Form::file('bienban', null, ['id' => 'bienban', 'class' => 'form-control']) !!}
@@ -278,9 +292,7 @@
                         </span>
                     @endif
                 </div>
-            </div>
-
-            <div class="form-group row">
+            
                 <div class="col-lg-6">
                     <label>Tài liệu khác: </label>
                     {!! Form::file('tailieukhac', null, ['id' => 'tailieukhac', 'class' => 'form-control']) !!}

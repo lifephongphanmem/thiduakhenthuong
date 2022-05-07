@@ -499,6 +499,7 @@ class ComposerStaticInit2bbfd3055ada376977abbf3cd3a1a409
         'App\\Model\\DanhMuc\\dsdiaban' => __DIR__ . '/../..' . '/app/Model/DanhMuc/dsdiaban.php',
         'App\\Model\\DanhMuc\\dsdonvi' => __DIR__ . '/../..' . '/app/Model/DanhMuc/dsdonvi.php',
         'App\\Model\\DanhMuc\\dstaikhoan' => __DIR__ . '/../..' . '/app/Model/DanhMuc/dstaikhoan.php',
+        'App\\Model\\HeThong\\dsvanphonghotro' => __DIR__ . '/../..' . '/app/Model/HeThong/dsvanphonghotro.php',
         'App\\Model\\HeThong\\hethongchung' => __DIR__ . '/../..' . '/app/Model/HeThong/hethongchung.php',
         'App\\Model\\HeThong\\trangthaihoso' => __DIR__ . '/../..' . '/app/Model/HeThong/trangthaihoso.php',
         'App\\Model\\NghiepVu\\CumKhoiThiDua\\dshosotdktcumkhoi' => __DIR__ . '/../..' . '/app/Model/NghiepVu/CumKhoiThiDua/dshosotdktcumkhoi.php',

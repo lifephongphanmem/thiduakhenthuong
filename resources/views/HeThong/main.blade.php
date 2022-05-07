@@ -183,9 +183,7 @@
                                                 <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                                             </li>
 
-                                            @include(
-                                                'HeThong.main_subphongtraothidua'
-                                            )
+                                            @include('HeThong.main_subphongtraothidua')
 
                                             @include('HeThong.main_subhoso')
 

@@ -23,7 +23,7 @@
                     <i class="menu-bullet menu-bullet-dot">
                         <span></span>
                     </i>
-                    <span class="menu-text font-weight-bold">Hồ sơ đăng ký phong trào thi đua</span>
+                    <span class="menu-text font-weight-bold">Hồ sơ tham gia phong trào thi đua</span>
                 </a>
             </li>
 

@@ -27321,7 +27321,7 @@ button.bg-white:focus {
 }
 
 .font-weight-bold {
-  font-weight: 500 !important;
+  font-weight: 550 !important;
 }
 
 .font-weight-bolder {
@@ -83297,7 +83297,7 @@ body {
   width: 100px;
 }
 .aside .aside-primary {
-  width: 70px;
+  width: 75px;
   -ms-flex-negative: 0;
   flex-shrink: 0;
 }

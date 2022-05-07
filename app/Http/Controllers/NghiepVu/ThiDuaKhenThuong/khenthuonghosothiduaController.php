@@ -43,7 +43,7 @@ class khenthuonghosothiduaController extends Controller
             $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
             $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
             $capdo = $donvi->capdo ?? '';
-            $model = viewdonvi_dsphongtrao::where('phamviapdung', 'TOANTINH')->orwhere('maphongtraotd', function ($qr) use ($capdo) {
+            $model = viewdonvi_dsphongtrao::wherein('phamviapdung', ['TOANTINH','TRUNGUONG'])->orwherein('maphongtraotd', function ($qr) use ($capdo) {
                 $qr->select('maphongtraotd')->from('viewdonvi_dsphongtrao')->where('phamviapdung', 'CUNGCAP')->where('capdo', $capdo)->get();
             })->orderby('tungay')->get();
 
@@ -63,9 +63,10 @@ class khenthuonghosothiduaController extends Controller
                     if (strtotime($DangKy->denngay) < strtotime($ngayhientai)) {
                         $DangKy->nhanhoso = 'KETTHUC';
                     }
-                } else {
-                    $DangKy->nhanhoso = 'KETTHUC';
                 }
+                // } else {
+                //     $DangKy->nhanhoso = 'KETTHUC';
+                // }
 
                 $HoSo = $m_hoso->where('maphongtraotd', $DangKy->maphongtraotd);
                 $DangKy->sohoso = $HoSo == null ? 0 : $HoSo->count();
@@ -104,6 +105,7 @@ class khenthuonghosothiduaController extends Controller
                     })->get();
                 $inputs['mahosokt'] = (string)getdate()[0];
                 $inputs['maloaihinhkt'] = $m_phongtrao->maloaihinhkt;
+                
                 dshosokhenthuong::create($inputs);
                 $m_phongtrao->trangthai = 'DXKT';
                 $m_phongtrao->save();
@@ -121,32 +123,9 @@ class khenthuonghosothiduaController extends Controller
                     setTrangThaiHoSo($hoso->madonvi, $hoso, ['trangthai' => 'DXKT']);
                     $hoso->save();
                 }
-            } else {
-                $inputs['mahosokt'] = $chk->mahosokt;
             }
-            $model =  dshosokhenthuong::where('mahosokt', $inputs['mahosokt'])->first();
-            $m_chitiet = dshosokhenthuong_chitiet::where('mahosokt', $inputs['mahosokt'])->get();
-            $m_hosokt = dshosothiduakhenthuong::where('maphongtraotd', $inputs['maphongtraotd'])->get();
-            foreach ($m_chitiet as $chitiet) {
-                $chitiet->madonvi_kt = $m_hosokt->where('mahosotdkt', $chitiet->mahosotdkt)->first()->madonvi ?? null;
-            }
-            $m_khenthuong = dshosokhenthuong_khenthuong::where('mahosokt', $inputs['mahosokt'])->get();
-            $m_danhhieu = dsphongtraothidua_khenthuong::where('maphongtraotd', $model->maphongtraotd)->get();
-            $m_tieuchuan = dsphongtraothidua_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->get();
-            return view('NghiepVu.ThiDuaKhenThuong.KhenThuongHoSo.DanhSach')
-                ->with('model', $model)
-                ->with('m_chitiet', $m_chitiet)
-                ->with('m_danhhieu', $m_danhhieu)
-                ->with('m_tieuchuan', $m_tieuchuan)
-                ->with('model_canhan', $m_khenthuong->where('phanloai', 'CANHAN'))
-                ->with('model_tapthe', $m_khenthuong->where('phanloai', 'TAPTHE'))
-                ->with('m_phongtrao', $m_phongtrao)
-                ->with('a_donvi', array_column(viewdiabandonvi::all()->toArray(), 'tendonvi', 'madonvi'))
-                //->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))
-                //->with('a_danhhieu', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
-                ->with('a_hinhthuckt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
-                ->with('inputs', $inputs)
-                ->with('pageTitle', 'Kết quả phong trào thi đua');
+            return redirect('KhenThuongHoSoThiDua/DanhSach?mahosokt='. $inputs['mahosokt']);
+        
         } else
             return view('errors.notlogin');
     }
@@ -409,6 +388,15 @@ class khenthuonghosothiduaController extends Controller
             //Tập thể
             $m_tapthe = view_tdkt_tapthe::where('mahosokt', $model->mahosokt)->get();
             if ($m_tapthe->count() > 0) {
+                $s_tapthe = '';
+                $i = 1;
+                foreach ($m_tapthe as $tapthe) {                    
+                    $s_tapthe .= '<p style=&#34;margin-left:40px;&#34;>' .
+                        ($i++) . '. ' . $tapthe->tentapthe .
+                        '</p>';
+                        //dd($s_canhan);
+                }
+                $thongtinquyetdinh = str_replace('<p style=&#34;margin-left:25px;&#34;>[khenthuongtapthe]</p>',  $s_tapthe, $thongtinquyetdinh);
             }
 
 

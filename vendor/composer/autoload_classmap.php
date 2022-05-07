@@ -60,6 +60,7 @@ return array(
     'App\\Model\\DanhMuc\\dsdiaban' => $baseDir . '/app/Model/DanhMuc/dsdiaban.php',
     'App\\Model\\DanhMuc\\dsdonvi' => $baseDir . '/app/Model/DanhMuc/dsdonvi.php',
     'App\\Model\\DanhMuc\\dstaikhoan' => $baseDir . '/app/Model/DanhMuc/dstaikhoan.php',
+    'App\\Model\\HeThong\\dsvanphonghotro' => $baseDir . '/app/Model/HeThong/dsvanphonghotro.php',
     'App\\Model\\HeThong\\hethongchung' => $baseDir . '/app/Model/HeThong/hethongchung.php',
     'App\\Model\\HeThong\\trangthaihoso' => $baseDir . '/app/Model/HeThong/trangthaihoso.php',
     'App\\Model\\NghiepVu\\CumKhoiThiDua\\dshosotdktcumkhoi' => $baseDir . '/app/Model/NghiepVu/CumKhoiThiDua/dshosotdktcumkhoi.php',

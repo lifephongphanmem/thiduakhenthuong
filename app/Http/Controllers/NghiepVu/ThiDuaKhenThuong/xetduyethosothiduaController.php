@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\HeThong\trangthaihoso;
+use App\Model\NghiepVu\DangKyDanhHieu\dshosodangkyphongtraothidua;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua;
 use App\Model\View\viewdiabandonvi;
@@ -31,7 +32,7 @@ class xetduyethosothiduaController extends Controller
             $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
             $capdo = $donvi->capdo ?? '';
 
-            $model = viewdonvi_dsphongtrao::where('phamviapdung', 'TOANTINH')->orwherein('maphongtraotd', function ($qr) use ($capdo) {
+            $model = viewdonvi_dsphongtrao::wherein('phamviapdung', ['TOANTINH','TRUNGUONG'])->orwherein('maphongtraotd', function ($qr) use ($capdo) {
                 $qr->select('maphongtraotd')->from('viewdonvi_dsphongtrao')->where('phamviapdung', 'CUNGCAP')->where('capdo', $capdo)->get();
             })->orderby('tungay')->get();
 
@@ -89,14 +90,17 @@ class xetduyethosothiduaController extends Controller
                         ->orwhere('madonvi_nhan_h', $inputs['madonvi'])
                         ->orwhere('madonvi_nhan_t', $inputs['madonvi'])->get();
                 })->get();
+            $m_hoso_dangky = dshosodangkyphongtraothidua::all();
+                
             foreach ($model as $chitiet) {
                 $chitiet->chuyentiephoso = false;
                 if ($m_dangky->phamviapdung == 'TOANTINH' && $donvi->capdo == 'H')
                     $chitiet->chuyentiephoso = true;
-
+                $chitiet->mahosodk = $m_hoso_dangky->where('madonvi',$chitiet->madonvi)->first()->mahosodk ?? null;
                 getDonViChuyen($inputs['madonvi'], $chitiet);
                 //$chitiet->trangthai = $donvi->capdo == 'H' ? $chitiet->trangthai_h : $chitiet->trangthai_t;
             }
+
             //dd($model);
             $m_donvi = getDonVi(session('admin')->capdo);
 

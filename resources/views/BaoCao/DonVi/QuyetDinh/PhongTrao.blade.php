@@ -29,10 +29,11 @@
     <div class="card card-custom" style="min-height: 600px">
         <div class="card-header flex-wrap border-0 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Thông tin quyết định khen thưởng</h3>
+                <h3 class="card-label text-uppercase">Thông tin dự thảo quyết định khen thưởng</h3>
             </div>
             <div class="card-toolbar">
-                <a href="{{url('/KhenThuongHoSoThiDua/MacDinhQuyetDinh?maquyetdinh=QUYETDINH&mahosokt='.$model->mahosokt)}}" class="btn btn-primary"><i class="fa fas fa-sync"></i>Tải mặc định</a>
+                <a title="Tải lại quyết định" class="btn btn-primary mr-5" href="{{url('/KhenThuongHoSoThiDua/MacDinhQuyetDinh?maquyetdinh=QUYETDINH&mahosokt='.$model->mahosokt)}}" class="btn btn-primary"><i class="fa fas fa-sync"></i></a>
+                <a title="In quyết định" class="btn btn-info" target="_blank" href="{{url('/KhenThuongHoSoThiDua/XemQuyetDinh?mahosokt='.$model->mahosokt)}}" class="btn btn-primary"><i class="fa fas fa-print"></i></a>
             </div>
         </div>
         {!! Form::model($model, ['method' => 'POST', 'url' => '/KhenThuongHoSoThiDua/QuyetDinh', 'class' => 'form', 'id' => 'frm_In', 'files' => true, 'enctype' => 'multipart/form-data']) !!}

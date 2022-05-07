@@ -129,9 +129,13 @@
                                     @endif
                                     @if ($tt->trangthai == 'DKT')
                                         <a title="Thông tin hồ sơ khen thưởng"
-                                            href="{{ url('/KhenThuongCongTrang/QuyetDinhKhenThuong/Xem?mahosokt=' . $tt->mahosokt) }}"
+                                            href="{{ url('/KhenThuongCongTrang/KhenThuong/Xem?mahosokt=' . $tt->mahosokt) }}"
                                             class="btn btn-sm btn-clean btn-icon" target="_blank">
                                             <i class="icon-lg la fa-user-check text-dark"></i></a>
+                                        <a title="In quyết định khen thưởng"
+                                            href="{{ url('/KhenThuongCongTrang/KhenThuong/XemQuyetDinh?mahosokt=' . $tt->mahosokt) }}"
+                                            class="btn btn-sm btn-clean btn-icon" target="_blank">
+                                            <i class="icon-lg la fa-print text-dark"></i></a>
                                     @endif
                                 </td>
                             </tr>

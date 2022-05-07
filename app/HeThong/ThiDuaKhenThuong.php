@@ -123,6 +123,7 @@ function getPhamViPhongTrao()
         'CUNGCAP' => 'Các đơn vị trong cùng cấp quản lý (cùng địa bàn quản lý)',
         'CAPDUOI' => 'Các đơn vị cấp dưới quản lý trực tiếp',
         'TOANTINH' => 'Toàn bộ các đơn vị trong Tỉnh',
+        'TRUNGUONG' => 'Phong trào thi đua cấp TW',
     );
 }
 
@@ -210,6 +211,20 @@ function getNam($all = false)
         $a_tl[$i] = $i;
     }
     return $a_tl;
+}
+
+function getDoiTuongKhenCao()
+{
+    $m_hoso = \App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong::all('mahosotdkt');
+    $model = \App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_khenthuong::wherein('mahosotdkt',$m_hoso->toarray())->where('phanloai','CANHAN')->get();    
+    return $model;
+}
+
+function getTapTheKhenCao()
+{
+    $m_hoso = \App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong::all('mahosotdkt');
+    $model = \App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_khenthuong::wherein('mahosotdkt',$m_hoso->toarray())->where('phanloai','TAPTHE')->get();    
+    return $model;
 }
 
 function getDoiTuongKhenThuong($madonvi)

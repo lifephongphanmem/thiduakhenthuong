@@ -42,7 +42,7 @@ class dshosothiduaController extends Controller
             //dd($capdo);
             //Chưa xét trường hợp Huyện phát động            
             if($capdo != 'X'){
-                $model = viewdonvi_dsphongtrao::where('phamviapdung', 'TOANTINH')->orwherein('maphongtraotd', function ($qr) use ($capdo) {
+                $model = viewdonvi_dsphongtrao::wherein('phamviapdung', ['TOANTINH','TRUNGUONG'])->orwherein('maphongtraotd', function ($qr) use ($capdo) {
                     $qr->select('maphongtraotd')->from('viewdonvi_dsphongtrao')->where('phamviapdung', 'CUNGCAP')->where('capdo', $capdo)->get();
                 })->orderby('tungay')->get();
             }else{
