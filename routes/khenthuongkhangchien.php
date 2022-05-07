@@ -9,13 +9,6 @@ Route::group(['prefix'=>'KhenThuongKhangChien'], function(){
         Route::post('NhanHoSo','NghiepVu\KhenThuongKhangChien\ChongPhapCaNhan\dshosochongphap_canhanController@NhanHoSo');
         Route::get('Xem','NghiepVu\KhenThuongKhangChien\ChongPhapCaNhan\dshosochongphap_canhanController@XemHoSo');
     });
-    Route::group(['prefix'=>'TongHop'], function(){
-        Route::get('ThongTin','BaoCao\baocaotonghopController@ThongTin');
-        Route::post('PhongTrao','BaoCao\baocaotonghopController@PhongTrao');
-        Route::post('HoSo','BaoCao\baocaotonghopController@HoSo');
-        Route::post('DanhHieu','BaoCao\baocaotonghopController@DanhHieu');
-        Route::post('KhenThuong','BaoCao\baocaotonghopController@KhenThuong');
-    });
 });
 
 

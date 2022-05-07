@@ -6,9 +6,9 @@ Route::post('QuenMatKhau','HeThong\hethongchungController@QuenMatKhau');
 Route::get('DangXuat','HeThong\hethongchungController@DangXuat');
 
 Route::group(['prefix'=>'HeThongChung'], function(){
-    Route::get('ThongTin','GeneralConfigsController@index');
-    Route::get('ThayDoi','GeneralConfigsController@edit');
-    Route::post('ThayDoi','GeneralConfigsController@update');
+    Route::get('ThongTin','HeThong\hethongchungController@ThongTin');
+    Route::get('ThayDoi','HeThong\hethongchungController@ThayDoi');
+    Route::post('ThayDoi','HeThong\hethongchungController@LuuThayDoi');
 });
 Route::group(['prefix'=>'DiaBan'], function(){
     Route::get('ThongTin','HeThong\dsdiabanController@index');
