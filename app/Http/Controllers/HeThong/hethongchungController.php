@@ -13,7 +13,7 @@ class hethongchungController extends Controller
 {
     public function index(){
         if (Session::has('admin')) {
-            return view('HeThong.main')
+            return view('HeThong.dashboard')
                 ->with('model',getHeThongChung())
                 ->with('pageTitle', 'Thông tin hỗ trợ');
         } else {     
