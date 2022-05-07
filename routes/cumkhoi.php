@@ -54,5 +54,11 @@ Route::group(['prefix'=>'CumKhoiThiDua'], function(){
         Route::post('PheDuyet','NghiepVu\CumKhoiThiDua\khenthuonghosokhenthuongcumkhoiController@PheDuyet');
         Route::get('Xem','NghiepVu\CumKhoiThiDua\khenthuonghosokhenthuongcumkhoiController@XemHoSo');
         Route::get('LayTieuChuan','NghiepVu\CumKhoiThiDua\khenthuonghosokhenthuongcumkhoiController@LayTieuChuan');
+
+        Route::get('InKetQua', 'NghiepVu\CumKhoiThiDua\khenthuonghosokhenthuongcumkhoiController@InKetQua');
+        Route::get('MacDinhQuyetDinh', 'NghiepVu\CumKhoiThiDua\khenthuonghosokhenthuongcumkhoiController@MacDinhQuyetDinh');
+        Route::get('QuyetDinh', 'NghiepVu\CumKhoiThiDua\khenthuonghosokhenthuongcumkhoiController@QuyetDinh');
+        Route::post('QuyetDinh', 'NghiepVu\CumKhoiThiDua\khenthuonghosokhenthuongcumkhoiController@LuuQuyetDinh');
+        Route::get('XemQuyetDinh', 'NghiepVu\CumKhoiThiDua\khenthuonghosokhenthuongcumkhoiController@XemQuyetDinh');
     });
 });

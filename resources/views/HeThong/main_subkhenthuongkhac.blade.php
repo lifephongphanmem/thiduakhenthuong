@@ -9,14 +9,14 @@
     <div class="menu-submenu">
         <i class="menu-arrow"></i>
         <ul class="menu-subnav">
-            <li class="menu-item" aria-haspopup="true">
+            {{-- <li class="menu-item" aria-haspopup="true">
                 <a href="{{ url('/CumKhoiThiDua/DanhSach/ThongTin') }}" class="menu-link">
                     <i class="menu-bullet menu-bullet-dot">
                         <span></span>
                     </i>
                     <span class="menu-text font-weight-bold">Hiệp y khen thưởng</span>
                 </a>
-            </li>
+            </li> --}}
             <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                 <a href="javascript:;" class="menu-link menu-toggle">
                     <i class="menu-bullet menu-bullet-dot">
@@ -29,7 +29,7 @@
                     <i class="menu-arrow"></i>
                     <ul class="menu-subnav">															
                         <li class="menu-item" aria-haspopup="true">
-                            <a href="{{url('/KhenThuongKhangChien/ChongPhap/CaNhan')}}" class="menu-link">
+                            <a href="{{url('/KhenThuongKhangChien/ChongPhapCaNhan/ThongTin')}}" class="menu-link">
                                 <i class="menu-bullet menu-bullet-dot">
                                     <span></span>
                                 </i>
@@ -37,7 +37,7 @@
                             </a>
                         </li>
                         <li class="menu-item" aria-haspopup="true">
-                            <a href="{{url('/KhenThuongKhangChien/ChongMy/CaNhan')}}" class="menu-link">
+                            <a href="{{url('/KhenThuongKhangChien/ChongMyCaNhan/ThongTin')}}" class="menu-link">
                                 <i class="menu-bullet menu-bullet-dot">
                                     <span></span>
                                 </i>
@@ -45,7 +45,7 @@
                             </a>
                         </li>
                         <li class="menu-item" aria-haspopup="true">
-                            <a href="{{url('/KhenThuongKhangChien/ChongMy/GiaDinh')}}" class="menu-link">
+                            <a href="{{url('/KhenThuongKhangChien/ChongMyGiaDinh/ThongTin')}}" class="menu-link">
                                 <i class="menu-bullet menu-bullet-dot">
                                     <span></span>
                                 </i>
@@ -54,7 +54,7 @@
                         </li>
 
                         <li class="menu-item" aria-haspopup="true">
-                            <a href="{{url('/KhenThuongKhangChien/BangKhen/ThuThuong')}}" class="menu-link">
+                            <a href="{{url('/KhenThuongKhangChien/BangKhenThuThuong/ThongTin')}}" class="menu-link">
                                 <i class="menu-bullet menu-bullet-dot">
                                     <span></span>
                                 </i>
@@ -62,7 +62,7 @@
                             </a>
                         </li>
                         <li class="menu-item" aria-haspopup="true">
-                            <a href="{{url('/KhenThuongKhangChien/BangKhen/Tinh')}}" class="menu-link">
+                            <a href="{{url('/KhenThuongKhangChien/BangKhenTinh/ThongTin')}}" class="menu-link">
                                 <i class="menu-bullet menu-bullet-dot">
                                     <span></span>
                                 </i>
@@ -70,7 +70,7 @@
                             </a>
                         </li>
                         <li class="menu-item" aria-haspopup="true">
-                            <a href="{{url('/KhenThuongKhangChien/KyNiemChuong')}}" class="menu-link">
+                            <a href="{{url('/KhenThuongKhangChien/KyNiemChuong/ThongTin')}}" class="menu-link">
                                 <i class="menu-bullet menu-bullet-dot">
                                     <span></span>
                                 </i>
@@ -81,7 +81,7 @@
                 </div>
             </li>
 
-            <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+            {{-- <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                 <a href="javascript:;" class="menu-link menu-toggle">
                     <i class="menu-bullet menu-bullet-dot">
                         <span></span>
@@ -118,7 +118,7 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> --}}
         </ul>
     </div>
 </li>

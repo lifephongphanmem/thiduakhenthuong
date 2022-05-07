@@ -120,6 +120,10 @@
                                             href="{{ url('/CumKhoiThiDua/KhenThuongHoSoKhenThuong/DanhSach?mahosokt=' . $tt->mahosokt) }}"
                                             class="btn btn-sm btn-clean btn-icon">
                                             <i class="icon-lg la fa-user-check text-dark"></i></a>
+                                        <a title="In quyết định khen thưởng"
+                                            href="{{ url('/CumKhoiThiDua/KhenThuongHoSoKhenThuong/QuyetDinh?mahosokt=' . $tt->mahosokt) }}"
+                                            class="btn btn-sm btn-clean btn-icon">
+                                            <i class="icon-lg la fa-print text-dark"></i></a>
                                         <button title="Phê duyệt hồ sơ khen thưởng" type="button"
                                             onclick="setPheDuyet('{{ $tt->mahosokt }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#modal-PheDuyet"
@@ -132,6 +136,10 @@
                                             href="{{ url('/CumKhoiThiDua/KhenThuongHoSoKhenThuong/Xem?mahosokt=' . $tt->mahosokt) }}"
                                             class="btn btn-sm btn-clean btn-icon" target="_blank">
                                             <i class="icon-lg la fa-user-check text-dark"></i></a>
+                                        <a title="In quyết định khen thưởng"
+                                            href="{{ url('/CumKhoiThiDua/KhenThuongHoSoKhenThuong/XemQuyetDinh?mahosokt=' . $tt->mahosokt) }}"
+                                            class="btn btn-sm btn-clean btn-icon" target="_blank">
+                                            <i class="icon-lg la fa-print text-dark"></i></a>
                                     @endif
                                 </td>
                             </tr>

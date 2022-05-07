@@ -14,3 +14,4 @@ include('cumkhoi.php');
 include('tracuu.php');
 include('dangkydanhhieu.php');
 include('baocao.php');
+include('khenthuongkhangchien.php');

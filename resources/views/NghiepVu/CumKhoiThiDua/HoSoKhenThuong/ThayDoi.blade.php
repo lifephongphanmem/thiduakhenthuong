@@ -34,6 +34,7 @@
                     maccvc: form.find("[name='maccvc']").val(),
                     lanhdao: form.find("[name='lanhdao']").val(),
                     madanhhieutd: form.find("[name='madanhhieutd']").val(),
+                    mahinhthuckt: form.find("[name='mahinhthuckt']").val(),
                     tensangkien: form.find("[name='tensangkien']").val(),
                     donvicongnhan: form.find("[name='donvicongnhan']").val(),
                     thoigiancongnhan: form.find("[name='thoigiancongnhan']").val(),
@@ -68,6 +69,7 @@
                     _token: CSRF_TOKEN,
                     matapthe: $('#matapthe').val(),
                     madanhhieutd: $('#madanhhieutd_kt').val(),
+                    mahinhthuckt: $('#frm_ThayDoi').find("[name='mahinhthuckt']").val(),
                     madonvi: $('#frm_ThayDoi').find("[name='madonvi']").val(),
                     maphongtraotd: $('#frm_ThayDoi').find("[name='maphongtraotd']").val(),
                     mahosotdkt: $('#frm_ThayDoi').find("[name='mahosotdkt']").val()
@@ -208,6 +210,7 @@
                     form.find("[name='maccvc']").val(data.maccvc);
                     form.find("[name='lanhdao']").val(data.lanhdao).trigger('change');
                     form.find("[name='madanhhieutd']").val(data.madanhhieutd).trigger('change');;
+                    form.find("[name='mahinhthuckt']").val(data.mahinhthuckt).trigger('change');;
                     form.find("[name='tensangkien']").val(data.tensangkien);
                     form.find("[name='donvicongnhan']").val(data.donvicongnhan);
                     form.find("[name='thoigiancongnhan']").val(data.thoigiancongnhan);
@@ -232,6 +235,7 @@
                     var form = $('#frm_ThemTapThe');
                     form.find("[name='matapthe']").val(data.matapthe).trigger('change');
                     form.find("[name='madanhhieutd_kt']").val(data.madanhhieutd).trigger('change');
+                    form.find("[name='mahinhthuckt']").val(data.mahinhthuckt).trigger('change');
                     //filedk: form.find("[name='filedk']").val(data.madoituong),
                 }
             })
@@ -344,10 +348,11 @@
                                 <th width="2%">STT</th>
                                 <th>Tên đối tượng</th>
                                 <th width="10%">Ngày sinh</th>
-                                <th width="10%">Giới tính</th>
-                                <th width="15%">Chức vụ</th>
-                                <th width="20%">Tên danh hiệu<br>đăng ký</th>
-                                <th width="15%">Thao tác</th>
+                                <th width="5%">Giới tính</th>
+                                <th width="10%">Chức vụ</th>
+                                <th width="15%">Tên danh hiệu<br>đăng ký</th>
+                                <th width="15%">Hình thức<br>khen thưởng</th>
+                                <th width="10%">Thao tác</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -360,6 +365,7 @@
                                     <td>{{ $tt->gioitinh }}</td>
                                     <td class="text-center">{{ $tt->chucvu }}</td>
                                     <td class="text-center">{{ $a_danhhieu[$tt->madanhhieutd] ?? '' }}</td>
+                                    <td class="text-center">{{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
                                     <td class="text-center">
                                         <button title="Tiêu chuẩn" type="button"
                                             onclick="getTieuChuan('{{ $tt->madoituong }}','{{ $tt->madanhhieutd }}','{{ $tt->tendoituong }}')"
@@ -406,7 +412,8 @@
                             <tr class="text-center">
                                 <th width="5%">STT</th>
                                 <th>Tên đối tượng</th>
-                                <th width="30%">Tên danh hiệu<br>đăng ký</th>
+                                <th width="20%">Tên danh hiệu<br>đăng ký</th>
+                                <th width="20%">Hình thức<br>khen thưởng</th>
                                 <th width="15%">Thao tác</th>
                             </tr>
                         </thead>
@@ -417,6 +424,7 @@
                                     <td class="text-center">{{ $i++ }}</td>
                                     <td>{{ $tt->tentapthe }}</td>
                                     <td class="text-center">{{ $a_danhhieu[$tt->madanhhieutd] ?? '' }}</td>
+                                    <td class="text-center">{{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
                                     <td class="text-center">
                                         <button title="Tiêu chuẩn" type="button"
                                             onclick="getTieuChuan('{{ $tt->matapthe }}','{{ $tt->madanhhieutd }}','{{ $tt->tentapthe }}')"
@@ -462,7 +470,7 @@
     {!! Form::open(['url' => '', 'id' => 'frm_ThemCaNhan', 'class' => 'form', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
     <input type="hidden" name="madoituong" id="madoituong" />
     <div class="modal fade bs-modal-lg" id="modal-create" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Thêm mới thông tin đối tượng</h4>
@@ -470,7 +478,7 @@
                 </div>
                 <div class="modal-body" id="ttpthemmoi">
                     <div class="form-group row">
-                        <div class="col-lg-11">
+                        <div class="col-lg-8">
                             <label class="form-control-label">Tên đối tượng</label>
                             {!! Form::text('tendoituong', null, ['id' => 'tendoituong', 'class' => 'form-control']) !!}
                         </div>
@@ -479,38 +487,44 @@
                             <button type="button" class="btn btn-default" data-target="#modal-doituong" data-toggle="modal">
                                 <i class="fa fa-plus"></i></button>
                         </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label class="form-control-label">Ngày sinh</label>
                             {!! Form::input('date', 'ngaysinh', null, ['id' => 'ngaysinh', 'class' => 'form-control']) !!}
                         </div>
+                    </div>
 
-                        <div class="col-md-4">
+                    <div class="form-group row">
+                        <div class="col-md-3">
                             <label class="form-control-label">Giới tính</label>
                             {!! Form::select('gioitinh', getGioiTinh(), null, ['id' => 'gioitinh', 'class' => 'form-control']) !!}
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label class="form-control-label">Chức vụ/Chức danh</label>
                             {!! Form::text('chucvu', null, ['id' => 'chucvu', 'class' => 'form-control']) !!}
+                        </div>
+                    
+                        <div class="col-md-3">
+                            <label class="form-control-label">Lãnh đạo đơn vị</label>
+                            {!! Form::select('lanhdao', ['0' => 'Không', '1' => 'Có'], null, ['id' => 'lanhdao', 'class' => 'form-control']) !!}
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-control-label">Mã CCVC</label>
+                            {!! Form::text('maccvc', null, ['id' => 'maccvc', 'class' => 'form-control']) !!}
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <div class="col-md-4">
-                            <label class="form-control-label">Lãnh đạo đơn vị</label>
-                            {!! Form::select('lanhdao', ['0' => 'Không', '1' => 'Có'], null, ['id' => 'lanhdao', 'class' => 'form-control']) !!}
+                        <div class="col-md-6">
+                            <label class="form-control-label">Hình thức khen thưởng</label>
+                            {!! Form::select('mahinhthuckt', $a_hinhthuckt, null, ['class' => 'form-control']) !!}
                         </div>
-                        <div class="col-md-4">
-                            <label class="form-control-label">Mã CCVC</label>
-                            {!! Form::text('maccvc', null, ['id' => 'maccvc', 'class' => 'form-control']) !!}
-                        </div>
+                        
 
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label class="control-label">Đăng ký danh hiệu thi đua</label>
                             <select id="madanhhieutd" name="madanhhieutd" class="form-control js-example-basic-single">
+                                <option value="null">Không đăng ký</option>
                                 @foreach ($m_danhhieu->where('phanloai', 'CANHAN') as $nhom)
                                     <option value="{{ $nhom->madanhhieutd }}">{{ $nhom->tendanhhieutd }}</option>
                                 @endforeach

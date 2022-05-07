@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\DanhMuc\dmdanhhieuthidua;
 use App\Model\DanhMuc\dmdanhhieuthidua_tieuchuan;
+use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
 use App\Model\DanhMuc\dscumkhoi;
 use App\Model\DanhMuc\dscumkhoi_chitiet;
@@ -45,7 +46,7 @@ class dshosokhenthuongcumkhoiController extends Controller
                 ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))
                 ->with('a_capdo', getPhamViApDung())
                 ->with('inputs', $inputs)
-                ->with('pageTitle', 'Danh sách phong trào thi đua');
+                ->with('pageTitle', 'Danh sách cụm, khối thi đua');
         } else
             return view('errors.notlogin');
     }
@@ -76,8 +77,9 @@ class dshosokhenthuongcumkhoiController extends Controller
                 ->with('a_donviql', getDonViQuanLyCumKhoi($inputs['macumkhoi']))
                 ->with('a_donvi', array_column(dsdonvi::all()->toArray(),'tendonvi','madonvi'))
                 ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(),'tenloaihinhkt','maloaihinhkt'))
+                ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(),'tenhinhthuckt','mahinhthuckt'))
                 ->with('inputs', $inputs)
-                ->with('pageTitle', 'Danh sách phong trào thi đua');
+                ->with('pageTitle', 'Danh sách hồ sơ khen thưởng của cụm, khối');
         } else
             return view('errors.notlogin');
     }
@@ -120,6 +122,7 @@ class dshosokhenthuongcumkhoiController extends Controller
                 ->with('a_danhhieu', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
                 ->with('a_tieuchuan', array_column(dmdanhhieuthidua_tieuchuan::all()->toArray(), 'tentieuchuandhtd', 'matieuchuandhtd'))
                 ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+                ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(),'tenhinhthuckt','mahinhthuckt'))
                 ->with('inputs', $inputs)
                 ->with('m_donvi', $m_donvi)
                 ->with('m_diaban', $m_diaban)
@@ -225,6 +228,7 @@ class dshosokhenthuongcumkhoiController extends Controller
             $model->maccvc = $inputs['maccvc'];
             $model->lanhdao = $inputs['lanhdao'];
             $model->tendoituong = $inputs['tendoituong'];
+            $model->mahinhthuckt = $inputs['mahinhthuckt'];
             $model->save();
         } else {
             $model->madanhhieutd = $inputs['madanhhieutd'];
@@ -233,6 +237,7 @@ class dshosokhenthuongcumkhoiController extends Controller
             $model->chucvu = $inputs['chucvu'];
             $model->maccvc = $inputs['maccvc'];
             $model->tendoituong = $inputs['tendoituong'];
+            $model->mahinhthuckt = $inputs['mahinhthuckt'];
             $model->save();
         }
 
@@ -255,10 +260,11 @@ class dshosokhenthuongcumkhoiController extends Controller
             $result['message'] .= '<tr>';
             $result['message'] .= '<th width="2%" style="text-align: center">STT</th>';
             $result['message'] .= '<th style="text-align: center">Tên đối tượng</th>';
-            $result['message'] .= '<th style="text-align: center" width="10%">Ngày sinh</th>';
-            $result['message'] .= '<th style="text-align: center" width="10%">Giới tính</th>';
+            $result['message'] .= '<th style="text-align: center" width="8%">Ngày sinh</th>';
+            $result['message'] .= '<th style="text-align: center" width="5%">Giới tính</th>';
             $result['message'] .= '<th style="text-align: center" width="15%">Chức vụ</th>';
-            $result['message'] .= '<th style="text-align: center" width="20%">Tên danh hiệu<br>đăng ký</th>';
+            $result['message'] .= '<th style="text-align: center" width="15%">Tên danh hiệu<br>đăng ký</th>';
+            $result['message'] .= '<th style="text-align: center" width="15%">Hình thức<br>khen thưởng</th>';
             $result['message'] .= '<th style="text-align: center" width="10%">Thao tác</th>';
             $result['message'] .= '</tr>';
             $result['message'] .= '</thead>';
@@ -266,6 +272,7 @@ class dshosokhenthuongcumkhoiController extends Controller
             $result['message'] .= '<tbody>';
             $key = 1;
             $a_danhhieu = array_column(dmdanhhieuthidua::all()->toArray(),'tendanhhieutd','madanhhieutd');
+            $a_hinhthuc = array_column(dmhinhthuckhenthuong::all()->toArray(),'tenhinhthuckt','mahinhthuckt');
             foreach ($modelct as $ct) {
                 $result['message'] .= '<tr>';
                 $result['message'] .= '<td style="text-align: center">' . $key++ . '</td>';
@@ -274,10 +281,11 @@ class dshosokhenthuongcumkhoiController extends Controller
                 $result['message'] .= '<td style="text-align: center">' . $ct->gioitinh . '</td>';
                 $result['message'] .= '<td style="text-align: center">' . $ct->chucvu . '</td>';
                 $result['message'] .= '<td style="text-align: center">' . ($a_danhhieu[$ct->madanhhieutd] ?? '') . '</td>';
+                $result['message'] .= '<td style="text-align: center">' . ($a_hinhthuc[$ct->mahinhthuckt] ?? '') . '</td>';
                 $result['message'] .= '<td>' .
                     '<button title="Tiêu chuẩn" type="button" onclick="getTieuChuan(' . $ct->madoituong . ',' . $ct->madanhhieutd . ',' . $ct->tendoituong . ')" class="btn btn-sm btn-clean btn-icon" data-target="#modal-tieuchuan" data-toggle="modal"> <i class="icon-lg la fa-list text-primary"></i></button>' .
-                    '<button title="Sửa" type="button" data-target="#modal-edit" data-toggle="modal" class="btn btn-sm btn-clean btn-icon" onclick="getCaNhan(' . $ct->id . ')"><i class="icon-lg la la fa-edit text-primary"></i></button>' .
-                    '<button title="Xóa" type="button" data-target="#modal-delete-khenthuong" data-toggle="modal" class="btn btn-sm btn-clean btn-icon" onclick="delKhenThuong(' . $ct->id . ',CANHAN)" ><i class="icon-lg la la fa-trash text-danger"></i></button>' .
+                    '<button title="Sửa" type="button" data-target="#modal-create" data-toggle="modal" class="btn btn-sm btn-clean btn-icon" onclick="getCaNhan(&#34;' . $ct->id . '&#34;)"><i class="icon-lg la la fa-edit text-primary"></i></button>' .
+                    '<button title="Xóa" type="button" data-target="#modal-delete-khenthuong" data-toggle="modal" class="btn btn-sm btn-clean btn-icon" onclick="delKhenThuong(&#34;' . $ct->id . '&#34;,&#34;CANHAN&#34;)" ><i class="icon-lg la la fa-trash text-danger"></i></button>' .
                     '</td>';
 
                 $result['message'] .= '</tr>';
@@ -319,11 +327,13 @@ class dshosokhenthuongcumkhoiController extends Controller
             $model->phanloai = 'TAPTHE';
             $model->madonvi = $inputs['madonvi'];
             $model->madanhhieutd = $inputs['madanhhieutd'];
+            $model->mahinhthuckt = $inputs['mahinhthuckt'];
             $model->save();
         } else {
             $model->madanhhieutd = $inputs['madanhhieutd'];
             $model->matapthe = $inputs['matapthe'];
             $model->tentapthe = $m_donvi->tendonvi ?? '';
+            $model->mahinhthuckt = $inputs['mahinhthuckt'];
             $model->save();
         }
 
@@ -662,6 +672,7 @@ class dshosokhenthuongcumkhoiController extends Controller
                 ->with('a_danhhieu', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
                 ->with('a_tieuchuan', array_column(dmdanhhieuthidua_tieuchuan::all()->toArray(), 'tentieuchuandhtd', 'matieuchuandhtd'))
                 ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+                ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(),'tenhinhthuckt','mahinhthuckt'))
                 ->with('inputs', $inputs)
                 ->with('m_donvi', $m_donvi)
                 ->with('m_diaban', $m_diaban)
@@ -670,4 +681,6 @@ class dshosokhenthuongcumkhoiController extends Controller
         } else
             return view('errors.notlogin');
     }
+
+    
 }

@@ -129,7 +129,7 @@
                                             data-toggle="modal">
                                             <i class="icon-lg la fa-trash text-danger"></i></button>
                                     @else
-                                        <a title="Hồ sơ đăng ký phong trào"
+                                        <a title="Hồ sơ khen thưởng"
                                             href="{{ url('/CumKhoiThiDua/HoSoKhenThuong/Xem?mahosotdkt=' . $tt->mahosotdkt) }}"
                                             class="btn btn-sm btn-clean btn-icon" target="_blank">
                                             <i class="icon-lg la fa-eye text-dark"></i></a>
@@ -139,6 +139,10 @@
                                                 href="{{ url('/CumKhoiThiDua/KhenThuongHoSoKhenThuong/Xem?mahosokt=' . $tt->mahosokt) }}"
                                                 class="btn btn-sm btn-clean btn-icon" target="_blank">
                                                 <i class="icon-lg la fa-user-check text-dark"></i></a>
+                                            <a title="In quyết định khen thưởng"
+                                                href="{{ url('/CumKhoiThiDua/KhenThuongHoSoKhenThuong/XemQuyetDinh?mahosokt=' . $tt->mahosokt) }}"
+                                                class="btn btn-sm btn-clean btn-icon" target="_blank">
+                                                <i class="icon-lg la fa-print text-dark"></i></a>
                                         @endif
                                     @endif
 

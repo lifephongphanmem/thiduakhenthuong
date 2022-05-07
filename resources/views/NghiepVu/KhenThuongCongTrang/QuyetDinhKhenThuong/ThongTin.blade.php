@@ -116,19 +116,23 @@
                                             href="{{ url('/KhenThuongCongTrang/KhenThuong/DanhSach?mahosokt=' . $tt->mahosokt) }}"
                                             class="btn btn-sm btn-clean btn-icon">
                                             <i class="icon-lg la fa-user-check text-dark"></i></a>
+                                        <a title="In quyết định khen thưởng"
+                                            href="{{ url('/KhenThuongCongTrang/KhenThuong/QuyetDinh?mahosokt=' . $tt->mahosokt) }}"
+                                            class="btn btn-sm btn-clean btn-icon">
+                                            <i class="icon-lg la fa-print text-dark"></i></a>
                                         <button title="Phê duyệt hồ sơ khen thưởng" type="button"
                                             onclick="setPheDuyet('{{ $tt->mahosokt }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#modal-PheDuyet"
                                             data-toggle="modal">
                                             <i class="icon-lg la fa-check text-success"></i></button>
-                                    @endif                                   
+                                    @endif
 
                                     @if ($tt->trangthai == 'DKT')
                                         <a title="Thông tin hồ sơ khen thưởng"
                                             href="{{ url('/KhenThuongCongTrang/KhenThuong/Xem?mahosokt=' . $tt->mahosokt) }}"
                                             class="btn btn-sm btn-clean btn-icon" target="_blank">
                                             <i class="icon-lg la fa-user-check text-dark"></i></a>
-                                            <a title="In quyết định khen thưởng"
+                                        <a title="In quyết định khen thưởng"
                                             href="{{ url('/KhenThuongCongTrang/KhenThuong/XemQuyetDinh?mahosokt=' . $tt->mahosokt) }}"
                                             class="btn btn-sm btn-clean btn-icon" target="_blank">
                                             <i class="icon-lg la fa-print text-dark"></i></a>
@@ -143,87 +147,87 @@
     </div>
     <!--end::Card-->
 
-     <!--Modal phê duyệt hồ sơ khen thưởng-->
-     <div class="modal fade" id="modal-PheDuyet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true">
-     <div class="modal-dialog">
-         <div class="modal-content">
-             {!! Form::open(['url' => '/KhenThuongCongTrang/KhenThuong/PheDuyet', 'method' => 'post', 'files' => true, 'id' => 'frm_PheDuyet', 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
-             <div class="modal-header">
+    <!--Modal phê duyệt hồ sơ khen thưởng-->
+    <div class="modal fade" id="modal-PheDuyet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {!! Form::open(['url' => '/KhenThuongCongTrang/KhenThuong/PheDuyet', 'method' => 'post', 'files' => true, 'id' => 'frm_PheDuyet', 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
+                <div class="modal-header">
 
-                 <h4 class="modal-title">Đồng ý phê duyệt hồ sơ khen thưởng?</h4>
-                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-             </div>
-             <input type="hidden" name="mahosokt" id="mahosokt">
-             <div class="modal-body">
-                 <div class="row">
-                     <div class="col-md-12">
-                         Bạn đồng ý phê duyệt hồ sơ khen thưởng và gửi kết quả đến các đơn vị tham gia.
-                     </div>
-                 </div>
-             </div>
-             <div class="modal-footer">
-                 <button type="submit" class="btn btn-success">Đồng ý</button>
-                 <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
-             </div>
-             {!! Form::close() !!}
-         </div>
-         <!-- /.modal-content -->
-     </div>
-     <!-- /.modal-dialog -->
- </div>
+                    <h4 class="modal-title">Đồng ý phê duyệt hồ sơ khen thưởng?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                </div>
+                <input type="hidden" name="mahosokt" id="mahosokt">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            Bạn đồng ý phê duyệt hồ sơ khen thưởng và gửi kết quả đến các đơn vị tham gia.
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Đồng ý</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                </div>
+                {!! Form::close() !!}
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
 
- <!--Modal tạo hồ sơ-->
- <div id="khenthuong-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
-     {!! Form::open(['url' => '/KhenThuongCongTrang/KhenThuong/KhenThuong', 'id' => 'frm_khenthuong']) !!}
-     <input type="hidden" name="mahosotdkt" />
-     <input type="hidden" name="madonvi" />
-     <div class="modal-dialog modal-lg">
-         <div class="modal-content">
-             <div class="modal-header modal-header-primary">
-                 <h4 id="modal-header-primary-label" class="modal-title">Đồng ý tạo hồ sơ khen thưởng?</h4>
-                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+    <!--Modal tạo hồ sơ-->
+    <div id="khenthuong-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
+        {!! Form::open(['url' => '/KhenThuongCongTrang/KhenThuong/KhenThuong', 'id' => 'frm_khenthuong']) !!}
+        <input type="hidden" name="mahosotdkt" />
+        <input type="hidden" name="madonvi" />
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header modal-header-primary">
+                    <h4 id="modal-header-primary-label" class="modal-title">Đồng ý tạo hồ sơ khen thưởng?</h4>
+                    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
 
-             </div>
-             <div class="modal-body">
-                 <div class="form-group row">
-                     <div class="col-lg-12">
-                         <label>Tên đơn vị quyết định khen thưởng</label>
-                         {!! Form::text('donvikhenthuong', null, ['class' => 'form-control']) !!}
-                     </div>
-                 </div>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label>Tên đơn vị quyết định khen thưởng</label>
+                            {!! Form::text('donvikhenthuong', null, ['class' => 'form-control']) !!}
+                        </div>
+                    </div>
 
-                 <div class="form-group row">
-                     <div class="col-lg-6">
-                         <label>Cấp độ khen thưởng</label>
-                         {!! Form::select('capkhenthuong', getPhamViApDung(), 'T', ['class' => 'form-control']) !!}
-                     </div>
+                    <div class="form-group row">
+                        <div class="col-lg-6">
+                            <label>Cấp độ khen thưởng</label>
+                            {!! Form::select('capkhenthuong', getPhamViApDung(), 'T', ['class' => 'form-control']) !!}
+                        </div>
 
-                     <div class="col-lg-6">
-                         <label>Ngày ra quyết định</label>
-                         {!! Form::input('date', 'ngayhoso', date('Y-m-d'), ['class' => 'form-control']) !!}
-                     </div>
-                 </div>
+                        <div class="col-lg-6">
+                            <label>Ngày ra quyết định</label>
+                            {!! Form::input('date', 'ngayhoso', date('Y-m-d'), ['class' => 'form-control']) !!}
+                        </div>
+                    </div>
 
-                 <div class="form-group row">
-                     <div class="col-lg-12">
-                         <label>Nội dung khen thưởng</label>
-                         {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows' => '2']) !!}
-                     </div>
-                 </div>
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label>Nội dung khen thưởng</label>
+                            {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows' => '2']) !!}
+                        </div>
+                    </div>
 
-                 <div class="form-group row">
-                     <div class="col-lg-6">
-                         <label>Chức vụ người ký</label>
-                         {!! Form::text('chucvunguoiky', null, ['class' => 'form-control']) !!}
-                     </div>
-                     <div class="col-lg-6">
-                         <label>Họ tên người ký</label>
-                         {!! Form::text('hotennguoiky', null, ['class' => 'form-control']) !!}
-                     </div>
-                 </div>
+                    <div class="form-group row">
+                        <div class="col-lg-6">
+                            <label>Chức vụ người ký</label>
+                            {!! Form::text('chucvunguoiky', null, ['class' => 'form-control']) !!}
+                        </div>
+                        <div class="col-lg-6">
+                            <label>Họ tên người ký</label>
+                            {!! Form::text('hotennguoiky', null, ['class' => 'form-control']) !!}
+                        </div>
+                    </div>
 
-                 {{-- <div class="form-group row">
+                    {{-- <div class="form-group row">
                      <div class="col-lg-12">
                          <label>Quyết định khen thưởng</label>
                          {!! Form::select('chucvunguoiky', ['0'=>'Không khen thưởng','1'=>'Khen thưởng'], null, ['class' => 'form-control']) !!}
@@ -236,30 +240,30 @@
                          {!! Form::textarea('lydo', null, ['class' => 'form-control', 'rows' => '2']) !!}
                      </div>
                  </div> --}}
-             </div>
-             <div class="modal-footer">
-                 <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
-                 <button type="submit" data-dismiss="modal" class="btn btn-primary" onclick="clickKhenThuong()">Đồng
-                     ý</button>
-             </div>
-         </div>
-     </div>
-     {!! Form::close() !!}
- </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
+                    <button type="submit" data-dismiss="modal" class="btn btn-primary" onclick="clickKhenThuong()">Đồng
+                        ý</button>
+                </div>
+            </div>
+        </div>
+        {!! Form::close() !!}
+    </div>
 
- <script>
-     function setPheDuyet(mahosokt) {
-         $('#frm_PheDuyet').find("[name='mahosokt']").val(mahosokt);
-     }
+    <script>
+        function setPheDuyet(mahosokt) {
+            $('#frm_PheDuyet').find("[name='mahosokt']").val(mahosokt);
+        }
 
-     function clickKhenThuong() {
-         $('#frm_khenthuong').submit();
-     }
+        function clickKhenThuong() {
+            $('#frm_khenthuong').submit();
+        }
 
-     function confirmKhenThuong(mahosotdkt, madonvi) {
-         $('#frm_khenthuong').find("[name='mahosotdkt']").val(mahosotdkt);
-         $('#frm_khenthuong').find("[name='madonvi']").val(madonvi);
-     }
- </script>
+        function confirmKhenThuong(mahosotdkt, madonvi) {
+            $('#frm_khenthuong').find("[name='mahosotdkt']").val(mahosotdkt);
+            $('#frm_khenthuong').find("[name='madonvi']").val(madonvi);
+        }
+    </script>
 
 @stop
