@@ -127,7 +127,7 @@
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modal-PheDuyet"
                                                 data-toggle="modal">
                                                 <i class="icon-lg la fa-check text-success"></i></button>
-                                            <a title="In quyết định khen thưởng"
+                                            <a title="In dự thảo quyết định khen thưởng"
                                                 href="{{ url('/KhenThuongHoSoThiDua/QuyetDinh?mahosokt=' . $tt->mahosokt) }}"
                                                 class="btn btn-sm btn-clean btn-icon" target="_blank">
                                                 <i class="icon-lg la fa-print text-dark"></i></a>

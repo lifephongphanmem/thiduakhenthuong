@@ -103,9 +103,11 @@ class dstaikhoanController extends Controller
     {
         if (Session::has('admin')) {
             $inputs = $request->all();
-            $model = DSDonVi::where('madonvi', $inputs['madonvi'])->first();
+            $model = dstaikhoan::where('tendangnhap', $inputs['tendangnhap'])->first();
+            $m_donvi = dsdonvi::all();
             return view('HeThongChung.TaiKhoan.Sua')
                 ->with('model', $model)
+                ->with('a_donvi', array_column($m_donvi->toarray(), 'tendonvi', 'madonvi'))
                 ->with('pageTitle', 'Chỉnh sửa thông tin đơn vị');
         } else
             return view('errors.notlogin');

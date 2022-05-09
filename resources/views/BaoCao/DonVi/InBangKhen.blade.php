@@ -37,7 +37,7 @@
         </tr>
         <tr style="height: 2cm">
             <td colspan="2" style="text-align: center; font-size: 25px;">
-                Đã đạt danh hiệu: {{$model->tendanhhieutd}} <span> trong phong trào</span>
+                Đã đạt danh hiệu: {{$model->tendanhhieutd}} <span> trong phong trào {{$model->tenphongtrao}}</span>
             </td>
         </tr>
         <tr style="height: 2cm">

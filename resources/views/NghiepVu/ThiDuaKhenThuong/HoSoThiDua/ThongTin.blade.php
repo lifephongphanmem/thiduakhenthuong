@@ -71,7 +71,7 @@
                                 <th rowspan="2">Nội dung hồ sơ</th>
                                 <th colspan="4">Thông tin phong trào</th>
                                 <th rowspan="2">Hồ sơ của đơn vị</th>
-                                <th rowspan="2" width="10%">Thao tác</th>
+                                <th rowspan="2" width="15%">Thao tác</th>
                             </tr>
                             <tr class="text-center">
                                 <th>Phạm vi phát động</th>
@@ -142,6 +142,10 @@
                                                 href="{{ url('/KhenThuongHoSoThiDua/Xem?mahosokt=' . $tt->mahosokt) }}"
                                                 class="btn btn-sm btn-clean btn-icon" target="_blank">
                                                 <i class="icon-lg la fa-user-check text-dark"></i></a>
+                                                <a title="In quyết định khen thưởng"
+                                                href="{{ url('/KhenThuongHoSoThiDua/XemQuyetDinh?mahosokt=' . $tt->mahosokt) }}"
+                                                class="btn btn-sm btn-clean btn-icon" target="_blank">
+                                                <i class="icon-lg la fa-print text-dark"></i></a>
                                         @endif
                                     @endif
 

@@ -53,7 +53,9 @@ class khenthuonghosothiduaController extends Controller
                 $qr->select('mahoso')->from('trangthaihoso')->wherein('trangthai', ['CD', 'DD'])->where('phanloai', 'dshosothiduakhenthuong')->get();
             })->get();
             //dd($model);
-            $m_khenthuong = dshosokhenthuong::where('madonvi', $inputs['madonvi'])->get();
+            //$m_hoso = dshosothiduakhenthuong::all();
+            $m_khenthuong = dshosokhenthuong::all();
+            //$m_khenthuong = dshosokhenthuong::where('madonvi', $inputs['madonvi'])->get();
             foreach ($model as $DangKy) {
                 if ($DangKy->trangthai == 'CC') {
                     $DangKy->nhanhoso = 'CHUABATDAU';
@@ -70,7 +72,8 @@ class khenthuonghosothiduaController extends Controller
 
                 $HoSo = $m_hoso->where('maphongtraotd', $DangKy->maphongtraotd);
                 $DangKy->sohoso = $HoSo == null ? 0 : $HoSo->count();
-                $khenthuong = $m_khenthuong->where('maphongtraotd', $DangKy->maphongtraotd)->where('madonvi', $inputs['madonvi'])->first();
+                //$khenthuong = $m_khenthuong->where('maphongtraotd', $DangKy->maphongtraotd)->where('madonvi', $inputs['madonvi'])->first();
+                $khenthuong = $m_khenthuong->where('maphongtraotd', $DangKy->maphongtraotd)->first();
                 $DangKy->mahosokt = $khenthuong->mahosokt ?? '-1';
             }
             //dd($model);
