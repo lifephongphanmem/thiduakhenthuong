@@ -29,7 +29,7 @@
 </head>
 
 <body>
-    <table cellspacing="0" cellpadding="0" border="0" background="{{url('/assets/media/Phoi/BangKhen.jpg')}}" style="background-repeat: no-repeat;background-size: 100% 100%;">
+    <table cellspacing="0" cellpadding="0" border="0" background="{{url('/assets/media/phoi/BangKhen.jpg')}}" style="background-repeat: no-repeat;background-size: 100% 100%;">
         <tr style="height: 10.5cm">
             <td colspan="2" style="text-align: center; font-size: 30px; text-transform: uppercase;vertical-align: bottom">
                 <b>Ông/Bà: {{$model->tendoituong}}</b>
