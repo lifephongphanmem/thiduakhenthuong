@@ -16,19 +16,15 @@
         jQuery(document).ready(function() {
             TableManaged3.init();
             $('#madonvi').change(function() {
-                window.location.href = '/KhenThuongCongTrang/KhenThuong/ThongTin?madonvi=' + $(
+                window.location.href = '/DangKyDanhHieu/KhenThuong/ThongTin?madonvi=' + $(
                         '#madonvi').val() +
-                    '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
+                    '&nam=' + $('#nam').val();
             });
-            $('#maloaihinhkt').change(function() {
-                window.location.href = '/KhenThuongCongTrang/KhenThuong/ThongTin?madonvi=' + $(
-                        '#madonvi').val() +
-                    '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
-            });
+           
             $('#nam').change(function() {
-                window.location.href = '/KhenThuongCongTrang/KhenThuong/ThongTin?madonvi=' + $(
+                window.location.href = '/DangKyDanhHieu/KhenThuong/ThongTin?madonvi=' + $(
                         '#madonvi').val() +
-                    '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
+                    '&nam=' + $('#nam').val();
             });
         });
     </script>
@@ -39,13 +35,13 @@
     <div class="card card-custom wave wave-animate-slow wave-info" style="min-height: 600px">
         <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Danh sách hồ sơ trình khen thưởng</h3>
+                <h3 class="card-label text-uppercase">Danh sách hồ sơ khen thưởng danh hiệu thi đua</h3>
             </div>
             <div class="card-toolbar">
-                {{-- @if (chkPhanQuyen('qdhosokhenthuongcongtrang', 'modify'))
-                    <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
+                @if (chkPhanQuyen('qdhosodangkythidua', 'modify'))
+                    <button type="button" class="btn btn-success btn-xs" data-target="#khenthuong-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
-                @endif --}}
+                @endif
             </div>
         </div>
         <div class="card-body">
@@ -64,10 +60,6 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-5">
-                    <label style="font-weight: bold">Loại hình khen thưởng</label>
-                    {!! Form::select('maloaihinhkt', setArrayAll($a_loaihinhkt), $inputs['maloaihinhkt'], ['id' => 'maloaihinhkt', 'class' => 'form-control select2basic']) !!}
-                </div>
                 <div class="col-md-2">
                     <label style="font-weight: bold">Năm</label>
                     {!! Form::select('nam', getNam(true), $inputs['nam'], ['id' => 'nam', 'class' => 'form-control select2basic']) !!}
@@ -82,7 +74,7 @@
                                 <th width="2%">STT</th>
                                 <th width="15%">Tên đơn vị đề nghị</th>
                                 <th>Nội dung hồ sơ</th>
-                                <th width="15%">Loại hình khen thưởng</th>
+                                <th width="8%">Năm khen<br>thưởng</th>
                                 <th width="8%">Ngày tạo</th>
                                 <th width="8%">Trạng thái</th>
                                 <th width="10%">Thao tác</th>
@@ -94,13 +86,13 @@
                                 <td class="text-center">{{ $key + 1 }}</td>
                                 <td>{{ $a_donvi[$tt->madonvi] ?? '' }}</td>
                                 <td>{{ $tt->noidung }}</td>
-                                <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
+                                <td class="text-center">{{ date('Y') }}</td>
                                 <td class="text-center">{{ getDayVn($tt->ngayhoso) }}</td>
                                 @include('includes.td.td_trangthai_hoso')
 
                                 <td style="text-align: center">
                                     <a title="Thông tin hồ sơ"
-                                        href="{{ url('/KhenThuongCongTrang/HoSoKhenThuong/Xem?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                        href="{{ url('/DangKyDanhHieu/HoSo/Xem?mahosotdkt=' . $tt->mahosotdkt) }}"
                                         class="btn btn-sm btn-clean btn-icon" target="_blank">
                                         <i class="icon-lg la fa-eye text-dark"></i></a>
                                     @if ($tt->trangthai == 'CXKT')
@@ -113,11 +105,11 @@
 
                                     @if ($tt->trangthai == 'DXKT')
                                         <a title="Thông tin hồ sơ khen thưởng"
-                                            href="{{ url('/KhenThuongCongTrang/KhenThuong/DanhSach?mahosokt=' . $tt->mahosokt) }}"
+                                            href="{{ url('/DangKyDanhHieu/KhenThuong/DanhSach?mahosokt=' . $tt->mahosokt) }}"
                                             class="btn btn-sm btn-clean btn-icon">
                                             <i class="icon-lg la fa-user-check text-dark"></i></a>
                                         <a title="In quyết định khen thưởng"
-                                            href="{{ url('/KhenThuongCongTrang/KhenThuong/QuyetDinh?mahosokt=' . $tt->mahosokt) }}"
+                                            href="{{ url('/DangKyDanhHieu/KhenThuong/QuyetDinh?mahosokt=' . $tt->mahosokt) }}"
                                             class="btn btn-sm btn-clean btn-icon">
                                             <i class="icon-lg la fa-print text-dark"></i></a>
                                         <button title="Phê duyệt hồ sơ khen thưởng" type="button"
@@ -129,11 +121,11 @@
 
                                     @if ($tt->trangthai == 'DKT')
                                         <a title="Thông tin hồ sơ khen thưởng"
-                                            href="{{ url('/KhenThuongCongTrang/KhenThuong/Xem?mahosokt=' . $tt->mahosokt) }}"
+                                            href="{{ url('/DangKyDanhHieu/KhenThuong/Xem?mahosokt=' . $tt->mahosokt) }}"
                                             class="btn btn-sm btn-clean btn-icon" target="_blank">
                                             <i class="icon-lg la fa-user-check text-dark"></i></a>
                                         <a title="In quyết định khen thưởng"
-                                            href="{{ url('/KhenThuongCongTrang/KhenThuong/XemQuyetDinh?mahosokt=' . $tt->mahosokt) }}"
+                                            href="{{ url('/DangKyDanhHieu/KhenThuong/XemQuyetDinh?mahosokt=' . $tt->mahosokt) }}"
                                             class="btn btn-sm btn-clean btn-icon" target="_blank">
                                             <i class="icon-lg la fa-print text-dark"></i></a>
                                     @endif
@@ -152,7 +144,7 @@
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                {!! Form::open(['url' => '/KhenThuongCongTrang/KhenThuong/PheDuyet', 'method' => 'post', 'files' => true, 'id' => 'frm_PheDuyet', 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
+                {!! Form::open(['url' => '/DangKyDanhHieu/KhenThuong/PheDuyet', 'method' => 'post', 'files' => true, 'id' => 'frm_PheDuyet', 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
                 <div class="modal-header">
 
                     <h4 class="modal-title">Đồng ý phê duyệt hồ sơ khen thưởng?</h4>
@@ -179,7 +171,7 @@
 
     <!--Modal tạo hồ sơ-->
     <div id="khenthuong-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
-        {!! Form::open(['url' => '/KhenThuongCongTrang/KhenThuong/KhenThuong', 'id' => 'frm_khenthuong']) !!}
+        {!! Form::open(['url' => '/DangKyDanhHieu/KhenThuong/KhenThuong', 'id' => 'frm_khenthuong']) !!}
         <input type="hidden" name="mahosotdkt" />
         <input type="hidden" name="madonvi" />
         <div class="modal-dialog modal-lg">
@@ -226,15 +218,24 @@
                             {!! Form::text('hotennguoiky', null, ['class' => 'form-control']) !!}
                         </div>
                     </div>
+                    @if ($inputs['capdo'] == 'T')
+                        <div class="form-group row">
+                            <div class="col-lg-12">
+                                <label>Đơn vị được khen thưởng</label>
+                                {!! Form::select('madonvi', $a_donvi, null, ['class' => 'form-control']) !!}
+                            </div>
+                        </div>
+                    @else
+                        <div class="form-group row">
+                            <div class="col-lg-12">
+                                <label>Địa bàn được khen thưởng</label>
+                                {!! Form::select('madiaban', $a_diaban, null, ['class' => 'form-control']) !!}
+                            </div>
+                        </div>
+                    @endif
+                
 
-                    {{-- <div class="form-group row">
-                     <div class="col-lg-12">
-                         <label>Quyết định khen thưởng</label>
-                         {!! Form::select('chucvunguoiky', ['0'=>'Không khen thưởng','1'=>'Khen thưởng'], null, ['class' => 'form-control']) !!}
-                     </div>                        
-                 </div>
-
-                 <div class="form-group row">
+                 {{-- <div class="form-group row">
                      <div class="col-lg-12">
                          <label>Lý do (không khen thưởng)</label>
                          {!! Form::textarea('lydo', null, ['class' => 'form-control', 'rows' => '2']) !!}

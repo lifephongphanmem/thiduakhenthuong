@@ -15,7 +15,7 @@
             </svg>
             <!--end::Svg Icon-->
         </span>
-        <span class="menu-text">Quản trị hệ thống</span>
+        <span class="menu-text font-weight-bold">Quản trị hệ thống</span>
         <i class="menu-arrow"></i>
     </a>
     <div class="menu-submenu">
@@ -23,7 +23,7 @@
         <ul class="menu-subnav">
             <li class="menu-item menu-item-parent" aria-haspopup="true">
                 <span class="menu-link">
-                    <span class="menu-text">Quản trị hệ thống</span>
+                    <span class="menu-text font-weight-bold">Quản trị hệ thống</span>
                 </span>
             </li>
             <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
@@ -31,7 +31,7 @@
                     <i class="menu-bullet menu-bullet-dot">
                         <span></span>
                     </i>
-                    <span class="menu-text">Danh mục</span>
+                    <span class="menu-text font-weight-bold">Danh mục</span>
                     <i class="menu-arrow"></i>
                 </a>
                 <div class="menu-submenu">
@@ -42,7 +42,7 @@
                                 <i class="menu-bullet menu-bullet-dot">
                                     <span></span>
                                 </i>
-                                <span class="menu-text">Danh hiệu thi đua</span>
+                                <span class="menu-text font-weight-bold">Danh hiệu thi đua</span>
                             </a>
                         </li>
                         <li class="menu-item" aria-haspopup="true">
@@ -50,7 +50,7 @@
                                 <i class="menu-bullet menu-bullet-dot">
                                     <span></span>
                                 </i>
-                                <span class="menu-text">Loại hình khen thưởng</span>
+                                <span class="menu-text font-weight-bold">Loại hình khen thưởng</span>
                             </a>
                         </li>
                         <li class="menu-item" aria-haspopup="true">
@@ -58,7 +58,7 @@
                                 <i class="menu-bullet menu-bullet-dot">
                                     <span></span>
                                 </i>
-                                <span class="menu-text">Hình thức khen thưởng</span>
+                                <span class="menu-text font-weight-bold">Hình thức khen thưởng</span>
                             </a>
                         </li>
                         
@@ -71,7 +71,7 @@
                     <i class="menu-bullet menu-bullet-dot">
                         <span></span>
                     </i>
-                    <span class="menu-text">Hệ thống chung</span>
+                    <span class="menu-text font-weight-bold">Hệ thống chung</span>
                     <i class="menu-arrow"></i>
                 </a>
                 <div class="menu-submenu">
@@ -82,7 +82,7 @@
                                 <i class="menu-bullet menu-bullet-dot">
                                     <span></span>
                                 </i>
-                                <span class="menu-text">Danh sách địa bàn</span>
+                                <span class="menu-text font-weight-bold">Danh sách địa bàn</span>
                             </a>
                         </li>
                         <li class="menu-item" aria-haspopup="true">
@@ -90,7 +90,7 @@
                                 <i class="menu-bullet menu-bullet-dot">
                                     <span></span>
                                 </i>
-                                <span class="menu-text">Danh sách đơn vị</span>
+                                <span class="menu-text font-weight-bold">Danh sách đơn vị</span>
                             </a>
                         </li>
                         <li class="menu-item" aria-haspopup="true">
@@ -98,7 +98,7 @@
                                 <i class="menu-bullet menu-bullet-dot">
                                     <span></span>
                                 </i>
-                                <span class="menu-text">Danh sách tài khoản</span>
+                                <span class="menu-text font-weight-bold">Danh sách tài khoản</span>
                             </a>
                         </li>
                     </ul>
@@ -110,14 +110,14 @@
                     <i class="menu-bullet menu-bullet-dot">
                         <span></span>
                     </i>
-                    <span class="menu-text">Hệ thống API</span>
+                    <span class="menu-text font-weight-bold">Hệ thống API</span>
                     <i class="menu-arrow"></i>
                 </a>
                 <div class="menu-submenu">
                     <i class="menu-arrow"></i>
                     <ul class="menu-subnav">
                         <li class="menu-item" aria-haspopup="true">
-                            <a href="crud/forms/controls/base.html" class="menu-link">
+                            <a href="/API/CaNhan" class="menu-link">
                                 <i class="menu-bullet menu-bullet-dot">
                                     <span></span>
                                 </i>
@@ -125,7 +125,7 @@
                             </a>
                         </li>
                         <li class="menu-item" aria-haspopup="true">
-                            <a href="crud/forms/controls/input-group.html" class="menu-link">
+                            <a href="/API/TapThe" class="menu-link">
                                 <i class="menu-bullet menu-bullet-dot">
                                     <span></span>
                                 </i>
@@ -133,7 +133,7 @@
                             </a>
                         </li>
                         <li class="menu-item" aria-haspopup="true">
-                            <a href="crud/forms/controls/input-group.html" class="menu-link">
+                            <a href="/API/PhongTrao" class="menu-link">
                                 <i class="menu-bullet menu-bullet-dot">
                                     <span></span>
                                 </i>

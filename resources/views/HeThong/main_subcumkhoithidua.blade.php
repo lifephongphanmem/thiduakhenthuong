@@ -69,7 +69,7 @@
                     <i class="menu-bullet menu-bullet-dot">
                         <span></span>
                     </i>
-                    <span class="menu-text">Khen thưởng</span>
+                    <span class="menu-text font-weight-bold">Khen thưởng</span>
                     <i class="menu-arrow"></i>
                 </a>
                 <div class="menu-submenu">

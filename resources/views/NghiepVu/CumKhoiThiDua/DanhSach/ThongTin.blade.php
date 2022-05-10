@@ -37,7 +37,7 @@
             <div class="card-toolbar">
                 <!--begin::Button-->
                 @if (chkPhanQuyen('dscumkhoi', 'modify'))
-                    <a href="{{ url('/CumKhoiThiDua/DanhSach/Them') }}" class="btn btn-success btn-xs">
+                    <a href="{{ url('/CumKhoiThiDua/CumKhoi/Them') }}" class="btn btn-success btn-xs">
                         <i class="fa fa-plus"></i> Thêm mới</a>
                 @endif
                 <!--end::Button-->
