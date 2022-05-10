@@ -488,4 +488,5 @@ class qdhosokhenthuongdotxuatController extends Controller
         } else
             return view('errors.notlogin');
     }
+
 }

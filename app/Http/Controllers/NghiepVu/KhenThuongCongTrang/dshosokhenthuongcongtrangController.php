@@ -454,4 +454,23 @@ class dshosokhenthuongcongtrangController extends Controller
         $model = dshosothiduakhenthuong_khenthuong::findorfail($inputs['id']);
         die(json_encode($model));
     }
+
+    public function XoaHoSo(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
+        }
+        $inputs = $request->all();
+        $model = dshosothiduakhenthuong::findorfail($inputs['id']);
+        $model->delete();
+        return redirect('/KhenThuongCongTrang/HoSoKhenThuong/ThongTin?madonvi=' . $model->madonvi);
+    }
 }

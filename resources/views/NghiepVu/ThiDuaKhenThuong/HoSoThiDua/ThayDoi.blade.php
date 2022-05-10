@@ -72,7 +72,7 @@
                     chucvu: form.find("[name='chucvu']").val(),
                     maccvc: form.find("[name='maccvc']").val(),
                     lanhdao: form.find("[name='lanhdao']").val(),
-                    madanhhieutd: form.find("[name='madanhhieutd']").val(),
+                    mahinhthuckt: form.find("[name='mahinhthuckt']").val(),
                     tensangkien: form.find("[name='tensangkien']").val(),
                     donvicongnhan: form.find("[name='donvicongnhan']").val(),
                     thoigiancongnhan: form.find("[name='thoigiancongnhan']").val(),
@@ -99,7 +99,7 @@
 
         function ThemDoiTuongTapThe() {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-
+            var form = $('#frm_ThemTapThe');
             $.ajax({
                 url: '/HoSoThiDua/ThemDoiTuongTapThe',
                 type: 'GET',
@@ -107,7 +107,7 @@
                     _token: CSRF_TOKEN,
                     madonvi: $('#madonvi').val(),
                     matapthe: $('#matapthe').val(),
-                    madanhhieutd: $('#madanhhieutd_kt').val(),
+                    mahinhthuckt: form.find("[name='mahinhthuckt']").val(),
                     maphongtraotd: $('#frm_ThayDoi').find("[name='maphongtraotd']").val(),
                     mahosotdkt: $('#frm_ThayDoi').find("[name='mahosotdkt']").val()
                 },
@@ -126,11 +126,10 @@
             })
         }
 
-        function getTieuChuan(madoituong, madanhhieutd, tendt) {
+        function getTieuChuan(madoituong, tendt) {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            $('#madoituong_tc').val(madoituong);
-            $('#tendoituong_tc').val(tendt);
-            $('#madanhhieutd_tc').val(madanhhieutd).trigger('change');
+            $('#frm_TieuChuan').find("[name='madoituong']").val(madoituong);
+            $('#frm_TieuChuan').find("[name='tendoituong']").val(tendt);
 
             $.ajax({
                 url: '/HoSoThiDua/LayTieuChuan',
@@ -138,7 +137,6 @@
                 data: {
                     _token: CSRF_TOKEN,
                     madoituong: madoituong,
-                    madanhhieutd: madanhhieutd,
                     madonvi: $('#madonvi').val(),
                     maphongtraotd: $('#frm_ThayDoi').find("[name='maphongtraotd']").val(),
                     mahosotdkt: $('#frm_ThayDoi').find("[name='mahosotdkt']").val()
@@ -176,7 +174,7 @@
                     form.find("[name='chucvu']").val(data.chucvu);
                     form.find("[name='maccvc']").val(data.maccvc);
                     form.find("[name='lanhdao']").val(data.lanhdao).trigger('change');
-                    form.find("[name='madanhhieutd']").val(data.madanhhieutd).trigger('change');;
+                    form.find("[name='mahinhthuckt']").val(data.mahinhthuckt).trigger('change');;
                     form.find("[name='tensangkien']").val(data.tensangkien);
                     form.find("[name='donvicongnhan']").val(data.donvicongnhan);
                     form.find("[name='thoigiancongnhan']").val(data.thoigiancongnhan);
@@ -200,7 +198,7 @@
                 success: function(data) {
                     var form = $('#frm_ThemTapThe');
                     form.find("[name='matapthe']").val(data.matapthe).trigger('change');
-                    form.find("[name='madanhhieutd_kt']").val(data.madanhhieutd).trigger('change');
+                    form.find("[name='mahinhthuckt']").val(data.mahinhthuckt).trigger('change');
                     //filedk: form.find("[name='filedk']").val(data.madoituong),
                 }
             })
@@ -220,8 +218,7 @@
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,
-                    madoituong: $('#madoituong_tc').val(),
-                    madanhhieutd: $('#madanhhieutd_tc').val(),
+                    madoituong: $('#frm_TieuChuan').find("[name='madoituong']").val(),
                     matieuchuandhtd: $('#matieuchuandhtd_ltc').val(),
                     madonvi: $('#madonvi').val(),
                     maphongtraotd: $('#frm_ThayDoi').find("[name='maphongtraotd']").val(),
@@ -257,7 +254,6 @@
                 },
                 dataType: 'JSON',
                 success: function(data) {
-
                     toastr.success("Bạn đã xóa thông tin đối tượng thành công!", "Thành công!");
                     if ($('#phanloaixoa').val() == 'CANHAN') {
                         $('#dskhenthuong').replaceWith(data.message);
@@ -271,8 +267,6 @@
                         });
                     }
                     $('#modal-delete-khenthuong').modal("hide");
-
-
                 }
             })
 
@@ -359,7 +353,7 @@
                         </span>
                     @endif
                 </div>
-            
+
                 <div class="col-lg-6">
                     <label>Tài liệu khác: </label>
                     {!! Form::file('tailieukhac', null, ['id' => 'tailieukhac', 'class' => 'form-control']) !!}
@@ -376,7 +370,8 @@
             <h4 class="text-dark font-weight-bold mb-10">Danh sách khen thưởng cá nhân</h4>
             <div class="form-group row">
                 <div class="col-lg-12">
-                    <button type="button" data-target="#modal-create" data-toggle="modal" class="btn btn-success btn-xs">
+                    <button type="button" onclick="setCaNhan()" data-target="#modal-create" data-toggle="modal"
+                        class="btn btn-success btn-xs">
                         <i class="fa fa-plus"></i>&nbsp;Thêm</button>
                 </div>
             </div>
@@ -390,7 +385,7 @@
                                 <th width="10%">Ngày sinh</th>
                                 <th width="10%">Giới tính</th>
                                 <th width="15%">Chức vụ</th>
-                                <th width="20%">Tên danh hiệu<br>đăng ký</th>
+                                <th width="20%">Hình thức<br>khen thưởng</th>
                                 <th width="15%">Thao tác</th>
                             </tr>
                         </thead>
@@ -403,10 +398,10 @@
                                     <td>{{ getDayVn($tt->ngaysinh) }}</td>
                                     <td>{{ $tt->gioitinh }}</td>
                                     <td class="text-center">{{ $tt->chucvu }}</td>
-                                    <td class="text-center">{{ $a_danhhieu[$tt->madanhhieutd] ?? '' }}</td>
+                                    <td class="text-center">{{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
                                     <td class="text-center">
                                         <button title="Tiêu chuẩn" type="button"
-                                            onclick="getTieuChuan('{{ $tt->madoituong }}','{{ $tt->madanhhieutd }}','{{ $tt->tendoituong }}')"
+                                            onclick="getTieuChuan('{{ $tt->madoituong }}','{{ $tt->tendoituong }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#modal-tieuchuan"
                                             data-toggle="modal">
                                             <i class="icon-lg la fa-list text-primary"></i></button>
@@ -449,7 +444,7 @@
                             <tr class="text-center">
                                 <th width="5%">STT</th>
                                 <th>Tên đối tượng</th>
-                                <th width="30%">Tên danh hiệu<br>đăng ký</th>
+                                <th width="30%">Hình thức<br>khen thưởng</th>
                                 <th width="15%">Thao tác</th>
                             </tr>
                         </thead>
@@ -459,10 +454,10 @@
                                 <tr class="odd gradeX">
                                     <td class="text-center">{{ $i++ }}</td>
                                     <td>{{ $tt->tentapthe }}</td>
-                                    <td class="text-center">{{ $a_danhhieu[$tt->madanhhieutd] ?? '' }}</td>
+                                    <td class="text-center">{{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
                                     <td class="text-center">
                                         <button title="Tiêu chuẩn" type="button"
-                                            onclick="getTieuChuan('{{ $tt->matapthe }}','{{ $tt->madanhhieutd }}','{{ $tt->tentapthe }}')"
+                                            onclick="getTieuChuan('{{ $tt->matapthe }}','{{ $tt->tentapthe }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#modal-tieuchuan"
                                             data-toggle="modal">
                                             <i class="icon-lg la fa-list text-primary"></i></button>
@@ -552,12 +547,8 @@
                         </div>
 
                         <div class="col-md-4">
-                            <label class="control-label">Đăng ký danh hiệu thi đua</label>
-                            <select id="madanhhieutd" name="madanhhieutd" class="form-control js-example-basic-single">
-                                @foreach ($m_danhhieu->where('phanloai', 'CANHAN') as $nhom)
-                                    <option value="{{ $nhom->madanhhieutd }}">{{ $nhom->tendanhhieutd }}</option>
-                                @endforeach
-                            </select>
+                            <label class="control-label">Hình thức khen thưởng</label>
+                            {!! Form::select('mahinhthuckt', $a_hinhthuckt, null, ['id' => 'lanhdao', 'class' => 'form-control']) !!}
                         </div>
                     </div>
 
@@ -640,12 +631,10 @@
 
                     <div class="form-group row">
                         <div class="col-lg-12">
-                            <label class="control-label">Đăng ký danh hiệu thi đua</label>
-                            <select id="madanhhieutd_kt" name="madanhhieutd_kt" class="form-control">
-                                @foreach ($m_danhhieu->where('phanloai', 'TAPTHE') as $nhom)
-                                    <option value="{{ $nhom->madanhhieutd }}">{{ $nhom->tendanhhieutd }}</option>
-                                @endforeach
-                            </select>
+                            <div class="col-md-4">
+                                <label class="control-label">Hình thức khen thưởng</label>
+                                {!! Form::select('mahinhthuckt', $a_hinhthuckt, null, ['id' => 'lanhdao', 'class' => 'form-control']) !!}
+                            </div>
                         </div>
                     </div>
 
@@ -700,8 +689,9 @@
     </div>
     {!! Form::close() !!}
     {{-- Thông tin tiêu chuẩn --}}
+    {!! Form::open(['url' => '', 'id' => 'frm_TieuChuan', 'class' => 'form', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
     <div class="modal fade bs-modal-lg" id="modal-tieuchuan" tabindex="-1" role="dialog" aria-hidden="true">
-        <input type="hidden" id="madoituong_tc" name="madoituong_tc" />
+        <input type="hidden" id="madoituong" name="madoituong" />
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -710,14 +700,9 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label class="form-control-label">Tên đối tượng</label>
-                            {!! Form::text('tendoituong_tc', null, ['id' => 'tendoituong_tc', 'class' => 'form-control']) !!}
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-control-label">Danh hiệu đăng ký</label>
-                            {!! Form::select('madanhhieutd_tc', $a_danhhieu, null, ['id' => 'madanhhieutd_tc', 'class' => 'form-control']) !!}
+                            {!! Form::text('tendoituong', null, ['id' => 'tendoituong', 'class' => 'form-control']) !!}
                         </div>
                     </div>
                     <hr>
@@ -733,6 +718,7 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
+    {!! Form::close() !!}
 
     {{-- Thong tin đối tượng --}}
     <div id="modal-doituong" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
@@ -762,24 +748,21 @@
                     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="form-control-label">Tên tiêu chuẩn</label>
-                                {!! Form::textarea('tentieuchuandhtd_ltc', null, ['id' => 'tentieuchuandhtd_ltc', 'class' => 'form-control', 'rows' => '3']) !!}
-                            </div>
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label class="form-control-label">Tên tiêu chuẩn</label>
+                            {!! Form::textarea('tentieuchuandhtd_ltc', null, ['id' => 'tentieuchuandhtd_ltc', 'class' => 'form-control', 'rows' => '3']) !!}
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="form-group">
-                            <div class="col-md-offset-4 col-md-3">
-                                <div class="md-checkbox">
-                                    <input type="checkbox" id="dieukien_ltc" name="dieukien_ltc" class="md-check">
-                                    <label for="dieukien_ltc">
-                                        <span></span><span class="check"></span><span
-                                            class="box"></span>Đủ điều kiện</label>
-                                </div>
+                    <div class="form-group row">
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-9">
+                            <div class="md-checkbox">
+                                <input type="checkbox" id="dieukien_ltc" name="dieukien_ltc" class="md-check">
+                                <label for="dieukien_ltc">
+                                    <span></span><span class="check"></span><span
+                                        class="box"></span>Đủ điều kiện</label>
                             </div>
                         </div>
                     </div>

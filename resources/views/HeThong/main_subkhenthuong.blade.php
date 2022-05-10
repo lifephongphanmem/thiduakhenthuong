@@ -10,6 +10,14 @@
         <i class="menu-arrow"></i>
         <ul class="menu-subnav">
             <li class="menu-item" aria-haspopup="true">
+                <a href="{{ url('/DangKyDanhHieu/KhenThuong/ThongTin') }}" class="menu-link">
+                    <i class="menu-bullet menu-bullet-dot">
+                        <span></span>
+                    </i>
+                    <span class="menu-text font-weight-bold">Khen thưởng đăng ký thi đua</span>
+                </a>
+            </li>
+            <li class="menu-item" aria-haspopup="true">
                 <a href="{{ url('/KhenThuongHoSoThiDua/ThongTin') }}" class="menu-link">
                     <i class="menu-bullet menu-bullet-dot">
                         <span></span>
@@ -22,7 +30,7 @@
                     <i class="menu-bullet menu-bullet-dot">
                         <span></span>
                     </i>
-                    <span class="menu-text font-weight-bold">Khen thưởng theo công trạng</span>																
+                    <span class="menu-text font-weight-bold">Khen thưởng theo Công trạng;Thành tích;Cống hiến</span>																
                 </a>
             </li>
             <li class="menu-item" aria-haspopup="true">

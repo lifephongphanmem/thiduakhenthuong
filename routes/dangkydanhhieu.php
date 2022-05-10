@@ -20,6 +20,12 @@ Route::group(['prefix'=>'DangKyDanhHieu'], function(){
         Route::post('NhanHoSo','NghiepVu\DangKyDanhHieu\xdhosodangkyphongtraothiduaController@NhanHoSo');
         Route::post('ChuyenHoSo','NghiepVu\DangKyDanhHieu\xdhosodangkyphongtraothiduaController@ChuyenHoSo');
     });
+    Route::group(['prefix'=>'KhenThuong'], function(){
+        Route::get('ThongTin','NghiepVu\DangKyDanhHieu\xdhosodangkyphongtraothiduaController@ThongTin');
+        Route::post('TraLai','NghiepVu\DangKyDanhHieu\xdhosodangkyphongtraothiduaController@TraLai');
+        Route::post('NhanHoSo','NghiepVu\DangKyDanhHieu\xdhosodangkyphongtraothiduaController@NhanHoSo');
+        Route::post('ChuyenHoSo','NghiepVu\DangKyDanhHieu\xdhosodangkyphongtraothiduaController@ChuyenHoSo');
+    });
 });
 
 

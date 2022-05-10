@@ -469,11 +469,9 @@ class khenthuonghosothiduaController extends Controller
         $m_hoso = dshosothiduakhenthuong::where('mahosotdkt', $m_doituong->mahosotdkt)->first();
         //dd($m_doituong);
         $model = dshosothiduakhenthuong_tieuchuan::where('madoituong', $m_doituong->madoituong)
-            ->where('madanhhieutd', $m_doituong->madanhhieutd)
             ->where('mahosotdkt', $m_doituong->mahosotdkt)->get();
 
-        $model_tieuchuan = dsphongtraothidua_tieuchuan::where('madanhhieutd', $m_doituong->madanhhieutd)
-            ->where('maphongtraotd', $m_hoso->maphongtraotd)->get();
+        $model_tieuchuan = dsphongtraothidua_tieuchuan::where('maphongtraotd', $m_hoso->maphongtraotd)->get();
 
         if (isset($model_tieuchuan)) {
 

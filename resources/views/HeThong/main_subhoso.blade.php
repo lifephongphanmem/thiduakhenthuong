@@ -32,7 +32,7 @@
                     <i class="menu-bullet menu-bullet-dot">
                         <span></span>
                     </i>
-                    <span class="menu-text font-weight-bold">Hồ sơ đề nghị khen thưởng theo công trạng</span>
+                    <span class="menu-text font-weight-bold">Hồ sơ đề nghị khen thưởng theo Công trạng;Thành tích;Cống hiến</span>
                 </a>
             </li>
 

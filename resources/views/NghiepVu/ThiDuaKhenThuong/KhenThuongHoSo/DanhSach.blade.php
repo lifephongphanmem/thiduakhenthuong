@@ -199,7 +199,6 @@
                                 <th width="5%">STT</th>
                                 <th>Tên đơn vị đăng ký</th>
                                 <th>Tên đối tượng</th>
-                                <th>Tên danh hiệu</th>
                                 <th width="5%">Số chỉ<br>tiêu</th>
                                 <th width="5%">Đạt tiêu<br>chuẩn</th>
                                 <th width="15%">Hình thức<br>khen thưởng</th>
@@ -211,7 +210,6 @@
                                 <td style="text-align: center">{{ $key + 1 }}</td>
                                 <td>{{ $a_donvi[$tt->madonvi_kt] ?? '' }}</td>
                                 <td>{{ $tt->tendoituong }}</td>
-                                <td>{{ $a_danhhieu[$tt->madanhhieutd] ?? '' }}</td>
                                 <td style="text-align: center">{{ $tt->tongdieukien . '/' . $tt->tongtieuchuan }}</td>
                                 @if ($tt->ketqua == 0)
                                     <td class="text-center"></td>
@@ -238,13 +236,12 @@
                                         href="{{ url('/KhenThuongHoSoThiDua/InKetQua?id=' . $tt->id) }}"
                                         class="btn btn-sm btn-clean btn-icon" target="_blank">
                                         <i class="icon-lg la fa-print text-dark"></i></a>
-                                    {{-- @if ($m_phongtrao->trangthai == 'CC')
-                                        <button title="Thay đổi" type="button"
-                                            onclick="setKetQua('{{ $tt->id }}','{{ $tt->tendt }}')"
-                                            class="btn btn-sm btn-clean btn-icon" data-target="#modal-ketqua"
-                                            data-toggle="modal">
-                                            <i class="fa fa-check"></i></button>
-                                    @endif --}}
+
+                                    <button title="Thay đổi" type="button"
+                                        onclick="setKetQua('{{ $tt->madoituong }}','{{ $tt->tendoituong }}','{{ $tt->mahinhthuckt }}', '{{ $tt->noidungkhenthuong }}')"
+                                        class="btn btn-sm btn-clean btn-icon" data-target="#modal-ketqua"
+                                        data-toggle="modal">
+                                        <i class="icon-lg la fa-check text-dark"></i></button>
                                 </td>
                             </tr>
                         @endforeach
@@ -260,7 +257,6 @@
                             <tr class="text-center">
                                 <th width="5%">STT</th>
                                 <th>Tên đơn vị đăng ký</th>
-                                <th>Tên danh hiệu</th>
                                 <th width="5%">Số chỉ<br>tiêu</th>
                                 <th width="5%">Đạt tiêu<br>chuẩn</th>
                                 <th width="15%">Hình thức<br>khen thưởng</th>
@@ -270,8 +266,7 @@
                         @foreach ($model_tapthe as $key => $tt)
                             <tr>
                                 <td style="text-align: center">{{ $key + 1 }}</td>
-                                <td>{{ $a_donvi[$tt->madonvi_kt] ?? '' }}</td>
-                                <td>{{ $a_danhhieu[$tt->madanhhieutd] ?? '' }}</td>
+                                <td>{{ $tt->tentapthe }}</td>
                                 <td class="text-center">{{ $tt->tongdieukien . '/' . $tt->tongtieuchuan }}</td>
                                 <td class="text-center">{{ $tt->ketqua }}</td>
                                 <td>{{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
@@ -280,13 +275,13 @@
                                         onclick="getIdBack('{{ $tt->id }}')" class="btn btn-sm btn-clean btn-icon"
                                         data-target="#modal-tieuchuan" data-toggle="modal">
                                         <i class="icon-lg la fa-eye text-dark"></i></button>
-                                    @if ($m_phongtrao->trangthai == 'CC')
-                                        <button title="Thay đổi" type="button"
-                                            onclick="setKetQua('{{ $tt->id }}','{{ $a_donvi[$tt->madonvi_kt] ?? '' }}')"
-                                            class="btn btn-sm btn-clean btn-icon" data-target="#modal-ketqua"
-                                            data-toggle="modal">
-                                            <i class="icon-lg la fa-check text-dark"></i></button>
-                                    @endif
+
+                                    <button title="Thay đổi" type="button"
+                                        onclick="setKetQua('{{ $tt->matapthe }}','{{ $tt->tentapthe }}','{{ $tt->mahinhthuckt }}')"
+                                        class="btn btn-sm btn-clean btn-icon" data-target="#modal-ketqua"
+                                        data-toggle="modal">
+                                        <i class="icon-lg la fa-check text-dark"></i></button>
+
                                 </td>
                             </tr>
                         @endforeach
@@ -352,6 +347,61 @@
         </div>
     </div>
     <!--end::Card-->
+
+    {{-- Kết quả --}}
+    {!! Form::open(['url' => '/KhenThuongHoSoThiDua/KetQua', 'id' => 'frm_KetQua', 'method' => 'post']) !!}
+    <div id="modal-ketqua" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
+        <input type="hidden" name="id" />
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-primary">
+                    <h4 id="modal-header-primary-label" class="modal-title">Thông tin đối tượng</h4>
+                    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label>Tên đối tượng</label>
+                            {!! Form::text('tendoituong', null, ['class' => 'form-control', 'rows' => '2']) !!}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label>Tên đối tượng</label>
+                            <div class="checkbox-inline">
+                                <div class="col-lg-12">
+                                    <label class="checkbox checkbox-rounded">
+                                        <input type="checkbox" checked="checked" name="dieukien">
+                                        <span></span>Đạt điều kiện khen thưởng</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label class="form-control-label">Hình thức khen thưởng</label>
+                            {!! Form::select('mahinhthuckt', $a_hinhthuckt, null, ['class' => 'form-control']) !!}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label>Nội dung khen thưởng</label>
+                            {!! Form::textarea('noidungkhenthuong', null, ['class' => 'form-control', 'rows' => '2']) !!}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
+                    <button type="submit" value="submit" class="btn btn-primary">Đồng ý</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {!! Form::close() !!}
+
     {!! Form::close() !!}
     <div id="modal-hoso" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
         {!! Form::open(['url' => '/KhenThuongHoSoThiDua/HoSo', 'id' => 'frm_hoso']) !!}
@@ -383,7 +433,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
-                    <button type="submit" data-dismiss="modal" class="btn btn-primary" onclick="clickHoSo()">Đồng ý</button>
+                    <button type="submit" data-dismiss="modal" class="btn btn-primary" onclick="clickHoSo()">Đồng
+                        ý</button>
                 </div>
             </div>
         </div>
@@ -562,15 +613,11 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label class="form-control-label">Tên đối tượng</label>
                             {!! Form::text('tendoituong_tc', null, ['id' => 'tendoituong_tc', 'class' => 'form-control']) !!}
                         </div>
-
-                        <div class="col-md-6">
-                            <label class="form-control-label">Danh hiệu đăng ký</label>
-                            {!! Form::select('madanhhieutd_tc', $a_danhhieu, null, ['id' => 'madanhhieutd_tc', 'class' => 'form-control']) !!}
-                        </div>
+                        
                     </div>
                     <hr>
                     <div class="row" id="dstieuchuan">
@@ -587,6 +634,13 @@
     </div>
 
     <script>
+        function setKetQua(id, tendt, mahinhthuckt, noidung) {
+            $('#frm_KetQua').find("[name='id']").val(id);
+            $('#frm_KetQua').find("[name='tendoituong']").val(tendt);
+            $('#frm_KetQua').find("[name='mahinhthuckt']").val(mahinhthuckt).trigger('change');
+            $('#frm_KetQua').find("[name='noidungkhenthuong']").val(noidung);
+        }
+
         function clickHoSo() {
             $('#frm_hoso').submit();
         }

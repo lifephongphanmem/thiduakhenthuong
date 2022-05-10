@@ -11,8 +11,8 @@ class dsphongtraothidua_tieuchuan extends Model
         'id',
         'stt',
         'maphongtraotd', // ký hiệu
-        'madanhhieutd',
-        'matieuchuandhtd',
+        'madanhhieutd',//bỏ
+        'matieuchuandhtd',//bỏ
         'tentieuchuandhtd',
         'cancu',
         'ghichu',

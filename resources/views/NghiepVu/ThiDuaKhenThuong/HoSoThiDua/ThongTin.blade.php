@@ -99,12 +99,12 @@
                                         <i class="icon-lg la fa-eye text-dark"></i></a>
                                     @if ($tt->nhanhoso == 'DANGNHAN')
                                         @if (in_array($tt->trangthai, ['CC', 'BTL']))
-                                            <a title="Xem hồ sơ đăng ký phong trào"
+                                            <a title="Sửa hồ sơ đăng ký phong trào"
                                                 href="{{ url('/HoSoThiDua/Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                 class="btn btn-sm btn-clean btn-icon">
                                                 <i class="icon-lg la fa-check-square text-primary"></i></a>
                                         @elseif (in_array($tt->trangthai, ['CXD']))
-                                            <a title="Xem hồ sơ đăng ký phong trào"
+                                            <a title="Tạo hồ sơ đăng ký phong trào"
                                                 href="{{ url('/HoSoThiDua/Them?maphongtraotd=' . $tt->maphongtraotd . '&madonvi=' . $inputs['madonvi']) }}"
                                                 class="btn btn-sm btn-clean btn-icon">
                                                 <i class="icon-lg la fa-check-square text-primary"></i></a>

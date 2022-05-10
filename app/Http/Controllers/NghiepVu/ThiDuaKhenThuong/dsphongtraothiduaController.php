@@ -68,17 +68,14 @@ class dsphongtraothiduaController extends Controller
                 $model->madonvi = $inputs['madonvi'];
                 $model->maphongtraotd = getdate()[0];
                 $model->trangthai = 'CC';
-                $model->maloaihinhkt = '1650358255'; //chưa làm mặc định
+                $model->maloaihinhkt = '1650358255'; //chưa làm mặc định1
             }
             $model->tendonvi = getThongTinDonVi($model->madonvi, 'tendonvi');
-            $model_khenthuong = dsphongtraothidua_khenthuong::where('maphongtraotd', $model->maphongtraotd)->get();
             $model_tieuchuan = dsphongtraothidua_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->get();
-
+            //dd($model_tieuchuan);
             return view('NghiepVu.ThiDuaKhenThuong.PhongTraoThiDua.ThayDoi')
                 ->with('model', $model)
-                ->with('model_khenthuong', $model_khenthuong)
                 ->with('model_tieuchuan', $model_tieuchuan)
-                ->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
                 ->with('a_tieuchuan', array_column(dmdanhhieuthidua_tieuchuan::all()->toArray(), 'tentieuchuandhtd', 'matieuchuandhtd'))
                 ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
                 ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
@@ -287,20 +284,17 @@ class dsphongtraothiduaController extends Controller
         }
         //dd($request);
         $inputs = $request->all();
-        $m_tieuchuan = dmdanhhieuthidua_tieuchuan::where('matieuchuandhtd', $inputs['matieuchuandhtd'])->first();
-        $model = dsphongtraothidua_tieuchuan::where('matieuchuandhtd', $inputs['matieuchuandhtd'])
-            ->where('maphongtraotd', $inputs['maphongtraotd'])->first();
+        $model = dsphongtraothidua_tieuchuan::where('maphongtraotd', $inputs['maphongtraotd'])->where('matieuchuandhtd', $inputs['matieuchuandhtd'])->first();
         if ($model == null) {
             $model = new dsphongtraothidua_tieuchuan();
             $model->maphongtraotd = $inputs['maphongtraotd'];
-            $model->madanhhieutd = $m_tieuchuan->madanhhieutd;
-            $model->tentieuchuandhtd = $m_tieuchuan->tentieuchuandhtd;
-            $model->matieuchuandhtd = $m_tieuchuan->matieuchuandhtd;
-            $model->batbuoc = $inputs['batbuoc'];
+            $model->tentieuchuandhtd = $inputs['tentieuchuandhtd'];
+            $model->matieuchuandhtd = getdate()[0];
+            $model->batbuoc = isset($inputs['batbuoc']) ? 1:0 ;
             $model->save();
         } else {
-            $model->batbuoc = $inputs['batbuoc'];
-            $model->tentieuchuandhtd = $m_tieuchuan->tentieuchuandhtd;
+            $model->batbuoc = isset($inputs['batbuoc']) ? 1:0 ;
+            $model->tentieuchuandhtd = $inputs['tentieuchuandhtd'];
             $model->save();
         }
 
@@ -313,10 +307,9 @@ class dsphongtraothiduaController extends Controller
             $result['message'] .= '<table id="sample_4" class="table table-striped table-bordered table-hover" >';
             $result['message'] .= '<thead>';
             $result['message'] .= '<tr>';
-            $result['message'] .= '<th width="2%" style="text-align: center">STT</th>';
-            $result['message'] .= '<th style="text-align: center">Tên danh hiệu</th>';
-            $result['message'] .= '<th style="text-align: center">Tên tiêu chuẩn</th>';
-            $result['message'] .= '<th style="text-align: center" width="8%">Bắt buộc</th>';
+            $result['message'] .= '<th width="5%" style="text-align: center">STT</th>';
+            $result['message'] .= '<th style="text-align: center">Tên tiêu chuẩn xét khen thưởng</th>';
+            $result['message'] .= '<th style="text-align: center" width="10%">Tiêu chuẩn</br>Bắt buộcc</th>';
             $result['message'] .= '<th style="text-align: center" width="10%">Thao tác</th>';
             $result['message'] .= '</tr>';
             $result['message'] .= '</thead>';
@@ -327,12 +320,11 @@ class dsphongtraothiduaController extends Controller
 
                 $result['message'] .= '<tr>';
                 $result['message'] .= '<td style="text-align: center">' . $key++ . '</td>';
-                $result['message'] .= '<td>' . $ct->madanhhieutd . '</td>';
                 $result['message'] .= '<td class="active">' . $ct->tentieuchuandhtd . '</td>';
                 $result['message'] .= '<td style="text-align: center">' . $ct->batbuoc . '</td>';
                 $result['message'] .= '<td>' .
-                    '<button type="button" data-target="#modal-delete" data-toggle="modal" class="btn btn-sm btn-clean btn-icon" onclick="getId(' . $ct->id . ')" ><i class="fa fa-trash-o"></i></button>' .
-                    '<button type="button" data-target="#modal-edit" data-toggle="modal" class="btn btn-sm btn-clean btn-icon" onclick="editDanhHieu(' . $ct->id . ')"><i class="fa fa-edit"></i></button>'
+                    '<button type="button" data-target="#modal-tieuchuan" data-toggle="modal" class="btn btn-sm btn-clean btn-icon" onclick="getTieuChuan(' . $ct->id . ')" ><i class="icon-lg la fa-edit text-dark"></i></button>' .
+                    '<button type="button" data-target="#delete-modal" data-toggle="modal" class="btn btn-sm btn-clean btn-icon" onclick="editDanhHieu(' . $ct->id . ')"><i class="icon-lg la fa-trash-alt text-dangert"></i></button>'
                     . '</td>';
 
                 $result['message'] .= '</tr>';
@@ -361,46 +353,7 @@ class dsphongtraothiduaController extends Controller
         }
         //dd($request);
         $inputs = $request->all();
-        $m_danhhieu = dmdanhhieuthidua::where('madanhhieutd', $inputs['madanhhieutd'])->first();
-        //Chưa tối ưu và tìm kiếm trùng đối tượng
-        $model = dsphongtraothidua_tieuchuan::where('madanhhieutd', $inputs['madanhhieutd'])
-            ->where('maphongtraotd', $inputs['maphongtraotd'])->get();
-
-        if (isset($model)) {
-
-            $result['message'] = '<div class="row" id="dstieuchuan">';
-
-            $result['message'] .= '<div class="col-md-12">';
-            $result['message'] .= '<table id="sample_4" class="table table-striped table-bordered table-hover" >';
-            $result['message'] .= '<thead>';
-            $result['message'] .= '<tr>';
-            $result['message'] .= '<th width="2%" style="text-align: center">STT</th>';
-            $result['message'] .= '<th style="text-align: center">Tên tiêu chuẩn</th>';
-            $result['message'] .= '<th style="text-align: center" width="15%">Bắt buộc</th>';
-            $result['message'] .= '<th style="text-align: center" width="10%">Thao tác</th>';
-            $result['message'] .= '</tr>';
-            $result['message'] .= '</thead>';
-
-            $result['message'] .= '<tbody>';
-            $key = 1;
-            foreach ($model as $ct) {
-
-                $result['message'] .= '<tr>';
-                $result['message'] .= '<td style="text-align: center">' . $key++ . '</td>';
-                $result['message'] .= '<td>' . $ct->tentieuchuandhtd . '</td>';
-                $result['message'] .= '<td style="text-align: center">' . $ct->batbuoc . '</td>';
-                $result['message'] .= '<td>' .
-                    '<button type="button" data-target="#modal-luutieuchuan" data-toggle="modal" class="btn btn-sm btn-clean btn-icon" onclick="ThayDoiTieuChuan(' . chr(39) . $ct->matieuchuandhtd . chr(39) . ',' . chr(39) . $ct->tentieuchuandhtd . chr(39) . ')"><i class="fa fa-edit"></i></button>'
-                    . '</td>';
-
-                $result['message'] .= '</tr>';
-            }
-            $result['message'] .= '</tbody>';
-            $result['message'] .= '</table>';
-            $result['message'] .= '</div>';
-            $result['message'] .= '</div>';
-            $result['status'] = 'success';
-        }
-        die(json_encode($result));
+        $model = dsphongtraothidua_tieuchuan::findorfail($inputs['id']);        
+        die(json_encode($model));
     }
 }
