@@ -41,3 +41,9 @@ Route::group(['prefix'=>'HeThongAPI'], function(){
     Route::get('TapThe','HeThong\HeThongAPIController@TapThe');
     Route::get('PhongTrao','HeThong\HeThongAPIController@PhongTrao');
 });
+
+Route::group(['prefix'=>'ChucNang'], function(){
+    Route::get('ThongTin','HeThong\dschucnangController@ThongTin');
+    Route::post('ThongTin','HeThong\dschucnangController@LuuChucNang');
+    Route::get('LayChucNang','HeThong\dschucnangController@LayChucNang');
+});

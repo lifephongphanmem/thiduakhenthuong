@@ -220,7 +220,7 @@
     <div class="card card-custom" style="min-height: 600px">
         <div class="card-header">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Thông tin hồ sơ đề nghị khen thưởng</h3>
+                <h3 class="card-label text-uppercase">Thông tin hồ sơ đề nghị khen thưởng theo công trạng và thành tích</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
@@ -232,21 +232,38 @@
         {{ Form::hidden('madonvi', null, ['id' => 'madonvi']) }}
         {{ Form::hidden('mahosotdkt', null, ['id' => 'mahosotdkt']) }}
         <div class="card-body">
+            <h4 class="text-dark font-weight-bold mb-5">Thông tin chung</h4>
             <div class="form-group row">
-                <div class="col-lg-12">
+                <div class="col-lg-6">
                     <label>Tên đơn vị</label>
                     {!! Form::text('tendonvi', null, ['class' => 'form-control', 'readonly' => 'true']) !!}
+                </div>
+           
+                <div class="col-lg-6">
+                    <label>Loại hình khen thưởng</label>
+                    {!! Form::select('maloaihinhkt', $a_loaihinhkt, null, ['class' => 'form-control']) !!}
                 </div>
             </div>
 
             <div class="form-group row">
                 <div class="col-lg-6">
-                    <label>Ngày tạo hồ sơ<span class="require">*</span></label>
-                    {!! Form::input('date', 'ngayhoso', null, ['class' => 'form-control', 'required']) !!}
+                    <label>Số tờ trình</label>
+                    {!! Form::text('sototrinh', null, ['class' => 'form-control']) !!}
                 </div>
                 <div class="col-lg-6">
-                    <label>Loại hình khen thưởng</label>
-                    {!! Form::select('maloaihinhkt', $a_loaihinhkt, null, ['class' => 'form-control']) !!}
+                    <label>Ngày tháng trình<span class="require">*</span></label>
+                    {!! Form::input('date', 'ngayhoso', null, ['class' => 'form-control', 'required']) !!}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-lg-6">
+                    <label>Chức vụ người ký tờ trình</label>
+                    {!! Form::text('chucvunguoiky', null, ['class' => 'form-control']) !!}
+                </div>
+                <div class="col-lg-6">
+                    <label>Họ tên người ký tờ trình</label>
+                    {!! Form::text('nguoikytotrinh', null, ['class' => 'form-control']) !!}
                 </div>
             </div>
 
@@ -305,13 +322,20 @@
                 </div>
             </div>
             <div class="separator separator-dashed my-5"></div>
-            <h4 class="text-dark font-weight-bold mb-10">Danh sách khen thưởng cá nhân</h4>
+            
 
             <div class="form-group row">
-                <div class="col-lg-12">
-                    <button type="button" data-target="#modal-create" data-toggle="modal" class="btn btn-success btn-xs"
-                        onclick="setCaNhan()">
-                        <i class="fa fa-plus"></i>&nbsp;Thêm</button>
+                <div class="col-lg-8">
+                    <h4 class="text-dark font-weight-bold mb-5">Danh sách khen thưởng cá nhân</h4>
+                </div>
+                <div class="col-lg-4 text-right">
+                    <div class="btn-group" role="group">
+                        <button type="button" data-target="#modal-create" data-toggle="modal" class="btn btn-success btn-sm"
+                            onclick="setCaNhan()">
+                            <i class="fa fa-plus"></i>&nbsp;Thêm</button>
+                        <button type="button" class="btn btn-primary btn-sm">Middle</button>
+                        <button type="button" class="btn btn-primary btn-sm">Right</button>
+                    </div>
                 </div>
             </div>
 
@@ -325,7 +349,6 @@
                                 <th width="10%">Ngày sinh</th>
                                 <th>Giới</br>tính</th>
                                 <th>Chức vụ</th>
-                                <th>Tên danh hiệu<br>đăng ký</th>
                                 <th>Hình thức<br>khen thưởng</th>
                                 <th width="15%">Thao tác</th>
                             </tr>
@@ -339,7 +362,6 @@
                                     <td>{{ getDayVn($tt->ngaysinh) }}</td>
                                     <td>{{ $tt->gioitinh }}</td>
                                     <td class="text-center">{{ $tt->chucvu }}</td>
-                                    <td class="text-center">{{ $a_danhhieu[$tt->madanhhieutd] ?? '' }}</td>
                                     <td class="text-center">{{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
                                     <td class="text-center">
                                         <button title="Tiêu chuẩn" type="button"
@@ -387,7 +409,6 @@
                             <tr class="text-center">
                                 <th width="5%">STT</th>
                                 <th>Tên đối tượng</th>
-                                <th width="20%">Tên danh hiệu<br>đăng ký</th>
                                 <th>Hình thức<br>khen thưởng</th>
                                 <th width="15%">Thao tác</th>
                             </tr>
@@ -398,7 +419,6 @@
                                 <tr class="odd gradeX">
                                     <td class="text-center">{{ $i++ }}</td>
                                     <td>{{ $tt->tentapthe }}</td>
-                                    <td class="text-center">{{ $a_danhhieu[$tt->madanhhieutd] ?? '' }}</td>
                                     <td class="text-center">{{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
                                     <td class="text-center">
                                         <button title="Tiêu chuẩn" type="button"
@@ -489,16 +509,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group row">
-                        <div class="col-md-6">
-                            <label class="control-label">Danh hiệu thi đua</label>
-                            <select id="madanhhieutd" name="madanhhieutd" class="form-control">
-                                <option value="null">Không đăng ký</option>
-                                @foreach ($m_danhhieu->where('phanloai', 'CANHAN') as $nhom)
-                                    <option value="{{ $nhom->madanhhieutd }}">{{ $nhom->tendanhhieutd }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                    <div class="form-group row">                        
                         <div class="col-md-6">
                             <label class="control-label">Hình thức khen thưởng</label>
                             {!! Form::select('mahinhthuckt', $a_hinhthuckt, null, ['id' => 'lanhdao', 'class' => 'form-control']) !!}

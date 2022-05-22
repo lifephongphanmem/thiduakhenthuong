@@ -21,6 +21,7 @@ class dstaikhoan extends Model
         'lydo',
         'solandn',
         //chia nhóm chức năng
+        'manhomchucnang',
         'nhaplieu',
         'tonghop',
         'hethong',

@@ -17,7 +17,10 @@ class dshosotdktcumkhoi extends Model
         'maphongtraotd', //tùy theo phân loại
         'macumkhoi',
         'ghichu',
+        'sototrinh',
+        'nguoikytotrinh',
         //File đính kèm
+        'totrinh',//tờ trình khen thưởng
         'baocao', //báo cáo thành tích
         'bienban', //biên bản cuộc họp
         'tailieukhac', //tài liệu khác

@@ -17,18 +17,12 @@
             TableManaged3.init();
             $('#madonvi').change(function() {
                 window.location.href = '/KhenThuongCongTrang/HoSoKhenThuong/ThongTin?madonvi=' + $(
-                        '#madonvi').val() +
-                    '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
+                        '#madonvi').val() + '&nam=' + $('#nam').val() ;
             });
-            $('#maloaihinhkt').change(function() {
-                window.location.href = '/KhenThuongCongTrang/HoSoKhenThuong/ThongTin?madonvi=' + $(
-                        '#madonvi').val() +
-                    '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
-            });
+           
             $('#nam').change(function() {
                 window.location.href = '/KhenThuongCongTrang/HoSoKhenThuong/ThongTin?madonvi=' + $(
-                        '#madonvi').val() +
-                    '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
+                        '#madonvi').val() + '&nam=' + $('#nam').val();
             });
         });        
     
@@ -38,9 +32,9 @@
 @section('content')
     <!--begin::Card-->
     <div class="card card-custom wave wave-animate-slow wave-info" style="min-height: 600px">
-        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+        <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Danh sách hồ sơ trình khen thưởng</h3>
+                <h3 class="card-label text-uppercase">Danh sách hồ sơ trình khen thưởng theo công trạng và thành tích</h3>
             </div>
             <div class="card-toolbar">
                 @if (chkPhanQuyen('dshosokhenthuongcongtrang', 'modify'))
@@ -51,7 +45,7 @@
         </div>
         <div class="card-body">
             <div class="form-group row">
-                <div class="col-md-5">
+                <div class="col-lg-9">
                     <label style="font-weight: bold">Đơn vị</label>
                     <select class="form-control select2basic" id="madonvi">
                         @foreach ($m_diaban as $diaban)
@@ -65,11 +59,8 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-5">
-                    <label style="font-weight: bold">Loại hình khen thưởng</label>
-                    {!! Form::select('maloaihinhkt', setArrayAll($a_loaihinhkt), $inputs['maloaihinhkt'], ['id' => 'maloaihinhkt', 'class' => 'form-control select2basic']) !!}
-                </div>
-                <div class="col-md-2">
+                
+                <div class="col-lg-3">
                     <label style="font-weight: bold">Năm</label>
                     {!! Form::select('nam', getNam(true), $inputs['nam'], ['id' => 'nam', 'class' => 'form-control select2basic']) !!}
                 </div>
@@ -82,10 +73,9 @@
                             <tr class="text-center">
                                 <th width="2%">STT</th>
                                 <th>Nội dung hồ sơ</th>
-                                <th width="15%">Loại hình khen thưởng</th>
-                                <th width="8%">Ngày tạo</th>
+                                <th width="8%">Tờ trình</th>
                                 <th width="8%">Trạng thái</th>
-                                <th width="15%">Đơn vị tiếp nhận</th>
+                                <th width="20%">Đơn vị tiếp nhận</th>
                                 <th width="10%">Thao tác</th>
                             </tr>
                         </thead>
@@ -94,8 +84,7 @@
                             <tr>
                                 <td class="text-center">{{ $key + 1 }}</td>
                                 <td>{{ $tt->noidung }}</td>
-                                <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
-                                <td class="text-center">{{ getDayVn($tt->ngayhoso) }}</td>
+                                <td class="text-center">{{ getDayVn($tt->sototrinh) }}<br>{{ getDayVn($tt->ngayhoso) }}</td>
                                 @include('includes.td.td_trangthai_hoso')
                                 <td>{{ $a_donvi[$tt->madonvi_nhan] ?? '' }}</td>
 
@@ -171,15 +160,30 @@
                     </div>
 
                     <div class="form-group row">
-                        <div class="col-lg-12">
+                        <div class="col-lg-6">
+                            <label>Số tờ trình</label>
+                            {!! Form::text('sototrinh', null, ['class' => 'form-control']) !!}
+                        </div>
+                        <div class="col-lg-6">
                             <label>Ngày tạo hồ sơ</label>
                             {!! Form::input('date', 'ngayhoso', date('Y-m-d'), ['class' => 'form-control']) !!}
                         </div>
                     </div>
 
                     <div class="form-group row">
+                        <div class="col-lg-6">
+                            <label>Chức vụ người ký tờ trình</label>
+                            {!! Form::text('chucvunguoiky', null, ['class' => 'form-control']) !!}
+                        </div>
+                        <div class="col-lg-6">
+                            <label>Họ tên người ký tờ trình</label>
+                            {!! Form::text('nguoikytotrinh', null, ['class' => 'form-control']) !!}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
                         <div class="col-lg-12">
-                            <label>Nội dung hồ sơ</label>
+                            <label>Nội dung trình khen thưởng</label>
                             {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows'=>3]) !!}
                         </div>
                     </div>

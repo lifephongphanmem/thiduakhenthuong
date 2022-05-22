@@ -27,6 +27,7 @@ class CreateDstaikhoanTable extends Migration
             $table->text('lydo')->nullable();
             $table->integer('solandn')->default(1);
             //chia nhóm chức năng
+            $table->string('manhomchucnang')->nullable();
             $table->boolean('nhaplieu')->default(0);
             $table->boolean('tonghop')->default(0);
             $table->boolean('hethong')->default(0);

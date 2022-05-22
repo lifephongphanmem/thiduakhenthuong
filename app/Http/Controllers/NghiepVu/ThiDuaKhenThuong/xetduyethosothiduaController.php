@@ -158,19 +158,33 @@ class xetduyethosothiduaController extends Controller
     {
         if (Session::has('admin')) {
             $inputs = $request->all();
-            //Xóa trạng thái chuyển (mỗi đơn vị chỉ để 1 bản ghi trên bảng trạng thái)
-            $m_trangthai = trangthaihoso::where('mahoso', $inputs['mahoso'])
-                ->where('madonvi_nhan', $inputs['madonvi'])
-                ->where('phanloai', 'dshosothiduakhenthuong')->first();
-            $m_trangthai->delete();
-
-            $model = trangthaihoso::where('mahoso', $inputs['mahoso'])
-                ->where('madonvi', $m_trangthai->madonvi)
-                ->where('phanloai', 'dshosothiduakhenthuong')->first();
-            $model->trangthai = 'BTL';
-            $model->lydo = $inputs['lydo'];
-            $model->thoigian = date('Y-m-d H:i:s');
+            $inputs = $request->all();
+            $thoigian = date('Y-m-d H:i:s');
+            $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
+            $m_nhatky = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
+            //lấy thông tin lưu nhật ký
+            getDonViChuyen($inputs['madonvi'],$m_nhatky);
+            trangthaihoso::create([
+                'mahoso'=> $inputs['mahoso'],'trangthai' => 'BTL', 
+                'thoigian' => $thoigian, 'lydo' => $inputs['lydo'],
+                'madonvi_nhan' => $m_nhatky->madonvi_hoso,'madonvi' => $m_nhatky->madonvi_nhan_hoso
+            ]);
+            //Gán lại trạng thái cho hồ sơ
+            setNhanHoSo($inputs['madonvi'], $model, ['trangthai' => 'BTL', 'thoigian' => $thoigian, 'lydo' => $inputs['lydo'], 'madonvi_nhan' => '']);
+            setTraLaiHoSo_Nhan($inputs['madonvi'], $model, ['trangthai' => '', 'thoigian' => '', 'lydo' => '', 'madonvi_nhan' => '','madonvi' => '']);
+            //dd($model);
             $model->save();
+
+            //Xóa trạng thái chuyển (mỗi đơn vị chỉ để 1 bản ghi trên bảng trạng thái)
+            
+
+            // $model = trangthaihoso::where('mahoso', $inputs['mahoso'])
+            //     ->where('madonvi', $m_trangthai->madonvi)
+            //     ->where('phanloai', 'dshosothiduakhenthuong')->first();
+            // $model->trangthai = 'BTL';
+            // $model->lydo = $inputs['lydo'];
+            // $model->thoigian = date('Y-m-d H:i:s');
+            // $model->save();
             $m_hoso = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
 
             return redirect('/XetDuyetHoSoThiDua/DanhSach?maphongtraotd=' . $m_hoso->maphongtraotd . '&madonvi=' . $inputs['madonvi']);

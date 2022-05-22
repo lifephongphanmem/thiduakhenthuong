@@ -16,7 +16,10 @@ class dshosothiduakhenthuong extends Model
         'maloaihinhkt', //lấy từ phong trào nếu là hồ sơ thi đua
         'maphongtraotd', //tùy theo phân loại
         'ghichu',
+        'sototrinh',
+        'nguoikytotrinh',
         //File đính kèm
+        'totrinh',
         'baocao', //báo cáo thành tích
         'bienban', //biên bản cuộc họp
         'tailieukhac', //tài liệu khác

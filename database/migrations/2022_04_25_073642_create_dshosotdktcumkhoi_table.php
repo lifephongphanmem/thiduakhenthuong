@@ -23,7 +23,11 @@ class CreateDshosotdktcumkhoiTable extends Migration
             $table->string('maphongtraotd')->nullable();//tùy theo phân loại
             $table->string('macumkhoi')->nullable();
             $table->string('ghichu')->nullable();
+            $table->string('sototrinh')->nullable();
+            $table->string('chucvunguoiky')->nullable();
+            $table->string('nguoikytotrinh')->nullable();
             //File đính kèm
+            $table->string('totrinh')->nullable();//Tờ trình
             $table->string('baocao')->nullable();//báo cáo thành tích
             $table->string('bienban')->nullable();//biên bản cuộc họp
             $table->string('tailieukhac')->nullable();//tài liệu khác

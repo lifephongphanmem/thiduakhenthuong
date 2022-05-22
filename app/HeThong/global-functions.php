@@ -766,118 +766,6 @@ function getDbl($obj) {
         return 0;
 }
 
-function can($module = null, $action = null)
-{
-    //tạm thời
-    if(session('admin')->level == 'SSA') return true;
-
-    $permission = !empty(session('admin')->permission) ? session('admin')->permission : getPermissionDefault(session('admin')->level);
-    $permission = json_decode($permission, true);
-    //dd($permission);
-    //check permission
-    if(isset($permission[$module][$action]) && $permission[$module][$action] == 1 || session('admin')->level == 'SSA') {
-        return true;
-    }else
-        return false;
-
-}
-
-function canKkGiaGr($manganh){
-    if(session('admin')->level == 'T') {
-        $checkXH = \App\Model\system\dmnganhnghekd\DmNganhKd::where('manganh',$manganh)
-            ->where('theodoi','TD')
-            ->count();
-        if($checkXH > 0)
-            return true;
-        else
-            return false;
-    }else{
-        if(session('admin')->level == 'H' || session('admin')->level == 'X'){
-            $checkXH = \App\Model\system\dmnganhnghekd\DmNgheKd::where('manganh',$manganh)
-                ->where('mahuyen',session('admin')->mahuyen)
-                ->where('theodoi','TD')
-                ->count();
-            if($checkXH > 0)
-                return true;
-            else
-                return false;
-        }else{
-            $checkdn = \App\Model\system\company\CompanyLvCc::where('manganh',$manganh)
-                ->where('maxa',session('admin')->maxa)
-                ->count();
-            if($checkdn > 0)
-                return true;
-            else
-                return false;
-        }
-    }
-
-}
-
-function canKkGiaCt($manganh = null, $manghe = null){
-    if(session('admin')->level == 'T' || session('admin')->level == 'SSA') {
-        $modelnghe = \App\Model\system\dmnganhnghekd\DmNgheKd::where('manganh',$manganh)
-            ->where('manghe',$manghe)
-            ->where('theodoi','TD');
-        if($modelnghe->count() > 0)
-            return true;
-        else
-            return false;
-    }else{
-        $modelnganh = \App\Model\system\dmnganhnghekd\DmNgheKd::where('manganh',$manganh)
-            ->where('theodoi','TD')
-            ->count();
-        if($modelnganh > 0){
-            $modelnghe = \App\Model\system\dmnganhnghekd\DmNgheKd::where('manganh',$manganh)
-                ->where('manghe',$manghe)
-                ->where('theodoi','TD');
-            if($modelnghe->count() > 0){
-                if(session('admin')->level == 'H' || session('admin')->level == 'X'){
-                    $modelcheck = $modelnghe->where('mahuyen',session('admin')->mahuyen)
-                        ->count();
-                    if($modelcheck > 0)
-                        return true;
-                    else
-                        return false;
-                }else{
-                    $dncheck = \App\Model\system\company\CompanyLvCc::where('maxa',session('admin')->maxa)
-                        ->where('manganh',$manganh)
-                        ->where('manghe',$manghe)
-                        ->count();
-                    if($dncheck > 0){
-                        return true;
-                    }else
-                        return false;
-                }
-            }else
-                return false;
-        }else
-            return false;
-    }
-}
-
-function canCbKkGiaGr($manganh){
-    $checkXH = \App\Model\system\dmnganhnghekd\DmNganhKd::where('manganh',$manganh)
-        ->where('theodoi','TD')
-        ->where('congbo','CB')
-        ->count();
-    if($checkXH > 0)
-        return true;
-    else
-        return false;
-
-}
-
-function canCbKkGiaCt($manganh = null, $manghe = null){
-    $modelnghe = \App\Model\system\dmnganhnghekd\DmNgheKd::where('manganh',$manganh)
-        ->where('manghe',$manghe)
-        ->where('theodoi','TD')
-        ->where('congbo','CB');
-    if($modelnghe->count() > 0)
-        return true;
-    else
-            return false;
-}
 
 function canEdit($trangthai){
     if(session('admin')->level == 'SSA')
@@ -912,58 +800,6 @@ function canApprove($trangthai){
         return false;
 }
 
-function canGeneral($module = null, $action =null)
-{
-    //tạm thời
-    if(session('admin')->level == 'SSA') return true;
-
-    $model = \App\HeThongChung::first();
-    if(isset($model) && $model->setting != '')
-        $setting = json_decode($model->setting, true);
-    else {
-        $per = '{
-
-                }';
-        $setting = json_decode($per, true);
-    }
-
-    if (isset($setting[$module][$action]) && $setting[$module][$action] == 1)
-        return true;
-    else
-        return false;
-}
-
-function canDvCc($module = null, $action = null)
-{
-    $permission = !empty(session('ttdnvt')->dvcc) ? session('ttdnvt')->dvcc : getDvCcDefault('T');
-    $permission = json_decode($permission, true);
-
-    //check permission
-    if(isset($permission[$module][$action]) && $permission[$module][$action] == 1) {
-        return true;
-    }else
-        return false;
-
-}
-
-function canDV($perm=null,$module = null, $action = null){
-    if($perm == ''){
-        return false;
-    }else {
-        $permission = json_decode($perm,true);
-        if (isset($permission[$module][$action]) && $permission[$module][$action] == 1) {
-            return true;
-        } else
-            return false;
-    }
-}
-
-function getGeneralConfigs() {
-    $kq = \App\HeThongChung::all()->first();
-    $kq = isset($kq) ? $kq->toArray(): array();
-    return $kq;
-
-}
 
 function getDouble($str)
 {
@@ -973,37 +809,6 @@ function getDouble($str)
     //if (is_double($str))
         $sKQ = $str;
     return floatval($sKQ);
-}
-
-function canDVVT($module = null, $action = null){
-    if(session('admin')->level == 'T' || session('admin')->level == 'H' || session('admin')->level == 'X')
-        return true;
-    elseif(session('admin')->level == 'DVVT'){
-        $modeldv = \App\Company::where('maxa',session('admin')->maxa)
-            ->where('level','DVVT')
-            ->first();
-        $setting = json_decode($modeldv->settingdvvt, true);
-        //check permission
-        if(isset($setting[$module][$action]) && $setting[$module][$action] == 1) {
-            return true;
-        }else
-            return false;
-    }else
-        return false;
-
-}
-
-function canshow($module = null, $action = null)
-{
-    $permission = !empty(session('admin')->dvvtcc) ? session('admin')->dvvtcc : '{"dvvt":{"vtxk":"1","vtxb":"1","vtxtx":"1","vtch":"1"}}';
-    $permission = json_decode($permission, true);
-
-    //check permission
-    if(isset($permission[$module][$action]) && $permission[$module][$action] == 1) {
-        return true;
-    }else
-        return false;
-
 }
 
 function chuyenkhongdau($str)
@@ -1048,38 +853,6 @@ function chuanhoatruong($text)
     return $text;
 }
 
-function getAddMap($diachi){
-    $str = chuyenkhongdau($diachi);
-    $str = str_replace(' ','+',$str);
-    $geocode = file_get_contents('http://maps.google.com/maps/api/geocode/json?address='.$str.'&sensor=false');
-    $output = json_decode($geocode);
-    if($output->status == 'OK'){
-        $kq = $output->results[0]->geometry->location->lat. ',' .$output->results[0]->geometry->location->lng;
-    }else{
-        $kq = '';
-    }
-    return $kq;
-}
-
-function getPhanTram1($giatri, $thaydoi){
-    $kq=0;
-    if($thaydoi==0||$giatri==0){
-        return '';
-    }
-    if($giatri<$thaydoi){
-        $kq=round((($thaydoi-$giatri)/$giatri)*100,2).'%';
-    }else{
-        $kq='-'.round((($giatri-$thaydoi)/$giatri)*100,2).'%';
-    }
-    return $kq;
-}
-
-function getPhanTram2($giatri, $thaydoi){
-    if($thaydoi==0||$giatri==0){
-        return '';
-    }
-    return round(($thaydoi/$giatri)*100,2).'%';
-}
 
 function getDateToDb($value){
     if($value==''){return null;}
@@ -1135,53 +908,6 @@ function getSoNnSelectOptions() {
     return $options;
 }
 
-/*function getNgayHieuLuc($ngaynhap){
-    $dayngaynhap = date('D',strtotime($ngaynhap));
-    if($dayngaynhap == 'Thu'){
-        $ngayhieuluc  =  date('Y-m-d',mktime(0, 0, 0, date("m")  , date("d")+5, date("Y")));
-    }elseif($dayngaynhap == 'Fri') {
-        $ngayhieuluc  =  date('Y-m-d',mktime(0, 0, 0, date("m")  , date("d")+5, date("Y")));
-    }elseif( $dayngaynhap == 'Sat'){
-        $ngayhieuluc  =  date('Y-m-d',mktime(0, 0, 0, date("m")  , date("d")+4, date("Y")));
-    }else {
-        $ngayhieuluc  =  date('Y-m-d',mktime(0, 0, 0, date("m")  , date("d")+3, date("Y")));
-    }
-    return $ngayhieuluc;
-
-}*/
-
-function getTtPhong($str)
-{
-    $str = str_replace(',',', ',$str);
-    $str = str_replace('.','. ',$str);
-    $str = str_replace(';','; ',$str);
-    $str = str_replace('-','- ',$str);
-    return $str;
-}
-
-function getNgayHieuLuc($ngaynhap,$pl){
-    $dayngaynhap = date('D',strtotime($ngaynhap));
-    if($pl == 'DVLT')
-        $thoihan = isset(getGeneralConfigs()['thoihanlt']) ? getGeneralConfigs()['thoihanlt'] : 5;
-    elseif($pl == 'DVVT')
-        $thoihan = isset(getGeneralConfigs()['thoihanvt']) ? getGeneralConfigs()['thoihanvt'] : 5;
-    elseif($pl == 'TPCNTE6T')
-        $thoihan = isset(getGeneralConfigs()['thoihangs']) ? getGeneralConfigs()['thoihangs'] : 5;
-    elseif($pl == 'TACN')
-        $thoihan = isset(getGeneralConfigs()['thoihantacn']) ? getGeneralConfigs()['thoihantacn'] : 5;
-    $ngaynghi = 0;
-
-    if ($dayngaynhap == 'Thu') {
-        $ngayhieuluc = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") + 2 + $thoihan + $ngaynghi, date("Y")));
-    } elseif ($dayngaynhap == 'Fri') {
-        $ngayhieuluc = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") + 2 + $thoihan + $ngaynghi, date("Y")));
-    } elseif ($dayngaynhap == 'Sat') {
-        $ngayhieuluc = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") + 1 + $thoihan + $ngaynghi, date("Y")));
-    } else {
-        $ngayhieuluc = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") + $thoihan + $ngaynghi, date("Y")));
-    }
-    return $ngayhieuluc;
-}
 
 function Thang2Quy($thang){
     if($thang == 1 || $thang == 2 || $thang == 3)
@@ -1213,11 +939,6 @@ function dinhdangso ($number , $decimals = 0, $unit = '1' , $dec_point = ',' , $
 
     $number = round($number / $r , $decimals);
     return number_format($number, $decimals ,$dec_point, $thousands_sep);
-}
-
-function getMonth($date){
-    $month = date_format(date_create($date),'m');
-    return $month;
 }
 
 function IntToRoman($number)
@@ -1278,43 +999,6 @@ function IntToRoman($number)
     return $roman;
 }
 
-function getThXdHsDvLt($ngaychuyen,$ngayduyet){
-    //Kiểm tra giờ chuyển quá 16h thì sang ngày sau
-    //if (date('H', strtotime($ngaychuyen)) > 16) {
-    //Không tính ngày chuyển hs, ngày tiếp theo sẽ là ngày xét duyệt
-    $date = date_create($ngaychuyen);
-    $datenew = date_modify($date, "+1 days");
-    $ngaychuyen = date_format($datenew, "Y-m-d");
-    /*} else {
-        $ngaychuyen = date("Y-m-d",strtotime($ngaychuyen));
-    }*/
-    $ngaylv = 0;
-    while (strtotime($ngaychuyen) <= strtotime($ngayduyet)) {
-        $checkngay = \App\NgayNghiLe::where('tungay', '<=', $ngaychuyen)
-            ->where('denngay', '>=', $ngaychuyen)->first();
-        if (count($checkngay) > 0)
-            $ngaylv = $ngaylv;
-        elseif (date('D', strtotime($ngaychuyen)) == 'Sat')
-            $ngaylv = $ngaylv;
-        elseif (date('D', strtotime($ngaychuyen)) == 'Sun')
-            $ngaylv = $ngaylv;
-        else
-            $ngaylv = $ngaylv + 1;
-        $datestart = date_create($ngaychuyen);
-        $datestartnew = date_modify($datestart, "+1 days");
-        $ngaychuyen = date_format($datestartnew, "Y-m-d");
-
-    }
-    if ($ngaylv < (isset(getGeneralConfigs()['thoihan_lt']) ? getGeneralConfigs()['thoihan_lt'] : 2)) {
-        $thoihan= 'Trước thời hạn';
-    } elseif ($ngaylv == (isset(getGeneralConfigs()['thoihan_lt']) ? getGeneralConfigs()['thoihan_lt'] : 2)) {
-        $thoihan = 'Đúng thời hạn';
-    } else {
-        $thoihan = 'Quá thời hạn';
-    }
-    return $thoihan;
-}
-
 function toAlpha($data){
     $alphabet =   array('','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
     $alpha_flip = array_flip($alphabet);
@@ -1369,46 +1053,6 @@ function romanNumerals($num)
 
     /*** return the res ***/
     return $res;
-}
-
-function getLvUsers($level){
-    if($level == 'T')
-        $pltk = 'Tài khoản tổng hợp';
-    elseif($level == 'H')
-        $pltk = 'Tài khoản quản lý';
-    elseif($level == 'X')
-        $pltk = 'Tài khoản đơn vị';
-    elseif($level == 'HT')
-        $pltk = 'Tài khoản hệ thống';
-    elseif($level = 'DVLT')
-        $pltk = 'Tài khoản Doanh nghiệp dịch vụ lưu trú';
-    elseif($level = 'DVVT')
-        $pltk = 'Tài khoản Doanh nghiệp dịch vụ vận tải';
-    elseif($level = 'TACN')
-        $pltk = 'Tài khoản Doanh nghiệp thức ăn chăn nuôi';
-    elseif($level = 'TPCNTE6T')
-        $pltk = 'Tài khoản Doanh nghiệp thực phẩm chức năng dành cho trẻ em dưới 6 tuổi';
-    else
-        $pltk = 'Administrator';
-    return $pltk;
-
-}
-
-function getsadmin(){
-    $sadmin = (object) [
-        'username' => 'minhtran',
-        'name' => 'Minh Trần',
-        'level' => 'T',
-        'sadmin'=>'ssa',
-        'phanloai'=>'',
-        'password'=>'107e8cf7f2b4531f6b2ff06dbcf94e10',
-        'email'=>'minhtranlife@gmail.com',
-        'maxa'=>'',
-        'mahuyen'=>'',
-        'district'=>'',
-        'town'=>'',
-    ];
-    return $sadmin;
 }
 
 function getvbpl($str){
@@ -1484,61 +1128,6 @@ function VndText($amount)
     return ucfirst($textnumber." đồng chẵn.");
 }
 
-function getNgayLamViec($maxa){
-    $model = \App\Town::where('maxa',$maxa)
-        ->first();
-    if(isset($model)){
-        $songaylv = $model->songaylv != 0 ? $model->songaylv : 2;
-    }else
-        $songaylv = 2;
-    return $songaylv;
-}
-
-function SelectedQuy($quy){
-    if(date('m') == 1 || date('m') == 2 || date('m') == 3 )
-        $value = 1;
-    elseif(date('m') == 4 || date('m') == 5 || date('m') == 6 )
-        $value = 2;
-    elseif(date('m') == 7 || date('m') == 8 || date('m') == 9 )
-        $value = 3;
-    else
-        $value = 4;
-    if($quy == $value)
-        return 'selected';
-    else
-        return '';
-}
-
-function quy(){
-    if(date('m') == 1 || date('m') == 2 || date('m') == 3 )
-        $value = 1;
-    elseif(date('m') == 4 || date('m') == 5 || date('m') == 6 )
-        $value = 2;
-    elseif(date('m') == 7 || date('m') == 8 || date('m') == 9 )
-        $value = 3;
-    else
-        $value = 4;
-    return $value;
-}
-
-function getNgayApDung($ngaynhap,$mahuyen){
-    $dayngaynhap = date('D',strtotime($ngaynhap));
-    $ngaynghi = 0;
-    $model = \App\Town::where('maxa',$mahuyen)->first();
-    $thoihan = $model->songaylv;
-
-    if ($dayngaynhap == 'Thu') {
-        $ngayhieuluc = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") + 2 + $thoihan + $ngaynghi, date("Y")));
-    } elseif ($dayngaynhap == 'Fri') {
-        $ngayhieuluc = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") + 2 + $thoihan + $ngaynghi, date("Y")));
-    } elseif ($dayngaynhap == 'Sat') {
-        $ngayhieuluc = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") + 1 + $thoihan + $ngaynghi, date("Y")));
-    } else {
-        $ngayhieuluc = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d") + $thoihan + $ngaynghi, date("Y")));
-    }
-    return $ngayhieuluc;
-}
-
 function trim_zeros($str) {
     if(!is_string($str)) return $str;
     return preg_replace(array('`\.0+$`','`(\.\d+?)0+$`'),array('','$1'),$str);
@@ -1583,7 +1172,5 @@ function emailValid($email)
     else
         return false;
 }
-
-
 
 ?>

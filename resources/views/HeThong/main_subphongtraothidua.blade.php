@@ -8,8 +8,7 @@
     </a>
     <div class="menu-submenu">
         <i class="menu-arrow"></i>
-        <ul class="menu-subnav">
-            
+        <ul class="menu-subnav">            
             <li class="menu-item" aria-haspopup="true">
                 <a href="{{ url('/PhongTraoThiDua/ThongTin') }}" class="menu-link">
                     <i class="menu-bullet menu-bullet-dot">
@@ -17,7 +16,34 @@
                     </i>
                     <span class="menu-text font-weight-bold">Danh sách phong trào thi đua</span>
                 </a>
-            </li>            
+            </li>
+            
+            <li class="menu-item" aria-haspopup="true">
+                <a href="{{ url('/HoSoThiDua/ThongTin') }}" class="menu-link">
+                    <i class="menu-bullet menu-bullet-dot">
+                        <span></span>
+                    </i>
+                    <span class="menu-text font-weight-bold">Danh sách hồ sơ tham gia phong trào thi đua</span>
+                </a>
+            </li>
+
+            <li class="menu-item" aria-haspopup="true">
+                <a href="{{ url('/XetDuyetHoSoThiDua/ThongTin') }}" class="menu-link">
+                    <i class="menu-bullet menu-bullet-dot">
+                        <span></span>
+                    </i>
+                    <span class="menu-text font-weight-bold">Xét duyệt hồ sơ tham gia phong trào thi đua</span>
+                </a>
+            </li>
+
+            <li class="menu-item" aria-haspopup="true">
+                <a href="{{ url('/KhenThuongHoSoThiDua/ThongTin') }}" class="menu-link">
+                    <i class="menu-bullet menu-bullet-dot">
+                        <span></span>
+                    </i>
+                    <span class="menu-text font-weight-bold">Khen thưởng phong trào thi đua</span>
+                </a>
+            </li>
         </ul>
     </div>
 </li>

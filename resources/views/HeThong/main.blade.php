@@ -185,10 +185,6 @@
 
                                             @include('HeThong.main_subphongtraothidua')
 
-                                            @include('HeThong.main_subhoso')
-
-                                            @include('HeThong.main_subxetduyethoso')
-
                                             @include('HeThong.main_subkhenthuong')
 
                                             <li class="menu-section">
