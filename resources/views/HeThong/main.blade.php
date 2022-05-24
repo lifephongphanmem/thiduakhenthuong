@@ -204,6 +204,7 @@
                                                 <h4 class="menu-text">Quản lý Văn bản pháp lý, tài liệu</h4>
                                                 <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                                             </li>
+                                            @include('HeThong.main_subqlvanban')
 
                                             <li class="menu-section">
                                                 <h4 class="menu-text">Tra cứu, tìm kiếm</h4>

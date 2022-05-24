@@ -18,7 +18,9 @@ use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_khenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tieuchuan;
 use App\Model\View\viewdiabandonvi;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
 
 class dshosokhenthuongcongtrangController extends Controller
 {
@@ -472,5 +474,49 @@ class dshosokhenthuongcongtrangController extends Controller
         $model = dshosothiduakhenthuong::findorfail($inputs['id']);
         $model->delete();
         return redirect('/KhenThuongCongTrang/HoSoKhenThuong/ThongTin?madonvi=' . $model->madonvi);
+    }
+
+    public function NhanExcel(Request $request)
+    {
+        if (Session::has('admin')) {
+            $inputs = $request->all();
+            //dd($inputs);
+            $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+            $filename = $inputs['mahosotdkt'] . '_' . getdate()[0];
+            $request->file('fexcel')->move(public_path() . '/data/uploads/', $filename . '.xlsx');
+            $path = public_path() . '/data/uploads/' . $filename . '.xlsx';
+            $data = [];
+
+            Excel::load($path, function ($reader) use (&$data, $inputs) {
+                $obj = $reader->getExcel();
+                $sheet = $obj->getSheet(0);
+                $data = $sheet->toArray(null, true, true, true);// giữ lại tiêu đề A=>'val';
+            });
+            //dd($data);
+            $maso = getdate()[0];
+            $a_dm = array();
+
+            for ($i = $inputs['tudong']; $i <= $inputs['dendong']; $i++) {
+                if(!isset($data[$i][$inputs['tendoituong']])){
+                    continue;
+                }
+                $a_dm[] = array(
+                    'mahosotdkt' => $inputs['mahosotdkt'],
+                    'madoituong' => $inputs['mahosotdkt'].'_'.($maso + $i),
+                    'phanloai' => 'CANHAN',
+                    'tendoituong' => $data[$i][$inputs['tendoituong']] ?? '',
+                    'gioitinh' => $data[$i][$inputs['gioitinh']] ?? '',
+                    'ngaysinh' => $data[$i][$inputs['ngaysinh']] ?? '',
+                    'lanhdao' => $data[$i][$inputs['lanhdao']] ?? '',
+                    'chucvu' => $data[$i][$inputs['chucvu']] ?? '',
+                    'mahinhthuckt' => $data[$i][$inputs['mahinhthuckt']] ?? '',
+                );
+            }
+            dshosothiduakhenthuong_khenthuong::insert($a_dm);
+            File::Delete($path);
+
+            return redirect('/KhenThuongCongTrang/HoSoKhenThuong/Sua?mahosotdkt=' . $model->mahosotdkt);
+        } else
+            return view('errors.notlogin');
     }
 }

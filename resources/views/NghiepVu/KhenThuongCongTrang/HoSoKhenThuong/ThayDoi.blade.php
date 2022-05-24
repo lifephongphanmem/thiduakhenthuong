@@ -44,7 +44,7 @@
             $('#modal-doituong').modal("hide");
         }
 
-        function confirmTapThe (matapthe, tentapthe) {
+        function confirmTapThe(matapthe, tentapthe) {
             var form = $('#frm_ThemTapThe');
             form.find("[name='matapthe']").val(matapthe);
             form.find("[name='tentapthe']").val(tentapthe);
@@ -238,7 +238,7 @@
                     <label>Tên đơn vị</label>
                     {!! Form::text('tendonvi', null, ['class' => 'form-control', 'readonly' => 'true']) !!}
                 </div>
-           
+
                 <div class="col-lg-6">
                     <label>Loại hình khen thưởng</label>
                     {!! Form::select('maloaihinhkt', $a_loaihinhkt, null, ['class' => 'form-control']) !!}
@@ -309,7 +309,7 @@
                         </span>
                     @endif
                 </div>
-            
+
                 <div class="col-lg-6">
                     <label>Tài liệu khác: </label>
                     {!! Form::file('tailieukhac', null, ['id' => 'tailieukhac', 'class' => 'form-control']) !!}
@@ -322,7 +322,6 @@
                 </div>
             </div>
             <div class="separator separator-dashed my-5"></div>
-            
 
             <div class="form-group row">
                 <div class="col-lg-8">
@@ -330,11 +329,13 @@
                 </div>
                 <div class="col-lg-4 text-right">
                     <div class="btn-group" role="group">
-                        <button type="button" data-target="#modal-create" data-toggle="modal" class="btn btn-success btn-sm"
-                            onclick="setCaNhan()">
-                            <i class="fa fa-plus"></i>&nbsp;Thêm</button>
-                        <button type="button" class="btn btn-primary btn-sm">Middle</button>
-                        <button type="button" class="btn btn-primary btn-sm">Right</button>
+                        <button title="Thêm đối tượng" type="button" data-target="#modal-create" data-toggle="modal"
+                            class="btn btn-success btn-sm" onclick="setCaNhan()">
+                            <i class="fa fa-plus"></i></button>
+                        <button title="Nhận từ file Excel" data-target="#modal-nhanexcel" data-toggle="modal" type="button"
+                            class="btn btn-secondary btn-sm"><i class="fa flaticon-list"></i></button></button>
+                        <a target="_blank" title="Tải file mẫu" href="/data/download/CANHAN.xlsx"
+                            class="btn btn-primary btn-sm"><i class="fa flaticon-download"></i></button></a>
                     </div>
                 </div>
             </div>
@@ -364,11 +365,11 @@
                                     <td class="text-center">{{ $tt->chucvu }}</td>
                                     <td class="text-center">{{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
                                     <td class="text-center">
-                                        <button title="Tiêu chuẩn" type="button"
+                                        {{-- <button title="Tiêu chuẩn" type="button"
                                             onclick="getTieuChuan('{{ $tt->madoituong }}','{{ $tt->madanhhieutd }}','{{ $tt->tendoituong }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#modal-tieuchuan"
                                             data-toggle="modal">
-                                            <i class="icon-lg la fa-list text-primary"></i></button>
+                                            <i class="icon-lg la fa-list text-primary"></i></button> --}}
 
                                         <button title="Sửa thông tin" type="button"
                                             onclick="getCaNhan('{{ $tt->id }}')"
@@ -389,7 +390,26 @@
                 </div>
             </div>
             <div class="separator separator-dashed my-5"></div>
-            <h4 class="text-dark font-weight-bold mb-10">Danh sách khen thưởng tập thể</h4>
+            <div class="form-group row">
+                <div class="col-lg-8">
+                    <h4 class="text-dark font-weight-bold mb-5">Danh sách khen thưởng tập thể</h4>
+                </div>
+                <div class="col-lg-4 text-right">
+                    <div class="btn-group" role="group">
+                        <div class="form-group">
+                            <button type="button" onclick="setTapThe()" data-target="#modal-create-tapthe" data-toggle="modal"
+                                class="btn btn-success btn-xs">
+                                <i class="fa fa-plus"></i></button>
+                        </div>
+                        {{-- <button title="Nhận từ file Excel" data-target="#modal-nhanexcel" data-toggle="modal" type="button"
+                            class="btn btn-secondary btn-sm"><i class="fa flaticon-list"></i></button></button>
+                        <a target="_blank" title="Tải file mẫu" href="/data/download/CANHAN.xlsx"
+                            class="btn btn-primary btn-sm"><i class="fa flaticon-download"></i></button></a> --}}
+                    </div>
+                </div>
+            </div>
+
+            {{-- <h4 class="text-dark font-weight-bold mb-10">Danh sách khen thưởng tập thể</h4>
 
 
             <div class="row">
@@ -400,7 +420,7 @@
                             <i class="fa fa-plus"></i>&nbsp;Thêm</button>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="row" id="dskhenthuongtapthe">
                 <div class="col-md-12">
@@ -421,11 +441,11 @@
                                     <td>{{ $tt->tentapthe }}</td>
                                     <td class="text-center">{{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
                                     <td class="text-center">
-                                        <button title="Tiêu chuẩn" type="button"
+                                        {{-- <button title="Tiêu chuẩn" type="button"
                                             onclick="getTieuChuan('{{ $tt->matapthe }}','{{ $tt->madanhhieutd }}','{{ $tt->tentapthe }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#modal-tieuchuan"
                                             data-toggle="modal">
-                                            <i class="icon-lg la fa-list text-primary"></i></button>
+                                            <i class="icon-lg la fa-list text-primary"></i></button> --}}
 
                                         <button title="Sửa thông tin" type="button"
                                             onclick="getTapThe('{{ $tt->id }}')"
@@ -509,7 +529,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group row">                        
+                    <div class="form-group row">
                         <div class="col-md-6">
                             <label class="control-label">Hình thức khen thưởng</label>
                             {!! Form::select('mahinhthuckt', $a_hinhthuckt, null, ['id' => 'lanhdao', 'class' => 'form-control']) !!}
@@ -801,7 +821,7 @@
                 <input type="hidden" id="phanloaixoa" name="phanloaixoa">
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-default">Thoát</button>
-                    <button type="submit" class="btn btn-primary" >Đồng ý</button>
+                    <button type="submit" class="btn btn-primary">Đồng ý</button>
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -809,6 +829,85 @@
         <!-- /.modal-dialog -->
     </div>
     {!! Form::close() !!}
+
+    {{-- Cá nhân từ file Excel --}}
+    {!! Form::open(['url' => '/KhenThuongCongTrang/HoSoKhenThuong/NhanExcel', 'id' => 'frm_NhanExcel', 'class' => 'form', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
+    <input type="hidden" name="mahosotdkt" value="{{ $model->mahosotdkt }}" />
+    <div class="modal fade bs-modal-lg" id="modal-nhanexcel" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Thông tin chi tiết</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                </div>
+                <div class="modal-body" id="ttpthemmoi">
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label">Tên đối tượng</label>
+                            {!! Form::text('tendoituong', 'B', ['class' => 'form-control']) !!}
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-control-label">Giới tính</label>
+                            {!! Form::text('gioitinh', 'C', ['class' => 'form-control']) !!}
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-control-label">Ngày sinh</label>
+                            {!! Form::text('ngaysinh', 'D', ['class' => 'form-control']) !!}
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="form-control-label">Lãnh đạo đơn vị</label>
+                            {!! Form::text('lanhdao', 'E', ['class' => 'form-control']) !!}
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-control-label">Chức vụ/Chức danh</label>
+                            {!! Form::text('chucvu', 'F', ['class' => 'form-control']) !!}
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="control-label">Hình thức khen thưởng</label>
+                            {!! Form::text('mahinhthuckt', 'G', ['id' => 'lanhdao', 'class' => 'form-control']) !!}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <label class="control-label">Nhận từ dòng<span class="require">*</span></label>
+                            {!! Form::text('tudong', '4', ['class' => 'form-control']) !!}
+                            {{-- {!! Form::text('tudong', '4', ['class' => 'form-control', 'required', 'data-mask' => 'fdecimal']) !!} --}}
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="control-label">Nhận đến dòng</label>
+                            {!! Form::text('dendong', '200', ['class' => 'form-control']) !!}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label>File danh sách: </label>
+                            {!! Form::file('fexcel', null, ['class' => 'form-control', 'required']) !!}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-default">Thoát</button>
+                    <button type="submit" class="btn btn-primary">Hoàn thành</button>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+    </div>
+    {!! Form::close() !!}
+
+
     <script>
         function adddvt() {
             $('#modal-doituong').modal('hide');

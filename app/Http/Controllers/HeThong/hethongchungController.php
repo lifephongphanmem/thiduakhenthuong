@@ -17,8 +17,9 @@ class hethongchungController extends Controller
             return view('HeThong.dashboard')
                 ->with('model',getHeThongChung())
                 ->with('pageTitle', 'Thông tin hỗ trợ');
-        } else {     
-            return redirect('/DangNhap');       
+        } else {  
+            return redirect('/CongBo/VanBan');   
+            //return redirect('/DangNhap');       
             //return view('HeThong.welcome');
         }
     }

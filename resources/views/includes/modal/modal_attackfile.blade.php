@@ -3,9 +3,9 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header modal-header-primary">
+                <h4 id="modal-header-primary-label" class="modal-title">Danh sách tài liệu đính kèm</h4>
                 <button type="button" data-dismiss="modal" aria-hidden="true"
                         class="close">&times;</button>
-                <h4 id="modal-header-primary-label" class="modal-title">Danh sách tài liệu đính kèm</h4>
             </div>
             <div class="modal-body" id="dinh_kem">
 

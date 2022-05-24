@@ -12,6 +12,7 @@ Route::group(['prefix'=>'DangKyDanhHieu'], function(){
         Route::get('LayDoiTuong','NghiepVu\DangKyDanhHieu\dshosodangkyphongtraothiduaController@LayDoiTuong');
         Route::post('ChuyenHoSo','NghiepVu\DangKyDanhHieu\dshosodangkyphongtraothiduaController@ChuyenHoSo');
         Route::get('LayLyDo','NghiepVu\DangKyDanhHieu\dshosodangkyphongtraothiduaController@LayLyDo');
+        Route::post('Xoa', 'NghiepVu\DangKyDanhHieu\dshosodangkyphongtraothiduaController@XoaHoSo');
     });
 
     Route::group(['prefix'=>'XetDuyet'], function(){

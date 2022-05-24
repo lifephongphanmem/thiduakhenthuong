@@ -271,7 +271,7 @@
                                 <th width="10%">Ngày sinh</th>
                                 <th>Giới</br>tính</th>
                                 <th>Chức vụ</th>
-                                <th>Tên danh hiệu<br>đăng ký</th>
+                                {{-- <th>Tên danh hiệu<br>đăng ký</th> --}}
                                 <th>Hình thức<br>khen thưởng</th>
                                 <th width="15%">Thao tác</th>
                             </tr>
@@ -285,14 +285,14 @@
                                     <td>{{ getDayVn($tt->ngaysinh) }}</td>
                                     <td>{{ $tt->gioitinh }}</td>
                                     <td class="text-center">{{ $tt->chucvu }}</td>
-                                    <td class="text-center">{{ $a_danhhieu[$tt->madanhhieutd] ?? '' }}</td>
+                                    {{-- <td class="text-center">{{ $a_danhhieu[$tt->madanhhieutd] ?? '' }}</td> --}}
                                     <td class="text-center">{{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
                                     <td class="text-center">
-                                        <button title="Tiêu chuẩn" type="button"
+                                        {{-- <button title="Tiêu chuẩn" type="button"
                                             onclick="getTieuChuan('{{ $tt->madoituong }}','{{ $tt->madanhhieutd }}','{{ $tt->tendoituong }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#modal-tieuchuan"
                                             data-toggle="modal">
-                                            <i class="icon-lg la fa-list text-primary"></i></button>
+                                            <i class="icon-lg la fa-list text-primary"></i></button> --}}
 
                                         <button title="Sửa thông tin" type="button"
                                             onclick="getCaNhan('{{ $tt->id }}')"
@@ -316,7 +316,7 @@
                             <tr class="text-center">
                                 <th width="5%">STT</th>
                                 <th>Tên đối tượng</th>
-                                <th width="20%">Tên danh hiệu<br>đăng ký</th>
+                                {{-- <th width="20%">Tên danh hiệu<br>đăng ký</th> --}}
                                 <th>Hình thức<br>khen thưởng</th>
                                 <th width="15%">Thao tác</th>
                             </tr>
@@ -327,14 +327,14 @@
                                 <tr class="odd gradeX">
                                     <td class="text-center">{{ $i++ }}</td>
                                     <td>{{ $tt->tentapthe }}</td>
-                                    <td class="text-center">{{ $a_danhhieu[$tt->madanhhieutd] ?? '' }}</td>
+                                    {{-- <td class="text-center">{{ $a_danhhieu[$tt->madanhhieutd] ?? '' }}</td> --}}
                                     <td class="text-center">{{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
                                     <td class="text-center">
-                                        <button title="Tiêu chuẩn" type="button"
+                                        {{-- <button title="Tiêu chuẩn" type="button"
                                             onclick="getTieuChuan('{{ $tt->matapthe }}','{{ $tt->madanhhieutd }}','{{ $tt->tentapthe }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#modal-tieuchuan"
                                             data-toggle="modal">
-                                            <i class="icon-lg la fa-list text-primary"></i></button>
+                                            <i class="icon-lg la fa-list text-primary"></i></button> --}}
 
                                         <button title="Sửa thông tin" type="button"
                                             onclick="getTapThe('{{ $tt->id }}')"
@@ -408,14 +408,14 @@
                     </div>
 
                     <div class="form-group row">
-                        <div class="col-md-6">
+                        {{-- <div class="col-md-6">
                             <label class="control-label">Đăng ký danh hiệu thi đua</label>
                             <select id="madanhhieutd" name="madanhhieutd" class="form-control">
                                 @foreach ($m_danhhieu->where('phanloai', 'CANHAN') as $nhom)
                                     <option value="{{ $nhom->madanhhieutd }}">{{ $nhom->tendanhhieutd }}</option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div> --}}
                         <div class="col-md-6">
                             <label class="control-label">Hình thức khen thưởng</label>
                             {!! Form::select('mahinhthuckt', $a_hinhthuckt, null, ['id' => 'lanhdao', 'class' => 'form-control']) !!}
@@ -488,7 +488,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group row">
+                    {{-- <div class="form-group row">
                         <div class="col-md-12">
                             <label class="control-label">Đăng ký danh hiệu thi đua</label>
                             <select name="madanhhieutd" class="form-control">
@@ -497,7 +497,7 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="form-group row">
                         <div class="col-md-12">

@@ -15,3 +15,5 @@ include('tracuu.php');
 include('dangkydanhhieu.php');
 include('baocao.php');
 include('khenthuongkhangchien.php');
+include('vanbantailieu.php');
+include('congbo.php');
