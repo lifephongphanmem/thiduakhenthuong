@@ -13,6 +13,9 @@ Route::group(['prefix'=>'BaoCao'], function(){
         Route::post('HoSo','BaoCao\baocaotonghopController@HoSo');
         Route::post('DanhHieu','BaoCao\baocaotonghopController@DanhHieu');
         Route::post('KhenThuong','BaoCao\baocaotonghopController@KhenThuong');
+        Route::post('Mau0701','BaoCao\baocaotonghopController@Mau0701');
+        Route::post('Mau0702','BaoCao\baocaotonghopController@Mau0702');
+        Route::post('Mau0703','BaoCao\baocaotonghopController@Mau0703');
     });
 });
 

@@ -166,5 +166,77 @@ class baocaotonghopController extends Controller
         } else
             return view('errors.notlogin');
     }
+
+    public function Mau0701(Request $request)
+    {
+        if (Session::has('admin')) {
+            $inputs = $request->all();
+            $model = dsphongtraothidua::all();
+            $m_donvi = viewdiabandonvi::wherein('madonvi', array_column($model->toArray(), 'madonvi'))->get();
+            $a_diaban = array_column($m_donvi->toArray(), 'tendiaban', 'madiaban');
+            foreach ($model as $ct) {
+                $ct->madiaban = $m_donvi->where('madonvi', $ct->madonvi)->first()->madiaban;
+            }
+            $m_donvibc = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
+            return view('BaoCao.TongHop.Mau0701TT03')
+                ->with('model', $model)
+                ->with('m_donvi', $m_donvibc)
+                ->with('a_diaban', $a_diaban)
+                ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+                ->with('a_phamvi', getPhamViPhongTrao())
+                ->with('a_phanloai', getPhanLoaiPhongTraoThiDua(true))
+                ->with('inputs', $inputs)
+                ->with('pageTitle', 'Báo cáo tổng hợp phong trào thi đua');
+        } else
+            return view('errors.notlogin');
+    }
+
+    public function Mau0702(Request $request)
+    {
+        if (Session::has('admin')) {
+            $inputs = $request->all();
+            $model = dsphongtraothidua::all();
+            $m_donvi = viewdiabandonvi::wherein('madonvi', array_column($model->toArray(), 'madonvi'))->get();
+            $a_diaban = array_column($m_donvi->toArray(), 'tendiaban', 'madiaban');
+            foreach ($model as $ct) {
+                $ct->madiaban = $m_donvi->where('madonvi', $ct->madonvi)->first()->madiaban;
+            }
+            $m_donvibc = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
+            return view('BaoCao.TongHop.Mau0702TT03')
+                ->with('model', $model)
+                ->with('m_donvi', $m_donvibc)
+                ->with('a_diaban', $a_diaban)
+                ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+                ->with('a_phamvi', getPhamViPhongTrao())
+                ->with('a_phanloai', getPhanLoaiPhongTraoThiDua(true))
+                ->with('inputs', $inputs)
+                ->with('pageTitle', 'Báo cáo tổng hợp phong trào thi đua');
+        } else
+            return view('errors.notlogin');
+    }
+
+    public function Mau0703(Request $request)
+    {
+        if (Session::has('admin')) {
+            $inputs = $request->all();
+            $model = dsphongtraothidua::all();
+            $m_donvi = viewdiabandonvi::wherein('madonvi', array_column($model->toArray(), 'madonvi'))->get();
+            $a_diaban = array_column($m_donvi->toArray(), 'tendiaban', 'madiaban');
+            foreach ($model as $ct) {
+                $ct->madiaban = $m_donvi->where('madonvi', $ct->madonvi)->first()->madiaban;
+            }
+            $m_donvibc = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
+            return view('BaoCao.TongHop.Mau0703TT03')
+                ->with('model', $model)
+                ->with('m_donvi', $m_donvibc)
+                ->with('a_diaban', $a_diaban)
+                ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+                ->with('a_phamvi', getPhamViPhongTrao())
+                ->with('a_phanloai', getPhanLoaiPhongTraoThiDua(true))
+                ->with('inputs', $inputs)
+                ->with('pageTitle', 'Báo cáo tổng hợp phong trào thi đua');
+        } else
+            return view('errors.notlogin');
+    }
 }
 

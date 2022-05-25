@@ -13,6 +13,9 @@
     <script src="/assets/js/pages/table-lifesc.js"></script>
     <!-- END PAGE LEVEL PLUGINS -->
     <script>
+        function setURL(url) {
+            $('#thoai_thongtu03').attr('action', url);
+        }
     </script>
 @stop
 
@@ -31,23 +34,42 @@
                 <div class="col-lg-12">
                     <ol>
                         <li>
-                            <a href="#" data-target="#modal-phongtrao" data-toggle="modal">Phong trào thi đua trên địa
-                                bàn</a>
+                            <button class="btn btn-clean text-dark" data-target="#modal-phongtrao" data-toggle="modal">Phong
+                                trào thi đua trên địa
+                                bàn</button>
                         </li>
 
                         <li>
-                            <a href="#" data-target="#modal-hosotdkt" data-toggle="modal">Hồ sơ đăng ký thi đua, khen
-                                thưởng</a>
+                            <button class="btn btn-clean text-dark" data-target="#modal-hosotdkt" data-toggle="modal">Hồ sơ
+                                đăng ký thi đua, khen
+                                thưởng</button>
                         </li>
 
                         <li>
-                            <a href="#" data-target="#modal-danhhieutd" data-toggle="modal">Danh hiệu thi đua trên địa
-                                bàn</a>
+                            <button class="btn btn-clean text-dark" data-target="#modal-danhhieutd" data-toggle="modal">Danh
+                                hiệu thi đua trên địa
+                                bàn</button>
                         </li>
 
                         <li>
-                            <a href="#" data-target="#modal-khenthuong" data-toggle="modal">Hình thức khen thưởng trên địa
-                                bàn</a>
+                            <button class="btn btn-clean text-dark" data-target="#modal-khenthuong" data-toggle="modal">Hình
+                                thức khen thưởng trên địa
+                                bàn</button>
+                        </li>
+                        <li>
+                            <button type="button" onclick="setURL('/BaoCao/TongHop/Mau0701')" class="btn btn-clean text-dark"
+                                data-target="#modal-thongtu03" data-toggle="modal">Số
+                                phong trào thi đua (mẫu 0701.N/BNV-TĐKT)</button>
+                        </li>
+                        <li>
+                            <button type="button" onclick="setURL('/BaoCao/TongHop/Mau0702')" class="btn btn-clean text-dark"
+                                data-target="#modal-thongtu03" data-toggle="modal">Số
+                                lượng khen thưởng cấp nhà nước (mẫu 0702.N/BNV-TĐKT)</button>
+                        </li>
+                        <li>
+                            <button type="button" onclick="setURL('/BaoCao/TongHop/Mau0703')" class="btn btn-clean text-dark"
+                                data-target="#modal-thongtu03" data-toggle="modal">Số
+                                lượng khen thưởng cấp ban ngành đoàn thể trung ương (mẫu 0703.N/BNV-TĐKT)</button>
                         </li>
                     </ol>
                 </div>
@@ -252,5 +274,54 @@
         {!! Form::close() !!}
     </div>
 
+    {{-- Mẫu thông tu 03 / 2018 --}}
+    <div id="modal-thongtu03" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
+        {!! Form::open(['url' => '/BaoCao/TongHop/KhenThuong', 'target' => '_blank', 'method' => 'post', 'id' => 'thoai_thongtu03', 'class' => 'form-horizontal form-validate']) !!}
+        <div class="modal-dialog modal-content">
+            <div class="modal-header modal-header-primary">
+                <h4 id="modal-header-primary-label" class="modal-title">Thông tin kết xuất hình thức khen thưởng</h4>
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label>Địa bàn</label>
+                        {!! Form::select('madiaban', setArrayAll($a_diaban), null, ['madiaban' => 'madt', 'class' => 'form-control']) !!}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label>Thời điểm báo cáo</label>
+                        {!! Form::select('thoidiem', getThoiDiem(), null, ['madiaban' => 'madt', 'class' => 'form-control']) !!}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label> Từ ngày</label>
+                        {!! Form::input('date', 'ngaytu', date('Y') . '-01-01', ['id' => 'ngaytu', 'class' => 'form-control']) !!}
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label> Đến ngày</label>
+                        {!! Form::input('date', 'ngayden', date('Y') . '-12-31', ['id' => 'ngayden', 'class' => 'form-control']) !!}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label>Đơn vị báo cáo</label>
+                        {!! Form::select('madonvi', $a_donvi, null, ['madiaban' => 'madt', 'class' => 'form-control']) !!}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
+                <button type="submit" name="submit" value="submit" class="btn btn-primary">Đồng ý</button>
+            </div>
+        </div>
+        {!! Form::close() !!}
+    </div>
+    
 
 @stop
