@@ -18,5 +18,7 @@ class hethongchung_chucnang extends Model
         'capdo',
         'machucnang_goc', //Áp dụng cho cấp độ 2 trở lên
         'sapxep',
+        //Các trường mặc định cho chức năng
+        'maloaihinhkt',
     ];
 }

@@ -175,3 +175,51 @@ Route::group(['prefix' => 'KhenCao'], function () {
         Route::post('NhanHoSo', 'NghiepVu\KhenCao\dshosokhencaoController@NhanHoSo');
     });
 });
+
+//Khen thưởng công hiến
+Route::group(['prefix' => 'KhenThuongCongHien'], function () {
+    Route::group(['prefix' => 'HoSo'], function () {
+        Route::get('ThongTin', 'NghiepVu\KhenThuongCongHien\dshosokhenthuongconghienController@ThongTin');
+        
+        
+        // Route::post('Them', 'NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController@Them');
+        // Route::get('Sua', 'NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController@ThayDoi');
+        // Route::post('Sua', 'NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController@LuuHoSo');
+        // Route::get('Xem', 'NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController@XemHoSo');
+        // Route::post('Xoa', 'NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController@XoaHoSo');
+        // Route::post('NhanExcel', 'NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController@NhanExcel');
+
+        // Route::post('CaNhan', 'NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController@ThemCaNhan');
+        // Route::post('TapThe', 'NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController@ThemTapThe');
+        // Route::get('LayTieuChuan', 'NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController@LayTieuChuan');
+        // Route::get('LayDoiTuong', 'NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController@LayDoiTuong');
+        // Route::post('ChuyenHoSo', 'NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController@ChuyenHoSo');
+        // Route::get('LayLyDo', 'NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController@LayLyDo');
+        // Route::post('XoaDoiTuong', 'NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController@XoaDoiTuong');
+    });
+
+    Route::group(['prefix' => 'XetDuyet'], function () {
+        // Route::get('ThongTin', 'NghiepVu\KhenThuongCongTrang\xdhosokhenthuongcongtrangController@ThongTin');
+        // Route::post('TraLai', 'NghiepVu\KhenThuongCongTrang\xdhosokhenthuongcongtrangController@TraLai');
+        // Route::post('NhanHoSo', 'NghiepVu\KhenThuongCongTrang\xdhosokhenthuongcongtrangController@NhanHoSo');
+        // Route::post('ChuyenHoSo', 'NghiepVu\KhenThuongCongTrang\xdhosokhenthuongcongtrangController@ChuyenHoSo');
+    });
+    Route::group(['prefix' => 'KhenThuong'], function () {
+        // Route::get('ThongTin', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@ThongTin');
+        // Route::post('KhenThuong', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@KhenThuong');
+        // Route::get('DanhSach', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@DanhSach');
+        // Route::post('DanhSach', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@LuuHoSo');
+        // Route::post('PheDuyet', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@PheDuyet');
+        // Route::post('HoSo', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@HoSo');
+        // Route::post('KetQua', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@KetQua');
+        // Route::get('LayDoiTuong', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@LayDoiTuong');
+        // Route::get('LayTieuChuan', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@LayTieuChuan');
+        // Route::get('Xem', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@XemHoSo');
+
+        // Route::get('InKetQua', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@InKetQua');
+        // Route::get('MacDinhQuyetDinh', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@MacDinhQuyetDinh');
+        // Route::get('QuyetDinh', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@QuyetDinh');
+        // Route::post('QuyetDinh', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@LuuQuyetDinh');
+        // Route::get('XemQuyetDinh', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@XemQuyetDinh');
+    });
+});

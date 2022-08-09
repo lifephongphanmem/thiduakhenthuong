@@ -215,7 +215,7 @@
         </nav>
     </div>
 
-    <div id="data" style="position: relative; margin-top: 70px; margin-bottom:50px; font-size:14px">
+    <div id="data" style="position: relative; margin-top: 10px; margin-bottom:50px; font-size:14px">
         @yield('content')
     </div>
     
