@@ -1,5 +1,8 @@
 <?php
 //Phong trào thi đua
+
+
+
 Route::group(['prefix' => 'PhongTraoThiDua'], function () {
     Route::get('ThongTin', 'NghiepVu\ThiDuaKhenThuong\dsphongtraothiduaController@ThongTin');
     Route::get('Xem', 'NghiepVu\ThiDuaKhenThuong\dsphongtraothiduaController@XemThongTin');
@@ -177,11 +180,12 @@ Route::group(['prefix' => 'KhenCao'], function () {
 });
 
 //Khen thưởng công hiến
+use App\Http\Controllers\NghiepVu\KhenThuongCongHien\dshosokhenthuongconghienController;
+
 Route::group(['prefix' => 'KhenThuongCongHien'], function () {
     Route::group(['prefix' => 'HoSo'], function () {
-        Route::get('ThongTin', 'NghiepVu\KhenThuongCongHien\dshosokhenthuongconghienController@ThongTin');
-        
-        
+        Route::get('ThongTin', [dshosokhenthuongconghienController::class, 'ThongTin']);
+
         // Route::post('Them', 'NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController@Them');
         // Route::get('Sua', 'NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController@ThayDoi');
         // Route::post('Sua', 'NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController@LuuHoSo');

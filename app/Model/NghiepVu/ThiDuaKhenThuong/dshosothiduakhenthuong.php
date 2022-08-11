@@ -13,7 +13,7 @@ class dshosothiduakhenthuong extends Model
         'ngayhoso',
         'noidung',
         'phanloai', //hồ sơ thi đua; hồ sơ khen thưởng (để sau thống kê)
-        'maloaihinhkt', //lấy từ phong trào nếu là hồ sơ thi đua
+        'maloaihinhkt',
         'maphongtraotd', //tùy theo phân loại
         'ghichu',
         'sototrinh',

@@ -8,6 +8,7 @@ use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\DanhMuc\dstaikhoan;
 use App\Model\HeThong\hethongchung;
+use App\Model\HeThong\hethongchung_chucnang;
 use Illuminate\Support\Facades\Session;
 
 class hethongchungController extends Controller
@@ -116,10 +117,13 @@ class hethongchungController extends Controller
         $ttuser->ipf3 = $a_HeThongChung->ipf3;
         $ttuser->ipf4 = $a_HeThongChung->ipf4;
         $ttuser->ipf5 = $a_HeThongChung->ipf5;
-        //dd($ttuser);
+        //dd($ttuser);        
+
         Session::put('admin', $ttuser);
+        //Gán hệ danh mục chức năng
+        Session::put('chucnang',hethongchung_chucnang::all()->keyBy('machucnang')->toArray());
         //dd(session('admin'));
-        return redirect('')
+        return redirect('/')
             ->with('pageTitle', 'Tổng quan');
     }
 
