@@ -1,7 +1,6 @@
 <?php
 //Phong trào thi đua
-
-
+use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'PhongTraoThiDua'], function () {
     Route::get('ThongTin', 'NghiepVu\ThiDuaKhenThuong\dsphongtraothiduaController@ThongTin');
@@ -181,13 +180,11 @@ Route::group(['prefix' => 'KhenCao'], function () {
 
 //Khen thưởng công hiến
 use App\Http\Controllers\NghiepVu\KhenThuongCongHien\dshosokhenthuongconghienController;
-
 Route::group(['prefix' => 'KhenThuongCongHien'], function () {
     Route::group(['prefix' => 'HoSo'], function () {
         Route::get('ThongTin', [dshosokhenthuongconghienController::class, 'ThongTin']);
-
-        // Route::post('Them', 'NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController@Them');
-        // Route::get('Sua', 'NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController@ThayDoi');
+        Route::post('Them', [dshosokhenthuongconghienController::class, 'Them']);
+        Route::get('Sua', [dshosokhenthuongconghienController::class, 'ThayDoi']);
         // Route::post('Sua', 'NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController@LuuHoSo');
         // Route::get('Xem', 'NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController@XemHoSo');
         // Route::post('Xoa', 'NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController@XoaHoSo');

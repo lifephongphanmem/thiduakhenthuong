@@ -12,7 +12,7 @@ class dshosothiduakhenthuong_khenthuong extends Model
         'stt',
         'mahosotdkt',
         'madanhhieutd',
-        'phanloai', //cá nhân, tập thể           
+        'phanloai', //cá nhân, tập thể, hộ gia đình
         //Thông tin cá nhân 
         'madoituong',
         'maccvc',

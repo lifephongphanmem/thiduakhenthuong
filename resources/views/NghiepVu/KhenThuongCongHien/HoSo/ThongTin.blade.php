@@ -155,7 +155,7 @@
                     <div class="form-group row">
                         <div class="col-lg-12">
                             <label>Cấp độ khen thưởng</label>
-                            {!! Form::select('maloaihinhkt', $a_loaihinhkt, $inputs['maloaihinhkt'], ['class' => 'form-control', 'disabled'=>'true']) !!}
+                            {!! Form::select('maloaihinhkt', $a_loaihinhkt, $inputs['maloaihinhkt'], ['class' => 'form-control']) !!}
                         </div>
                     </div>
 
