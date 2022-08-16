@@ -17,7 +17,7 @@ class CreateDshosothiduakhenthuongTaptheTable extends Migration
             $table->bigIncrements('id');
             $table->integer('stt')->default(1);
             $table->string('mahosotdkt')->nullable();
-            $table->string('maphanloaitapthe')->nullable(); //Tập thể nhà nước; Doanh nghiệp; Hộ gia đình          
+            $table->string('maphanloaitapthe')->nullable(); //Tập thể nhà nước; Doanh nghiệp; Hộ gia đình
             //Thông tin tập thể            
             $table->string('tentapthe')->nullable();
             $table->string('ghichu')->nullable(); //
