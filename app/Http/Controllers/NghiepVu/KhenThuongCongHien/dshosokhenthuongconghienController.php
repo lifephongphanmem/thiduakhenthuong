@@ -11,6 +11,7 @@ use App\Model\DanhMuc\dmdanhhieuthidua;
 use App\Model\DanhMuc\dmdanhhieuthidua_tieuchuan;
 use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
+use App\Model\DanhMuc\dmnhomphanloai_chitiet;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\HeThong\trangthaihoso;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosokhenthuong;
@@ -91,22 +92,25 @@ class dshosokhenthuongconghienController extends Controller
             $model->tendonvi = getThongTinDonVi($model->madonvi, 'tendonvi');
             $m_donvi = getDonVi(session('admin')->capdo);
             $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
-            //$m_danhhieu = dmdanhhieuthidua::all();
+            $m_danhhieu = dmdanhhieuthidua::all();
             $m_canhan = getDoiTuongKhenThuong($model->madonvi);
             $m_tapthe = getTapTheKhenThuong($model->madonvi);
+            $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai',['TAPTHE','HOGIADINH'])->get()->toarray(),'tenphanloai','maphanloai');
+            $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai',['CANHAN'])->get()->toarray(),'tenphanloai','maphanloai');
             return view('NghiepVu.KhenThuongCongHien.HoSo.ThayDoi')
                 ->with('model', $model)
                 ->with('model_canhan', $model_canhan)
                 ->with('model_tapthe', $model_tapthe)
                 ->with('m_donvi', $m_donvi)
                 ->with('m_diaban', $m_diaban)
-                //->with('m_danhhieu', $m_danhhieu)
                 ->with('m_canhan', $m_canhan)
                 ->with('m_tapthe', $m_tapthe)
-                //->with('a_danhhieu', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
+                ->with('a_danhhieu', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
                 ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
                 ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
                 ->with('a_danhhieutd', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
+                ->with('a_tapthe', $a_tapthe)
+                ->with('a_canhan', $a_canhan)
                 ->with('inputs', $inputs)
                 ->with('pageTitle', 'Thông tin hồ sơ đề nghị khen thưởng');
         } else

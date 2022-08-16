@@ -372,7 +372,7 @@
                                     <div class="form-group row">
                                         <div class="col-lg-12 text-right">
                                             <button type="button" onclick="setTapThe()" data-target="#modal-create-tapthe"
-                                                data-toggle="modal" class="btn btn-success btn-xs">
+                                                data-toggle="modal" class="btn btn-success btn-icon btn-sm">
                                                 <i class="fa fa-plus"></i></button>
                                         </div>
                                     </div>
@@ -430,15 +430,15 @@
                                         <div class="col-lg-12 text-right">
                                             <div class="btn-group" role="group">
                                                 <button title="Thêm đối tượng" type="button" data-target="#modal-create"
-                                                    data-toggle="modal" class="btn btn-light-dark btn-sm"
+                                                    data-toggle="modal" class="btn btn-light-dark btn-icon btn-sm"
                                                     onclick="setCaNhan()">
                                                     <i class="fa fa-plus"></i></button>
                                                 <button title="Nhận từ file Excel" data-target="#modal-nhanexcel"
                                                     data-toggle="modal" type="button"
-                                                    class="btn btn-info btn-sm"><i
+                                                    class="btn btn-info btn-icon btn-sm"><i
                                                         class="fas fa-file-import"></i></button></button>
                                                 <a target="_blank" title="Tải file mẫu" href="/data/download/CANHAN.xlsx"
-                                                    class="btn btn-primary btn-sm"><i
+                                                    class="btn btn-primary btn-icon btn-sm"><i
                                                         class="fa flaticon-download"></i></button></a>
                                             </div>
                                         </div>
@@ -543,7 +543,7 @@
                         </div>
                         <div class="col-lg-1">
                             <label class="text-center">Chọn</label>
-                            <button type="button" class="btn btn-default" data-target="#modal-doituong"
+                            <button type="button" class="btn btn-default btn-icon" data-target="#modal-doituong"
                                 data-toggle="modal">
                                 <i class="fa fa-plus"></i></button>
                         </div>
@@ -654,7 +654,7 @@
                         </div>
                         <div class="col-lg-1">
                             <label class="text-center">Chọn</label>
-                            <button type="button" class="btn btn-default" data-target="#modal-tapthe"
+                            <button type="button" class="btn btn-default btn-icon" data-target="#modal-tapthe"
                                 data-toggle="modal">
                                 <i class="fa fa-plus"></i></button>
                         </div>

@@ -2,123 +2,89 @@
 
 namespace App\Http\Controllers\DanhMuc;
 
-
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Model\DanhMuc\dmdanhhieuthidua;
-use App\Model\DanhMuc\dmdanhhieuthidua_tieuchuan;
-use App\Model\DanhMuc\dmphanloai;
+use App\Model\DanhMuc\dmnhomphanloai;
+use App\Model\DanhMuc\dmnhomphanloai_chitiet;
 use Illuminate\Support\Facades\Session;
 
 class dmphanloaiController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if (!Session::has('admin')) {
+                return redirect('/');
+            };
+            return $next($request);
+        });
+    }
+
     public function ThongTin(Request $request)
     {
-        if (Session::has('admin')) {
-            if (!chkPhanQuyen()) {
-                return view('errors.noperm');
-            }
-            
-            $inputs = $request->all();
-            
-            $model = dmphanloai::all();
-            $a_nhomphanloai = 
-            //dd($model);
-            return view('DanhMuc.DanhHieuThiDua.ThongTin')
-                ->with('model', $model)
-                ->with('inputs', $inputs)
-                ->with('a_phanloai', getPhanLoaiTDKT())
-                //->with('a_diaban', getDiaBan_All(true))
-                ->with('pageTitle', 'Danh mục danh hiệu thi đua');
-        } else
-            return view('errors.notlogin');
+
+        if (!chkPhanQuyen()) {
+            return view('errors.noperm');
+        }
+        $inputs = $request->all();
+        $inputs['url'] = '/DMPhanLoai/';
+        $a_nhomphanloai = array_column(dmnhomphanloai::all()->toArray(), 'tennhomphanloai', 'manhomphanloai');
+        $inputs['manhomphanloai'] = $inputs['manhomphanloai'] ?? array_key_first($a_nhomphanloai);
+        $model = dmnhomphanloai_chitiet::where('manhomphanloai', $inputs['manhomphanloai'])->get();
+        //dd($model);
+        return view('DanhMuc.PhanLoai.ThongTin')
+            ->with('model', $model)
+            ->with('inputs', $inputs)
+            ->with('a_nhomphanloai', $a_nhomphanloai)
+            ->with('pageTitle', 'Danh mục danh hiệu thi đua');
     }
 
-    public function store(Request $request)
+    public function ThemNhom(Request $request)
     {
-        if (Session::has('admin')) {
-            //tài khoản SSA; tài khoản quản trị + có phân quyền
-            if (!chkPhanQuyen()) {
-                return view('errors.noperm');
-            }
-            $inputs = $request->all();
-            $model = dmdanhhieuthidua::where('madanhhieutd', $inputs['madanhhieutd'])->first();
-            if ($model == null) {
-                $inputs['madanhhieutd'] = getdate()[0];
-                dmdanhhieuthidua::create($inputs);
-            } else {
-                $model->update($inputs);
-            }
+        //tài khoản SSA; tài khoản quản trị + có phân quyền
+        if (!chkPhanQuyen()) {
+            return view('errors.noperm');
+        }
+        $inputs = $request->all();
+        $model = dmnhomphanloai::where('manhomphanloai', $inputs['manhomphanloai'])->first();
+        if ($model == null) {
+            $inputs['manhomphanloai'] = getdate()[0];
+            dmnhomphanloai::create($inputs);
+        } else {
+            $model->update($inputs);
+        }
 
-            return redirect('/DanhHieuThiDua/ThongTin');
-        } else
-            return view('errors.notlogin');
+        return redirect('/DMPhanLoai/ThongTin?manhomphanloai=' . $inputs['manhomphanloai']);
     }
 
-    public function delete(Request $request)
+    public function Them(Request $request)
     {
-        if (Session::has('admin')) {
-            //tài khoản SSA; tài khoản quản trị + có phân quyền
-            if (!chkPhanQuyen()) {
-                return view('errors.noperm');
-            }
-            $inputs = $request->all();
-            dmdanhhieuthidua::findorfail($inputs['id'])->delete();
-            return redirect('/DanhHieuThiDua/ThongTin');
-        } else
-            return view('errors.notlogin');
+        //tài khoản SSA; tài khoản quản trị + có phân quyền
+        if (!chkPhanQuyen()) {
+            return view('errors.noperm');
+        }
+        $inputs = $request->all();
+        $model = dmnhomphanloai_chitiet::where('maphanloai', $inputs['maphanloai'])->first();
+        if ($model == null) {
+            $inputs['maphanloai'] = getdate()[0];
+            dmnhomphanloai_chitiet::create($inputs);
+        } else {
+            $model->update($inputs);
+        }
+
+        return redirect('/DMPhanLoai/ThongTin?manhomphanloai=' . $inputs['manhomphanloai']);
     }
 
-    public function TieuChuan(Request $request)
-    {
-        if (Session::has('admin')) {
-            $inputs = $request->all();
-            $model = dmdanhhieuthidua_tieuchuan::where('madanhhieutd', $inputs['madanhhieutd'])->get();
-            $m_danhhieu = dmdanhhieuthidua::all();
-            return view('DanhMuc.DanhHieuThiDua.TieuChuan')
-                ->with('model', $model)
-                ->with('a_danhhieu', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
-                ->with('m_danhhieu', $m_danhhieu->where('madanhhieutd', $inputs['madanhhieutd'])->first())
-                ->with('pageTitle', 'Danh sách danh mục tiêu chuẩn danh hiệu thi đua');
-        } else
-            return view('errors.notlogin');
-    }
 
-    public function ThemTieuChuan(Request $request)
+    public function Xoa(Request $request)
     {
-        if (Session::has('admin')) {
-            //tài khoản SSA; tài khoản quản trị + có phân quyền
-            if (!chkPhanQuyen()) {
-                return view('errors.noperm');
-            }
-            $inputs = $request->all();
-            $model = dmdanhhieuthidua_tieuchuan::where('matieuchuandhtd', $inputs['matieuchuandhtd'])->first();
-            if ($model == null) {
-                $inputs['matieuchuandhtd'] = getdate()[0];
-                dmdanhhieuthidua_tieuchuan::create($inputs);
-            } else {
-                $model->update($inputs);
-            }
-
-            return redirect('/DanhHieuThiDua/TieuChuan?madanhhieutd=' . $inputs['madanhhieutd']);
-        } else
-            return view('errors.notlogin');
-    }
-
-    public function delete_TieuChuan(Request $request)
-    {
-        if (Session::has('admin')) {
-            //tài khoản SSA; tài khoản quản trị + có phân quyền
-            if (!chkPhanQuyen()) {
-                return view('errors.noperm');
-            }
-            $inputs = $request->all();
-            $model = dmdanhhieuthidua_tieuchuan::findorfail($inputs['id']);
-            $model->delete();
-            return redirect('/DanhHieuThiDua/TieuChuan?madanhhieutd=' . $model->madanhhieutd);
-        } else
-            return view('errors.notlogin');
+        //tài khoản SSA; tài khoản quản trị + có phân quyền
+        if (!chkPhanQuyen()) {
+            return view('errors.noperm');
+        }
+        $inputs = $request->all();
+        $model = dmnhomphanloai_chitiet::findorfail($inputs['id']);
+        $model->delete();
+        return redirect('/DMPhanLoai/ThongTin?manhomphanloai=' . $model->manhomphanloai);
     }
 }
