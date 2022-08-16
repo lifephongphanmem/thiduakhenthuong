@@ -1,4 +1,8 @@
 <?php
+
+use App\Http\Controllers\DanhMuc\dmphanloaiController;
+use Illuminate\Support\Facades\Route;
+
 //Đăng nhập
 Route::get('DangNhap','HeThong\hethongchungController@DangNhap');
 Route::post('DangNhap','HeThong\hethongchungController@XacNhanDangNhap');
@@ -44,6 +48,12 @@ Route::group(['prefix'=>'HeThongAPI'], function(){
 
 Route::group(['prefix'=>'ChucNang'], function(){
     Route::get('ThongTin','HeThong\dschucnangController@ThongTin');
+    Route::post('ThongTin','HeThong\dschucnangController@LuuChucNang');
+    Route::get('LayChucNang','HeThong\dschucnangController@LayChucNang');
+});
+
+Route::group(['prefix'=>'DMPhanLoai'], function(){
+    Route::get('ThongTin', [dmphanloaiController::class,'ThongTin']);
     Route::post('ThongTin','HeThong\dschucnangController@LuuChucNang');
     Route::get('LayChucNang','HeThong\dschucnangController@LayChucNang');
 });
