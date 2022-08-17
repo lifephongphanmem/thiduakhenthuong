@@ -86,6 +86,8 @@ class dshosokhenthuongconghienController extends Controller
                 return view('errors.noperm');
             }
             $inputs = $request->all();
+            $inputs['url'] = '/KhenThuongCongHien/HoSo/';
+            $inputs['mahinhthuckt'] = session('chucnang')['dshosokhenthuongconghien']['mahinhthuckt'] ?? 'ALL';
             $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
             $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
             $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
@@ -227,8 +229,8 @@ class dshosokhenthuongconghienController extends Controller
     {
         if (Session::has('admin')) {
             $inputs = $request->all();
-            $model = dshosothiduakhenthuong_khenthuong::where('matapthe', $inputs['matapthe'])->where('mahosotdkt', $inputs['mahosotdkt'])->first();
-
+            $model = dshosothiduakhenthuong_tapthe::where('id', $inputs['id'])->first();
+            dd($inputs);
             if ($model == null) {
                 $inputs['matapthe'] = (string)getdate()[0];
                 $inputs['phanloai'] = 'TAPTHE';
@@ -538,5 +540,9 @@ class dshosokhenthuongconghienController extends Controller
             return redirect('/KhenThuongCongTrang/HoSoKhenThuong/Sua?mahosotdkt=' . $model->mahosotdkt);
         } else
             return view('errors.notlogin');
+    }
+
+    function htmlTapThe(&$ketqua, &$model){
+
     }
 }

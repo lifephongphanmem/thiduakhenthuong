@@ -406,9 +406,9 @@ function getDiaBan($capdo, $chucnang = null, $tenquyen = null)
     return App\Model\View\viewdiabandonvi::all();
 }
 
-function setArrayAll($array, $noidung = 'Tất cả')
+function setArrayAll($array, $noidung = 'Tất cả', $giatri = 'ALL')
 {
-    $a_kq = ['ALL' => $noidung];
+    $a_kq = [$giatri => $noidung];
     foreach ($array as $k => $v) {
         $a_kq[(string)$k] = $v;
     }

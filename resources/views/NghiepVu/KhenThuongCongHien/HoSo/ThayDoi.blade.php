@@ -248,7 +248,7 @@
 
                 <div class="col-lg-6">
                     <label>Loại hình khen thưởng</label>
-                    {!! Form::select('maloaihinhkt', $a_loaihinhkt, null, ['class' => 'form-control', 'disabled'=>'true']) !!}
+                    {!! Form::select('maloaihinhkt', $a_loaihinhkt, null, ['class' => 'form-control', 'disabled' => 'true']) !!}
                 </div>
             </div>
 
@@ -327,8 +327,7 @@
                     @endif
                 </div>
             </div>
-
-            <!--begin::Card-->
+            
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-custom">
@@ -399,16 +398,14 @@
                                                             <td>{{ $tt->maphanloaitapthe }}</td>
                                                             <td class="text-center">
                                                                 {{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
-                                                                <td class="text-center">
-                                                                    {{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td>
-                                                            <td class="text-center">                                                                
+                                                            <td class="text-center">
+                                                                {{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td>
+                                                            <td class="text-center">
                                                                 <button title="Sửa thông tin" type="button"
                                                                     onclick="getTapThe('{{ $tt->id }}')"
                                                                     class="btn btn-sm btn-clean btn-icon"
-                                                                    data-target="#modal-create-tapthe"
-                                                                    data-toggle="modal">
-                                                                    <i
-                                                                        class="icon-lg la fa-edit text-primary"></i></button>
+                                                                    data-target="#modal-create-tapthe" data-toggle="modal">
+                                                                    <i class="icon-lg la fa-edit text-primary"></i></button>
                                                                 <button title="Xóa" type="button"
                                                                     onclick="delKhenThuong('{{ $tt->id }}', 'TAPTHE')"
                                                                     class="btn btn-sm btn-clean btn-icon"
@@ -469,7 +466,7 @@
                                                             <td class="text-center">{{ $tt->chucvu }}</td>
                                                             <td class="text-center">
                                                                 {{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
-                                                            <td class="text-center">                                                               
+                                                            <td class="text-center">
 
                                                                 <button title="Sửa thông tin" type="button"
                                                                     onclick="getCaNhan('{{ $tt->id }}')"
@@ -500,8 +497,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <!--end::Card-->
+            </div>            
 
         </div>
         <div class="card-footer">
@@ -577,7 +573,7 @@
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label class="control-label">Hình thức khen thưởng</label>
-                            {!! Form::select('mahinhthuckt', $a_hinhthuckt, null, ['id' => 'lanhdao', 'class' => 'form-control']) !!}
+                            {!! Form::select('mahinhthuckt', $a_hinhthuckt, $inputs['mahinhthuckt'], ['id' => 'lanhdao', 'class' => 'form-control']) !!}
                         </div>
                     </div>
 
@@ -631,7 +627,7 @@
 
     {{-- tập thể --}}
     {!! Form::open([
-        'url' => '/KhenThuongCongTrang/HoSoKhenThuong/TapThe',
+        'url' => '',
         'id' => 'frm_ThemTapThe',
         'class' => 'form',
         'files' => true,
@@ -643,7 +639,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Thêm mới thông tin đối tượng</h4>
+                    <h4 class="modal-title">Thông tin đối tượng tập thể</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                 </div>
                 <div class="modal-body">
@@ -662,26 +658,31 @@
 
                     <div class="form-group row">
                         <div class="col-md-12">
-                            <label class="control-label">Danh hiệu thi đua</label>
-                            <select name="madanhhieutd" class="form-control">
-                                <option value="null">Không đăng ký</option>
-                                {{-- @foreach ($m_danhhieu->where('phanloai', 'TAPTHE') as $nhom)
-                                    <option value="{{ $nhom->madanhhieutd }}">{{ $nhom->tendanhhieutd }}</option>
-                                @endforeach --}}
-                            </select>
+                            <label class="control-label">Phân loại đơn vị</label>
+                            {!! Form::select('maphanloaitapthe', $a_tapthe, null, [
+                                'class' => 'form-control',
+                            ]) !!}
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
+                            <label class="control-label">Danh hiệu thi đua</label>
+                            {!! Form::select('madanhhieutd', setArrayAll($a_hinhthuckt, 'Không đăng ký', 'null'), null, [
+                                'class' => 'form-control',
+                            ]) !!}
+                        </div>
+                   
+                        <div class="col-md-6">
                             <label class="control-label">Hình thức khen thưởng</label>
-                            {!! Form::select('mahinhthuckt', $a_hinhthuckt, null, ['class' => 'form-control']) !!}
+                            {!! Form::select('mahinhthuckt', $a_hinhthuckt, $inputs['mahinhthuckt'], ['class' => 'form-control']) !!}
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-default">Thoát</button>
-                    <button type="submit" class="btn btn-primary">Hoàn thành</button>
+                    <button type="button" class="btn btn-primary" onclick="LuuTapThe()">Cập nhật</button>
+                    {{-- <button type="submit" class="btn btn-primary">Hoàn thành</button> --}}
                 </div>
                 <!-- /.modal-content -->
             </div>
@@ -774,7 +775,7 @@
         </div>
     </div>
 
-    {{-- Thông tin đối tượng là tậ thể --}}
+    {{-- Thông tin đối tượng là tập thể --}}
     <div id="modal-tapthe" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -979,6 +980,32 @@
     <script>
         function adddvt() {
             $('#modal-doituong').modal('hide');
+        }
+
+        function LuuTapThe() {
+            var form = $('#frm_ThemTapThe');
+            form.find("[name='matapthe']").val();
+            form.find("[name='tentapthe']").val();
+            $.ajax({
+                url: "{{$inputs['url']}}" + 'TapThe1',
+                type: 'GET',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    madoituong: $('#madoituong_tc').val(),
+                    madanhhieutd: $('#madanhhieutd_tc').val(),
+                    matieuchuandhtd: $('#matieuchuandhtd_ltc').val(),
+                    madonvi: $('#madonvi').val(),
+                    maphongtraotd: $('#frm_ThayDoi').find("[name='maphongtraotd']").val(),
+                    mahosotdkt: $('#frm_ThayDoi').find("[name='mahosotdkt']").val()
+                },
+                dataType: 'JSON',
+                success: function(data) {
+                    if (data.status == 'success') {
+                        $('#dstieuchuan').replaceWith(data.message);
+                    }
+                }
+            })
+            $('#modal-create-tapthe').modal("hide");
         }
     </script>
 @stop
