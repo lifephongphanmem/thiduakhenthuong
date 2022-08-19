@@ -44,9 +44,8 @@
             $('#modal-doituong').modal("hide");
         }
 
-        function confirmTapThe(matapthe, tentapthe) {
+        function confirmTapThe(tentapthe) {
             var form = $('#frm_ThemTapThe');
-            form.find("[name='matapthe']").val(matapthe);
             form.find("[name='tentapthe']").val(tentapthe);
             $('#modal-tapthe').modal("hide");
         }
@@ -108,9 +107,10 @@
             $('#modal-luutieuchuan').modal("hide");
         }
 
-        function delKhenThuong(id, phanloai) {
-            document.getElementById("iddelete").value = id;
-            document.getElementById("phanloaixoa").value = phanloai;
+        function delKhenThuong(id, url, phanloai) {            
+            $('#frm_XoaDoiTuong').attr('action',url);
+            $('#frm_XoaDoiTuong').find("[name='iddelete']").val(id);
+            $('#frm_XoaDoiTuong').find("[name='phanloaixoa']").val(phanloai);
         }
 
         function deleteRow() {
@@ -147,11 +147,11 @@
         }
 
         function setCaNhan() {
-            $('#frm_ThemCaNhan').find("[name='madoituong']").val('NULL');
+            $('#frm_ThemCaNhan').find("[name='id']").val('-1');
         }
 
         function setTapThe() {
-            $('#frm_ThemTapThe').find("[name='matapthe']").val('NULL');
+            $('#frm_ThemTapThe').find("[name='id']").val('-1');
         }
 
         function getCaNhan(id) {
@@ -192,9 +192,8 @@
 
         function getTapThe(id) {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-
             $.ajax({
-                url: '/KhenThuongCongTrang/HoSoKhenThuong/LayDoiTuong',
+                url: "{{$inputs['url']}}" + "LayTapThe",
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,
@@ -203,11 +202,11 @@
                 dataType: 'JSON',
                 success: function(data) {
                     var form = $('#frm_ThemTapThe');
-                    form.find("[name='matapthe']").val(data.matapthe);
+                    form.find("[name='id']").val(data.id);
+                    form.find("[name='maphanloaitapthe']").val(data.maphanloaitapthe).trigger('change');
                     form.find("[name='madanhhieutd']").val(data.madanhhieutd).trigger('change');
                     form.find("[name='mahinhthuckt']").val(data.mahinhthuckt).trigger('change');
                     form.find("[name='tentapthe']").val(data.tentapthe);
-                    //filedk: form.find("[name='filedk']").val(data.madoituong),
                 }
             })
         }
@@ -327,7 +326,7 @@
                     @endif
                 </div>
             </div>
-            
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-custom">
@@ -370,9 +369,19 @@
                                     aria-labelledby="kt_tapthe">
                                     <div class="form-group row">
                                         <div class="col-lg-12 text-right">
-                                            <button type="button" onclick="setTapThe()" data-target="#modal-create-tapthe"
-                                                data-toggle="modal" class="btn btn-success btn-icon btn-sm">
-                                                <i class="fa fa-plus"></i></button>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" onclick="setTapThe()"
+                                                    data-target="#modal-create-tapthe" data-toggle="modal"
+                                                    class="btn btn-light-dark btn-icon btn-sm">
+                                                    <i class="fa fa-plus"></i></button>
+                                                <button title="Nhận từ file Excel" data-target="#modal-nhanexcel-tapthe"
+                                                    data-toggle="modal" type="button"
+                                                    class="btn btn-info btn-icon btn-sm"><i
+                                                        class="fas fa-file-import"></i></button></button>
+                                                <a target="_blank" title="Tải file mẫu" href="/data/download/TapThe.xlsx"
+                                                    class="btn btn-primary btn-icon btn-sm"><i
+                                                        class="fa flaticon-download"></i></button></a>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -395,7 +404,7 @@
                                                         <tr class="odd gradeX">
                                                             <td class="text-center">{{ $i++ }}</td>
                                                             <td>{{ $tt->tentapthe }}</td>
-                                                            <td>{{ $tt->maphanloaitapthe }}</td>
+                                                            <td>{{$a_tapthe[$tt->maphanloaitapthe] ?? '' }}</td>
                                                             <td class="text-center">
                                                                 {{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
                                                             <td class="text-center">
@@ -404,10 +413,12 @@
                                                                 <button title="Sửa thông tin" type="button"
                                                                     onclick="getTapThe('{{ $tt->id }}')"
                                                                     class="btn btn-sm btn-clean btn-icon"
-                                                                    data-target="#modal-create-tapthe" data-toggle="modal">
-                                                                    <i class="icon-lg la fa-edit text-primary"></i></button>
+                                                                    data-target="#modal-create-tapthe"
+                                                                    data-toggle="modal">
+                                                                    <i
+                                                                        class="icon-lg la fa-edit text-primary"></i></button>
                                                                 <button title="Xóa" type="button"
-                                                                    onclick="delKhenThuong('{{ $tt->id }}', 'TAPTHE')"
+                                                                    onclick="delKhenThuong('{{ $tt->id }}',  '{{ $inputs['url'] .'XoaTapThe'}}', 'TAPTHE')"
                                                                     class="btn btn-sm btn-clean btn-icon"
                                                                     data-target="#modal-delete-khenthuong"
                                                                     data-toggle="modal">
@@ -497,7 +508,7 @@
                         </div>
                     </div>
                 </div>
-            </div>            
+            </div>
 
         </div>
         <div class="card-footer">
@@ -522,7 +533,7 @@
         'files' => true,
         'enctype' => 'multipart/form-data',
     ]) !!}
-    <input type="hidden" name="madoituong" id="madoituong" />
+    <input type="hidden" name="id" />
     <input type="hidden" name="mahosotdkt" value="{{ $model->mahosotdkt }}" />
     <div class="modal fade bs-modal-lg" id="modal-create" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -573,7 +584,10 @@
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label class="control-label">Hình thức khen thưởng</label>
-                            {!! Form::select('mahinhthuckt', $a_hinhthuckt, $inputs['mahinhthuckt'], ['id' => 'lanhdao', 'class' => 'form-control']) !!}
+                            {!! Form::select('mahinhthuckt', $a_hinhthuckt, $inputs['mahinhthuckt'], [
+                                'id' => 'lanhdao',
+                                'class' => 'form-control',
+                            ]) !!}
                         </div>
                     </div>
 
@@ -634,7 +648,7 @@
         'enctype' => 'multipart/form-data',
     ]) !!}
     <input type="hidden" name="mahosotdkt" value="{{ $model->mahosotdkt }}" />
-    <input type="hidden" name="matapthe" />
+    <input type="hidden" name="id" />
     <div class="modal fade bs-modal-lg" id="modal-create-tapthe" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -672,7 +686,7 @@
                                 'class' => 'form-control',
                             ]) !!}
                         </div>
-                   
+
                         <div class="col-md-6">
                             <label class="control-label">Hình thức khen thưởng</label>
                             {!! Form::select('mahinhthuckt', $a_hinhthuckt, $inputs['mahinhthuckt'], ['class' => 'form-control']) !!}
@@ -802,7 +816,7 @@
                                             <td>{{ $tt->tentapthe }}</td>
                                             <td class="text-center">
                                                 <button title="Chọn đối tượng" type="button"
-                                                    onclick="confirmTapThe('{{ $tt->matapthe }}','{{ $tt->tentapthe }}')"
+                                                    onclick="confirmTapThe('{{ $tt->tentapthe }}')"
                                                     class="btn btn-sm btn-clean btn-icon" data-toggle="modal">
                                                     <i class="icon-lg la fa-check text-success"></i></button>
                                             </td>
@@ -866,11 +880,9 @@
 
     {{-- Xóa khen thưởng ca nhân --}}
     {!! Form::open([
-        'url' => '/KhenThuongCongTrang/HoSoKhenThuong/XoaDoiTuong',
-        'id' => 'frm_ThemTapThe',
+        'url' => '',
+        'id' => 'frm_XoaDoiTuong',
         'class' => 'form',
-        'files' => true,
-        'enctype' => 'multipart/form-data',
     ]) !!}
     <div class="modal fade" id="modal-delete-khenthuong" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
         aria-hidden="true">
@@ -983,25 +995,25 @@
         }
 
         function LuuTapThe() {
-            var form = $('#frm_ThemTapThe');
-            form.find("[name='matapthe']").val();
-            form.find("[name='tentapthe']").val();
+            //var form = $('#frm_ThemTapThe');
+            var formData = new FormData($('#frm_ThemTapThe')[0]);            
+            // for (var pair of formData.entries()) {
+            //     console.log(pair[0] + ', ' + pair[1]);
+            // }
+
             $.ajax({
-                url: "{{$inputs['url']}}" + 'TapThe1',
-                type: 'GET',
-                data: {
-                    _token: $('meta[name="csrf-token"]').attr('content'),
-                    madoituong: $('#madoituong_tc').val(),
-                    madanhhieutd: $('#madanhhieutd_tc').val(),
-                    matieuchuandhtd: $('#matieuchuandhtd_ltc').val(),
-                    madonvi: $('#madonvi').val(),
-                    maphongtraotd: $('#frm_ThayDoi').find("[name='maphongtraotd']").val(),
-                    mahosotdkt: $('#frm_ThayDoi').find("[name='mahosotdkt']").val()
-                },
-                dataType: 'JSON',
-                success: function(data) {
+                url: "{{$inputs['url']}}" + "ThemTapThe",
+                method: "POST",
+                cache: false,
+                dataType: false,
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function(data) {     
+                    //console.log(data);               
                     if (data.status == 'success') {
-                        $('#dstieuchuan').replaceWith(data.message);
+                        $('#dskhenthuongtapthe').replaceWith(data.message);
+                        TableManaged4.init();
                     }
                 }
             })
