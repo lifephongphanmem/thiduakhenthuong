@@ -64,6 +64,7 @@ return array(
     'App\\Model\\DanhMuc\\dmhinhthuckhenthuong' => $baseDir . '/app/Model/DanhMuc/dmhinhthuckhenthuong.php',
     'App\\Model\\DanhMuc\\dmloaihinhkhenthuong' => $baseDir . '/app/Model/DanhMuc/dmloaihinhkhenthuong.php',
     'App\\Model\\DanhMuc\\dmnhomphanloai' => $baseDir . '/app/Model/DanhMuc/dmnhomphanloai.php',
+    'App\\Model\\DanhMuc\\dmnhomphanloai_chitiet' => $baseDir . '/app/Model/DanhMuc/dmnhomphanloai_chitiet.php',
     'App\\Model\\DanhMuc\\dscumkhoi' => $baseDir . '/app/Model/DanhMuc/dscumkhoi.php',
     'App\\Model\\DanhMuc\\dscumkhoi_chitiet' => $baseDir . '/app/Model/DanhMuc/dscumkhoi_chitiet.php',
     'App\\Model\\DanhMuc\\dsdiaban' => $baseDir . '/app/Model/DanhMuc/dsdiaban.php',

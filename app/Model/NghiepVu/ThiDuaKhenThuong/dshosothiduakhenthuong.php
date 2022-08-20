@@ -24,7 +24,13 @@ class dshosothiduakhenthuong extends Model
         'bienban', //biên bản cuộc họp
         'tailieukhac', //tài liệu khác
         //Kết quả khen thưởng
-        'mahosokt',
+        'soqd',
+        'ngayqd',
+        'donvikhenthuong',
+        'capkhenthuong',
+        'chucvunguoiky',
+        'hotennguoiky',
+        'thongtinquyetdinh',
         //Trạng thái đơn vị
         'madonvi',
         'madonvi_nhan',

@@ -16,16 +16,15 @@
         jQuery(document).ready(function() {
             TableManaged3.init();
             $('#madonvi').change(function() {
-                window.location.href = '{{$inputs['url']}}' + 'ThongTin?madonvi=' + $(
-                        '#madonvi').val() + '&nam=' + $('#nam').val() ;
+                window.location.href = '{{ $inputs['url'] }}' + 'ThongTin?madonvi=' + $(
+                    '#madonvi').val() + '&nam=' + $('#nam').val();
             });
-           
+
             $('#nam').change(function() {
-                window.location.href = '{{$inputs['url']}}' + 'ThongTin?madonvi=' + $(
-                        '#madonvi').val() + '&nam=' + $('#nam').val();
+                window.location.href = '{{ $inputs['url'] }}' + 'ThongTin?madonvi=' + $(
+                    '#madonvi').val() + '&nam=' + $('#nam').val();
             });
-        });        
-    
+        });
     </script>
 @stop
 
@@ -59,7 +58,7 @@
                         @endforeach
                     </select>
                 </div>
-                
+
                 <div class="col-lg-3">
                     <label style="font-weight: bold">Năm</label>
                     {!! Form::select('nam', getNam(true), $inputs['nam'], ['id' => 'nam', 'class' => 'form-control select2basic']) !!}
@@ -84,43 +83,44 @@
                             <tr>
                                 <td class="text-center">{{ $key + 1 }}</td>
                                 <td>{{ $tt->noidung }}</td>
-                                <td class="text-center">{{ getDayVn($tt->sototrinh) }}<br>{{ getDayVn($tt->ngayhoso) }}</td>
+                                <td class="text-center">{{ $tt->sototrinh }}<br>{{ getDayVn($tt->ngayhoso) }}
+                                </td>
                                 @include('includes.td.td_trangthai_hoso')
                                 <td>{{ $a_donvi[$tt->madonvi_nhan] ?? '' }}</td>
 
                                 <td style="text-align: center">
                                     @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']))
                                         <a title="Thông tin hồ sơ"
-                                            href="{{ url($inputs['url'].'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                            href="{{ url($inputs['url'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
                                             class="btn btn-sm btn-clean btn-icon">
                                             <i class="icon-lg la fa-check-square text-primary"></i></a>
 
                                         <button title="Trình hồ sơ đăng ký" type="button"
-                                            onclick="confirmChuyen('{{ $tt->mahosotdkt }}',$inputs['url'].'ChuyenHoSo')"
+                                            onclick="confirmChuyen('{{ $tt->mahosotdkt }}','{{ $inputs['url'] . 'ChuyenHoSo' }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#chuyen-modal-confirm"
                                             data-toggle="modal">
                                             <i class="icon-lg la fa-share text-primary"></i></button>
 
                                         <button type="button"
-                                            onclick="confirmDelete('{{ $tt->id }}',$inputs['url'].'Xoa')"
+                                            onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url'] . 'Xoa' }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
                                             data-toggle="modal">
                                             <i class="icon-lg la fa-trash text-danger"></i></button>
                                     @else
                                         <a title="Xem thông tin hồ sơ"
-                                            href="{{ url($inputs['url'].'Xem?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                            href="{{ url($inputs['url'] . 'Xem?mahosotdkt=' . $tt->mahosotdkt) }}"
                                             class="btn btn-sm btn-clean btn-icon" target="_blank">
                                             <i class="icon-lg la fa-eye text-dark"></i></a>
 
                                         @if ($tt->trangthai == 'DKT')
                                             <a title="Thông tin hồ sơ khen thưởng"
-                                                href="{{ url($inputs['url'].'Xem?mahosokt=' . $tt->mahosokt) }}"
+                                                href="{{ url($inputs['url'] . 'Xem?mahosokt=' . $tt->mahosokt) }}"
                                                 class="btn btn-sm btn-clean btn-icon" target="_blank">
                                                 <i class="icon-lg la fa-user-check text-dark"></i></a>
-                                                <a title="In quyết định khen thưởng"
-                                            href="{{ url($inputs['url_kt'].'XemQuyetDinh?mahosokt=' . $tt->mahosokt) }}"
-                                            class="btn btn-sm btn-clean btn-icon" target="_blank">
-                                            <i class="icon-lg la fa-print text-dark"></i></a>
+                                            <a title="In quyết định khen thưởng"
+                                                href="{{ url($inputs['url_kt'] . 'XemQuyetDinh?mahosokt=' . $tt->mahosokt) }}"
+                                                class="btn btn-sm btn-clean btn-icon" target="_blank">
+                                                <i class="icon-lg la fa-print text-dark"></i></a>
                                         @endif
                                     @endif
 
@@ -141,7 +141,7 @@
     </div>
     <!--end::Card-->
     <!--Modal Nhận hồ sơ-->
-    {!! Form::open(['url' => $inputs['url'].'Them', 'id' => 'frm_hoso']) !!}
+    {!! Form::open(['url' => $inputs['url'] . 'Them', 'id' => 'frm_hoso']) !!}
     <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
     <div id="taohoso-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
         <div class="modal-dialog modal-lg">
@@ -184,7 +184,7 @@
                     <div class="form-group row">
                         <div class="col-lg-12">
                             <label>Nội dung trình khen thưởng</label>
-                            {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows'=>3]) !!}
+                            {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows' => 3]) !!}
                         </div>
                     </div>
                 </div>
@@ -196,8 +196,8 @@
         </div>
     </div>
     {!! Form::close() !!}
-    
-    
+
+
     @include('includes.modal.modal-lydo')
     @include('includes.modal.modal-delete')
     @include('includes.modal.modal_approve_hs')

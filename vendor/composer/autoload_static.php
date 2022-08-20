@@ -503,6 +503,7 @@ class ComposerStaticInit2bbfd3055ada376977abbf3cd3a1a409
         'App\\Model\\DanhMuc\\dmhinhthuckhenthuong' => __DIR__ . '/../..' . '/app/Model/DanhMuc/dmhinhthuckhenthuong.php',
         'App\\Model\\DanhMuc\\dmloaihinhkhenthuong' => __DIR__ . '/../..' . '/app/Model/DanhMuc/dmloaihinhkhenthuong.php',
         'App\\Model\\DanhMuc\\dmnhomphanloai' => __DIR__ . '/../..' . '/app/Model/DanhMuc/dmnhomphanloai.php',
+        'App\\Model\\DanhMuc\\dmnhomphanloai_chitiet' => __DIR__ . '/../..' . '/app/Model/DanhMuc/dmnhomphanloai_chitiet.php',
         'App\\Model\\DanhMuc\\dscumkhoi' => __DIR__ . '/../..' . '/app/Model/DanhMuc/dscumkhoi.php',
         'App\\Model\\DanhMuc\\dscumkhoi_chitiet' => __DIR__ . '/../..' . '/app/Model/DanhMuc/dscumkhoi_chitiet.php',
         'App\\Model\\DanhMuc\\dsdiaban' => __DIR__ . '/../..' . '/app/Model/DanhMuc/dsdiaban.php',
