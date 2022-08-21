@@ -23,10 +23,10 @@ $(function () {
         url = url.substring(0, index - 1) + '/danhsach';
     }
 
-    index = url.indexOf('chitiet');
-    if (index > 0) {
-        url = url.substring(0, index - 1) + '/danhsach';
-    }
+    // index = url.indexOf('chitiet');
+    // if (index > 0) {
+    //     url = url.substring(0, index - 1) + '/danhsach';
+    // }
 
     index = url.indexOf('detail');
     if (index > 0) {
@@ -72,6 +72,11 @@ $(function () {
 
     //Mới
     var index = url.indexOf('TieuChuan');
+    if (index > 0) {
+        url = url.substring(0, index - 1) + '/ThongTin';
+    }
+
+    var index = url.indexOf('XetKT');
     if (index > 0) {
         url = url.substring(0, index - 1) + '/ThongTin';
     }

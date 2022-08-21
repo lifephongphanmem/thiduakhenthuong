@@ -545,18 +545,18 @@ function setTraLaiHoSo_Nhan($madonvi, $hoso, $a_hoanthanh)
 
 function setTrangThaiHoSo($madonvi, $hoso, $a_hoanthanh)
 {
-    if ($madonvi == $hoso->madonvi) {
-        if (isset($a_hoanthanh['madonvi']))
-            $hoso->madonvi = $a_hoanthanh['madonvi'];
-        if (isset($a_hoanthanh['madonvi_nhan']))
-            $hoso->madonvi_nhan = $a_hoanthanh['madonvi_nhan'];
-        if (isset($a_hoanthanh['trangthai']))
-            $hoso->trangthai = $a_hoanthanh['trangthai'];
-        if (isset($a_hoanthanh['lydo']))
-            $hoso->lydo = $a_hoanthanh['lydo'];
-        if (isset($a_hoanthanh['thoigian']))
-            $hoso->thoigian = $a_hoanthanh['thoigian'];
-    }
+    // if ($madonvi == $hoso->madonvi) {
+    //     if (isset($a_hoanthanh['madonvi']))
+    //         $hoso->madonvi = $a_hoanthanh['madonvi'];
+    //     if (isset($a_hoanthanh['madonvi_nhan']))
+    //         $hoso->madonvi_nhan = $a_hoanthanh['madonvi_nhan'];
+    //     if (isset($a_hoanthanh['trangthai']))
+    //         $hoso->trangthai = $a_hoanthanh['trangthai'];
+    //     if (isset($a_hoanthanh['lydo']))
+    //         $hoso->lydo = $a_hoanthanh['lydo'];
+    //     if (isset($a_hoanthanh['thoigian']))
+    //         $hoso->thoigian = $a_hoanthanh['thoigian'];
+    // }
 
     if ($madonvi == $hoso->madonvi_h) {
         if (isset($a_hoanthanh['madonvi']))

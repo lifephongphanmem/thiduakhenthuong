@@ -93,43 +93,43 @@
                                         <a title="Thông tin hồ sơ"
                                             href="{{ url($inputs['url'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
                                             class="btn btn-sm btn-clean btn-icon">
-                                            <i class="icon-lg la fa-check-square text-primary"></i></a>
+                                            <i class="icon-lg la fa-check-square text-primary icon-2x"></i></a>
 
                                         <button title="Trình hồ sơ đăng ký" type="button"
                                             onclick="confirmChuyen('{{ $tt->mahosotdkt }}','{{ $inputs['url'] . 'ChuyenHoSo' }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#chuyen-modal-confirm"
                                             data-toggle="modal">
-                                            <i class="icon-lg la fa-share text-primary"></i></button>
+                                            <i class="icon-lg la fa-share text-primary icon-2x"></i></button>
 
                                         <button type="button"
                                             onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url'] . 'Xoa' }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
                                             data-toggle="modal">
-                                            <i class="icon-lg la fa-trash text-danger"></i></button>
+                                            <i class="icon-lg la fa-trash text-danger icon-2x"></i></button>
                                     @else
                                         <a title="Xem thông tin hồ sơ"
                                             href="{{ url($inputs['url'] . 'Xem?mahosotdkt=' . $tt->mahosotdkt) }}"
                                             class="btn btn-sm btn-clean btn-icon" target="_blank">
-                                            <i class="icon-lg la fa-eye text-dark"></i></a>
+                                            <i class="icon-lg la fa-eye text-dark icon-2x"></i></a>
 
                                         @if ($tt->trangthai == 'DKT')
                                             <a title="Thông tin hồ sơ khen thưởng"
                                                 href="{{ url($inputs['url'] . 'Xem?mahosokt=' . $tt->mahosokt) }}"
                                                 class="btn btn-sm btn-clean btn-icon" target="_blank">
-                                                <i class="icon-lg la fa-user-check text-dark"></i></a>
+                                                <i class="icon-lg la fa-user-check text-dark icon-2x"></i></a>
                                             <a title="In quyết định khen thưởng"
                                                 href="{{ url($inputs['url_kt'] . 'XemQuyetDinh?mahosokt=' . $tt->mahosokt) }}"
                                                 class="btn btn-sm btn-clean btn-icon" target="_blank">
-                                                <i class="icon-lg la fa-print text-dark"></i></a>
+                                                <i class="icon-lg la fa-print text-dark icon-2x"></i></a>
                                         @endif
                                     @endif
 
                                     @if ($tt->trangthai == 'BTL')
                                         <button title="Lý do hồ sơ bị trả lại" type="button"
-                                            onclick="viewLyDo('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}', $inputs['url'].'/LayLyDo')"
+                                            onclick="viewLyDo('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}', '{{$inputs['url'].'LayLyDo'}}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#tralai-modal"
                                             data-toggle="modal">
-                                            <i class="icon-lg la fa-archive text-info"></i></button>
+                                            <i class="icon-lg la fa-archive text-info icon-2x"></i></button>
                                     @endif
                                 </td>
                             </tr>
