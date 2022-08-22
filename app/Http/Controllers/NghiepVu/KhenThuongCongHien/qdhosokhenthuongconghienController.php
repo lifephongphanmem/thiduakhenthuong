@@ -433,7 +433,7 @@ class qdhosokhenthuongconghienController extends Controller
     {
         if (Session::has('admin')) {
             $inputs = $request->all();
-            $model = dshosokhenthuong::where('mahosokt', $inputs['mahosokt'])->first();
+            $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
             if ($model->thongtinquyetdinh == '') {
                 $thongtinquyetdinh = getQuyetDinhCKE('QUYETDINH');
                 //noidung
@@ -465,7 +465,7 @@ class qdhosokhenthuongconghienController extends Controller
                 $model->thongtinquyetdinh = $thongtinquyetdinh;
             }
             //dd($model);
-            return view('BaoCao.DonVi.QuyetDinh.CongTrang')
+            return view('BaoCao.DonVi.QuyetDinh.CongHien')
                 ->with('model', $model)
                 ->with('inputs', $inputs)
                 ->with('pageTitle', 'Quyết định khen thưởng');

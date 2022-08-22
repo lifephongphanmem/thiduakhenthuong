@@ -105,20 +105,31 @@
                                     <a title="Thông tin hồ sơ"
                                         href="{{ url($inputs['url_hs'] . 'Xem?mahosotdkt=' . $tt->mahosotdkt) }}"
                                         class="btn btn-sm btn-clean btn-icon" target="_blank">
-                                        <i class="icon-lg la fa-eye text-dark"></i></a>
+                                        <i class="icon-lg la fa-eye text-dark icon-2x"></i></a>
                                     @if (chkPhanQuyen('qdhosokhenthuongconghien', 'modify'))
                                         @if ($tt->trangthai == 'CXKT')
                                             @if ($tt->chinhsua)
                                                 <a title="Thông tin hồ sơ khen thưởng"
                                                     href="{{ url($inputs['url'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                     class="btn btn-sm btn-clean btn-icon">
-                                                    <i class="icon-lg la fa-user-check text-dark"></i></a>
+                                                    <i class="icon-lg la flaticon-list text-success icon-2x"></i></a>
                                             @else
                                                 <a title="Thông tin hồ sơ khen thưởng"
                                                     href="{{ url($inputs['url'] . 'XetKT?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                     class="btn btn-sm btn-clean btn-icon">
-                                                    <i class="icon-lg la fa-user-check text-dark"></i></a>
+                                                    <i class="icon-lg la flaticon-list text-success text-dark"></i></a>
                                             @endif
+
+                                            <a title="In dự thảo quyết định khen thưởng"
+                                                href="{{ url($inputs['url'] . 'QuyetDinh?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                                class="btn btn-sm btn-clean btn-icon">
+                                                <i class="icon-lg la fa-print text-success icon-2x"></i></a>
+
+                                            <button title="Phê duyệt hồ sơ khen thưởng" type="button"
+                                                onclick="setPheDuyet('{{ $tt->mahosotdkt }}')"
+                                                class="btn btn-sm btn-clean btn-icon" data-target="#modal-PheDuyet"
+                                                data-toggle="modal">
+                                                <i class="icon-lg la flaticon-interface-10 text-success icon-2x"></i></button>
                                         @endif
                                         {{-- @if ($tt->trangthai == 'CXKT')
                                             <button title="Tạo hồ sơ khen thưởng" type="button"
@@ -146,13 +157,13 @@
 
                                         @if ($tt->trangthai == 'DKT')
                                             <a title="Thông tin hồ sơ khen thưởng"
-                                                href="{{ url($inputs['url'] . 'Xem?mahosokt=' . $tt->mahosokt) }}"
+                                                href="{{ url($inputs['url'] . 'Xem?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                 class="btn btn-sm btn-clean btn-icon" target="_blank">
-                                                <i class="icon-lg la fa-user-check text-dark"></i></a>
+                                                <i class="icon-lg la flaticon-list text-dark icon-2x"></i></a>
                                             <a title="In quyết định khen thưởng"
-                                                href="{{ url($inputs['url'] . 'XemQuyetDinh?mahosokt=' . $tt->mahosokt) }}"
+                                                href="{{ url($inputs['url'] . 'XemQuyetDinh?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                 class="btn btn-sm btn-clean btn-icon" target="_blank">
-                                                <i class="icon-lg la fa-print text-dark"></i></a>
+                                                <i class="icon-lg la fa-print text-dark icon-2x"></i></a>
                                         @endif
                                     @endif
                                 </td>
