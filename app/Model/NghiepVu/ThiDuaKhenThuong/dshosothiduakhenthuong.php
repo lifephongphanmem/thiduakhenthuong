@@ -28,9 +28,10 @@ class dshosothiduakhenthuong extends Model
         'ngayqd',
         'donvikhenthuong',
         'capkhenthuong',
-        'chucvunguoiky',
-        'hotennguoiky',
+        'hotennguoikyqd',
+        'chucvunguoikyqd',
         'thongtinquyetdinh',
+
         //Trạng thái đơn vị
         'madonvi',
         'madonvi_nhan',
@@ -59,5 +60,8 @@ class dshosothiduakhenthuong extends Model
         'thongtin_tw', //chưa dùng
         'trangthai_tw',
         'thoigian_tw',
+        //THông tin quyết định khen thưởng
+        
+        
     ];
 }

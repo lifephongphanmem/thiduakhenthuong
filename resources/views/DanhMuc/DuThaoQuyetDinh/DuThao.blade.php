@@ -10,22 +10,17 @@
 @stop
 
 @section('custom-script-footer')
-<script>
-    jQuery(document).ready(function() {
-        $('#maduthao').change(function() {
-            window.location.href = "{{$inputs['url']}}" +  "TaoDuThao?maduthao=" + $('#maduthao').val() + "&mahosotdkt=" + "{{$inputs['mahosotdkt']}}";
-        });       
-    });
-</script>
-
     <!-- BEGIN PAGE LEVEL PLUGINS -->
+
     <script src="/assets/plugins/custom/ckeditor/ckeditor-document.bundle.js"></script>
     <!--end::Page Vendors-->
     <!--begin::Page Scripts(used by this page)-->
     <script src="/assets/js/pages/crud/forms/editors/ckeditor-document.js"></script>
     <!--end::Page Vendors-->
     <!--begin::Page Scripts(used by this page)-->
+
     <!-- END PAGE LEVEL PLUGINS -->
+
 @stop
 
 @section('content')
@@ -34,40 +29,32 @@
     <div class="card card-custom" style="min-height: 600px">
         <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Thông tin dự thảo quyết định khen thưởng theo cống hiến</h3>
+                <h3 class="card-label text-uppercase">Thông tin dự thảo quyết định khen thưởng</h3>
             </div>
-            <div class="card-toolbar">                
-
+            <div class="card-toolbar">
+                {{-- <a title="In quyết định" class="btn btn-info" target="_blank"
+                    href="{{ url($inputs['url'] .'In?maduthao=' . $model->maduthao) }}"
+                    class="btn btn-primary"><i class="fa fas fa-print"></i></a> --}}
             </div>
         </div>
-
+        {!! Form::model($model, [
+            'method' => 'POST',
+            'url' => $inputs['url'] . 'Luu',
+            'class' => 'form',
+            'id' => 'frm_In',
+        ]) !!}
+        {{ Form::hidden('maduthao', null) }}
+        {{ Form::hidden('codehtml', null) }}
         <div class="card-body">
-            <div class="form-group row">
-                <div class="col-md-6">
-                    <label style="font-weight: bold">Mẫu dự thảo khen thưởng</label>
-                    {!! Form::select('maduthao', $a_duthao, $inputs['maduthao'], ['id' => 'maduthao', 'class' => 'form-control select2basic']) !!}
-                </div>
-            </div>
-            <hr>
-            {!! Form::model($model, [
-                'method' => 'POST',
-                'url' => $inputs['url'] . 'QuyetDinh',
-                'class' => 'form',
-                'id' => 'frm_In',
-                'files' => true,
-                'enctype' => 'multipart/form-data',
-            ]) !!}
-            {{ Form::hidden('mahosotdkt', null) }}
-            {{ Form::hidden('thongtinquyetdinh', null) }}
             <div id="kt-ckeditor-1-toolbar"></div>
             <div id="kt-ckeditor-1">
-                {!! html_entity_decode($model->thongtinquyetdinh) !!}
+                {!! html_entity_decode($model->codehtml) !!}
             </div>
         </div>
         <div class="card-footer">
             <div class="row text-center">
                 <div class="col-lg-12">
-                    <a href="{{ url($inputs['url'] . 'ThongTin?madonvi=' . $model->madonvi) }}"
+                    <a href="{{ url($inputs['url'] . 'ThongTin') }}"
                         class="btn btn-danger mr-5"><i class="fa fa-reply"></i>&nbsp;Quay lại</a>
                     <button type="submit" onclick="setGiaTri()" class="btn btn-primary"><i class="fa fa-check"></i>Hoàn
                         thành</button>
@@ -79,7 +66,7 @@
     {!! Form::close() !!}
     <script>
         function setGiaTri() {
-            $('#frm_In').find("[name='thongtinquyetdinh']").val(myEditor.getData());
+            $('#frm_In').find("[name='codehtml']").val(myEditor.getData());
         }
     </script>
 @stop

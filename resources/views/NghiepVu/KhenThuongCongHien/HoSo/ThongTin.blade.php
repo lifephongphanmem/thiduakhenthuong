@@ -140,7 +140,8 @@
         </div>
     </div>
     <!--end::Card-->
-    <!--Modal Nhận hồ sơ-->
+
+    <!--Modal Tạo hồ sơ-->
     {!! Form::open(['url' => $inputs['url'] . 'Them', 'id' => 'frm_hoso']) !!}
     <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
     <div id="taohoso-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
@@ -154,7 +155,7 @@
                 <div class="modal-body">
                     <div class="form-group row">
                         <div class="col-lg-12">
-                            <label>Cấp độ khen thưởng</label>
+                            <label>Loại hình khen thưởng</label>
                             {!! Form::select('maloaihinhkt', $a_loaihinhkt, $inputs['maloaihinhkt'], ['class' => 'form-control']) !!}
                         </div>
                     </div>

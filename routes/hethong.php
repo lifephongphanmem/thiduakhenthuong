@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DanhMuc\dmphanloaiController;
+use App\Http\Controllers\DanhMuc\duthaoquyetdinhController;
 use Illuminate\Support\Facades\Route;
 
 //Đăng nhập
@@ -57,4 +58,12 @@ Route::group(['prefix'=>'DMPhanLoai'], function(){
     Route::post('Them', [dmphanloaiController::class,'Them']);
     Route::post('ThemNhom', [dmphanloaiController::class,'ThemNhom']);
     Route::post('Xoa',[dmphanloaiController::class,'Xoa']);
+});
+
+Route::group(['prefix'=>'DuThaoQD'], function(){
+    Route::get('ThongTin', [duthaoquyetdinhController::class,'ThongTin']);
+    Route::post('Them', [duthaoquyetdinhController::class,'Them']);
+    Route::post('Xoa',[duthaoquyetdinhController::class,'Xoa']);
+    Route::get('Xem', [duthaoquyetdinhController::class,'XemDuThao']);
+    Route::post('Luu', [duthaoquyetdinhController::class,'LuuDuThao']);
 });

@@ -43,7 +43,7 @@
 
 @section('content')
     <!--begin::Card-->
-    <div class="card card-custom" style="min-height: 600px">
+    <div class="card card-custom wave wave-animate-slow wave-info" style="min-height: 600px">
         <div class="card-header flex-wrap border-0 pt-6 pb-0">
             <div class="card-title">
                 <h3 class="card-label text-uppercase">Danh mục phân loại</h3>

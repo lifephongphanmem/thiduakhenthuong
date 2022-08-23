@@ -13,13 +13,13 @@ class UpdateDshosothiduakhenthuong2008Table extends Migration
      */
     public function up()
     {
-        Schema::table('hethongchung_chucnang', function (Blueprint $table) {
+        Schema::table('dshosothiduakhenthuong', function (Blueprint $table) {
             $table->string('soqd')->nullable();
             $table->date('ngayqd')->nullable();
             $table->string('donvikhenthuong')->nullable();
             $table->string('capkhenthuong')->nullable();
-            $table->string('chucvunguoiky')->nullable();
-            $table->string('hotennguoiky')->nullable();
+            $table->string('chucvunguoikyqd')->nullable();
+            $table->string('hotennguoikyqd')->nullable();
             $table->string('thongtinquyetdinh')->nullable();
         });
     }
@@ -31,13 +31,13 @@ class UpdateDshosothiduakhenthuong2008Table extends Migration
      */
     public function down()
     {
-        Schema::table('hethongchung_chucnang', function (Blueprint $table) {            
+        Schema::table('dshosothiduakhenthuong', function (Blueprint $table) {            
             $table->dropColumn('soqd');
             $table->dropColumn('ngayqd');
             $table->dropColumn('donvikhenthuong');
             $table->dropColumn('capkhenthuong');
-            $table->dropColumn('chucvunguoiky');
-            $table->dropColumn('hotennguoiky');
+            $table->dropColumn('chucvunguoikyqd');
+            $table->dropColumn('hotennguoikyqd');
             $table->dropColumn('thongtinquyetdinh');
         });
     }

@@ -61,14 +61,26 @@
                                 <span class="menu-text font-weight-bold">Hình thức khen thưởng</span>
                             </a>
                         </li>
+
+                        <li class="menu-item" aria-haspopup="true">
+                            <a href="{{url('/DuThaoQD/ThongTin')}}" class="menu-link">
+                                <i class="menu-bullet menu-bullet-dot">
+                                    <span></span>
+                                </i>
+                                <span class="menu-text font-weight-bold">Dự thảo quyết định khen thưởng</span>
+                            </a>
+                        </li>
+
                         <li class="menu-item" aria-haspopup="true">
                             <a href="{{url('/DMPhanLoai/ThongTin')}}" class="menu-link">
                                 <i class="menu-bullet menu-bullet-dot">
                                     <span></span>
                                 </i>
-                                <span class="menu-text font-weight-bold">Phân loại</span>
+                                <span class="menu-text font-weight-bold">Phân loại đối tượng</span>
                             </a>
                         </li>
+
+                        
                     </ul>
                 </div>
             </li>
