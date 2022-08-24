@@ -23,7 +23,7 @@
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
             $.ajax({
-                url: '/KhenThuongCongTrang/HoSoKhenThuong/LayDoiTuong',
+                url: "{{ $inputs['url_hs'] }}" + "LayDoiTuong",
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,
@@ -186,95 +186,10 @@
         {{ Form::hidden('madonvi', null, ['id' => 'madonvi']) }}
         {{ Form::hidden('mahosotdkt', null, ['id' => 'mahosotdkt']) }}
         <div class="card-body">
-            <h4 class="text-dark font-weight-bold mb-5">Thông tin chung</h4>
-            <div class="form-group row">
-                <div class="col-lg-6">
-                    <label>Tên đơn vị</label>
-                    {!! Form::text('tendonvi', null, ['class' => 'form-control', 'readonly' => 'true']) !!}
-                </div>
+            @include('NghiepVu._DungChung.HoSo_ThongTinChung')
 
-                <div class="col-lg-6">
-                    <label>Loại hình khen thưởng</label>
-                    {!! Form::select('maloaihinhkt', $a_loaihinhkt, null, ['class' => 'form-control', 'disabled' => 'true']) !!}
-                </div>
-            </div>
+            @include('NghiepVu._DungChung.HoSo_TaiLieuDinhKem')            
 
-            <div class="form-group row">
-                <div class="col-lg-6">
-                    <label>Số tờ trình</label>
-                    {!! Form::text('sototrinh', null, ['class' => 'form-control']) !!}
-                </div>
-                <div class="col-lg-6">
-                    <label>Ngày tháng trình<span class="require">*</span></label>
-                    {!! Form::input('date', 'ngayhoso', null, ['class' => 'form-control', 'required']) !!}
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-lg-6">
-                    <label>Chức vụ người ký tờ trình</label>
-                    {!! Form::text('chucvunguoiky', null, ['class' => 'form-control']) !!}
-                </div>
-                <div class="col-lg-6">
-                    <label>Họ tên người ký tờ trình</label>
-                    {!! Form::text('nguoikytotrinh', null, ['class' => 'form-control']) !!}
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-lg-12">
-                    <label>Mô tả hồ sơ</label>
-                    {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows' => 2]) !!}
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-lg-6">
-                    <label>Tờ trình: </label>
-                    {!! Form::file('totrinh', null, ['id' => 'totrinh', 'class' => 'form-control']) !!}
-                    @if ($model->baocao != '')
-                        <span class="form-control" style="border-style: none">
-                            <a href="{{ url('/data/totrinh/' . $model->totrinh) }}"
-                                target="_blank">{{ $model->totrinh }}</a>
-                        </span>
-                    @endif
-                </div>
-
-                <div class="col-lg-6">
-                    <label>Báo cáo thành tích: </label>
-                    {!! Form::file('baocao', null, ['id' => 'baocao', 'class' => 'form-control']) !!}
-                    @if ($model->baocao != '')
-                        <span class="form-control" style="border-style: none">
-                            <a href="{{ url('/data/baocao/' . $model->baocao) }}" target="_blank">{{ $model->baocao }}</a>
-                        </span>
-                    @endif
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-lg-6">
-                    <label>Biên bản cuộc họp: </label>
-                    {!! Form::file('bienban', null, ['id' => 'bienban', 'class' => 'form-control']) !!}
-                    @if ($model->bienban != '')
-                        <span class="form-control" style="border-style: none">
-                            <a href="{{ url('/data/bienban/' . $model->bienban) }}"
-                                target="_blank">{{ $model->bienban }}</a>
-                        </span>
-                    @endif
-                </div>
-
-                <div class="col-lg-6">
-                    <label>Tài liệu khác: </label>
-                    {!! Form::file('tailieukhac', null, ['id' => 'tailieukhac', 'class' => 'form-control']) !!}
-                    @if ($model->tailieukhac != '')
-                        <span class="form-control" style="border-style: none">
-                            <a href="{{ url('/data/tailieukhac/' . $model->tailieukhac) }}"
-                                target="_blank">{{ $model->tailieukhac }}</a>
-                        </span>
-                    @endif
-                </div>
-            </div>
-            
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-custom">
@@ -348,7 +263,6 @@
                                                                 {{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
                                                             <td class="text-center">
                                                                 {{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td>
-
 
                                                             @if ($tt->ketqua == 1)
                                                                 <td class="text-center">
@@ -489,7 +403,7 @@
         <div class="card-footer">
             <div class="row text-center">
                 <div class="col-lg-12">
-                    <a href="{{ url('/KhenThuongCongTrang/HoSoKhenThuong/ThongTin?madonvi=' . $model->madonvi) }}"
+                    <a href="{{ url($inputs['url'] . 'ThongTin?madonvi=' . $model->madonvi) }}"
                         class="btn btn-danger mr-5"><i class="fa fa-reply"></i>&nbsp;Quay lại</a>
                     <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i>Hoàn thành</button>
                 </div>
@@ -587,7 +501,9 @@
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label>Kết quả khen thưởng</label>
-                            {!! Form::select('ketqua', ['0' => 'Không khen thưởng', '1' => 'Có khen thưởng'], null, ['class' => 'form-control']) !!}
+                            {!! Form::select('ketqua', ['0' => 'Không khen thưởng', '1' => 'Có khen thưởng'], null, [
+                                'class' => 'form-control',
+                            ]) !!}
                         </div>
                     </div>
                 </div>
@@ -659,7 +575,9 @@
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label>Kết quả khen thưởng</label>
-                            {!! Form::select('ketqua', ['0' => 'Không khen thưởng', '1' => 'Có khen thưởng'], null, ['class' => 'form-control']) !!}
+                            {!! Form::select('ketqua', ['0' => 'Không khen thưởng', '1' => 'Có khen thưởng'], null, [
+                                'class' => 'form-control',
+                            ]) !!}
                         </div>
                     </div>
                 </div>

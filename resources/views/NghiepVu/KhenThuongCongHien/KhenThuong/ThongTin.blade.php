@@ -106,6 +106,12 @@
                                         href="{{ url($inputs['url_hs'] . 'Xem?mahosotdkt=' . $tt->mahosotdkt) }}"
                                         class="btn btn-sm btn-clean btn-icon" target="_blank">
                                         <i class="icon-lg la fa-eye text-dark icon-2x"></i></a>
+                                    <button title="Tài liệu đính kèm" type="button"
+                                        onclick="get_attack('{{ $tt->mahosotdkt }}', '{{$inputs['url_hs'].'TaiLieuDinhKem'}}')"
+                                        class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
+                                        data-toggle="modal">
+                                        <i class="icon-lg la la-file-download text-dark icon-2x"></i></button>
+
                                     @if (chkPhanQuyen('qdhosokhenthuongconghien', 'modify'))
                                         @if ($tt->trangthai == 'CXKT')
                                             @if ($tt->chinhsua)
@@ -308,5 +314,5 @@
         //     $('#frm_khenthuong').find("[name='madonvi']").val(madonvi);
         // }
     </script>
-
+@include('includes.modal.modal_attackfile')
 @stop

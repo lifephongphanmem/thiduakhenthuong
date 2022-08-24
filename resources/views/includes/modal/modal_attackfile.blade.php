@@ -1,5 +1,5 @@
 <div id="dinhkem-modal-confirm" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
-    {!! Form::open(['url'=>'approve','id' => 'frm_dinhkem'])!!}
+    {!! Form::open(['url'=>'','id' => 'frm_dinhkem'])!!}
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header modal-header-primary">
@@ -18,10 +18,10 @@
     {!! Form::close() !!}
 </div>
 <script>
-    function get_attack(mahs){
+    function get_attack(mahs, url){
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         $.ajax({
-            url: '{{$inputs['url']}}' + '/dinhkem',
+            url: url,
             type: 'GET',
             data: {
                 _token: CSRF_TOKEN,

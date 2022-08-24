@@ -13,6 +13,7 @@ use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
 use App\Model\DanhMuc\dmnhomphanloai_chitiet;
 use App\Model\DanhMuc\dsdiaban;
+use App\Model\DanhMuc\dsdonvi;
 use App\Model\HeThong\trangthaihoso;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosokhenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
@@ -67,7 +68,6 @@ class dshosokhenthuongconghienController extends Controller
             $m_loaihinh = dmloaihinhkhenthuong::where('maloaihinhkt', $inputs['maloaihinhkt'])->get();
         }
 
-
         return view('NghiepVu.KhenThuongCongHien.HoSo.ThongTin')
             ->with('model', $model)
             ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))
@@ -120,7 +120,7 @@ class dshosokhenthuongconghienController extends Controller
             return view('errors.notlogin');
     }
 
-    public function XemHoSo(Request $request)
+    public function InHoSo(Request $request)
     {
         if (Session::has('admin')) {
             if (!chkPhanQuyen()) {
@@ -128,23 +128,19 @@ class dshosokhenthuongconghienController extends Controller
             }
             $inputs = $request->all();
             $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-            $m_khenthuong = dshosothiduakhenthuong_khenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->get();
-            $model->tendonvi = getThongTinDonVi($model->madonvi, 'tendonvi');
-            $m_donvi = getDonVi(session('admin')->capdo);
-            $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
-            $m_danhhieu = dmdanhhieuthidua::all();
-            $m_canhan = getDoiTuongKhenThuong($model->madonvi);
-            $m_tapthe = getTapTheKhenThuong($model->madonvi);
-            return view('NghiepVu.KhenThuongCongHien.HoSo.Xem')
+            $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
+            $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
+            $model_detai = dshosothiduakhenthuong_detai::where('mahosotdkt', $model->mahosotdkt)->get();
+            $a_phanloaidt = array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai');
+            $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
+            return view('NghiepVu.KhenThuongCongHien.HoSo.InHoSo')
                 ->with('model', $model)
-                ->with('model_canhan', $m_khenthuong->where('phanloai', 'CANHAN'))
-                ->with('model_tapthe', $m_khenthuong->where('phanloai', 'TAPTHE'))
+                ->with('model_canhan', $model_canhan)
+                ->with('model_tapthe', $model_tapthe)
+                ->with('model_detai', $model_detai)
                 ->with('m_donvi', $m_donvi)
-                ->with('m_diaban', $m_diaban)
-                ->with('m_danhhieu', $m_danhhieu)
-                ->with('m_canhan', $m_canhan)
-                ->with('m_tapthe', $m_tapthe)
-                ->with('a_danhhieu', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
+                ->with('a_phanloaidt', $a_phanloaidt)
+                ->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
                 ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
                 ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
                 ->with('inputs', $inputs)
@@ -670,9 +666,9 @@ class dshosokhenthuongconghienController extends Controller
         }
         $inputs = $request->all();
         $model = dshosothiduakhenthuong::findorfail($inputs['id']);
-        dshosothiduakhenthuong_detai::where('mahosotdkt',$model->mahosotdkt)->delete();
-        dshosothiduakhenthuong_canhan::where('mahosotdkt',$model->mahosotdkt)->delete();
-        dshosothiduakhenthuong_tapthe::where('mahosotdkt',$model->mahosotdkt)->delete();
+        dshosothiduakhenthuong_detai::where('mahosotdkt', $model->mahosotdkt)->delete();
+        dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)->delete();
+        dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->delete();
         $model->delete();
         return redirect('/KhenThuongCongHien/HoSo/ThongTin?madonvi=' . $model->madonvi);
     }
@@ -820,5 +816,45 @@ class dshosokhenthuongconghienController extends Controller
 
             $result['status'] = 'success';
         }
+    }
+
+    public function TaiLieuDinhKem(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+
+        $inputs = $request->all();
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahs'])->first();
+        $result['message'] = '<div class="modal-body" id = "dinh_kem" >';
+        if (isset($model->totrinh)) {
+            $result['message'] .= '<div class="form-group row">';
+            $result['message'] .= '<label class="col-2 col-form-label font-weight-bold" >Tờ trình:</label>';
+            $result['message'] .= '<div class="col-10 form-control"><a target = "_blank" href = "' . url('/data/totrinh/' . $model->totrinh) . '">' . $model->totrinh . '</a ></div>';
+            $result['message'] .= '</div>';
+        }
+        if (isset($model->qdkt)) {
+            $result['message'] .= '<div class="form-group row">';
+            $result['message'] .= '<label class="col-2 col-form-label font-weight-bold" >Quyết định khen thưởng:</label>';
+            $result['message'] .= '<div class="col-10 form-control"><a target = "_blank" href = "' . url('/data/qdkt/' . $model->qdkt) . '">' . $model->qdkt . '</a ></div>';
+            $result['message'] .= '</div>';
+        }
+        if (isset($model->bienban)) {
+            $result['message'] .= '<div class="form-group row">';
+            $result['message'] .= '<label class="col-2 col-form-label font-weight-bold" >Biên bản cuộc họp</label>';
+            $result['message'] .= '<div class="col-10 form-control"><a target = "_blank" href = "' . url('/data/bienban/' . $model->bienban) . '">' . $model->bienban . '</a ></div>';
+            $result['message'] .= '</div>';
+        }
+        if (isset($model->tailieukhac)) {
+            $result['message'] .= '<div class="form-group row">';
+            $result['message'] .= '<label class="col-2 col-form-label font-weight-bold" >Tài liệu khác</label>';
+            $result['message'] .= '<div class="col-10 form-control"><a target = "_blank" href = "' . url('/data/tailieukhac/' . $model->tailieukhac) . '">' . $model->tailieukhac . '</a ></div>';
+            $result['message'] .= '</div>';
+        }
+        $result['message'] .= '</div>';
+        $result['status'] = 'success';
+
+        die(json_encode($result));
     }
 }

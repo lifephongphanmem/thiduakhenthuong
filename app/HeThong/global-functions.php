@@ -1173,4 +1173,13 @@ function emailValid($email)
         return false;
 }
 
+function Date2Str($date)
+{
+    if ($date == NULL || $date == null || $date == '' || $date == '0000-00-00') {
+        return 'ngày ... tháng ... năm ...';
+    } else {
+        $day = strtotime($date);
+        return 'ngày ' . date('d', $day) . ' tháng ' . date('m', $day) . ' năm ' . date('Y', $day);
+    }
+}
 ?>
