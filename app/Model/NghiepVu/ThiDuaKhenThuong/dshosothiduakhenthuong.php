@@ -31,7 +31,6 @@ class dshosothiduakhenthuong extends Model
         'hotennguoikyqd',
         'chucvunguoikyqd',
         'thongtinquyetdinh',
-
         //Trạng thái đơn vị
         'madonvi',
         'madonvi_nhan',

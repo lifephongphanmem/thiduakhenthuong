@@ -85,6 +85,7 @@
                     <th>Danh hiệu thi đua</th>
                 </tr>
             </thead>
+            <?php $i = 1; ?>
             @foreach ($model_canhan as $key => $tt)
                 <tr class="odd gradeX">
                     <td class="text-center">{{ $i++ }}</td>
@@ -99,25 +100,25 @@
     @endif
 
     @if (count($model_detai) > 0)
-        <p style="text-left: center; font-size: 18px;">Thông tin đề tài sáng kiến</p>
-        <table id="data_body1" class="money" cellspacing="0" cellpadding="1" border="0"
-            style="margin: 5px auto; border-collapse: collapse;font:normal 12px Times, serif;">
-            <tr>
-                <td class="text-left" width="15%">Tên đơn vị: {{ $m_donvi->tendonvi }}</td>
+    <p style="text-left: center; font-size: 18px;">Thông tin đề tài sáng kiến</p>
+    <table id="data_body2" class="money" cellspacing="0" cellpadding="0" border="1"
+        style="margin: 5px auto; border-collapse: collapse;font:normal 12px Times, serif;">
+        <thead>
+            <tr class="text-center">
+                <th width="10%">STT</th>
+                <th>Tên đề tài, sáng kiến</th>
+                <th>Thông tin tác giả</th>
             </tr>
-            <tr>
-                <td>Loại hình khen thưởng: {{ $a_loaihinhkt[$model->maloaihinhkt] ?? '' }}</td>
+        </thead>
+        <?php $i = 1; ?>
+        @foreach ($model_detai as $key => $tt)
+            <tr class="odd gradeX">
+                <td class="text-center">{{ $i++ }}</td>
+                <td>{{ $tt->tensangkien }}</td>
+                <td>{{ $tt->tendoituong . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}</td>
             </tr>
-            <tr>
-                <td>Số tờ trình: {{ $model->sototrinh }}</td>
-            </tr>
-            <tr>
-                <td>Ngày tháng trình: {{ getDayVn($model->ngayhoso) }}</td>
-            </tr>
-            <tr>
-                <td>Mô tả hồ sơ: {{ $model->noidung }}</td>
-            </tr>
-        </table>
+        @endforeach
+    </table>
     @endif
 
     <table id="data_footer" class="header" width="96%" border="0" cellspacing="0" cellpadding="8"
