@@ -24,6 +24,10 @@ class dsdonviController extends Controller
             $inputs = $request->all();
             $model = dsdiaban::all();
             $m_donvi = dsdonvi::all();
+            foreach ($model as $chitiet) {
+                $chitiet->sodonvi = $m_donvi->where('madiaban', $chitiet->madiaban)->count();
+            }
+
             return view('HeThongChung.DonVi.ThongTin')
                 ->with('model', $model)
                 ->with('inputs', $inputs)

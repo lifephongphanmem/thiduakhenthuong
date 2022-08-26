@@ -22,7 +22,7 @@
 @section('content')
     <!--begin::Card-->
     <div class="card card-custom wave wave-animate-slow wave-primary" style="min-height: 600px">
-        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+        <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
                 <h3 class="card-label text-uppercase">Danh sách đơn vị</h3>
             </div>
@@ -65,11 +65,17 @@
                                             <a href={{ '/DonVi/QuanLy?madiaban=' . $ct_t->madiaban }}
                                                 class="btn btn-sm btn-clean btn-icon"
                                                 title="Thay đổi đơn vị quản lý địa bàn">
-                                                <i class="icon-lg la fa-edit text-primary"></i></a>
+                                                <i class="icon-lg la fa-edit text-primary icon-2x"></i></a>
 
                                             <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_t->madiaban }}"
-                                                class="btn btn-sm btn-clean btn-icon" title="Danh sách đơn vị">
-                                                <i class="icon-lg la la-clipboard-list text-dark"></i></a>
+                                                class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
+                                                title="Danh sách đơn vị">
+                                                <span class="svg-icon svg-icon-xl">
+                                                    <i class="icon-lg la la-clipboard-list text-success icon-2x"></i>
+                                                </span>
+                                                <span
+                                                    class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $ct_t->sodonvi }}</span>
+                                            </a>                                            
                                         @endif
 
                                     </td>
@@ -90,11 +96,17 @@
                                                 <a href={{ '/DonVi/QuanLy?madiaban=' . $ct_h->madiaban }}
                                                     class="btn btn-sm btn-clean btn-icon"
                                                     title="Thay đổi đơn vị quản lý địa bàn">
-                                                    <i class="icon-lg la fa-edit text-primary"></i></a>
+                                                    <i class="icon-lg la fa-edit text-primary icon-2x"></i></a>
 
-                                                <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_h->madiaban }}"
-                                                    class="btn btn-sm btn-clean btn-icon" title="Danh sách đơn vị">
-                                                    <i class="icon-lg la la-clipboard-list text-dark"></i></a>
+                                                    <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_h->madiaban }}"
+                                                        class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
+                                                        title="Danh sách đơn vị">
+                                                        <span class="svg-icon svg-icon-xl">
+                                                            <i class="icon-lg la la-clipboard-list text-success icon-2x"></i>
+                                                        </span>
+                                                        <span
+                                                            class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $ct_h->sodonvi }}</span>
+                                                    </a>
                                             @endif
 
                                         </td>
@@ -115,11 +127,17 @@
                                                     <a href={{ '/DonVi/QuanLy?madiaban=' . $ct_x->madiaban }}
                                                         class="btn btn-sm btn-clean btn-icon"
                                                         title="Thay đổi đơn vị quản lý địa bàn">
-                                                        <i class="icon-lg la fa-edit text-primary"></i></a>
+                                                        <i class="icon-lg la fa-edit text-primary icon-2x"></i></a>
 
-                                                    <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_x->madiaban }}"
-                                                        class="btn btn-sm btn-clean btn-icon" title="Danh sách đơn vị">
-                                                        <i class="icon-lg la la-clipboard-list text-dark"></i></a>
+                                                        <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_x->madiaban }}"
+                                                            class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
+                                                            title="Danh sách đơn vị">
+                                                            <span class="svg-icon svg-icon-xl">
+                                                                <i class="icon-lg la la-clipboard-list text-success icon-2x"></i>
+                                                            </span>
+                                                            <span
+                                                                class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $ct_x->sodonvi }}</span>
+                                                        </a>
                                                 @endif
 
                                             </td>

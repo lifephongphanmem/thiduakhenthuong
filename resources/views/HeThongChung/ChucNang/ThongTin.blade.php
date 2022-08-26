@@ -101,11 +101,11 @@
                     <table class="table table-bordered table-hover" id="sample_3">
                         <thead>
                             <tr class="text-center">
-                                <th rowspan="2" width="8%">STT</th>
-                                <th rowspan="2" width="15%">Mã số</th>
+                                <th rowspan="2" width="10%">STT</th>
+                                <th rowspan="2">Mã số</th>
                                 <th rowspan="2">Tên chức năng</th>
                                 <th colspan="2">Tham số mặc định</th>
-                                <th rowspan="2" width="10%">Thao tác</th>
+                                <th rowspan="2" width="15%">Thao tác</th>
                             </tr>
                             <tr class="text-center">
                                 <th width="15%">Hình thức</br>khen thưởng</th>
@@ -115,26 +115,40 @@
                         <tbody>
                             @foreach ($model as $c1)
                                 <?php
-                                $model_c2 = $m_chucnang->where('machucnang_goc', $c1->machucnang)->where('capdo', '2');
+                                $model_c2 = $m_chucnang
+                                    ->where('machucnang_goc', $c1->machucnang)
+                                    ->where('capdo', '2')
+                                    ->sortby('sapxep');
                                 ?>
-                                <tr class="font-weight-bold"> 
+                                <tr class="font-weight-bold">
                                     <td class="text-uppercase font-weight-bold text-info">{{ toAlpha($c1->sapxep) }}</td>
                                     <td class="font-weight-bold text-info">{{ $c1->machucnang }}</td>
                                     <td class="font-weight-bold text-info">{{ $c1->tenchucnang }}</td>
-                                    <td class="font-weight-bold text-info">{{ $a_hinhthuckt[$c1->mahinhthuckt] ?? $c1->mahinhthuckt }}</td>
-                                    <td class="font-weight-bold text-info">{{ $a_loaihinhkt[$c1->maloaihinhkt] ?? $c1->maloaihinhkt }}</td>
+                                    <td class="font-weight-bold text-info">
+                                        {{ $a_hinhthuckt[$c1->mahinhthuckt] ?? $c1->mahinhthuckt }}</td>
+                                    <td class="font-weight-bold text-info">
+                                        {{ $a_loaihinhkt[$c1->maloaihinhkt] ?? $c1->maloaihinhkt }}</td>
                                     <td style="text-align: center">
                                         @if (chkPhanQuyen('hethongchung_chucnang', 'modify'))
                                             <button onclick="getChucNang({{ $c1->id }})"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                 title="Thay đổi thông tin" data-toggle="modal">
-                                                <i class="icon-lg la fa-edit text-dark icon-2x"></i></button>
-
-                                            <button
-                                                onclick="addChucNang('{{ $c1->machucnang }}','2','{{ count($model_c2) + 1 }}')"
-                                                class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
-                                                title="Thêm chức năng" data-toggle="modal">
-                                                <i class="icon-lg la fa-plus text-dark icon-2x"></i></button>
+                                                <i class="icon-lg la fa-edit text-primary icon-2x"></i></button>
+                                            {{-- chỉ để quyền SSA thêm chức năng mới --}}
+                                            @if (session('admin')->capdo == 'SSA')
+                                                <button
+                                                    onclick="addChucNang('{{ $c1->machucnang }}','2','{{ count($model_c2) + 1 }}')"
+                                                    class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
+                                                    title="Thêm chức năng" data-toggle="modal">
+                                                    <i class="icon-lg la fa-plus text-primary icon-2x"></i>
+                                                </button>
+                                                <button title="Xóa thông tin" type="button"
+                                                    onclick="confirmDelete('{{ $c1->id }}','TaiKhoan/Xoa' }}')"
+                                                    class="btn btn-sm btn-clean btn-icon"
+                                                    data-target="#delete-modal-confirm" data-toggle="modal">
+                                                    <i class="icon-lg la fa-trash-alt text-danger icon-2x"></i>
+                                                </button>
+                                            @endif
                                         @endif
 
                                     </td>
@@ -142,7 +156,10 @@
 
                                 @foreach ($model_c2 as $c2)
                                     <?php
-                                    $model_c3 = $m_chucnang->where('machucnang_goc', $c2->machucnang)->where('capdo', '3');
+                                    $model_c3 = $m_chucnang
+                                        ->where('machucnang_goc', $c2->machucnang)
+                                        ->where('capdo', '3')
+                                        ->sortby('sapxep');
                                     ?>
                                     <tr class="info">
                                         <td class="text-uppercase">--{{ romanNumerals($c2->sapxep) }}</td>
@@ -169,7 +186,10 @@
 
                                     @foreach ($model_c3 as $c3)
                                         <?php
-                                        $model_c4 = $m_chucnang->where('machucnang_goc', $c3->machucnang)->where('capdo', '4');
+                                        $model_c4 = $m_chucnang
+                                            ->where('machucnang_goc', $c3->machucnang)
+                                            ->where('capdo', '4')
+                                            ->sortby('sapxep');
                                         ?>
                                         <tr class="info">
                                             <td class="text-uppercase">
