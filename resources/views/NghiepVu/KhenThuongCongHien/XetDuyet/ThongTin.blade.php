@@ -16,17 +16,17 @@
         jQuery(document).ready(function() {
             TableManaged3.init();
             $('#madonvi').change(function() {
-                window.location.href = "{{$inputs['url']}}" +  'ThongTin?madonvi=' + $(
+                window.location.href = "{{ $inputs['url'] }}" + 'ThongTin?madonvi=' + $(
                         '#madonvi').val() +
                     '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
             });
             $('#maloaihinhkt').change(function() {
-                window.location.href = "{{$inputs['url']}}" +  'ThongTin?madonvi=' + $(
+                window.location.href = "{{ $inputs['url'] }}" + 'ThongTin?madonvi=' + $(
                         '#madonvi').val() +
                     '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
             });
             $('#nam').change(function() {
-                window.location.href = "{{$inputs['url']}}" +  'ThongTin?madonvi=' + $(
+                window.location.href = "{{ $inputs['url'] }}" + 'ThongTin?madonvi=' + $(
                         '#madonvi').val() +
                     '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
             });
@@ -107,7 +107,7 @@
                                         class="btn btn-sm btn-clean btn-icon" target="_blank">
                                         <i class="icon-lg la fa-eye text-dark icon-2x"></i></a>
                                     @if (chkPhanQuyen('xdhosokhenthuongconghien', 'modify'))
-                                        @if (in_array($tt->trangthai_hoso, ['CD']))
+                                        @if (in_array($tt->trangthai_hoso, ['CD', 'BTLXD']))
                                             <button title="Trả lại hồ sơ" type="button"
                                                 onclick="confirmTraLai('{{ $tt->mahosotdkt }}', '{{ $inputs['madonvi'] }}', '{{ $inputs['url'] . 'TraLai' }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modal-tralai"
@@ -121,15 +121,21 @@
                                                 <i class="icon-lg la fa-share-square text-success icon-2x"></i></button>
                                         @endif
 
+                                        @if ($tt->trangthai == 'BTLXD')
+                                            <button title="Lý do hồ sơ bị trả lại" type="button"
+                                                onclick="viewLyDo('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}', '{{ $inputs['url_hs'] . 'LayLyDo' }}')"
+                                                class="btn btn-sm btn-clean btn-icon" data-target="#tralai-modal"
+                                                data-toggle="modal">
+                                                <i class="icon-lg la fa-archive text-info icon-2x"></i></button>
+                                        @endif
+
                                         @if ($tt->trangthai == 'DKT')
-                                            <a title="Thông tin hồ sơ khen thưởng"
-                                                href="{{ url($inputs['url_kt'] . 'Xem?mahosokt=' . $tt->mahosokt) }}"
-                                                class="btn btn-sm btn-clean btn-icon" target="_blank">
-                                                <i class="icon-lg la fa-user-check text-dark icon-2x"></i></a>
-                                            <a title="In quyết định khen thưởng"
-                                                href="{{ url($inputs['url_kt'] . 'XemQuyetDinh?mahosokt=' . $tt->mahosokt) }}"
-                                                class="btn btn-sm btn-clean btn-icon" target="_blank">
-                                                <i class="icon-lg la fa-print text-dark icon-2x"></i></a>
+                                            <button type="button" title="In quyết định khen thưởng"
+                                                onclick="setInDuLieu('{{ $tt->mahosotdkt }}')"
+                                                class="btn btn-sm btn-clean btn-icon" data-target="#indulieu-modal"
+                                                data-toggle="modal">
+                                                <i class="icon-lg la flaticon2-print text-dark icon-2x"></i>
+                                            </button>
                                         @endif
                                     @endif
                                 </td>
@@ -141,6 +147,139 @@
         </div>
     </div>
     <!--end::Card-->
+
+    {{-- In dữ liệu --}}
+    <div id="indulieu-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
+        {!! Form::open(['url' => '', 'id' => 'frm_InDuLieu']) !!}
+        <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
+        <input type="hidden" name="mahosotdkt" />
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-primary">
+                    <h4 id="modal-header-primary-label" class="modal-title">Thông tin in dữ liệu</h4>
+                    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <a onclick="setInQD($(this), '{{ url($inputs['url_kt']) }}')"
+                                class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
+                                <i class="la flaticon2-print"></i>Quyết định khen thưởng
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <button type="button" onclick="setInPhoi('{{ $inputs['url_kt'] . 'InBangKhen' }}', 'TAPTHE')"
+                                class="btn btn-sm btn-clean text-dark font-weight-bold" data-target="#modal-InPhoi"
+                                data-toggle="modal">
+                                <i class="la flaticon2-print"></i>In phôi bằng khen(Tập thể)
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <button type="button"
+                                onclick="setInPhoi('{{ $inputs['url_kt'] . 'InBangKhen' }}', 'CANHAN')"
+                                class="btn btn-sm btn-clean text-dark font-weight-bold" data-target="#modal-InPhoi"
+                                data-toggle="modal">
+                                <i class="la flaticon2-print"></i>In phôi bằng khen(Cá nhân)
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <button type="button"
+                                onclick="setInPhoi('{{ $inputs['url_kt'] . 'InGiayKhen' }}', 'TAPTHE')"
+                                class="btn btn-sm btn-clean text-dark font-weight-bold" data-target="#modal-InPhoi"
+                                data-toggle="modal">
+                                <i class="la flaticon2-print"></i>In phôi giấy khen(Tập thể)
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <button type="button"
+                                onclick="setInPhoi('{{ $inputs['url_kt'] . 'InGiayKhen' }}', 'CANHAN')"
+                                class="btn btn-sm btn-clean text-dark font-weight-bold" data-target="#modal-InPhoi"
+                                data-toggle="modal">
+                                <i class="la flaticon2-print"></i>In phôi giấy khen(Cá nhân)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-default">Đóng</button>
+                </div>
+            </div>
+        </div>
+        {!! Form::close() !!}
+    </div>
+
+    {!! Form::open(['url' => '', 'id' => 'frm_InPhoi', 'target' => '_blank']) !!}
+    <div id="modal-InPhoi" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
+        <input type="hidden" name="mahosotdkt" />
+        <input type="hidden" name="phanloai" />
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-primary">
+                    <h4 id="modal-header-primary-label" class="modal-title">Thông tin in dữ liệu</h4>
+                    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div id="doituonginphoi" class="row">
+                        <div class="col-lg-12">
+                            <label class="form-control-label">Tên đối tượng</label>
+                            {!! Form::select('tendoituong', setArrayAll([], 'Tất cả'), null, ['class' => 'form-control select2_modal']) !!}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-default">Đóng</button>
+                    <button type="submit" class="btn btn-success">Hoàn thành</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {!! Form::close() !!}
+
+    <script>
+        function setInDuLieu(mahosotdkt) {
+            $('#frm_InDuLieu').find("[name='mahosotdkt']").val(mahosotdkt);
+        }
+
+        function setInQD(e, url) {
+            e.prop('href', url + '/InQuyetDinh?mahosotdkt=' + $('#frm_InDuLieu').find("[name='mahosotdkt']").val());
+        }
+
+        function setInPhoi(url, phanloai) {
+            $('#frm_InPhoi').attr('action', url);
+            $('#frm_InPhoi').find("[name='mahosotdkt']").val($('#frm_InDuLieu').find("[name='mahosotdkt']").val());
+            $('#frm_InPhoi').find("[name='phanloai']").val(phanloai);
+            var formData = new FormData($('#frm_InPhoi')[0]);
+            $.ajax({
+                url: "{{ $inputs['url_kt'] }}" + "LayDoiTuong",
+                method: "POST",
+                cache: false,
+                dataType: false,
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function(data) {
+                    //console.log(data);               
+                    if (data.status == 'success') {
+                        $('#doituonginphoi').replaceWith(data.message);
+                    }
+                }
+            });
+        }
+    </script>
+    @include('includes.modal.modal-lydo')
     @include('includes.modal.modal_unapprove_hs')
     @include('includes.modal.modal_nhanvatrinhkt_hs')
 @stop

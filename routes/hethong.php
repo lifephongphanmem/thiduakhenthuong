@@ -19,6 +19,7 @@ Route::group(['prefix'=>'DiaBan'], function(){
     Route::get('ThongTin','HeThong\dsdiabanController@index');
     Route::post('Sua','HeThong\dsdiabanController@modify');
     Route::post('delete','HeThong\dsdiabanController@delete');
+    Route::get('LayDonVi','HeThong\dsdiabanController@LayDonVi');
 });
 
 Route::group(['prefix'=>'DonVi'], function(){

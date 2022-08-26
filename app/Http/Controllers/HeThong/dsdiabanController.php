@@ -8,31 +8,41 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\DanhMuc\dsdiaban;
+use App\Model\DanhMuc\dsdonvi;
 use Illuminate\Support\Facades\Session;
 
 class dsdiabanController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if (!Session::has('admin')) {
+                return redirect('/');
+            };
+            return $next($request);
+        });
+    }
     public function index(Request $request)
     {
-        if (Session::has('admin')) {
-            if (!chkPhanQuyen()) {
-                return view('errors.noperm');
-            }
+        if (!chkPhanQuyen()) {
+            return view('errors.noperm');
+        }
 
-            $model = dsdiaban::all();
-            $inputs = $request->all();
-            //dd($model);
-            return view('HeThongChung.DiaBan.ThongTin')
-                ->with('model', $model)
-                ->with('inputs', $inputs)
-                ->with('a_phanloai', getPhanLoaiDonVi_DiaBan())
-                ->with('a_diaban', getDiaBan_All(true))
-                ->with('pageTitle', 'Danh sách địa bàn');
-        } else
-            return view('errors.notlogin');
+        $model = dsdiaban::all();
+        $inputs = $request->all();
+        $a_donvi = array_column(dsdonvi::all()->toarray(), 'tendonvi', 'madonvi');
+        //dd($model);
+        return view('HeThongChung.DiaBan.ThongTin')
+            ->with('model', $model)
+            ->with('inputs', $inputs)
+            ->with('a_phanloai', getPhanLoaiDonVi_DiaBan())
+            ->with('a_diaban', getDiaBan_All(true))
+            ->with('a_donvi', $a_donvi)
+            ->with('pageTitle', 'Danh sách địa bàn');
     }
 
-    public function modify(Request $request){
+    public function modify(Request $request)
+    {
         if (Session::has('admin')) {
             //tài khoản SSA; tài khoản quản trị + có phân quyền
             if (!chkPhanQuyen()) {
@@ -48,6 +58,8 @@ class dsdiabanController extends Controller
             } else {
                 $model->tendiaban = $inputs['tendiaban'];
                 $model->capdo = $inputs['capdo'];
+                $model->madonviQL = $inputs['madonviQL'];
+                $model->madiabanQL = $inputs['madiabanQL'];
                 $model->save();
             }
 
@@ -56,7 +68,8 @@ class dsdiabanController extends Controller
             return view('errors.notlogin');
     }
 
-    public function delete(Request $request){
+    public function delete(Request $request)
+    {
         if (Session::has('admin')) {
             //tài khoản SSA; tài khoản quản trị + có phân quyền
             if (!chkPhanQuyen()) {
@@ -67,5 +80,36 @@ class dsdiabanController extends Controller
             return redirect('/DiaBan/ThongTin');
         } else
             return view('errors.notlogin');
+    }
+
+    public function LayDonVi(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
+        }
+        $inputs = $request->all();        
+
+        $model = array_column(dsdonvi::where('madiaban', $inputs['madiaban'])->get()->toarray(), 'tendonvi', 'madonvi');
+        $result['message'] = '<div id="donviql" class="form-group row">';
+        $result['message'] .= '<div class="col-md-12">';
+        $result['message'] .= '<label class="form-control-label">Tên đối tượng</label>';
+        $result['message'] .= '<select class="form-control select2_modal" name="madonviQL">';
+        foreach ($model as $key => $val) {
+            $result['message'] .= '<option value="' . $key . '">' . $val . '</option>';
+        }
+        $result['message'] .= '</select>';
+        $result['message'] .= '</div>';
+        $result['message'] .= '<div>';
+
+        $result['status'] = 'success';
+        return response()->json($result);
     }
 }

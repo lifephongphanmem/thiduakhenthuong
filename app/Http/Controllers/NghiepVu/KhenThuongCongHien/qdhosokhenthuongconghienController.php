@@ -413,6 +413,43 @@ class qdhosokhenthuongconghienController extends Controller
             return view('errors.notlogin');
     }
 
+    public function HuyPheDuyet(Request $request)
+    {
+        if (Session::has('admin')) {
+            $inputs = $request->all();
+            $thoigian = date('Y-m-d H:i:s');
+            $trangthai = 'CXKT';
+            $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+            setTrangThaiHoSo($inputs['madonvi'], $model, ['thoigian' => $thoigian, 'trangthai' => $trangthai]);
+            $model->trangthai = $trangthai; //gán trạng thái hồ sơ để theo dõi
+            $model->donvikhenthuong = null;
+            $model->capkhenthuong = null;
+            $model->soqd = null;
+            $model->ngayqd = null;
+            $model->chucvunguoikyqd = null;
+            $model->hotennguoikyqd = null;
+            //dd($model);
+            $model->save();
+            return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
+        } else
+            return view('errors.notlogin');
+    }
+
+    public function TraLai(Request $request)
+    {
+        if (Session::has('admin')) {
+            $inputs = $request->all();
+            $thoigian = date('Y-m-d H:i:s');
+            $trangthai = 'BTLXD';
+            $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
+            setTrangThaiHoSo($inputs['madonvi'], $model, ['thoigian' => $thoigian, 'trangthai' => $trangthai, 'lydo' => $inputs['lydo']]);
+            $model->trangthai = $trangthai; //gán trạng thái hồ sơ để theo dõi           
+            //dd($model);
+            $model->save();
+            return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
+        } else
+            return view('errors.notlogin');
+    }
 
     public function LayTieuChuan(Request $request)
     {
@@ -711,7 +748,6 @@ class qdhosokhenthuongconghienController extends Controller
         return redirect(static::$url . 'Sua?mahosotdkt=' . $inputs['mahosotdkt']);
     }
 
-
     public function ThemTapThe(Request $request)
     {
         $result = array(
@@ -851,7 +887,6 @@ class qdhosokhenthuongconghienController extends Controller
             $result['message'] .= '</div>';
             $result['message'] .= '</div>';
 
-
             $result['status'] = 'success';
         }
     }
@@ -914,5 +949,56 @@ class qdhosokhenthuongconghienController extends Controller
 
             $result['status'] = 'success';
         }
+    }
+
+    public function LayDoiTuong(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
+        }
+        $inputs = $request->all();
+        //dd($inputs);
+        if ($inputs['phanloai'] == 'TAPTHE') {
+            $model = array_column(dshosothiduakhenthuong_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get()->toarray(), 'tentapthe', 'id');
+        } else {
+            $model = array_column(dshosothiduakhenthuong_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get()->toarray(), 'tendoituong', 'id');
+        }
+        $result['message'] = '<div class="row" id="doituonginphoi">';
+        $result['message'] .= '<div class="col-md-12">';
+        $result['message'] .= '<label class="form-control-label">Tên đối tượng</label>';
+        $result['message'] .= '<select class="form-control select2_modal" name="tendoituong">';
+        $result['message'] .= '<option value="ALL">Tất cả</option>';
+        foreach ($model as $key => $val) {
+            $result['message'] .= '<option value="' . $key . '">' . $val . '</option>';
+        }
+        $result['message'] .= '</select>';
+        $result['message'] .= '</div>';
+        $result['message'] .= '<div>';
+
+        $result['status'] = 'success';
+        return response()->json($result);
+    }
+
+    public function InBangKhen(Request $request)
+    {
+        $inputs = $request->all();
+        dd($inputs);
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        // if ($model->thongtinquyetdinh == '') {
+        //     $model->thongtinquyetdinh = getQuyetDinhCKE('QUYETDINH');
+        // }
+        $model->thongtinquyetdinh = str_replace('<p>[sangtrangmoi]</p>', '<div class=&#34;sangtrangmoi&#34;></div>', $model->thongtinquyetdinh);
+        //dd($model);
+        return view('BaoCao.DonVi.XemQuyetDinh')
+            ->with('model', $model)
+            ->with('pageTitle', 'Quyết định khen thưởng');
     }
 }

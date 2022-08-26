@@ -233,23 +233,12 @@ Route::group(['prefix' => 'KhenThuongCongHien'], function () {
         Route::post('QuyetDinh', [qdhosokhenthuongconghienController::class, 'LuuQuyetDinh']);
         Route::post('PheDuyet', [qdhosokhenthuongconghienController::class, 'PheDuyet']);
         Route::post('GanKhenThuong', [qdhosokhenthuongconghienController::class, 'GanKhenThuong']);
-        
-        Route::get('InQuyetDinh', [qdhosokhenthuongconghienController::class, 'InQuyetDinh']);
-        // Route::get('ThongTin', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@ThongTin');
-        // Route::post('KhenThuong', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@KhenThuong');
-        // Route::get('DanhSach', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@DanhSach');
-        // Route::post('DanhSach', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@LuuHoSo');
-        // Route::post('PheDuyet', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@PheDuyet');
-        // Route::post('HoSo', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@HoSo');
-        // Route::post('KetQua', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@KetQua');
-        // Route::get('LayDoiTuong', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@LayDoiTuong');
-        // Route::get('LayTieuChuan', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@LayTieuChuan');
-        // Route::get('Xem', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@XemHoSo');
+        Route::post('HuyPheDuyet', [qdhosokhenthuongconghienController::class, 'HuyPheDuyet']);
+        Route::post('TraLai', [qdhosokhenthuongconghienController::class, 'TraLai']);
 
-        // Route::get('InKetQua', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@InKetQua');
-        // Route::get('MacDinhQuyetDinh', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@MacDinhQuyetDinh');
-        // Route::get('QuyetDinh', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@QuyetDinh');
-        // Route::post('QuyetDinh', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@LuuQuyetDinh');
-        // Route::get('XemQuyetDinh', 'NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController@XemQuyetDinh');
+        //In dữ liệu
+        Route::post('LayDoiTuong', [qdhosokhenthuongconghienController::class, 'LayDoiTuong']);
+        Route::get('InQuyetDinh', [qdhosokhenthuongconghienController::class, 'InQuyetDinh']);
+        Route::post('InBangKhen', [qdhosokhenthuongconghienController::class, 'InBangKhen']);
     });
 });
