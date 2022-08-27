@@ -52,6 +52,7 @@ Route::group(['prefix'=>'ChucNang'], function(){
     Route::get('ThongTin','HeThong\dschucnangController@ThongTin');
     Route::post('ThongTin','HeThong\dschucnangController@LuuChucNang');
     Route::get('LayChucNang','HeThong\dschucnangController@LayChucNang');
+    Route::post('Xoa','HeThong\dschucnangController@XoaChucNang');
 });
 
 Route::group(['prefix'=>'DMPhanLoai'], function(){

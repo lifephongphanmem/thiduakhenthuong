@@ -17,8 +17,10 @@
             TableManaged3.init();
         });
 
-        function getId(id) {
-            document.getElementById("iddelete").value = id;
+        function confirmDelete(id, url) {
+            var form = $('#frm_delete');
+            form.attr('action',url);
+            form.find("[name='iddelete']").val(id);
         }
 
         function ClickDelete() {
@@ -59,7 +61,7 @@
                     form.find("[name='tenbang']").val(data.tenbang);
                     form.find("[name='api']").val(data.api);
                 }
-            })
+            });
         }
 
         function addChucNang(machucnang_goc, capdo, sapxep) {
@@ -73,7 +75,6 @@
             form.find("[name='sudung']").val('1').trigger('change');
             form.find("[name='tenbang']").val('');
             form.find("[name='api']").val('');
-
         }
     </script>
 @stop
@@ -115,16 +116,13 @@
                         <tbody>
                             @foreach ($model as $c1)
                                 <?php
-                                $model_c2 = $m_chucnang
-                                    ->where('machucnang_goc', $c1->machucnang)
-                                    ->where('capdo', '2')
-                                    ->sortby('sapxep');
+                                $model_c2 = $m_chucnang->where('machucnang_goc', $c1->machucnang)->sortby('sapxep');
                                 ?>
                                 <tr class="font-weight-bold">
                                     <td class="text-uppercase font-weight-bold text-info">{{ toAlpha($c1->sapxep) }}</td>
-                                    <td class="font-weight-bold text-info">{{ $c1->machucnang }}</td>
-                                    <td class="font-weight-bold text-info">{{ $c1->tenchucnang }}</td>
-                                    <td class="font-weight-bold text-info">
+                                    <td class="font-weight-bold">{{ $c1->machucnang }}</td>
+                                    <td class="font-weight-bold">{{ $c1->tenchucnang }}</td>
+                                    <td class="font-weight-bold">
                                         {{ $a_hinhthuckt[$c1->mahinhthuckt] ?? $c1->mahinhthuckt }}</td>
                                     <td class="font-weight-bold text-info">
                                         {{ $a_loaihinhkt[$c1->maloaihinhkt] ?? $c1->maloaihinhkt }}</td>
@@ -143,7 +141,7 @@
                                                     <i class="icon-lg la fa-plus text-primary icon-2x"></i>
                                                 </button>
                                                 <button title="Xóa thông tin" type="button"
-                                                    onclick="confirmDelete('{{ $c1->id }}','TaiKhoan/Xoa' }}')"
+                                                    onclick="confirmDelete('{{ $c1->id }}','/ChucNang/Xoa')"
                                                     class="btn btn-sm btn-clean btn-icon"
                                                     data-target="#delete-modal-confirm" data-toggle="modal">
                                                     <i class="icon-lg la fa-trash-alt text-danger icon-2x"></i>
@@ -156,13 +154,11 @@
 
                                 @foreach ($model_c2 as $c2)
                                     <?php
-                                    $model_c3 = $m_chucnang
-                                        ->where('machucnang_goc', $c2->machucnang)
-                                        ->where('capdo', '3')
-                                        ->sortby('sapxep');
+                                    $model_c3 = $m_chucnang->where('machucnang_goc', $c2->machucnang)->sortby('sapxep');
                                     ?>
-                                    <tr class="info">
-                                        <td class="text-uppercase">--{{ romanNumerals($c2->sapxep) }}</td>
+                                    <tr>
+                                        <td class="text-uppercase text-warning">
+                                            {{ toAlpha($c1->sapxep) }}--{{ romanNumerals($c2->sapxep) }}</td>
                                         <td>{{ $c2->machucnang }}</td>
                                         <td>{{ $c2->tenchucnang }}</td>
                                         <td>{{ $a_hinhthuckt[$c2->mahinhthuckt] ?? $c2->mahinhthuckt }}</td>
@@ -173,12 +169,19 @@
                                                     class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                     title="Thay đổi thông tin" data-toggle="modal">
                                                     <i class="icon-lg la fa-edit text-dark icon-2x"></i></button>
-
-                                                <button
-                                                    onclick="addChucNang('{{ $c2->machucnang }}','3','{{ count($model_c3) + 1 }}')"
-                                                    class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
-                                                    title="Thêm chức năng" data-toggle="modal">
-                                                    <i class="icon-lg la fa-plus text-dark icon-2x"></i></button>
+                                                @if (session('admin')->capdo == 'SSA')
+                                                    <button
+                                                        onclick="addChucNang('{{ $c2->machucnang }}','3','{{ count($model_c3) + 1 }}')"
+                                                        class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
+                                                        title="Thêm chức năng" data-toggle="modal">
+                                                        <i class="icon-lg la fa-plus text-dark icon-2x"></i></button>
+                                                    <button title="Xóa thông tin" type="button"
+                                                        onclick="confirmDelete('{{ $c2->id }}','/ChucNang/Xoa')"
+                                                        class="btn btn-sm btn-clean btn-icon"
+                                                        data-target="#delete-modal-confirm" data-toggle="modal">
+                                                        <i class="icon-lg la fa-trash-alt text-danger icon-2x"></i>
+                                                    </button>
+                                                @endif
                                             @endif
 
                                         </td>
@@ -186,14 +189,12 @@
 
                                     @foreach ($model_c3 as $c3)
                                         <?php
-                                        $model_c4 = $m_chucnang
-                                            ->where('machucnang_goc', $c3->machucnang)
-                                            ->where('capdo', '4')
-                                            ->sortby('sapxep');
+                                        $model_c4 = $m_chucnang->where('machucnang_goc', $c3->machucnang)->sortby('sapxep');
                                         ?>
                                         <tr class="info">
                                             <td class="text-uppercase">
-                                                --{{ romanNumerals($c2->sapxep) }}--{{ $c3->sapxep }}</td>
+                                                {{ toAlpha($c1->sapxep) }}--{{ romanNumerals($c2->sapxep) }}--{{ $c3->sapxep }}
+                                            </td>
                                             <td>{{ $c3->machucnang }}</td>
                                             <td>{{ $c3->tenchucnang }}</td>
                                             <td>{{ $a_hinhthuckt[$c3->mahinhthuckt] ?? $c3->mahinhthuckt }}</td>
@@ -204,12 +205,21 @@
                                                         class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                         title="Thay đổi thông tin" data-toggle="modal">
                                                         <i class="icon-lg la fa-edit text-dark icon-2x"></i></button>
-
-                                                    <button
-                                                        onclick="addChucNang('{{ $c3->machucnang }}','4','{{ count($model_c4) + 1 }}')"
-                                                        class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
-                                                        title="Thêm chức năng" data-toggle="modal">
-                                                        <i class="icon-lg la fa-plus text-dark icon-2x"></i></button>
+                                                    @if (session('admin')->capdo == 'SSA')
+                                                        <button
+                                                            onclick="addChucNang('{{ $c3->machucnang }}','4','{{ count($model_c4) + 1 }}')"
+                                                            class="btn btn-sm btn-clean btn-icon"
+                                                            data-target="#modify-modal" title="Thêm chức năng"
+                                                            data-toggle="modal">
+                                                            <i class="icon-lg la fa-plus text-dark icon-2x"></i>
+                                                        </button>
+                                                        <button title="Xóa thông tin" type="button"
+                                                            onclick="confirmDelete('{{ $c3->id }}','/ChucNang/Xoa')"
+                                                            class="btn btn-sm btn-clean btn-icon"
+                                                            data-target="#delete-modal-confirm" data-toggle="modal">
+                                                            <i class="icon-lg la fa-trash-alt text-danger icon-2x"></i>
+                                                        </button>
+                                                    @endif
                                                 @endif
 
                                             </td>
@@ -218,7 +228,7 @@
                                         @foreach ($model_c4 as $c4)
                                             <tr class="info">
                                                 <td class="text-uppercase">
-                                                    --{{ romanNumerals($c2->sapxep) }}--{{ $c3->sapxep }}--{{ $c4->sapxep }}
+                                                    {{ toAlpha($c1->sapxep) }}--{{ romanNumerals($c2->sapxep) }}--{{ $c3->sapxep }}--{{ $c4->sapxep }}
                                                 </td>
                                                 <td>{{ $c4->machucnang }}</td>
                                                 <td>{{ $c4->tenchucnang }}</td>
@@ -230,7 +240,16 @@
                                                             class="btn btn-sm btn-clean btn-icon"
                                                             data-target="#modify-modal" title="Thay đổi thông tin"
                                                             data-toggle="modal">
-                                                            <i class="icon-lg la fa-edit text-dark icon-2x"></i></button>
+                                                            <i class="icon-lg la fa-edit text-dark icon-2x"></i>
+                                                        </button>
+                                                        @if (session('admin')->capdo == 'SSA')
+                                                            <button title="Xóa thông tin" type="button"
+                                                                onclick="confirmDelete('{{ $c4->id }}','TaiKhoan/Xoa')"
+                                                                class="btn btn-sm btn-clean btn-icon"
+                                                                data-target="#delete-modal-confirm" data-toggle="modal">
+                                                                <i class="icon-lg la fa-trash-alt text-danger icon-2x"></i>
+                                                            </button>
+                                                        @endif
                                                     @endif
 
                                                 </td>
@@ -246,6 +265,7 @@
         </div>
     </div>
     <!--end::Card-->
+
     <!--Modal thông tin chi tiết -->
     {!! Form::open(['url' => '/ChucNang/ThongTin', 'id' => 'frm_modify']) !!}
     <div id="modify-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
@@ -343,19 +363,19 @@
     </div>
     {!! Form::close() !!}
 
-    <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    <div class="modal fade" id="delete-modal-confirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                {!! Form::open(['url' => 'diaban/delete', 'id' => 'frm_delete']) !!}
+                {!! Form::open(['url' => '', 'id' => 'frm_delete']) !!}
                 <div class="modal-header">
                     <h4 class="modal-title">Đồng ý xóa?</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 </div>
-                <input type="hidden" name="iddelete" id="iddelete">
+                <input type="hidden" name="iddelete" />
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-danger" onclick="ClickDelete()">Đồng ý</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-danger" onclick="ClickDelete()">Đồng ý</button>
                 </div>
                 {!! Form::close() !!}
             </div>

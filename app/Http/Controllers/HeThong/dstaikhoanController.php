@@ -27,7 +27,10 @@ class dstaikhoanController extends Controller
             $m_diaban = dsdiaban::all();
             //dd($m_donvi);
             $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
-            $model = dstaikhoan::where('madonvi', $inputs['madonvi'])->get();
+            $model = dstaikhoan::all();
+            foreach($m_donvi as $donvi){
+                $donvi->sotaikhoan = $model->where('madonvi',$donvi->madonvi)->count();
+            }
             return view('HeThongChung.TaiKhoan.ThongTin')
                 ->with('model', $model)
                 ->with('m_donvi', $m_donvi)
@@ -39,7 +42,25 @@ class dstaikhoanController extends Controller
             return view('errors.notlogin');
     }
 
-
+    public function DanhSach(Request $request)
+    {
+        if (Session::has('admin')) {
+            $inputs = $request->all();
+            $m_donvi = dsdonvi::all();
+            $m_diaban = dsdiaban::all();
+            //dd($m_donvi);
+            $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
+            $model = dstaikhoan::where('madonvi', $inputs['madonvi'])->get();
+            return view('HeThongChung.TaiKhoan.DanhSach')
+                ->with('model', $model)
+                ->with('m_donvi', $m_donvi)
+                ->with('m_diaban', $m_diaban)
+                ->with('a_nhomtk', [])
+                ->with('inputs', $inputs)
+                ->with('pageTitle', 'Danh sách tài khoản');
+        } else
+            return view('errors.notlogin');
+    }
 
     /**
      * Show the form for creating a new resource.
