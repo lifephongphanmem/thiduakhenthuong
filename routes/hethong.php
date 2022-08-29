@@ -37,6 +37,10 @@ Route::group(['prefix'=>'DonVi'], function(){
 
 Route::group(['prefix'=>'TaiKhoan'], function(){
     Route::get('ThongTin','HeThong\dstaikhoanController@ThongTin');
+    Route::get('DanhSach','HeThong\dstaikhoanController@DanhSach');
+
+    Route::get('PhanQuyen','HeThong\dstaikhoanController@PhanQuyen');
+
     Route::get('Them','HeThong\dstaikhoanController@create');
     Route::post('Them','HeThong\dstaikhoanController@store');
     Route::get('Sua','HeThong\dstaikhoanController@edit');

@@ -59,20 +59,14 @@
 
             <div class="form-group row">
                 <div class="col-md-12">
-                    <table class="table table-striped table-bordered table-hover" id="sample_3">
+                    <table class="table table-bordered table-hover" id="sample_3">
                         <thead>
                             <tr class="text-center">
-                                <th rowspan="2" width="2%">STT</th>
-                                <th rowspan="2">Tên tài khoản</th>
-                                <th rowspan="2" width="15%">Tài khoản<br>truy cập</th>
-                                <th colspan="3">Chức năng</th>
-                                <th rowspan="2" width="8%">Trạng thái</th>
-                                <th rowspan="2" width="15%">Thao tác</th>
-                            </tr>
-                            <tr class="text-center">
-                                <th width="5%">Nhập<br>liệu</th>
-                                <th width="5%">Tổng<br>hợp</th>
-                                <th width="5%">Quản<br>trị</th>
+                                <th width="5%">STT</th>
+                                <th>Tên tài khoản</th>
+                                <th width="15%">Tài khoản<br>truy cập</th>
+                                <th width="8%">Trạng thái</th>
+                                <th width="20%">Thao tác</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -83,58 +77,33 @@
                                 <tr>
                                     <td style="text-align: center">{{ $key + 1 }}</td>
                                     <td>{{ $tt->tentaikhoan }}</td>
-                                    <td class="active text-center">{{ $tt->tendangnhap }}</td>
-                                    @if ($tt->nhaplieu == 1)
-                                        <td class="text-center">
-                                            <button class="btn btn-sm btn-clean btn-icon">
-                                                <i class="icon-lg la fa-check text-primary"></i></button>
-                                        </td>
-                                    @else
-                                        <td class="text-center"></td>
-                                    @endif
-                                    @if ($tt->tonghop == 1)
-                                        <td class="text-center">
-                                            <button class="btn btn-sm btn-clean btn-icon">
-                                                <i class="icon-lg la fa-check text-primary"></i></button>
-                                        </td>
-                                    @else
-                                        <td class="text-center"></td>
-                                    @endif
-                                    @if ($tt->hethong == 1)
-                                        <td class="text-center">
-                                            <button class="btn btn-sm btn-clean btn-icon">
-                                                <i class="icon-lg la fa-check text-primary"></i></button>
-                                        </td>
-                                    @else
-                                        <td class="text-center"></td>
-                                    @endif
-
+                                    <td class="text-center">{{ $tt->tendangnhap }}</td>
 
                                     @if ($tt->trangthai == 1)
                                         <td class="text-center">
                                             <button title="Tài khoản đang được kích hoạt"
                                                 class="btn btn-sm btn-clean btn-icon">
-                                                <i class="icon-lg la fa-check text-primary"></i></button>
+                                                <i class="icon-lg la fa-check text-primary icon-2x"></i></button>
                                         @else
                                         <td class="text-center">
                                             <button title="Tài khoản đang được kích hoạt"
                                                 class="btn btn-sm btn-clean btn-icon">
-                                                <i class="icon-lg la fa-times-circle text-danger"></i></button>
+                                                <i class="icon-lg la fa-times-circle text-danger icon-2x"></i>
+                                            </button>
                                         </td>
-                                    @endif
-                                    </td>
+                                    @endif                                   
 
-                                    <td>
+                                    <td class="text-center">
                                         @if (chkPhanQuyen('dstaikhoan', 'modify'))
-                                            <a title="Sửa thông tin"
-                                                href="{{ url('/TaiKhoan/Sua?tendangnhap=' . $tt->tendangnhap) }}"
+                                            <a title="Sửa thông tin" href="{{ url('/TaiKhoan/Sua?tendangnhap=' . $tt->tendangnhap) }}"
                                                 class="btn btn-sm btn-clean btn-icon">
-                                                <i class="icon-lg la fa-edit text-primary"></i></a>
+                                                <i class="icon-lg la fa-edit text-primary icon-2x"></i>
+                                            </a>
                                             @if ($tt->trangthai == 1)
                                                 <a title="Phân quyền"
-                                                    href="{{ url('/TaiKhoan/PhanQuyenf?tendangnhap=' . $tt->tendangnhap) }}"
+                                                    href="{{ url('/TaiKhoan/PhanQuyen?tendangnhap=' . $tt->tendangnhap) }}"
                                                     class="btn btn-sm btn-clean btn-icon">
-                                                    <i class="icon-lg la fa-list-alt text-primary"></i></a>
+                                                    <i class="icon-lg flaticon2-user-1 text-primary"></i></a>
 
                                                 {{-- <button type="button" onclick="setPerGroup('{{ $tt->username }}')"
                                                 class="btn btn-default btn-xs mbs" data-target="#modify-phanquyen"
@@ -144,13 +113,13 @@
                                                 <a title="Sao chép tài khoản"
                                                     href="{{ url('taikhoan/copy?username=' . $tt->username) }}"
                                                     class="btn btn-sm btn-clean btn-icon">
-                                                    <i class="icon-lg la fa-copy text-info"></i></a>
+                                                    <i class="icon-lg la fa-copy text-info icon-2x"></i></a>
 
                                                 <button title="Xóa thông tin" type="button"
                                                     onclick="confirmDelete('{{ $tt->id }}','TaiKhoan/Xoa' }}')"
                                                     class="btn btn-sm btn-clean btn-icon"
                                                     data-target="#delete-modal-confirm" data-toggle="modal">
-                                                    <i class="icon-lg la fa-trash-alt text-danger"></i></button>
+                                                    <i class="icon-lg la fa-trash-alt text-danger icon-2x"></i></button>
                                             @endif
                                         @endif
                                     </td>
@@ -163,5 +132,5 @@
         </div>
     </div>
     <!--end::Card-->
-    @include("includes.modal.modal-delete")
+    @include('includes.modal.modal-delete')
 @stop

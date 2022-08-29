@@ -19,7 +19,7 @@
 
         function confirmDelete(id, url) {
             var form = $('#frm_delete');
-            form.attr('action',url);
+            form.attr('action', url);
             form.find("[name='iddelete']").val(id);
         }
 
@@ -65,7 +65,6 @@
         }
 
         function addChucNang(machucnang_goc, capdo, sapxep) {
-
             var form = $('#frm_modify');
             form.find("[name='machucnang']").val('');
             form.find("[name='tenchucnang']").val('');
@@ -118,22 +117,22 @@
                                 <?php
                                 $model_c2 = $m_chucnang->where('machucnang_goc', $c1->machucnang)->sortby('sapxep');
                                 ?>
-                                <tr class="font-weight-bold">
-                                    <td class="text-uppercase font-weight-bold text-info">{{ toAlpha($c1->sapxep) }}</td>
-                                    <td class="font-weight-bold">{{ $c1->machucnang }}</td>
-                                    <td class="font-weight-bold">{{ $c1->tenchucnang }}</td>
-                                    <td class="font-weight-bold">
+                                <tr>
+                                    <td class="text-uppercase font-weight-bold text-info {{ $c1->sudung == 0 ? 'text-line-through' : '' }}">{{ toAlpha($c1->sapxep) }}</td>
+                                    <td class="font-weight-bold {{ $c1->sudung == 0 ? 'text-line-through' : '' }}">{{ $c1->machucnang }}</td>
+                                    <td class="font-weight-bold {{ $c1->sudung == 0 ? 'text-line-through' : '' }}">{{ $c1->tenchucnang }}</td>
+                                    <td class="font-weight-bold {{ $c1->sudung == 0 ? 'text-line-through' : '' }}">
                                         {{ $a_hinhthuckt[$c1->mahinhthuckt] ?? $c1->mahinhthuckt }}</td>
-                                    <td class="font-weight-bold text-info">
+                                    <td class="font-weight-bold text-info {{ $c1->sudung == 0 ? 'text-line-through' : '' }}">
                                         {{ $a_loaihinhkt[$c1->maloaihinhkt] ?? $c1->maloaihinhkt }}</td>
-                                    <td style="text-align: center">
+                                    <td style="text-decoration: none;text-align: center">
                                         @if (chkPhanQuyen('hethongchung_chucnang', 'modify'))
                                             <button onclick="getChucNang({{ $c1->id }})"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                 title="Thay đổi thông tin" data-toggle="modal">
                                                 <i class="icon-lg la fa-edit text-primary icon-2x"></i></button>
                                             {{-- chỉ để quyền SSA thêm chức năng mới --}}
-                                            @if (session('admin')->capdo == 'SSA')
+                                            @if (session('admin')->capdo == 'SSA' && $c1->sudung == '1')
                                                 <button
                                                     onclick="addChucNang('{{ $c1->machucnang }}','2','{{ count($model_c2) + 1 }}')"
                                                     class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
@@ -154,22 +153,24 @@
 
                                 @foreach ($model_c2 as $c2)
                                     <?php
+                                    $sudung_c2 = $c2->sudung == 0 || $c1->sudung == 0 ? 0 : 1;
                                     $model_c3 = $m_chucnang->where('machucnang_goc', $c2->machucnang)->sortby('sapxep');
                                     ?>
                                     <tr>
-                                        <td class="text-uppercase text-warning">
+                                        <td class="text-uppercase text-warning {{ $sudung_c2 == 0 ? 'text-line-through' : '' }}">
                                             {{ toAlpha($c1->sapxep) }}--{{ romanNumerals($c2->sapxep) }}</td>
-                                        <td>{{ $c2->machucnang }}</td>
-                                        <td>{{ $c2->tenchucnang }}</td>
-                                        <td>{{ $a_hinhthuckt[$c2->mahinhthuckt] ?? $c2->mahinhthuckt }}</td>
-                                        <td>{{ $a_loaihinhkt[$c2->maloaihinhkt] ?? $c2->maloaihinhkt }}</td>
-                                        <td style="text-align: center">
+                                        <td class="{{ $sudung_c2 == 0 ? 'text-line-through' : '' }}">{{ $c2->machucnang }}</td>
+                                        <td class="{{ $sudung_c2 == 0 ? 'text-line-through' : '' }}">{{ $c2->tenchucnang }}</td>
+                                        <td class="{{ $sudung_c2 == 0 ? 'text-line-through' : '' }}">{{ $a_hinhthuckt[$c2->mahinhthuckt] ?? $c2->mahinhthuckt }}</td>
+                                        <td class="{{ $sudung_c2 == 0 ? 'text-line-through' : '' }}">{{ $a_loaihinhkt[$c2->maloaihinhkt] ?? $c2->maloaihinhkt }}</td>
+                                        <td style="text-decoration: none;text-align: center">
                                             @if (chkPhanQuyen('hethongchung_chucnang', 'modify'))
                                                 <button onclick="getChucNang({{ $c2->id }})"
                                                     class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                     title="Thay đổi thông tin" data-toggle="modal">
-                                                    <i class="icon-lg la fa-edit text-dark icon-2x"></i></button>
-                                                @if (session('admin')->capdo == 'SSA')
+                                                    <i class="icon-lg la fa-edit text-dark icon-2x"></i>
+                                                </button>
+                                                @if (session('admin')->capdo == 'SSA' && $sudung_c2 == '1')
                                                     <button
                                                         onclick="addChucNang('{{ $c2->machucnang }}','3','{{ count($model_c3) + 1 }}')"
                                                         class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
@@ -189,23 +190,24 @@
 
                                     @foreach ($model_c3 as $c3)
                                         <?php
+                                        $sudung_c3 = $c3->sudung == 0 || $sudung_c2 == 0 ? 0 : 1;
                                         $model_c4 = $m_chucnang->where('machucnang_goc', $c3->machucnang)->sortby('sapxep');
                                         ?>
-                                        <tr class="info">
-                                            <td class="text-uppercase">
+                                        <tr>
+                                            <td class="text-uppercase {{ $sudung_c3 == 0 ? 'text-line-through' : '' }}">
                                                 {{ toAlpha($c1->sapxep) }}--{{ romanNumerals($c2->sapxep) }}--{{ $c3->sapxep }}
                                             </td>
-                                            <td>{{ $c3->machucnang }}</td>
-                                            <td>{{ $c3->tenchucnang }}</td>
-                                            <td>{{ $a_hinhthuckt[$c3->mahinhthuckt] ?? $c3->mahinhthuckt }}</td>
-                                            <td>{{ $a_loaihinhkt[$c3->maloaihinhkt] ?? $c3->maloaihinhkt }}</td>
+                                            <td class="{{ $sudung_c3 == 0 ? 'text-line-through' : '' }}">{{ $c3->machucnang }}</td>
+                                            <td class="{{ $sudung_c3 == 0 ? 'text-line-through' : '' }}">{{ $c3->tenchucnang }}</td>
+                                            <td class="{{ $sudung_c3 == 0 ? 'text-line-through' : '' }}">{{ $a_hinhthuckt[$c3->mahinhthuckt] ?? $c3->mahinhthuckt }}</td>
+                                            <td class="{{ $sudung_c3 == 0 ? 'text-line-through' : '' }}">{{ $a_loaihinhkt[$c3->maloaihinhkt] ?? $c3->maloaihinhkt }}</td>
                                             <td style="text-align: center">
                                                 @if (chkPhanQuyen('hethongchung_chucnang', 'modify'))
                                                     <button onclick="getChucNang({{ $c3->id }})"
                                                         class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                         title="Thay đổi thông tin" data-toggle="modal">
                                                         <i class="icon-lg la fa-edit text-dark icon-2x"></i></button>
-                                                    @if (session('admin')->capdo == 'SSA')
+                                                    @if (session('admin')->capdo == 'SSA' && $sudung_c3 == '1')
                                                         <button
                                                             onclick="addChucNang('{{ $c3->machucnang }}','4','{{ count($model_c4) + 1 }}')"
                                                             class="btn btn-sm btn-clean btn-icon"
@@ -226,14 +228,17 @@
                                         </tr>
 
                                         @foreach ($model_c4 as $c4)
-                                            <tr class="info">
-                                                <td class="text-uppercase">
+                                            <?php
+                                            $sudung_c4 = $c4->sudung == 0 || $sudung_c3 == 0 ? 0 : 1;
+                                            ?>
+                                            <tr>
+                                                <td class="text-uppercase {{ $sudung_c4 == 0 ? 'text-line-through' : '' }}">
                                                     {{ toAlpha($c1->sapxep) }}--{{ romanNumerals($c2->sapxep) }}--{{ $c3->sapxep }}--{{ $c4->sapxep }}
                                                 </td>
-                                                <td>{{ $c4->machucnang }}</td>
-                                                <td>{{ $c4->tenchucnang }}</td>
-                                                <td>{{ $a_hinhthuckt[$c4->mahinhthuckt] ?? $c4->mahinhthuckt }}</td>
-                                                <td>{{ $a_loaihinhkt[$c4->maloaihinhkt] ?? $c4->maloaihinhkt }}</td>
+                                                <td class="{{ $sudung_c4 == 0 ? 'text-line-through' : '' }}">{{ $c4->machucnang }}</td>
+                                                <td class="{{ $sudung_c4 == 0 ? 'text-line-through' : '' }}">{{ $c4->tenchucnang }}</td>
+                                                <td class="{{ $sudung_c4 == 0 ? 'text-line-through' : '' }}">{{ $a_hinhthuckt[$c4->mahinhthuckt] ?? $c4->mahinhthuckt }}</td>
+                                                <td class="{{ $sudung_c4 == 0 ? 'text-line-through' : '' }}">{{ $a_loaihinhkt[$c4->maloaihinhkt] ?? $c4->maloaihinhkt }}</td>
                                                 <td style="text-align: center">
                                                     @if (chkPhanQuyen('hethongchung_chucnang', 'modify'))
                                                         <button onclick="getChucNang({{ $c4->id }})"
@@ -242,7 +247,7 @@
                                                             data-toggle="modal">
                                                             <i class="icon-lg la fa-edit text-dark icon-2x"></i>
                                                         </button>
-                                                        @if (session('admin')->capdo == 'SSA')
+                                                        @if (session('admin')->capdo == 'SSA' && $sudung_c4 == '1')
                                                             <button title="Xóa thông tin" type="button"
                                                                 onclick="confirmDelete('{{ $c4->id }}','TaiKhoan/Xoa')"
                                                                 class="btn btn-sm btn-clean btn-icon"

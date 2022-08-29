@@ -7,59 +7,61 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\DanhMuc\dstaikhoan;
+use App\Model\DanhMuc\dstaikhoan_phanquyen;
+use App\Model\HeThong\hethongchung_chucnang;
 use Illuminate\Support\Facades\Session;
 
 class dstaikhoanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if (!Session::has('admin')) {
+                return redirect('/');
+            };
+            return $next($request);
+        });
+    }
+
     public function ThongTin(Request $request)
     {
-        if (Session::has('admin')) {
-            $inputs = $request->all();
-            $m_donvi = dsdonvi::all();
-            $m_diaban = dsdiaban::all();
-            //dd($m_donvi);
-            $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
-            $model = dstaikhoan::all();
-            foreach($m_donvi as $donvi){
-                $donvi->sotaikhoan = $model->where('madonvi',$donvi->madonvi)->count();
-            }
-            return view('HeThongChung.TaiKhoan.ThongTin')
-                ->with('model', $model)
-                ->with('m_donvi', $m_donvi)
-                ->with('m_diaban', $m_diaban)
-                ->with('a_nhomtk', [])
-                ->with('inputs', $inputs)
-                ->with('pageTitle', 'Danh sách tài khoản');
-        } else
-            return view('errors.notlogin');
+        $inputs = $request->all();
+        $m_donvi = getDiaBan(session('admin')->capdo);
+        $m_diaban = getDonVi(session('admin')->capdo);
+        //dd($m_donvi);
+        $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
+        $model = dstaikhoan::all();
+        foreach ($m_donvi as $donvi) {
+            $donvi->sotaikhoan = $model->where('madonvi', $donvi->madonvi)->count();
+        }
+        return view('HeThongChung.TaiKhoan.ThongTin')
+            ->with('model', $model)
+            ->with('m_donvi', $m_donvi)
+            ->with('m_diaban', $m_diaban)
+            ->with('a_nhomtk', [])
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'Danh sách tài khoản');
     }
 
     public function DanhSach(Request $request)
     {
-        if (Session::has('admin')) {
-            $inputs = $request->all();
-            $m_donvi = dsdonvi::all();
-            $m_diaban = dsdiaban::all();
-            //dd($m_donvi);
-            $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
-            $model = dstaikhoan::where('madonvi', $inputs['madonvi'])->get();
-            return view('HeThongChung.TaiKhoan.DanhSach')
-                ->with('model', $model)
-                ->with('m_donvi', $m_donvi)
-                ->with('m_diaban', $m_diaban)
-                ->with('a_nhomtk', [])
-                ->with('inputs', $inputs)
-                ->with('pageTitle', 'Danh sách tài khoản');
-        } else
-            return view('errors.notlogin');
+        $inputs = $request->all();
+        $m_donvi = getDiaBan(session('admin')->capdo);
+        $m_diaban = getDonVi(session('admin')->capdo);
+        //dd($m_donvi);
+        $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
+        $model = dstaikhoan::where('madonvi', $inputs['madonvi'])->get();
+        return view('HeThongChung.TaiKhoan.DanhSach')
+            ->with('model', $model)
+            ->with('m_donvi', $m_donvi)
+            ->with('m_diaban', $m_diaban)
+            ->with('a_nhomtk', [])
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'Danh sách tài khoản');
     }
 
     /**
@@ -145,10 +147,39 @@ class dstaikhoanController extends Controller
     {
         if (Session::has('admin')) {
             $id = $request->all()['id'];
-            $model = dsdonvi::findorFail($id);
-            //dd($model);
+            $model = dstaikhoan::findorFail($id);
             $model->delete();
-            return redirect('/DonVi/DanhSach?madiaban=' . $model->madiaban);
+            return redirect('/TaiKhoan/ThongTin');
+        } else
+            return view('errors.notlogin');
+    }
+
+    //chức năng phân quyền
+    public function PhanQuyen(Request $request)
+    {
+        //1. Cần lọc các chức năng ko sử dụng (sudung==0) dùng hàm đệ quy để lọc từng phần
+        //2. kết hợp để gán giá trị phân quyền (0;1;null) null là cho các nhóm ko có nhóm con => từ đó xác định đó là nhóm để gán cho các nhóm con
+        //duyệt từng phần tử => nếu count(magoc) > 0 => nhóm có phần tử con
+        //dùng biến 'phanquyen' tương tư biến "sudung" để lọc chức năng trong nhóm con
+        if (Session::has('admin')) {
+            $inputs = $request->all();
+            $m_taikhoan = dstaikhoan::where('tendangnhap', $inputs['tendangnhap'])->first();
+            $m_phanquyen = dstaikhoan_phanquyen::where('tendangnhap', $inputs['tendangnhap'])->get();
+            $model = hethongchung_chucnang::where('capdo', '1')->get();
+            $m_chucnang = hethongchung_chucnang::all();
+            foreach ($m_chucnang as $chucnang) {
+                $phanquyen = $m_phanquyen->where('tendangnhap', $chucnang->tendangnhap)->where('machucnang', $chucnang->machucnang)->first();
+                $chucnang->phanquyen = $phanquyen->phanquyen ?? 0;
+                $chucnang->danhsach = $phanquyen->danhsach ?? 0;
+                $chucnang->thaydoi = $phanquyen->thaydoi ?? 0;
+                $chucnang->hoanthanh = $phanquyen->hoanthanh ?? 0;
+            }
+
+            return view('HeThongChung.TaiKhoan.PhanQuyen')
+                ->with('model', $model)
+                ->with('m_chucnang', $m_chucnang)
+                ->with('m_taikhoan', $m_taikhoan)
+                ->with('pageTitle', 'Chỉnh sửa thông tin đơn vị');
         } else
             return view('errors.notlogin');
     }

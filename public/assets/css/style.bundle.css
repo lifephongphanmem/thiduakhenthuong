@@ -27231,6 +27231,10 @@ button.bg-white:focus {
   text-align: center !important;
 }
 
+.text-line-through {
+  text-decoration: line-through;
+}
+
 @media (min-width: 576px) {
   .text-sm-left {
     text-align: left !important;
