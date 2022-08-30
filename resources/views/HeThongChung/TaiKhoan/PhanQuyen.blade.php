@@ -16,6 +16,43 @@
         jQuery(document).ready(function() {
             TableManaged3.init();
         });
+
+        function getChucNang(machucnang, tenchucnang, phanquyen, danhsach, thaydoi, hoanthanh, nhomchucnang) {
+            var form = $('#frm_modify');
+            form.find("[name='machucnang']").val(machucnang);
+            form.find("[name='tenchucnang']").val(tenchucnang);
+            form.find("[name='phanquyen']").prop('checked', phanquyen);
+            form.find("[name='nhomchucnang']").prop('checked', 0);
+            //Mở khóa chức năng
+            form.find("[name='danhsach']").prop('disabled', false);
+            form.find("[name='thaydoi']").prop('disabled', false);
+            form.find("[name='hoanthanh']").prop('disabled', false);
+            //checked="checked"
+            if (!nhomchucnang) {
+                form.find("[name='nhomchucnang']").attr('disabled', true).parent().addClass('checkbox-disabled').addClass(
+                    'text-danger');
+                form.find("[name='danhsach']").prop('checked', danhsach);
+                form.find("[name='thaydoi']").prop('checked', thaydoi);
+                form.find("[name='hoanthanh']").prop('checked', hoanthanh);
+            } else {
+                form.find("[name='nhomchucnang']").attr('disabled', false).parent().removeClass('checkbox-disabled')
+                    .removeClass('text-danger');
+                form.find("[name='danhsach']").prop('checked', 0);
+                form.find("[name='thaydoi']").prop('checked', 0);
+                form.find("[name='hoanthanh']").prop('checked', 0);
+            }
+        }
+
+        function setNhomChucNang() {
+            var form = $('#frm_modify');
+            var giatri = form.find("[name='nhomchucnang']").prop('checked');
+            form.find("[name='danhsach']").prop('disabled', !giatri);
+            form.find("[name='danhsach']").prop('checked', giatri);
+            form.find("[name='thaydoi']").prop('disabled', !giatri);
+            form.find("[name='thaydoi']").prop('checked', giatri);
+            form.find("[name='hoanthanh']").prop('disabled', !giatri);
+            form.find("[name='hoanthanh']").prop('checked', giatri);
+        }
     </script>
 @stop
 
@@ -24,7 +61,7 @@
     <div class="card card-custom wave wave-animate-slow wave-primary" style="min-height: 600px">
         <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Phân quyền tài khoản:</h3>
+                <h3 class="card-label text-uppercase">Phân quyền tài khoản: {{ $m_taikhoan->tentaikhoan }}</h3>
             </div>
             <div class="card-toolbar">
             </div>
@@ -54,18 +91,42 @@
                                 ?>
                                 <tr>
                                     <td
-                                        class="text-uppercase font-weight-bold text-info {{ $c1->sudung == 0 ? 'text-line-through' : '' }}">
-                                        {{ toAlpha($c1->sapxep) }}</td>
-                                    <td class="font-weight-bold {{ $c1->sudung == 0 ? 'text-line-through' : '' }}">
+                                        class="text-uppercase font-weight-bold text-info {{ $c1->phanquyen == 0 ? 'text-line-through' : '' }}">
+                                        {{ romanNumerals($c1->sapxep) }}</td>
+                                    <td class="font-weight-bold {{ $c1->phanquyen == 0 ? 'text-line-through' : '' }}">
                                         {{ $c1->machucnang }}</td>
-                                    <td class="font-weight-bold {{ $c1->sudung == 0 ? 'text-line-through' : '' }}">
+                                    <td class="font-weight-bold {{ $c1->phanquyen == 0 ? 'text-line-through' : '' }}">
                                         {{ $c1->tenchucnang }}</td>
-                                    <td>{{ $c1->danhsach }}</td>
-                                    <td>{{ $c1->thaydoi }}</td>
-                                    <td>{{ $c1->hoanthanh }}</td>
-                                    <td style="text-decoration: none;text-align: center">
-                                        @if (chkPhanQuyen('hethongchung_chucnang', 'modify'))
-                                            <button onclick="getChucNang({{ $c1->id }})"
+                                    @if ($c1->nhomchucnang)
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
+                                    @else
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-clean btn-icon">
+                                                <i
+                                                    class="icon-lg la {{ $c1->danhsach ? 'fa-check text-primary' : 'fa-times-circle text-danger' }} text-primary icon-2x"></i>
+                                            </button>
+                                        </td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-clean btn-icon">
+                                                <i
+                                                    class="icon-lg la {{ $c1->thaydoi ? 'fa-check text-primary' : 'fa-times-circle text-danger' }} text-primary icon-2x"></i>
+                                            </button>
+                                        </td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-clean btn-icon">
+                                                <i
+                                                    class="icon-lg la {{ $c1->hoanthanh ? 'fa-check text-primary' : 'fa-times-circle text-danger' }} text-primary icon-2x"></i>
+                                            </button>
+                                        </td>
+                                    @endif
+
+                                    <td class="text-center">
+                                        @if (chkPhanQuyen('dstaikhoan_phanquyen', 'thaydoi'))
+                                            <button
+                                                onclick="getChucNang('{{ $c1->machucnang }}','{{ $c1->tenchucnang }}',{{ $c1->phanquyen }},
+                                                {{ $c1->danhsach }}, {{ $c1->thaydoi }}, {{ $c1->hoanthanh }}, {{ $c1->nhomchucnang }})"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                 title="Thay đổi thông tin" data-toggle="modal">
                                                 <i class="icon-lg la fa-edit text-primary icon-2x"></i></button>
@@ -76,26 +137,50 @@
 
                                 @foreach ($model_c2 as $c2)
                                     <?php
-                                    $sudung_c2 = $c2->sudung == 0 || $c1->sudung == 0 ? 0 : 1;
+                                    $phanquyen_c2 = $c2->phanquyen == 0 || $c1->phanquyen == 0 ? 0 : 1;
                                     $model_c3 = $m_chucnang->where('machucnang_goc', $c2->machucnang)->sortby('sapxep');
                                     ?>
                                     <tr>
                                         <td
-                                            class="text-uppercase text-warning {{ $sudung_c2 == 0 ? 'text-line-through' : '' }}">
-                                            {{ toAlpha($c1->sapxep) }}--{{ romanNumerals($c2->sapxep) }}</td>
-                                        <td class="{{ $sudung_c2 == 0 ? 'text-line-through' : '' }}">{{ $c2->machucnang }}
+                                            class="text-uppercase text-warning {{ $phanquyen_c2 == 0 ? 'text-line-through' : '' }}">
+                                            {{ romanNumerals($c1->sapxep) }}--{{ $c2->sapxep }}</td>
+                                        <td class="{{ $phanquyen_c2 == 0 ? 'text-line-through' : '' }}">
+                                            {{ $c2->machucnang }}
                                         </td>
-                                        <td class="{{ $sudung_c2 == 0 ? 'text-line-through' : '' }}">
+                                        <td class="{{ $phanquyen_c2 == 0 ? 'text-line-through' : '' }}">
                                             {{ $c2->tenchucnang }}</td>
-                                        <td>{{ $c2->danhsach }}</td>
-                                        <td>{{ $c2->thaydoi }}</td>
-                                        <td>{{ $c2->hoanthanh }}</td>
-                                        <td style="text-decoration: none;text-align: center">
-                                            @if (chkPhanQuyen('hethongchung_chucnang', 'modify'))
-                                                <button onclick="getChucNang({{ $c2->id }})"
+                                        @if ($c2->nhomchucnang)
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                            <td class="text-center"></td>
+                                        @else
+                                            <td class="text-center">
+                                                <button class="btn btn-sm btn-clean btn-icon">
+                                                    <i
+                                                        class="icon-lg la {{ $c2->danhsach ? 'fa-check text-primary' : 'fa-times-circle text-danger' }}  icon-2x"></i>
+                                                </button>
+                                            </td>
+                                            <td class="text-center">
+                                                <button class="btn btn-sm btn-clean btn-icon">
+                                                    <i
+                                                        class="icon-lg la {{ $c2->thaydoi ? 'fa-check text-primary' : 'fa-times-circle text-danger' }}  icon-2x"></i>
+                                                </button>
+                                            </td>
+                                            <td class="text-center">
+                                                <button class="btn btn-sm btn-clean btn-icon">
+                                                    <i
+                                                        class="icon-lg la {{ $c2->hoanthanh ? 'fa-check text-primary' : 'fa-times-circle text-danger' }}  icon-2x"></i>
+                                                </button>
+                                            </td>
+                                        @endif
+                                        <td class="text-center">
+                                            @if (chkPhanQuyen('dstaikhoan_phanquyen', 'thaydoi') && $c1->phanquyen)
+                                                <button
+                                                    onclick="getChucNang('{{ $c2->machucnang }}','{{ $c2->tenchucnang }}',{{ $c2->phanquyen }},
+                                                    {{ $c2->danhsach }}, {{ $c2->thaydoi }}, {{ $c2->hoanthanh }}, {{ $c2->nhomchucnang }})"
                                                     class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                     title="Thay đổi thông tin" data-toggle="modal">
-                                                    <i class="icon-lg la fa-edit text-dark icon-2x"></i>
+                                                    <i class="icon-lg la fa-edit text-warning icon-2x"></i>
                                                 </button>
                                             @endif
 
@@ -104,26 +189,49 @@
 
                                     @foreach ($model_c3 as $c3)
                                         <?php
-                                        $sudung_c3 = $c3->sudung == 0 || $sudung_c2 == 0 ? 0 : 1;
+                                        $phanquyen_c3 = $c3->phanquyen == 0 || $phanquyen_c2 == 0 ? 0 : 1;
                                         $model_c4 = $m_chucnang->where('machucnang_goc', $c3->machucnang)->sortby('sapxep');
                                         ?>
                                         <tr>
-                                            <td class="text-uppercase {{ $sudung_c3 == 0 ? 'text-line-through' : '' }}">
-                                                {{ toAlpha($c1->sapxep) }}--{{ romanNumerals($c2->sapxep) }}--{{ $c3->sapxep }}
+                                            <td class="text-uppercase {{ $phanquyen_c3 == 0 ? 'text-line-through' : '' }}">
+                                                {{ romanNumerals($c1->sapxep) }}--{{ $c2->sapxep }}--{{ $c3->sapxep }}
                                             </td>
-                                            <td class="{{ $sudung_c3 == 0 ? 'text-line-through' : '' }}">
+                                            <td class="{{ $phanquyen_c3 == 0 ? 'text-line-through' : '' }}">
                                                 {{ $c3->machucnang }}</td>
-                                            <td class="{{ $sudung_c3 == 0 ? 'text-line-through' : '' }}">
+                                            <td class="{{ $phanquyen_c3 == 0 ? 'text-line-through' : '' }}">
                                                 {{ $c3->tenchucnang }}</td>
-                                            <td>{{ $c3->danhsach }}</td>
-                                            <td>{{ $c3->thaydoi }}</td>
-                                            <td>{{ $c3->hoanthanh }}</td>
+                                            @if ($c3->nhomchucnang)
+                                                <td class="text-center"></td>
+                                                <td class="text-center"></td>
+                                                <td class="text-center"></td>
+                                            @else
+                                                <td class="text-center">
+                                                    <button class="btn btn-sm btn-clean btn-icon">
+                                                        <i
+                                                            class="icon-lg la {{ $c3->danhsach ? 'fa-check text-primary' : 'fa-times-circle text-danger' }}  icon-2x"></i>
+                                                    </button>
+                                                </td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-sm btn-clean btn-icon">
+                                                        <i
+                                                            class="icon-lg la {{ $c3->thaydoi ? 'fa-check text-primary' : 'fa-times-circle text-danger' }}  icon-2x"></i>
+                                                    </button>
+                                                </td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-sm btn-clean btn-icon">
+                                                        <i
+                                                            class="icon-lg la {{ $c3->hoanthanh ? 'fa-check text-primary' : 'fa-times-circle text-danger' }}  icon-2x"></i>
+                                                    </button>
+                                                </td>
+                                            @endif
                                             <td style="text-align: center">
-                                                @if (chkPhanQuyen('hethongchung_chucnang', 'modify'))
-                                                    <button onclick="getChucNang({{ $c3->id }})"
+                                                @if (chkPhanQuyen('dstaikhoan_phanquyen', 'thaydoi') && $c1->phanquyen && $c2->phanquyen)
+                                                    <button
+                                                        onclick="getChucNang('{{ $c3->machucnang }}','{{ $c3->tenchucnang }}',{{ $c3->phanquyen }},
+                                                    {{ $c3->danhsach }}, {{ $c3->thaydoi }}, {{ $c3->hoanthanh }}, {{ $c3->nhomchucnang }})"
                                                         class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                         title="Thay đổi thông tin" data-toggle="modal">
-                                                        <i class="icon-lg la fa-edit text-dark icon-2x"></i>
+                                                        <i class="icon-lg la fa-edit text-primary icon-2x"></i>
                                                     </button>
                                                 @endif
 
@@ -132,27 +240,50 @@
 
                                         @foreach ($model_c4 as $c4)
                                             <?php
-                                            $sudung_c4 = $c4->sudung == 0 || $sudung_c3 == 0 ? 0 : 1;
+                                            $phanquyen_c4 = $c4->phanquyen == 0 || $phanquyen_c3 == 0 ? 0 : 1;
                                             ?>
                                             <tr>
                                                 <td
-                                                    class="text-uppercase {{ $sudung_c4 == 0 ? 'text-line-through' : '' }}">
-                                                    {{ toAlpha($c1->sapxep) }}--{{ romanNumerals($c2->sapxep) }}--{{ $c3->sapxep }}--{{ $c4->sapxep }}
+                                                    class="text-uppercase {{ $phanquyen_c4 == 0 ? 'text-line-through' : '' }}">
+                                                    {{ romanNumerals($c1->sapxep) }}--{{ $c2->sapxep }}--{{ $c3->sapxep }}--{{ $c4->sapxep }}
                                                 </td>
-                                                <td class="{{ $sudung_c4 == 0 ? 'text-line-through' : '' }}">
+                                                <td class="{{ $phanquyen_c4 == 0 ? 'text-line-through' : '' }}">
                                                     {{ $c4->machucnang }}</td>
-                                                <td class="{{ $sudung_c4 == 0 ? 'text-line-through' : '' }}">
+                                                <td class="{{ $phanquyen_c4 == 0 ? 'text-line-through' : '' }}">
                                                     {{ $c4->tenchucnang }}</td>
-                                                <td>{{ $c4->danhsach }}</td>
-                                                <td>{{ $c4->thaydoi }}</td>
-                                                <td>{{ $c4->hoanthanh }}</td>
+                                                @if ($c4->nhomchucnang)
+                                                    <td class="text-center"></td>
+                                                    <td class="text-center"></td>
+                                                    <td class="text-center"></td>
+                                                @else
+                                                    <td class="text-center">
+                                                        <button class="btn btn-sm btn-clean btn-icon">
+                                                            <i
+                                                                class="icon-lg la {{ $c4->danhsach ? 'fa-check text-primary' : 'fa-times-circle text-danger' }}  icon-2x"></i>
+                                                        </button>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button class="btn btn-sm btn-clean btn-icon">
+                                                            <i
+                                                                class="icon-lg la {{ $c4->thaydoi ? 'fa-check text-primary' : 'fa-times-circle text-danger' }}  icon-2x"></i>
+                                                        </button>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button class="btn btn-sm btn-clean btn-icon">
+                                                            <i
+                                                                class="icon-lg la {{ $c4->hoanthanh ? 'fa-check text-primary' : 'fa-times-circle text-danger' }}  icon-2x"></i>
+                                                        </button>
+                                                    </td>
+                                                @endif
                                                 <td style="text-align: center">
-                                                    @if (chkPhanQuyen('hethongchung_chucnang', 'modify'))
-                                                        <button onclick="getChucNang({{ $c4->id }})"
+                                                    @if (chkPhanQuyen('dstaikhoan_phanquyen', 'thaydoi') && $c1->phanquyen && $c2->phanquyen && $c3->phanquyen)
+                                                        <button
+                                                            onclick="getChucNang('{{ $c4->machucnang }}','{{ $c4->tenchucnang }}',{{ $c4->phanquyen }},
+                                                   {{ $c4->danhsach }}, {{ $c4->thaydoi }}, {{ $c4->hoanthanh }}, {{ $c4->nhomchucnang }})"
                                                             class="btn btn-sm btn-clean btn-icon"
                                                             data-target="#modify-modal" title="Thay đổi thông tin"
                                                             data-toggle="modal">
-                                                            <i class="icon-lg la fa-edit text-dark icon-2x"></i>
+                                                            <i class="icon-lg la fa-edit text-primary icon-2x"></i>
                                                         </button>
                                                     @endif
 
@@ -171,7 +302,9 @@
     <!--end::Card-->
 
     <!--Modal thông tin chi tiết -->
-    {!! Form::open(['url' => '/ChucNang/ThongTin', 'id' => 'frm_modify']) !!}
+    {!! Form::open(['url' => '/TaiKhoan/PhanQuyen', 'id' => 'frm_modify']) !!}
+    <input type="hidden" name="tendangnhap" value="{{ $m_taikhoan->tendangnhap }}" />
+    <input type="hidden" name="machucnang" />
     <div id="modify-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -181,8 +314,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-horizontal">
-                        <div class="row form-group">                           
-
+                        <div class="row form-group">
                             <div class="col-6">
                                 <label class="control-label">Tên chức năng<span class="require">*</span></label>
                                 {!! Form::text('tenchucnang', null, ['class' => 'form-control', 'required' => 'required']) !!}
@@ -194,13 +326,12 @@
                             <div class="col-9 col-form-label">
                                 <div class="checkbox-inline">
                                     <label class="checkbox checkbox-outline checkbox-success">
-                                    <input type="checkbox" name="Checkboxes15">
-                                    <span></span>Sử dụng</label>
+                                        <input type="checkbox" name="phanquyen" />
+                                        <span></span>Sử dụng</label>
                                     <label class="checkbox checkbox-outline checkbox-success">
-                                    <input type="checkbox" name="Checkboxes15" checked="checked">
-                                    <span></span>Áp dụng cho chức năng con</label>                                    
+                                        <input type="checkbox" name="nhomchucnang" onclick="setNhomChucNang()" />
+                                        <span></span>Áp dụng cho chức năng con</label>
                                 </div>
-                                <span class="form-text text-muted">Some help text goes here</span>
                             </div>
                         </div>
 
@@ -209,22 +340,19 @@
                             <div class="col-9 col-form-label">
                                 <div class="checkbox-inline">
                                     <label class="checkbox checkbox-outline checkbox-success">
-                                    <input type="checkbox" name="Checkboxes15">
-                                    <span></span>Danh sách</label>
+                                        <input type="checkbox" name="danhsach" />
+                                        <span></span>Danh sách</label>
                                     <label class="checkbox checkbox-outline checkbox-success">
-                                    <input type="checkbox" name="Checkboxes15" checked="checked">
-                                    <span></span>Thay đổi</label>
-                                    <label class="checkbox checkbox-outline checkbox-success checkbox-disabled">
-                                    <input type="checkbox" name="Checkboxes15" disabled="disabled">
-                                    <span></span>Hoàn thành</label>
+                                        <input type="checkbox" name="thaydoi" />
+                                        <span></span>Thay đổi</label>
+                                    <label class="checkbox checkbox-outline checkbox-success">
+                                        <input type="checkbox" name="hoanthanh" />
+                                        <span></span>Hoàn thành</label>
                                 </div>
-                                <span class="form-text text-muted">Some help text goes here</span>
+                                <span class="form-text text-muted">"Danh sách" mặc định được chọn khi chọn "Thay đổi" hoặc
+                                    "Hoàn thành"</span>
                             </div>
                         </div>
-
-
-
-
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -118,13 +118,13 @@
                                 $model_c2 = $m_chucnang->where('machucnang_goc', $c1->machucnang)->sortby('sapxep');
                                 ?>
                                 <tr>
-                                    <td class="text-uppercase font-weight-bold text-info {{ $c1->sudung == 0 ? 'text-line-through' : '' }}">{{ toAlpha($c1->sapxep) }}</td>
+                                    <td class="text-uppercase font-weight-bold text-info {{ $c1->sudung == 0 ? 'text-line-through' : '' }}">{{ romanNumerals($c1->sapxep) }}</td>
                                     <td class="font-weight-bold {{ $c1->sudung == 0 ? 'text-line-through' : '' }}">{{ $c1->machucnang }}</td>
                                     <td class="font-weight-bold {{ $c1->sudung == 0 ? 'text-line-through' : '' }}">{{ $c1->tenchucnang }}</td>
                                     <td class="font-weight-bold {{ $c1->sudung == 0 ? 'text-line-through' : '' }}">
-                                        {{ $a_hinhthuckt[$c1->mahinhthuckt] ?? $c1->mahinhthuckt }}</td>
-                                    <td class="font-weight-bold text-info {{ $c1->sudung == 0 ? 'text-line-through' : '' }}">
-                                        {{ $a_loaihinhkt[$c1->maloaihinhkt] ?? $c1->maloaihinhkt }}</td>
+                                        {{ $a_hinhthuckt[$c1->mahinhthuckt] ?? '' }}</td>
+                                    <td class="font-weight-bold {{ $c1->sudung == 0 ? 'text-line-through' : '' }}">
+                                        {{ $a_loaihinhkt[$c1->maloaihinhkt] ?? '' }}</td>
                                     <td style="text-decoration: none;text-align: center">
                                         @if (chkPhanQuyen('hethongchung_chucnang', 'modify'))
                                             <button onclick="getChucNang({{ $c1->id }})"
@@ -158,11 +158,11 @@
                                     ?>
                                     <tr>
                                         <td class="text-uppercase text-warning {{ $sudung_c2 == 0 ? 'text-line-through' : '' }}">
-                                            {{ toAlpha($c1->sapxep) }}--{{ romanNumerals($c2->sapxep) }}</td>
+                                            {{ romanNumerals($c1->sapxep) }}--{{ $c2->sapxep }}</td>
                                         <td class="{{ $sudung_c2 == 0 ? 'text-line-through' : '' }}">{{ $c2->machucnang }}</td>
                                         <td class="{{ $sudung_c2 == 0 ? 'text-line-through' : '' }}">{{ $c2->tenchucnang }}</td>
-                                        <td class="{{ $sudung_c2 == 0 ? 'text-line-through' : '' }}">{{ $a_hinhthuckt[$c2->mahinhthuckt] ?? $c2->mahinhthuckt }}</td>
-                                        <td class="{{ $sudung_c2 == 0 ? 'text-line-through' : '' }}">{{ $a_loaihinhkt[$c2->maloaihinhkt] ?? $c2->maloaihinhkt }}</td>
+                                        <td class="{{ $sudung_c2 == 0 ? 'text-line-through' : '' }}">{{ $a_hinhthuckt[$c2->mahinhthuckt] ?? '' }}</td>
+                                        <td class="{{ $sudung_c2 == 0 ? 'text-line-through' : '' }}">{{ $a_loaihinhkt[$c2->maloaihinhkt] ?? '' }}</td>
                                         <td style="text-decoration: none;text-align: center">
                                             @if (chkPhanQuyen('hethongchung_chucnang', 'modify'))
                                                 <button onclick="getChucNang({{ $c2->id }})"
@@ -195,12 +195,12 @@
                                         ?>
                                         <tr>
                                             <td class="text-uppercase {{ $sudung_c3 == 0 ? 'text-line-through' : '' }}">
-                                                {{ toAlpha($c1->sapxep) }}--{{ romanNumerals($c2->sapxep) }}--{{ $c3->sapxep }}
+                                                {{ romanNumerals($c1->sapxep) }}--{{ $c2->sapxep }}--{{ $c3->sapxep }}
                                             </td>
                                             <td class="{{ $sudung_c3 == 0 ? 'text-line-through' : '' }}">{{ $c3->machucnang }}</td>
                                             <td class="{{ $sudung_c3 == 0 ? 'text-line-through' : '' }}">{{ $c3->tenchucnang }}</td>
-                                            <td class="{{ $sudung_c3 == 0 ? 'text-line-through' : '' }}">{{ $a_hinhthuckt[$c3->mahinhthuckt] ?? $c3->mahinhthuckt }}</td>
-                                            <td class="{{ $sudung_c3 == 0 ? 'text-line-through' : '' }}">{{ $a_loaihinhkt[$c3->maloaihinhkt] ?? $c3->maloaihinhkt }}</td>
+                                            <td class="{{ $sudung_c3 == 0 ? 'text-line-through' : '' }}">{{ $a_hinhthuckt[$c3->mahinhthuckt] ?? '' }}</td>
+                                            <td class="{{ $sudung_c3 == 0 ? 'text-line-through' : '' }}">{{ $a_loaihinhkt[$c3->maloaihinhkt] ?? '' }}</td>
                                             <td style="text-align: center">
                                                 @if (chkPhanQuyen('hethongchung_chucnang', 'modify'))
                                                     <button onclick="getChucNang({{ $c3->id }})"
@@ -233,12 +233,12 @@
                                             ?>
                                             <tr>
                                                 <td class="text-uppercase {{ $sudung_c4 == 0 ? 'text-line-through' : '' }}">
-                                                    {{ toAlpha($c1->sapxep) }}--{{ romanNumerals($c2->sapxep) }}--{{ $c3->sapxep }}--{{ $c4->sapxep }}
+                                                    {{ romanNumerals($c1->sapxep) }}--{{ $c2->sapxep }}--{{ $c3->sapxep }}--{{ $c4->sapxep }}
                                                 </td>
                                                 <td class="{{ $sudung_c4 == 0 ? 'text-line-through' : '' }}">{{ $c4->machucnang }}</td>
                                                 <td class="{{ $sudung_c4 == 0 ? 'text-line-through' : '' }}">{{ $c4->tenchucnang }}</td>
-                                                <td class="{{ $sudung_c4 == 0 ? 'text-line-through' : '' }}">{{ $a_hinhthuckt[$c4->mahinhthuckt] ?? $c4->mahinhthuckt }}</td>
-                                                <td class="{{ $sudung_c4 == 0 ? 'text-line-through' : '' }}">{{ $a_loaihinhkt[$c4->maloaihinhkt] ?? $c4->maloaihinhkt }}</td>
+                                                <td class="{{ $sudung_c4 == 0 ? 'text-line-through' : '' }}">{{ $a_hinhthuckt[$c4->mahinhthuckt] ?? '' }}</td>
+                                                <td class="{{ $sudung_c4 == 0 ? 'text-line-through' : '' }}">{{ $a_loaihinhkt[$c4->maloaihinhkt] ?? '' }}</td>
                                                 <td style="text-align: center">
                                                     @if (chkPhanQuyen('hethongchung_chucnang', 'modify'))
                                                         <button onclick="getChucNang({{ $c4->id }})"
@@ -344,14 +344,14 @@
                         <div class="row form-group">
                             <div class="col-lg-6">
                                 <label class="control-label">Hình thức khen thưởng</label>
-                                {!! Form::select('mahinhthuckt', $a_hinhthuckt, null, [
+                                {!! Form::select('mahinhthuckt', setArrayAll($a_hinhthuckt, 'Không chọn'), null, [
                                     'class' => 'form-control select2_modal',
                                 ]) !!}
                             </div>
 
                             <div class="col-lg-6">
                                 <label class="control-label">Loại hình khen thưởng</label>
-                                {!! Form::select('maloaihinhkt', $a_loaihinhkt, null, [
+                                {!! Form::select('maloaihinhkt', setArrayAll($a_loaihinhkt, 'Không chọn'), null, [
                                     'class' => 'form-control select2_modal',
                                 ]) !!}
                             </div>

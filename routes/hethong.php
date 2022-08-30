@@ -40,6 +40,7 @@ Route::group(['prefix'=>'TaiKhoan'], function(){
     Route::get('DanhSach','HeThong\dstaikhoanController@DanhSach');
 
     Route::get('PhanQuyen','HeThong\dstaikhoanController@PhanQuyen');
+    Route::post('PhanQuyen','HeThong\dstaikhoanController@LuuPhanQuyen');
 
     Route::get('Them','HeThong\dstaikhoanController@create');
     Route::post('Them','HeThong\dstaikhoanController@store');

@@ -13,6 +13,7 @@ use App\Model\DanhMuc\dsdonvi;
 use App\Model\DanhMuc\dstaikhoan;
 use App\Model\DanhMuc\dstaikhoan_phanquyen;
 use App\Model\HeThong\hethongchung_chucnang;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Session;
 
 class dstaikhoanController extends Controller
@@ -115,7 +116,6 @@ class dstaikhoanController extends Controller
         }
     }
 
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -165,22 +165,68 @@ class dstaikhoanController extends Controller
             $inputs = $request->all();
             $m_taikhoan = dstaikhoan::where('tendangnhap', $inputs['tendangnhap'])->first();
             $m_phanquyen = dstaikhoan_phanquyen::where('tendangnhap', $inputs['tendangnhap'])->get();
-            $model = hethongchung_chucnang::where('capdo', '1')->get();
-            $m_chucnang = hethongchung_chucnang::all();
+            $m_chucnang = hethongchung_chucnang::where('sudung', '1')->get();
             foreach ($m_chucnang as $chucnang) {
-                $phanquyen = $m_phanquyen->where('tendangnhap', $chucnang->tendangnhap)->where('machucnang', $chucnang->machucnang)->first();
+                $phanquyen = $m_phanquyen->where('machucnang', $chucnang->machucnang)->first();
                 $chucnang->phanquyen = $phanquyen->phanquyen ?? 0;
                 $chucnang->danhsach = $phanquyen->danhsach ?? 0;
                 $chucnang->thaydoi = $phanquyen->thaydoi ?? 0;
                 $chucnang->hoanthanh = $phanquyen->hoanthanh ?? 0;
+                $chucnang->nhomchucnang = $m_chucnang->where('machucnang_goc', $chucnang->machucnang)->count() > 0 ? 1 : 0;
             }
-
+            //dd($m_chucnang);
             return view('HeThongChung.TaiKhoan.PhanQuyen')
-                ->with('model', $model)
+                ->with('model', $m_chucnang->where('capdo', '1')->sortby('sapxep'))
                 ->with('m_chucnang', $m_chucnang)
                 ->with('m_taikhoan', $m_taikhoan)
-                ->with('pageTitle', 'Chỉnh sửa thông tin đơn vị');
+                ->with('pageTitle', 'Phân quyền tài khoản');
         } else
             return view('errors.notlogin');
+    }
+
+    public function LuuPhanQuyen(Request $request)
+    {
+        $inputs = $request->all();
+        $inputs['phanquyen'] = isset($inputs['phanquyen']) ? 1 : 0;
+        $inputs['danhsach'] = isset($inputs['danhsach']) ? 1 : 0;
+        $inputs['thaydoi'] = isset($inputs['thaydoi']) ? 1 : 0;
+        $inputs['hoanthanh'] = isset($inputs['hoanthanh']) ? 1 : 0;
+        $inputs['danhsach'] = ($inputs['hoanthanh'] == 1 || $inputs['thaydoi'] == 1) ? 1 : $inputs['danhsach'];
+        //dd($inputs);
+        $m_chucnang = hethongchung_chucnang::where('sudung', '1')->get();
+        $ketqua = new Collection();
+        if (isset($inputs['nhomchucnang'])) {
+            $this->getChucNang($m_chucnang, $inputs['machucnang'], $ketqua);
+        }
+        $ketqua->add($m_chucnang->where('machucnang', $inputs['machucnang'])->first());
+
+        foreach ($ketqua as $ct) {
+            $chk = dstaikhoan_phanquyen::where('machucnang', $ct->machucnang)->where('tendangnhap', $inputs['tendangnhap'])->first();
+            $a_kq = [
+                'machucnang' => $ct->machucnang,
+                'tendangnhap' => $inputs['tendangnhap'],
+                'phanquyen' => $inputs['phanquyen'],
+                'danhsach' => $inputs['danhsach'],
+                'thaydoi' => $inputs['thaydoi'],
+                'hoanthanh' => $inputs['hoanthanh'],
+            ];
+            if ($chk == null) {
+                dstaikhoan_phanquyen::create($a_kq);
+            } else {
+                $chk->update($a_kq);
+            }
+        }
+        return redirect('/TaiKhoan/PhanQuyen?tendangnhap=' . $inputs['tendangnhap']);
+    }
+
+    function getChucNang(&$dschucnang, $machucnang_goc, &$ketqua)
+    {
+        foreach ($dschucnang as $key => $val) {
+            if ($val->machucnang_goc == $machucnang_goc) {
+                $ketqua->add($val);
+                $dschucnang->forget($key);
+                $this->getChucNang($dschucnang, $val->machucnang, $ketqua);
+            }
+        }
     }
 }
