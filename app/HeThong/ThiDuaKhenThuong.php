@@ -147,7 +147,8 @@ function getGioiTinh()
     );
 }
 
-function getLoaiVanBan(){
+function getLoaiVanBan()
+{
     $vbqlnn = array(
         'luat' => 'Luật',
         'nghidinh' => 'Nghị định',
@@ -186,7 +187,7 @@ function getThoiDiem()
     // ];
     return [
         '06THANGDAUNAM' => 'Báo cáo 06 tháng đầu năm',
-        '06THANGCUOINAM' => 'Báo cáo06 tháng cuối năm',
+        '06THANGCUOINAM' => 'Báo cáo 06 tháng cuối năm',
         'CANAM' => 'Báo cáo cả năm',
         '05NAM' => 'Báo cáo 05 năm',
         'quy1' => 'Quý I',
@@ -391,9 +392,24 @@ function getThongTinDonVi($madonvi, $tentruong)
 }
 
 //chưa làm 
-function chkPhanQuyen()
+function chkPhanQuyen($machucnang = null, $tenphanquyen = null)
 {
+    //Kiểm tra giao diện (danhmucchucnang)
+    if (!chkGiaoDien($machucnang)) {
+        return false;
+    }
+    $capdo = session('admin')->capdo;
+    if (in_array($capdo, ['SSA', 'ssa',])) {
+        return true;
+    }
+    dd(session('phanquyen'));
     return true;
+}
+
+function chkGiaoDien($machucnang, $tentruong = 'sudung')
+{
+    $chk = session('chucnang')[$machucnang] ?? ['sudung' => 0, 'tenchucnang' => $machucnang . '()'];
+    return $chk[$tentruong];
 }
 
 function getDonVi($capdo, $chucnang = null, $tenquyen = null)

