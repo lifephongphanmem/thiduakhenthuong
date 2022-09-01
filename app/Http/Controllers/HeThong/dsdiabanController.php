@@ -24,8 +24,8 @@ class dsdiabanController extends Controller
     }
     public function index(Request $request)
     {
-        if (!chkPhanQuyen()) {
-            return view('errors.noperm');
+        if (!chkPhanQuyen('dsdiaban', 'danhsach')) {
+            return view('errors.noperm')->with('machucang', 'dsdiaban');
         }
 
         $model = dsdiaban::all();
@@ -43,43 +43,36 @@ class dsdiabanController extends Controller
 
     public function modify(Request $request)
     {
-        if (Session::has('admin')) {
-            //tài khoản SSA; tài khoản quản trị + có phân quyền
-            if (!chkPhanQuyen()) {
-                return view('errors.noperm');
-            }
+        //tài khoản SSA; tài khoản quản trị + có phân quyền
+        if (!chkPhanQuyen('dsdiaban', 'thaydoi')) {
+            return view('errors.noperm')->with('machucang', 'dsdiaban');
+        }
 
-            $inputs = $request->all();
-            $model = dsdiaban::where('madiaban', $inputs['madiaban'])->first();
+        $inputs = $request->all();
+        $model = dsdiaban::where('madiaban', $inputs['madiaban'])->first();
 
-            if ($model == null) {
-                $inputs['madiaban'] = getdate()[0];
-                dsdiaban::create($inputs);
-            } else {
-                $model->tendiaban = $inputs['tendiaban'];
-                $model->capdo = $inputs['capdo'];
-                $model->madonviQL = $inputs['madonviQL'];
-                $model->madiabanQL = $inputs['madiabanQL'];
-                $model->save();
-            }
-
-            return redirect('/DiaBan/ThongTin');
-        } else
-            return view('errors.notlogin');
+        if ($model == null) {
+            $inputs['madiaban'] = getdate()[0];
+            dsdiaban::create($inputs);
+        } else {
+            $model->tendiaban = $inputs['tendiaban'];
+            $model->capdo = $inputs['capdo'];
+            $model->madonviQL = $inputs['madonviQL'];
+            $model->madiabanQL = $inputs['madiabanQL'];
+            $model->save();
+        }
+        return redirect('/DiaBan/ThongTin');
     }
 
     public function delete(Request $request)
     {
-        if (Session::has('admin')) {
-            //tài khoản SSA; tài khoản quản trị + có phân quyền
-            if (!chkPhanQuyen()) {
-                return view('errors.noperm');
-            }
-            $inputs = $request->all();
-            dsdiaban::findorfail($inputs['iddelete'])->delete();
-            return redirect('/DiaBan/ThongTin');
-        } else
-            return view('errors.notlogin');
+        //tài khoản SSA; tài khoản quản trị + có phân quyền
+        if (!chkPhanQuyen('dsdiaban', 'thaydoi')) {
+            return view('errors.noperm')->with('machucang', 'dsdiaban');
+        }
+        $inputs = $request->all();
+        dsdiaban::findorfail($inputs['iddelete'])->delete();
+        return redirect('/DiaBan/ThongTin');
     }
 
     public function LayDonVi(Request $request)
@@ -95,7 +88,7 @@ class dsdiabanController extends Controller
             );
             die(json_encode($result));
         }
-        $inputs = $request->all();        
+        $inputs = $request->all();
 
         $model = array_column(dsdonvi::where('madiaban', $inputs['madiaban'])->get()->toarray(), 'tendonvi', 'madonvi');
         $result['message'] = '<div id="donviql" class="form-group row">';

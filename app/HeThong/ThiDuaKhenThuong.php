@@ -394,6 +394,7 @@ function getThongTinDonVi($madonvi, $tentruong)
 //chưa làm 
 function chkPhanQuyen($machucnang = null, $tenphanquyen = null)
 {
+    //return true;
     //Kiểm tra giao diện (danhmucchucnang)
     if (!chkGiaoDien($machucnang)) {
         return false;
@@ -402,13 +403,16 @@ function chkPhanQuyen($machucnang = null, $tenphanquyen = null)
     if (in_array($capdo, ['SSA', 'ssa',])) {
         return true;
     }
-    dd(session('phanquyen'));
-    return true;
+    //dd(session('phanquyen'));
+    return session('phanquyen')[$machucnang][$tenphanquyen] ?? 0;
 }
 
 function chkGiaoDien($machucnang, $tentruong = 'sudung')
-{
+{    
     $chk = session('chucnang')[$machucnang] ?? ['sudung' => 0, 'tenchucnang' => $machucnang . '()'];
+    // if($machucnang == 'quantrihethong'){
+    //     dd($chk);
+    // }
     return $chk[$tentruong];
 }
 

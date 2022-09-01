@@ -199,23 +199,11 @@
                                                 <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                                             </li>
                                             @include('HeThong.main_subkhenthuongkhac')
-
-                                            <li class="menu-section">
-                                                <h4 class="menu-text">Quản lý Văn bản pháp lý, tài liệu</h4>
-                                                <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
-                                            </li>
+                                            
                                             @include('HeThong.main_subqlvanban')
-
-                                            <li class="menu-section">
-                                                <h4 class="menu-text">Tra cứu, tìm kiếm</h4>
-                                                <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
-                                            </li>
+                                            
                                             @include('HeThong.main_subtracuu')
-
-                                            <li class="menu-section">
-                                                <h4 class="menu-text">Thống kê, báo cáo</h4>
-                                                <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
-                                            </li>
+                                            
                                             @include('HeThong.main_subbaocao')
 
                                             @include('HeThong.main_subhethong')
@@ -370,7 +358,7 @@
                 </div>
 
                 <div class="d-flex flex-column">
-                    <div class="text-muted mt-1">Tên tài khoản</div>
+                    <div class="text-muted mt-1">{{session('admin')->tentaikhoan}}</div>
                 </div>
             </div>
             <!--end::Header-->

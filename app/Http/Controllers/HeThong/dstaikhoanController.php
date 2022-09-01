@@ -30,6 +30,10 @@ class dstaikhoanController extends Controller
 
     public function ThongTin(Request $request)
     {
+        if (!chkPhanQuyen('dstaikhoan', 'danhsach')) {
+            return view('errors.noperm')->with('machucang', 'dstaikhoan');
+        }
+
         $inputs = $request->all();
         $m_donvi = getDiaBan(session('admin')->capdo);
         $m_diaban = getDonVi(session('admin')->capdo);
@@ -50,9 +54,12 @@ class dstaikhoanController extends Controller
 
     public function DanhSach(Request $request)
     {
+        if (!chkPhanQuyen('dstaikhoan', 'danhsach')) {
+            return view('errors.noperm')->with('machucang', 'dstaikhoan');
+        }
         $inputs = $request->all();
-        $m_donvi = getDiaBan(session('admin')->capdo);
-        $m_diaban = getDonVi(session('admin')->capdo);
+        $m_donvi = getDonVi(session('admin')->capdo);
+        $m_diaban = getDiaBan(session('admin')->capdo);
         //dd($m_donvi);
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $model = dstaikhoan::where('madonvi', $inputs['madonvi'])->get();
@@ -72,17 +79,19 @@ class dstaikhoanController extends Controller
      */
     public function create(Request $request)
     {
-        if (Session::has('admin')) {
-            $inputs = $request->all();
-            $m_donvi = dsdonvi::all();
-            $model = new dstaikhoan();
-            $model->madonvi = $inputs['madonvi'];
-            return view('HeThongChung.TaiKhoan.Sua')
-                //->with('inputs', $inputs)
-                ->with('model', $model)
-                ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))
-                ->with('pageTitle', 'Tạo mới thông tin tài khoản');
+        if (!chkPhanQuyen('dstaikhoan', 'thaydoi')) {
+            return view('errors.noperm')->with('machucang', 'dstaikhoan');
         }
+
+        $inputs = $request->all();
+        $m_donvi = getDonVi(session('admin')->capdo);
+        $model = new dstaikhoan();
+        $model->madonvi = $inputs['madonvi'];
+        return view('HeThongChung.TaiKhoan.Sua')
+            //->with('inputs', $inputs)
+            ->with('model', $model)
+            ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))
+            ->with('pageTitle', 'Tạo mới thông tin tài khoản');
     }
 
     /**
@@ -93,27 +102,26 @@ class dstaikhoanController extends Controller
      */
     public function store(Request $request)
     {
-        if (Session::has('admin')) {
-            $inputs = $request->all();
-            $inputs['nhaplieu'] = isset($inputs['nhaplieu']) ? 1 : 0;
-            $inputs['tonghop'] = isset($inputs['tonghop']) ? 1 : 0;
-            $inputs['quantri'] = isset($inputs['quantri']) ? 1 : 0;
-            $inputs['tendangnhap'] = chuanhoachuoi($inputs['tendangnhap']);
-
-            $model = dstaikhoan::where('tendangnhap', $inputs['tendangnhap'])->first();
-            if ($model == null) {
-                $inputs['matkhau'] = md5($inputs['matkhau']);
-                dstaikhoan::create($inputs);
-            } else {
-                if ($inputs['matkhau'] == '')
-                    unset($inputs['matkhau']);
-                $model->update($inputs);
-            }
-
-            return redirect('/TaiKhoan/ThongTin?madonvi=' . $inputs['madonvi']);
-        } else {
-            return view('errors.notlogin');
+        if (!chkPhanQuyen('dstaikhoan', 'thaydoi')) {
+            return view('errors.noperm')->with('machucang', 'dstaikhoan');
         }
+        $inputs = $request->all();
+        $inputs['nhaplieu'] = isset($inputs['nhaplieu']) ? 1 : 0;
+        $inputs['tonghop'] = isset($inputs['tonghop']) ? 1 : 0;
+        $inputs['quantri'] = isset($inputs['quantri']) ? 1 : 0;
+        $inputs['tendangnhap'] = chuanhoachuoi($inputs['tendangnhap']);
+
+        $model = dstaikhoan::where('tendangnhap', $inputs['tendangnhap'])->first();
+        if ($model == null) {
+            $inputs['matkhau'] = md5($inputs['matkhau']);
+            dstaikhoan::create($inputs);
+        } else {
+            if ($inputs['matkhau'] == '')
+                unset($inputs['matkhau']);
+            $model->update($inputs);
+        }
+
+        return redirect('/TaiKhoan/ThongTin?madonvi=' . $inputs['madonvi']);
     }
 
     /**
@@ -124,16 +132,16 @@ class dstaikhoanController extends Controller
      */
     public function edit(Request $request)
     {
-        if (Session::has('admin')) {
-            $inputs = $request->all();
-            $model = dstaikhoan::where('tendangnhap', $inputs['tendangnhap'])->first();
-            $m_donvi = dsdonvi::all();
-            return view('HeThongChung.TaiKhoan.Sua')
-                ->with('model', $model)
-                ->with('a_donvi', array_column($m_donvi->toarray(), 'tendonvi', 'madonvi'))
-                ->with('pageTitle', 'Chỉnh sửa thông tin đơn vị');
-        } else
-            return view('errors.notlogin');
+        if (!chkPhanQuyen('dstaikhoan', 'thaydoi')) {
+            return view('errors.noperm')->with('machucang', 'dstaikhoan');
+        }
+        $inputs = $request->all();
+        $model = dstaikhoan::where('tendangnhap', $inputs['tendangnhap'])->first();
+        $m_donvi = dsdonvi::all();
+        return view('HeThongChung.TaiKhoan.Sua')
+            ->with('model', $model)
+            ->with('a_donvi', array_column($m_donvi->toarray(), 'tendonvi', 'madonvi'))
+            ->with('pageTitle', 'Chỉnh sửa thông tin đơn vị');
     }
 
 
@@ -145,13 +153,13 @@ class dstaikhoanController extends Controller
      */
     public function destroy(Request $request)
     {
-        if (Session::has('admin')) {
-            $id = $request->all()['id'];
-            $model = dstaikhoan::findorFail($id);
-            $model->delete();
-            return redirect('/TaiKhoan/ThongTin');
-        } else
-            return view('errors.notlogin');
+        if (!chkPhanQuyen('dstaikhoan', 'thaydoi')) {
+            return view('errors.noperm')->with('machucang', 'dstaikhoan');
+        }
+        $id = $request->all()['id'];
+        $model = dstaikhoan::findorFail($id);
+        $model->delete();
+        return redirect('/TaiKhoan/ThongTin');
     }
 
     //chức năng phân quyền
@@ -161,31 +169,35 @@ class dstaikhoanController extends Controller
         //2. kết hợp để gán giá trị phân quyền (0;1;null) null là cho các nhóm ko có nhóm con => từ đó xác định đó là nhóm để gán cho các nhóm con
         //duyệt từng phần tử => nếu count(magoc) > 0 => nhóm có phần tử con
         //dùng biến 'phanquyen' tương tư biến "sudung" để lọc chức năng trong nhóm con
-        if (Session::has('admin')) {
-            $inputs = $request->all();
-            $m_taikhoan = dstaikhoan::where('tendangnhap', $inputs['tendangnhap'])->first();
-            $m_phanquyen = dstaikhoan_phanquyen::where('tendangnhap', $inputs['tendangnhap'])->get();
-            $m_chucnang = hethongchung_chucnang::where('sudung', '1')->get();
-            foreach ($m_chucnang as $chucnang) {
-                $phanquyen = $m_phanquyen->where('machucnang', $chucnang->machucnang)->first();
-                $chucnang->phanquyen = $phanquyen->phanquyen ?? 0;
-                $chucnang->danhsach = $phanquyen->danhsach ?? 0;
-                $chucnang->thaydoi = $phanquyen->thaydoi ?? 0;
-                $chucnang->hoanthanh = $phanquyen->hoanthanh ?? 0;
-                $chucnang->nhomchucnang = $m_chucnang->where('machucnang_goc', $chucnang->machucnang)->count() > 0 ? 1 : 0;
-            }
-            //dd($m_chucnang);
-            return view('HeThongChung.TaiKhoan.PhanQuyen')
-                ->with('model', $m_chucnang->where('capdo', '1')->sortby('sapxep'))
-                ->with('m_chucnang', $m_chucnang)
-                ->with('m_taikhoan', $m_taikhoan)
-                ->with('pageTitle', 'Phân quyền tài khoản');
-        } else
-            return view('errors.notlogin');
+        if (!chkPhanQuyen('dstaikhoan', 'thaydoi')) {
+            return view('errors.noperm')->with('machucang', 'dstaikhoan');
+        }
+        $inputs = $request->all();
+        $m_taikhoan = dstaikhoan::where('tendangnhap', $inputs['tendangnhap'])->first();
+        $m_phanquyen = dstaikhoan_phanquyen::where('tendangnhap', $inputs['tendangnhap'])->get();
+        $m_chucnang = hethongchung_chucnang::where('sudung', '1')->get();
+        foreach ($m_chucnang as $chucnang) {
+            $phanquyen = $m_phanquyen->where('machucnang', $chucnang->machucnang)->first();
+            $chucnang->phanquyen = $phanquyen->phanquyen ?? 0;
+            $chucnang->danhsach = $phanquyen->danhsach ?? 0;
+            $chucnang->thaydoi = $phanquyen->thaydoi ?? 0;
+            $chucnang->hoanthanh = $phanquyen->hoanthanh ?? 0;
+            $chucnang->nhomchucnang = $m_chucnang->where('machucnang_goc', $chucnang->machucnang)->count() > 0 ? 1 : 0;
+        }
+        //dd($m_chucnang);
+        return view('HeThongChung.TaiKhoan.PhanQuyen')
+            ->with('model', $m_chucnang->where('capdo', '1')->sortby('sapxep'))
+            ->with('m_chucnang', $m_chucnang)
+            ->with('m_taikhoan', $m_taikhoan)
+            ->with('pageTitle', 'Phân quyền tài khoản');
     }
 
     public function LuuPhanQuyen(Request $request)
     {
+        if (!chkPhanQuyen('dstaikhoan', 'thaydoi')) {
+            return view('errors.noperm')->with('machucang', 'dstaikhoan');
+        }
+        
         $inputs = $request->all();
         $inputs['phanquyen'] = isset($inputs['phanquyen']) ? 1 : 0;
         $inputs['danhsach'] = isset($inputs['danhsach']) ? 1 : 0;

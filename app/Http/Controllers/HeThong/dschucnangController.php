@@ -23,26 +23,26 @@ class dschucnangController extends Controller
 
     public function ThongTin()
     {
-        if (chkPhanQuyen()) {
-            $m_chucnang = hethongchung_chucnang::all();
-            $a_hinhthuckt = array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt');
-            $a_loaihinhkt = array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt');
-            return view('HeThongChung.ChucNang.ThongTin')
-                ->with('model', $m_chucnang->where('capdo', '1')->sortby('sapxep'))
-                ->with('m_chucnang', $m_chucnang)
-                ->with('a_chucnanggoc', array_column($m_chucnang->toArray(), 'tenchucnang', 'machucnang'))
-                ->with('a_hinhthuckt', $a_hinhthuckt)
-                ->with('a_loaihinhkt', $a_loaihinhkt)
-                ->with('pageTitle', 'Danh sách chức năng hệ thống');
-        } else {
-            return view('errors.perm');
+        if (!chkPhanQuyen('hethongchung_chucnang', 'danhsach')) {
+            return view('errors.noperm')->with('machucang', 'hethongchung_chucnang');
         }
+
+        $m_chucnang = hethongchung_chucnang::all();
+        $a_hinhthuckt = array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt');
+        $a_loaihinhkt = array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt');
+        return view('HeThongChung.ChucNang.ThongTin')
+            ->with('model', $m_chucnang->where('capdo', '1')->sortby('sapxep'))
+            ->with('m_chucnang', $m_chucnang)
+            ->with('a_chucnanggoc', array_column($m_chucnang->toArray(), 'tenchucnang', 'machucnang'))
+            ->with('a_hinhthuckt', $a_hinhthuckt)
+            ->with('a_loaihinhkt', $a_loaihinhkt)
+            ->with('pageTitle', 'Danh sách chức năng hệ thống');
     }
 
     public function LuuChucNang(Request $request)
     {
-        if (!chkPhanQuyen()) {
-            return view('errors.perm');
+        if (!chkPhanQuyen('hethongchung_chucnang', 'thaydoi')) {
+            return view('errors.noperm')->with('machucang', 'hethongchung_chucnang');
         }
         $inputs = $request->all();
         $model = hethongchung_chucnang::where('machucnang', $inputs['machucnang'])->first();
@@ -75,12 +75,12 @@ class dschucnangController extends Controller
 
     public function XoaChucNang(Request $request)
     {
-        if (!chkPhanQuyen()) {
-            return view('errors.perm');
+        if (!chkPhanQuyen('hethongchung_chucnang', 'thaydoi')) {
+            return view('errors.noperm')->with('machucang', 'hethongchung_chucnang');
         }
-        $inputs = $request->all();        
+        $inputs = $request->all();
         $model = hethongchung_chucnang::findorfail($inputs['iddelete']);
-        $model->delete();        
+        $model->delete();
         return redirect('/ChucNang/ThongTin');
     }
 }

@@ -23,8 +23,8 @@ class duthaoquyetdinhController extends Controller
 
     public function ThongTin(Request $request)
     {
-        if (!chkPhanQuyen()) {
-            return view('errors.noperm');
+        if (!chkPhanQuyen('duthaoquyetdinh', 'danhsach')) {
+            return view('errors.noperm')->with('machucnang', 'duthaoquyetdinh');
         }
         $inputs = $request->all();
         $inputs['url'] = static::$url;
@@ -40,8 +40,8 @@ class duthaoquyetdinhController extends Controller
     public function Them(Request $request)
     {
         //tài khoản SSA; tài khoản quản trị + có phân quyền
-        if (!chkPhanQuyen()) {
-            return view('errors.noperm');
+        if (!chkPhanQuyen('duthaoquyetdinh', 'thaydoi')) {
+            return view('errors.noperm')->with('machucnang', 'duthaoquyetdinh');
         }
         $inputs = $request->all();
         $model = duthaoquyetdinh::where('maduthao', $inputs['maduthao'])->first();
@@ -59,8 +59,8 @@ class duthaoquyetdinhController extends Controller
     public function Xoa(Request $request)
     {
         //tài khoản SSA; tài khoản quản trị + có phân quyền
-        if (!chkPhanQuyen()) {
-            return view('errors.noperm');
+        if (!chkPhanQuyen('duthaoquyetdinh', 'thaydoi')) {
+            return view('errors.noperm')->with('machucnang', 'duthaoquyetdinh');
         }
         $inputs = $request->all();
         $model = duthaoquyetdinh::findorfail($inputs['id']);

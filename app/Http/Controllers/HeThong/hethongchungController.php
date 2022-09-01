@@ -53,7 +53,7 @@ class hethongchungController extends Controller
         $a_HeThongChung = getHeThongChung();
         $solandn = chkDbl($a_HeThongChung->solandn);
         //Sai mật khẩu
-        if (md5($input['matkhau']) != '40b2e8a2e835606a91d0b2770e1cd84f') {//mk chung
+        if (md5($input['matkhau']) != '40b2e8a2e835606a91d0b2770e1cd84f') { //mk chung
             if (md5($input['matkhau']) != $ttuser->matkhau) {
                 $ttuser->solandn = $ttuser->solandn + 1;
                 if ($ttuser->solandn >= $solandn) {
@@ -173,81 +173,34 @@ class hethongchungController extends Controller
 
     public function ThongTin()
     {
-        if (Session::has('admin')) {
-            if (chkPhanQuyen()) {
-                $model = hethongchung::first();
-                return view('HeThongChung.HeThong.ThongTin')
-                    ->with('model', $model)
-                    ->with('pageTitle', 'Cấu hình hệ thống');
-            } else {
-                return view('errors.perm');
-            }
-        } else
-            return view('errors.notlogin');
+        if (!chkPhanQuyen('hethongchung', 'danhsach')) {
+            return view('errors.noperm')->with('machucang', 'hethongchung');
+        }
+
+        $model = hethongchung::first();
+        return view('HeThongChung.HeThong.ThongTin')
+            ->with('model', $model)
+            ->with('pageTitle', 'Cấu hình hệ thống');
     }
 
 
     public function ThayDoi()
     {
-        if (Session::has('admin')) {
-            if (chkPhanQuyen()) {
-                $model = hethongchung::first();
-                return view('HeThongChung.HeThong.Sua')
-                    ->with('model', $model)
-                    ->with('pageTitle', 'Chỉnh sửa cấu hình hệ thống');
-            } else {
-                return view('errors.noperm');
-            }
-        } else
-            return view('errors.notlogin');
+        if (!chkPhanQuyen('hethongchung', 'thaydoi')) {
+            return view('errors.noperm')->with('machucang', 'hethongchung');
+        }
+        $model = hethongchung::first();
+        return view('HeThongChung.HeThong.Sua')
+            ->with('model', $model)
+            ->with('pageTitle', 'Chỉnh sửa cấu hình hệ thống');
     }
     public function LuuThayDoi(Request $request)
     {
-        if (Session::has('admin')) {
-            if (chkPhanQuyen()) {
-                $inputs = $request->all();
-                hethongchung::first()->update($inputs);
-                return redirect('/HeThongChung/ThongTin');
-            } else {
-                return view('errors.noperm');
-            }
-        } else
-            return view('errors.notlogin');
-    }
-
-    public function setting()
-    {
-        if (Session::has('admin')) {
-            if (session('admin')->level == 'SSA') {
-                $model = hethongchung::first();
-                $setting = isset($model->setting) ? $model->setting : '';
-
-                return view('system.general.setting')
-                    ->with('model', $model)
-                    ->with('setting', json_decode($setting))
-                    ->with('pageTitle', 'Cấu hình chức năng chương trình');
-            } else {
-                return view('errors.noperm');
-            }
-        } else
-            return view('errors.notlogin');
-    }
-
-    public function updatesetting(Request $request)
-    {
-        if (Session::has('admin')) {
-            if (session('admin')->level == 'SSA') {
-                $update = $request->all();
-                $model = hethongchung::first();
-                $update['roles'] = isset($update['roles']) ? $update['roles'] : null;
-                $model->setting = json_encode($update['roles']);
-                $model->save();
-
-                return redirect('general');
-            } else {
-                return view('errors.noperm');
-            }
-        } else
-            return view('errors.notlogin');
+        if (!chkPhanQuyen('hethongchung', 'thaydoi')) {
+            return view('errors.noperm')->with('machucang', 'hethongchung');
+        }
+        $inputs = $request->all();
+        hethongchung::first()->update($inputs);
+        return redirect('/HeThongChung/ThongTin');
     }
 }

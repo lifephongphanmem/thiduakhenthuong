@@ -23,8 +23,8 @@ class dmphanloaiController extends Controller
     public function ThongTin(Request $request)
     {
 
-        if (!chkPhanQuyen()) {
-            return view('errors.noperm');
+        if (!chkPhanQuyen('dmnhomphanloai','danhsach')) {
+            return view('errors.noperm')->with('machucnang','dmnhomphanloai');
         }
         $inputs = $request->all();
         $inputs['url'] = '/DMPhanLoai/';
@@ -42,8 +42,8 @@ class dmphanloaiController extends Controller
     public function ThemNhom(Request $request)
     {
         //tài khoản SSA; tài khoản quản trị + có phân quyền
-        if (!chkPhanQuyen()) {
-            return view('errors.noperm');
+        if (!chkPhanQuyen('dmnhomphanloai','thaydoi')) {
+            return view('errors.noperm')->with('machucnang','dmnhomphanloai');
         }
         $inputs = $request->all();
         $model = dmnhomphanloai::where('manhomphanloai', $inputs['manhomphanloai'])->first();
@@ -60,8 +60,8 @@ class dmphanloaiController extends Controller
     public function Them(Request $request)
     {
         //tài khoản SSA; tài khoản quản trị + có phân quyền
-        if (!chkPhanQuyen()) {
-            return view('errors.noperm');
+        if (!chkPhanQuyen('dmnhomphanloai','thaydoi')) {
+            return view('errors.noperm')->with('machucnang','dmnhomphanloai');
         }
         $inputs = $request->all();
         $model = dmnhomphanloai_chitiet::where('maphanloai', $inputs['maphanloai'])->first();
@@ -79,8 +79,8 @@ class dmphanloaiController extends Controller
     public function Xoa(Request $request)
     {
         //tài khoản SSA; tài khoản quản trị + có phân quyền
-        if (!chkPhanQuyen()) {
-            return view('errors.noperm');
+        if (!chkPhanQuyen('dmnhomphanloai','thaydoi')) {
+            return view('errors.noperm')->with('machucnang','dmnhomphanloai');
         }
         $inputs = $request->all();
         $model = dmnhomphanloai_chitiet::findorfail($inputs['id']);

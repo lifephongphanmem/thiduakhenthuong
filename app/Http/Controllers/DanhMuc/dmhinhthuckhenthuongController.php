@@ -9,56 +9,57 @@ use Illuminate\Support\Facades\Session;
 
 class dmhinhthuckhenthuongController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if (!Session::has('admin')) {
+                return redirect('/');
+            };
+            return $next($request);
+        });
+    }
+
     public function ThongTin(Request $request)
     {
-        if (Session::has('admin')) {
-            if (!chkPhanQuyen()) {
-                return view('errors.noperm');
-            }
-            $model = dmhinhthuckhenthuong::all();
-            $inputs = $request->all();
-            //dd($model);
-            return view('DanhMuc.HinhThucKhenThuong.ThongTin')
-                ->with('model', $model)
-                ->with('inputs', $inputs)
-                ->with('a_phanloai', getPhanLoaiHinhThucKT())
-                ->with('pageTitle', 'Danh mục loại hình khen thưởng');
-        } else
-            return view('errors.notlogin');
+        if (!chkPhanQuyen('dmhinhthuckhenthuong','danhsach')) {
+            return view('errors.noperm')->with('machucnang', 'dmhinhthuckhenthuong');
+        }
+        $model = dmhinhthuckhenthuong::all();
+        $inputs = $request->all();
+        //dd($model);
+        return view('DanhMuc.HinhThucKhenThuong.ThongTin')
+            ->with('model', $model)
+            ->with('inputs', $inputs)
+            ->with('a_phanloai', getPhanLoaiHinhThucKT())
+            ->with('pageTitle', 'Danh mục loại hình khen thưởng');
     }
 
     public function store(Request $request)
     {
-        if (Session::has('admin')) {
-            //tài khoản SSA; tài khoản quản trị + có phân quyền
-            if (!chkPhanQuyen()) {
-                return view('errors.noperm');
-            }
-            $inputs = $request->all();
-            $model = dmhinhthuckhenthuong::where('mahinhthuckt', $inputs['mahinhthuckt'])->first();
-            if ($model == null) {
-                $inputs['mahinhthuckt'] = getdate()[0];
-                dmhinhthuckhenthuong::create($inputs);
-            } else {
-                $model->update($inputs);
-            }
+        //tài khoản SSA; tài khoản quản trị + có phân quyền
+        if (!chkPhanQuyen('dmhinhthuckhenthuong','thaydoi')) {
+            return view('errors.noperm')->with('machucnang', 'dmhinhthuckhenthuong');
+        }
+        $inputs = $request->all();
+        $model = dmhinhthuckhenthuong::where('mahinhthuckt', $inputs['mahinhthuckt'])->first();
+        if ($model == null) {
+            $inputs['mahinhthuckt'] = getdate()[0];
+            dmhinhthuckhenthuong::create($inputs);
+        } else {
+            $model->update($inputs);
+        }
 
-            return redirect('/HinhThucKhenThuong/ThongTin');
-        } else
-            return view('errors.notlogin');
+        return redirect('/HinhThucKhenThuong/ThongTin');
     }
 
     public function delete(Request $request)
     {
-        if (Session::has('admin')) {
-            //tài khoản SSA; tài khoản quản trị + có phân quyền
-            if (!chkPhanQuyen()) {
-                return view('errors.noperm');
-            }
-            $inputs = $request->all();
-            dmhinhthuckhenthuong::findorfail($inputs['id'])->delete();
-            return redirect('/HinhThucKhenThuong/ThongTin');
-        } else
-            return view('errors.notlogin');
-    }    
+        //tài khoản SSA; tài khoản quản trị + có phân quyền
+        if (!chkPhanQuyen('dmhinhthuckhenthuong','thaydoi')) {
+            return view('errors.noperm')->with('machucnang', 'dmhinhthuckhenthuong');
+        }
+        $inputs = $request->all();
+        dmhinhthuckhenthuong::findorfail($inputs['id'])->delete();
+        return redirect('/HinhThucKhenThuong/ThongTin');
+    }
 }

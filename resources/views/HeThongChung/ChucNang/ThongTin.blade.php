@@ -60,6 +60,8 @@
                     form.find("[name='sudung']").val(data.sudung).trigger('change');
                     form.find("[name='tenbang']").val(data.tenbang);
                     form.find("[name='api']").val(data.api);
+                    form.find("[name='mahinhthuckt']").val(data.mahinhthuckt).trigger('change');
+                    form.find("[name='maloaihinhkt']").val(data.maloaihinhkt).trigger('change');
                 }
             });
         }
