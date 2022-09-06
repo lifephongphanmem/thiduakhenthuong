@@ -207,19 +207,9 @@
                 </div>
             </div>
 
-            <div class="form-group row">
+            <div class="form-group row">                
                 <div class="col-lg-6">
-                    <label>Tờ trình: </label>
-                    {!! Form::file('totrinh', null, ['id' => 'totrinh', 'class' => 'form-control']) !!}
-                    @if ($model->totrinh != '')
-                        <span class="form-control" style="border-style: none">
-                            <a href="{{ url('/data/totrinh/' . $model->totrinh) }}"
-                                target="_blank">{{ $model->totrinh }}</a>
-                        </span>
-                    @endif
-                </div>
-                <div class="col-lg-6">
-                    <label>Quyết định khen thưởng: </label>
+                    <label>Quyết định: </label>
                     {!! Form::file('qdkt', null, ['id' => 'qdkt', 'class' => 'form-control']) !!}
                     @if ($model->qdkt != '')
                         <span class="form-control" style="border-style: none">
@@ -227,19 +217,7 @@
                         </span>
                     @endif
                 </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-lg-6">
-                    <label>Biên bản: </label>
-                    {!! Form::file('bienban', null, ['id' => 'bienban', 'class' => 'form-control']) !!}
-                    @if ($model->bienban != '')
-                        <span class="form-control" style="border-style: none">
-                            <a href="{{ url('/data/bienban/' . $model->bienban) }}"
-                                target="_blank">{{ $model->bienban }}</a>
-                        </span>
-                    @endif
-                </div>
+           
                 <div class="col-lg-6">
                     <label>Tài liệu khác: </label>
                     {!! Form::file('tailieukhac', null, ['id' => 'tailieukhac', 'class' => 'form-control']) !!}

@@ -118,14 +118,28 @@ function getPhanLoaiHinhThucKT()
     );
 }
 
-function getPhamViPhongTrao()
+function getPhamViPhongTrao($capdo = 'T')
 {
-    return array(
-        'CUNGCAP' => 'Các đơn vị trong cùng cấp quản lý (cùng địa bàn quản lý)',
-        'CAPDUOI' => 'Các đơn vị cấp dưới quản lý trực tiếp',
-        'TOANTINH' => 'Toàn bộ các đơn vị trong Tỉnh',
-        'TRUNGUONG' => 'Phong trào thi đua cấp TW',
+    // return array(
+    //     'CUNGCAP' => 'Các đơn vị trong cùng cấp quản lý (cùng địa bàn quản lý)',
+    //     'CAPDUOI' => 'Các đơn vị cấp dưới quản lý trực tiếp',
+    //     'TOANTINH' => 'Toàn bộ các đơn vị trong Tỉnh',
+    //     'TRUNGUONG' => 'Phong trào thi đua cấp TW',
+    // );
+    $a_kq['T'] =  array(
+        'CAPXA' => 'Phong trào thi đua cấp Xã',
+        'CAPHUYEN' => 'Phong trào thi đua cấp Huyện',
+        'TOANTINH' => 'Phong trào thi đua cấp Tỉnh',
+        'TRUNGUONG' => 'Phong trào thi đua cấp Trung Ương',
     );
+    $a_kq['H'] =  array(
+        'CAPXA' => 'Phong trào thi đua cấp Xã',
+        'CAPHUYEN' => 'Phong trào thi đua cấp Huyện',
+    );
+    $a_kq['X'] =  array(
+        'CAPXA' => 'Phong trào thi đua cấp Xã',
+    );
+    return $a_kq[$capdo];
 }
 
 function getTrangThaiTDKT()
@@ -400,8 +414,8 @@ function chkPhanQuyen($machucnang = null, $tenphanquyen = null)
         return false;
     }
     $capdo = session('admin')->capdo;
-    
-    if (in_array($capdo, ['SSA', 'ssa',])) {        
+
+    if (in_array($capdo, ['SSA', 'ssa',])) {
         return true;
     }
     //dd(session('phanquyen'));
@@ -409,7 +423,7 @@ function chkPhanQuyen($machucnang = null, $tenphanquyen = null)
 }
 
 function chkGiaoDien($machucnang, $tentruong = 'sudung')
-{    
+{
     $chk = session('chucnang')[$machucnang] ?? ['sudung' => 0, 'tenchucnang' => $machucnang . '()'];
     // if($machucnang == 'quantrihethong'){
     //     dd($chk);

@@ -12,6 +12,7 @@ use App\Model\DanhMuc\dmdanhhieuthidua_tieuchuan;
 use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
 use App\Model\DanhMuc\dsdiaban;
+use App\Model\DanhMuc\dsdonvi;
 use App\Model\HeThong\trangthaihoso;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua_khenthuong;
@@ -34,11 +35,9 @@ class dsphongtraothiduaController extends Controller
 
     public function ThongTin(Request $request)
     {
-
         if (!chkPhanQuyen('dsphongtraothidua', 'danhsach')) {
             return view('errors.noperm')->with('machucang', 'dsphongtraothidua');
         }
-
         $inputs = $request->all();
         $m_donvi = getDonVi(session('admin')->capdo);
         $m_diaban = getDiaBan(session('admin')->capdo);
@@ -56,7 +55,7 @@ class dsphongtraothiduaController extends Controller
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
-            ->with('a_phamvi', getPhamViPhongTrao())
+            ->with('a_phamvi', getPhamViPhongTrao($m_donvi->where('madonvi', $inputs['madonvi'])->first()->capdo ?? 'T'))
             ->with('a_phanloai', getPhanLoaiPhongTraoThiDua(true))
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách phong trào thi đua');
@@ -64,7 +63,6 @@ class dsphongtraothiduaController extends Controller
 
     public function ThayDoi(Request $request)
     {
-
         if (!chkPhanQuyen('dsphongtraothidua', 'thaydoi')) {
             return view('errors.noperm')->with('machucang', 'dsphongtraothidua');
         }
@@ -94,25 +92,18 @@ class dsphongtraothiduaController extends Controller
     }
 
     public function XemThongTin(Request $request)
-    {
-
-        if (!chkPhanQuyen('dsphongtraothidua', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dsphongtraothidua');
-        }
+    {        
         $inputs = $request->all();
         $model = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
         $model->tendonvi = getThongTinDonVi($model->madonvi, 'tendonvi');
-        $model_khenthuong = dsphongtraothidua_khenthuong::where('maphongtraotd', $model->maphongtraotd)->get();
-        $model_tieuchuan = dsphongtraothidua_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->get();
-
-        return view('NghiepVu.ThiDuaKhenThuong.PhongTraoThiDua.Xem')
+        $model_tieuchi = dsphongtraothidua_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->get();
+        $m_donvi = dsdonvi::where('madonvi',$model->madonvi)->first();
+        return view('NghiepVu.ThiDuaKhenThuong.PhongTraoThiDua.InPhongTrao')
             ->with('model', $model)
-            ->with('model_khenthuong', $model_khenthuong)
-            ->with('model_tieuchuan', $model_tieuchuan)
-            ->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
-            ->with('a_tieuchuan', array_column(dmdanhhieuthidua_tieuchuan::all()->toArray(), 'tentieuchuandhtd', 'matieuchuandhtd'))
-            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
-            ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
+            ->with('model_tieuchi', $model_tieuchi)
+            ->with('m_donvi', $m_donvi)
+            ->with('a_phamvi', getPhamViPhongTrao('T'))
+            ->with('a_phanloai', getPhanLoaiPhongTraoThiDua(true))
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách phong trào thi đua');
     }
@@ -124,24 +115,15 @@ class dsphongtraothiduaController extends Controller
             return view('errors.noperm')->with('machucang', 'dsphongtraothidua');
         }
         $inputs = $request->all();
-        if (isset($inputs['totrinh'])) {
-            $filedk = $request->file('totrinh');
-            $inputs['totrinh'] = $inputs['maphongtraotd'] . '_' . $filedk->getClientOriginalExtension();
-            $filedk->move(public_path() . '/data/totrinh/', $inputs['totrinh']);
-        }
         if (isset($inputs['qdkt'])) {
             $filedk = $request->file('qdkt');
-            $inputs['qdkt'] = $inputs['maphongtraotd'] . '_' . $filedk->getClientOriginalExtension();
+            $inputs['qdkt'] = $inputs['maphongtraotd'] . '_qd.' . $filedk->getClientOriginalExtension();
             $filedk->move(public_path() . '/data/qdkt/', $inputs['qdkt']);
         }
-        if (isset($inputs['bienban'])) {
-            $filedk = $request->file('bienban');
-            $inputs['bienban'] = $inputs['maphongtraotd'] . '_' . $filedk->getClientOriginalExtension();
-            $filedk->move(public_path() . '/data/bienban/', $inputs['bienban']);
-        }
+       
         if (isset($inputs['tailieukhac'])) {
             $filedk = $request->file('tailieukhac');
-            $inputs['tailieukhac'] = $inputs['maphongtraotd'] . '_' . $filedk->getClientOriginalExtension();
+            $inputs['tailieukhac'] = $inputs['maphongtraotd'] . '_tailieukhac.' . $filedk->getClientOriginalExtension();
             $filedk->move(public_path() . '/data/tailieukhac/', $inputs['tailieukhac']);
         }
 
@@ -353,5 +335,35 @@ class dsphongtraothiduaController extends Controller
         $inputs = $request->all();
         $model = dsphongtraothidua_tieuchuan::findorfail($inputs['id']);
         die(json_encode($model));
+    }
+
+    public function TaiLieuDinhKem(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+
+        $inputs = $request->all();
+        $model = dsphongtraothidua::where('maphongtraotd', $inputs['mahs'])->first();
+        $result['message'] = '<div class="modal-body" id = "dinh_kem" >';
+       
+        if (isset($model->qdkt)) {
+            $result['message'] .= '<div class="form-group row">';
+            $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Quyết định:</label>';
+            $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/qdkt/' . $model->qdkt) . '">' . $model->qdkt . '</a ></div>';
+            $result['message'] .= '</div>';
+        }
+        
+        if (isset($model->tailieukhac)) {
+            $result['message'] .= '<div class="form-group row">';
+            $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Tài liệu khác:</label>';
+            $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/tailieukhac/' . $model->tailieukhac) . '">' . $model->tailieukhac . '</a ></div>';
+            $result['message'] .= '</div>';
+        }
+        $result['message'] .= '</div>';
+        $result['status'] = 'success';
+
+        die(json_encode($result));
     }
 }

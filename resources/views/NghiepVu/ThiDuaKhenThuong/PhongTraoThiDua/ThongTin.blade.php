@@ -40,7 +40,7 @@
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
-                @if (chkPhanQuyen('dsphongtraothidua', 'modify'))
+                @if (chkPhanQuyen('dsphongtraothidua', 'thaydoi'))
                     <a href="{{ url('/PhongTraoThiDua/Them?madonvi=' . $inputs['madonvi']) }}"
                         class="btn btn-success btn-xs">
                         <i class="fa fa-plus"></i> Thêm mới</a>
@@ -94,38 +94,29 @@
                                 <td class="active">{{ $tt->noidung }}</td>
                                 <td>{{$a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
                                 <td class="text-center">{{ getDayVn($tt->ngayqd) }}</td>
-                                <td class="text-center">{{$a_phamvi[$tt->phamviapdung] }}</td>
+                                <td class="text-center">{{$a_phamvi[$tt->phamviapdung] ?? ''}}</td>
                                 @include('includes.td.td_trangthai_phongtrao')
                                 <td class=" text-center">
                                     <a title="Xem chi tiết" href="{{ url('/PhongTraoThiDua/Xem?maphongtraotd=' . $tt->maphongtraotd) }}"
                                         class="btn btn-sm btn-clean btn-icon" target="_blank">
-                                        <i class="icon-lg la fa-eye text-dark"></i></a>
-                                    @if (chkPhanQuyen('dsphongtraothidua', 'modify'))
-                                        {{-- @if ($tt->trangthai == 'CC' || $tt->trangthai == 'BTL')
-                                            <a title="Chỉnh sửa" href="{{ url('/PhongTraoThiDua/Sua?maphongtraotd=' . $tt->maphongtraotd) }}"
-                                                class="btn btn-sm btn-clean btn-icon">
-                                                <i class="icon-lg la fa-edit text-success"></i></a>
-                                            <button title="Chuyển hồ sơ" type="button" onclick="getIdTr('{{ $tt->id }}')"
-                                                class="btn btn-sm btn-clean btn-icon" data-target="#trans-modal"
-                                                data-toggle="modal">
-                                                <i class="icon-lg la fa-forward text-secondary"></i></button>
-                                        @endif
-                                        @if ($tt->trangthai == 'BTL')
-                                            <button title="Lý do trả lại" type="button" onclick="viewLiDo('{{ $tt->id }}')"
-                                                class="btn btn-sm btn-clean btn-icon" data-target="#lydo-show"
-                                                data-toggle="modal">
-                                                <i class="icon-lg la fa-archive text-secondary"></i></button>
-                                        @endif --}}
+                                        <i class="icon-lg la fa-eye text-dark icon-2x"></i>
+                                    </a>
+                                    <button title="Tài liệu đính kèm" type="button"
+                                        onclick="get_attack('{{ $tt->maphongtraotd }}', '/PhongTraoThiDua/TaiLieuDinhKem')"
+                                        class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
+                                        data-toggle="modal">
+                                        <i class="icon-lg la la-file-download text-dark icon-2x"></i></button>
+                                    @if (chkPhanQuyen('dsphongtraothidua', 'thaydoi'))                                        
                                         @if ($tt->trangthai == 'CC')
                                             <a title="Chỉnh sửa"
                                                 href="{{ url('/PhongTraoThiDua/Sua?maphongtraotd=' . $tt->maphongtraotd) }}"
                                                 class="btn btn-sm btn-clean btn-icon"><i
-                                                    class="icon-lg la fa-edit text-success"></i></a>
+                                                    class="icon-lg la fa-edit text-success icon-2x"></i></a>
                                                     
                                             <button title="Xóa hồ sơ" type="button" onclick="confirmDelete('{{ $tt->id }}','/PhongTraoThiDua/Xoa')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal"
                                                 data-toggle="modal">
-                                                <i class="icon-lg la fa-trash-alt text-danger"></i></button>
+                                                <i class="icon-lg la fa-trash-alt text-danger icon-2x"></i></button>
                                         @endif
                                     @endif
                                 </td>
@@ -138,4 +129,5 @@
     </div>
     <!--end::Card-->
     @include('includes.modal.modal-delete')
+    @include('includes.modal.modal_attackfile')
 @stop
