@@ -30,9 +30,10 @@ class xdhosokhenthuongconghienController extends Controller
 
     public function ThongTin(Request $request)
     {
-        if (!chkPhanQuyen()) {
-            return view('errors.noperm');
+        if (!chkPhanQuyen('xdhosokhenthuongconghien', 'danhsach')) {
+            return view('errors.noperm')->with('machucang', 'xdhosokhenthuongconghien')->with('tenphanquyen', 'danhsach');
         }
+
         $inputs = $request->all();
         $inputs['url'] = static::$url;
         $inputs['url_hs'] = '/KhenThuongCongHien/HoSo/';
@@ -84,55 +85,55 @@ class xdhosokhenthuongconghienController extends Controller
 
     public function TraLai(Request $request)
     {
-        if (Session::has('admin')) {
-            $inputs = $request->all();
-            $thoigian = date('Y-m-d H:i:s');
-            $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
-            $m_nhatky = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
-            //lấy thông tin lưu nhật ký
-            getDonViChuyen($inputs['madonvi'], $m_nhatky);
-            trangthaihoso::create([
-                'mahoso' => $inputs['mahoso'], 'trangthai' => 'BTL',
-                'thoigian' => $thoigian, 'lydo' => $inputs['lydo'],
-                'madonvi_nhan' => $m_nhatky->madonvi_hoso, 
-                'madonvi' => $m_nhatky->madonvi_nhan_hoso,
-                'thongtin'=>'Trả lại hồ sơ đề nghị khen thưởng.',
-            ]);
-            //Gán lại trạng thái cho hồ sơ
-            setNhanHoSo($inputs['madonvi'], $model, ['trangthai' => 'BTL', 'thoigian' => $thoigian, 'lydo' => $inputs['lydo'], 'madonvi_nhan' => '']);
-            setTrangThaiHoSo($inputs['madonvi'], $model, ['trangthai' => '', 'thoigian' => '', 'lydo' => '', 'madonvi_nhan' => '', 'madonvi' => '']);
-            //dd($model);
-            $model->save();
+        if (!chkPhanQuyen('xdhosokhenthuongconghien', 'hoanthanh')) {
+            return view('errors.noperm')->with('machucang', 'xdhosokhenthuongconghien')->with('tenphanquyen', 'hoanthanh');
+        }
+        $inputs = $request->all();
+        $thoigian = date('Y-m-d H:i:s');
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
+        $m_nhatky = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
+        //lấy thông tin lưu nhật ký
+        getDonViChuyen($inputs['madonvi'], $m_nhatky);
+        trangthaihoso::create([
+            'mahoso' => $inputs['mahoso'], 'trangthai' => 'BTL',
+            'thoigian' => $thoigian, 'lydo' => $inputs['lydo'],
+            'madonvi_nhan' => $m_nhatky->madonvi_hoso,
+            'madonvi' => $m_nhatky->madonvi_nhan_hoso,
+            'thongtin' => 'Trả lại hồ sơ đề nghị khen thưởng.',
+        ]);
+        //Gán lại trạng thái cho hồ sơ
+        setNhanHoSo($inputs['madonvi'], $model, ['trangthai' => 'BTL', 'thoigian' => $thoigian, 'lydo' => $inputs['lydo'], 'madonvi_nhan' => '']);
+        setTrangThaiHoSo($inputs['madonvi'], $model, ['trangthai' => '', 'thoigian' => '', 'lydo' => '', 'madonvi_nhan' => '', 'madonvi' => '']);
+        //dd($model);
+        $model->save();
 
-            return redirect(static::$url.'ThongTin?madonvi=' . $inputs['madonvi']);
-        } else
-            return view('errors.notlogin');
+        return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
     }
 
     public function ChuyenHoSo(Request $request)
     {
-        if (Session::has('admin')) {
-            $inputs = $request->all();            
-            $thoigian = date('Y-m-d H:i:s');
-            $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
-            $m_donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi_nhan'])->first();
-            //gán lại trạng thái hồ sơ để theo dõi
-            $model->trangthai = 'CXKT';
+        if (!chkPhanQuyen('xdhosokhenthuongconghien', 'hoanthanh')) {
+            return view('errors.noperm')->with('machucang', 'xdhosokhenthuongconghien')->with('tenphanquyen', 'hoanthanh');
+        }
+        $inputs = $request->all();
+        $thoigian = date('Y-m-d H:i:s');
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
+        $m_donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi_nhan'])->first();
+        //gán lại trạng thái hồ sơ để theo dõi
+        $model->trangthai = 'CXKT';
 
-            trangthaihoso::create([
-                'mahoso' => $inputs['mahoso'], 'trangthai' => 'CXKT',
-                'thoigian' => $thoigian, 
-                'madonvi_nhan' => $inputs['madonvi_nhan'], 
-                'madonvi' => $inputs['madonvi'],
-                'thongtin'=>'Nhận hồ sơ và trình đề nghị khen thưởng.',
-            ]);
-            setTrangThaiHoSo($inputs['madonvi'], $model, ['thoigian' => $thoigian, 'trangthai' => 'CXKT']);
-            setChuyenHoSo($m_donvi->capdo, $model, ['madonvi' => $inputs['madonvi_nhan'], 'thoigian' => $thoigian, 'trangthai' => 'CXKT']);
-            //dd($model);
-            $model->save();
+        trangthaihoso::create([
+            'mahoso' => $inputs['mahoso'], 'trangthai' => 'CXKT',
+            'thoigian' => $thoigian,
+            'madonvi_nhan' => $inputs['madonvi_nhan'],
+            'madonvi' => $inputs['madonvi'],
+            'thongtin' => 'Nhận hồ sơ và trình đề nghị khen thưởng.',
+        ]);
+        setTrangThaiHoSo($inputs['madonvi'], $model, ['thoigian' => $thoigian, 'trangthai' => 'CXKT']);
+        setChuyenHoSo($m_donvi->capdo, $model, ['madonvi' => $inputs['madonvi_nhan'], 'thoigian' => $thoigian, 'trangthai' => 'CXKT']);
+        //dd($model);
+        $model->save();
 
-            return redirect(static::$url.'ThongTin?madonvi=' . $model->madonvi_h);
-        } else
-            return view('errors.notlogin');
+        return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_h);
     }
 }

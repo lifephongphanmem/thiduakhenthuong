@@ -400,7 +400,8 @@ function chkPhanQuyen($machucnang = null, $tenphanquyen = null)
         return false;
     }
     $capdo = session('admin')->capdo;
-    if (in_array($capdo, ['SSA', 'ssa',])) {
+    
+    if (in_array($capdo, ['SSA', 'ssa',])) {        
         return true;
     }
     //dd(session('phanquyen'));

@@ -17,12 +17,23 @@ use Illuminate\Support\Facades\Session;
 
 class xetduyethosothiduaController extends Controller
 {
+    public static $url = '';
+    public function __construct()
+    {
+        static::$url = '/XetDuyetHoSoThiDua/';
+        $this->middleware(function ($request, $next) {
+            if (!Session::has('admin')) {
+                return redirect('/');
+            };
+            return $next($request);
+        });
+    }
     public function ThongTin(Request $request)
     {
-        if (Session::has('admin')) {
-            if (!chkPhanQuyen()) {
-                return view('errors.noperm');
-            }
+        if (!chkPhanQuyen('xdhosothidua', 'danhsach')) {
+            return view('errors.noperm')->with('machucang', 'xdhosothidua')->with('tenphanquyen', 'danhsach');
+        }
+
             $inputs = $request->all();
             $m_donvi = getDonViXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
             $m_diaban = getDiaBanXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
@@ -68,13 +79,13 @@ class xetduyethosothiduaController extends Controller
                 ->with('a_trangthaihoso', getTrangThaiTDKT())
                 ->with('a_phamvi', getPhamViPhongTrao())
                 ->with('pageTitle', 'Danh sách hồ sơ thi đua');
-        } else
-            return view('errors.notlogin');
     }
 
     public function DanhSach(Request $request)
     {
-        if (Session::has('admin')) {
+        if (!chkPhanQuyen('xdhosothidua', 'danhsach')) {
+            return view('errors.noperm')->with('machucang', 'xdhosothidua')->with('tenphanquyen', 'danhsach');
+        }
             $inputs = $request->all();
             $m_dangky = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
             $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
@@ -111,13 +122,10 @@ class xetduyethosothiduaController extends Controller
                 ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))
                 ->with('a_donviql', getDonViQuanLyTinh()) //chưa lọc hết (chỉ chuyển lên cấp Tỉnh)
                 ->with('pageTitle', 'Danh sách hồ sơ đăng ký thi đua');
-        } else
-            return view('errors.notlogin');
     }
 
     public function XemDanhSach(Request $request)
-    {
-        if (Session::has('admin')) {
+    {        
             $inputs = $request->all();
             $m_dangky = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
             $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
@@ -149,14 +157,14 @@ class xetduyethosothiduaController extends Controller
                 ->with('m_dangky', $m_dangky)
                 ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))
                 ->with('a_donviql', getDonViQuanLyTinh()) //chưa lọc hết (chỉ chuyển lên cấp Tỉnh)
-                ->with('pageTitle', 'Danh sách hồ sơ đăng ký thi đua');
-        } else
-            return view('errors.notlogin');
+                ->with('pageTitle', 'Danh sách hồ sơ đăng ký thi đua');        
     }
 
     public function TraLai(Request $request)
     {
-        if (Session::has('admin')) {
+        if (!chkPhanQuyen('xdhosothidua', 'hoanthanh')) {
+            return view('errors.noperm')->with('machucang', 'xdhosothidua')->with('tenphanquyen', 'hoanthanh');
+        }
             $inputs = $request->all();
             $inputs = $request->all();
             $thoigian = date('Y-m-d H:i:s');
@@ -188,13 +196,13 @@ class xetduyethosothiduaController extends Controller
             $m_hoso = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
 
             return redirect('/XetDuyetHoSoThiDua/DanhSach?maphongtraotd=' . $m_hoso->maphongtraotd . '&madonvi=' . $inputs['madonvi']);
-        } else
-            return view('errors.notlogin');
     }
     //Chưa hoàn thiện
     public function ChuyenHoSo(Request $request)
     {
-        if (Session::has('admin')) {
+        if (!chkPhanQuyen('xdhosothidua', 'hoanthanh')) {
+            return view('errors.noperm')->with('machucang', 'xdhosothidua')->with('tenphanquyen', 'hoanthanh');
+        }
             $inputs = $request->all();
             //dd($inputs);
             $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
@@ -208,15 +216,15 @@ class xetduyethosothiduaController extends Controller
             //dd($model);
             $model->save();
 
-            return redirect('/XetDuyetHoSoThiDua/DanhSach?maphongtraotd=' . $model->maphongtraotd . '&madonvi=' . $model->madonvi_h);
-        } else
-            return view('errors.notlogin');
+            return redirect('/XetDuyetHoSoThiDua/DanhSach?maphongtraotd=' . $model->maphongtraotd . '&madonvi=' . $model->madonvi_h);       
     }
 
     //Chưa hoàn thiện
     public function NhanHoSo(Request $request)
     {
-        if (Session::has('admin')) {
+        if (!chkPhanQuyen('xdhosothidua', 'hoanthanh')) {
+            return view('errors.noperm')->with('machucang', 'xdhosothidua')->with('tenphanquyen', 'hoanthanh');
+        }
             $inputs = $request->all();
             $thoigian = date('Y-m-d H:i:s');
             $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
@@ -226,24 +234,7 @@ class xetduyethosothiduaController extends Controller
             setChuyenHoSo($m_donvi->capdo, $model, ['madonvi' => $inputs['madonvi_nhan'], 'thoigian' => $thoigian, 'trangthai' => 'CXKT']);
             $model->save();
 
-            return redirect('/XetDuyetHoSoThiDua/DanhSach?maphongtraotd=' . $model->maphongtraotd . '&madonvi=' . $inputs['madonvi_nhan']);
-        } else
-            return view('errors.notlogin');
+            return redirect('/XetDuyetHoSoThiDua/DanhSach?maphongtraotd=' . $model->maphongtraotd . '&madonvi=' . $inputs['madonvi_nhan']);        
     }
-
-
-    public function KetThuc(Request $request)
-    {
-        if (Session::has('admin')) {
-            $inputs = $request->all();
-            //dd($inputs);
-            $model = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
-            $model->trangthai = 'CXKT';
-            $model->thoigian = date('Y-m-d H:i:s');
-            $model->save();
-
-            return redirect('/KhenThuongHoSoThiDua/ThongTin?madonvi=' . $model->madonvi);
-        } else
-            return view('errors.notlogin');
-    }
+    
 }

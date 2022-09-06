@@ -20,162 +20,160 @@ use Illuminate\Support\Facades\Session;
 
 class dsphongtraothiduaController extends Controller
 {
+    public static $url = '';
+    public function __construct()
+    {
+        static::$url = '/PhongTraoThiDua/';
+        $this->middleware(function ($request, $next) {
+            if (!Session::has('admin')) {
+                return redirect('/');
+            };
+            return $next($request);
+        });
+    }
+
     public function ThongTin(Request $request)
     {
-        if (Session::has('admin')) {
-            if (!chkPhanQuyen()) {
-                return view('errors.noperm');
-            }
-            $inputs = $request->all();
-            $m_donvi = getDonVi(session('admin')->capdo);
-            $m_diaban = dsdiaban::all();
-            $inputs['nam'] = $inputs['nam'] ?? 'ALL';
-            $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
-            $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
-            $model = dsphongtraothidua::where('madonvi', $inputs['madonvi']);
-            if ($inputs['nam'] != 'ALL')
-                $model = $model->whereYear('ngayqd', $inputs['nam']);
-            if ($inputs['phanloai'] != 'ALL')
-                $model = $model->where('phanloai', $inputs['phanloai']);
 
-            return view('NghiepVu.ThiDuaKhenThuong.PhongTraoThiDua.ThongTin')
-                ->with('model', $model->orderby('ngayqd')->get())
-                ->with('m_donvi', $m_donvi)
-                ->with('m_diaban', $m_diaban)
-                ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
-                ->with('a_phamvi', getPhamViPhongTrao())
-                ->with('a_phanloai', getPhanLoaiPhongTraoThiDua(true))
-                ->with('inputs', $inputs)
-                ->with('pageTitle', 'Danh sách phong trào thi đua');
-        } else
-            return view('errors.notlogin');
+        if (!chkPhanQuyen('dsphongtraothidua', 'danhsach')) {
+            return view('errors.noperm')->with('machucang', 'dsphongtraothidua');
+        }
+
+        $inputs = $request->all();
+        $m_donvi = getDonVi(session('admin')->capdo);
+        $m_diaban = getDiaBan(session('admin')->capdo);
+        $inputs['nam'] = $inputs['nam'] ?? 'ALL';
+        $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
+        $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
+        $model = dsphongtraothidua::where('madonvi', $inputs['madonvi']);
+        if ($inputs['nam'] != 'ALL')
+            $model = $model->whereYear('ngayqd', $inputs['nam']);
+        if ($inputs['phanloai'] != 'ALL')
+            $model = $model->where('phanloai', $inputs['phanloai']);
+
+        return view('NghiepVu.ThiDuaKhenThuong.PhongTraoThiDua.ThongTin')
+            ->with('model', $model->orderby('ngayqd')->get())
+            ->with('m_donvi', $m_donvi)
+            ->with('m_diaban', $m_diaban)
+            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+            ->with('a_phamvi', getPhamViPhongTrao())
+            ->with('a_phanloai', getPhanLoaiPhongTraoThiDua(true))
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'Danh sách phong trào thi đua');
     }
 
     public function ThayDoi(Request $request)
     {
-        if (Session::has('admin')) {
-            //tài khoản SSA; tài khoản quản trị + có phân quyền
-            if (!chkPhanQuyen()) {
-                return view('errors.noperm');
-            }
 
-            $inputs = $request->all();
-            $inputs['maphongtraotd'] = $inputs['maphongtraotd'] ?? null;
+        if (!chkPhanQuyen('dsphongtraothidua', 'thaydoi')) {
+            return view('errors.noperm')->with('machucang', 'dsphongtraothidua');
+        }
 
-            $model = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
-            if ($model == null) {
-                $model = new dsphongtraothidua();
-                $model->madonvi = $inputs['madonvi'];
-                $model->maphongtraotd = getdate()[0];
-                $model->trangthai = 'CC';
-                $model->maloaihinhkt = '1650358255'; //chưa làm mặc định1
-            }
-            $model->tendonvi = getThongTinDonVi($model->madonvi, 'tendonvi');
-            $model_tieuchuan = dsphongtraothidua_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->get();
-            //dd($model_tieuchuan);
-            return view('NghiepVu.ThiDuaKhenThuong.PhongTraoThiDua.ThayDoi')
-                ->with('model', $model)
-                ->with('model_tieuchuan', $model_tieuchuan)
-                ->with('a_tieuchuan', array_column(dmdanhhieuthidua_tieuchuan::all()->toArray(), 'tentieuchuandhtd', 'matieuchuandhtd'))
-                ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
-                ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
-                ->with('inputs', $inputs)
-                ->with('pageTitle', 'Danh sách phong trào thi đua');
-        } else
-            return view('errors.notlogin');
+        $inputs = $request->all();
+        $inputs['maphongtraotd'] = $inputs['maphongtraotd'] ?? null;
+
+        $model = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
+        if ($model == null) {
+            $model = new dsphongtraothidua();
+            $model->madonvi = $inputs['madonvi'];
+            $model->maphongtraotd = getdate()[0];
+            $model->trangthai = 'CC';
+            $model->maloaihinhkt = '1650358255'; //chưa làm mặc định1
+        }
+        $model->tendonvi = getThongTinDonVi($model->madonvi, 'tendonvi');
+        $model_tieuchuan = dsphongtraothidua_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->get();
+        //dd($model_tieuchuan);
+        return view('NghiepVu.ThiDuaKhenThuong.PhongTraoThiDua.ThayDoi')
+            ->with('model', $model)
+            ->with('model_tieuchuan', $model_tieuchuan)
+            ->with('a_tieuchuan', array_column(dmdanhhieuthidua_tieuchuan::all()->toArray(), 'tentieuchuandhtd', 'matieuchuandhtd'))
+            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+            ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'Danh sách phong trào thi đua');
     }
 
     public function XemThongTin(Request $request)
     {
-        if (Session::has('admin')) {
-            //tài khoản SSA; tài khoản quản trị + có phân quyền
-            if (!chkPhanQuyen()) {
-                return view('errors.noperm');
-            }
 
-            $inputs = $request->all();
-            $model = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
-            $model->tendonvi = getThongTinDonVi($model->madonvi, 'tendonvi');
-            $model_khenthuong = dsphongtraothidua_khenthuong::where('maphongtraotd', $model->maphongtraotd)->get();
-            $model_tieuchuan = dsphongtraothidua_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->get();
+        if (!chkPhanQuyen('dsphongtraothidua', 'thaydoi')) {
+            return view('errors.noperm')->with('machucang', 'dsphongtraothidua');
+        }
+        $inputs = $request->all();
+        $model = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
+        $model->tendonvi = getThongTinDonVi($model->madonvi, 'tendonvi');
+        $model_khenthuong = dsphongtraothidua_khenthuong::where('maphongtraotd', $model->maphongtraotd)->get();
+        $model_tieuchuan = dsphongtraothidua_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->get();
 
-            return view('NghiepVu.ThiDuaKhenThuong.PhongTraoThiDua.Xem')
-                ->with('model', $model)
-                ->with('model_khenthuong', $model_khenthuong)
-                ->with('model_tieuchuan', $model_tieuchuan)
-                ->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
-                ->with('a_tieuchuan', array_column(dmdanhhieuthidua_tieuchuan::all()->toArray(), 'tentieuchuandhtd', 'matieuchuandhtd'))
-                ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
-                ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
-                ->with('inputs', $inputs)
-                ->with('pageTitle', 'Danh sách phong trào thi đua');
-        } else
-            return view('errors.notlogin');
+        return view('NghiepVu.ThiDuaKhenThuong.PhongTraoThiDua.Xem')
+            ->with('model', $model)
+            ->with('model_khenthuong', $model_khenthuong)
+            ->with('model_tieuchuan', $model_tieuchuan)
+            ->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
+            ->with('a_tieuchuan', array_column(dmdanhhieuthidua_tieuchuan::all()->toArray(), 'tentieuchuandhtd', 'matieuchuandhtd'))
+            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+            ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'Danh sách phong trào thi đua');
     }
 
     public function LuuPhongTrao(Request $request)
     {
-        if (Session::has('admin')) {
-            //tài khoản SSA; tài khoản quản trị + có phân quyền
-            if (!chkPhanQuyen()) {
-                return view('errors.noperm');
-            }
-            $inputs = $request->all();
-            if (isset($inputs['totrinh'])) {
-                $filedk = $request->file('totrinh');
-                $inputs['totrinh'] = $inputs['maphongtraotd'] . '_' . $filedk->getClientOriginalExtension();
-                $filedk->move(public_path() . '/data/totrinh/', $inputs['totrinh']);
-            }
-            if (isset($inputs['qdkt'])) {
-                $filedk = $request->file('qdkt');
-                $inputs['qdkt'] = $inputs['maphongtraotd'] . '_' . $filedk->getClientOriginalExtension();
-                $filedk->move(public_path() . '/data/qdkt/', $inputs['qdkt']);
-            }
-            if (isset($inputs['bienban'])) {
-                $filedk = $request->file('bienban');
-                $inputs['bienban'] = $inputs['maphongtraotd'] . '_' . $filedk->getClientOriginalExtension();
-                $filedk->move(public_path() . '/data/bienban/', $inputs['bienban']);
-            }
-            if (isset($inputs['tailieukhac'])) {
-                $filedk = $request->file('tailieukhac');
-                $inputs['tailieukhac'] = $inputs['maphongtraotd'] . '_' . $filedk->getClientOriginalExtension();
-                $filedk->move(public_path() . '/data/tailieukhac/', $inputs['tailieukhac']);
-            }
 
-            $model = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
-            if ($model == null) {
-                $inputs['trangthai'] = 'CC';
-                dsphongtraothidua::create($inputs);
+        if (!chkPhanQuyen('dsphongtraothidua', 'thaydoi')) {
+            return view('errors.noperm')->with('machucang', 'dsphongtraothidua');
+        }
+        $inputs = $request->all();
+        if (isset($inputs['totrinh'])) {
+            $filedk = $request->file('totrinh');
+            $inputs['totrinh'] = $inputs['maphongtraotd'] . '_' . $filedk->getClientOriginalExtension();
+            $filedk->move(public_path() . '/data/totrinh/', $inputs['totrinh']);
+        }
+        if (isset($inputs['qdkt'])) {
+            $filedk = $request->file('qdkt');
+            $inputs['qdkt'] = $inputs['maphongtraotd'] . '_' . $filedk->getClientOriginalExtension();
+            $filedk->move(public_path() . '/data/qdkt/', $inputs['qdkt']);
+        }
+        if (isset($inputs['bienban'])) {
+            $filedk = $request->file('bienban');
+            $inputs['bienban'] = $inputs['maphongtraotd'] . '_' . $filedk->getClientOriginalExtension();
+            $filedk->move(public_path() . '/data/bienban/', $inputs['bienban']);
+        }
+        if (isset($inputs['tailieukhac'])) {
+            $filedk = $request->file('tailieukhac');
+            $inputs['tailieukhac'] = $inputs['maphongtraotd'] . '_' . $filedk->getClientOriginalExtension();
+            $filedk->move(public_path() . '/data/tailieukhac/', $inputs['tailieukhac']);
+        }
 
-                $trangthai = new trangthaihoso();
-                $trangthai->trangthai = 'CC';
-                $trangthai->madonvi = $inputs['madonvi'];
-                $trangthai->phanloai = 'dsphongtraothidua';
-                $trangthai->mahoso = $inputs['maphongtraotd'];
-                $trangthai->thoigian = date('Y-m-d H:i:s');
-                $trangthai->save();
-            } else {
-                $model->update($inputs);
-            }
+        $model = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
+        if ($model == null) {
+            $inputs['trangthai'] = 'CC';
+            dsphongtraothidua::create($inputs);
 
-            return redirect('/PhongTraoThiDua/ThongTin?madonvi=' . $inputs['madonvi']);
-        } else
-            return view('errors.notlogin');
+            $trangthai = new trangthaihoso();
+            $trangthai->trangthai = 'CC';
+            $trangthai->madonvi = $inputs['madonvi'];
+            $trangthai->phanloai = 'dsphongtraothidua';
+            $trangthai->mahoso = $inputs['maphongtraotd'];
+            $trangthai->thoigian = date('Y-m-d H:i:s');
+            $trangthai->save();
+        } else {
+            $model->update($inputs);
+        }
+
+        return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
     }
 
 
     public function delete(Request $request)
     {
-        if (Session::has('admin')) {
-            //tài khoản SSA; tài khoản quản trị + có phân quyền
-            if (!chkPhanQuyen()) {
-                return view('errors.noperm');
-            }
-            $inputs = $request->all();
-            dsdiaban::findorfail($inputs['iddelete'])->delete();
-            return redirect('/DiaBan/ThongTin');
-        } else
-            return view('errors.notlogin');
+        if (!chkPhanQuyen('dsphongtraothidua', 'thaydoi')) {
+            return view('errors.noperm')->with('machucang', 'dsphongtraothidua');
+        }
+        $inputs = $request->all();
+        $model = dsdiaban::findorfail($inputs['iddelete']);
+        $model->delete();
+        return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }
 
     public function ThemKhenThuong(Request $request)
@@ -290,10 +288,10 @@ class dsphongtraothiduaController extends Controller
             $model->maphongtraotd = $inputs['maphongtraotd'];
             $model->tentieuchuandhtd = $inputs['tentieuchuandhtd'];
             $model->matieuchuandhtd = getdate()[0];
-            $model->batbuoc = isset($inputs['batbuoc']) ? 1:0 ;
+            $model->batbuoc = isset($inputs['batbuoc']) ? 1 : 0;
             $model->save();
         } else {
-            $model->batbuoc = isset($inputs['batbuoc']) ? 1:0 ;
+            $model->batbuoc = isset($inputs['batbuoc']) ? 1 : 0;
             $model->tentieuchuandhtd = $inputs['tentieuchuandhtd'];
             $model->save();
         }
@@ -353,7 +351,7 @@ class dsphongtraothiduaController extends Controller
         }
         //dd($request);
         $inputs = $request->all();
-        $model = dsphongtraothidua_tieuchuan::findorfail($inputs['id']);        
+        $model = dsphongtraothidua_tieuchuan::findorfail($inputs['id']);
         die(json_encode($model));
     }
 }

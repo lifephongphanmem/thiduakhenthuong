@@ -185,19 +185,10 @@
 
                                             @include('HeThong.main_subphongtraothidua')
 
-                                            @include('HeThong.main_subkhenthuong')
-
-                                            <li class="menu-section">
-                                                <h4 class="menu-text">Cụm khối thi đua</h4>
-                                                <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
-                                            </li>
+                                            @include('HeThong.main_subkhenthuong')                                            
 
                                             @include('HeThong.main_subcumkhoithidua')
-
-                                            <li class="menu-section">
-                                                <h4 class="menu-text">Khen thưởng khác</h4>
-                                                <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
-                                            </li>
+                                            
                                             @include('HeThong.main_subkhenthuongkhac')
                                             
                                             @include('HeThong.main_subqlvanban')
