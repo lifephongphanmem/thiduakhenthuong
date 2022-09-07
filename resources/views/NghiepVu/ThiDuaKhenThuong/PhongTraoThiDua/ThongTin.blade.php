@@ -34,7 +34,7 @@
 @section('content')
     <!--begin::Card-->
     <div class="card card-custom wave wave-animate-slow wave-primary" style="min-height: 600px">
-        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+        <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
                 <h3 class="card-label text-uppercase">Danh sách phong trào thi đua</h3>
             </div>
@@ -111,7 +111,8 @@
                                             <a title="Chỉnh sửa"
                                                 href="{{ url('/PhongTraoThiDua/Sua?maphongtraotd=' . $tt->maphongtraotd) }}"
                                                 class="btn btn-sm btn-clean btn-icon"><i
-                                                    class="icon-lg la fa-edit text-success icon-2x"></i></a>
+                                                    class="icon-lg la fa-edit text-success icon-2x"></i>
+                                                </a>
                                                     
                                             <button title="Xóa hồ sơ" type="button" onclick="confirmDelete('{{ $tt->id }}','/PhongTraoThiDua/Xoa')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal"

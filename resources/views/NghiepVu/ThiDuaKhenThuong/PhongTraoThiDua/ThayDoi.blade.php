@@ -158,7 +158,7 @@
             <div class="form-group row">
                 <div class="col-lg-4">
                     <label>Phạm vị phát động</label>
-                    {!! Form::select('phamviapdung', getPhamViPhongTrao(), null, ['class' => 'form-control select2basic']) !!}
+                    {!! Form::select('phamviapdung', $a_phamvi, null, ['class' => 'form-control select2basic']) !!}
                 </div>
 
                 <div class="col-lg-4">

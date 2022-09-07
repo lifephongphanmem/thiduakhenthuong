@@ -17,6 +17,7 @@ use App\Model\HeThong\trangthaihoso;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua_khenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua_tieuchuan;
+use App\Model\View\viewdiabandonvi;
 use Illuminate\Support\Facades\Session;
 
 class dsphongtraothiduaController extends Controller
@@ -69,14 +70,17 @@ class dsphongtraothiduaController extends Controller
 
         $inputs = $request->all();
         $inputs['maphongtraotd'] = $inputs['maphongtraotd'] ?? null;
-
         $model = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
+        $inputs['madonvi'] = $inputs['madonvi'] ?? $model->madonvi;
+        $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
+
         if ($model == null) {
             $model = new dsphongtraothidua();
             $model->madonvi = $inputs['madonvi'];
             $model->maphongtraotd = getdate()[0];
             $model->trangthai = 'CC';
-            $model->maloaihinhkt = '1650358255'; //chưa làm mặc định1
+            $model->phanloai = $donvi->capdo;
+            $model->maloaihinhkt = session('chucnang')['dsphongtraothidua']['mahinhthuckt'] ?? '';
         }
         $model->tendonvi = getThongTinDonVi($model->madonvi, 'tendonvi');
         $model_tieuchuan = dsphongtraothidua_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->get();
@@ -87,17 +91,18 @@ class dsphongtraothiduaController extends Controller
             ->with('a_tieuchuan', array_column(dmdanhhieuthidua_tieuchuan::all()->toArray(), 'tentieuchuandhtd', 'matieuchuandhtd'))
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
+            ->with('a_phamvi', getPhamViPhongTrao($donvi->capdo))
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách phong trào thi đua');
     }
 
     public function XemThongTin(Request $request)
-    {        
+    {
         $inputs = $request->all();
         $model = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
         $model->tendonvi = getThongTinDonVi($model->madonvi, 'tendonvi');
         $model_tieuchi = dsphongtraothidua_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->get();
-        $m_donvi = dsdonvi::where('madonvi',$model->madonvi)->first();
+        $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
         return view('NghiepVu.ThiDuaKhenThuong.PhongTraoThiDua.InPhongTrao')
             ->with('model', $model)
             ->with('model_tieuchi', $model_tieuchi)
@@ -120,7 +125,7 @@ class dsphongtraothiduaController extends Controller
             $inputs['qdkt'] = $inputs['maphongtraotd'] . '_qd.' . $filedk->getClientOriginalExtension();
             $filedk->move(public_path() . '/data/qdkt/', $inputs['qdkt']);
         }
-       
+
         if (isset($inputs['tailieukhac'])) {
             $filedk = $request->file('tailieukhac');
             $inputs['tailieukhac'] = $inputs['maphongtraotd'] . '_tailieukhac.' . $filedk->getClientOriginalExtension();
@@ -153,7 +158,7 @@ class dsphongtraothiduaController extends Controller
             return view('errors.noperm')->with('machucang', 'dsphongtraothidua');
         }
         $inputs = $request->all();
-        $model = dsdiaban::findorfail($inputs['iddelete']);
+        $model = dsphongtraothidua::findorfail($inputs['iddelete']);
         $model->delete();
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }
@@ -347,14 +352,14 @@ class dsphongtraothiduaController extends Controller
         $inputs = $request->all();
         $model = dsphongtraothidua::where('maphongtraotd', $inputs['mahs'])->first();
         $result['message'] = '<div class="modal-body" id = "dinh_kem" >';
-       
+
         if (isset($model->qdkt)) {
             $result['message'] .= '<div class="form-group row">';
             $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Quyết định:</label>';
             $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/qdkt/' . $model->qdkt) . '">' . $model->qdkt . '</a ></div>';
             $result['message'] .= '</div>';
         }
-        
+
         if (isset($model->tailieukhac)) {
             $result['message'] .= '<div class="form-group row">';
             $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Tài liệu khác:</label>';

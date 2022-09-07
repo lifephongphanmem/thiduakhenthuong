@@ -180,25 +180,6 @@ function getLoaiVanBan()
 
 function getThoiDiem()
 {
-    // return [
-    //     'nam'=>'Cả năm',
-    //     'quy1'=>'Quý I',
-    //     'quy2'=>'Quý II',
-    //     'quy3'=>'Quý III',
-    //     'quy4'=>'Quý IV',
-    //     'thang01'=>'Tháng 01',
-    //     'thang02'=>'Tháng 02',
-    //     'thang03'=>'Tháng 03',
-    //     'thang04'=>'Tháng 04',
-    //     'thang05'=>'Tháng 05',
-    //     'thang06'=>'Tháng 06',
-    //     'thang07'=>'Tháng 07',
-    //     'thang08'=>'Tháng 08',
-    //     'thang09'=>'Tháng 09',
-    //     'thang10'=>'Tháng 10',
-    //     'thang11'=>'Tháng 11',
-    //     'thang12'=>'Tháng 12',
-    // ];
     return [
         '06THANGDAUNAM' => 'Báo cáo 06 tháng đầu năm',
         '06THANGCUOINAM' => 'Báo cáo 06 tháng cuối năm',
@@ -408,7 +389,7 @@ function getThongTinDonVi($madonvi, $tentruong)
 //chưa làm 
 function chkPhanQuyen($machucnang = null, $tenphanquyen = null)
 {
-    return true;
+    //return true;
     //Kiểm tra giao diện (danhmucchucnang)
     if (!chkGiaoDien($machucnang)) {
         return false;

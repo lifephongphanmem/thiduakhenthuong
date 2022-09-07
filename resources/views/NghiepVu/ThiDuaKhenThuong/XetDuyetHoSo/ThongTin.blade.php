@@ -30,7 +30,7 @@
 @section('content')
     <!--begin::Card-->
     <div class="card card-custom wave wave-animate-slow wave-info" style="min-height: 600px">
-        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+        <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
                 <h3 class="card-label text-uppercase">Danh sách hồ sơ thi đua từ đơn vị cấp dưới</h3>
             </div>
@@ -91,35 +91,44 @@
                                 <td>{{ $a_phamvi[$tt->phamviapdung] ?? '' }}</td>
 
                                 <td style="text-align: center">
-                                    <a title="Thông tin phong trào"
-                                        href="{{ url('/PhongTraoThiDua/Xem?maphongtraotd=' . $tt->maphongtraotd ) }}"
+                                    <a title="Xem chi tiết"
+                                        href="{{ url('/PhongTraoThiDua/Xem?maphongtraotd=' . $tt->maphongtraotd) }}"
                                         class="btn btn-sm btn-clean btn-icon" target="_blank">
-                                        <i class="icon-lg la fa-eye text-success"></i></a>
+                                        <i class="icon-lg la fa-eye text-dark icon-2x"></i>
+                                    </a>
                                     @if ($tt->nhanhoso == 'DANGNHAN')
                                         @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']))
                                             <a title="Danh sách chi tiết"
-                                                href="{{ url('/XetDuyetHoSoThiDua/DanhSach?maphongtraotd=' .$tt->maphongtraotd .'&madonvi=' .$inputs['madonvi'] .'&trangthai=true') }}"
-                                                class="btn btn-sm btn-clean btn-icon">
-                                                <i class="icon-lg la la-clipboard-list text-dark"></i></a>
-
-                                            {{-- <button title="Kết thúc phong trào" type="button"
-                                                onclick="setKetQua('{{ $tt->maphongtraotd }}')"
-                                                class="btn btn-sm btn-clean btn-icon" data-target="#modal-KetThuc"
-                                                data-toggle="modal">
-                                                <i class="icon-lg la fa-check text-warning"></i></button> --}}
+                                                href="{{ url('/XetDuyetHoSoThiDua/DanhSach?maphongtraotd=' . $tt->maphongtraotd . '&madonvi=' . $inputs['madonvi'] . '&trangthai=true') }}"
+                                                class="btn btn-icon btn-clean btn-lg mb-1 position-relative">
+                                                <span class="svg-icon svg-icon-xl">
+                                                    <i class="icon-lg la flaticon-list text-success icon-2x"></i>
+                                                </span>
+                                                <span
+                                                    class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->sohoso }}</span>
+                                            </a>
                                         @else
                                             <a title="Danh sách chi tiết"
-                                                href="{{ url('/XetDuyetHoSoThiDua/DanhSach?maphongtraotd=' .$tt->maphongtraotd .'&madonvi=' .$inputs['madonvi'] .'&trangthai=false') }}"
-                                                class="btn btn-sm btn-clean btn-icon">
-                                                <i class="icon-lg la la-clipboard-list text-dark"></i></a>
+                                                href="{{ url('/XetDuyetHoSoThiDua/DanhSach?maphongtraotd=' . $tt->maphongtraotd . '&madonvi=' . $inputs['madonvi'] . '&trangthai=false') }}"
+                                                class="btn btn-icon btn-clean btn-lg mb-1 position-relative">
+                                                <span class="svg-icon svg-icon-xl">
+                                                    <i class="icon-lg la flaticon-list text-dark icon-2x"></i>
+                                                </span>
+                                                <span
+                                                    class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->sohoso }}</span>
+                                            </a>
                                         @endif
                                     @else
                                         <a title="Danh sách chi tiết"
-                                            href="{{ url('/XetDuyetHoSoThiDua/DanhSach?maphongtraotd=' .$tt->maphongtraotd .'&madonvi=' .$inputs['madonvi'] .'&trangthai=true') }}"
-                                            class="btn btn-sm btn-clean btn-icon">
-                                            <i class="icon-lg la la-clipboard-list text-dark"></i></a>
+                                            href="{{ url('/XetDuyetHoSoThiDua/DanhSach?maphongtraotd=' . $tt->maphongtraotd . '&madonvi=' . $inputs['madonvi'] . '&trangthai=false') }}"
+                                            class="btn btn-icon btn-clean btn-lg mb-1 position-relative">
+                                            <span class="svg-icon svg-icon-xl">
+                                                <i class="icon-lg la flaticon-list text-dark icon-2x"></i>
+                                            </span>
+                                            <span
+                                                class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->sohoso }}</span>
+                                        </a>
                                     @endif
-
                                 </td>
                             </tr>
                         @endforeach
@@ -133,9 +142,16 @@
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                {!! Form::open(['url' => '/XetDuyetHoSoThiDua/KetThuc', 'method' => 'post', 'files' => true, 'id' => 'frm_KetThuc', 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
+                {!! Form::open([
+                    'url' => '/XetDuyetHoSoThiDua/KetThuc',
+                    'method' => 'post',
+                    'files' => true,
+                    'id' => 'frm_KetThuc',
+                    'class' => 'form-horizontal',
+                    'enctype' => 'multipart/form-data',
+                ]) !!}
                 <div class="modal-header">
-                    
+
                     <h4 class="modal-title">Đồng ý kết thúc phong trào và xét khen thưởng?</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                 </div>

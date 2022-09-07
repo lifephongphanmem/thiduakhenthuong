@@ -37,7 +37,8 @@ Route::group(['prefix' => 'HoSoThiDua'], function () {
     Route::post('ChuyenHoSo', 'NghiepVu\ThiDuaKhenThuong\dshosothiduaController@ChuyenHoSo');
     Route::post('delete', 'NghiepVu\ThiDuaKhenThuong\dshosothiduaController@delete');
     Route::get('LayLyDo', 'NghiepVu\ThiDuaKhenThuong\dshosothiduaController@LayLyDo');
-    Route::get('XoaDoiTuong', 'NghiepVu\ThiDuaKhenThuong\dshosothiduaController@XoaDoiTuong');
+    Route::get('XoaDoiTuong', 'NghiepVu\ThiDuaKhenThuong\dshosothiduaController@XoaDoiTuong');    
+    Route::get('TaiLieuDinhKem', 'NghiepVu\ThiDuaKhenThuong\dshosothiduaController@TaiLieuDinhKem');
 });
 
 Route::group(['prefix' => 'XetDuyetHoSoThiDua'], function () {
@@ -59,6 +60,7 @@ Route::group(['prefix' => 'KhenThuongHoSoThiDua'], function () {
     Route::post('HoSo', 'NghiepVu\ThiDuaKhenThuong\khenthuonghosothiduaController@HoSo');
     Route::post('KetQua', 'NghiepVu\ThiDuaKhenThuong\khenthuonghosothiduaController@KetQua');
     Route::post('PheDuyet', 'NghiepVu\ThiDuaKhenThuong\khenthuonghosothiduaController@PheDuyet');
+    Route::post('HuyPheDuyet', 'NghiepVu\ThiDuaKhenThuong\khenthuonghosothiduaController@HuyPheDuyet');
 
     Route::get('InKetQua', 'NghiepVu\ThiDuaKhenThuong\khenthuonghosothiduaController@InKetQua');
     Route::get('MacDinhQuyetDinh', 'NghiepVu\ThiDuaKhenThuong\khenthuonghosothiduaController@MacDinhQuyetDinh');
@@ -67,6 +69,12 @@ Route::group(['prefix' => 'KhenThuongHoSoThiDua'], function () {
     Route::get('XemQuyetDinh', 'NghiepVu\ThiDuaKhenThuong\khenthuonghosothiduaController@XemQuyetDinh');
     Route::get('LayTieuChuan', 'NghiepVu\ThiDuaKhenThuong\khenthuonghosothiduaController@LayTieuChuan');
     Route::post('KetThuc', 'NghiepVu\ThiDuaKhenThuong\khenthuonghosothiduaController@KetThuc');
+    Route::get('TaiLieuDinhKem', 'NghiepVu\ThiDuaKhenThuong\dshosothiduaController@TaiLieuDinhKem');
+
+    //In dữ liệu
+    Route::post('LayDoiTuong', 'NghiepVu\ThiDuaKhenThuong\khenthuonghosothiduaController@LayDoiTuong');
+    Route::post('InBangKhen', 'NghiepVu\ThiDuaKhenThuong\khenthuonghosothiduaController@InBangKhen');
+    Route::post('InGiayKhen', 'NghiepVu\ThiDuaKhenThuong\khenthuonghosothiduaController@InGiayKhen');
 });
 //
 

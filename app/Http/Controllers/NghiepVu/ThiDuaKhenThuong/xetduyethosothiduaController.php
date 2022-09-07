@@ -35,7 +35,7 @@ class xetduyethosothiduaController extends Controller
         }
 
             $inputs = $request->all();
-            $m_donvi = getDonViXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
+            $m_donvi = getDonViXetDuyetHoSo(session('admin')->capdo, 'xdhosothidua', null, 'MODEL');
             $m_diaban = getDiaBanXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
             $m_donvi = viewdiabandonvi::wherein('madonvi', array_column($m_donvi->toarray(), 'madonviQL'))->get();
             $inputs['nam'] = $inputs['nam'] ?? 'ALL';
