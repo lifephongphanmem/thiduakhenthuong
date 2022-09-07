@@ -408,7 +408,7 @@ function getThongTinDonVi($madonvi, $tentruong)
 //chưa làm 
 function chkPhanQuyen($machucnang = null, $tenphanquyen = null)
 {
-    //return true;
+    return true;
     //Kiểm tra giao diện (danhmucchucnang)
     if (!chkGiaoDien($machucnang)) {
         return false;
