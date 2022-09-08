@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Model\NghiepVu\DangKyDanhHieu;
+
+use Illuminate\Database\Eloquent\Model;
+
+class dshosodangkyphongtraothidua_canhan extends Model
+{
+    protected $table = 'dshosodangkyphongtraothidua_canhan';
+    protected $fillable = [
+        'id',
+        'stt',
+        'mahosodk',
+        'maccvc',
+        'socancuoc',
+        'tendoituong',
+        'ngaysinh',
+        'gioitinh',
+        'chucvu',
+        'diachi',
+        'tencoquan',
+        'tenphongban',
+        'maphanloaicanbo',
+        'mahinhthuckt',
+        'madanhhieutd',
+    ];
+}

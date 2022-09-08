@@ -17,26 +17,25 @@
             TableManaged3.init();
             $('#madonvi').change(function() {
                 window.location.href = '/DangKyDanhHieu/HoSo/ThongTin?madonvi=' + $(
-                        '#madonvi').val() + '&nam=' + $('#nam').val() ;
+                    '#madonvi').val() + '&nam=' + $('#nam').val();
             });
             $('#nam').change(function() {
                 window.location.href = '/DangKyDanhHieu/HoSo/ThongTin?madonvi=' + $(
-                        '#madonvi').val() + '&nam=' + $('#nam').val() ;
+                    '#madonvi').val() + '&nam=' + $('#nam').val();
             });
-        });        
-    
+        });
     </script>
 @stop
 
 @section('content')
     <!--begin::Card-->
     <div class="card card-custom wave wave-animate-slow wave-info" style="min-height: 600px">
-        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+        <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
                 <h3 class="card-label text-uppercase">Danh sách hồ sơ đăng ký danh hiệu thi đua</h3>
             </div>
             <div class="card-toolbar">
-                @if (chkPhanQuyen('dshosodangkythidua', 'modify'))
+                @if (chkPhanQuyen('dshosodangkythidua', 'thaydoi'))
                     <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
                 @endif
@@ -87,29 +86,31 @@
                                 <td>{{ $a_donvi[$tt->madonvi_nhan] ?? '' }}</td>
 
                                 <td style="text-align: center">
+                                    <a title="Hồ sơ đăng ký phong trào"
+                                        href="{{ url('/DangKyDanhHieu/HoSo/Xem?mahosodk=' . $tt->mahosodk) }}"
+                                        class="btn btn-sm btn-clean btn-icon" target="_blank">
+                                        <i class="icon-lg la fa-eye text-dark icon-2x"></i>
+                                    </a>
                                     @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']))
                                         <a title="Thông tin hồ sơ"
                                             href="{{ url('/DangKyDanhHieu/HoSo/Sua?mahosodk=' . $tt->mahosodk) }}"
                                             class="btn btn-sm btn-clean btn-icon">
-                                            <i class="icon-lg la fa-check-square text-primary"></i></a>
+                                            <i class="icon-lg la flaticon-edit-1 text-success icon-2x"></i>
+                                        </a>
 
                                         <button title="Trình hồ sơ đăng ký" type="button"
                                             onclick="confirmChuyen('{{ $tt->mahosodk }}','/DangKyDanhHieu/HoSo/ChuyenHoSo')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#chuyen-modal-confirm"
                                             data-toggle="modal">
-                                            <i class="icon-lg la fa-share text-primary"></i></button>
+                                            <i class="icon-lg la fa-share text-primary icon-2x"></i>
+                                        </button>
 
                                         <button type="button"
                                             onclick="confirmDelete('{{ $tt->id }}','/DangKyDanhHieu/HoSo/Xoa')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
                                             data-toggle="modal">
-                                            <i class="icon-lg la fa-trash text-danger"></i></button>
-                                    @else
-                                        <a title="Hồ sơ đăng ký phong trào"
-                                            href="{{ url('/DangKyDanhHieu/HoSo/Xem?mahosodk=' . $tt->mahosodk) }}"
-                                            class="btn btn-sm btn-clean btn-icon" target="_blank">
-                                            <i class="icon-lg la fa-eye text-dark"></i></a>
-                                       
+                                            <i class="icon-lg la fa-trash text-danger icon-2x"></i>
+                                        </button>
                                     @endif
 
                                     @if ($tt->trangthai == 'BTL')
@@ -117,7 +118,8 @@
                                             onclick="viewLyDo('{{ $tt->mahosodk }}','{{ $inputs['madonvi'] }}', '/DangKyDanhHieu/HoSo/LayLyDo')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#tralai-modal"
                                             data-toggle="modal">
-                                            <i class="icon-lg la fa-archive text-info"></i></button>
+                                            <i class="icon-lg la fa-archive text-dark icon-2x"></i>
+                                        </button>
                                     @endif
                                 </td>
                             </tr>
@@ -150,7 +152,7 @@
                     <div class="form-group row">
                         <div class="col-lg-12">
                             <label>Nội dung hồ sơ</label>
-                            {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows'=>3]) !!}
+                            {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows' => 3]) !!}
                         </div>
                     </div>
                 </div>
@@ -162,8 +164,8 @@
         </div>
     </div>
     {!! Form::close() !!}
-    
-    
+
+
     @include('includes.modal.modal-lydo')
     @include('includes.modal.modal-delete')
     @include('includes.modal.modal_approve_hs')

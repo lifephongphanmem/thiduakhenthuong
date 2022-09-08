@@ -9,10 +9,16 @@ Route::group(['prefix'=>'DangKyDanhHieu'], function(){
         Route::get('Xem','NghiepVu\DangKyDanhHieu\dshosodangkyphongtraothiduaController@XemHoSo');
         Route::post('CaNhan','NghiepVu\DangKyDanhHieu\dshosodangkyphongtraothiduaController@ThemCaNhan');
         Route::post('TapThe','NghiepVu\DangKyDanhHieu\dshosodangkyphongtraothiduaController@ThemTapThe');
-        Route::get('LayDoiTuong','NghiepVu\DangKyDanhHieu\dshosodangkyphongtraothiduaController@LayDoiTuong');
+        
         Route::post('ChuyenHoSo','NghiepVu\DangKyDanhHieu\dshosodangkyphongtraothiduaController@ChuyenHoSo');
         Route::get('LayLyDo','NghiepVu\DangKyDanhHieu\dshosodangkyphongtraothiduaController@LayLyDo');
         Route::post('Xoa', 'NghiepVu\DangKyDanhHieu\dshosodangkyphongtraothiduaController@XoaHoSo');
+
+        Route::get('LayCaNhan','NghiepVu\DangKyDanhHieu\dshosodangkyphongtraothiduaController@LayCaNhan');
+        Route::get('LayTapThe','NghiepVu\DangKyDanhHieu\dshosodangkyphongtraothiduaController@LayTapThe');
+        Route::post('XoaDoiTuong', 'NghiepVu\DangKyDanhHieu\dshosodangkyphongtraothiduaController@XoaDoiTuong');
+        Route::post('NhanExcelTapThe', 'NghiepVu\DangKyDanhHieu\dshosodangkyphongtraothiduaController@NhanExcelTapThe');
+        Route::post('NhanExcelCaNhan', 'NghiepVu\DangKyDanhHieu\dshosodangkyphongtraothiduaController@NhanExcelCaNhan');
     });
 
     Route::group(['prefix'=>'XetDuyet'], function(){

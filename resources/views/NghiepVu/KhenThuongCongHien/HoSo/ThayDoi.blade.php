@@ -608,7 +608,7 @@
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label class="control-label">Danh hiệu thi đua</label>
-                            {!! Form::select('madanhhieutd', setArrayAll($a_hinhthuckt, 'Không đăng ký', 'null'), null, [
+                            {!! Form::select('madanhhieutd', setArrayAll($a_danhhieutd, 'Không đăng ký', 'null'), null, [
                                 'class' => 'form-control',
                             ]) !!}
                         </div>
@@ -674,7 +674,7 @@
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label class="control-label">Danh hiệu thi đua</label>
-                            {!! Form::select('madanhhieutd', setArrayAll($a_hinhthuckt, 'Không đăng ký', 'null'), null, [
+                            {!! Form::select('madanhhieutd', setArrayAll($a_danhhieutd, 'Không đăng ký', 'null'), null, [
                                 'class' => 'form-control',
                             ]) !!}
                         </div>
@@ -1008,7 +1008,7 @@
 
                                         <div class="col-md-4">
                                             <label class="control-label">Danh hiệu thi đua</label>
-                                            {!! Form::select('madanhhieutd_md', setArrayAll($a_hinhthuckt, 'Không đăng ký', 'null'), null, [
+                                            {!! Form::select('madanhhieutd_md', setArrayAll($a_danhhieutd, 'Không đăng ký', 'null'), null, [
                                                 'class' => 'form-control',
                                             ]) !!}
                                         </div>
@@ -1129,7 +1129,7 @@
 
                                         <div class="col-md-4">
                                             <label class="control-label">Danh hiệu thi đua</label>
-                                            {!! Form::select('madanhhieutd_md', setArrayAll($a_hinhthuckt, 'Không đăng ký', 'null'), null, [
+                                            {!! Form::select('madanhhieutd_md', setArrayAll($a_danhhieutd, 'Không đăng ký', 'null'), null, [
                                                 'class' => 'form-control',
                                             ]) !!}
                                         </div>
