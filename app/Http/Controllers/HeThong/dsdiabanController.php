@@ -93,7 +93,7 @@ class dsdiabanController extends Controller
         $model = array_column(dsdonvi::where('madiaban', $inputs['madiaban'])->get()->toarray(), 'tendonvi', 'madonvi');
         $result['message'] = '<div id="donviql" class="form-group row">';
         $result['message'] .= '<div class="col-md-12">';
-        $result['message'] .= '<label class="form-control-label">Tên đối tượng</label>';
+        $result['message'] .= '<label class="form-control-label">Đơn vị quản lý địa bàn</label>';
         $result['message'] .= '<select class="form-control select2_modal" name="madonviQL">';
         foreach ($model as $key => $val) {
             $result['message'] .= '<option value="' . $key . '">' . $val . '</option>';

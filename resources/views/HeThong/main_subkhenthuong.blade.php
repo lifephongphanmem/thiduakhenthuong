@@ -25,7 +25,7 @@
                         <ul class="menu-subnav">
                             @if (chkPhanQuyen('dshosokhenthuongcongtrang', 'phanquyen'))
                             <li class="menu-item" aria-haspopup="true">
-                                <a href="{{ url('/KhenThuongCongTrang/HoSoKhenThuong/ThongTin') }}" class="menu-link">
+                                <a href="{{ url('/KhenThuongCongTrang/HoSo/ThongTin') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
@@ -35,7 +35,7 @@
                             @endif
                             @if (chkPhanQuyen('xdhosokhenthuongcongtrang', 'phanquyen'))
                             <li class="menu-item" aria-haspopup="true">
-                                <a href="{{ url('/KhenThuongCongTrang/XetDuyetHoSo/ThongTin') }}" class="menu-link">
+                                <a href="{{ url('/KhenThuongCongTrang/XetDuyet/ThongTin') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>

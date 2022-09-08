@@ -15,6 +15,17 @@ use Illuminate\Support\Facades\Session;
 
 class xdhosodangkyphongtraothiduaController extends Controller
 {
+    public static $url = '';
+    public function __construct()
+    {
+        static::$url = 'DangKyDanhHieu/HoSo/';
+        $this->middleware(function ($request, $next) {
+            if (!Session::has('admin')) {
+                return redirect('/');
+            };
+            return $next($request);
+        });
+    }
     public function ThongTin(Request $request)
     {
         if (!chkPhanQuyen('xdhosodangkythidua', 'danhsach')) {

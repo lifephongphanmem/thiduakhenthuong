@@ -80,7 +80,7 @@ Route::group(['prefix' => 'KhenThuongHoSoThiDua'], function () {
 
 //Khen thưởng theo công trạng
 Route::group(['prefix' => 'KhenThuongCongTrang'], function () {
-    Route::group(['prefix' => 'HoSoKhenThuong'], function () {
+    Route::group(['prefix' => 'HoSo'], function () {
         Route::get('ThongTin', 'NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController@ThongTin');
         Route::post('Them', 'NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController@Them');
         Route::get('Sua', 'NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController@ThayDoi');
@@ -98,7 +98,7 @@ Route::group(['prefix' => 'KhenThuongCongTrang'], function () {
         Route::post('XoaDoiTuong', 'NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController@XoaDoiTuong');
     });
 
-    Route::group(['prefix' => 'XetDuyetHoSo'], function () {
+    Route::group(['prefix' => 'XetDuyet'], function () {
         Route::get('ThongTin', 'NghiepVu\KhenThuongCongTrang\xdhosokhenthuongcongtrangController@ThongTin');
         Route::post('TraLai', 'NghiepVu\KhenThuongCongTrang\xdhosokhenthuongcongtrangController@TraLai');
         Route::post('NhanHoSo', 'NghiepVu\KhenThuongCongTrang\xdhosokhenthuongcongtrangController@NhanHoSo');
