@@ -1,6 +1,6 @@
 <div id="dinhkem-modal-confirm" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
     {!! Form::open(['url'=>'','id' => 'frm_dinhkem'])!!}
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header modal-header-primary">
                 <h4 id="modal-header-primary-label" class="modal-title">Danh sách tài liệu đính kèm</h4>

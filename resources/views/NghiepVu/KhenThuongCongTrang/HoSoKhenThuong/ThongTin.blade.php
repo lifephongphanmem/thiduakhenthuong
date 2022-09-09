@@ -16,16 +16,15 @@
         jQuery(document).ready(function() {
             TableManaged3.init();
             $('#madonvi').change(function() {
-                window.location.href = '/KhenThuongCongTrang/HoSoKhenThuong/ThongTin?madonvi=' + $(
-                        '#madonvi').val() + '&nam=' + $('#nam').val() ;
+                window.location.href = "{{ $inputs['url_hs'] }}" + "ThongTin?madonvi=" + $(
+                    '#madonvi').val() + "&nam=" + $('#nam').val();
             });
-           
+
             $('#nam').change(function() {
-                window.location.href = '/KhenThuongCongTrang/HoSoKhenThuong/ThongTin?madonvi=' + $(
-                        '#madonvi').val() + '&nam=' + $('#nam').val();
+                window.location.href = "{{ $inputs['url_hs'] }}" + "ThongTin?madonvi=" + $(
+                    '#madonvi').val() + "&nam=" + $('#nam').val();
             });
-        });        
-    
+        });
     </script>
 @stop
 
@@ -37,7 +36,7 @@
                 <h3 class="card-label text-uppercase">Danh sách hồ sơ trình khen thưởng theo công trạng và thành tích</h3>
             </div>
             <div class="card-toolbar">
-                @if (chkPhanQuyen('dshosokhenthuongcongtrang', 'modify'))
+                @if (chkPhanQuyen('dshosokhenthuongcongtrang', 'thaydoi'))
                     <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
                 @endif
@@ -48,9 +47,9 @@
                 <div class="col-lg-9">
                     <label style="font-weight: bold">Đơn vị</label>
                     <select class="form-control select2basic" id="madonvi">
-                        @foreach ($m_diaban as $diaban)
-                            <optgroup label="{{ $diaban->tendiaban }}">
-                                <?php $donvi = $m_donvi->where('madiaban', $diaban->madiaban); ?>
+                        @foreach ($a_diaban as $key => $val)
+                            <optgroup label="{{ $val }}">
+                                <?php $donvi = $m_donvi->where('madiaban', $key); ?>
                                 @foreach ($donvi as $ct)
                                     <option {{ $ct->madonvi == $inputs['madonvi'] ? 'selected' : '' }}
                                         value="{{ $ct->madonvi }}">{{ $ct->tendonvi }}</option>
@@ -59,7 +58,7 @@
                         @endforeach
                     </select>
                 </div>
-                
+
                 <div class="col-lg-3">
                     <label style="font-weight: bold">Năm</label>
                     {!! Form::select('nam', getNam(true), $inputs['nam'], ['id' => 'nam', 'class' => 'form-control select2basic']) !!}
@@ -84,52 +83,52 @@
                             <tr>
                                 <td class="text-center">{{ $key + 1 }}</td>
                                 <td>{{ $tt->noidung }}</td>
-                                <td class="text-center">{{ getDayVn($tt->sototrinh) }}<br>{{ getDayVn($tt->ngayhoso) }}</td>
+                                <td class="text-center">{{ $tt->sototrinh }}<br>{{ getDayVn($tt->ngayhoso) }}
+                                </td>
                                 @include('includes.td.td_trangthai_hoso')
                                 <td>{{ $a_donvi[$tt->madonvi_nhan] ?? '' }}</td>
 
                                 <td style="text-align: center">
-                                    @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']))
+                                    <button type="button" title="In dữ liệu"
+                                        onclick="setInDuLieu('{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}', '{{ $tt->trangthai }}')"
+                                        class="btn btn-sm btn-clean btn-icon" data-target="#indulieu-modal"
+                                        data-toggle="modal">
+                                        <i class="icon-lg la flaticon2-print text-dark icon-2x"></i>
+                                    </button>
+
+                                    <button title="Tài liệu đính kèm" type="button"
+                                        onclick="get_attack('{{ $tt->mahosotdkt }}', '{{ $inputs['url_hs'] . 'TaiLieuDinhKem' }}')"
+                                        class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
+                                        data-toggle="modal">
+                                        <i class="icon-lg la la-file-download text-dark icon-2x"></i>
+                                    </button>
+
+                                    @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']) && chkPhanQuyen('dshosokhenthuongcongtrang', 'thaydoi'))
                                         <a title="Thông tin hồ sơ"
-                                            href="{{ url('/KhenThuongCongTrang/HoSoKhenThuong/Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                            href="{{ url($inputs['url_hs'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
                                             class="btn btn-sm btn-clean btn-icon">
-                                            <i class="icon-lg la fa-check-square text-primary"></i></a>
+                                            <i class="icon-lg la flaticon-edit-1 text-success icon-2x"></i>
+                                        </a>
 
                                         <button title="Trình hồ sơ đăng ký" type="button"
-                                            onclick="confirmChuyen('{{ $tt->mahosotdkt }}','/KhenThuongCongTrang/HoSoKhenThuong/ChuyenHoSo')"
+                                            onclick="confirmChuyen('{{ $tt->mahosotdkt }}','{{$inputs['url_hs'].'ChuyenHoSo'}}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#chuyen-modal-confirm"
                                             data-toggle="modal">
-                                            <i class="icon-lg la fa-share text-primary"></i></button>
+                                            <i class="icon-lg la fa-share text-primary icon-2x"></i></button>
 
                                         <button type="button"
-                                            onclick="confirmDelete('{{ $tt->id }}','/KhenThuongCongTrang/HoSoKhenThuong/Xoa')"
+                                            onclick="confirmDelete('{{ $tt->id }}','{{$inputs['url_hs'].'Xoa'}}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
                                             data-toggle="modal">
-                                            <i class="icon-lg la fa-trash text-danger"></i></button>
-                                    @else
-                                        <a title="Hồ sơ đăng ký phong trào"
-                                            href="{{ url('/KhenThuongCongTrang/HoSoKhenThuong/Xem?mahosotdkt=' . $tt->mahosotdkt) }}"
-                                            class="btn btn-sm btn-clean btn-icon" target="_blank">
-                                            <i class="icon-lg la fa-eye text-dark"></i></a>
-
-                                        @if ($tt->trangthai == 'DKT')
-                                            <a title="Thông tin hồ sơ khen thưởng"
-                                                href="{{ url('/KhenThuongCongTrang/KhenThuong/Xem?mahosokt=' . $tt->mahosokt) }}"
-                                                class="btn btn-sm btn-clean btn-icon" target="_blank">
-                                                <i class="icon-lg la fa-user-check text-dark"></i></a>
-                                                <a title="In quyết định khen thưởng"
-                                            href="{{ url('/KhenThuongCongTrang/KhenThuong/XemQuyetDinh?mahosokt=' . $tt->mahosokt) }}"
-                                            class="btn btn-sm btn-clean btn-icon" target="_blank">
-                                            <i class="icon-lg la fa-print text-dark"></i></a>
-                                        @endif
+                                            <i class="icon-lg la fa-trash text-danger icon-2x"></i></button>                                   
                                     @endif
 
                                     @if ($tt->trangthai == 'BTL')
                                         <button title="Lý do hồ sơ bị trả lại" type="button"
-                                            onclick="viewLyDo('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}', '/KhenThuongCongTrang/HoSoKhenThuong/LayLyDo')"
+                                            onclick="viewLyDo('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}', '{{$inputs['url_hs'].'LayLyDo'}}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#tralai-modal"
                                             data-toggle="modal">
-                                            <i class="icon-lg la fa-archive text-info"></i></button>
+                                            <i class="icon-lg la fa-archive text-info icon-2x"></i></button>
                                     @endif
                                 </td>
                             </tr>
@@ -141,7 +140,7 @@
     </div>
     <!--end::Card-->
     <!--Modal Nhận hồ sơ-->
-    {!! Form::open(['url' => '/KhenThuongCongTrang/HoSoKhenThuong/Them', 'id' => 'frm_hoso']) !!}
+    {!! Form::open(['url' =>$inputs['url_hs']. 'Them', 'id' => 'frm_hoso']) !!}
     <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
     <div id="taohoso-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
         <div class="modal-dialog modal-lg">
@@ -184,7 +183,7 @@
                     <div class="form-group row">
                         <div class="col-lg-12">
                             <label>Nội dung trình khen thưởng</label>
-                            {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows'=>3]) !!}
+                            {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows' => 3]) !!}
                         </div>
                     </div>
                 </div>
@@ -196,9 +195,10 @@
         </div>
     </div>
     {!! Form::close() !!}
-    
-    
-    @include('includes.modal.modal-lydo')
+
+    @include('NghiepVu._DungChung.InDuLieu')
     @include('includes.modal.modal-delete')
     @include('includes.modal.modal_approve_hs')
+    @include('includes.modal.modal_attackfile')
+    @include('includes.modal.modal-lydo')
 @stop

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DanhMuc\dmphanloaiController;
 use App\Http\Controllers\DanhMuc\duthaoquyetdinhController;
+use App\Http\Controllers\HeThong\dsnhomtaikhoanController;
 use Illuminate\Support\Facades\Route;
 
 //Đăng nhập
@@ -73,4 +74,13 @@ Route::group(['prefix'=>'DuThaoQD'], function(){
     Route::post('Xoa',[duthaoquyetdinhController::class,'Xoa']);
     Route::get('Xem', [duthaoquyetdinhController::class,'XemDuThao']);
     Route::post('Luu', [duthaoquyetdinhController::class,'LuuDuThao']);
+});
+
+Route::group(['prefix'=>'NhomChucNang'], function(){
+    Route::get('ThongTin', [dsnhomtaikhoanController::class,'ThongTin']);
+    Route::post('Sua', [dsnhomtaikhoanController::class,'store']);
+    Route::post('Xoa',[dsnhomtaikhoanController::class,'destroy']);
+
+    Route::get('PhanQuyen',[dsnhomtaikhoanController::class,'PhanQuyen']);
+    Route::post('PhanQuyen',[dsnhomtaikhoanController::class,'LuuPhanQuyen']);
 });

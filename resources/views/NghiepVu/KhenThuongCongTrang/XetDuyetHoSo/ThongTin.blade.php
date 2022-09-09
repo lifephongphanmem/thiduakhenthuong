@@ -16,17 +16,17 @@
         jQuery(document).ready(function() {
             TableManaged3.init();
             $('#madonvi').change(function() {
-                window.location.href = '/KhenThuongCongTrang/XetDuyetHoSo/ThongTin?madonvi=' + $(
+                window.location.href = "{{ $inputs['url_xd'] }}" + 'ThongTin?madonvi=' + $(
                         '#madonvi').val() +
                     '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
             });
             $('#maloaihinhkt').change(function() {
-                window.location.href = '/KhenThuongCongTrang/XetDuyetHoSo/ThongTin?madonvi=' + $(
+                window.location.href = "{{ $inputs['url_xd'] }}" + 'ThongTin?madonvi=' + $(
                         '#madonvi').val() +
                     '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
             });
             $('#nam').change(function() {
-                window.location.href = '/KhenThuongCongTrang/XetDuyetHoSo/ThongTin?madonvi=' + $(
+                window.location.href = "{{ $inputs['url_xd'] }}" + 'ThongTin?madonvi=' + $(
                         '#madonvi').val() +
                     '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
             });
@@ -37,9 +37,9 @@
 @section('content')
     <!--begin::Card-->
     <div class="card card-custom wave wave-animate-slow wave-info" style="min-height: 600px">
-        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+        <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Danh sách hồ sơ trình khen thưởng</h3>
+                <h3 class="card-label text-uppercase">Danh sách hồ sơ trình khen thưởng công trạng và thành tích</h3>
             </div>
             <div class="card-toolbar">
                 @if (chkPhanQuyen('xdhosokhenthuongcongtrang', 'modify'))
@@ -66,7 +66,10 @@
                 </div>
                 <div class="col-md-5">
                     <label style="font-weight: bold">Loại hình khen thưởng</label>
-                    {!! Form::select('maloaihinhkt', setArrayAll($a_loaihinhkt), $inputs['maloaihinhkt'], ['id' => 'maloaihinhkt', 'class' => 'form-control select2basic']) !!}
+                    {!! Form::select('maloaihinhkt', $a_loaihinhkt, $inputs['maloaihinhkt'], [
+                        'id' => 'maloaihinhkt',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
                 </div>
                 <div class="col-md-2">
                     <label style="font-weight: bold">Năm</label>
@@ -82,7 +85,6 @@
                                 <th width="2%">STT</th>
                                 <th width="15%">Tên đơn vị</th>
                                 <th>Nội dung hồ sơ</th>
-                                <th width="15%">Loại hình khen thưởng</th>
                                 <th width="8%">Ngày tạo</th>
                                 <th width="8%">Trạng thái</th>
                                 <th width="15%">Đơn vị tiếp nhận</th>
@@ -95,47 +97,39 @@
                                 <td class="text-center">{{ $key + 1 }}</td>
                                 <td>{{ $a_donvi[$tt->madonvi] ?? '' }}</td>
                                 <td>{{ $tt->noidung }}</td>
-                                <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
                                 <td class="text-center">{{ getDayVn($tt->ngayhoso) }}</td>
                                 @include('includes.td.td_trangthai_hoso')
                                 <td>{{ $a_donvi[$tt->madonvi_nhan] ?? '' }}</td>
 
                                 <td style="text-align: center">
-                                    <a title="Thông tin hồ sơ"
-                                        href="{{ url('/KhenThuongCongTrang/HoSoKhenThuong/Xem?mahosotdkt=' . $tt->mahosotdkt) }}"
-                                        class="btn btn-sm btn-clean btn-icon" target="_blank">
-                                        <i class="icon-lg la fa-eye text-dark"></i></a>
+                                    <button type="button" title="In dữ liệu"
+                                        onclick="setInDuLieu('{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}', '{{ $tt->trangthai }}')"
+                                        class="btn btn-sm btn-clean btn-icon" data-target="#indulieu-modal"
+                                        data-toggle="modal">
+                                        <i class="icon-lg la flaticon2-print text-dark icon-2x"></i>
+                                    </button>
 
-                                    @if (in_array($tt->trangthai_hoso, ['CD']))
+                                    <button title="Tài liệu đính kèm" type="button"
+                                        onclick="get_attack('{{ $tt->mahosotdkt }}', '{{ $inputs['url_hs'] . 'TaiLieuDinhKem' }}')"
+                                        class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
+                                        data-toggle="modal">
+                                        <i class="icon-lg la la-file-download text-dark icon-2x"></i>
+                                    </button>
+
+                                    @if (in_array($tt->trangthai_hoso, ['CD']) && chkPhanQuyen('xdhosokhenthuongcongtrang', 'thaydoi'))
                                         <button title="Trả lại hồ sơ" type="button"
-                                            onclick="confirmTraLai('{{ $tt->mahosotdkt }}', '{{ $inputs['madonvi'] }}', '/KhenThuongCongTrang/XetDuyetHoSo/TraLai')"
+                                            onclick="confirmTraLai('{{ $tt->mahosotdkt }}', '{{ $inputs['madonvi'] }}', '{{ $inputs['url_xd'] . 'TraLai' }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#modal-tralai"
                                             data-toggle="modal">
-                                            <i class="icon-lg la la-reply text-danger"></i></button>
+                                            <i class="icon-lg la la-reply text-danger icon-2x"></i>
+                                        </button>
 
-                                        <button title="Nhận hồ sơ đăng ký" type="button"
-                                            onclick="confirmNhan('{{ $tt->mahosotdkt }}','/KhenThuongCongTrang/XetDuyetHoSo/NhanHoSo','{{ $inputs['madonvi'] }}')"
-                                            class="btn btn-sm btn-clean btn-icon" data-target="#nhan-modal-confirm"
+                                        <button title="Nhận hồ sơ và trình khen thưởng" type="button"
+                                            onclick="confirmNhanvaTKT('{{ $tt->mahosotdkt }}','{{ $inputs['url_xd'] . 'ChuyenHoSo' }}','{{ $inputs['madonvi'] }}')"
+                                            class="btn btn-sm btn-clean btn-icon" data-target="#nhanvatkt-modal"
                                             data-toggle="modal">
-                                            <i class="icon-lg la fa-share-square text-success"></i></button>
-                                    @endif
-
-                                    @if (in_array($tt->trangthai_hoso, ['CNXKT']))
-                                        <button title="Chuyển hồ sơ đăng ký" type="button"
-                                            onclick="confirmChuyen('{{ $tt->mahosotdkt }}','/KhenThuongCongTrang/XetDuyetHoSo/ChuyenHoSo')"
-                                            class="btn btn-sm btn-clean btn-icon" data-target="#chuyen-modal-confirm"
-                                            data-toggle="modal">
-                                            <i class="icon-lg la fa-share-square text-success"></i></button>
-                                    @endif
-                                    @if ($tt->trangthai == 'DKT')
-                                        <a title="Thông tin hồ sơ khen thưởng"
-                                            href="{{ url('/KhenThuongCongTrang/KhenThuong/Xem?mahosokt=' . $tt->mahosokt) }}"
-                                            class="btn btn-sm btn-clean btn-icon" target="_blank">
-                                            <i class="icon-lg la fa-user-check text-dark"></i></a>
-                                        <a title="In quyết định khen thưởng"
-                                            href="{{ url('/KhenThuongCongTrang/KhenThuong/XemQuyetDinh?mahosokt=' . $tt->mahosokt) }}"
-                                            class="btn btn-sm btn-clean btn-icon" target="_blank">
-                                            <i class="icon-lg la fa-print text-dark"></i></a>
+                                            <i class="icon-lg la fa-share-square text-success icon-2x"></i>
+                                        </button>
                                     @endif
                                 </td>
                             </tr>
@@ -147,6 +141,7 @@
     </div>
     <!--end::Card-->
     @include('includes.modal.modal_unapprove_hs')
-    @include('includes.modal.modal_approve_hs')
-    @include('includes.modal.modal_accept_hs')
+    @include('includes.modal.modal_nhanvatrinhkt_hs')
+    @include('NghiepVu._DungChung.InDuLieu')
+    @include('includes.modal.modal_attackfile')
 @stop

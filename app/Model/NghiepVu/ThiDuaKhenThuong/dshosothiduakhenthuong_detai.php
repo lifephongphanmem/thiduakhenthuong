@@ -19,6 +19,7 @@ class dshosothiduakhenthuong_detai extends Model
         'gioitinh',
         'tencoquan',
         'tenphongban',
+        'tenchucvu',
         //Đề tài, sáng kiến
         'tensangkien', //tên đề tài, sáng kiến
         'donvicongnhan',
