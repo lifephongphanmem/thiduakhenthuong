@@ -39,10 +39,10 @@
     <div class="card card-custom wave wave-animate-slow wave-info" style="min-height: 600px">
         <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Danh sách hồ sơ trình khen thưởng đối ngoại</h3>
+                <h3 class="card-label text-uppercase">Danh sách hồ sơ trình khen thưởng niên hạn</h3>
             </div>
             <div class="card-toolbar">
-                @if (chkPhanQuyen('xdhosokhenthuongdoingoai', 'modify'))
+                @if (chkPhanQuyen('xdhosokhenthuongnienhan', 'modify'))
                     <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
                 @endif
@@ -116,7 +116,7 @@
                                         <i class="icon-lg la la-file-download text-dark icon-2x"></i>
                                     </button>
 
-                                    @if (in_array($tt->trangthai_hoso, ['CD']) && chkPhanQuyen('xdhosokhenthuongdoingoai', 'thaydoi'))
+                                    @if (in_array($tt->trangthai_hoso, ['CD']) && chkPhanQuyen('xdhosokhenthuongnienhan', 'thaydoi'))
                                         <button title="Trả lại hồ sơ" type="button"
                                             onclick="confirmTraLai('{{ $tt->mahosotdkt }}', '{{ $inputs['madonvi'] }}', '{{ $inputs['url_xd'] . 'TraLai' }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#modal-tralai"
