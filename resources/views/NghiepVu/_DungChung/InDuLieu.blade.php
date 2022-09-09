@@ -91,7 +91,7 @@
 {{-- In phôi --}}
 {!! Form::open(['url' => '', 'id' => 'frm_InPhoi', 'target' => '_blank']) !!}
 <div id="modal-InPhoi" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
-    <input type="hidden" name="mahosokt" />
+    <input type="hidden" name="mahosotdkt" />
     <input type="hidden" name="phanloai" />
     <div class="modal-dialog">
         <div class="modal-content">
@@ -136,7 +136,7 @@
 
     function setInPhoi(url, phanloai) {
         $('#frm_InPhoi').attr('action', url);
-        $('#frm_InPhoi').find("[name='mahosokt']").val($('#frm_InDuLieu').find("[name='mahosokt']").val());
+        $('#frm_InPhoi').find("[name='mahosotdkt']").val($('#frm_InDuLieu').find("[name='mahosotdkt']").val());
         $('#frm_InPhoi').find("[name='phanloai']").val(phanloai);
         var formData = new FormData($('#frm_InPhoi')[0]);
 

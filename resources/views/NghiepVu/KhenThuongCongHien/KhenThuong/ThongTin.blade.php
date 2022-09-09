@@ -16,17 +16,17 @@
         jQuery(document).ready(function() {
             TableManaged3.init();
             $('#madonvi').change(function() {
-                window.location.href = '/KhenThuongCongTrang/KhenThuong/ThongTin?madonvi=' + $(
+                window.location.href = "{{$inputs['url']}}" + 'ThongTin?madonvi=' + $(
                         '#madonvi').val() +
                     '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
             });
             $('#maloaihinhkt').change(function() {
-                window.location.href = '/KhenThuongCongTrang/KhenThuong/ThongTin?madonvi=' + $(
+                window.location.href = "{{$inputs['url']}}" +'ThongTin?madonvi=' + $(
                         '#madonvi').val() +
                     '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
             });
             $('#nam').change(function() {
-                window.location.href = '/KhenThuongCongTrang/KhenThuong/ThongTin?madonvi=' + $(
+                window.location.href = "{{$inputs['url']}}" +'ThongTin?madonvi=' + $(
                         '#madonvi').val() +
                     '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
             });
@@ -42,7 +42,7 @@
                 <h3 class="card-label text-uppercase">Danh sách hồ sơ trình khen thưởng</h3>
             </div>
             <div class="card-toolbar">
-                @if (chkPhanQuyen('qdhosokhenthuongconghien', 'modify'))
+                @if (chkPhanQuyen('qdhosokhenthuongconghien', 'thaydoi'))
                     <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
                 @endif

@@ -127,6 +127,7 @@ class dshosokhenthuongcongtrangController extends Controller
     {
         $inputs = $request->all();
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $model->tenphongtraotd = dsphongtraothidua::where('maphongtraotd', $model->maphongtraotd)->first()->noidung ?? '';
         $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_detai = dshosothiduakhenthuong_detai::where('mahosotdkt', $model->mahosotdkt)->get();

@@ -54,9 +54,9 @@ class qdhosokhenthuongconghienController extends Controller
         $inputs['url'] = static::$url;
         $inputs['url_hs'] = '/KhenThuongCongHien/HoSo/';
 
-        $m_donvi = getDonViXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
+        $m_donvi = getDonViXetDuyetHoSo(session('admin')->capdo, null, 'qdhosokhenthuongconghien', 'MODEL');
         $m_diaban = getDiaBanXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
-        $m_donvi = viewdiabandonvi::wherein('madonvi', array_column($m_donvi->toarray(), 'madonviQL'))->get();
+        //$m_donvi = viewdiabandonvi::wherein('madonvi', array_column($m_donvi->toarray(), 'madonviQL'))->get();
 
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;

@@ -1,3 +1,4 @@
+
     {{-- Nhận file Excel --}}
     <div class="modal fade bs-modal-lg" id="modal-nhanexcel" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-xl">
@@ -47,7 +48,7 @@
                                     aria-labelledby="excel_tapthe">
 
                                     {!! Form::open([
-                                        'url' => $inputs['url_hs'] . 'NhanExcelTapThe',
+                                        'url' => $inputs['url_qd'] . 'NhanExcelTapThe',
                                         'method' => 'POST',
                                         'id' => 'frm_NhanExcel',
                                         'class' => 'form',
@@ -55,7 +56,7 @@
                                         'enctype' => 'multipart/form-data',
                                     ]) !!}
                                     <input type="hidden" name="mahosotdkt" value="{{ $model->mahosotdkt }}" />
-                                    <input type="hidden" name="url" value="{{ $inputs['url'] }}" />
+
                                     <div class="form-group row">
                                         <div class="col-md-3">
                                             <label class="control-label">Tên đơn vị / tập thể</label>
@@ -135,7 +136,7 @@
                                 <div class="tab-pane fade" id="excel_canhan" role="tabpanel"
                                     aria-labelledby="excel_canhan">
                                     {!! Form::open([
-                                        'url' => $inputs['url_hs'] . 'NhanExcelCaNhan',
+                                        'url' => $inputs['url_qd'] . 'NhanExcelCaNhan',
                                         'id' => 'frm_NhanExcel',
                                         'method' => 'POST',
                                         'class' => 'form',
@@ -143,7 +144,6 @@
                                         'enctype' => 'multipart/form-data',
                                     ]) !!}
                                     <input type="hidden" name="mahosotdkt" value="{{ $model->mahosotdkt }}" />
-                                    <input type="hidden" name="url" value="{{ $inputs['url'] }}" />
                                     <div class="form-group row">
                                         <div class="col-md-3">
                                             <label class="control-label">Tên đối tượng</label>
@@ -252,7 +252,6 @@
                                     </div>
                                     {!! Form::close() !!}
                                 </div>
-
                                 <div class="tab-pane fade" id="excel_detai" role="tabpanel"
                                     aria-labelledby="excel_canhan">
                                     {!! Form::open([

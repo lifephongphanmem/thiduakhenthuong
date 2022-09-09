@@ -35,6 +35,9 @@
             <td>Loại hình khen thưởng: {{ $a_loaihinhkt[$model->maloaihinhkt] ?? '' }}</td>
         </tr>
         <tr>
+            <td>Tên phong trào thi đua: {{ $model->tenphongtraotd }}</td>
+        </tr>
+        <tr>
             <td>Số tờ trình: {{ $model->sototrinh }}</td>
         </tr>
         <tr>
