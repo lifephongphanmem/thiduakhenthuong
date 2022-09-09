@@ -67,7 +67,7 @@
                 </div>
                 <div class="col-md-5">
                     <label style="font-weight: bold">Loại hình khen thưởng</label>
-                    {!! Form::select('maloaihinhkt', setArrayAll($a_loaihinhkt), $inputs['maloaihinhkt'], ['id' => 'maloaihinhkt', 'class' => 'form-control select2basic']) !!}
+                    {!! Form::select('maloaihinhkt', $a_loaihinhkt, $inputs['maloaihinhkt'], ['id' => 'maloaihinhkt', 'class' => 'form-control select2basic']) !!}
                 </div>
                 <div class="col-md-2">
                     <label style="font-weight: bold">Năm</label>

@@ -602,7 +602,7 @@ class dshosokhenthuongcongtrangController extends Controller
         dshosothiduakhenthuong_canhan::insert($a_dm);
         File::Delete($path);
 
-        return redirect($inputs['url'] . 'Sua?mahosotdkt=' . $inputs['mahosotdkt']);
+        return redirect(static::$url .  'Sua?mahosotdkt=' . $inputs['mahosotdkt']);
     }
 
 
@@ -708,7 +708,7 @@ class dshosokhenthuongcongtrangController extends Controller
         dshosothiduakhenthuong_tapthe::insert($a_dm);
         File::Delete($path);
 
-        return redirect($inputs['url'] . 'Sua?mahosotdkt=' . $inputs['mahosotdkt']);
+        return redirect(static::$url . 'Sua?mahosotdkt=' . $inputs['mahosotdkt']);
     }
 
 
@@ -901,7 +901,7 @@ class dshosokhenthuongcongtrangController extends Controller
         $a_dm = array();
 
         for ($i = $inputs['tudong']; $i <= $inputs['dendong']; $i++) {
-            if (!isset($data[$i][$inputs['tentapthe']])) {
+            if (!isset($data[$i][$inputs['tensangkien']])) {
                 continue;
             }
             $a_dm[] = array(
@@ -918,7 +918,7 @@ class dshosokhenthuongcongtrangController extends Controller
         dshosothiduakhenthuong_detai::insert($a_dm);
         File::Delete($path);
 
-        return redirect($inputs['url'] . 'Sua?mahosotdkt=' . $inputs['mahosotdkt']);
+        return redirect(static::$url . 'Sua?mahosotdkt=' . $inputs['mahosotdkt']);
     }
 
 

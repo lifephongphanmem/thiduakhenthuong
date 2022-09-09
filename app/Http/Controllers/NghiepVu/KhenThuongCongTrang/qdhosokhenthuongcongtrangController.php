@@ -902,4 +902,42 @@ class qdhosokhenthuongcongtrangController extends Controller
         $model->delete();
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }
+
+    public function NhanExcelDeTai(Request $request)
+    {
+        $inputs = $request->all();
+        //dd($inputs);
+        //$model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $filename = $inputs['mahosotdkt'] . '_' . getdate()[0];
+        $request->file('fexcel')->move(public_path() . '/data/uploads/', $filename . '.xlsx');
+        $path = public_path() . '/data/uploads/' . $filename . '.xlsx';
+        $data = [];
+
+        Excel::load($path, function ($reader) use (&$data, $inputs) {
+            $obj = $reader->getExcel();
+            $sheet = $obj->getSheet(0);
+            $data = $sheet->toArray(null, true, true, true); // giữ lại tiêu đề A=>'val';
+        });
+        $a_dm = array();
+
+        for ($i = $inputs['tudong']; $i <= $inputs['dendong']; $i++) {
+            if (!isset($data[$i][$inputs['tensangkien']])) {
+                continue;
+            }
+            $a_dm[] = array(
+                'mahosotdkt' => $inputs['mahosotdkt'],
+                'tensangkien' => $data[$i][$inputs['tensangkien']] ?? '',
+                'donvicongnhan' => $data[$i][$inputs['donvicongnhan']] ?? '',
+                'thoigiancongnhan' => $data[$i][$inputs['thoigiancongnhan']] ?? '',
+                'thanhtichdatduoc' => $data[$i][$inputs['thanhtichdatduoc']] ?? '',
+                'tendoituong' => $data[$i][$inputs['tendoituong']] ?? '',
+                'tencoquan' => $data[$i][$inputs['tencoquan']] ?? '',
+                'tenphongban' => $data[$i][$inputs['tenphongban']] ?? '',
+            );
+        }
+        dshosothiduakhenthuong_detai::insert($a_dm);
+        File::Delete($path);
+
+        return redirect(static::$url . 'Sua?mahosotdkt=' . $inputs['mahosotdkt']);
+    }
 }

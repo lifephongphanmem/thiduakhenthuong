@@ -256,7 +256,7 @@
                                 <div class="tab-pane fade" id="excel_detai" role="tabpanel"
                                     aria-labelledby="excel_canhan">
                                     {!! Form::open([
-                                        'url' => $inputs['url_qd'] . 'NhanExcelDeTai',
+                                        'url' => $inputs['url_hs'] . 'NhanExcelDeTai',
                                         'id' => 'frm_NhanExcel',
                                         'method' => 'POST',
                                         'class' => 'form',
