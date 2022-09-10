@@ -45,6 +45,7 @@ class dsphongtraothiduaController extends Controller
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
+        $inputs['phamviapdung'] = $inputs['phamviapdung'] ?? 'ALL';
         $model = dsphongtraothidua::where('madonvi', $inputs['madonvi']);
         if ($inputs['nam'] != 'ALL')
             $model = $model->whereYear('ngayqd', $inputs['nam']);

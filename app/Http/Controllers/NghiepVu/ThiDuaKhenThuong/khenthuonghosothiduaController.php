@@ -50,7 +50,7 @@ class khenthuonghosothiduaController extends Controller
         $inputs = $request->all();
         $m_donvi = getDonViXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
         $m_diaban = getDiaBanXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
-        $m_donvi = viewdiabandonvi::wherein('madonvi', array_column($m_donvi->toarray(), 'madonviQL'))->get();
+        //$m_donvi = viewdiabandonvi::wherein('madonvi', array_column($m_donvi->toarray(), 'madonviQL'))->get();
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();

@@ -59,7 +59,7 @@
                     <td class="text-right">{{ $k++ }}</td>
                     <td>{{ $ct->noidung }}</td>
                     <td>{{ $a_loaihinhkt[$ct->maloaihinhkt] ?? '' }}</td>
-                    <td>{{ $a_phamvi[$ct->phamviapdung] }}</td>
+                    <td>{{ $a_phamvi[$ct->phamviapdung] ?? '' }}</td>
                     <td class="text-center">{{ getDayVn($ct->tungay) }}</td>
                     <td class="text-center">{{ getDayVn($ct->denngay) }}</td>
                 </tr>

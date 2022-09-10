@@ -17,11 +17,23 @@
             TableManaged3.init();
             $('#madonvi').change(function() {
                 window.location.href = '/HoSoThiDua/ThongTin?madonvi=' + $('#madonvi').val() +
-                    '&nam=' + $('#nam').val();
+                    '&nam=' + $('#nam').val() + '&phanloai=' + $('#phanloai').val() + '&phamviapdung=' + $(
+                        '#phamviapdung').val();
             });
             $('#nam').change(function() {
                 window.location.href = '/HoSoThiDua/ThongTin?madonvi=' + $('#madonvi').val() +
-                    '&nam=' + $('#nam').val();
+                    '&nam=' + $('#nam').val() + '&phanloai=' + $('#phanloai').val() + '&phamviapdung=' + $(
+                        '#phamviapdung').val();
+            });
+            $('#phanloai').change(function() {
+                window.location.href = '/HoSoThiDua/ThongTin?madonvi=' + $('#madonvi').val() +
+                    '&nam=' + $('#nam').val() + '&phanloai=' + $('#phanloai').val() + '&phamviapdung=' + $(
+                        '#phamviapdung').val();
+            });
+            $('#phamviapdung').change(function() {
+                window.location.href = '/HoSoThiDua/ThongTin?madonvi=' + $('#madonvi').val() +
+                    '&nam=' + $('#nam').val() + '&phanloai=' + $('#phanloai').val() + '&phamviapdung=' + $(
+                        '#phamviapdung').val();
             });
         });
     </script>
@@ -54,12 +66,30 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-3">
+
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label style="font-weight: bold">Phạm vi phát động</label>
+                    {!! Form::select('phamviapdung', setArrayAll($a_phamvi, 'Tất cả', 'ALL'), $inputs['phamviapdung'], [
+                        'id' => 'phamviapdung',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
+                </div>
+                <div class="col-md-4">
+                    <label style="font-weight: bold">Hình thức tổ chức</label>
+                    {!! Form::select('phanloai', setArrayAll($a_phanloai, 'Tất cả', 'ALL'), $inputs['phanloai'], [
+                        'id' => 'phanloai',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
+                </div>
+                <div class="col-md-2">
                     <label style="font-weight: bold">Năm</label>
                     {!! Form::select('nam', getNam(true), $inputs['nam'], ['id' => 'nam', 'class' => 'form-control select2basic']) !!}
                 </div>
             </div>
-
+            <hr>
             <div class="form-group row">
                 <div class="col-md-12">
                     <table class="table table-striped table-bordered table-hover" id="sample_3">
@@ -98,7 +128,7 @@
                                         data-toggle="modal">
                                         <i class="icon-lg la flaticon2-print text-dark icon-2x"></i>
                                     </button>
-                                    
+
                                     <button title="Tài liệu đính kèm" type="button"
                                         onclick="get_attack('{{ $tt->maphongtraotd }}', '/HoSoThiDua/TaiLieuDinhKem')"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"

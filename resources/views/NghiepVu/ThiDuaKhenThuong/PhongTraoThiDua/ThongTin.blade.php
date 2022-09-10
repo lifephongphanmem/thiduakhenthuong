@@ -17,16 +17,25 @@
             TableManaged3.init();
             $('#madonvi').change(function() {
                 window.location.href = '/PhongTraoThiDua/ThongTin?madonvi=' + $('#madonvi').val() +
-                '&nam=' + $('#nam').val() +'&phanloai=' + $('#phanloai').val();
+                    '&nam=' + $('#nam').val() + '&phanloai=' + $('#phanloai').val() + '&phamviapdung=' + $(
+                        '#phamviapdung').val();
             });
             $('#nam').change(function() {
                 window.location.href = '/PhongTraoThiDua/ThongTin?madonvi=' + $('#madonvi').val() +
-                '&nam=' + $('#nam').val() +'&phanloai=' + $('#phanloai').val();
+                    '&nam=' + $('#nam').val() + '&phanloai=' + $('#phanloai').val() + '&phamviapdung=' + $(
+                        '#phamviapdung').val();
             });
             $('#phanloai').change(function() {
                 window.location.href = '/PhongTraoThiDua/ThongTin?madonvi=' + $('#madonvi').val() +
-                    '&nam=' + $('#nam').val() +'&phanloai=' + $('#phanloai').val();
+                    '&nam=' + $('#nam').val() + '&phanloai=' + $('#phanloai').val() + '&phamviapdung=' + $(
+                        '#phamviapdung').val();
             });
+            $('#phamviapdung').change(function() {
+                window.location.href = '/PhongTraoThiDua/ThongTin?madonvi=' + $('#madonvi').val() +
+                    '&nam=' + $('#nam').val() + '&phanloai=' + $('#phanloai').val() + '&phamviapdung=' + $(
+                        '#phamviapdung').val();
+            });
+           
         });
     </script>
 @stop
@@ -63,10 +72,23 @@
                             </optgroup>
                         @endforeach
                     </select>
+                </div>               
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label style="font-weight: bold">Phạm vi phát động</label>
+                    {!! Form::select('phamviapdung', setArrayAll($a_phamvi, 'Tất cả', 'ALL'), $inputs['phamviapdung'], [
+                        'id' => 'phamviapdung',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <label style="font-weight: bold">Hình thức tổ chức</label>
-                    {!! Form::select('phanloai', $a_phanloai, $inputs['phanloai'], ['id' => 'phanloai', 'class' => 'form-control select2basic']) !!}
+                    {!! Form::select('phanloai', setArrayAll($a_phanloai, 'Tất cả', 'ALL'), $inputs['phanloai'], [
+                        'id' => 'phanloai',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
                 </div>
                 <div class="col-md-2">
                     <label style="font-weight: bold">Năm</label>
@@ -74,6 +96,7 @@
                 </div>
             </div>
 
+            <hr>
             <div class="form-group row">
                 <div class="col-md-12">
                     <table class="table table-striped table-bordered table-hover" id="sample_3">
@@ -82,9 +105,10 @@
                                 <th width="2%">STT</th>
                                 <th>Nội dung phong trào</th>
                                 <th width="15%">Loại hình khen thưởng</th>
-                                <th width="10%">Ngày quyết định</th>
+                                <th>Ngày quyết định</th>
                                 <th width="15%">Phạm vi phát động</th>
-                                <th width="10%">Trạng thái</th>
+                                <th width="15%">Hình thức tổ chức</th>
+                                <th>Trạng thái</th>
                                 <th width="10%">Thao tác</th>
                             </tr>
                         </thead>
@@ -94,7 +118,8 @@
                                 <td class="active">{{ $tt->noidung }}</td>
                                 <td>{{$a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
                                 <td class="text-center">{{ getDayVn($tt->ngayqd) }}</td>
-                                <td class="text-center">{{$a_phamvi[$tt->phamviapdung] ?? ''}}</td>
+                                <td>{{$a_phamvi[$tt->phamviapdung] ?? ''}}</td>
+                                <td>{{$a_phanloai[$tt->phanloai] ?? ''}}</td>
                                 @include('includes.td.td_trangthai_phongtrao')
                                 <td class=" text-center">
                                     <a title="Xem chi tiết" href="{{ url('/PhongTraoThiDua/Xem?maphongtraotd=' . $tt->maphongtraotd) }}"

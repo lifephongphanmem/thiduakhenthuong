@@ -50,7 +50,7 @@
                                 <td class="active">{{ $tt->noidung }}</td>
                                 <td>{{$a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
                                 <td class="text-center">{{ getDayVn($tt->ngayqd) }}</td>
-                                <td class="text-center">{{$a_phamvi[$tt->phamviapdung] }}</td>
+                                <td class="text-center">{{$a_phamvi[$tt->phamviapdung] ?? ''}}</td>
                                 @include('includes.td.td_trangthai_phongtrao')                                
                             </tr>
                         @endforeach

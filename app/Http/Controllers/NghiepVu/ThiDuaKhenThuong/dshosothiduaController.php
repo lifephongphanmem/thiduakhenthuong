@@ -49,18 +49,14 @@ class dshosothiduaController extends Controller
         $m_diaban = getDiaBan(session('admin')->capdo);
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
+        $inputs['phamviapdung'] = $inputs['phamviapdung'] ?? 'ALL';
+        $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
-
-        // 07/09/2022            
-        // if ($capdo != 'X') {
-        //     $model = viewdonvi_dsphongtrao::wherein('phamviapdung', ['TOANTINH', 'TRUNGUONG'])->orwherein('maphongtraotd', function ($qr) use ($capdo) {
-        //         $qr->select('maphongtraotd')->from('viewdonvi_dsphongtrao')->where('phamviapdung', 'CUNGCAP')->where('capdo', $capdo)->get();
-        //     })->orderby('tungay')->get();
-        // } else {
-        //     $model = viewdonvi_dsphongtrao::where('phamviapdung', 'TOANTINH')->orwhere('madonvi', $inputs['madonvi'])->orderby('tungay')->get();
-        // }
-        //
-        $model = viewdonvi_dsphongtrao::wherein('phamviapdung', array_keys(getPhamViPhongTrao($donvi->capdo)))->orwhere('phamviapdung', 'TOANTINH')->orderby('tungay')->get();
+        $a_phamvi = getPhamViPhongTrao($donvi->capdo ?? 'T');
+        $model = viewdonvi_dsphongtrao::wherein('phamviapdung', $a_phamvi)->orwhere('phamviapdung', 'TOANTINH')->orderby('tungay')->get();
+        if ($inputs['phamviapdung'] != 'ALL') {
+            $model = $model->where('phamviapdung', $inputs['phamviapdung']);
+        }
         $ngayhientai = date('Y-m-d');
         $m_hoso = dshosothiduakhenthuong::wherein('maphongtraotd', array_column($model->toarray(), 'maphongtraotd'))->get();
         $m_hoso_khenthuong = dshosokhenthuong::wherein('maphongtraotd', array_column($model->toarray(), 'maphongtraotd'))->where('trangthai', 'DKT')->get();
@@ -90,6 +86,7 @@ class dshosothiduaController extends Controller
             $DangKy->mahosotdkt = $HoSodv == null ? -1 : $HoSodv->mahosotdkt;
         }
         //dd($m_diaban);
+        //->with('a_phamvi', getPhamViPhongTrao($m_donvi->where('madonvi', $inputs['madonvi'])->first()->capdo ?? 'T'))
 
         return view('NghiepVu.ThiDuaKhenThuong.HoSoThiDua.ThongTin')
             ->with('inputs', $inputs)
@@ -98,6 +95,7 @@ class dshosothiduaController extends Controller
             ->with('m_diaban', $m_diaban)
             ->with('a_donviql', getDonViQuanLyDiaBan($donvi->madiaban))
             ->with('a_phamvi', getPhamViPhongTrao())
+            ->with('a_phanloai', getPhanLoaiPhongTraoThiDua(true))
             ->with('a_trangthaihoso', getTrangThaiTDKT())
             ->with('pageTitle', 'Danh sách hồ sơ thi đua');
     }
