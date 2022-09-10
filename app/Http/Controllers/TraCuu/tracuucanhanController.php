@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Model\DanhMuc\dmdanhhieuthidua;
 use App\Model\DanhMuc\dmdanhhieuthidua_tieuchuan;
 use App\Model\DanhMuc\dmhinhthuckhenthuong;
+use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
 use App\Model\View\view_cumkhoi_canhan;
 use App\Model\View\view_tdkt_canhan;
 use App\Model\View\view_tdkt_tapthe;
@@ -31,14 +32,19 @@ class tracuucanhanController extends Controller
     public function ThongTin(Request $request)
     {
         if (!chkPhanQuyen('timkiemcanhan', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'timkiemcanhan')->with('tenphanquyen', 'danhsach');
+            return view('errors.noperm')
+            ->with('machucang', 'timkiemcanhan')
+            ->with('tenphanquyen', 'danhsach');
         }
-        $m_canhan = view_tdkt_canhan::all();
-        $m_tapthe = view_tdkt_tapthe::all();
+        $inputs = $request->all();
+        $model = dshosothiduakhenthuong::query();
 
-        return view('TraCuu.CaNhan.ThongTin')
-            ->with('m_canhan', $m_canhan)
-            ->with('m_tapthe', $m_tapthe)
+        return view('TraCuu.CaNhan.ThongTin')           
+            ->with('model', $model)
+            ->with('model_danhhieu', $model)
+            ->with('model_khenthuong', $model)
+            ->with('model_detai', $model)
+            ->with('inputs', $inputs)
             ->with('pageTitle', 'Tìm kiếm thông tin theo cá nhân');
     }
 
