@@ -25,7 +25,7 @@
 @section('content')
     <!--begin::Card-->
     <div class="card card-custom wave wave-animate-slow wave-primary" style="min-height: 600px">
-        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+        <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
                 <h3 class="card-label text-uppercase">Danh sách cụm khối thi đua</h3>
             </div>
@@ -75,7 +75,7 @@
                                 <td class=" text-center">{{ $tt->sohoso }}</td>
                                 <td>{{ $a_donvi[$tt->madonviql] ?? '' }}</td>
                                 <td class=" text-center">
-                                    @if (chkPhanQuyen('dscumkhoi', 'modify'))
+                                    @if (chkPhanQuyen('dshosokhenthuongcumkhoi', 'thaydoi'))
                                         <a title="Danh sách chi tiết"
                                             href="{{ url('/CumKhoiThiDua/HoSoKhenThuong/DanhSach/?macumkhoi=' . $tt->macumkhoi.'&madonvi='.$inputs['madonvi']) }}"
                                             class="btn btn-sm btn-clean btn-icon">

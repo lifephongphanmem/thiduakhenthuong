@@ -97,24 +97,23 @@ function getDonViQuanLyDiaBan($madiaban, $kieudulieu = 'ARRAY')
     }
 }
 
-function getDonViCumKhoi($macumkhoi, $kieudulieu = 'ARRAY')
-{
-    $donvi = \App\Model\DanhMuc\dscumkhoi_chitiet::where('macumkhoi', $macumkhoi)->get();
-    $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', array_column($donvi->toarray(), 'madonvi'))->get();
-    switch ($kieudulieu) {
-        case 'MODEL': {
-                return $model;
-                break;
-            }
-        default:
-            return array_column($model->toarray(), 'tendonvi', 'madonvi');
-    }
-}
+// function getDonViCumKhoi($macumkhoi, $kieudulieu = 'ARRAY')
+// {
+//     $donvi = \App\Model\DanhMuc\dscumkhoi_chitiet::where('macumkhoi', $macumkhoi)->get();
+//     $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', array_column($donvi->toarray(), 'madonvi'))->get();
+//     switch ($kieudulieu) {
+//         case 'MODEL': {
+//                 return $model;
+//                 break;
+//             }
+//         default:
+//             return array_column($model->toarray(), 'tendonvi', 'madonvi');
+//     }
+// }
 
 function getDonViCK($capdo, $madonvi = null, $kieudulieu = 'ARRAY')
 {
-    $donvi = \App\Model\DanhMuc\dscumkhoi_chitiet::all();
-    $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', array_column($donvi->toarray(), 'madonvi'))->get();
+    $model = \App\Model\View\view_dscumkhoi::all();
     switch ($kieudulieu) {
         case 'MODEL': {
                 return $model;
@@ -125,10 +124,13 @@ function getDonViCK($capdo, $madonvi = null, $kieudulieu = 'ARRAY')
     }
 }
 
-function getDonViQuanLyCumKhoi($macumkhoi, $kieudulieu = 'ARRAY')
+function getDonViQuanLyCumKhoi($macumkhoi = 'ALL', $kieudulieu = 'ARRAY')
 {
-    $m_cum = \App\Model\DanhMuc\dscumkhoi::where('macumkhoi', $macumkhoi)->first();
-    $model = \App\Model\DanhMuc\dsdonvi::where('madonvi', $m_cum->madonviql)->get();
+    if ($macumkhoi == 'ALL')
+        $model = \App\Model\View\view_dscumkhoi::wherein('phanloai', ['TRUONGKHOI'])->get();
+    else
+        $model = \App\Model\View\view_dscumkhoi::where('macumkhoi', $macumkhoi)->wherein('phanloai', ['TRUONGKHOI'])->get();
+
     switch ($kieudulieu) {
         case 'MODEL': {
                 return $model;

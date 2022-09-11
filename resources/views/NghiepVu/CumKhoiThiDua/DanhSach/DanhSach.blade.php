@@ -27,12 +27,12 @@
 @section('content')
     <!--begin::Card-->
     <div class="card card-custom wave wave-animate-slow wave-info" style="min-height: 600px">
-        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+        <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
                 <h3 class="card-label text-uppercase">Danh sách đơn vị</h3>
             </div>
             <div class="card-toolbar">
-                @if (chkPhanQuyen('dscumkhoi', 'modify'))
+                @if (chkPhanQuyen('dscumkhoithidua', 'thaydoi'))
                     <button type="button" class="btn btn-success btn-xs" data-target="#modify-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
                 @endif
@@ -73,7 +73,8 @@
                                         onclick="confirmDelete('{{ $tt->id }}','/CumKhoiThiDua/CumKhoi/XoaDonVi')"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal"
                                         data-toggle="modal">
-                                        <i class="icon-lg la fa-trash-alt text-danger"></i></button>
+                                        <i class="icon-lg la fa-trash-alt text-danger"></i>
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach

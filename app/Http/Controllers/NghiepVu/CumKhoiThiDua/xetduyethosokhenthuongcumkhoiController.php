@@ -17,11 +17,21 @@ use Illuminate\Support\Facades\Session;
 
 class xetduyethosokhenthuongcumkhoiController extends Controller
 {
+    public static $url = '';
+    public function __construct()
+    {
+        static::$url = '';
+        $this->middleware(function ($request, $next) {
+            if (!Session::has('admin')) {
+                return redirect('/');
+            };
+            return $next($request);
+        });
+    }
     public function ThongTin(Request $request)
     {
-        if (Session::has('admin')) {
-            if (!chkPhanQuyen()) {
-                return view('errors.noperm');
+            if (!chkPhanQuyen('xdhosokhenthuongcumkhoi', 'danhsach')) {
+                return view('errors.noperm')->with('machucang', 'xdhosokhenthuongcumkhoi')->with('tenphanquyen', 'danhsach');
             }
             $inputs = $request->all();
             $m_donvi = getDonViXetDuyetHoSoCumKhoi(session('admin')->capdo, null, null, 'MODEL');
@@ -57,8 +67,6 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
                 ->with('a_donvi', array_column(dsdonvi::all()->toArray(),'tendonvi','madonvi'))
                 ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(),'tenloaihinhkt','maloaihinhkt'))
                 ->with('pageTitle', 'Danh sách hồ sơ thi đua');
-        } else
-            return view('errors.notlogin');
     }
     
     public function TraLai(Request $request)
@@ -108,7 +116,6 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
     //Chưa hoàn thiện
     public function NhanHoSo(Request $request)
     {
-        if (Session::has('admin')) {
             $inputs = $request->all();
             $thoigian = date('Y-m-d H:i:s');
             $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahoso'])->first();
@@ -120,7 +127,6 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
             $model->save();
 
             return redirect('/CumKhoiThiDua/XetDuyetHoSoKhenThuong/ThongTin?madonvi='. $inputs['madonvi_nhan'].'&macumkhoi=' . $model->macumkhoi);
-        } else
-            return view('errors.notlogin');
+
     }
 }

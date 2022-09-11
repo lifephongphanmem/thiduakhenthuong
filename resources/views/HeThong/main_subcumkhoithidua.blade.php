@@ -58,7 +58,7 @@
                                                 <span></span>
                                             </i>
                                             <span
-                                                class="menu-text font-weight-bold">{{ chkGiaoDien('xdgiaouocthiduacumkhoi	', 'tenchucnang') }}</span>
+                                                class="menu-text font-weight-bold">{{ chkGiaoDien('xdgiaouocthiduacumkhoi', 'tenchucnang') }}</span>
                                         </a>
                                     </li>
                                 @endif

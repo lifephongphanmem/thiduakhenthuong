@@ -28,12 +28,22 @@ use Illuminate\Support\Facades\Session;
 
 class khenthuonghosokhenthuongcumkhoiController extends Controller
 {
+    public static $url = '';
+    public function __construct()
+    {
+        static::$url = '';
+        $this->middleware(function ($request, $next) {
+            if (!Session::has('admin')) {
+                return redirect('/');
+            };
+            return $next($request);
+        });
+    }
     public function ThongTin(Request $request)
     {
-        if (Session::has('admin')) {
-            if (!chkPhanQuyen()) {
-                return view('errors.noperm');
-            }
+        if (!chkPhanQuyen('qdhosokhenthuongcumkhoi', 'danhsach')) {
+            return view('errors.noperm')->with('machucang', 'qdhosokhenthuongcumkhoi')->with('tenphanquyen', 'danhsach');
+        }
             $inputs = $request->all();
             $m_donvi = getDonViXetDuyetHoSoCumKhoi(session('admin')->capdo, null, null, 'MODEL');
             $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
@@ -70,13 +80,11 @@ class khenthuonghosokhenthuongcumkhoiController extends Controller
                 //->with('a_trangthaihoso', getTrangThaiTDKT())
                 //->with('a_phamvi', getPhamViPhongTrao())
                 ->with('pageTitle', 'Danh sách hồ sơ thi đua');
-        } else
-            return view('errors.notlogin');
     }
 
     public function LuuKhenThuong(Request $request)
     {
-        if (Session::has('admin')) {
+        
             $inputs = $request->all();
             $model = dshosokhenthuong::where('mahosokt', $inputs['mahosokt'])->first();
             if (isset($inputs['totrinh'])) {
@@ -101,13 +109,12 @@ class khenthuonghosokhenthuongcumkhoiController extends Controller
             }
             $model->update($inputs);
             return redirect('/CumKhoiThiDua/KhenThuongHoSoKhenThuong/ThongTin?madonvi='.$model->madonvi.'&macumkhoi='.$model->macumkhoi);
-        } else
-            return view('errors.notlogin');
+       
     }
 
     public function KhenThuong(Request $request)
     {
-        if (Session::has('admin')) {
+        
             $inputs = $request->all();
             $chk = dshosokhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])
                 ->where('madonvi', $inputs['madonvi'])->first();
@@ -134,13 +141,10 @@ class khenthuonghosokhenthuongcumkhoiController extends Controller
             }
             $request->merge(['mahosokt' => $inputs['mahosokt']]);
             return $this->DanhSach($request);
-        } else
-            return view('errors.notlogin');
     }
 
     public function DanhSach(Request $request)
     {
-        if (Session::has('admin')) {
             $inputs = $request->all();
             $model =  dshosokhenthuong::where('mahosokt', $inputs['mahosokt'])->first();
             $m_chitiet = dshosokhenthuong_chitiet::where('mahosokt', $model->mahosokt)->get();
@@ -170,13 +174,10 @@ class khenthuonghosokhenthuongcumkhoiController extends Controller
                 ->with('a_danhhieu', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
                 ->with('inputs', $inputs)
                 ->with('pageTitle', 'Thông tin hồ sơ khen thưởng');
-        } else
-            return view('errors.notlogin');
     }
 
     public function XemHoSo(Request $request)
     {
-        if (Session::has('admin')) {
             $inputs = $request->all();
             $model =  dshosokhenthuong::where('mahosokt', $inputs['mahosokt'])->first();
             $m_chitiet = dshosokhenthuong_chitiet::where('mahosokt', $model->mahosokt)->get();
@@ -206,13 +207,10 @@ class khenthuonghosokhenthuongcumkhoiController extends Controller
                 ->with('a_danhhieu', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
                 ->with('inputs', $inputs)
                 ->with('pageTitle', 'Thông tin hồ sơ khen thưởng');
-        } else
-            return view('errors.notlogin');
     }
 
     public function HoSo(Request $request)
     {
-        if (Session::has('admin')) {
             $inputs = $request->all();
             $m_chitiet = dshosokhenthuong_chitiet::where('mahosokt', $inputs['mahosokt'])->where('mahosotdkt', $inputs['mahosotdkt'])->first();
             if ($inputs['khenthuong'] == 0) {
@@ -251,13 +249,10 @@ class khenthuonghosokhenthuongcumkhoiController extends Controller
             $m_chitiet->save();
             //dd($inputs);
             return redirect('/CumKhoiThiDua/KhenThuongHoSoKhenThuong/DanhSach?mahosokt=' . $inputs['mahosokt']);
-        } else
-            return view('errors.notlogin');
     }
 
     public function KetQua(Request $request)
     {
-        if (Session::has('admin')) {
             $inputs = $request->all();
             $model = dshosokhenthuong_khenthuong::findorfail($inputs['id']);
             $model->ketqua = isset($inputs['dieukien']) ? 1 : 0;
@@ -265,13 +260,10 @@ class khenthuonghosokhenthuongcumkhoiController extends Controller
             $model->save();
             //dd($inputs);
             return redirect('/CumKhoiThiDua/KhenThuongHoSoKhenThuong/DanhSach?mahosokt=' . $model->mahosokt);
-        } else
-            return view('errors.notlogin');
     }
 
     public function PheDuyet(Request $request)
     {
-        if (Session::has('admin')) {
             $inputs = $request->all();
             $model = dshosokhenthuong::where('mahosokt', $inputs['mahosokt'])->first();
             $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
@@ -287,8 +279,6 @@ class khenthuonghosokhenthuongcumkhoiController extends Controller
             }
             $model->save();
             return redirect('/CumKhoiThiDua/KhenThuongHoSoKhenThuong/ThongTin?madonvi='.$model->madonvi.'&macumkhoi='.$model->macumkhoi);
-        } else
-            return view('errors.notlogin');
     }
 
     public function LayTieuChuan(Request $request)
@@ -355,7 +345,6 @@ class khenthuonghosokhenthuongcumkhoiController extends Controller
 
     public function QuyetDinh(Request $request)
     {
-        if (Session::has('admin')) {
             $inputs = $request->all();
             $model = dshosokhenthuong::where('mahosokt', $inputs['mahosokt'])->first();
             if ($model->thongtinquyetdinh == '') {
@@ -393,13 +382,10 @@ class khenthuonghosokhenthuongcumkhoiController extends Controller
                 ->with('model', $model)
                 ->with('inputs', $inputs)
                 ->with('pageTitle', 'Quyết định khen thưởng cụm, khối thi đua');
-        } else
-            return view('errors.notlogin');
     }
 
     public function XemQuyetDinh(Request $request)
     {
-        if (Session::has('admin')) {
             $inputs = $request->all();
             $model = dshosokhenthuong::where('mahosokt', $inputs['mahosokt'])->first();
             if ($model->thongtinquyetdinh == '') {
@@ -410,8 +396,6 @@ class khenthuonghosokhenthuongcumkhoiController extends Controller
             return view('BaoCao.DonVi.XemQuyetDinh')
                 ->with('model', $model)
                 ->with('pageTitle', 'Quyết định khen thưởng');
-        } else
-            return view('errors.notlogin');
     }
 
     public function MacDinhQuyetDinh(Request $request)
