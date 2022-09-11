@@ -17,13 +17,13 @@
             TableManaged3.init();
         });
 
-        function add(){
+        function add() {
             $('#madanhhieutd').val('');
-            $('#madanhhieutd').attr('readonly',true);
+            $('#madanhhieutd').attr('readonly', true);
         }
 
-        function edit(madanhhieutd, tendanhhieutd, phanloai){
-            $('#madanhhieutd').attr('readonly',false);
+        function edit(madanhhieutd, tendanhhieutd, phanloai) {
+            $('#madanhhieutd').attr('readonly', false);
             $('#madanhhieutd').val(madanhhieutd);
             $('#tendanhhieutd').val(tendanhhieutd);
             $('#phanloai').val(phanloai).trigger('change');
@@ -45,19 +45,24 @@
                 <div class="col-lg-12">
                     <ol>
                         <li>
-                            <a href="#" data-target="#modal-canhan" data-toggle="modal"
-                               onclick="dutoanluong('{{'don_vi/dutoanluong'}}')">Theo cá nhân</a>
+                            <button class="btn btn-clean text-dark" data-target="#modal-canhan" data-toggle="modal">
+                                Báo cáo thành tích theo cá nhân
+                            </button>
                         </li>
 
                         <li>
-                            <a href="#" data-target="#modal-tapthe" data-toggle="modal" title="Dữ liệu chi trả theo tổng hợp lương tại đơn vị"
-                               onclick="chitraluong('{{'don_vi/chitraluong'}}')">Theo tập thể</a>
+                            <button class="btn btn-clean text-dark" data-target="#modal-tapthe" data-toggle="modal"
+                                title="Dữ liệu chi trả theo tổng hợp lương tại đơn vị">
+                                Báo cáo thành tích theo tập thể
+                            </button>
                         </li>
-                        <li>
-                            <a href="#" data-target="#modal-phongtrao" data-toggle="modal" title="Dữ liệu chi trả theo tổng hợp lương tại đơn vị"
-                               onclick="chitraluong('{{'don_vi/chitratheonkp'}}')">Theo phong trào thi đua khen thưởng</a>
 
-                        </li>
+                        {{-- <li>
+                            <a href="#" data-target="#modal-phongtrao" data-toggle="modal"
+                                title="Dữ liệu chi trả theo tổng hợp lương tại đơn vị"
+                                onclick="chitraluong('{{ 'don_vi/chitratheonkp' }}')">Theo phong trào thi đua khen thưởng
+                            </a>
+                        </li> --}}
 
                     </ol>
                 </div>
@@ -67,7 +72,13 @@
     <!--end::Card-->
 
     <div id="modal-canhan" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
-        {!! Form::open(['url'=>'/BaoCao/DonVi/CaNhan','target'=>'_blank' ,'method'=>'post' ,'id' => 'thoaibangluong', 'class'=>'form-horizontal form-validate']) !!}
+        {!! Form::open([
+            'url' => '/BaoCao/DonVi/CaNhan',
+            'target' => '_blank',
+            'method' => 'post',
+            'id' => 'thoaibangluong',
+            'class' => 'form-horizontal form-validate',
+        ]) !!}
         <div class="modal-dialog modal-content">
             <div class="modal-header modal-header-primary">
                 <h4 id="modal-header-primary-label" class="modal-title">Thông tin kết xuất</h4>
@@ -77,20 +88,23 @@
                 <div class="form-horizontal">
                     <div class="form-group row">
                         <label class="control-label"> Chọn đối tượng</label>
-                            {!! Form::select('madt',array_column($m_canhan->toarray(),'tendoituong','madoituong'),null,array('id' => 'madt', 'class' => 'form-control'))!!}
-                        
+                        {!! Form::select('tendoituong', array_column($m_canhan->toarray(), 'tendoituong', 'tendoituong'), null, [
+                            'id' => 'tendoituong',
+                            'class' => 'form-control',
+                        ]) !!}
+
                     </div>
 
                     <div class="form-group row">
-                        <label class="control-label"> Từ ngày</label>
-                        {!!Form::input('date','ngaytu',date('Y').'-01-01', array('id' => 'ngaytu','class' => 'form-control'))!!}
-                        
+                        <label class="control-label">Khen thưởng từ ngày</label>
+                        {!! Form::input('date', 'ngaytu', date('Y') . '-01-01', ['id' => 'ngaytu', 'class' => 'form-control']) !!}
+
                     </div>
 
                     <div class="form-group row">
-                        <label class="control-label"> Đến ngày</label>
-                        {!!Form::input('date','ngayden', date('Y').'-12-31', array('id' => 'ngayden','class' => 'form-control'))!!}
-                        
+                        <label class="control-label">Khen thưởng đến ngày</label>
+                        {!! Form::input('date', 'ngayden', date('Y') . '-12-31', ['id' => 'ngayden', 'class' => 'form-control']) !!}
+
                     </div>
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 </div>
@@ -103,8 +117,14 @@
         {!! Form::close() !!}
     </div>
 
-    {{-- <div id="modal-tapthe" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
-        {!! Form::open(['url'=>'/BaoCao/DonVi//TapThe','target'=>'_blank' ,'method'=>'post' ,'id' => 'thoaibangluong', 'class'=>'form-horizontal form-validate']) !!}
+    <div id="modal-tapthe" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
+        {!! Form::open([
+            'url' => '/BaoCao/DonVi/TapThe',
+            'target' => '_blank',
+            'method' => 'post',
+            'id' => 'thoaibangluong',
+            'class' => 'form-horizontal form-validate',
+        ]) !!}
         <div class="modal-dialog modal-content">
             <div class="modal-header modal-header-primary">
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
@@ -115,21 +135,24 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label"> Chọn tập thể</label>
                         <div class="col-md-8">
-                            {!! Form::select('madonvi',array_column($m_tapthe->toarray(),'tendonvi','madonvi'),null,array('id' => 'madonvi', 'class' => 'form-control'))!!}
+                            {!! Form::select('tentapthe', array_column($m_tapthe->toarray(), 'tentapthe', 'tentapthe'), null, [
+                                'id' => 'tentapthe',
+                                'class' => 'form-control',
+                            ]) !!}
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-md-4 control-label"> Từ ngày</label>
                         <div class="col-md-8">
-                            {!!Form::input('date','ngaytu',date('Y').'-01-01', array('id' => 'ngaytu','class' => 'form-control'))!!}
+                            {!! Form::input('date', 'ngaytu', date('Y') . '-01-01', ['id' => 'ngaytu', 'class' => 'form-control']) !!}
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-md-4 control-label"> Đến ngày</label>
                         <div class="col-md-8">
-                            {!!Form::input('date','ngayden', date('Y').'-12-31', array('id' => 'ngayden','class' => 'form-control'))!!}
+                            {!! Form::input('date', 'ngayden', date('Y') . '-12-31', ['id' => 'ngayden', 'class' => 'form-control']) !!}
                         </div>
                     </div>
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -144,7 +167,13 @@
     </div>
 
     <div id="modal-phongtrao" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
-        {!! Form::open(['url'=>'/BaoCao/DonVi//PhongTrao','target'=>'_blank' ,'method'=>'post' ,'id' => 'thoaibangluong', 'class'=>'form-horizontal form-validate']) !!}
+        {!! Form::open([
+            'url' => '/BaoCao/DonVi/PhongTrao',
+            'target' => '_blank',
+            'method' => 'post',
+            'id' => 'thoaibangluong',
+            'class' => 'form-horizontal form-validate',
+        ]) !!}
         <div class="modal-dialog modal-content">
             <div class="modal-header modal-header-primary">
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
@@ -155,7 +184,10 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label"> Tên phong trào</label>
                         <div class="col-md-8">
-                            {!! Form::select('kihieudhtd',array_column($m_phongtrao->toarray(),'noidung','kihieudhtd'),null,array('id' => 'kihieudhtd', 'class' => 'form-control'))!!}
+                            {!! Form::select('kihieudhtd', array_column($m_phongtrao->toarray(), 'noidung', 'kihieudhtd'), null, [
+                                'id' => 'kihieudhtd',
+                                'class' => 'form-control',
+                            ]) !!}
                         </div>
                     </div>
 
@@ -164,9 +196,10 @@
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
-                <button type="submit" id="submit" name="submit" value="submit" class="btn btn-primary">Đồng ý</button>
+                <button type="submit" id="submit" name="submit" value="submit" class="btn btn-primary">Đồng
+                    ý</button>
             </div>
         </div>
         {!! Form::close() !!}
-    </div> --}}
+    </div> 
 @stop

@@ -138,31 +138,7 @@
             <td></td>
             <td></td>
             <td></td>
-        </tr>
-        <?php $i = 1; ?>
-        <!--
-        @foreach ($a_diaban as $k_diaban => $v_diaban)
-            <tr class="font-weight-boldest">
-                <td style="text-align: center">{{ IntToRoman($i++) }}</td>
-                <td colspan="5">{{ $v_diaban }}</td>
-            </tr>
-            <?php
-            $chitiet = $model->where('madiaban', $k_diaban);
-            $k = 1;
-            ?>
-            @foreach ($chitiet as $ct)
-                <tr>
-                    <td class="text-right">{{ $k++ }}</td>
-                    <td>{{ $ct->noidung }}</td>
-                    <td>{{ $a_loaihinhkt[$ct->maloaihinhkt] ?? '' }}</td>
-                    <td>{{ $a_phamvi[$ct->phamviapdung] }}</td>
-                    <td class="text-center">{{ getDayVn($ct->tungay) }}</td>
-                    <td class="text-center">{{ getDayVn($ct->denngay) }}</td>
-                </tr>
-            @endforeach
-        @endforeach
-            -->
-
+        </tr>       
     </table>
 
     <table width="96%" border="0" cellspacing="0" style="text-align: center">

@@ -1,87 +1,108 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html lang="vi">
+@extends('BaoCao.main_baocao')
 
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>{{$pageTitle}}</title>
-    <style type="text/css">
-        body {
-            font: normal 14px/16px time, serif;
-        }
+@section('content')
+<table id="data_header" class="header" width="96%" border="0" cellspacing="0" cellpadding="8"
+style="margin:0 auto 25px; text-align: center;">
+<tr>
+    <td style="text-align: left;width: 60%">
+        <b>{{ $m_donvi->tendvcqhienthi }}</b>
+    </td>
 
-        table, p {
-            width: 98%;
-            /*margin: auto;*/
-        }
+    <td style="text-align: center; font-weight: bold">
+    </td>
+</tr>
+<tr>
+    <td style="text-align: left;width: 60%">
+        <b>{{ $m_donvi->tendvhienthi }}</b>
+    </td>
 
-        td, th {
-            padding: 5px;
-        }
-        p{
-            padding: 5px;
-        }
-        span{
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body style="font:normal 14px Times, serif;">
-    <p style="text-align: center; font-weight: bold; font-size: 20px;">THÔNG TIN HỒ SƠ CÁN BỘ</p>
+    <td style="text-align: center; font-style: italic">
+    </td>
+</tr>
+<tr>
+    <td colspan="2" style="font-weight: bold;">
+        <h4> THÔNG TIN THI ĐUA KHEN THƯỞNG CỦA CÁN BỘ</h4>
+    </td>
+</tr>
+</table>
 
-    <table width="96%" border="0" cellspacing="0">
+    <table id="data_body" class="money" cellspacing="0" cellpadding="0" border="0"
+        style="margin: 5px auto; border-collapse: collapse;font:normal 12px Times, serif;">
+        
         <tr>
-            <td style="width: 5%"></td>
-            <td style="width: 25%">Họ và tên:</td><td>{{$model->tendt}}</td>
+            <td>Họ và tên: {{ $model->tendoituong }}</td>
         </tr>
 
         <tr>
-            <td style="width: 5%"></td>
-            <td>Ngày sinh:</td><td>{{getDayVn($model->ngaysinh)}}</td>
+            <td>Ngày sinh: {{ getDayVn($model->ngaysinh) }}</td>
         </tr>
 
         <tr>
-            <td style="width: 5%"></td>
-            <td>Giới tính:</td><td>{{$model->gioitinh == 'NAM' ? 'Nam' : 'Nữ'}}</td>
+            <td>Giới tính: {{ $model->gioitinh == 'NAM' ? 'Nam' : 'Nữ' }}</td>
         </tr>
 
         <tr>
-            <td style="width: 5%"></td>
-            <td>Chức vụ (chức danh):</td><td>{{$model->chucvu}}</td>
+            <td>Chức vụ (chức danh): {{ $model->chucvu }}</td>
         </tr>
 
         <tr>
-            <td style="width: 5%"></td>
-            <td>Lãnh đạo đơn vị:</td><td>{{$model->lanhdao == 1 ? 'Có': 'Không'}}</td>
+            <td>Phân loại cán bộ: {{ $model->maphanloaicanhan}}</td>
         </tr>
 
         <tr>
-            <td style="width: 5%"></td>
-            <td>Mã số công chức, viên chức:</td><td>{{$model->maccvc}}</td>
+            <td>Phòng ban làm việc: {{ $model->tenphongban}}</td>
+        </tr>
+
+        <tr>
+            <td>Đơn vị làm việc: {{ $model->tencoquan}}</td>
         </tr>
     </table>
 
-    <p style="text-align: left; font-weight: bold; font-size: 14px;padding-left: 20px">Thông tin kết quả phong trào thi đua khen thưởng của cán bộ từ {{getDayVn($inputs['ngaytu'])}} đến {{getDayVn($inputs['ngayden'])}}</p>
-    <table cellspacing="0" cellpadding="0" border="1" style="margin: 20px auto; border-collapse: collapse;">
-        <tr>
-            <th style="width: 10%">STT</th>
-            <th>Tên phong trào thi đua</th>
-            <th>Danh hiệu đạt được</th>
-            <th style="width: 15%">Ngày bắt đầu</th>
-            <th style="width: 15%">Ngày kết thúc</th>
-        </tr>
-        <?php $i=1; ?>
-        @foreach($m_khenthuong as $pc)
-            <tr>
-                <td style="text-align: center">{{$i++}}</td>
-                <td>{{$pc->noidung ?? ''}}</td>
-                <td>{{$a_danhhieu[$pc->madanhhieutd  ?? '']  ?? ''}}</td>
-                <td style="text-align: center">{{getDayVn($pc->tungay  ?? '')  ?? ''}}</td>
-                <td style="text-align: center">{{getDayVn($pc->denngay  ?? '')  ?? ''}}</td>
-            </tr>
-        @endforeach
+    @if (count($model_khenthuong) > 0)
+        <p style="text-left: center; font-size: 18px;">Thông tin kết quả thi đua khen thưởng của cán bộ từ
+            {{ getDayVn($inputs['ngaytu']) }} đến {{ getDayVn($inputs['ngayden']) }}</p>
+        <table id="data_body1" class="money" cellspacing="0" cellpadding="0" border="1"
+            style="margin: 5px auto; border-collapse: collapse;font:normal 12px Times, serif;">
+            <thead>
+                <tr class="text-center">
+                    <th rowspan="2" width="5%">STT</th>
+                    <th colspan="3">Quyết định</th>
+                    <th colspan="2">Tờ trình</th>
+                    <th rowspan="2">Họ tên cán bộ</th>
+                    <th rowspan="2">Phân loại cán bộ</th>
+                    <th rowspan="2">Thông tin công tác</th>
+                    <th rowspan="2">Loại hình khen thưởng</th>
+                    <th rowspan="2">Danh hiệu thi đua</th>
+                    <th rowspan="2">Hình thức khen thưởng</th>
 
-    </table>
+                </tr>
+                <tr class="text-center">
+                    <th>Số QĐ</th>
+                    <th>Ngày tháng</th>
+                    <th>Cấp độ</th>
+                    <th>Số TT</th>
+                    <th>Ngày tháng</th>
+                </tr>
+            </thead>
+            <?php $i = 1; ?>
+            @foreach ($model_khenthuong as $key => $tt)
+                <tr class="odd gradeX">
+                    <td class="text-center">{{ $i++ }}</td>
+                    <td class="text-center">{{ $tt->soqd }}</td>
+                    <td class="text-center">{{ getDayVn($tt->ngayqd) }}</td>
+                    <td class="text-center">{{ $tt->capkhenthuong }}</td>
+                    <td class="text-center">{{ $tt->sototrinh }}</td>
+                    <td class="text-center">{{ getDayVn($tt->ngayhoso) }}</td>
+                    <td>{{ $tt->tendoituong }}</td>
+                    <td>{{ $a_canhan[$tt->maphanloaicanbo] ?? '' }}</td>
+                    <td>{{ $tt->chucvu . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}</td>
+                    <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
+                    <td>{{ $a_danhhieu[$tt->madanhhieutd] ?? '' }}</td>
+                    <td>{{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
+                </tr>
+            @endforeach
+        </table>
+    @endif
 
     <table width="96%" border="0" cellspacing="0" style="text-align: center">
         <tr>
@@ -99,10 +120,7 @@
             </td>
         <tr>
             <td>&nbsp;</td>
-            <td>{{$model->tencanbo}}</td>
+            <td>{{ $model->tendoituong }}</td>
         </tr>
     </table>
-    <p style="page-break-before: always">
-
-</body>
-</html>
+@stop

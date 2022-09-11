@@ -1,11 +1,11 @@
 <?php
-
+use App\Http\Controllers\BaoCao\baocaodonviController;
 Route::group(['prefix'=>'BaoCao'], function(){
     Route::group(['prefix'=>'DonVi'], function(){
-        Route::get('ThongTin','BaoCao\baocaodonviController@ThongTin');
-        Route::post('CaNhan','BaoCao\baocaodonviController@CaNhan');
-        Route::post('PhongTrao','BaoCao\baocaodonviController@PhongTrao');
-        Route::post('TapThe','BaoCao\baocaodonviController@TapThe');
+        Route::get('ThongTin', [baocaodonviController::class, 'ThongTin']);
+        Route::post('CaNhan',[baocaodonviController::class, 'CaNhan']);
+        Route::post('PhongTrao',[baocaodonviController::class, 'PhongTrao']);
+        Route::post('TapThe',[baocaodonviController::class, 'TapThe']);
     });
     Route::group(['prefix'=>'TongHop'], function(){
         Route::get('ThongTin','BaoCao\baocaotonghopController@ThongTin');

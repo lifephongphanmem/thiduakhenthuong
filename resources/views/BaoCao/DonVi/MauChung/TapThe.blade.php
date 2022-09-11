@@ -49,7 +49,7 @@
 
     <tr>
         <td colspan="2" style="text-align: center; font-weight: bold; font-size: 20px;text-transform: uppercase">
-            DANH SÁCH phong trào thi đua khen thưởng của {{$model->tendonvi}}
+            DANH SÁCH Khen thưởng của {{$model->tentapthe}}
         </td>
     </tr>
 
@@ -61,26 +61,47 @@
 
 </table>
 
-    <table cellspacing="0" cellpadding="0" border="1" style="margin: 20px auto; border-collapse: collapse;">
-        <tr>
-            <th style="width: 10%">STT</th>
-            <th>Tên phong trào thi đua</th>
-            <th>Danh hiệu đạt được</th>
-            <th style="width: 15%">Ngày bắt đầu</th>
-            <th style="width: 15%">Ngày kết thúc</th>
-        </tr>
-        <?php $i=1; ?>
-        @foreach($m_khenthuong as $pc)
-            <tr>
-                <td style="text-align: center">{{$i++}}</td>
-                <td>{{$pc->noidung}}</td>
-                <td>{{$a_danhhieu[$pc->madanhhieutd]}}</td>
-                <td style="text-align: center">{{getDayVn($pc->tungay)}}</td>
-                <td style="text-align: center">{{getDayVn($pc->denngay)}}</td>
-            </tr>
-        @endforeach
+<table id="data_body1" class="money" cellspacing="0" cellpadding="0" border="1"
+style="margin: 5px auto; border-collapse: collapse;font:normal 12px Times, serif;">
+<thead>
+    <tr class="text-center">
+        <th rowspan="2" width="5%">STT</th>
+        <th colspan="3">Quyết định</th>
+        <th colspan="2">Tờ trình</th>
+        <th rowspan="2">Tên cơ quan, tập thể</th>
+        <th rowspan="2">Phân loại cơ quan, tập thể</th>
+        <th rowspan="2">Loại hình khen thưởng</th>
+        <th rowspan="2">Danh hiệu thi đua</th>
+        <th rowspan="2">Hình thức khen thưởng</th>
 
-    </table>
+    </tr>
+    <tr class="text-center">
+        <th>Số QĐ</th>
+        <th>Ngày tháng</th>
+        <th>Cấp độ</th>
+        <th>Số TT</th>
+        <th>Ngày tháng</th>
+    </tr>
+</thead>
+<tbody>
+    <?php $i = 1; ?>
+    @foreach ($model_khenthuong as $key => $tt)
+        <tr class="odd gradeX">
+            <td class="text-center">{{ $i++ }}</td>
+            <td class="text-center">{{ $tt->soqd }}</td>
+            <td class="text-center">{{ getDayVn($tt->ngayqd) }}</td>
+            <td class="text-center">{{ $tt->capkhenthuong }}</td>
+            <td class="text-center">{{ $tt->sototrinh }}</td>
+            <td class="text-center">{{ getDayVn($tt->ngayhoso) }}</td>
+            <td>{{ $tt->tentapthe }}</td>
+            <td>{{ $a_tapthe[$tt->maphanloaitapthe] ?? '' }}</td>
+            <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
+            <td>{{ $a_danhhieu[$tt->madanhhieutd] ?? '' }}</td>
+            <td>{{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
+        </tr>
+    @endforeach
+</tbody>
+</table>
 
     <table width="96%" border="0" cellspacing="0" style="text-align: center">
         <tr>

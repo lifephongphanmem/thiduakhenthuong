@@ -8,11 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\DanhMuc\dmdanhhieuthidua;
+use App\Model\DanhMuc\dmhinhthuckhenthuong;
+use App\Model\DanhMuc\dmloaihinhkhenthuong;
+use App\Model\DanhMuc\dmnhomphanloai_chitiet;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_khenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua;
 use App\Model\View\view_tdkt_canhan;
+use App\Model\View\view_tdkt_tapthe;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
 
@@ -33,8 +37,9 @@ class baocaodonviController extends Controller
         if (!chkPhanQuyen('baocaodonvi', 'danhsach')) {
             return view('errors.noperm')->with('machucang', 'baocaodonvi')->with('tenphanquyen', 'danhsach');
         }
+
         $m_canhan = view_tdkt_canhan::all();
-        $m_tapthe = view_tdkt_canhan::all();
+        $m_tapthe = view_tdkt_tapthe::all();
         $m_phongtrao = dsphongtraothidua::all();
         return view('BaoCao.DonVi.ThongTin')
             ->with('m_canhan', $m_canhan)
@@ -46,47 +51,43 @@ class baocaodonviController extends Controller
     public function CaNhan(Request $request)
     {
         $inputs = $request->all();
-        $model = view_tdkt_canhan::where('madoituong', $inputs['madt'])->first();
-        $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
-        $m_khenthuong = dshosothiduakhenthuong_khenthuong::where('madoituong', $inputs['madt'])->get();
-        //dd($m_khenthuong);
-        $m_danhhieu = dmdanhhieuthidua::all();
-        $m_phongtrao = dsphongtraothidua::all();
-        foreach ($m_khenthuong as $khenthuong) {
-            $phongtrao = $m_phongtrao->where('maphongtraotd', $khenthuong->maphongtraotd)->first();
-            $khenthuong->noidung = $phongtrao->noidung ?? '';
-            $khenthuong->tungay = $phongtrao->tungay ?? '';
-            $khenthuong->denngay = $phongtrao->denngay ?? '';
-        }
+        $m_khenthuong = view_tdkt_canhan::where('tendoituong', 'Like', '%' . $inputs['tendoituong'] . '%')
+            ->where('ngayqd', '>=', $inputs['ngaytu'])
+            ->where('ngayqd', '<=', $inputs['ngayden'])
+            ->get();
+
+        $m_donvi = dsdonvi::where('madonvi', $m_khenthuong->first()->madonvi)->first();
+
         return view('BaoCao.DonVi.MauChung.CaNhan')
             ->with('inputs', $inputs)
-            ->with('model', $model)
-            ->with('m_khenthuong', $model)
+            ->with('model', $m_khenthuong->first())
+            ->with('model_khenthuong', $m_khenthuong)
             ->with('m_donvi', $m_donvi)
-            ->with('a_danhhieu', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
+            ->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
+            ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
+            ->with('a_canhan', array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai'))
+            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('pageTitle', 'Báo cáo theo cá nhân');
     }
 
     public function TapThe(Request $request)
     {
         $inputs = $request->all();
-        $model = qldoituong::where('madonvi', $inputs['madonvi'])->first();
-        $m_donvi = DSDonVi::where('madonvi', $model->madonvi)->first();
-        $m_khenthuong = LapHoSoTd_KhenThuong::where('madonvi', $inputs['madonvi'])->where('phanloai', 'TAPTHE')->get();
-        $m_danhhieu = dmdanhhieutd::all();
-        $m_phongtrao = DangKyTd::all();
-        foreach ($m_khenthuong as $khenthuong) {
-            $phongtrao = $m_phongtrao->where('kihieudhtd', $khenthuong->kihieudhtd)->first();
-            $khenthuong->noidung = $phongtrao->noidung ?? '';
-            $khenthuong->tungay = $phongtrao->tungay ?? '';
-            $khenthuong->denngay = $phongtrao->denngay ?? '';
-        }
-        return view('reports.DonVi.TapThe')
+        $m_khenthuong = view_tdkt_tapthe::where('tentapthe', 'Like', '%' . $inputs['tentapthe'] . '%')
+            ->where('ngayqd', '>=', $inputs['ngaytu'])
+            ->where('ngayqd', '<=', $inputs['ngayden'])
+            ->get();
+
+        $m_donvi = dsdonvi::where('madonvi', $m_khenthuong->first()->madonvi)->first();
+        return view('BaoCao.DonVi.MauChung.TapThe')
             ->with('inputs', $inputs)
-            ->with('model', $model)
-            ->with('m_khenthuong', $m_khenthuong)
+            ->with('model', $m_khenthuong->first())
+            ->with('model_khenthuong', $m_khenthuong)
             ->with('m_donvi', $m_donvi)
-            ->with('a_danhhieu', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
+            ->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
+            ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
+            ->with('a_canhan', array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai'))
+            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('pageTitle', 'Báo cáo theo tập thể');
     }
 
