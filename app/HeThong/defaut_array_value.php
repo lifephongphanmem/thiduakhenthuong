@@ -5,120 +5,14 @@
  * Date: 4/5/2018
  * Time: 3:05 PM
  */
-function getdanhhieu()
-{
-    $danhhieu = \App\DanhMuc\dmdanhhieutd::all();
-    $options = array();
-    $options[''] = '--Chọn danh hiệu thi đua--';
-    foreach ($danhhieu as $danhhieu) {
-        $options[$danhhieu->madanhhieutd] = $danhhieu->tendanhhieutd;
-    }
-    return $options;
-}
-function getloaihinhkt()
-{
-    $loaihinhkt = \App\dmloaihinhkt::all();
-    $options = array();
-    $options[''] = '--Chọn loại hình khen thưởng--';
-    foreach ($loaihinhkt as $loaihinhkt) {
-        $options[$loaihinhkt->maloaihinhkt] = $loaihinhkt->tenloaihinhkt;
-    }
-    return $options;
-}
 
-function gethinhthuckt()
-{
-    $hinhthuckt = \App\dmhinhthuckt::all();
-    $options = array();
-    $options[''] = '--Chọn loại hình thức khen thưởng--';
-    foreach ($hinhthuckt as $hinhthuckt) {
-        $options[$hinhthuckt->mahinhthuckt] = $hinhthuckt->tenhinhthuckt;
-    }
-    return $options;
-}
-
-function getphanloaichi()
-{
-    $phanloai = \App\Model\manage\quytdkt\qldmchi::all();
-    $options = array();
-    $options[''] = '--Chọn loại hình khen thưởng--';
-    foreach ($phanloai as $phanloai) {
-        $options[$phanloai->madmchi] = $phanloai->noidung;
-    }
-    return $options;
-}
-function getphanloaiqd()
-{
-    $phanloai = \App\dmphanloaiqd::all();
-    $options = array();
-    foreach ($phanloai as $phanloai) {
-        $options[$phanloai->maplqd] = $phanloai->tenplqd;
-    }
-    return $options;
-}
-function getphongtrao()
-{
-    $phanloai = \App\model\manage\qltailieu\qlphongtrao::all();
-    $options = array();
-    $options[''] = '--Chọn phong trào thi đua khen thưởng--';
-    foreach ($phanloai as $phanloai) {
-        $options[$phanloai->maphongtrao] = $phanloai->veviec;
-    }
-    return $options;
-}
-
-function getLoaiXe(){
-    $a_loaixe = array(
-        'Xe 4 chỗ' => 'Xe 4 chỗ',
-        'Xe 5 chỗ' => 'Xe 5 chỗ',
-        'Xe 7 chỗ' => 'Xe 7 chỗ',
-        'Xe 16 chỗ' => 'Xe 16 chỗ',
-        'Xe 29 chỗ' => 'Xe 29 chỗ',
-        'Xe 35 chỗ' => 'Xe 35 chỗ',
-        'Xe 45 chỗ' => 'Xe 45 chỗ',
-        'Xe 47 chỗ' => 'Xe 47 chỗ',
-        'Loại xe khác' => 'Loại xe khác'
+function getTenTrangThaiPT($trangthai){
+    $a_trangthai = array(
+        'DKT' => 'Đã khen thưởng',
+        'DXKT' => 'Đang xét khen thưởng',
+        'CC' => 'Đang phát động',
     );
-    return $a_loaixe ;
-}
-
-function getDiaDanhH(){
-    $diadanhhs = \App\DiaBanHd::where('level','H')
-        ->get();
-
-    $options = array();
-    $options[''] = '--Chọn địa bàn quản lý--';
-    foreach ($diadanhhs as $diadanhh) {
-
-
-        $options[$diadanhh->district] = $diadanhh->diaban;
-    }
-    return $options;
-}
-
-function getDtapdungdvlt(){
-    $dtads = \App\DtAdDvLt::all();
-
-    $options = array();
-    $options['00'] = '--Chọn loại đối tượng áp dụng--';
-    foreach ($dtads as $dtad) {
-        $options[$dtad->madtad] = $dtad->tendtad;
-    }
-    return $options;
-}
-
-function getDvtDvLt(){
-    $dvt = array(
-        ''=>'--Chọn đơn vị tính--',
-        'Đồng/giường/ngày đêm'=>'Đồng/giường/ngày đêm',
-        'Đồng/phòng/ngày đêm'=>'Đồng/phòng/ngày đêm',
-        'Đồng/phòng/tuần'=> 'Đồng/phòng/tuần',
-        'Đồng/phòng/tháng'=> 'Đồng/phòng/tháng',
-        'Đồng/căn hộ/ngày đêm'=>'Đồng/căn hộ/ngày đêm',
-        'Đồng/căn hộ/tuần'=> 'Đồng/căn hộ/tuần' ,
-        'Đồng/căn hộ/tháng'=>'Đồng/căn hộ/tháng',
-    );
-    return $dvt;
+    return $a_trangthai[$trangthai] ?? $trangthai;
 }
 
 function getLoaiVbQlNn(){
@@ -139,4 +33,187 @@ function getLoaiVbQlNn(){
 }
 
 
-?>
+function getPhanLoaiPhongTraoThiDua($all = false)
+{
+    $a_kq = array(
+        'CHUYENDE' => 'Phong trào thi đua thường xuyên',
+        'DOT' => 'Phong trào thi đua theo đợt',
+        'HANGNAM' => 'Phong trào thi đua hàng năm',
+        'NAMNAM' => 'Phong trào thi đua 05 năm',
+        'KHAC' => 'Phong trào thi đua khác',
+    );
+    if ($all == true) {
+        return array_merge(['ALL' => 'Tất cả'], $a_kq);
+    }
+    return $a_kq;
+}
+
+function getPhanLoaiDonVi_DiaBan()
+{
+    return array(
+        //'ADMIN'=>'Đơn vị tổng hợp toàn Tỉnh',
+        'T' => 'Đơn vị hành chính cấp Tỉnh',
+        'H' => 'Đơn vị hành chính cấp Thành phố, Huyện',
+        'X' => 'Đơn vị hành chính cấp Xã, Phường, Thị trấn',
+    );
+}
+
+function getPhanLoaiDonViCumKhoi()
+{
+    return array(
+        'TRUONGKHOI' => 'Trưởng cụm, khối',
+        'PHOKHOI' => 'Phó trưởng cụm, khối',
+        'THANHVIEN' => 'Thành viên',
+    );
+}
+
+function getPhamViApDung()
+{
+    return array(
+        //'ADMIN'=>'Đơn vị tổng hợp toàn Tỉnh',
+        'TW' => 'Cấp Trung ương',
+        'T' => 'Cấp Tỉnh',
+        'H' => 'Cấp Thành phố, Thị xã, Huyện',
+        'X' => 'Cấp Xã, Phường, Thị trấn',
+    );
+}
+
+function getPhanLoaiDonVi()
+{
+    return array(
+        'TONGHOP' => 'Đơn vị tổng hợp dữ liệu',
+        'NHAPLIEU' => 'Đơn vị nhập liệu',
+        'QUANTRI' => 'Đơn vị quản trị hệ thống',
+    );
+}
+
+function getPhanLoaiTDKT()
+{
+    return array(
+        'CANHAN' => 'Danh hiệu thi đua đối với cá nhân',
+        'TAPTHE' => 'Danh hiệu thi đua đối với tập thể',
+        'HOGIADINH' => 'Danh hiệu thi đua đối với hộ gia đình',
+    );
+}
+
+function getPhanLoaiHinhThucKT()
+{
+    return array(
+        'HUANCHUONG' => 'Huân chương',
+        'HUYCHUONG' => 'Huy chương',
+        'DANHHIEUNN' => 'Danh hiệu vinh dự Nhà nước',
+        'GIAITHUONG' => 'Giải thưởng Hồ Chí Minh, Giải thưởng Nhà nước',
+        'KYNIEMCHUONG' => 'Kỷ niệm chương, Huy hiệu',
+        'BANGKHEN' => 'Bằng khen',
+        'GIAYKHEN' => 'Giấy khen',
+    );
+}
+
+function getPhamViPhongTrao($capdo = 'T')
+{
+    // return array(
+    //     'CUNGCAP' => 'Các đơn vị trong cùng cấp quản lý (cùng địa bàn quản lý)',
+    //     'CAPDUOI' => 'Các đơn vị cấp dưới quản lý trực tiếp',
+    //     'TOANTINH' => 'Toàn bộ các đơn vị trong Tỉnh',
+    //     'TRUNGUONG' => 'Phong trào thi đua cấp TW',
+    // );
+    $a_kq['T'] =  array(
+        'CAPXA' => 'Phong trào thi đua cấp Xã',
+        'CAPHUYEN' => 'Phong trào thi đua cấp Huyện',
+        'TOANTINH' => 'Phong trào thi đua cấp Tỉnh',
+        'TRUNGUONG' => 'Phong trào thi đua cấp Trung Ương',
+    );
+    $a_kq['H'] =  array(
+        'CAPXA' => 'Phong trào thi đua cấp Xã',
+        'CAPHUYEN' => 'Phong trào thi đua cấp Huyện',
+    );
+    $a_kq['X'] =  array(
+        'CAPXA' => 'Phong trào thi đua cấp Xã',
+    );
+    return $a_kq[$capdo];
+}
+
+function getTrangThaiTDKT()
+{
+    return array(
+        'CHUABATDAU' => 'Chưa bắt đầu nhận hồ sơ',
+        'DANGNHAN' => 'Đang nhận hồ sơ',
+        'DXKT' => 'Đang xét khen thưởng',
+        'KETTHUC' => 'Đã kết thúc nhận hồ sơ',
+    );
+}
+
+function getGioiTinh()
+{
+    return array(
+        'NAM' => 'Nam',
+        'NU' => 'Nữ',
+        'KHAC' => 'Khác',
+    );
+}
+
+function getLoaiVanBan()
+{
+    $vbqlnn = array(
+        'luat' => 'Luật',
+        'nghidinh' => 'Nghị định',
+        'nghiquyet' => 'Nghị quyết',
+        'thongtu' => 'Thông tư',
+        'quyetdinh' => 'Quyết định',
+        'vbhd' => 'Văn bản hướng dẫn',
+        'baocao' => 'Báo cáo tình hình giá trị trường',
+        'tailieu' => 'Báo cáo, tài liệu học tập kinh nghiệm',
+        'khoahoc' => 'Kết quả, đề tài nghiên cứu khoa học',
+        'vbkhac' => 'Báo cáo, văn bản có liên quan khác',
+    );
+    return $vbqlnn;
+}
+
+function getThoiDiem()
+{
+    return [
+        '06THANGDAUNAM' => 'Báo cáo 06 tháng đầu năm',
+        '06THANGCUOINAM' => 'Báo cáo 06 tháng cuối năm',
+        'CANAM' => 'Báo cáo cả năm',
+        '05NAM' => 'Báo cáo 05 năm',
+        'quy1' => 'Quý I',
+        'quy2' => 'Quý II',
+        'quy3' => 'Quý III',
+        'quy4' => 'Quý IV',
+        'thang01' => 'Tháng 01',
+        'thang02' => 'Tháng 02',
+        'thang03' => 'Tháng 03',
+        'thang04' => 'Tháng 04',
+        'thang05' => 'Tháng 05',
+        'thang06' => 'Tháng 06',
+        'thang07' => 'Tháng 07',
+        'thang08' => 'Tháng 08',
+        'thang09' => 'Tháng 09',
+        'thang10' => 'Tháng 10',
+        'thang11' => 'Tháng 11',
+        'thang12' => 'Tháng 12',
+    ];
+}
+
+function getThang($all = false)
+{
+    $a_tl = array(
+        '01' => '01', '02' => '02', '03' => '03',
+        '04' => '04', '05' => '05', '06' => '06',
+        '07' => '07', '08' => '08', '09' => '09',
+        '10' => '10', '11' => '11', '12' => '12'
+    );
+    if ($all)
+        return array_merge(array('ALL' => '--Tất cả--'), $a_tl);
+    else
+        return $a_tl;
+}
+
+function getNam($all = false)
+{
+    $a_tl = $all == true ? array('ALL' => 'Tất cả') : array();
+    for ($i = date('Y') - 2; $i <= date('Y') + 1; $i++) {
+        $a_tl[$i] = $i;
+    }
+    return $a_tl;
+}

@@ -32,8 +32,8 @@ class tracuuphongtraoController extends Controller
     }
     public function ThongTin(Request $request)
     {
-        if (!chkPhanQuyen('timkiemtapthe', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'timkiemtapthe')->with('tenphanquyen', 'danhsach');
+        if (!chkPhanQuyen('timkiemphongtrao', 'danhsach')) {
+            return view('errors.noperm')->with('machucang', 'timkiemphongtrao')->with('tenphanquyen', 'danhsach');
         }
         $m_donvi = getDonVi(session('admin')->capdo);
         $m_diaban = getDiaBan(session('admin')->capdo);
@@ -41,7 +41,7 @@ class tracuuphongtraoController extends Controller
             ->with('a_donvi', setArrayAll(array_column($m_donvi->toArray(), 'tendonvi', 'madonvi')))
             ->with('a_diaban', setArrayAll(array_column($m_diaban->toArray(), 'tendiaban', 'madiaban')))
             ->with('a_phamvi', setArrayAll(getPhamViPhongTrao()))
-            //->with('a_phanloai', getPhanLoaiPhongTraoThiDua(true))
+            ->with('a_phanloai', getPhanLoaiPhongTraoThiDua(true))
             ->with('pageTitle', 'Tìm kiếm thông tin phong trào thi đua');
     }
 
@@ -54,12 +54,15 @@ class tracuuphongtraoController extends Controller
             $model = $model->where('madiaban', $inputs['madiaban']);
         if ($inputs['madonvi'] != 'ALL')
             $model = $model->where('madonvi', $inputs['madonvi']);
-        if ($inputs['phamviphatdong'] != 'ALL')
-            $model = $model->where('phamviphatdong', $inputs['phamviphatdong']);
+        if ($inputs['phamviapdung'] != 'ALL')
+            $model = $model->where('phamviapdung', $inputs['phamviapdung']);
+        if ($inputs['phanloai'] != 'ALL')
+            $model = $model->where('phanloai', $inputs['phanloai']);
         return view('TraCuu.PhongTrao.KetQua')
             ->with('model', $model->get())
             ->with('a_phamvi', setArrayAll(getPhamViPhongTrao()))
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+            ->with('a_phanloai', getPhanLoaiPhongTraoThiDua(true))
             ->with('pageTitle', 'Kết quả tìm kiếm phong trào thi đua');
     }
 }

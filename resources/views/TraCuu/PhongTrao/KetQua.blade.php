@@ -38,10 +38,13 @@
                             <tr class="text-center">
                                 <th width="2%">STT</th>
                                 <th>Nội dung phong trào</th>
-                                <th width="15%">Loại hình khen thưởng</th>
-                                <th width="10%">Ngày quyết định</th>
-                                <th width="15%">Phạm vi phát động</th>
-                                <th width="10%">Trạng thái</th>
+                                <th>Loại hình khen thưởng</th>
+                                <th>Ngày quyết định</th>
+                                <th>Phạm vi phát động</th>
+                                <th>Hình thức tổ chức</th>
+                                <th>Ngày bắt đầu</th>
+                                <th>Ngày kết thúc</th>
+                                <th>Trạng thái</th>
                             </tr>
                         </thead>
                         @foreach ($model as $key => $tt)
@@ -50,8 +53,11 @@
                                 <td class="active">{{ $tt->noidung }}</td>
                                 <td>{{$a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
                                 <td class="text-center">{{ getDayVn($tt->ngayqd) }}</td>
-                                <td class="text-center">{{$a_phamvi[$tt->phamviapdung] ?? ''}}</td>
-                                @include('includes.td.td_trangthai_phongtrao')                                
+                                <td>{{$a_phamvi[$tt->phamviapdung] ?? ''}}</td>
+                                <td>{{$a_phanloai[$tt->phanloai] ?? ''}}</td>
+                                <td>{{getDayVn($tt->tungay)}}</td>
+                                <td>{{getDayVn($tt->denngay)}}</td>
+                                <td>{{getTenTrangThaiPT($tt->trangthai)}}</td>
                             </tr>
                         @endforeach
                     </table>

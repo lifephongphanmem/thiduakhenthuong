@@ -10,9 +10,12 @@ use App\Http\Controllers\Controller;
 use App\Model\DanhMuc\dmdanhhieuthidua;
 use App\Model\DanhMuc\dmdanhhieuthidua_tieuchuan;
 use App\Model\DanhMuc\dmhinhthuckhenthuong;
+use App\Model\DanhMuc\dmloaihinhkhenthuong;
+use App\Model\DanhMuc\dmnhomphanloai_chitiet;
 use App\Model\View\view_cumkhoi_canhan;
 use App\Model\View\view_cumkhoi_tapthe;
 use App\Model\View\view_tdkt_canhan;
+use App\Model\View\view_tdkt_detai;
 use App\Model\View\view_tdkt_tapthe;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
@@ -37,31 +40,60 @@ class tracuutaptheController extends Controller
         $m_tapthe = view_tdkt_tapthe::all();
         return view('TraCuu.TapThe.ThongTin')
             ->with('m_tapthe', $m_tapthe)
-            ->with('pageTitle', 'Tìm kiếm thông tin theo cá nhân');
+            ->with('a_tapthe', array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE', 'HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai'))
+            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+            ->with('pageTitle', 'Tìm kiếm thông tin theo tập thể');
     }
 
     public function KetQua(Request $request)
     {
         $inputs = $request->all();
-        $model = view_tdkt_tapthe::where('tentapthe', 'like', '%' . $inputs['tentapthe'] . '%');
-        $m_cumkhoi = view_cumkhoi_tapthe::where('tentapthe', 'Like', '%' . $inputs['tentapthe'] . '%');
-
-        $model = $model->get();
-        $m_cumkhoi = $m_cumkhoi->get();
-        foreach ($m_cumkhoi as $khenthuong) {
-            $model->add($khenthuong);
-        }
-        $detai = new Collection();
-        foreach ($model as $chitiet) {
-            if (isset($chitiet->tensangkien) && $chitiet->tensangkien != '')
-                $detai->add($chitiet);
-        }
+        //Chưa tính trường hợp đơn vị
+        $model_khenthuong = view_tdkt_tapthe::where('trangthai', 'DKT');
+        $this->TimKiem($model_khenthuong, $inputs);
         return view('TraCuu.TapThe.KetQua')
-            ->with('model', $model->first())
-            ->with('khenthuong', $model)
-            ->with('detai', $detai)
+            ->with('model_khenthuong', $model_khenthuong)
+            ->with('inputs', $inputs)
             ->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
             ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
+            ->with('a_tapthe', array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai'))
+            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('pageTitle', 'Kết quả tìm kiếm');
+    }
+
+    public function InKetQua(Request $request)
+    {
+        $inputs = $request->all();       
+        $model_khenthuong = view_tdkt_tapthe::where('trangthai', 'DKT');
+        $this->TimKiem($model_khenthuong,$inputs);        
+        return view('TraCuu.TapThe.InKetQua')
+            ->with('model_khenthuong', $model_khenthuong)  
+            ->with('inputs', $inputs)
+            ->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
+            ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
+            ->with('a_tapthe', array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai'))
+            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+            ->with('pageTitle', 'Kết quả tìm kiếm');
+    }
+
+    function TimKiem(&$model_khenthuong, $inputs){
+
+        if ($inputs['tentapthe'] != '') {
+            $model_khenthuong = $model_khenthuong->where('tentapthe', 'Like', '%' . $inputs['tentapthe'] . '%');
+        }
+       
+        if ($inputs['ngaytu'] != null)
+            $model_khenthuong = $model_khenthuong->where('ngayqd', '>=', $inputs['ngaytu']);
+
+        if ($inputs['ngayden'] != null)
+            $model_khenthuong = $model_khenthuong->where('ngayqd', '<=', $inputs['ngayden']);
+      
+        if ($inputs['maphanloaitapthe'] != 'ALL')
+            $model_khenthuong = $model_khenthuong->where('maphanloaitapthe', $inputs['maphanloaitapthe']);
+
+        if ($inputs['maloaihinhkt'] != 'ALL')
+            $model_khenthuong = $model_khenthuong->where('maloaihinhkt', $inputs['maloaihinhkt']);
+        //Lấy kết quả khen thưởng
+        $model_khenthuong = $model_khenthuong->get();
     }
 }

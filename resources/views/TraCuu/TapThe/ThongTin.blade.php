@@ -37,27 +37,37 @@
         
         <div class="card-body">
             <div class="form-group row">                
-                <div class="col-lg-11">
+                <div class="col-lg-12">
                     <label>Tên đơn vị</label>
                     {!! Form::text('tentapthe', null, ['id'=>'tentapthe','class' => 'form-control']) !!}
-                </div>
-
-                <div class="col-lg-1">
-                    <label class="control-label">Chọn</label>
-                    <button type="button" class="btn btn-default" data-target="#modal-donvi" data-toggle="modal">
-                        <i class="fa fa-list"></i></button>
                 </div>
             </div>
 
             <div class="form-group row">
-                <div class="col-lg-6">
-                    <label>Thời gian khen thưởng - Từ</label>
-                    {!! Form::input('date', 'ngaytu', null, ['class' => 'form-control']) !!}
+                <div class="col-lg-3">
+                    <label>Khen thưởng - Từ</label>
+                    {!! Form::input('date', 'ngaytu', null, ['class' => 'form-control', 'title'=>'Căn cứ ngày quyết định khen thưởng']) !!}
                 </div>
-                <div class="col-lg-6">
-                    <label>Thời gian khen thưởng - Đến</label>
-                    {!! Form::input('date', 'ngayden', null, ['class' => 'form-control']) !!}
-                </div> 
+                <div class="col-lg-3">
+                    <label>Khen thưởng - Đến</label>
+                    {!! Form::input('date', 'ngayden', null, ['class' => 'form-control', 'title'=>'Căn cứ ngày quyết định khen thưởng']) !!}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label class="form-control-label">Phân loại tập thể</label>
+                    {!! Form::select('maphanloaitapthe', setArrayAll($a_tapthe, 'Tất cả', 'ALL'), null, [
+                        'class' => 'form-control select2basic',
+                    ]) !!}
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-control-label">Loại hình khen thưởng</label>
+                    {!! Form::select('maloaihinhkt', setArrayAll($a_loaihinhkt, 'Tất cả', 'ALL'), null, [
+                        'class' => 'form-control select2basic',
+                    ]) !!}
+                </div>
             </div>
         </div>
         <div class="card-footer">

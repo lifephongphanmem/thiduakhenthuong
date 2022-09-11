@@ -12,11 +12,14 @@ class view_tdkt_canhan extends Model
 }
 // CREATE OR ALTER VIEW [dbo].[view_tdkt_canhan]
 // AS
-// SELECT        dbo.dshosokhenthuong_khenthuong.madanhhieutd, dbo.dshosokhenthuong_khenthuong.madoituong, dbo.dshosokhenthuong_khenthuong.ketqua, dbo.dshosothiduakhenthuong_khenthuong.tendoituong, 
-//                          dbo.dshosothiduakhenthuong_khenthuong.ngaysinh, dbo.dshosothiduakhenthuong_khenthuong.gioitinh, dbo.dshosothiduakhenthuong_khenthuong.chucvu, dbo.dshosothiduakhenthuong_khenthuong.lanhdao, 
-//                          dbo.dshosokhenthuong_khenthuong.mahinhthuckt, dbo.dshosothiduakhenthuong_khenthuong.tensangkien, dbo.dshosothiduakhenthuong_khenthuong.donvicongnhan, 
-//                          dbo.dshosothiduakhenthuong_khenthuong.thanhtichdatduoc, dbo.dshosothiduakhenthuong_khenthuong.filedk, dbo.dshosothiduakhenthuong_khenthuong.thoigiancongnhan, dbo.dshosokhenthuong_khenthuong.mahosokt, dbo.dshosothiduakhenthuong_khenthuong.madonvi
-// FROM            dbo.dshosokhenthuong_khenthuong INNER JOIN
-//                          dbo.dshosothiduakhenthuong_khenthuong ON dbo.dshosokhenthuong_khenthuong.mahosotdkt = dbo.dshosothiduakhenthuong_khenthuong.mahosotdkt AND 
-//                          dbo.dshosokhenthuong_khenthuong.madoituong = dbo.dshosothiduakhenthuong_khenthuong.madoituong
+// SELECT        dbo.dshosothiduakhenthuong.mahosotdkt, dbo.dshosothiduakhenthuong.noidung, dbo.dshosothiduakhenthuong.phanloai, dbo.dshosothiduakhenthuong.maloaihinhkt, dbo.dshosothiduakhenthuong.maphongtraotd, 
+//                          dbo.dshosothiduakhenthuong.madonvi, dbo.dshosothiduakhenthuong.sototrinh, dbo.dshosothiduakhenthuong.chucvunguoiky, dbo.dshosothiduakhenthuong.nguoikytotrinh, dbo.dshosothiduakhenthuong.soqd, 
+//                          dbo.dshosothiduakhenthuong.ngayqd, dbo.dshosothiduakhenthuong.donvikhenthuong, dbo.dshosothiduakhenthuong.capkhenthuong, dbo.dshosothiduakhenthuong.hotennguoikyqd, 
+//                          dbo.dshosothiduakhenthuong.chucvunguoikyqd, dbo.dshosothiduakhenthuong_canhan.maccvc, dbo.dshosothiduakhenthuong_canhan.socancuoc, dbo.dshosothiduakhenthuong_canhan.tendoituong, 
+//                          dbo.dshosothiduakhenthuong_canhan.ngaysinh, dbo.dshosothiduakhenthuong_canhan.gioitinh, dbo.dshosothiduakhenthuong_canhan.chucvu, dbo.dshosothiduakhenthuong_canhan.diachi, 
+//                          dbo.dshosothiduakhenthuong_canhan.tencoquan, dbo.dshosothiduakhenthuong_canhan.tenphongban, dbo.dshosothiduakhenthuong_canhan.maphanloaicanbo, dbo.dshosothiduakhenthuong_canhan.ketqua, 
+//                          dbo.dshosothiduakhenthuong_canhan.mahinhthuckt, dbo.dshosothiduakhenthuong_canhan.madanhhieutd, dbo.dshosothiduakhenthuong_canhan.noidungkhenthuong, dbo.dshosothiduakhenthuong.ngayhoso, 
+//                          dbo.dshosothiduakhenthuong.trangthai
+// FROM            dbo.dshosothiduakhenthuong INNER JOIN
+//                          dbo.dshosothiduakhenthuong_canhan ON dbo.dshosothiduakhenthuong.mahosotdkt = dbo.dshosothiduakhenthuong_canhan.mahosotdkt
 // GO

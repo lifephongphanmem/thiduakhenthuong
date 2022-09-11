@@ -4,9 +4,9 @@ namespace App\Model\View;
 
 use Illuminate\Database\Eloquent\Model;
 
-class view_tdkt_tapthe extends Model
+class view_tdkt_detai extends Model
 {
-    protected $table = 'view_tdkt_tapthe';
+    protected $table = 'view_tdkt_detai';
     protected $fillable = [        
     ];
 }

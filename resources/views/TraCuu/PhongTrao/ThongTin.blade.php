@@ -50,16 +50,20 @@
             <div class="form-group row">
                 <div class="col-lg-6">
                     <label class="form-control-label">Phạm vi phát động</label>
-                    {!! Form::select('phamviphatdong', $a_phamvi, null, ['class' => 'form-control select2basic']) !!}
+                    {!! Form::select('phamviapdung', $a_phamvi, null, ['class' => 'form-control select2basic']) !!}
+                </div>
+                <div class="col-lg-6">
+                    <label class="form-control-label">Hình thức tổ chức</label>
+                    {!! Form::select('phanloai', $a_phanloai, null, ['class' => 'form-control select2basic']) !!}
                 </div>
             </div>
 
             <div class="form-group row">
-                <div class="col-lg-6">
+                <div class="col-lg-3">
                     <label>Thời gian phát động - Từ</label>
                     {!! Form::input('date', 'ngaytu', null, ['class' => 'form-control']) !!}
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-3">
                     <label>Thời gian phát động - Đến</label>
                     {!! Form::input('date', 'ngayden', null, ['class' => 'form-control']) !!}
                 </div>
