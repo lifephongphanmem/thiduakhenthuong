@@ -52,8 +52,9 @@ class dshosothiduaController extends Controller
         $inputs['phamviapdung'] = $inputs['phamviapdung'] ?? 'ALL';
         $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
-        $a_phamvi = getPhamViPhongTrao($donvi->capdo ?? 'T');
-        $model = viewdonvi_dsphongtrao::wherein('phamviapdung', $a_phamvi)->orwhere('phamviapdung', 'TOANTINH')->orderby('tungay')->get();
+       
+        $a_phamvi = getPhamViApDungPhongTrao($donvi->capdo ?? 'T');        
+        $model = viewdonvi_dsphongtrao::wherein('phamviapdung', $a_phamvi)->orderby('tungay')->get();
         if ($inputs['phamviapdung'] != 'ALL') {
             $model = $model->where('phamviapdung', $inputs['phamviapdung']);
         }

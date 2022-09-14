@@ -55,9 +55,12 @@ class khenthuonghosothiduaController extends Controller
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
 
-        $model = viewdonvi_dsphongtrao::wherein('phamviapdung', array_keys(getPhamViPhongTrao($donvi->capdo)))
-            ->orwhere('phamviapdung', 'TOANTINH')->orderby('tungay')->get();
-
+        $a_phamvi = getPhamViApDungPhongTrao($donvi->capdo ?? 'T');
+        $model = viewdonvi_dsphongtrao::wherein('phamviapdung', $a_phamvi)->orderby('tungay')->get();
+        $inputs['phamviapdung'] = $inputs['phamviapdung'] ?? 'ALL';
+        if ($inputs['phamviapdung'] != 'ALL') {
+            $model = $model->where('phamviapdung', $inputs['phamviapdung']);
+        }
         //$model = $model->where('trangthai', 'DD');
         $ngayhientai = date('Y-m-d');
         $m_hoso = dshosothiduakhenthuong::wherein('mahosotdkt', function ($qr) {
@@ -219,11 +222,11 @@ class khenthuonghosothiduaController extends Controller
         $model =  dshosokhenthuong::where('mahosokt', $inputs['mahosokt'])->first();
         $m_phongtrao = dsphongtraothidua::where('maphongtraotd', $model->maphongtraotd ?? null)->first();
         $m_khenthuong = dshosokhenthuong_khenthuong::where('mahosokt', $model->mahosokt ?? null)->get();
-        $m_donvi = dsdonvi::where('madonvi',$model->madonvi ?? null)->first();
-       
+        $m_donvi = dsdonvi::where('madonvi', $model->madonvi ?? null)->first();
+
         return view('NghiepVu.ThiDuaKhenThuong.KhenThuongHoSo.Xem')
             ->with('model', $model)
-            ->with('m_donvi', $m_donvi)          
+            ->with('m_donvi', $m_donvi)
             ->with('model_canhan', $m_khenthuong->where('phanloai', 'CANHAN'))
             ->with('model_tapthe', $m_khenthuong->where('phanloai', 'TAPTHE'))
             ->with('m_phongtrao', $m_phongtrao)

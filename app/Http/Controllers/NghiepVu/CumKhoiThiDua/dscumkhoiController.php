@@ -61,12 +61,12 @@ class dscumkhoiController extends Controller
             $model = new dscumkhoi();
             $model->macumkhoi = getdate()[0];
         }
-        $m_donvi = dsdonvi::wherein('madonvi', function ($qr) {
-            $qr->select('madonviQL')->from('dsdiaban')->get();
-        })->get();
+        // $m_donvi = dsdonvi::wherein('madonvi', function ($qr) {
+        //     $qr->select('madonviQL')->from('dsdiaban')->get();
+        // })->get();
         return view('NghiepVu.CumKhoiThiDua.DanhSach.ThayDoi')
             ->with('model', $model)
-            ->with('a_donvi', array_column($m_donvi->toarray(), 'tendonvi', 'madonvi'))
+            ->with('a_donvi', getDonViQuanLyCumKhoi($model->macumkhoi))
             ->with('pageTitle', 'Thông tin cụm, khối thi đua');
     }
 

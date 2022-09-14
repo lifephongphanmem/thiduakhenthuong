@@ -41,12 +41,15 @@ class xetduyethosothiduaController extends Controller
             $inputs['nam'] = $inputs['nam'] ?? 'ALL';
             $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
             $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
-            $capdo = $donvi->capdo ?? '';
-
-            $model = viewdonvi_dsphongtrao::wherein('phamviapdung', ['TOANTINH','TRUNGUONG'])->orwherein('maphongtraotd', function ($qr) use ($capdo) {
-                $qr->select('maphongtraotd')->from('viewdonvi_dsphongtrao')->where('phamviapdung', 'CUNGCAP')->where('capdo', $capdo)->get();
-            })->orderby('tungay')->get();
-
+            $a_phamvi = getPhamViApDungPhongTrao($donvi->capdo ?? 'T');
+            $model = viewdonvi_dsphongtrao::wherein('phamviapdung', $a_phamvi)->orderby('tungay')->get();
+            // $model = viewdonvi_dsphongtrao::wherein('phamviapdung', ['TOANTINH','TRUNGUONG'])->orwherein('maphongtraotd', function ($qr) use ($capdo) {
+            //     $qr->select('maphongtraotd')->from('viewdonvi_dsphongtrao')->where('phamviapdung', 'CUNGCAP')->where('capdo', $capdo)->get();
+            // })->orderby('tungay')->get();
+            $inputs['phamviapdung'] = $inputs['phamviapdung'] ?? 'ALL';
+            if ($inputs['phamviapdung'] != 'ALL') {
+                $model = $model->where('phamviapdung', $inputs['phamviapdung']);
+            }
             $ngayhientai = date('Y-m-d');
             $m_hoso = dshosothiduakhenthuong::wherein('mahosotdkt', function ($qr) {
                 $qr->select('mahoso')->from('trangthaihoso')->wherein('trangthai', ['CD', 'DD'])->where('phanloai', 'dshosothiduakhenthuong')->get();

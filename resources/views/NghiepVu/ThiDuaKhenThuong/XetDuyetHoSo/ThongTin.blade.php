@@ -17,11 +17,16 @@
             TableManaged3.init();
             $('#madonvi').change(function() {
                 window.location.href = '/XetDuyetHoSoThiDua/ThongTin?madonvi=' + $('#madonvi').val() +
-                    '&nam=' + $('#nam').val();
+                    '&nam=' + $('#nam').val() + '&phamviapdung=' + $('#phamviapdung').val();
             });
             $('#nam').change(function() {
                 window.location.href = '/XetDuyetHoSoThiDua/ThongTin?madonvi=' + $('#madonvi').val() +
-                    '&nam=' + $('#nam').val();
+                    '&nam=' + $('#nam').val() + '&phamviapdung=' + $('#phamviapdung').val();
+            });
+
+            $('#phamviapdung').change(function() {
+                window.location.href = '/XetDuyetHoSoThiDua/ThongTin?madonvi=' + $('#madonvi').val() +
+                    '&nam=' + $('#nam').val() + '&phamviapdung=' + $('#phamviapdung').val();
             });
         });
     </script>
@@ -39,7 +44,7 @@
         </div>
         <div class="card-body">
             <div class="form-group row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label style="font-weight: bold">Đơn vị</label>
                     <select class="form-control select2basic" id="madonvi">
                         @foreach ($m_diaban as $diaban)
@@ -53,7 +58,15 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-3">
+
+                <div class="col-md-4">
+                    <label style="font-weight: bold">Phạm vi phát động</label>
+                    {!! Form::select('phamviapdung', setArrayAll($a_phamvi, 'Tất cả', 'ALL'), $inputs['phamviapdung'], [
+                        'id' => 'phamviapdung',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
+                </div>
+                <div class="col-md-2">
                     <label style="font-weight: bold">Năm</label>
                     {!! Form::select('nam', getNam(true), $inputs['nam'], ['id' => 'nam', 'class' => 'form-control select2basic']) !!}
                 </div>

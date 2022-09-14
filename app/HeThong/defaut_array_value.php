@@ -118,18 +118,26 @@ function getPhamViPhongTrao($capdo = 'T')
     //     'TRUNGUONG' => 'Phong trào thi đua cấp TW',
     // );
     $a_kq['T'] =  array(
-        'CAPXA' => 'Phong trào thi đua cấp Xã',
-        'CAPHUYEN' => 'Phong trào thi đua cấp Huyện',
-        'TOANTINH' => 'Phong trào thi đua cấp Tỉnh',
-        'TRUNGUONG' => 'Phong trào thi đua cấp Trung Ương',
+        'X' => 'Phong trào thi đua cấp Xã',
+        'H' => 'Phong trào thi đua cấp Huyện',
+        'T' => 'Phong trào thi đua cấp Tỉnh',
+        'TW' => 'Phong trào thi đua cấp Trung Ương',
     );
     $a_kq['H'] =  array(
-        'CAPXA' => 'Phong trào thi đua cấp Xã',
-        'CAPHUYEN' => 'Phong trào thi đua cấp Huyện',
+        'X' => 'Phong trào thi đua cấp Xã',
+        'H' => 'Phong trào thi đua cấp Huyện',
     );
     $a_kq['X'] =  array(
-        'CAPXA' => 'Phong trào thi đua cấp Xã',
+        'X' => 'Phong trào thi đua cấp Xã',
     );
+    return $a_kq[$capdo];
+}
+
+function getPhamViApDungPhongTrao($capdo = 'T')
+{
+    $a_kq['T'] =  array('T','TW',);
+    $a_kq['H'] =  array('H','T','TW',);
+    $a_kq['X'] =  array('X','H','T','TW',);    
     return $a_kq[$capdo];
 }
 
