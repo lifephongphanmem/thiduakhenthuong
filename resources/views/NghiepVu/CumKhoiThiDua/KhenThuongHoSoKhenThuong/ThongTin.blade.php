@@ -108,11 +108,27 @@
                                         class="btn btn-sm btn-clean btn-icon" target="_blank">
                                         <i class="icon-lg la fa-eye text-dark"></i></a>
                                     @if ($tt->trangthai == 'CXKT')
-                                        <button title="Tạo hồ sơ khen thưởng" type="button"
-                                            onclick="confirmKhenThuong('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}')"
-                                            class="btn btn-sm btn-clean btn-icon" data-target="#khenthuong-modal"
-                                            data-toggle="modal">
-                                            <i class="icon-lg la fa-user-check text-success"></i></button>
+                                        @if ($tt->chinhsua)
+                                            <a href="{{ url($inputs['url_qd'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                                class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
+                                                title="Thông tin hồ sơ khen thưởng">
+                                                <span class="svg-icon svg-icon-xl">
+                                                    <i class="icon-lg la flaticon-list text-success"></i>
+                                                </span>
+                                                <span
+                                                    class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->soluongkhenthuong }}</span>
+                                            </a>
+                                        @else
+                                            <a href="{{ url($inputs['url_qd'] . 'XetKT?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                                class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
+                                                title="Thông tin hồ sơ khen thưởng">
+                                                <span class="svg-icon svg-icon-xl">
+                                                    <i class="icon-lg la flaticon-list text-success"></i>
+                                                </span>
+                                                <span
+                                                    class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->soluongkhenthuong }}</span>
+                                            </a>
+                                        @endif
                                     @endif
 
                                     @if ($tt->trangthai == 'DXKT')
@@ -156,7 +172,14 @@
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                {!! Form::open(['url' => '/CumKhoiThiDua/KhenThuongHoSoKhenThuong/PheDuyet', 'method' => 'post', 'files' => true, 'id' => 'frm_PheDuyet', 'class' => 'form-horizontal', 'enctype' => 'multipart/form-data']) !!}
+                {!! Form::open([
+                    'url' => '/CumKhoiThiDua/KhenThuongHoSoKhenThuong/PheDuyet',
+                    'method' => 'post',
+                    'files' => true,
+                    'id' => 'frm_PheDuyet',
+                    'class' => 'form-horizontal',
+                    'enctype' => 'multipart/form-data',
+                ]) !!}
                 <div class="modal-header">
 
                     <h4 class="modal-title">Đồng ý phê duyệt hồ sơ khen thưởng?</h4>
