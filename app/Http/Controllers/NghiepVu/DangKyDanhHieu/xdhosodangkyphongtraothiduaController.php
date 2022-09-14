@@ -34,12 +34,12 @@ class xdhosodangkyphongtraothiduaController extends Controller
         $inputs = $request->all();
         $m_donvi = getDonViXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
         $m_diaban = getDiaBanXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
-        $m_donvi = viewdiabandonvi::wherein('madonvi', array_column($m_donvi->toarray(), 'madonviQL'))->get();
+        //$m_donvi = viewdiabandonvi::wherein('madonvi', array_column($m_donvi->toarray(), 'madonviQL'))->get();
 
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
-        //$donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
-        //$capdo = $donvi->capdo ?? '';           
+        $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
+        $capdo = $donvi->capdo ?? '';
 
         $model = dshosodangkyphongtraothidua::wherein('mahosodk', function ($qr) use ($inputs) {
             $qr->select('mahosodk')->from('dshosodangkyphongtraothidua')
@@ -53,7 +53,14 @@ class xdhosodangkyphongtraothiduaController extends Controller
 
         $model = $model->orderby('ngayhoso')->get();
         foreach ($model as $hoso) {
-            getDonViChuyen($inputs['madonvi'], $hoso);
+            //Trường đơn vị tiếp nhận là cấp xã thì lấy luôn thông tin hồ so            
+            if ($capdo == 'X') {
+                $hoso->madonvi_hoso = $hoso->madonvi;
+                $hoso->trangthai_hoso = $hoso->trangthai;
+                $hoso->thoigian_hoso = $hoso->thoigian;
+                $hoso->lydo_hoso = $hoso->lydo;
+            } else
+                getDonViChuyen($inputs['madonvi'], $hoso);
         }
         return view('NghiepVu.DangKyDanhHieu.XetDuyet.ThongTin')
             ->with('model', $model)
@@ -65,6 +72,7 @@ class xdhosodangkyphongtraothiduaController extends Controller
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách hồ sơ đăng ký');
     }
+
 
     public function TraLai(Request $request)
     {
@@ -82,9 +90,11 @@ class xdhosodangkyphongtraothiduaController extends Controller
             'thoigian' => $thoigian, 'lydo' => $inputs['lydo'], 'phanloai' => 'dshosodangkyphongtraothidua',
             'madonvi_nhan' => $m_nhatky->madonvi_hoso, 'madonvi' => $m_nhatky->madonvi_nhan_hoso
         ]);
+        
         //Gán lại trạng thái cho hồ sơ
         setNhanHoSo($inputs['madonvi'], $model, ['trangthai' => 'BTL', 'thoigian' => $thoigian, 'lydo' => $inputs['lydo'], 'madonvi_nhan' => '']);
         setTrangThaiHoSo($inputs['madonvi'], $model, ['trangthai' => '', 'thoigian' => '', 'lydo' => '', 'madonvi_nhan' => '', 'madonvi' => '']);
+        //dd($model);
         $model->save();
 
         return redirect('/DangKyDanhHieu/XetDuyet/ThongTin?madonvi=' . $inputs['madonvi']);

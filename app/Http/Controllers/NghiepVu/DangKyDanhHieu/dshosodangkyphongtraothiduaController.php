@@ -230,7 +230,7 @@ class dshosodangkyphongtraothiduaController extends Controller
         $model->madonvi_nhan = $inputs['madonvi_nhan'];
         $model->thoigian = date('Y-m-d H:i:s');
         setChuyenHoSo($m_donvi->capdo, $model, ['madonvi' => $inputs['madonvi_nhan'], 'thoigian' => $model->thoigian, 'trangthai' => 'CD']);
-        //dd($model);
+        //dd($m_donvi);
         $model->save();
 
         $trangthai = new trangthaihoso();
