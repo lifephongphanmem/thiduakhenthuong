@@ -1,6 +1,7 @@
 <?php
 //Phong trào thi đua
 
+
 use App\Http\Controllers\NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController;
 use App\Http\Controllers\NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController;
 use Illuminate\Support\Facades\Route;
@@ -284,6 +285,7 @@ use App\Http\Controllers\NghiepVu\KhenThuongDoiNgoai\dshosokhenthuongdoingoaiCon
 use App\Http\Controllers\NghiepVu\KhenThuongDoiNgoai\qdhosokhenthuongdoingoaiController;
 use App\Http\Controllers\NghiepVu\KhenThuongDoiNgoai\xdhosokhenthuongdoingoaiController;
 
+
 Route::group(['prefix' => 'KhenThuongDoiNgoai'], function () {
     Route::group(['prefix' => 'HoSo'], function () {
         Route::get('ThongTin', [dshosokhenthuongdoingoaiController::class, 'ThongTin']);
@@ -429,3 +431,77 @@ Route::group(['prefix' => 'KhenThuongNienHan'], function () {
     });
 });
 
+use App\Http\Controllers\NghiepVu\KhenThuongChuyenDe\dshosokhenthuongchuyendeController;
+use App\Http\Controllers\NghiepVu\KhenThuongChuyenDe\qdhosokhenthuongchuyendeController;
+use App\Http\Controllers\NghiepVu\KhenThuongChuyenDe\xdhosokhenthuongchuyendeController;
+
+//Khen thưởng chuyên đề
+Route::group(['prefix' => 'KhenThuongChuyenDe'], function () {
+    Route::group(['prefix' => 'HoSo'], function () {
+        Route::get('ThongTin', [dshosokhenthuongchuyendeController::class, 'ThongTin']);
+        Route::post('Them', [dshosokhenthuongchuyendeController::class, 'Them']);
+        Route::get('Sua', [dshosokhenthuongchuyendeController::class, 'ThayDoi']);
+        Route::post('Sua', [dshosokhenthuongchuyendeController::class, 'LuuHoSo']);
+        Route::get('InHoSo', [dshosokhenthuongchuyendeController::class, 'XemHoSo']);
+        Route::post('Xoa', [dshosokhenthuongchuyendeController::class,'XoaHoSo']);
+
+        Route::post('ThemTapThe', [dshosokhenthuongchuyendeController::class, 'ThemTapThe']);
+        Route::get('XoaTapThe', [dshosokhenthuongchuyendeController::class, 'XoaTapThe']);
+        Route::get('LayTapThe', [dshosokhenthuongchuyendeController::class, 'LayTapThe']);
+        Route::post('NhanExcelTapThe', [dshosokhenthuongchuyendeController::class, 'NhanExcelTapThe']);
+
+        Route::post('ThemCaNhan', [dshosokhenthuongchuyendeController::class, 'ThemCaNhan']);
+        Route::get('XoaCaNhan', [dshosokhenthuongchuyendeController::class, 'XoaCaNhan']);
+        Route::get('LayCaNhan', [dshosokhenthuongchuyendeController::class, 'LayCaNhan']);
+        Route::post('NhanExcelCaNhan', [dshosokhenthuongchuyendeController::class, 'NhanExcelCaNhan']);
+
+        Route::post('ThemDeTai', [dshosokhenthuongchuyendeController::class, 'ThemDeTai']);
+        Route::get('XoaDeTai', [dshosokhenthuongchuyendeController::class, 'XoaDeTai']);
+        Route::get('LayDeTai', [dshosokhenthuongchuyendeController::class, 'LayDeTai']);
+        Route::post('NhanExcelDeTai', [dshosokhenthuongchuyendeController::class, 'NhanExcelDeTai']);
+
+        Route::get('TaiLieuDinhKem', [dshosokhenthuongchuyendeController::class, 'TaiLieuDinhKem']);
+        Route::post('ChuyenHoSo', [dshosokhenthuongchuyendeController::class, 'ChuyenHoSo']);
+        Route::get('LayLyDo', [dshosokhenthuongchuyendeController::class, 'LayLyDo']);
+        Route::get('LayTieuChuan', [dshosokhenthuongchuyendeController::class, 'LayTieuChuan']);
+        Route::get('LayDoiTuong', [dshosokhenthuongchuyendeController::class, 'LayDoiTuong']);
+    });
+
+    Route::group(['prefix' => 'XetDuyet'], function () {
+        Route::get('ThongTin',[xdhosokhenthuongchuyendeController::class, 'ThongTin']);
+        Route::post('TraLai', [xdhosokhenthuongchuyendeController::class, 'TraLai']);
+        Route::post('NhanHoSo', [xdhosokhenthuongchuyendeController::class, 'NhanHoSo']);
+        Route::post('ChuyenHoSo', [xdhosokhenthuongchuyendeController::class, 'ChuyenHoSo']);
+    });
+    Route::group(['prefix' => 'KhenThuong'], function () {
+        Route::get('ThongTin', [qdhosokhenthuongchuyendeController::class, 'ThongTin']);
+        Route::post('Them', [qdhosokhenthuongchuyendeController::class, 'Them']);
+        Route::get('Sua', [qdhosokhenthuongchuyendeController::class, 'Sua']);
+        Route::post('Sua', [qdhosokhenthuongchuyendeController::class, 'LuuHoSo']);
+        Route::post('Xoa', [qdhosokhenthuongchuyendeController::class, 'XoaHoSo']);
+
+        Route::post('ThemTapThe', [qdhosokhenthuongchuyendeController::class, 'ThemTapThe']);
+        Route::get('XoaTapThe', [qdhosokhenthuongchuyendeController::class, 'XoaTapThe']);
+        Route::post('NhanExcelTapThe', [qdhosokhenthuongchuyendeController::class, 'NhanExcelTapThe']);
+        Route::post('ThemCaNhan', [qdhosokhenthuongchuyendeController::class, 'ThemCaNhan']);
+        Route::get('XoaCaNhan', [qdhosokhenthuongchuyendeController::class, 'XoaCaNhan']);
+        Route::post('NhanExcelCaNhan', [qdhosokhenthuongchuyendeController::class, 'NhanExcelCaNhan']);
+        Route::post('NhanExcelDeTai', [qdhosokhenthuongchuyendeController::class, 'NhanExcelDeTai']);
+
+        
+        Route::get('XetKT', [qdhosokhenthuongchuyendeController::class, 'XetKT']);
+        Route::get('QuyetDinh', [qdhosokhenthuongchuyendeController::class, 'QuyetDinh']);
+        Route::get('TaoDuThao', [qdhosokhenthuongchuyendeController::class, 'DuThaoQuyetDinh']);
+        Route::post('QuyetDinh', [qdhosokhenthuongchuyendeController::class, 'LuuQuyetDinh']);
+        Route::post('PheDuyet', [qdhosokhenthuongchuyendeController::class, 'PheDuyet']);
+        Route::post('GanKhenThuong', [qdhosokhenthuongchuyendeController::class, 'GanKhenThuong']);
+        Route::post('HuyPheDuyet', [qdhosokhenthuongchuyendeController::class, 'HuyPheDuyet']);
+        Route::post('TraLai', [qdhosokhenthuongchuyendeController::class, 'TraLai']);
+
+        //In dữ liệu
+        Route::post('LayDoiTuong', [qdhosokhenthuongchuyendeController::class, 'LayDoiTuong']);
+        Route::get('InQuyetDinh', [qdhosokhenthuongchuyendeController::class, 'InQuyetDinh']);
+        Route::post('InBangKhen', [qdhosokhenthuongchuyendeController::class, 'InBangKhen']);
+        Route::post('InGiayKhen', [qdhosokhenthuongchuyendeController::class, 'InGiayKhen']);
+    });
+});
