@@ -71,7 +71,7 @@
         function getTapThe(id) {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
-                url: "{{ $inputs['url'] }}" + "LayTapThe",
+                url: "{{ $inputs['url_hs'] }}" + "LayTapThe",
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,

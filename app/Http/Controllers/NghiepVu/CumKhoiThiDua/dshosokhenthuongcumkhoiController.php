@@ -11,25 +11,31 @@ use App\Model\DanhMuc\dmdanhhieuthidua;
 use App\Model\DanhMuc\dmdanhhieuthidua_tieuchuan;
 use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
+use App\Model\DanhMuc\dmnhomphanloai_chitiet;
 use App\Model\DanhMuc\dscumkhoi;
 use App\Model\DanhMuc\dscumkhoi_chitiet;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\HeThong\trangthaihoso;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi;
+use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_canhan;
+use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_detai;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_khenthuong;
+use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_tapthe;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_tieuchuan;
-use App\Model\NghiepVu\ThiDuaKhenThuong\dshosokhenthuong_khenthuong;
+use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua;
 use App\Model\View\view_dscumkhoi;
 use App\Model\View\viewdiabandonvi;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
 
 class dshosokhenthuongcumkhoiController extends Controller
 {
     public static $url = '';
     public function __construct()
     {
-        static::$url = '/CumKhoiThiDua/HoSoKhenThuong/';
+        static::$url = '/CumKhoiThiDua/KTCumKhoi/HoSo/';
         $this->middleware(function ($request, $next) {
             if (!Session::has('admin')) {
                 return redirect('/');
@@ -37,18 +43,27 @@ class dshosokhenthuongcumkhoiController extends Controller
             return $next($request);
         });
     }
+
     public function ThongTin(Request $request)
     {
         if (!chkPhanQuyen('dshosokhenthuongcumkhoi', 'danhsach')) {
             return view('errors.noperm')->with('machucang', 'dshosokhenthuongcumkhoi')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
+        $inputs['url_hs'] = '/CumKhoiThiDua/KTCumKhoi/HoSo/';
+        $inputs['url_xd'] = '/CumKhoiThiDua/KTCumKhoi/XetDuyet/';
+        $inputs['url_qd'] = '/CumKhoiThiDua/KTCumKhoi/KhenThuong/';
+
         $m_donvi = getDonViCK(session('admin')->capdo, null, 'MODEL');
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $m_cumkhoi_chitiet = dscumkhoi_chitiet::where('madonvi', $inputs['madonvi'])->get();
         $model = dscumkhoi::wherein('macumkhoi', array_column($m_cumkhoi_chitiet->toarray(), 'macumkhoi'))->get();
+        $m_hoso = dshosotdktcumkhoi::where('madonvi', $inputs['madonvi'])->get();
+        foreach ($model as $ct) {
+            $ct->sohoso = $m_hoso->where('macumkhoi', $ct->macumkhoi)->count();
+        }
         //dd($model);
         return view('NghiepVu.CumKhoiThiDua.HoSoKhenThuong.ThongTin')
             ->with('model', $model)
@@ -62,21 +77,32 @@ class dshosokhenthuongcumkhoiController extends Controller
 
     public function DanhSach(Request $request)
     {
-
         if (!chkPhanQuyen('dshosokhenthuongcumkhoi', 'danhsach')) {
             return view('errors.noperm')->with('machucang', 'dshosokhenthuongcumkhoi')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
+        $inputs['url_hs'] = '/CumKhoiThiDua/KTCumKhoi/HoSo/';
+        $inputs['url_xd'] = '/CumKhoiThiDua/KTCumKhoi/XetDuyet/';
+        $inputs['url_qd'] = '/CumKhoiThiDua/KTCumKhoi/KhenThuong/';
 
         $m_donvi = view_dscumkhoi::where('macumkhoi', $inputs['macumkhoi'])->get();
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $inputs['nam'] = $inputs['nam'] ?? date('Y');
-        //nếu đơn vị trưởng cụm thì thấy tất cả hồ sơ
-        //nếu đơn vị thành viên chỉ thấy hồ sơ của đơn vị mình
-        $model = dshosotdktcumkhoi::where('macumkhoi', $inputs['macumkhoi'])->where('madonvi', $inputs['madonvi'])->get();;
+        $inputs['maloaihinhkt'] = $inputs['maloaihinhkt'] ?? 'ALL';
+
+        $model = dshosotdktcumkhoi::where('macumkhoi', $inputs['macumkhoi'])
+            ->where('madonvi', $inputs['madonvi']);
+        if ($inputs['nam'] != 'ALL') {
+            $model = $model->whereyear('ngayhoso', $inputs['nam']);
+        }
+        if ($inputs['maloaihinhkt'] != 'ALL') {
+            $model = $model->where('maloaihinhkt', $inputs['maloaihinhkt']);
+        }
+        $model = $model->orderby('ngayhoso')->get();
         $m_cumkhoi_chitiet = dscumkhoi_chitiet::where('madonvi', $inputs['madonvi'])->get();
         $m_cumkhoi = dscumkhoi::wherein('macumkhoi', array_column($m_cumkhoi_chitiet->toarray(), 'macumkhoi'))->get();
+
         return view('NghiepVu.CumKhoiThiDua.HoSoKhenThuong.DanhSach')
             ->with('model', $model)
             ->with('m_cumkhoi', $m_cumkhoi)
@@ -91,301 +117,116 @@ class dshosokhenthuongcumkhoiController extends Controller
             ->with('pageTitle', 'Danh sách hồ sơ khen thưởng của cụm, khối');
     }
 
-    public function ThayDoi(Request $request)
+    public function Them(Request $request)
     {
-
         if (!chkPhanQuyen('dshosokhenthuongcumkhoi', 'thaydoi')) {
             return view('errors.noperm')->with('machucang', 'dshosokhenthuongcumkhoi')->with('tenphanquyen', 'thaydoi');
         }
-        $m_donvi = dsdonvi::all();
-        $m_diaban = dsdiaban::all();
-        $m_danhhieu = dmdanhhieuthidua::all();
-
         $inputs = $request->all();
-        $inputs['mahosotdkt'] = $inputs['mahosotdkt'] ?? null;
-        $inputs['trangthai'] = $inputs['trangthai'] ?? true;
-        $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $inputs['mahosotdkt'] = (string)getdate()[0];
+        $inputs['trangthai'] = 'CC';
+        $inputs['phanloai'] = 'KHENTHUONG';
+        dshosotdktcumkhoi::create($inputs);
+        return redirect(static::$url . 'Sua?mahosotdkt=' . $inputs['mahosotdkt']);
+    }
 
-        if ($model == null) {
-            $model = new dshosotdktcumkhoi();
-            $model->madonvi = $inputs['madonvi'];
-
-            $model->mahosotdkt = (string)getdate()[0];
-            $model->macumkhoi = $inputs['macumkhoi'];
-            $model->ngayhoso = date('Y-m-d');
+    public function ThayDoi(Request $request)
+    {
+        if (!chkPhanQuyen('dshosokhenthuongcumkhoi', 'thaydoi')) {
+            return view('errors.noperm')->with('machucang', 'dshosokhenthuongcumkhoi')->with('tenphanquyen', 'thaydoi');
         }
-        $model->tendonvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first()->tendonvi;
-        $model->tencumkhoi = dscumkhoi::where('macumkhoi', $inputs['macumkhoi'])->first()->tencumkhoi;
-        $model_khenthuong = dshosotdktcumkhoi_khenthuong::where('mahosotdkt', $model->mahosotdkt)->get();
-        $model_tieuchuan = dshosotdktcumkhoi_tieuchuan::where('mahosotdkt', $model->mahosotdkt)->get();
-        //dd( $model);
+        $inputs = $request->all();
+        $inputs['url_hs'] = '/CumKhoiThiDua/KTCumKhoi/HoSo/';
+        $inputs['url_xd'] = '/CumKhoiThiDua/KTCumKhoi/XetDuyet/';
+        $inputs['url_qd'] = '/CumKhoiThiDua/KTCumKhoi/KhenThuong/';
+        $inputs['maloaihinhkt'] = session('chucnang')['dshosokhenthuongcumkhoi']['maloaihinhkt'] ?? 'ALL';
+        $inputs['mahinhthuckt'] = session('chucnang')['dshosokhenthuongcumkhoi']['mahinhthuckt'] ?? 'ALL';
+        $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $model->tendonvi = dsdonvi::where('madonvi', $model->madonvi)->first()->tendonvi;
+        $model->tencumkhoi = dscumkhoi::where('macumkhoi', $model->macumkhoi)->first()->tencumkhoi;
+        $model_canhan = dshosotdktcumkhoi_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
+        $model_tapthe = dshosotdktcumkhoi_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
+        $model_detai = dshosotdktcumkhoi_detai::where('mahosotdkt', $model->mahosotdkt)->get();
+        $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE', 'HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
+        $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
 
         return view('NghiepVu.CumKhoiThiDua.HoSoKhenThuong.ThayDoi')
             ->with('model', $model)
-            ->with('model_khenthuong', $model_khenthuong->where('phanloai', 'CANHAN'))
-            ->with('model_tapthe', $model_khenthuong->where('phanloai', 'TAPTHE'))
-            ->with('model_tieuchuan', $model_tieuchuan)
-            ->with('a_danhhieu', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
-            ->with('a_tieuchuan', array_column(dmdanhhieuthidua_tieuchuan::all()->toArray(), 'tentieuchuandhtd', 'matieuchuandhtd'))
+            ->with('model_canhan', $model_canhan)
+            ->with('model_tapthe', $model_tapthe)
+            ->with('model_detai', $model_detai)
+            ->with('m_canhan', getDoiTuongKhenThuong($model->madonvi))
+            ->with('m_tapthe', getTapTheKhenThuong($model->madonvi))
+            ->with('a_danhhieutd', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
+            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+            ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
+            ->with('a_phongtraotd', array_column(dsphongtraothidua::all()->toArray(), 'noidung', 'maphongtraotd'))
+            ->with('a_tapthe', $a_tapthe)
+            ->with('a_canhan', $a_canhan)
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'Hồ sơ khen thưởng');
+    }
+
+
+    public function XemHoSo(Request $request)
+    {
+        $inputs = $request->all();
+        $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $model->tenphongtraotd = dsphongtraothidua::where('maphongtraotd', $model->maphongtraotd)->first()->noidung ?? '';
+        $model->tencumkhoi = dscumkhoi::where('macumkhoi', $model->macumkhoi)->first()->tencumkhoi ?? '';
+        $model_canhan = dshosotdktcumkhoi_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
+        $model_tapthe = dshosotdktcumkhoi_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
+        $model_detai = dshosotdktcumkhoi_detai::where('mahosotdkt', $model->mahosotdkt)->get();
+        $a_phanloaidt = array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai');
+        $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
+
+        return view('NghiepVu.CumKhoiThiDua.HoSoKhenThuong.Xem')
+            ->with('model', $model)
+            ->with('model_canhan', $model_canhan)
+            ->with('model_tapthe', $model_tapthe)
+            ->with('model_detai', $model_detai)
+            ->with('m_donvi', $m_donvi)
+            ->with('a_phanloaidt', $a_phanloaidt)
+            ->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
             ->with('inputs', $inputs)
-            ->with('m_donvi', $m_donvi)
-            ->with('m_diaban', $m_diaban)
-            ->with('m_danhhieu', $m_danhhieu)
-            ->with('pageTitle', 'Hồ sơ khen thưởng');
+            ->with('pageTitle', 'Thông tin hồ sơ đề nghị khen thưởng');
     }
 
     public function LuuHoSo(Request $request)
     {
-
         if (!chkPhanQuyen('dshosokhenthuongcumkhoi', 'thaydoi')) {
             return view('errors.noperm')->with('machucang', 'dshosokhenthuongcumkhoi')->with('tenphanquyen', 'thaydoi');
         }
-        //dd($request->all());
         $inputs = $request->all();
-
+        if (isset($inputs['totrinh'])) {
+            $filedk = $request->file('totrinh');
+            $inputs['totrinh'] = $inputs['mahosotdkt'] . '_totrinh.' . $filedk->getClientOriginalExtension();
+            $filedk->move(public_path() . '/data/totrinh/', $inputs['totrinh']);
+        }
         if (isset($inputs['baocao'])) {
             $filedk = $request->file('baocao');
-            $inputs['baocao'] = $filedk->getClientOriginalExtension();
+            $inputs['baocao'] = $inputs['mahosotdkt'] . '_baocao.' . $filedk->getClientOriginalExtension();
             $filedk->move(public_path() . '/data/baocao/', $inputs['baocao']);
         }
         if (isset($inputs['bienban'])) {
             $filedk = $request->file('bienban');
-            $inputs['bienban'] = $filedk->getClientOriginalExtension();
+            $inputs['bienban'] = $inputs['mahosotdkt'] . '_bienban.' . $filedk->getClientOriginalExtension();
             $filedk->move(public_path() . '/data/bienban/', $inputs['bienban']);
         }
         if (isset($inputs['tailieukhac'])) {
             $filedk = $request->file('tailieukhac');
-            $inputs['tailieukhac'] = $filedk->getClientOriginalExtension();
+            $inputs['tailieukhac'] = $inputs['mahosotdkt'] . 'tailieukhac.' . $filedk->getClientOriginalExtension();
             $filedk->move(public_path() . '/data/tailieukhac/', $inputs['tailieukhac']);
         }
-
         $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        if ($model == null) {
-            $inputs['trangthai'] = 'CC';
-            dshosotdktcumkhoi::create($inputs);
-            $trangthai = new trangthaihoso();
-            $trangthai->trangthai = $inputs['trangthai'];
-            $trangthai->madonvi = $inputs['madonvi'];
-            $trangthai->phanloai = 'dshosotdktcumkhoi';
-            $trangthai->mahoso = $inputs['mahosotdkt'];
-            $trangthai->thoigian = date('Y-m-d H:i:s');
-            $trangthai->save();
-        } else {
-            $model->update($inputs);
-        }
+        $model->update($inputs);
 
-        return redirect(static::$url . 'DanhSach?madonvi=' . $inputs['madonvi'] . '&macumkhoi=' . $inputs['macumkhoi']);
+        return redirect(static::$url . 'DanhSach?madonvi=' . $model->madonvi . '&macumkhoi=' .$model->macumkhoi);
     }
 
-    public function Sua(Request $request)
-    {
-
-        if (!chkPhanQuyen('dshosokhenthuongcumkhoi', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dshosokhenthuongcumkhoi')->with('tenphanquyen', 'thaydoi');
-        }
-        $inputs = $request->all();
-        $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        $request->merge(['madonvi' => $model->madonvi, 'macumkhoi' => $model->macumkhoi]);
-        //dd($request->all());
-        return $this->ThayDoi($request);
-    }
-
-    public function ThemDoiTuong(Request $request)
-    {
-        $result = array(
-            'status' => 'fail',
-            'message' => 'error',
-        );
-        if (!Session::has('admin')) {
-            $result = array(
-                'status' => 'fail',
-                'message' => 'permission denied',
-            );
-            die(json_encode($result));
-        }
-        //dd($request);
-        $inputs = $request->all();
-        //$m_danhhieu = dmdanhhieuthidua::where('madanhhieutd', $inputs['madanhhieutd'])->first();
-        //Chưa tối ưu và tìm kiếm trùng đối tượng
-
-        $model = dshosotdktcumkhoi_khenthuong::where('madoituong', $inputs['madoituong'])
-            ->where('madanhhieutd', $inputs['madanhhieutd'])
-            ->where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        if ($model == null) {
-            $model = new dshosotdktcumkhoi_khenthuong();
-            $model->madoituong = getdate()[0];
-            $model->mahosotdkt = $inputs['mahosotdkt'];
-            $model->phanloai = 'CANHAN';
-            $model->madonvi = $inputs['madonvi'];
-            $model->madanhhieutd = $inputs['madanhhieutd'];
-            $model->ngaysinh = $inputs['ngaysinh'];
-            $model->gioitinh = $inputs['gioitinh'];
-            $model->chucvu = $inputs['chucvu'];
-            $model->maccvc = $inputs['maccvc'];
-            $model->lanhdao = $inputs['lanhdao'];
-            $model->tendoituong = $inputs['tendoituong'];
-            $model->mahinhthuckt = $inputs['mahinhthuckt'];
-            $model->save();
-        } else {
-            $model->madanhhieutd = $inputs['madanhhieutd'];
-            $model->ngaysinh = $inputs['ngaysinh'];
-            $model->gioitinh = $inputs['gioitinh'];
-            $model->chucvu = $inputs['chucvu'];
-            $model->maccvc = $inputs['maccvc'];
-            $model->tendoituong = $inputs['tendoituong'];
-            $model->mahinhthuckt = $inputs['mahinhthuckt'];
-            $model->save();
-        }
-
-        $modelct = dshosotdktcumkhoi_khenthuong::where('mahosotdkt', $inputs['mahosotdkt'])
-            ->where('phanloai', 'CANHAN')->get();
-
-        $result = $this->returnHTMLCaNhan($modelct);
-
-        die(json_encode($result));
-    }
-
-    function returnHTMLCaNhan($modelct)
-    {
-        $result = [];
-        if (isset($modelct)) {
-            $result['message'] = '<div class="row" id="dskhenthuong">';
-            $result['message'] .= '<div class="col-md-12">';
-            $result['message'] .= '<table id="sample_3" class="table table-striped table-bordered table-hover" >';
-            $result['message'] .= '<thead>';
-            $result['message'] .= '<tr>';
-            $result['message'] .= '<th width="2%" style="text-align: center">STT</th>';
-            $result['message'] .= '<th style="text-align: center">Tên đối tượng</th>';
-            $result['message'] .= '<th style="text-align: center" width="8%">Ngày sinh</th>';
-            $result['message'] .= '<th style="text-align: center" width="5%">Giới tính</th>';
-            $result['message'] .= '<th style="text-align: center" width="15%">Chức vụ</th>';
-            $result['message'] .= '<th style="text-align: center" width="15%">Tên danh hiệu<br>đăng ký</th>';
-            $result['message'] .= '<th style="text-align: center" width="15%">Hình thức<br>khen thưởng</th>';
-            $result['message'] .= '<th style="text-align: center" width="10%">Thao tác</th>';
-            $result['message'] .= '</tr>';
-            $result['message'] .= '</thead>';
-
-            $result['message'] .= '<tbody>';
-            $key = 1;
-            $a_danhhieu = array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd');
-            $a_hinhthuc = array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt');
-            foreach ($modelct as $ct) {
-                $result['message'] .= '<tr>';
-                $result['message'] .= '<td style="text-align: center">' . $key++ . '</td>';
-                $result['message'] .= '<td>' . $ct->tendoituong . '</td>';
-                $result['message'] .= '<td>' . getDayVn($ct->ngaysinh) . '</td>';
-                $result['message'] .= '<td style="text-align: center">' . $ct->gioitinh . '</td>';
-                $result['message'] .= '<td style="text-align: center">' . $ct->chucvu . '</td>';
-                $result['message'] .= '<td style="text-align: center">' . ($a_danhhieu[$ct->madanhhieutd] ?? '') . '</td>';
-                $result['message'] .= '<td style="text-align: center">' . ($a_hinhthuc[$ct->mahinhthuckt] ?? '') . '</td>';
-                $result['message'] .= '<td>' .
-                    '<button title="Tiêu chuẩn" type="button" onclick="getTieuChuan(' . $ct->madoituong . ',' . $ct->madanhhieutd . ',' . $ct->tendoituong . ')" class="btn btn-sm btn-clean btn-icon" data-target="#modal-tieuchuan" data-toggle="modal"> <i class="icon-lg la fa-list text-primary"></i></button>' .
-                    '<button title="Sửa" type="button" data-target="#modal-create" data-toggle="modal" class="btn btn-sm btn-clean btn-icon" onclick="getCaNhan(&#34;' . $ct->id . '&#34;)"><i class="icon-lg la la fa-edit text-primary"></i></button>' .
-                    '<button title="Xóa" type="button" data-target="#modal-delete-khenthuong" data-toggle="modal" class="btn btn-sm btn-clean btn-icon" onclick="delKhenThuong(&#34;' . $ct->id . '&#34;,&#34;CANHAN&#34;)" ><i class="icon-lg la la fa-trash text-danger"></i></button>' .
-                    '</td>';
-
-                $result['message'] .= '</tr>';
-            }
-            $result['message'] .= '</tbody>';
-            $result['message'] .= '</table>';
-            $result['message'] .= '</div>';
-            $result['message'] .= '</div>';
-            $result['status'] = 'success';
-        }
-        return $result;
-    }
-
-    public function ThemDoiTuongTapThe(Request $request)
-    {
-        $result = array(
-            'status' => 'fail',
-            'message' => 'error',
-        );
-        if (!Session::has('admin')) {
-            $result = array(
-                'status' => 'fail',
-                'message' => 'permission denied',
-            );
-            die(json_encode($result));
-        }
-        //dd($request);
-        $inputs = $request->all();
-        $m_donvi = DSDonVi::where('madonvi', $inputs['matapthe'])->first();
-        //Chưa tối ưu và tìm kiếm trùng đối tượng
-        $model = dshosotdktcumkhoi_khenthuong::where('matapthe', $inputs['matapthe'])
-            ->where('madanhhieutd', $inputs['madanhhieutd'])
-            ->where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        if ($model == null) {
-            $model = new dshosotdktcumkhoi_khenthuong();
-            $model->matapthe = $inputs['matapthe'];
-            $model->mahosotdkt = $inputs['mahosotdkt'];
-            $model->tentapthe = $m_donvi->tendonvi ?? '';
-            $model->phanloai = 'TAPTHE';
-            $model->madonvi = $inputs['madonvi'];
-            $model->madanhhieutd = $inputs['madanhhieutd'];
-            $model->mahinhthuckt = $inputs['mahinhthuckt'];
-            $model->save();
-        } else {
-            $model->madanhhieutd = $inputs['madanhhieutd'];
-            $model->matapthe = $inputs['matapthe'];
-            $model->tentapthe = $m_donvi->tendonvi ?? '';
-            $model->mahinhthuckt = $inputs['mahinhthuckt'];
-            $model->save();
-        }
-
-        $modelct = dshosotdktcumkhoi_khenthuong::where('mahosotdkt', $inputs['mahosotdkt'])
-            ->where('phanloai', 'TAPTHE')
-            ->get();
-
-        $result = $this->returnHTMLTapThe($modelct);
-        die(json_encode($result));
-    }
-
-    public function returnHTMLTapThe($modelct)
-    {
-        $result = [];
-        if (isset($modelct)) {
-
-            $result['message'] = '<div class="row" id="dskhenthuongtapthe">';
-
-            $result['message'] .= '<div class="col-md-12">';
-            $result['message'] .= '<table id="sample_4" class="table table-striped table-bordered table-hover" >';
-            $result['message'] .= '<thead>';
-            $result['message'] .= '<tr>';
-            $result['message'] .= '<th width="5%" style="text-align: center">STT</th>';
-            $result['message'] .= '<th style="text-align: center">Tên đơn vi</th>';
-            $result['message'] .= '<th style="text-align: center" width="30%">Tên danh hiệu<br>đăng ký</th>';
-            $result['message'] .= '<th style="text-align: center" width="10%">Thao tác</th>';
-            $result['message'] .= '</tr>';
-            $result['message'] .= '</thead>';
-
-            $result['message'] .= '<tbody>';
-            $key = 1;
-            $a_danhhieu = array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd');
-            foreach ($modelct as $ct) {
-                $result['message'] .= '<tr>';
-                $result['message'] .= '<td style="text-align: center">' . $key++ . '</td>';
-                $result['message'] .= '<td>' . $ct->tentapthe . '</td>';
-                $result['message'] .= '<td style="text-align: center">' . ($a_danhhieu[$ct->madanhhieutd] ?? '') . '</td>';
-                $result['message'] .= '<td>' .
-                    '<button title="Tiêu chuẩn" type="button" onclick="getTieuChuan(' . $ct->matapthe . ',' . $ct->madanhhieutd . ',' . $ct->tentapthe . ')" class="btn btn-sm btn-clean btn-icon" data-target="#modal-tieuchuan" data-toggle="modal"> <i class="icon-lg la fa-list text-primary"></i></button>' .
-                    '<button type="button" data-target="#modal-edit" data-toggle="modal" class="btn btn-sm btn-clean btn-icon" onclick="getTapThe(' . $ct->id . ')"><i class="icon-lg la fa-edit text-primary"></i></button>' .
-                    '<button type="button" data-target="#modal-delete-khenthuong" data-toggle="modal" class="btn btn-sm btn-clean btn-icon" onclick="delKhenThuong(' . $ct->id . ',TAPTHE)" ><i class="icon-lg la fa-trash text-danger"></i></button>' .
-                    '</td>';
-
-                $result['message'] .= '</tr>';
-            }
-            $result['message'] .= '</tbody>';
-            $result['message'] .= '</table>';
-            $result['message'] .= '</div>';
-            $result['message'] .= '</div>';
-            $result['status'] = 'success';
-        }
-        return $result;
-    }
-
+    //chưa dùng
     public function LayTieuChuan(Request $request)
     {
         $result = array(
@@ -448,6 +289,7 @@ class dshosokhenthuongcumkhoiController extends Controller
         die(json_encode($result));
     }
 
+    //chưa dùng
     public function LuuTieuChuan(Request $request)
     {
         $result = array(
@@ -488,8 +330,7 @@ class dshosokhenthuongcumkhoiController extends Controller
         $model = dshosotdktcumkhoi_tieuchuan::where('madoituong', $inputs['madoituong'])
             ->where('madanhhieutd', $inputs['madanhhieutd'])
             ->where('mahosotdkt', $inputs['mahosotdkt'])->get();
-        $model_tieuchuan = dshosotdktcumkhoi_tieuchuan::where('madanhhieutd', $inputs['madanhhieutd'])
-            ->where('maphongtraotd', $inputs['maphongtraotd'])->get();
+        $model_tieuchuan = dmdanhhieuthidua_tieuchuan::where('madanhhieutd', $inputs['madanhhieutd'])->get();
 
         if (isset($model_tieuchuan)) {
 
@@ -546,18 +387,8 @@ class dshosokhenthuongcumkhoiController extends Controller
         }
 
         $inputs = $request->all();
-        //Chưa tối ưu và tìm kiếm trùng đối tượng
         $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        //dd($inputs);
-
-        $result['message'] = '<div class="col-md-12" id="showlido">';
-        $result['message'] .= $model->lydo;
-
-        $result['message'] .= '</div>';
-        $result['status'] = 'success';
-
-
-        die(json_encode($result));
+        die(json_encode($model));
     }
 
     public function XoaDoiTuong(Request $request)
@@ -575,35 +406,20 @@ class dshosokhenthuongcumkhoiController extends Controller
         }
         //dd($request);
         $inputs = $request->all();
-        $model = dshosokhenthuong_khenthuong::findorfail($inputs['id']);
-
+        $model = dshosotdktcumkhoi_khenthuong::findorfail($inputs['iddelete']);
         $model->delete();
-
-        $modelct = dshosokhenthuong_khenthuong::where('mahosotdkt', $inputs['mahosotdkt'])
-            ->where('phanloai', $inputs['phanloai'])
-            ->get();
-        if ($inputs['phanloai'] == 'CANHAN') {
-            dshosotdktcumkhoi_tieuchuan::where('madanhhieutd', $inputs['madanhhieutd'])
-                ->where('mahosotdkt', $inputs['mahosotdkt'])
-                ->where('madoituong', $model->madoituong)->delete();
-            $result = $this->returnHTMLCaNhan($modelct);
-        } else {
-            dshosotdktcumkhoi_tieuchuan::where('madanhhieutd', $inputs['madanhhieutd'])
-                ->where('mahosotdkt', $inputs['mahosotdkt'])
-                ->where('matapthe', $model->matapthe)->delete();
-            $result = $this->returnHTMLTapThe($modelct);
-        }
-
-        die(json_encode($result));
+        return redirect(static::$url . 'Sua?mahosotdkt=' . $model->mahosotdkt);
     }
 
     public function ChuyenHoSo(Request $request)
     {
-
+        if (!chkPhanQuyen('dshosokhenthuongcumkhoi', 'hoanthanh')) {
+            return view('errors.noperm')->with('machucang', 'dshosokhenthuongcumkhoi')->with('tenphanquyen', 'hoanthanh');
+        }
         $inputs = $request->all();
         $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahoso'])->first();
         $m_donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi_nhan'])->first();
-        //dd($model);
+
         $model->trangthai = 'CD';
         $model->madonvi_nhan = $inputs['madonvi_nhan'];
         $model->thoigian = date('Y-m-d H:i:s');
@@ -619,8 +435,8 @@ class dshosokhenthuongcumkhoiController extends Controller
         $trangthai->mahoso = $model->mahosotdkt;
         $trangthai->thoigian = $model->thoigian;
         $trangthai->save();
-
-        return redirect(static::$url . 'DanhSach?madonvi=' . $model->madonvi . '&macumkhoi=' . $model->macumkhoi);
+        
+        return redirect(static::$url .'DanhSach?madonvi=' . $model->madonvi . '&macumkhoi=' . $model->macumkhoi);
     }
 
     public function LayDoiTuong(Request $request)
@@ -642,36 +458,532 @@ class dshosokhenthuongcumkhoiController extends Controller
         die(json_encode($model));
     }
 
-    public function XemHoSo(Request $request)
+    public function XoaHoSo(Request $request)
     {
-
-        if (!chkPhanQuyen('dshosokhenthuongcumkhoi', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dshosokhenthuongcumkhoi')->with('tenphanquyen', 'thaydoi');
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
         }
-        $m_donvi = dsdonvi::all();
-        $m_diaban = dsdiaban::all();
-        $m_danhhieu = dmdanhhieuthidua::all();
         $inputs = $request->all();
-        $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        $model->tendonvi = $m_donvi->where('madonvi', $model->madonvi)->first()->tendonvi;
-        $model->tencumkhoi = dscumkhoi::where('macumkhoi', $model->macumkhoi)->first()->tencumkhoi;
-        $model_khenthuong = dshosotdktcumkhoi_khenthuong::where('mahosotdkt', $model->mahosotdkt)->get();
-        $model_tieuchuan = dshosotdktcumkhoi_tieuchuan::where('mahosotdkt', $model->mahosotdkt)->get();
-        //dd( $model);
+        $model = dshosotdktcumkhoi::findorfail($inputs['id']);
+        $model->delete();
+        return redirect(static::$url .'DanhSach?madonvi=' . $model->madonvi . '&macumkhoi=' . $model->macumkhoi);
+    }
 
-        return view('NghiepVu.CumKhoiThiDua.HoSoKhenThuong.Xem')
-            ->with('model', $model)
-            ->with('model_khenthuong', $model_khenthuong->where('phanloai', 'CANHAN'))
-            ->with('model_tapthe', $model_khenthuong->where('phanloai', 'TAPTHE'))
-            ->with('model_tieuchuan', $model_tieuchuan)
-            ->with('a_danhhieu', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
-            ->with('a_tieuchuan', array_column(dmdanhhieuthidua_tieuchuan::all()->toArray(), 'tentieuchuandhtd', 'matieuchuandhtd'))
-            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
-            ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
-            ->with('inputs', $inputs)
-            ->with('m_donvi', $m_donvi)
-            ->with('m_diaban', $m_diaban)
-            ->with('m_danhhieu', $m_danhhieu)
-            ->with('pageTitle', 'Hồ sơ khen thưởng');
+    public function ThemCaNhan(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
+        }
+
+        $inputs = $request->all();
+        //$id =  $inputs['id'];       
+        $model = dshosotdktcumkhoi_canhan::where('id', $inputs['id'])->first();
+        unset($inputs['id']);
+        if ($model == null) {
+            dshosotdktcumkhoi_canhan::create($inputs);
+        } else
+            $model->update($inputs);
+        // return response()->json($inputs['id']);
+
+        $model = dshosotdktcumkhoi_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+
+
+        $this->htmlCaNhan($result, $model);
+        return response()->json($result);
+    }
+
+    public function LayCaNhan(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
+        }
+
+        $inputs = $request->all();
+        $model = dshosotdktcumkhoi_canhan::findorfail($inputs['id']);
+        die(json_encode($model));
+    }
+
+    public function XoaCaNhan(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
+        }
+        $inputs = $request->all();
+        $model = dshosotdktcumkhoi_canhan::findorfail($inputs['id']);
+        $model->delete();
+
+        $m_tapthe = dshosotdktcumkhoi_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
+        $this->htmlCaNhan($result, $m_tapthe);
+        return response()->json($result);
+    }
+
+    public function NhanExcelCaNhan(Request $request)
+    {
+        $inputs = $request->all();
+        //dd($inputs);
+        //$model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $filename = $inputs['mahosotdkt'] . '_' . getdate()[0];
+        $request->file('fexcel')->move(public_path() . '/data/uploads/', $filename . '.xlsx');
+        $path = public_path() . '/data/uploads/' . $filename . '.xlsx';
+        $data = [];
+
+        Excel::load($path, function ($reader) use (&$data, $inputs) {
+            $obj = $reader->getExcel();
+            $sheet = $obj->getSheet(0);
+            $data = $sheet->toArray(null, true, true, true); // giữ lại tiêu đề A=>'val';
+        });
+        $a_dm = array();
+
+        for ($i = $inputs['tudong']; $i <= $inputs['dendong']; $i++) {
+            if (!isset($data[$i][$inputs['tendoituong']])) {
+                continue;
+            }
+            $a_dm[] = array(
+                'mahosotdkt' => $inputs['mahosotdkt'],
+                'tendoituong' => $data[$i][$inputs['tendoituong']] ?? '',
+                'mahinhthuckt' => $data[$i][$inputs['mahinhthuckt']] ?? $inputs['mahinhthuckt_md'],
+                'maphanloaicanbo' => $data[$i][$inputs['maphanloaicanbo']] ?? $inputs['maphanloaicanbo_md'],
+                'madanhhieutd' => $data[$i][$inputs['madanhhieutd']] ?? $inputs['madanhhieutd_md'],
+                "gioitinh" => $data[$i][$inputs['madanhhieutd']] ?? 'NAM',
+                'ngaysinh' => $data[$i][$inputs['ngaysinh']] ?? null,
+                'chucvu' => $data[$i][$inputs['chucvu']] ?? '',
+                'tenphongban' => $data[$i][$inputs['tenphongban']] ?? '',
+                'tencoquan' => $data[$i][$inputs['tencoquan']] ?? '',
+            );
+        }
+
+        dshosotdktcumkhoi_canhan::insert($a_dm);
+        File::Delete($path);
+
+        return redirect(static::$url . 'Sua?mahosotdkt=' . $inputs['mahosotdkt']);
+    }
+
+
+    public function ThemTapThe(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
+        }
+
+        $inputs = $request->all();
+        //$id =  $inputs['id'];       
+        $model = dshosotdktcumkhoi_tapthe::where('id', $inputs['id'])->first();
+        unset($inputs['id']);
+        if ($model == null) {
+            dshosotdktcumkhoi_tapthe::create($inputs);
+        } else
+            $model->update($inputs);
+
+        $model = dshosotdktcumkhoi_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+
+        $this->htmlTapThe($result, $model);
+        return response()->json($result);
+    }
+
+    public function LayTapThe(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
+        }
+
+        $inputs = $request->all();
+        $model = dshosotdktcumkhoi_tapthe::findorfail($inputs['id']);
+        die(json_encode($model));
+    }
+
+    public function XoaTapThe(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
+        }
+        $inputs = $request->all();
+        $model = dshosotdktcumkhoi_tapthe::findorfail($inputs['id']);
+        $model->delete();
+
+        $m_tapthe = dshosotdktcumkhoi_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
+        $this->htmlTapThe($result, $m_tapthe);
+        return response()->json($result);
+    }
+
+    public function NhanExcelTapThe(Request $request)
+    {
+        $inputs = $request->all();
+        //dd($inputs);
+        //$model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $filename = $inputs['mahosotdkt'] . '_' . getdate()[0];
+        $request->file('fexcel')->move(public_path() . '/data/uploads/', $filename . '.xlsx');
+        $path = public_path() . '/data/uploads/' . $filename . '.xlsx';
+        $data = [];
+
+        Excel::load($path, function ($reader) use (&$data, $inputs) {
+            $obj = $reader->getExcel();
+            $sheet = $obj->getSheet(0);
+            $data = $sheet->toArray(null, true, true, true); // giữ lại tiêu đề A=>'val';
+        });
+        $a_dm = array();
+
+        for ($i = $inputs['tudong']; $i <= $inputs['dendong']; $i++) {
+            if (!isset($data[$i][$inputs['tentapthe']])) {
+                continue;
+            }
+            $a_dm[] = array(
+                'mahosotdkt' => $inputs['mahosotdkt'],
+                'tentapthe' => $data[$i][$inputs['tentapthe']] ?? '',
+                'mahinhthuckt' => $data[$i][$inputs['mahinhthuckt']] ?? $inputs['mahinhthuckt_md'],
+                'maphanloaitapthe' => $data[$i][$inputs['maphanloaitapthe']] ?? $inputs['maphanloaitapthe_md'],
+                'madanhhieutd' => $data[$i][$inputs['madanhhieutd']] ?? $inputs['madanhhieutd_md'],
+            );
+        }
+        dshosotdktcumkhoi_tapthe::insert($a_dm);
+        File::Delete($path);
+
+        return redirect(static::$url . 'Sua?mahosotdkt=' . $inputs['mahosotdkt']);
+    }
+
+
+    function htmlTapThe(&$result, $model)
+    {
+        if (isset($model)) {
+            $a_hinhthuckt = array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt');
+            $a_danhhieutd = array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd');
+            $a_tapthe = array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai');
+
+            $result['message'] = '<div class="row" id="dskhenthuongtapthe">';
+            $result['message'] .= '<div class="col-md-12">';
+            $result['message'] .= '<table id="sample_4" class="table table-striped table-bordered table-hover">';
+            $result['message'] .= '<thead>';
+            $result['message'] .= '<tr class="text-center">';
+            $result['message'] .= '<th width="5%">STT</th>';
+            $result['message'] .= '<th>Tên tập thể</th>';
+            $result['message'] .= '<th>Phân loại<br>tập thể</th>';
+            $result['message'] .= '<th>Hình thức<br>khen thưởng</th>';
+            $result['message'] .= '<th>Danh hiệu<br>thi đua</th>';
+            $result['message'] .= '<th width="15%">Thao tác</th>';
+            $result['message'] .= '</tr>';
+            $result['message'] .= '</thead>';
+            $result['message'] .= '<tbody>';
+            $i = 1;
+            foreach ($model as $tt) {
+                $result['message'] .= '<tr class="odd gradeX">';
+                $result['message'] .= '<td class="text-center">' . $i++ . '</td>';
+                $result['message'] .= '<td>' . $tt->tentapthe . '</td>';
+                $result['message'] .= '<td>' . ($a_tapthe[$tt->maphanloaitapthe] ?? '') . '</td>';
+                $result['message'] .= '<td class="text-center">' . ($a_hinhthuckt[$tt->mahinhthuckt] ?? '') . '</td>';
+                $result['message'] .= '<td class="text-center">' . ($a_danhhieutd[$tt->madanhhieutd] ?? '') . '</td>';
+                $result['message'] .= '<td class="text-center"><button title="Sửa thông tin" type="button" onclick="getTapThe(' . $tt->id . ')"  class="btn btn-sm btn-clean btn-icon"
+                                                                    data-target="#modal-create-tapthe" data-toggle="modal"><i class="icon-lg la fa-edit text-primary"></i></button>';
+                $result['message'] .= '<button title="Xóa" type="button" onclick="delKhenThuong(' . $tt->id . ', &#39;' . static::$url . 'XoaTapThe&#39;, &#39;TAPTHE&#39;)" class="btn btn-sm btn-clean btn-icon" data-target="#modal-delete-khenthuong" data-toggle="modal">
+                                                                    <i class="icon-lg la fa-trash text-danger"></i></button>';
+
+                $result['message'] .= '</td>';
+                $result['message'] .= '</tr>';
+            }
+            $result['message'] .= '</tbody>';
+            $result['message'] .= '</table>';
+            $result['message'] .= '</div>';
+            $result['message'] .= '</div>';
+
+
+            $result['status'] = 'success';
+        }
+    }
+
+    function htmlCaNhan(&$result, $model)
+    {
+        if (isset($model)) {
+            $a_hinhthuckt = array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt');
+            $a_danhhieutd = array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd');
+            $a_tapthe = array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai');
+
+            $result['message'] = '<div class="row" id="dskhenthuongcanhan">';
+            $result['message'] .= '<div class="col-md-12">';
+            $result['message'] .= '<table id="sample_3" class="table table-striped table-bordered table-hover">';
+            $result['message'] .= '<thead>';
+            $result['message'] .= '<tr class="text-center">';
+            $result['message'] .= '<th width="2%">STT</th>';
+            $result['message'] .= '<th>Tên đối tượng</th>';
+            $result['message'] .= '<th width="8%">Ngày sinh</th>';
+            $result['message'] .= '<th width="5%">Giới</br>tính</th>';
+            $result['message'] .= '<th width="15%">Phân loại cán bộ</th>';
+            $result['message'] .= '<th>Thông tin công tác</th>';
+            $result['message'] .= '<th>Hình thức<br>khen thưởng</th>';
+            $result['message'] .= '<th>Danh hiệu<br>thi đua</th>';
+            $result['message'] .= '<th width="10%">Thao tác</th>';
+            $result['message'] .= '</tr>';
+            $result['message'] .= '</thead>';
+            $result['message'] .= '<tbody>';
+            $i = 1;
+            foreach ($model as $tt) {
+                $result['message'] .= '<tr class="odd gradeX">';
+                $result['message'] .= '<td class="text-center">' . $i++ . '</td>';
+                $result['message'] .= '<td>' . $tt->tendoituong . '</td>';
+                $result['message'] .= '<td class="text-center">' . getDayVn($tt->ngaysinh) . '</td>';
+                $result['message'] .= '<td>' . $tt->gioitinh . '</td>';
+                $result['message'] .= '<td>' . ($a_tapthe[$tt->maphanloaicanbo] ?? '') . '</td>';
+                $result['message'] .= '<td class="text-center">' . $tt->chucvu . ',' . $tt->tenphongban . ',' . $tt->tencoquan . '</td>';
+                $result['message'] .= '<td class="text-center"> ' . ($a_hinhthuckt[$tt->mahinhthuckt] ?? '') . '</td>';
+                $result['message'] .= '<td class="text-center"> ' . ($a_danhhieutd[$tt->madanhhieutd] ?? '') . '</td>';
+
+                $result['message'] .= '<td class="text-center"><button title="Sửa thông tin" type="button" onclick="getCaNhan(' . $tt->id . ')"  class="btn btn-sm btn-clean btn-icon"
+                                                                    data-target="#modal-create" data-toggle="modal"><i class="icon-lg la fa-edit text-primary"></i></button>';
+                $result['message'] .= '<button title="Xóa" type="button" onclick="delKhenThuong(' . $tt->id . ', &#39;' . static::$url . 'XoaCaNhan&#39;, &#39;CANHAN&#39;)" class="btn btn-sm btn-clean btn-icon" data-target="#modal-delete-khenthuong" data-toggle="modal">
+                                                                    <i class="icon-lg la fa-trash text-danger"></i></button>';
+
+                $result['message'] .= '</td>';
+                $result['message'] .= '</tr>';
+            }
+            $result['message'] .= '</tbody>';
+            $result['message'] .= '</table>';
+            $result['message'] .= '</div>';
+            $result['message'] .= '</div>';
+
+
+            $result['status'] = 'success';
+        }
+    }
+
+    public function ThemDeTai(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
+        }
+
+        $inputs = $request->all();
+        //$id =  $inputs['id'];       
+        $model = dshosotdktcumkhoi_detai::where('id', $inputs['id'])->first();
+        unset($inputs['id']);
+        if ($model == null) {
+            dshosotdktcumkhoi_detai::create($inputs);
+        } else
+            $model->update($inputs);
+
+        $model = dshosotdktcumkhoi_detai::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+
+        $this->htmlDeTai($result, $model);
+        return response()->json($result);
+    }
+
+    public function LayDeTai(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
+        }
+
+        $inputs = $request->all();
+        $model = dshosotdktcumkhoi_detai::findorfail($inputs['id']);
+        die(json_encode($model));
+    }
+
+    public function XoaDeTai(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
+        }
+        $inputs = $request->all();
+        $model = dshosotdktcumkhoi_detai::findorfail($inputs['id']);
+        $model->delete();
+
+        $m_tapthe = dshosotdktcumkhoi_detai::where('mahosotdkt', $model->mahosotdkt)->get();
+        $this->htmlDeTai($result, $m_tapthe);
+        return response()->json($result);
+    }
+
+    public function NhanExcelDeTai(Request $request)
+    {
+        $inputs = $request->all();
+        //dd($inputs);
+        //$model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $filename = $inputs['mahosotdkt'] . '_' . getdate()[0];
+        $request->file('fexcel')->move(public_path() . '/data/uploads/', $filename . '.xlsx');
+        $path = public_path() . '/data/uploads/' . $filename . '.xlsx';
+        $data = [];
+
+        Excel::load($path, function ($reader) use (&$data, $inputs) {
+            $obj = $reader->getExcel();
+            $sheet = $obj->getSheet(0);
+            $data = $sheet->toArray(null, true, true, true); // giữ lại tiêu đề A=>'val';
+        });
+        $a_dm = array();
+
+        for ($i = $inputs['tudong']; $i <= $inputs['dendong']; $i++) {
+            if (!isset($data[$i][$inputs['tensangkien']])) {
+                continue;
+            }
+            $a_dm[] = array(
+                'mahosotdkt' => $inputs['mahosotdkt'],
+                'tensangkien' => $data[$i][$inputs['tensangkien']] ?? '',
+                'donvicongnhan' => $data[$i][$inputs['donvicongnhan']] ?? '',
+                'thoigiancongnhan' => $data[$i][$inputs['thoigiancongnhan']] ?? '',
+                'thanhtichdatduoc' => $data[$i][$inputs['thanhtichdatduoc']] ?? '',
+                'tendoituong' => $data[$i][$inputs['tendoituong']] ?? '',
+                'tencoquan' => $data[$i][$inputs['tencoquan']] ?? '',
+                'tenphongban' => $data[$i][$inputs['tenphongban']] ?? '',
+            );
+        }
+        dshosotdktcumkhoi_detai::insert($a_dm);
+        File::Delete($path);
+
+        return redirect(static::$url . 'Sua?mahosotdkt=' . $inputs['mahosotdkt']);
+    }
+
+
+    function htmlDeTai(&$result, $model)
+    {
+        if (isset($model)) {
+            $result['message'] = '<div class="row" id="dsdetai">';
+            $result['message'] .= '<div class="col-md-12">';
+            $result['message'] .= '<table id="sample_5" class="table table-striped table-bordered table-hover">';
+            $result['message'] .= '<thead>';
+            $result['message'] .= '<tr class="text-center">';
+            $result['message'] .= '<th width="5%">STT</th>';
+            $result['message'] .= '<th>Tên đề tài, sáng kiến</th>';
+            $result['message'] .= '<th>Thông tin tác giả</th>';
+            $result['message'] .= '<th width="10%">Thao tác</th>';
+            $result['message'] .= '</tr>';
+            $result['message'] .= '</thead>';
+            $result['message'] .= '<tbody>';
+            $i = 1;
+            foreach ($model as $tt) {
+                $result['message'] .= '<tr class="odd gradeX">';
+                $result['message'] .= '<td class="text-center">' . $i++ . '</td>';
+                $result['message'] .= '<td>' . $tt->tensangkien . '</td>';
+                $result['message'] .= '<td class="text-center">' . $tt->tendoituong . ',' . $tt->tenphongban . ',' . $tt->tencoquan . '</td>';
+
+                $result['message'] .= '<td class="text-center"><button title="Sửa thông tin" type="button" onclick="getDeTai(' . $tt->id . ')"  class="btn btn-sm btn-clean btn-icon"
+                                                                    data-target="#modal-detai" data-toggle="modal"><i class="icon-lg la fa-edit text-primary"></i></button>';
+                $result['message'] .= '<button title="Xóa" type="button" onclick="delDeTai(' . $tt->id . ', &#39;' . static::$url . 'XoaDeTai&#39;)" class="btn btn-sm btn-clean btn-icon" data-target="#modal-delete-detai" data-toggle="modal">
+                                                                    <i class="icon-lg la fa-trash text-danger"></i></button>';
+
+                $result['message'] .= '</td>';
+                $result['message'] .= '</tr>';
+            }
+            $result['message'] .= '</tbody>';
+            $result['message'] .= '</table>';
+            $result['message'] .= '</div>';
+            $result['message'] .= '</div>';
+
+
+            $result['status'] = 'success';
+        }
+    }
+
+    public function TaiLieuDinhKem(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+
+        $inputs = $request->all();
+        $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahs'])->first();
+        $result['message'] = '<div class="modal-body" id = "dinh_kem" >';
+        if ($model->totrinh != '') {
+            $result['message'] .= '<div class="form-group row">';
+            $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Tờ trình:</label>';
+            $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/totrinh/' . $model->totrinh) . '">' . $model->totrinh . '</a ></div>';
+            $result['message'] .= '</div>';
+        }
+        if ($model->qdkt != '') {
+            $result['message'] .= '<div class="form-group row">';
+            $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Quyết định khen thưởng:</label>';
+            $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/qdkt/' . $model->qdkt) . '">' . $model->qdkt . '</a ></div>';
+            $result['message'] .= '</div>';
+        }
+        if ($model->bienban != '') {
+            $result['message'] .= '<div class="form-group row">';
+            $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Biên bản cuộc họp</label>';
+            $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/bienban/' . $model->bienban) . '">' . $model->bienban . '</a ></div>';
+            $result['message'] .= '</div>';
+        }
+        if ($model->tailieukhac != '') {
+            $result['message'] .= '<div class="form-group row">';
+            $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Tài liệu khác</label>';
+            $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/tailieukhac/' . $model->tailieukhac) . '">' . $model->tailieukhac . '</a ></div>';
+            $result['message'] .= '</div>';
+        }
+        $result['message'] .= '</div>';
+        $result['status'] = 'success';
+
+        die(json_encode($result));
     }
 }

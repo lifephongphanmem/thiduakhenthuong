@@ -16,19 +16,27 @@
         jQuery(document).ready(function() {
             TableManaged3.init();
             $('#madonvi').change(function() {
-                window.location.href = '/CumKhoiThiDua/XetDuyetHoSoKhenThuong/ThongTin?madonvi=' + $(
-                        '#madonvi').val() +
-                    '&macumkhoi=' + $('#macumkhoi').val() + '&nam=' + $('#nam').val();
+                window.location.href = "{{ $inputs['url_qd'] }}" + 'ThongTin?madonvi=' + $('#madonvi')
+                    .val() + '&macumkhoi=' + $('#macumkhoi').val() + '&nam=' + $('#nam')
+                    .val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
             });
+
             $('#nam').change(function() {
-                window.location.href = '/CumKhoiThiDua/XetDuyetHoSoKhenThuong/ThongTin?madonvi=' + $(
-                        '#madonvi').val() +
-                    '&macumkhoi=' + $('#macumkhoi').val() + '&nam=' + $('#nam').val();
+                window.location.href = "{{ $inputs['url_qd'] }}" + 'ThongTin?madonvi=' + $('#madonvi')
+                    .val() + '&macumkhoi=' + $('#macumkhoi').val() + '&nam=' + $('#nam')
+                    .val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
             });
+
             $('#macumkhoi').change(function() {
-                window.location.href = '/CumKhoiThiDua/XetDuyetHoSoKhenThuong/ThongTin?madonvi=' + $(
-                        '#madonvi').val() +
-                    '&macumkhoi=' + $('#macumkhoi').val() + '&nam=' + $('#nam').val();
+                window.location.href = "{{ $inputs['url_qd'] }}" + 'ThongTin?madonvi=' + $('#madonvi')
+                    .val() + '&macumkhoi=' + $('#macumkhoi').val() + '&nam=' + $('#nam')
+                    .val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
+            });
+
+            $('#maloaihinhkt').change(function() {
+                window.location.href = "{{ $inputs['url_qd'] }}" + 'ThongTin?madonvi=' + $('#madonvi')
+                    .val() + '&macumkhoi=' + $('#macumkhoi').val() + '&nam=' + $('#nam')
+                    .val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
             });
         });
     </script>
@@ -46,7 +54,7 @@
         </div>
         <div class="card-body">
             <div class="form-group row">
-                <div class="col-md-9">
+                <div class="col-md-5">
                     <label style="font-weight: bold">Đơn vị</label>
                     <select class="form-control select2basic" id="madonvi">
                         @foreach ($m_diaban as $diaban)
@@ -60,13 +68,20 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-5">
+                    <label style="font-weight: bold">Loại hình khen thưởng</label>
+                    {!! Form::select('nam', setArrayAll($a_loaihinhkt), $inputs['maloaihinhkt'], [
+                        'id' => 'maloaihinhkt',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
+                </div>
+                <div class="col-md-2">
                     <label style="font-weight: bold">Năm</label>
                     {!! Form::select('nam', getNam(true), $inputs['nam'], ['id' => 'nam', 'class' => 'form-control select2basic']) !!}
                 </div>
             </div>
             <div class="form-group row">
-                <div class="col-md-9">
+                <div class="col-md-12">
                     <label style="font-weight: bold">Cụm, khối thi đua</label>
                     <select class="form-control select2basic" id="macumkhoi">
                         @foreach ($m_cumkhoi as $cumkhoi)

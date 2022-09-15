@@ -36,7 +36,7 @@
                 <h3 class="card-label text-uppercase">Danh sách hồ sơ trình khen thưởng chuyên đề</h3>
             </div>
             <div class="card-toolbar">
-                @if (chkPhanQuyen('dshosokhenthuongnienhan', 'thaydoi'))
+                @if (chkPhanQuyen('dshosokhenthuongchuyende', 'thaydoi'))
                     <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
                 @endif
@@ -103,7 +103,7 @@
                                         <i class="icon-lg la la-file-download text-dark icon-2x"></i>
                                     </button>
 
-                                    @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']) && chkPhanQuyen('dshosokhenthuongnienhan', 'thaydoi'))
+                                    @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']) && chkPhanQuyen('dshosokhenthuongchuyende', 'thaydoi'))
                                         <a title="Thông tin hồ sơ"
                                             href="{{ url($inputs['url_hs'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
                                             class="btn btn-sm btn-clean btn-icon">

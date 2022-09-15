@@ -26,12 +26,12 @@ use App\Model\View\view_tdkt_canhan;
 use App\Model\View\viewdiabandonvi;
 use Illuminate\Support\Facades\Session;
 
-class khenthuonghosokhenthuongcumkhoiController extends Controller
+class qdhosokhenthuongcumkhoiController extends Controller
 {
     public static $url = '';
     public function __construct()
     {
-        static::$url = '';
+        static::$url = '/CumKhoiThiDua/KTCumKhoi/KhenThuong/';
         $this->middleware(function ($request, $next) {
             if (!Session::has('admin')) {
                 return redirect('/');
@@ -45,13 +45,14 @@ class khenthuonghosokhenthuongcumkhoiController extends Controller
             return view('errors.noperm')->with('machucang', 'qdhosokhenthuongcumkhoi')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
-        $inputs['url_hs'] = '/CumKhoiThiDua/HoSoKhenThuong/';
-        $inputs['url_xd'] = '/CumKhoiThiDua/XetDuyetHoSoKhenThuong/';
-        $inputs['url_qd'] = '/CumKhoiThiDua/KhenThuongHoSoKhenThuong/';
+        $inputs['url_hs'] = '/CumKhoiThiDua/KTCumKhoi/HoSo/';
+        $inputs['url_xd'] = '/CumKhoiThiDua/KTCumKhoi/XetDuyet/';
+        $inputs['url_qd'] = '/CumKhoiThiDua/KTCumKhoi/KhenThuong/';
         $m_donvi = getDonViXetDuyetHoSoCumKhoi(session('admin')->capdo, null, null, 'MODEL');
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
+        $inputs['maloaihinhkt'] = $inputs['maloaihinhkt'] ?? 'ALL';
         $m_cumkhoi = dscumkhoi::where('madonviql', $inputs['madonvi'])->get();
         $inputs['macumkhoi'] = $inputs['macumkhoi'] ?? $m_cumkhoi->first()->macumkhoi;
         //Trường hợp chọn lại đơn vị nhưng mã cụm khối vẫn theo đơn vị cũ
@@ -65,13 +66,20 @@ class khenthuonghosokhenthuongcumkhoiController extends Controller
                     ->where('madonvi_nhan', $inputs['madonvi'])
                     ->orwhere('madonvi_nhan_h', $inputs['madonvi'])
                     ->orwhere('madonvi_nhan_t', $inputs['madonvi'])->get();
-            })->get();
+            });
+        if ($inputs['nam'] != 'ALL') {
+            $model = $model->whereyear('ngayhoso', $inputs['nam']);
+        }
+        if ($inputs['maloaihinhkt'] != 'ALL') {
+            $model = $model->where('maloaihinhkt', $inputs['maloaihinhkt']);
+        }
+        $model = $model->orderby('ngayhoso')->get();
         foreach ($model as $hoso) {
             getDonViChuyen($inputs['madonvi'], $hoso);
             $hoso->soluongkhenthuong = dshosotdktcumkhoi_khenthuong::where('mahosotdkt', $hoso->mahosotdkt)->where('ketqua', '1')->count();
             $hoso->chinhsua = $hoso->madonvi == $inputs['madonvi'] ? true : false;
         }
-        //dd($model);
+        //dd($inputs);
         return view('NghiepVu.CumKhoiThiDua.KhenThuongHoSoKhenThuong.ThongTin')
             ->with('inputs', $inputs)
             ->with('model', $model)

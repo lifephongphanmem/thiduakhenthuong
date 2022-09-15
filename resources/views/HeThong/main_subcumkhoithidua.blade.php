@@ -83,7 +83,7 @@
                             <ul class="menu-subnav">
                                 @if (chkPhanQuyen('dshosokhenthuongcumkhoi', 'phanquyen'))
                                     <li class="menu-item" aria-haspopup="true">
-                                        <a href="{{ url('/CumKhoiThiDua/HoSoKhenThuong/ThongTin') }}" class="menu-link">
+                                        <a href="{{ url('/CumKhoiThiDua/KTCumKhoi/HoSo/ThongTin') }}" class="menu-link">
                                             <i class="menu-bullet menu-bullet-dot">
                                                 <span></span>
                                             </i>
@@ -95,7 +95,7 @@
                                 
                                 @if (chkPhanQuyen('xdhosokhenthuongcumkhoi', 'phanquyen'))
                                     <li class="menu-item" aria-haspopup="true">
-                                        <a href="{{ url('/CumKhoiThiDua/XetDuyetHoSoKhenThuong/ThongTin') }}"
+                                        <a href="{{ url('/CumKhoiThiDua/KTCumKhoi/XetDuyet/ThongTin') }}"
                                             class="menu-link">
                                             <i class="menu-bullet menu-bullet-dot">
                                                 <span></span>
@@ -108,7 +108,7 @@
 
                                 @if (chkPhanQuyen('qdhosokhenthuongcumkhoi', 'phanquyen'))
                                     <li class="menu-item" aria-haspopup="true">
-                                        <a href="{{ url('/CumKhoiThiDua/KhenThuongHoSoKhenThuong/ThongTin') }}"
+                                        <a href="{{ url('/CumKhoiThiDua/KTCumKhoi/KhenThuong/ThongTin') }}"
                                             class="menu-link">
                                             <i class="menu-bullet menu-bullet-dot">
                                                 <span></span>

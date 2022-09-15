@@ -42,7 +42,7 @@
                 <h3 class="card-label text-uppercase">Danh sách hồ sơ trình khen thưởng chuyên đề</h3>
             </div>
             <div class="card-toolbar">
-                @if (chkPhanQuyen('qdhosokhenthuongnienhan', 'thaydoi'))
+                @if (chkPhanQuyen('qdhosokhenthuongchuyende', 'thaydoi'))
                     <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
                 @endif
@@ -112,7 +112,7 @@
                                         data-toggle="modal">
                                         <i class="icon-lg la la-file-download text-dark icon-2x"></i></button>
 
-                                    @if (chkPhanQuyen('qdhosokhenthuongnienhan', 'thaydoi'))
+                                    @if (chkPhanQuyen('qdhosokhenthuongchuyende', 'thaydoi'))
                                         @if ($tt->trangthai == 'CXKT')
                                             @if ($tt->chinhsua)
                                                 <a href="{{ url($inputs['url_qd'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"

@@ -64,7 +64,7 @@
                         <!--begin::Logo-->
                         <a href="/">
                             <img alt="Logo" src="{{ url('assets/media/logos/LoGo_TDKT.jpg') }}"
-                                class="max-h-50px" />
+                                class="max-h-35px" />
                         </a>
                         <!--end::Logo-->
                     </div>

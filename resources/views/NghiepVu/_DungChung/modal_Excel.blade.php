@@ -55,7 +55,6 @@
                                         'enctype' => 'multipart/form-data',
                                     ]) !!}
                                     <input type="hidden" name="mahosotdkt" value="{{ $model->mahosotdkt }}" />
-                                    <input type="hidden" name="url" value="{{ $inputs['url'] }}" />
                                     <div class="form-group row">
                                         <div class="col-md-3">
                                             <label class="control-label">Tên đơn vị / tập thể</label>
@@ -143,7 +142,6 @@
                                         'enctype' => 'multipart/form-data',
                                     ]) !!}
                                     <input type="hidden" name="mahosotdkt" value="{{ $model->mahosotdkt }}" />
-                                    <input type="hidden" name="url" value="{{ $inputs['url'] }}" />
                                     <div class="form-group row">
                                         <div class="col-md-3">
                                             <label class="control-label">Tên đối tượng</label>

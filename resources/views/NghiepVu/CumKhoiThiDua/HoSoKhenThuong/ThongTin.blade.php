@@ -16,7 +16,8 @@
         jQuery(document).ready(function() {
             TableManaged3.init();
             $('#madonvi').change(function() {
-                window.location.href = '/CumKhoiThiDua/HoSoKhenThuong/ThongTin?madonvi=' + $('#madonvi').val();
+                window.location.href = '/CumKhoiThiDua/HoSoKhenThuong/ThongTin?madonvi=' + $('#madonvi')
+                    .val();
             });
         });
     </script>
@@ -24,14 +25,14 @@
 
 @section('content')
     <!--begin::Card-->
-    <div class="card card-custom wave wave-animate-slow wave-primary" style="min-height: 600px">
+    <div class="card card-custom wave wave-animate-slow wave-primary">
         <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Danh sách cụm khối thi đua</h3>
+                <h3 class="card-label text-uppercase">Danh sách cụm khối thi đua của đơn vị</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
-                
+
                 <!--end::Button-->
             </div>
         </div>
@@ -55,8 +56,7 @@
 
             <div class="form-group row">
                 <div class="col-md-12">
-
-                    <table class="table table-striped table-bordered table-hover" id="sample_3">
+                    <table class="table table-bordered table-hover" id="sample_3">
                         <thead>
                             <tr class="text-center">
                                 <th width="5%">STT</th>
@@ -76,11 +76,16 @@
                                 <td>{{ $a_donvi[$tt->madonviql] ?? '' }}</td>
                                 <td class=" text-center">
                                     @if (chkPhanQuyen('dshosokhenthuongcumkhoi', 'thaydoi'))
-                                        <a title="Danh sách chi tiết"
-                                            href="{{ url('/CumKhoiThiDua/HoSoKhenThuong/DanhSach/?macumkhoi=' . $tt->macumkhoi.'&madonvi='.$inputs['madonvi']) }}"
-                                            class="btn btn-sm btn-clean btn-icon">
-                                            <i class="icon-lg la la-clipboard-list text-dark"></i></a>                                        
-                                    @endif                                    
+                                        <a href="{{ url($inputs['url_hs'] . 'DanhSach?macumkhoi=' . $tt->macumkhoi .'&madonvi='.$inputs['madonvi']) }}"
+                                            class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
+                                            title="Thông tin hồ sơ khen thưởng">
+                                            <span class="svg-icon svg-icon-xl">
+                                                <i class="icon-lg la flaticon-folder text-dark icon-2x"></i>
+                                            </span>
+                                            <span
+                                                class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->sohoso }}</span>
+                                        </a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
