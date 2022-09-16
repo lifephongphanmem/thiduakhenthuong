@@ -57,6 +57,8 @@ class qdhosokhenthuongcumkhoiController extends Controller
         $inputs['macumkhoi'] = $inputs['macumkhoi'] ?? $m_cumkhoi->first()->macumkhoi;
         //Trường hợp chọn lại đơn vị nhưng mã cụm khối vẫn theo đơn vị cũ
         $inputs['macumkhoi'] = $m_cumkhoi->where('macumkhoi', $inputs['macumkhoi'])->first() != null ? $inputs['macumkhoi'] : $m_cumkhoi->first()->macumkhoi;
+        $inputs['tendvcqhienthi'] = $m_donvi->where('madonvi', $inputs['madonvi'])->first()->tendvcqhienthi;
+        $inputs['capdo'] = $m_donvi->where('madonvi', $inputs['madonvi'])->first()->capdo;
         //$donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         //$capdo = $donvi->capdo ?? '';
         //dd($inputs);

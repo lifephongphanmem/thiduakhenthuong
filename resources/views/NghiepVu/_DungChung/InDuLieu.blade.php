@@ -127,10 +127,7 @@
 {!! Form::close() !!}
 
 <script>
-    function setPheDuyet(mahosotdkt) {
-        $('#frm_PheDuyet').find("[name='mahosotdkt']").val(mahosotdkt);
-    }
-
+    
     function setInDuLieu(mahosotdkt, maphongtraotd, trangthai) {
         $('#div_inDuLieu').hide();
         $('#frm_InDuLieu').find("[name='mahosotdkt']").val(mahosotdkt);
@@ -166,7 +163,11 @@
         });
     }
 
-    function setHuyPheDuyet(mahosotdkt) {
-        $('#frm_HuyPheDuyet').find("[name='mahosotdkt']").val(mahosotdkt);
-    }
+    // function setPheDuyet(mahosotdkt) {
+    //     $('#frm_PheDuyet').find("[name='mahosotdkt']").val(mahosotdkt);
+    // }
+
+    // function setHuyPheDuyet(mahosotdkt) {
+    //     $('#frm_HuyPheDuyet').find("[name='mahosotdkt']").val(mahosotdkt);
+    // }
 </script>
