@@ -93,6 +93,7 @@
 </div>
 
 <script>
+    
     function confirmDoiTuong(id, url) {
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 

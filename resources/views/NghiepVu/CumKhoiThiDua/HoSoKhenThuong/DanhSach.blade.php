@@ -141,19 +141,22 @@
                                         <a title="Hồ sơ đăng ký phong trào"
                                             href="{{ url($inputs['url_hs'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
                                             class="btn btn-sm btn-clean btn-icon">
-                                            <i class="icon-lg la flaticon-edit-1 text-success icon-2x"></i></a>
+                                            <i class="icon-lg la flaticon-edit-1 text-success icon-2x"></i>
+                                        </a>
 
                                         <button title="Trình hồ sơ đăng ký" type="button"
-                                            onclick="confirmChuyen('{{ $tt->mahosotdkt }}','{{$inputs['url_hs'].'ChuyenHoSo'}}')"
+                                            onclick="confirmChuyen('{{ $tt->mahosotdkt }}','{{ $inputs['url_hs'] . 'ChuyenHoSo' }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#chuyen-modal-confirm"
                                             data-toggle="modal">
-                                            <i class="icon-lg la fa-share text-primary icon-2x"></i></button>
+                                            <i class="icon-lg la fa-share text-primary icon-2x"></i>
+                                        </button>
 
                                         <button type="button"
-                                            onclick="confirmDelete('{{ $tt->id }}','{{$inputs['url_hs'].'Xoa'}}')"
+                                            onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url_hs'] . 'Xoa' }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal"
                                             data-toggle="modal">
-                                            <i class="icon-lg la fa-trash text-danger icon-2x"></i></button>
+                                            <i class="icon-lg la fa-trash text-danger icon-2x"></i>
+                                        </button>
                                         {{-- @else
                                         <a title="Hồ sơ khen thưởng"
                                             href="{{ url('/CumKhoiThiDua/HoSoKhenThuong/Xem?mahosotdkt=' . $tt->mahosotdkt) }}"
@@ -175,10 +178,11 @@
 
                                     @if ($tt->trangthai == 'BTL')
                                         <button title="Lý do hồ sơ bị trả lại" type="button"
-                                            onclick="viewLiDo('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}')"
-                                            class="btn btn-sm btn-clean btn-icon" data-target="#lydo-show"
+                                            onclick="viewLyDo('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}', '{{ $inputs['url_hs'] . 'LayLyDo' }}')"
+                                            class="btn btn-sm btn-clean btn-icon" data-target="#tralai-modal"
                                             data-toggle="modal">
-                                            <i class="icon-lg la fa-archive text-info"></i></button>
+                                            <i class="icon-lg la fa-archive text-dark icon-2x"></i>
+                                        </button>
                                     @endif
                                 </td>
                             </tr>

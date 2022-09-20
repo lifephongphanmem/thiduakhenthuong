@@ -116,6 +116,7 @@
 <script>
     function setCaNhan() {
         $('#frm_ThemCaNhan').find("[name='id']").val('-1');
+        $('#frm_ThemCaNhan').find("[name='ketqua']").val('1').trigger('change');
     }
 
     function getCaNhan(id) {

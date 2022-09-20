@@ -119,7 +119,7 @@
                                         <i class="icon-lg la la-file-download text-dark icon-2x"></i>
                                     </button>
 
-                                    @if (in_array($tt->trangthai_hoso, ['CD']) && chkPhanQuyen('xdhosokhenthuongcumkhoi', 'hoanthanh'))
+                                    @if (in_array($tt->trangthai_hoso, ['CD','BTLXD']) && chkPhanQuyen('xdhosokhenthuongcumkhoi', 'hoanthanh'))
                                         <button title="Trả lại hồ sơ" type="button"
                                             onclick="confirmTraLai('{{ $tt->mahosotdkt }}', '{{ $inputs['madonvi'] }}','{{ $inputs['url_xd'] . 'TraLai' }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#modal-tralai"

@@ -54,5 +54,14 @@ class dshosotdktcumkhoi extends Model
         'thongtin_tw', //chưa dùng
         'trangthai_tw',
         'thoigian_tw',
+        //mới thêm ngày 20.09.22
+        'soqd',
+        'ngayqd',
+        'donvikhenthuong',
+        'capkhenthuong',
+        'chucvunguoikyqd',
+        'hotennguoikyqd',
+        'thongtinquyetdinh',
+
     ];
 }

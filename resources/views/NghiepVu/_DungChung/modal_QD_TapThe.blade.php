@@ -86,6 +86,7 @@
     <script>
         function setTapThe() {
             $('#frm_ThemTapThe').find("[name='id']").val('-1');
+            $('#frm_ThemTapThe').find("[name='ketqua']").val('1').trigger('change');
         }
 
         function getTapThe(id) {
@@ -121,7 +122,7 @@
                 contentType: false,
                 data: formData,
                 success: function(data) {
-                    //console.log(data);               
+                    console.log(data);               
                     if (data.status == 'success') {
                         $('#dskhenthuongtapthe').replaceWith(data.message);
                         TableManaged4.init();

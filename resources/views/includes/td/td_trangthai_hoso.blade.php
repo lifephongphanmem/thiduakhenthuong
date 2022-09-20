@@ -9,18 +9,18 @@
     </td>
 @elseif($tt->trangthai == 'BTL')
     <td align="center">
-        <span class="badge badge-danger">Bị trả lại</span><br>&nbsp;
+        <span class="badge badge-danger">Bị trả<br>lại</span>
     </td>
 @elseif($tt->trangthai == 'BTLXD')
     <td align="center">
-        <span class="badge badge-danger">Trả lại xét duyệt</span><br>&nbsp;
+        <span class="badge badge-danger">Trả lại<br>xét duyệt</span>
     </td>
 @elseif($tt->trangthai == 'CNXKT')
     <td align="center"><span class="badge badge-warning">Chờ nhận để xét khen thưởng</span>
         <br>Thời gian chuyển:<br><b>{{ getDayVn($tt->thoigian) }}</b>
     </td>
 @elseif($tt->trangthai == 'CXKT')
-    <td align="center"><span class="badge badge-warning">Chờ xét khen thưởng</span>
+    <td align="center"><span class="badge badge-warning">Chờ xét<br>khen thưởng</span>
         <br>Thời gian:<br><b>{{ getDayVn($tt->thoigian) }}</b>
     </td>
 @elseif($tt->trangthai == 'CXD')
@@ -28,11 +28,11 @@
     </td>
 @elseif($tt->trangthai == 'DKT')
     <td align="center">
-        <span class="badge badge-success">Đã khen thưởng</span>
+        <span class="badge badge-success">Đã khen<br>thưởng</span>
         <br>Thời gian:<br><b>{{ getDayVn($tt->thoigian) }}</b>
     </td>
 @elseif($tt->trangthai == 'DXKT')
-    <td align="center"><span class="badge badge-warning">Đang xét khen thưởng</span>
+    <td align="center"><span class="badge badge-warning">Đang xét<br>khen thưởng</span>
     </td>
 @else
     <td align="center">
