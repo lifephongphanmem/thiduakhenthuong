@@ -18,15 +18,14 @@
             $('#madonvi').change(function() {
                 window.location.href = '/KhenCao/HoSo/ThongTin?madonvi=' + $(
                         '#madonvi').val() +
-                    '&nam=' + $('#nam').val() ;
+                    '&nam=' + $('#nam').val();
             });
             $('#nam').change(function() {
                 window.location.href = '/KhenCao/HoSo/ThongTin?madonvi=' + $(
                         '#madonvi').val() +
-                    '&nam=' + $('#nam').val() ;
+                    '&nam=' + $('#nam').val();
             });
-        });        
-    
+        });
     </script>
 @stop
 
@@ -35,12 +34,12 @@
     <div class="card card-custom wave wave-animate-slow wave-info" style="min-height: 600px">
         <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Danh sách hồ sơ khen cao</h3>
+                <h3 class="card-label text-uppercase">Danh sách hồ sơ đề nghị khen cao</h3>
             </div>
             <div class="card-toolbar">
-                @if (chkPhanQuyen('dshosokhencao', 'modify'))
-                <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
-                    <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
+                @if (chkPhanQuyen('dshosokhencao', 'thaydoi'))
+                    <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
+                        <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
                 @endif
             </div>
         </div>
@@ -60,6 +59,13 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="col-md-5">
+                    <label style="font-weight: bold">Loại hình khen thưởng</label>
+                    {!! Form::select('nam', setArrayAll($a_loaihinhkt), $inputs['maloaihinhkt'], [
+                        'id' => 'maloaihinhkt',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
+                </div>
                 <div class="col-md-2">
                     <label style="font-weight: bold">Năm</label>
                     {!! Form::select('nam', getNam(true), $inputs['nam'], ['id' => 'nam', 'class' => 'form-control select2basic']) !!}
@@ -73,6 +79,7 @@
                             <tr class="text-center">
                                 <th width="5%">STT</th>
                                 <th>Nội dung hồ sơ</th>
+                                <th>Hình thức khen thưởng</th>
                                 <th width="8%">Trạng thái</th>
                                 <th width="10%">Thao tác</th>
                             </tr>
@@ -82,32 +89,32 @@
                             <tr>
                                 <td class="text-center">{{ $key + 1 }}</td>
                                 <td>{{ $tt->noidung }}</td>
+                                <td>{{ $tt->mahinhthuckt }}</td>
                                 @include('includes.td.td_trangthai_hoso')
 
                                 <td style="text-align: center">
                                     @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']))
                                         <a title="Thông tin hồ sơ"
-                                            href="{{ url('/KhenCao/HoSo/Sua?mahosokt=' . $tt->mahosokt) }}"
+                                            href="{{ url($inputs['url'] . 'Sua?mahosokt=' . $tt->mahosokt) }}"
                                             class="btn btn-sm btn-clean btn-icon">
                                             <i class="icon-lg la fa-check-square text-primary"></i></a>
 
                                         <button title="Hoàn thành hồ sơ" type="button"
-                                            onclick="confirmNhan('{{ $tt->mahosokt }}','/KhenCao/HoSo/NhanHoSo','')"
+                                            onclick="confirmNhan('{{ $tt->mahosokt }}','{{ $inputs['url'] . 'NhanHoSo' }}','')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#nhan-modal-confirm"
                                             data-toggle="modal">
                                             <i class="icon-lg la fa-share text-primary"></i></button>
 
                                         <button type="button"
-                                            onclick="confirmDelete('{{ $tt->id }}','/KhenCao/HoSo/Xoa')"
+                                            onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url'] . 'Xoa' }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal"
                                             data-toggle="modal">
                                             <i class="icon-lg la fa-trash text-danger"></i></button>
                                     @else
                                         <a title="Thông tin hồ sơ"
-                                            href="{{ url('/KhenCao/HoSo/Xem?mahosokt=' . $tt->mahosokt) }}"
+                                            href="{{ url($inputs['url'] . 'Xem?mahosokt=' . $tt->mahosokt) }}"
                                             class="btn btn-sm btn-clean btn-icon" target="_blank">
                                             <i class="icon-lg la fa-eye text-dark"></i></a>
-                                       
                                     @endif
                                 </td>
                             </tr>
@@ -118,7 +125,7 @@
         </div>
     </div>
     <!--end::Card-->
-    
+
     <!--Modal Tạo hồ sơ-->
     {!! Form::open(['url' => '/KhenCao/HoSo/Them', 'id' => 'frm_hoso']) !!}
     <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
@@ -141,7 +148,7 @@
                     <div class="form-group row">
                         <div class="col-lg-12">
                             <label>Nội dung hồ sơ</label>
-                            {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows'=>3]) !!}
+                            {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows' => 3]) !!}
                         </div>
                     </div>
                 </div>
