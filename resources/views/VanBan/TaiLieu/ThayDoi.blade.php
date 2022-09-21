@@ -33,30 +33,31 @@
         {{ Form::hidden('mavanban', null, ['id' => 'mavanban']) }}
         <div class="card-body">
             <div class="form-group row">
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <label class="control-label">Loại văn bản</label>
                     {!! Form::select('loaivb', getLoaiVanBan(), null, ['class' => 'form-control select2basic']) !!}
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-9">
                     <label class="control-label">Đơn vị ban hành<span class="require">*</span></label>
                     {!! Form::text('dvbanhanh', null, ['id' => 'dvbanhanh', 'class' => 'form-control required']) !!}
                 </div>
             </div>
 
             <div class="form-group row">
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <label class="control-label">Ký hiệu văn bản<span class="require">*</span></label>
                     {!! Form::text('kyhieuvb', null, ['id' => 'kyhieuvb', 'class' => 'form-control required']) !!}
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <label class="control-label">Ngày ban hành</label>
-                    {!! Form::input('date', 'ngaybanhanh', null, ['class' => 'form-control', 'required']) !!}
+                    {!! Form::input('date', 'ngayqd', null, ['class' => 'form-control', 'required']) !!}
                 </div>
                 <!--/span-->
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <label class="control-label">Ngày áp dụng</label>
                     {!! Form::input('date', 'ngayapdung', null, ['class' => 'form-control', 'required']) !!}
                 </div>
+               
                 <!--/span-->
             </div>
 
@@ -64,6 +65,18 @@
                 <div class="col-lg-12">
                     <label>Mô tả văn bản</label>
                     {!! Form::textarea('tieude', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-3">
+                    <label class="control-label">Tình trạng văn bản</label>
+                    {!! Form::select('tinhtrang', getTrangThaiVanBan(), null, ['class' => 'form-control select2basic']) !!}
+                </div>
+
+                <div class="col-9">
+                    <label>Văn bản bổ sung, thế thế</label>
+                    {!! Form::text('vanbanbosung', null, ['class' => 'form-control']) !!}
                 </div>
             </div>
 

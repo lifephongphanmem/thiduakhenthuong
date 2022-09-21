@@ -16,9 +16,10 @@ class CreateDsquyetdinhkhenthuongTable extends Migration
         Schema::create('dsquyetdinhkhenthuong', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('maquyetdinh')->nullable();
-            $table->string('kyhieuvb')->nullable();
-            $table->string('donvikhenthuong')->nullable();
+            $table->string('soqd')->nullable();
             $table->date('ngayqd')->nullable();
+            $table->string('maloaihinhkt')->nullable();
+            $table->string('donvikhenthuong')->nullable();
             $table->string('capkhenthuong')->nullable();
             $table->string('chucvunguoiky')->nullable();
             $table->string('hotennguoiky')->nullable();

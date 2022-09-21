@@ -16,8 +16,7 @@ function getTenTrangThaiPT($trangthai){
 }
 
 function getLoaiVbQlNn(){
-    $vbqlnn = array(
-        '' => '--Loại văn bản--',
+    $vbqlnn = array(        
         'luat' => 'Luật',
         'nghidinh'=>'Nghị định',
         'nghiquyet'=> 'Nghị quyết',
@@ -32,6 +31,14 @@ function getLoaiVbQlNn(){
     return $vbqlnn;
 }
 
+function getTrangThaiVanBan(){
+    $vbqlnn = array(        
+        'CONHL' => 'Còn hiệu lực',
+        'HETMP'=> 'Hết hiệu lực một phần',
+        'HETHL'=>'Hết hiệu lực',       
+    );
+    return $vbqlnn;
+}
 
 function getPhanLoaiPhongTraoThiDua($all = false)
 {

@@ -25,5 +25,9 @@ class dsvanbanphaply extends Model
         'ipf3',
         'ipf4',
         'ipf5',
+        //21.09.22
+        'tinhtrang',
+        'ngaytinhtrang',
+        'vanbanbosung',
     ];
 }

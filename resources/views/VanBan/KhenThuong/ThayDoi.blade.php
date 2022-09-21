@@ -28,38 +28,51 @@
             </div>
         </div>
 
-        {!! Form::model($model, ['method' => 'POST', 'url' => '/QuanLyVanBan/KhenThuong/Sua', 'class' => 'form', 'id' => 'frm_ThayDoi', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
+        {!! Form::model($model, [
+            'method' => 'POST',
+            'url' => $inputs['url'] . 'Sua',
+            'class' => 'form',
+            'id' => 'frm_ThayDoi',
+            'files' => true,
+            'enctype' => 'multipart/form-data',
+        ]) !!}
         {{-- {{ Form::hidden('madonvi', null, ['id' => 'madonvi']) }} --}}
         {{ Form::hidden('maquyetdinh', null, ['id' => 'maquyetdinh']) }}
         <div class="card-body">
             <div class="form-group row">
-                <div class="col-lg-4">
+                <div class="col-3">
                     <label class="control-label">Cấp độ khen thưởng</label>
                     {!! Form::select('capkhenthuong', getPhamViApDung(), null, ['class' => 'form-control select2basic']) !!}
                 </div>
-                <div class="col-lg-8">
+                <div class="col-9">
                     <label class="control-label">Đơn vị ban hành<span class="require">*</span></label>
                     {!! Form::text('donvikhenthuong', null, ['id' => 'donvikhenthuong', 'class' => 'form-control required']) !!}
                 </div>
             </div>
 
             <div class="form-group row">
-                <div class="col-lg-6">
+                <div class="col-3">
                     <label class="control-label">Ký hiệu văn bản<span class="require">*</span></label>
                     {!! Form::text('kyhieuvb', null, ['id' => 'kyhieuvb', 'class' => 'form-control required']) !!}
                 </div>
-                <div class="col-lg-6">
+                <div class="col-3">
                     <label class="control-label">Ngày ban hành</label>
                     {!! Form::input('date', 'ngayqd', null, ['class' => 'form-control', 'required']) !!}
+                </div>
+                <div class="col-6">
+                    <label class="control-label">Loại hình khen thưởng</label>
+                    {!! Form::select('maloaihinhkt', setArrayAll($a_loaihinhkt, 'Không chọn', ''), null, [
+                        'class' => 'form-control select2basic',
+                    ]) !!}
                 </div>
             </div>
 
             <div class="form-group row">
-                <div class="col-lg-6">
+                <div class="col-3">
                     <label>Chức vụ người ký</label>
                     {!! Form::text('chucvunguoiky', null, ['class' => 'form-control']) !!}
                 </div>
-                <div class="col-lg-6">
+                <div class="col-3">
                     <label>Họ tên người ký</label>
                     {!! Form::text('hotennguoiky', null, ['class' => 'form-control']) !!}
                 </div>
@@ -78,18 +91,17 @@
                     {!! Form::file('ipf1', null, ['id' => 'ipf1', 'class' => 'form-control']) !!}
                     @if ($model->ipf1 != '')
                         <span class="form-control" style="border-style: none">
-                            <a href="{{ url('/data/quyetdinh/' . $model->ipf1) }}"
-                                target="_blank">{{ $model->ipf1 }}</a>
+                            <a href="{{ url('/data/quyetdinh/' . $model->ipf1) }}" target="_blank">{{ $model->ipf1 }}</a>
                         </span>
                     @endif
-                </div>                
+                </div>
             </div>
         </div>
-        
+
         <div class="card-footer">
             <div class="row text-center">
                 <div class="col-lg-12">
-                    <a href="{{ url('/QuanLyVanBan/VanBanPhapLy/ThongTin') }}" class="btn btn-danger mr-5"><i
+                    <a href="{{ url($inputs['url'] . 'ThongTin') }}" class="btn btn-danger mr-5"><i
                             class="fa fa-reply"></i>&nbsp;Quay lại</a>
                     <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i>Hoàn thành</button>
 

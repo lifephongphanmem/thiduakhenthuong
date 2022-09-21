@@ -28,7 +28,7 @@
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
-                @if (chkPhanQuyen('dsquyetdinhkhenthuong', 'modify'))
+                @if (chkPhanQuyen('quyetdinhkhenthuong', 'thaydoi'))
                     <a type="button" href="{{ url('/QuanLyVanBan/KhenThuong/Them') }}" class="btn btn-success btn-xs">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</a>
                 @endif
@@ -39,7 +39,10 @@
             <div class="form-group row">
                 <div class="col-lg-6">
                     <label>Cấp độ khen thưởng</label>
-                    {!! Form::select('capkhenthuong', setArrayAll($a_phamvi), null, ['id' => 'capkhenthuong', 'class' => 'form-control select2basic']) !!}
+                    {!! Form::select('capkhenthuong', setArrayAll($a_phamvi), null, [
+                        'id' => 'capkhenthuong',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
                 </div>
             </div>
 
@@ -52,9 +55,9 @@
                                 <th width="15%">Đơn vị ban hành</th>
                                 <th>Số hiệu<br>văn bản</th>
                                 <th>Nội dung</th>
-                                <th>Ngày<br>ban hành</th>
-                                <th></th>
-                                <th width="15%">Thao tác</th>
+                                <th>Loại hình khen thưởng</th>
+                                <th>Cấp độ</th>
+                                <th width="10%">Thao tác</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,26 +65,29 @@
                                 <tr>
                                     <td style="text-align: center">{{ $key + 1 }}</td>
                                     <td class="active">{{ $tt->donvikhenthuong }}</td>
-                                    <td class="success">{{ $tt->kyhieuvb }}</td>
+                                    <td class="text-center">{{ $tt->soqd }}<br>{{ getDayVn($tt->ngayqd) }}</td>
                                     <td>{{ $tt->tieude }}</td>
-                                    <td style="text-align: center">{{ getDayVn($tt->ngayqd) }}</td>
-                                    <td style="text-align: center">{{ $a_phamvi[$tt->capkhenthuong] ?? ''}}</td>
-                                    <td>                                       
-                                        <button type="button" onclick="get_attack('{{ $tt->maquyetdinh }}')"
+                                    <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? $tt->maloaihinhkt }}</td>
+                                    <td style="text-align: center">{{ $a_phamvi[$tt->capkhenthuong] ?? '' }}</td>
+                                    <td class="text-center">
+                                        <button type="button"
+                                            onclick="get_attack('{{ $tt->maquyetdinh }}','{{ $inputs['url'] . 'TaiLieuDinhKem' }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
                                             data-toggle="modal">
                                             <i class="icon-lg la flaticon-download text-dark"></i></button>
-                                        
-                                        @if (chkPhanQuyen('dsquyetdinhkhenthuong', 'modify'))
-                                            <a href="{{ url('/QuanLyVanBan/KhenThuong/Sua?maquyetdinh=' . $tt->maquyetdinh ) }}"
-                                                class="btn btn-sm btn-clean btn-icon">
-                                                <i class="icon-lg la fa-edit text-dark"></i></a>
 
-                                                <button type="button"
-                                                onclick="confirmDelete('{{ $tt->id }}','/QuanLyVanBan/KhenThuong/Xoa')"
+                                        @if (chkPhanQuyen('quyetdinhkhenthuong', 'thaydoi'))
+                                            <a href="{{ url($inputs['url'] . 'Sua?maquyetdinh=' . $tt->maquyetdinh) }}"
+                                                class="btn btn-sm btn-clean btn-icon">
+                                                <i class="icon-lg la flaticon-edit-1 text-success"></i>
+                                            </a>
+
+                                            <button type="button"
+                                                onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url'] . 'Xoa' }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
                                                 data-toggle="modal">
-                                                <i class="icon-lg la fa-trash text-danger"></i></button>
+                                                <i class="icon-lg la flaticon-delete text-danger"></i>
+                                            </button>
                                         @endif
                                     </td>
                                 </tr>

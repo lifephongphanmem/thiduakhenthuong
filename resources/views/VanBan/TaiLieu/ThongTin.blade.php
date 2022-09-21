@@ -15,6 +15,9 @@
     <script>
         jQuery(document).ready(function() {
             TableManaged3.init();
+            $('#loaivb').change(function() {
+                window.location.href = "{{ $inputs['url'] }}" + "ThongTin?loaivb=" + $('#loaivb').val();
+            });
         });
     </script>
 @stop
@@ -28,9 +31,10 @@
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
-                @if (chkPhanQuyen('dsvanbanphaply', 'modify'))
-                    <a type="button" href="{{ url('/QuanLyVanBan/VanBanPhapLy/Them') }}" class="btn btn-success btn-xs">
-                        <i class="fa fa-plus"></i>&nbsp;Thêm mới</a>
+                @if (chkPhanQuyen('vanbanphaply', 'thaydoi'))
+                    <a type="button" href="{{ url($inputs['url'] . 'Them') }}" class="btn btn-success btn-xs">
+                        <i class="fa fa-plus"></i>&nbsp;Thêm mới
+                    </a>
                 @endif
                 <!--end::Button-->
             </div>
@@ -39,7 +43,10 @@
             <div class="form-group row">
                 <div class="col-lg-6">
                     <label>Loại văn bản</label>
-                    {!! Form::select('loaivb', setArrayAll(getLoaiVanBan()), null, ['id' => 'loaivb', 'class' => 'form-control select2basic']) !!}
+                    {!! Form::select('loaivb', setArrayAll(getLoaiVanBan()), $inputs['loaivb'], [
+                        'id' => 'loaivb',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
                 </div>
             </div>
 
@@ -52,8 +59,8 @@
                                 <th width="15%">Đơn vị ban hành</th>
                                 <th>Số hiệu<br>văn bản</th>
                                 <th>Nội dung</th>
-                                <th>Ngày<br>ban hành</th>
                                 <th>Ngày<br>áp dụng</th>
+                                <th>Trạng thái</th>
                                 <th width="15%">Thao tác</th>
                             </tr>
                         </thead>
@@ -62,26 +69,33 @@
                                 <tr>
                                     <td style="text-align: center">{{ $key + 1 }}</td>
                                     <td class="active">{{ $tt->dvbanhanh }}</td>
-                                    <td class="success">{{ $tt->kyhieuvb }}</td>
+                                    <td class="text-center">{{ $tt->kyhieuvb }}<br>{{ getDayVn($tt->ngayqd) }}</td>
                                     <td>{{ $tt->tieude }}</td>
-                                    <td style="text-align: center">{{ getDayVn($tt->ngaybanhanh) }}</td>
                                     <td style="text-align: center">{{ getDayVn($tt->ngayapdung) }}</td>
-                                    <td>                                       
-                                        <button type="button" onclick="get_attack('{{ $tt->mavanban }}')"
+                                    <td style="text-align: center">{{ $a_tinhtrang[$tt->tinhtrang] ?? '' }}
+                                        @if ($tt->vanbanbosung != '')
+                                            <br>Văn bản bổ sung, thế thế: {{ $tt->vanbanbosung }}
+                                        @endif
+                                    </td>
+                                    <td class="text-center">
+                                        <button type="button" onclick="get_attack('{{ $tt->mavanban }}','{{ $inputs['url'] . 'TaiLieuDinhKem' }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
-                                            data-toggle="modal">
-                                            <i class="icon-lg la flaticon-download text-dark"></i></button>
-                                        
-                                        @if (chkPhanQuyen('dsvanbanphaply', 'modify'))
-                                            <a href="{{ url('/QuanLyVanBan/VanBanPhapLy/Sua?mavanban=' . $tt->mavanban ) }}"
-                                                class="btn btn-sm btn-clean btn-icon">
-                                                <i class="icon-lg la fa-edit text-dark"></i></a>
+                                            data-toggle="modal" title="Tải văn bản">
+                                            <i class="icon-lg la flaticon-download text-dark"></i>
+                                        </button>
 
-                                                <button type="button"
-                                                onclick="confirmDelete('{{ $tt->id }}','/QuanLyVanBan/VanBanPhapLy/Xoa')"
+                                        @if (chkPhanQuyen('vanbanphaply', 'thaydoi'))
+                                            <a href="{{ url($inputs['url'] . 'Sua?mavanban=' . $tt->mavanban) }}"
+                                                class="btn btn-sm btn-clean btn-icon" title="Sửa thông tin">
+                                                <i class="icon-lg la flaticon-edit-1 text-success"></i>
+                                            </a>
+
+                                            <button type="button"
+                                                onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url'] . '/Xoa' }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
-                                                data-toggle="modal">
-                                                <i class="icon-lg la fa-trash text-danger"></i></button>
+                                                data-toggle="modal" title="Xóa văn bản">
+                                                <i class="icon-lg la flaticon-delete text-danger"></i>
+                                            </button>
                                         @endif
                                     </td>
                                 </tr>

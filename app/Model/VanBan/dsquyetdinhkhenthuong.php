@@ -10,9 +10,10 @@ class dsquyetdinhkhenthuong extends Model
     protected $fillable = [
         'id',
         'maquyetdinh',
-        'kyhieuvb',
-        'donvikhenthuong',
+        'soqd',
         'ngayqd',
+        'maloaihinhkt',
+        'donvikhenthuong',
         'capkhenthuong',
         'chucvunguoiky',
         'hotennguoiky',
