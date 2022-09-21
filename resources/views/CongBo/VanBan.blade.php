@@ -16,7 +16,7 @@
         function get_attack_id(id) {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
-                url: '/vanbanqlnnvegia/dinhkem',
+                url: '/CongBo/TaiLieuVanBan',
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,
