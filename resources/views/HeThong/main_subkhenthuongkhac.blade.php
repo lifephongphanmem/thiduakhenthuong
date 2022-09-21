@@ -28,7 +28,8 @@
                             <i class="menu-bullet menu-bullet-dot">
                                 <span></span>
                             </i>
-                            <span class="menu-text font-weight-bold">{{ chkGiaoDien('khenthuongkhangchien', 'tenchucnang') }}</span>
+                            <span
+                                class="menu-text font-weight-bold">{{ chkGiaoDien('khenthuongkhangchien', 'tenchucnang') }}</span>
                             <i class="menu-arrow"></i>
                         </a>
                         <div class="menu-submenu">
@@ -126,7 +127,7 @@
                             <ul class="menu-subnav">
                                 @if (chkPhanQuyen('tracuutimkiem', 'phanquyen'))
                                     <li class="menu-item" aria-haspopup="true">
-                                        <a href="{{ url('/KhenCao/HoSo/ThongTin') }}" class="menu-link">
+                                        <a href="{{ url('/KhenCao/ThongTin') }}" class="menu-link">
                                             <i class="menu-bullet menu-bullet-dot">
                                                 <span></span>
                                             </i>

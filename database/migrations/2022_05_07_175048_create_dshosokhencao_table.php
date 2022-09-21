@@ -15,7 +15,7 @@ class CreateDshosokhencaoTable extends Migration
     {
         Schema::create('dshosokhencao', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('mahosokt')->unique();
+            $table->string('mahosotdkt')->unique();
             $table->date('ngayhoso')->nullable();
             $table->string('noidung')->nullable();
             $table->string('maloaihinhkt')->nullable();

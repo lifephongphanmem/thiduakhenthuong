@@ -15,7 +15,6 @@ class CreateDshosokhencaoKhenthuongTable extends Migration
     {
         Schema::create('dshosokhencao_khenthuong', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('mahosokt')->nullable();
             $table->string('mahosotdkt')->nullable();//lưu trữ sau cần dùng
             $table->string('madanhhieutd')->nullable();
             $table->string('noidungkhenthuong')->nullable();//cá nhân, tập thể

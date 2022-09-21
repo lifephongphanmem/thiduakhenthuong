@@ -406,6 +406,7 @@ class dshosokhenthuongnienhanController extends Controller
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }
 
+    //bỏ
     public function LayDoiTuong(Request $request)
     {
         $result = array(

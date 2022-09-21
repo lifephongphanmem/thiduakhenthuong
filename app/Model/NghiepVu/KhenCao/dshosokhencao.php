@@ -9,7 +9,7 @@ class dshosokhencao extends Model
     protected $table = 'dshosokhencao';
     protected $fillable = [
         'id',
-        'mahosokt',
+        'mahosotdkt',
         'ngayhoso',
         'noidung',
         'maloaihinhkt',

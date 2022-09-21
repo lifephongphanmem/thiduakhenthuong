@@ -31,7 +31,7 @@ class UpdateDshosokhencao2009Table extends Migration
      */
     public function down()
     {
-        Schema::table('dshosokhencao', function (Blueprint $table) {            
+        Schema::table('dshosokhencao', function (Blueprint $table) {
             $table->dropColumn('soqd');
             $table->dropColumn('ngayqd');
             $table->dropColumn('chucvunguoikyqd');
