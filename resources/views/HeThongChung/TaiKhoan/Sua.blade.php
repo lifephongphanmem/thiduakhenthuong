@@ -43,7 +43,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            {{-- <div class="form-group">
                 <div class="col-lg-6">
                     <label>Chức năng tài khoản</label>
                     <div class="checkbox-inline">
@@ -66,23 +66,23 @@
                     <span class="form-text text-muted">Tài khoản không đồng thời có chức năng: Quản trị và Tổng hợp/Nhập
                         liệu</span>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="form-group row">
                 <div class="col-lg-4">
                     <label>Tài khoản truy cập<span class="require">*</span></label>
-                    {!! Form::text('tendangnhap', null, ['class' => 'form-control', 'required']) !!}
+                    {!! Form::text('tendangnhap', null, ['class' => 'form-control', 'readonly'=>'true']) !!}
                 </div>
                 <div class="col-lg-4">
-                    <label>Mật khẩu<span class="require">*</span></label>
-                    {!! Form::text('matkhaumoi', null, ['class' => 'form-control', 'required']) !!}
+                    <label>Mật khẩu mới</label>
+                    {!! Form::text('matkhaumoi', null, ['class' => 'form-control']) !!}
                 </div>
             </div>
         </div>
         <div class="card-footer">
             <div class="row text-center">
                 <div class="col-lg-12">
-                    <a href="{{ url('/TaiKhoan/ThongTin?madonvi=' . $model->madonvi) }}" class="btn btn-danger mr-5"><i
+                    <a href="{{ url('/TaiKhoan/DanhSach?madonvi=' . $model->madonvi) }}" class="btn btn-danger mr-5"><i
                             class="fa fa-reply"></i>&nbsp;Quay lại</a>
                     <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i>Hoàn thành</button>
                 </div>

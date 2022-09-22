@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
+use App\Model\DanhMuc\dsnhomtaikhoan;
 use App\Model\DanhMuc\dstaikhoan;
 use App\Model\DanhMuc\dstaikhoan_phanquyen;
 use App\Model\HeThong\hethongchung_chucnang;
@@ -63,11 +64,12 @@ class dstaikhoanController extends Controller
         //dd($m_donvi);
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $model = dstaikhoan::where('madonvi', $inputs['madonvi'])->get();
+        $a_nhomtk = array_column(dsnhomtaikhoan::all()->toArray(), 'tennhomchucnang', 'manhomchucnang');
         return view('HeThongChung.TaiKhoan.DanhSach')
             ->with('model', $model)
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
-            ->with('a_nhomtk', [])
+            ->with('a_nhomtk', $a_nhomtk)
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách tài khoản');
     }
@@ -87,7 +89,7 @@ class dstaikhoanController extends Controller
         $m_donvi = getDonVi(session('admin')->capdo);
         $model = new dstaikhoan();
         $model->madonvi = $inputs['madonvi'];
-        return view('HeThongChung.TaiKhoan.Sua')
+        return view('HeThongChung.TaiKhoan.Them')
             //->with('inputs', $inputs)
             ->with('model', $model)
             ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))
@@ -116,12 +118,14 @@ class dstaikhoanController extends Controller
             $inputs['matkhau'] = md5($inputs['matkhau']);
             dstaikhoan::create($inputs);
         } else {
-            if ($inputs['matkhau'] == '')
-                unset($inputs['matkhau']);
+            if ($inputs['matkhaumoi'] == '')
+                unset($inputs['matkhaumoi']);
+            else
+                $inputs['matkhaumoi'] = md5($inputs['matkhaumoi']);
             $model->update($inputs);
         }
 
-        return redirect('/TaiKhoan/ThongTin?madonvi=' . $inputs['madonvi']);
+        return redirect('/TaiKhoan/DanhSach?madonvi=' . $inputs['madonvi']);
     }
 
     /**
@@ -197,7 +201,7 @@ class dstaikhoanController extends Controller
         if (!chkPhanQuyen('dstaikhoan', 'thaydoi')) {
             return view('errors.noperm')->with('machucang', 'dstaikhoan');
         }
-        
+
         $inputs = $request->all();
         $inputs['phanquyen'] = isset($inputs['phanquyen']) ? 1 : 0;
         $inputs['danhsach'] = isset($inputs['danhsach']) ? 1 : 0;
@@ -241,4 +245,16 @@ class dstaikhoanController extends Controller
             }
         }
     }
+
+    public function NhomChucNang(Request $request)
+    {
+        if (!chkPhanQuyen('dstaikhoan', 'thaydoi')) {
+            return view('errors.noperm')->with('machucang', 'dstaikhoan');
+        }
+
+        $inputs = $request->all();
+        dd($inputs);
+        return redirect('/TaiKhoan/DanhSach?tendangnhap=' . $inputs['tendangnhap']);
+    }
+
 }

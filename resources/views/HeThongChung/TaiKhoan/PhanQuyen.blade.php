@@ -123,13 +123,13 @@
                                     @endif
 
                                     <td class="text-center">
-                                        @if (chkPhanQuyen('dstaikhoan_phanquyen', 'thaydoi'))
+                                        @if (chkPhanQuyen('dstaikhoan', 'thaydoi'))
                                             <button
                                                 onclick="getChucNang('{{ $c1->machucnang }}','{{ $c1->tenchucnang }}',{{ $c1->phanquyen }},
                                                 {{ $c1->danhsach }}, {{ $c1->thaydoi }}, {{ $c1->hoanthanh }}, {{ $c1->nhomchucnang }})"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                 title="Thay đổi thông tin" data-toggle="modal">
-                                                <i class="icon-lg la fa-edit text-primary icon-2x"></i></button>
+                                                <i class="icon-lg la flaticon-edit-1 text-primary"></i></button>
                                         @endif
 
                                     </td>
@@ -174,13 +174,13 @@
                                             </td>
                                         @endif
                                         <td class="text-center">
-                                            @if (chkPhanQuyen('dstaikhoan_phanquyen', 'thaydoi') && $c1->phanquyen)
+                                            @if (chkPhanQuyen('dstaikhoan', 'thaydoi') && $c1->phanquyen)
                                                 <button
                                                     onclick="getChucNang('{{ $c2->machucnang }}','{{ $c2->tenchucnang }}',{{ $c2->phanquyen }},
                                                     {{ $c2->danhsach }}, {{ $c2->thaydoi }}, {{ $c2->hoanthanh }}, {{ $c2->nhomchucnang }})"
                                                     class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                     title="Thay đổi thông tin" data-toggle="modal">
-                                                    <i class="icon-lg la fa-edit text-warning icon-2x"></i>
+                                                    <i class="icon-lg la flaticon-edit-1 text-warning"></i>
                                                 </button>
                                             @endif
 
@@ -225,13 +225,13 @@
                                                 </td>
                                             @endif
                                             <td style="text-align: center">
-                                                @if (chkPhanQuyen('dstaikhoan_phanquyen', 'thaydoi') && $c1->phanquyen && $c2->phanquyen)
+                                                @if (chkPhanQuyen('dstaikhoan', 'thaydoi') && $c1->phanquyen && $c2->phanquyen)
                                                     <button
                                                         onclick="getChucNang('{{ $c3->machucnang }}','{{ $c3->tenchucnang }}',{{ $c3->phanquyen }},
                                                     {{ $c3->danhsach }}, {{ $c3->thaydoi }}, {{ $c3->hoanthanh }}, {{ $c3->nhomchucnang }})"
                                                         class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                         title="Thay đổi thông tin" data-toggle="modal">
-                                                        <i class="icon-lg la fa-edit text-primary icon-2x"></i>
+                                                        <i class="icon-lg la flaticon-edit-1 text-primary"></i>
                                                     </button>
                                                 @endif
 
@@ -276,14 +276,14 @@
                                                     </td>
                                                 @endif
                                                 <td style="text-align: center">
-                                                    @if (chkPhanQuyen('dstaikhoan_phanquyen', 'thaydoi') && $c1->phanquyen && $c2->phanquyen && $c3->phanquyen)
+                                                    @if (chkPhanQuyen('dstaikhoan', 'thaydoi') && $c1->phanquyen && $c2->phanquyen && $c3->phanquyen)
                                                         <button
                                                             onclick="getChucNang('{{ $c4->machucnang }}','{{ $c4->tenchucnang }}',{{ $c4->phanquyen }},
                                                    {{ $c4->danhsach }}, {{ $c4->thaydoi }}, {{ $c4->hoanthanh }}, {{ $c4->nhomchucnang }})"
                                                             class="btn btn-sm btn-clean btn-icon"
                                                             data-target="#modify-modal" title="Thay đổi thông tin"
                                                             data-toggle="modal">
-                                                            <i class="icon-lg la fa-edit text-primary icon-2x"></i>
+                                                            <i class="icon-lg la flaticon-edit-1 text-primary"></i>
                                                         </button>
                                                     @endif
 

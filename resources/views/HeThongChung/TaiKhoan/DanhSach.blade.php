@@ -17,7 +17,7 @@
             TableManaged3.init();
 
             $('#madonvi').change(function() {
-                window.location.href = '/TaiKhoan/ThongTin?madonvi=' + $(this).val();
+                window.location.href = '/TaiKhoan/DanhSach?madonvi=' + $(this).val();
             });
         });
     </script>
@@ -91,29 +91,31 @@
                                                 <i class="icon-lg la fa-times-circle text-danger icon-2x"></i>
                                             </button>
                                         </td>
-                                    @endif                                   
+                                    @endif
 
                                     <td class="text-center">
                                         @if (chkPhanQuyen('dstaikhoan', 'modify'))
-                                            <a title="Sửa thông tin" href="{{ url('/TaiKhoan/Sua?tendangnhap=' . $tt->tendangnhap) }}"
+                                            <a title="Sửa thông tin"
+                                                href="{{ url('/TaiKhoan/Sua?tendangnhap=' . $tt->tendangnhap) }}"
                                                 class="btn btn-sm btn-clean btn-icon">
-                                                <i class="icon-lg la fa-edit text-primary icon-2x"></i>
+                                                <i class="icon-lg la flaticon-edit-1 text-primary "></i>
                                             </a>
                                             @if ($tt->trangthai == 1)
                                                 <a title="Phân quyền"
                                                     href="{{ url('/TaiKhoan/PhanQuyen?tendangnhap=' . $tt->tendangnhap) }}"
                                                     class="btn btn-sm btn-clean btn-icon">
-                                                    <i class="icon-lg flaticon2-user-1 text-primary"></i></a>
+                                                    <i class="icon-lg la flaticon-user-settings text-primary icon-2x"></i></a>
 
-                                                {{-- <button type="button" onclick="setPerGroup('{{ $tt->username }}')"
-                                                class="btn btn-default btn-xs mbs" data-target="#modify-phanquyen"
-                                                data-toggle="modal">
-                                                <i class="fa fa-cogs"></i>&nbsp;Phân quyền theo nhóm</button> --}}
+                                                <button type="button" onclick="setPerGroup('{{ $tt->manhomchucnang }}')"
+                                                    class="btn btn-sm btn-clean btn-icon" data-target="#modify-nhomchucnang"
+                                                    data-toggle="modal" title="Đặt lại quyền theo nhóm chức năng">
+                                                    <i class="icon-lg la flaticon-network text-primary icon-2x"></i>
+                                                </button>
 
-                                                <a title="Sao chép tài khoản"
+                                                {{-- <a title="Sao chép tài khoản"
                                                     href="{{ url('taikhoan/copy?username=' . $tt->username) }}"
                                                     class="btn btn-sm btn-clean btn-icon">
-                                                    <i class="icon-lg la fa-copy text-info icon-2x"></i></a>
+                                                    <i class="icon-lg la fa-copy text-info icon-2x"></i></a> --}}
 
                                                 <button title="Xóa thông tin" type="button"
                                                     onclick="confirmDelete('{{ $tt->id }}','TaiKhoan/Xoa' }}')"
@@ -132,5 +134,48 @@
         </div>
     </div>
     <!--end::Card-->
+
+    <!--Modal Nhận và trình khen thưởng hồ sơ hồ sơ-->
+<div id="modify-nhomchucnang" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
+    {!! Form::open(['url' => '/TaiKhoan/NhomChucNang', 'id' => 'frm_nhomchucnang']) !!}
+    <input type="hidden" name="mahoso" />
+    <input type="hidden" name="madonvi" />
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-header-primary">
+                <h4 id="modal-header-primary-label" class="modal-title">Đồng ý tải lại phân quyền của tài khoản?
+                </h4>
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+
+            </div>
+            <div class="modal-body">
+                <p style="color: #0000FF">Các phân quyền của tài khoản sẽ được tải lại theo nhóm chức năng và không thể khôi phục lại</p>
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <label class="control-label">Tên nhóm chức năng<span class="require">*</span></label>
+                        {!! Form::select('manhomchucnang', $a_nhomtk, null, ['class' => 'form-control select2_modal']) !!}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
+                <button type="submit" data-dismiss="modal" class="btn btn-primary" onclick="clickNhanvaTKT()">Đồng
+                    ý</button>
+            </div>
+        </div>
+    </div>
+    {!! Form::close() !!}
+</div>
+
+<script>
+    function clickNhanvaTKT() {
+        $('#frm_nhomchucnang').submit();
+    }
+
+    function setPerGroup(manhomchucnang) {
+        $('#frm_nhomchucnang').find("[name='manhomchucnang']").val(manhomchucnang);
+    }
+</script>
+
     @include('includes.modal.modal-delete')
 @stop

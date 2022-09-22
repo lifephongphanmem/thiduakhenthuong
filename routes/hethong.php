@@ -46,6 +46,8 @@ Route::group(['prefix'=>'TaiKhoan'], function(){
     Route::get('Them','HeThong\dstaikhoanController@create');
     Route::post('Them','HeThong\dstaikhoanController@store');
     Route::get('Sua','HeThong\dstaikhoanController@edit');
+    Route::post('Sua','HeThong\dstaikhoanController@store');
+    Route::post('NhomChucNang','HeThong\dstaikhoanController@NhomChucNang');
 
 });
 Route::group(['prefix'=>'HeThongAPI'], function(){
