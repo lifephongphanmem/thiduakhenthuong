@@ -38,7 +38,7 @@ class dshosokhenthuongdotxuatController extends Controller
     {
 
         if (!chkPhanQuyen('qdhosokhenthuongdotxuat', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'danhsach');
+            return view('errors.noperm')->with('machucnang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
         $m_donvi = getDonVi(session('admin')->capdo);
@@ -77,7 +77,7 @@ class dshosokhenthuongdotxuatController extends Controller
     {
 
         if (!chkPhanQuyen('qdhosokhenthuongdotxuat', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'danhsach');
+            return view('errors.noperm')->with('machucnang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
@@ -137,7 +137,7 @@ class dshosokhenthuongdotxuatController extends Controller
     {
 
         if (!chkPhanQuyen('qdhosokhenthuongdotxuat', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'danhsach');
+            return view('errors.noperm')->with('machucnang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
         $inputs['mahosotdkt'] = (string)getdate()[0];
@@ -151,7 +151,7 @@ class dshosokhenthuongdotxuatController extends Controller
     {
 
         if (!chkPhanQuyen('qdhosokhenthuongdotxuat', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'danhsach');
+            return view('errors.noperm')->with('machucnang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
         if (isset($inputs['totrinh'])) {
@@ -409,7 +409,7 @@ class dshosokhenthuongdotxuatController extends Controller
     public function ChuyenHoSo(Request $request)
     {
         if (!chkPhanQuyen('qdhosokhenthuongdotxuat', 'hoanthanh')) {
-            return view('errors.noperm')->with('machucang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'hoanthanh');
+            return view('errors.noperm')->with('machucnang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();

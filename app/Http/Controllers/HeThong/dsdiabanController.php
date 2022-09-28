@@ -25,7 +25,7 @@ class dsdiabanController extends Controller
     public function index(Request $request)
     {
         if (!chkPhanQuyen('dsdiaban', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'dsdiaban');
+            return view('errors.noperm')->with('machucnang', 'dsdiaban');
         }
 
         $model = dsdiaban::all();
@@ -45,7 +45,7 @@ class dsdiabanController extends Controller
     {
         //tài khoản SSA; tài khoản quản trị + có phân quyền
         if (!chkPhanQuyen('dsdiaban', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dsdiaban');
+            return view('errors.noperm')->with('machucnang', 'dsdiaban');
         }
 
         $inputs = $request->all();
@@ -68,7 +68,7 @@ class dsdiabanController extends Controller
     {
         //tài khoản SSA; tài khoản quản trị + có phân quyền
         if (!chkPhanQuyen('dsdiaban', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dsdiaban');
+            return view('errors.noperm')->with('machucnang', 'dsdiaban');
         }
         $inputs = $request->all();
         dsdiaban::findorfail($inputs['iddelete'])->delete();

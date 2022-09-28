@@ -40,7 +40,7 @@ class dshosokhencaoController extends Controller
     {
         if (!chkPhanQuyen('dshosokhencao', 'danhsach')) {
             return view('errors.noperm')
-                ->with('machucang', 'dshosokhencao')
+                ->with('machucnang', 'dshosokhencao')
                 ->with('tenphanquyen', 'danhsach');
         }
 
@@ -83,7 +83,7 @@ class dshosokhencaoController extends Controller
     {
         if (!chkPhanQuyen('dshosokhencao', 'thaydoi')) {
             return view('errors.noperm')
-                ->with('machucang', 'dshosokhencao')
+                ->with('machucnang', 'dshosokhencao')
                 ->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
@@ -151,7 +151,7 @@ class dshosokhencaoController extends Controller
     {
         if (!chkPhanQuyen('dshosokhencao', 'thaydoi')) {
             return view('errors.noperm')
-                ->with('machucang', 'dshosokhencao')
+                ->with('machucnang', 'dshosokhencao')
                 ->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
@@ -166,7 +166,7 @@ class dshosokhencaoController extends Controller
     {
         if (!chkPhanQuyen('dshosokhencao', 'thaydoi')) {
             return view('errors.noperm')
-                ->with('machucang', 'dshosokhencao')
+                ->with('machucnang', 'dshosokhencao')
                 ->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
@@ -561,7 +561,7 @@ class dshosokhencaoController extends Controller
     {
         if (!chkPhanQuyen('dshosokhencao', 'hoanthanh')) {
             return view('errors.noperm')
-                ->with('machucang', 'dshosokhencao')
+                ->with('machucnang', 'dshosokhencao')
                 ->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
@@ -584,7 +584,7 @@ class dshosokhencaoController extends Controller
     {
         if (!chkPhanQuyen('dshosokhencao', 'hoanthanh')) {
             return view('errors.noperm')
-                ->with('machucang', 'dshosokhencao')
+                ->with('machucnang', 'dshosokhencao')
                 ->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();

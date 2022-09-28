@@ -35,7 +35,7 @@ class baocaotonghopController extends Controller
     public function ThongTin(Request $request)
     {
         if (!chkPhanQuyen('baocaotapthe', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'baocaotapthe')->with('tenphanquyen', 'danhsach');
+            return view('errors.noperm')->with('machucnang', 'baocaotapthe')->with('tenphanquyen', 'danhsach');
         }
         $m_diaban = getDiaBan(session('admin')->capdo);
         $m_donvi = getDonVi(session('admin')->capdo);

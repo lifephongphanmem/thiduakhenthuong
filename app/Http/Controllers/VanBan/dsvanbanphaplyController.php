@@ -27,7 +27,7 @@ class dsvanbanphaplyController extends Controller
     public function ThongTin(Request $request)
     {
         if (!chkPhanQuyen('vanbanphaply', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'vanbanphaply')->with('tenphanquyen', 'danhsach');
+            return view('errors.noperm')->with('machucnang', 'vanbanphaply')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
         $inputs['url'] = static::$url;
@@ -46,7 +46,7 @@ class dsvanbanphaplyController extends Controller
     public function LuuHoSo(Request $request)
     {
         if (!chkPhanQuyen('vanbanphaply', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'vanbanphaply')->with('tenphanquyen', 'thaydoi');
+            return view('errors.noperm')->with('machucnang', 'vanbanphaply')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
         $model = dsvanbanphaply::where('mavanban', $inputs['mavanban'])->first();
@@ -67,7 +67,7 @@ class dsvanbanphaplyController extends Controller
     public function XoaHoSo(Request $request)
     {
         if (!chkPhanQuyen('vanbanphaply', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'vanbanphaply')->with('tenphanquyen', 'thaydoi');
+            return view('errors.noperm')->with('machucnang', 'vanbanphaply')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
         dsvanbanphaply::findorfail($inputs['id'])->delete();
@@ -77,7 +77,7 @@ class dsvanbanphaplyController extends Controller
     public function Them()
     {
         if (!chkPhanQuyen('vanbanphaply', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'vanbanphaply')->with('tenphanquyen', 'thaydoi');
+            return view('errors.noperm')->with('machucnang', 'vanbanphaply')->with('tenphanquyen', 'thaydoi');
         }
         $model = new dsvanbanphaply();
         $model->mavanban = getdate()[0];
@@ -91,7 +91,7 @@ class dsvanbanphaplyController extends Controller
     {
 
         if (!chkPhanQuyen('vanbanphaply', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'vanbanphaply')->with('tenphanquyen', 'thaydoi');
+            return view('errors.noperm')->with('machucnang', 'vanbanphaply')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
         $model = dsvanbanphaply::where('mavanban', $inputs['mavanban'])->first();

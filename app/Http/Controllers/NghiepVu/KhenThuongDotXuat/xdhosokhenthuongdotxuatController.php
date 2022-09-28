@@ -31,7 +31,7 @@ class xdhosokhenthuongdotxuatController extends Controller
     public function ThongTin(Request $request)
     {
         if (!chkPhanQuyen('xdhosokhenthuongdotxuat', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'xdhosokhenthuongdotxuat')->with('tenphanquyen', 'danhsach');
+            return view('errors.noperm')->with('machucnang', 'xdhosokhenthuongdotxuat')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
         $m_donvi = getDonViXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
@@ -77,7 +77,7 @@ class xdhosokhenthuongdotxuatController extends Controller
     public function TraLai(Request $request)
     {
         if (!chkPhanQuyen('xdhosokhenthuongdotxuat', 'hoanthanh')) {
-            return view('errors.noperm')->with('machucang', 'xdhosokhenthuongdotxuat')->with('tenphanquyen', 'hoanthanh');
+            return view('errors.noperm')->with('machucnang', 'xdhosokhenthuongdotxuat')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
         $thoigian = date('Y-m-d H:i:s');
@@ -102,7 +102,7 @@ class xdhosokhenthuongdotxuatController extends Controller
     public function ChuyenHoSo(Request $request)
     {
         if (!chkPhanQuyen('xdhosokhenthuongdotxuat', 'hoanthanh')) {
-            return view('errors.noperm')->with('machucang', 'xdhosokhenthuongdotxuat')->with('tenphanquyen', 'hoanthanh');
+            return view('errors.noperm')->with('machucnang', 'xdhosokhenthuongdotxuat')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
 
@@ -123,7 +123,7 @@ class xdhosokhenthuongdotxuatController extends Controller
     public function NhanHoSo(Request $request)
     {
         if (!chkPhanQuyen('xdhosokhenthuongdotxuat', 'hoanthanh')) {
-            return view('errors.noperm')->with('machucang', 'xdhosokhenthuongdotxuat')->with('tenphanquyen', 'hoanthanh');
+            return view('errors.noperm')->with('machucnang', 'xdhosokhenthuongdotxuat')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
         $thoigian = date('Y-m-d H:i:s');

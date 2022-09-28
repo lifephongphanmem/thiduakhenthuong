@@ -35,7 +35,7 @@ class baocaodonviController extends Controller
     public function ThongTin(Request $request)
     {
         if (!chkPhanQuyen('baocaodonvi', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'baocaodonvi')->with('tenphanquyen', 'danhsach');
+            return view('errors.noperm')->with('machucnang', 'baocaodonvi')->with('tenphanquyen', 'danhsach');
         }
 
         $m_canhan = view_tdkt_canhan::all();

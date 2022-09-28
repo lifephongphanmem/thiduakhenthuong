@@ -37,7 +37,7 @@ class dsphongtraothiduaController extends Controller
     public function ThongTin(Request $request)
     {
         if (!chkPhanQuyen('dsphongtraothidua', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'dsphongtraothidua');
+            return view('errors.noperm')->with('machucnang', 'dsphongtraothidua');
         }
         $inputs = $request->all();
         $m_donvi = getDonVi(session('admin')->capdo);
@@ -66,7 +66,7 @@ class dsphongtraothiduaController extends Controller
     public function ThayDoi(Request $request)
     {
         if (!chkPhanQuyen('dsphongtraothidua', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dsphongtraothidua');
+            return view('errors.noperm')->with('machucnang', 'dsphongtraothidua');
         }
 
         $inputs = $request->all();
@@ -118,7 +118,7 @@ class dsphongtraothiduaController extends Controller
     {
 
         if (!chkPhanQuyen('dsphongtraothidua', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dsphongtraothidua');
+            return view('errors.noperm')->with('machucnang', 'dsphongtraothidua');
         }
         $inputs = $request->all();
         if (isset($inputs['qdkt'])) {
@@ -156,7 +156,7 @@ class dsphongtraothiduaController extends Controller
     public function delete(Request $request)
     {
         if (!chkPhanQuyen('dsphongtraothidua', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dsphongtraothidua');
+            return view('errors.noperm')->with('machucnang', 'dsphongtraothidua');
         }
         $inputs = $request->all();
         $model = dsphongtraothidua::findorfail($inputs['iddelete']);

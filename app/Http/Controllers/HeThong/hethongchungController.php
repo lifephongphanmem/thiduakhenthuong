@@ -174,7 +174,7 @@ class hethongchungController extends Controller
     public function ThongTin()
     {
         if (!chkPhanQuyen('hethongchung', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'hethongchung');
+            return view('errors.noperm')->with('machucnang', 'hethongchung');
         }
 
         $model = hethongchung::first();
@@ -187,7 +187,7 @@ class hethongchungController extends Controller
     public function ThayDoi()
     {
         if (!chkPhanQuyen('hethongchung', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'hethongchung');
+            return view('errors.noperm')->with('machucnang', 'hethongchung');
         }
         $model = hethongchung::first();
         return view('HeThongChung.HeThong.Sua')
@@ -197,7 +197,7 @@ class hethongchungController extends Controller
     public function LuuThayDoi(Request $request)
     {
         if (!chkPhanQuyen('hethongchung', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'hethongchung');
+            return view('errors.noperm')->with('machucnang', 'hethongchung');
         }
         $inputs = $request->all();
         hethongchung::first()->update($inputs);

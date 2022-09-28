@@ -29,7 +29,7 @@ class dscumkhoiController extends Controller
     {
 
         if (!chkPhanQuyen('dscumkhoithidua', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'dscumkhoithidua')->with('tenphanquyen', 'danhsach');
+            return view('errors.noperm')->with('machucnang', 'dscumkhoithidua')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
         $inputs['url'] = static::$url;
@@ -51,7 +51,7 @@ class dscumkhoiController extends Controller
     public function ThayDoi(Request $request)
     {
         if (!chkPhanQuyen('dscumkhoithidua', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dscumkhoithidua')->with('tenphanquyen', 'thaydoi');
+            return view('errors.noperm')->with('machucnang', 'dscumkhoithidua')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
         $inputs['macumkhoi'] = $inputs['macumkhoi'] ?? null;
@@ -73,7 +73,7 @@ class dscumkhoiController extends Controller
     public function LuuCumKhoi(Request $request)
     {
         if (!chkPhanQuyen('dscumkhoithidua', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dscumkhoithidua')->with('tenphanquyen', 'thaydoi');
+            return view('errors.noperm')->with('machucnang', 'dscumkhoithidua')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
         $model = dscumkhoi::where('macumkhoi', $inputs['macumkhoi'])->first();
@@ -89,7 +89,7 @@ class dscumkhoiController extends Controller
     public function Xoa(Request $request)
     {
         if (!chkPhanQuyen('dscumkhoithidua', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dscumkhoithidua')->with('tenphanquyen', 'thaydoi');
+            return view('errors.noperm')->with('machucnang', 'dscumkhoithidua')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
         dscumkhoi::findorfail($inputs['iddelete'])->delete();
@@ -116,7 +116,7 @@ class dscumkhoiController extends Controller
     {
 
         if (!chkPhanQuyen('dscumkhoithidua', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dscumkhoithidua')->with('tenphanquyen', 'thaydoi');
+            return view('errors.noperm')->with('machucnang', 'dscumkhoithidua')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
         $model = dscumkhoi_chitiet::where('madonvi', $inputs['madonvi'])->where('macumkhoi', $inputs['macumkhoi'])->first();
@@ -133,7 +133,7 @@ class dscumkhoiController extends Controller
     {
 
         if (!chkPhanQuyen('dscumkhoithidua', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dscumkhoithidua')->with('tenphanquyen', 'thaydoi');
+            return view('errors.noperm')->with('machucnang', 'dscumkhoithidua')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
         $model = dscumkhoi_chitiet::findorfail($inputs['id']);

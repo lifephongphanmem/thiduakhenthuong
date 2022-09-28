@@ -45,7 +45,7 @@ class qdhosokhenthuongdotxuatController extends Controller
     {
 
         if (!chkPhanQuyen('qdhosokhenthuongdotxuat', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'danhsach');
+            return view('errors.noperm')->with('machucnang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
         $m_donvi = getDonViXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
@@ -87,7 +87,7 @@ class qdhosokhenthuongdotxuatController extends Controller
     public function LuuHoSo(Request $request)
     {
         if (!chkPhanQuyen('qdhosokhenthuongdotxuat', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'thaydoi');
+            return view('errors.noperm')->with('machucnang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
         $model = dshosokhenthuong::where('mahosokt', $inputs['mahosokt'])->first();
@@ -118,7 +118,7 @@ class qdhosokhenthuongdotxuatController extends Controller
     public function KhenThuong(Request $request)
     {
         if (!chkPhanQuyen('qdhosokhenthuongdotxuat', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'thaydoi');
+            return view('errors.noperm')->with('machucnang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
         $chk = dshosokhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])
@@ -147,7 +147,7 @@ class qdhosokhenthuongdotxuatController extends Controller
     public function DanhSach(Request $request)
     {
         if (!chkPhanQuyen('qdhosokhenthuongdotxuat', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'thaydoi');
+            return view('errors.noperm')->with('machucnang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
         $model =  dshosokhenthuong::where('mahosokt', $inputs['mahosokt'])->first();
@@ -272,7 +272,7 @@ class qdhosokhenthuongdotxuatController extends Controller
     public function PheDuyet(Request $request)
     {
         if (!chkPhanQuyen('qdhosokhenthuongdotxuat', 'hoanthanh')) {
-            return view('errors.noperm')->with('machucang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'hoanthanh');
+            return view('errors.noperm')->with('machucnang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
         $model = dshosokhenthuong::where('mahosokt', $inputs['mahosokt'])->first();

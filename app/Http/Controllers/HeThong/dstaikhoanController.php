@@ -32,7 +32,7 @@ class dstaikhoanController extends Controller
     public function ThongTin(Request $request)
     {
         if (!chkPhanQuyen('dstaikhoan', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'dstaikhoan');
+            return view('errors.noperm')->with('machucnang', 'dstaikhoan');
         }
 
         $inputs = $request->all();
@@ -56,7 +56,7 @@ class dstaikhoanController extends Controller
     public function DanhSach(Request $request)
     {
         if (!chkPhanQuyen('dstaikhoan', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'dstaikhoan');
+            return view('errors.noperm')->with('machucnang', 'dstaikhoan');
         }
         $inputs = $request->all();
         $m_donvi = getDonVi(session('admin')->capdo);
@@ -82,7 +82,7 @@ class dstaikhoanController extends Controller
     public function create(Request $request)
     {
         if (!chkPhanQuyen('dstaikhoan', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dstaikhoan');
+            return view('errors.noperm')->with('machucnang', 'dstaikhoan');
         }
 
         $inputs = $request->all();
@@ -105,7 +105,7 @@ class dstaikhoanController extends Controller
     public function store(Request $request)
     {
         if (!chkPhanQuyen('dstaikhoan', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dstaikhoan');
+            return view('errors.noperm')->with('machucnang', 'dstaikhoan');
         }
         $inputs = $request->all();
         $inputs['nhaplieu'] = isset($inputs['nhaplieu']) ? 1 : 0;
@@ -137,7 +137,7 @@ class dstaikhoanController extends Controller
     public function edit(Request $request)
     {
         if (!chkPhanQuyen('dstaikhoan', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dstaikhoan');
+            return view('errors.noperm')->with('machucnang', 'dstaikhoan');
         }
         $inputs = $request->all();
         $model = dstaikhoan::where('tendangnhap', $inputs['tendangnhap'])->first();
@@ -158,7 +158,7 @@ class dstaikhoanController extends Controller
     public function destroy(Request $request)
     {
         if (!chkPhanQuyen('dstaikhoan', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dstaikhoan');
+            return view('errors.noperm')->with('machucnang', 'dstaikhoan');
         }
         $id = $request->all()['id'];
         $model = dstaikhoan::findorFail($id);
@@ -174,7 +174,7 @@ class dstaikhoanController extends Controller
         //duyệt từng phần tử => nếu count(magoc) > 0 => nhóm có phần tử con
         //dùng biến 'phanquyen' tương tư biến "sudung" để lọc chức năng trong nhóm con
         if (!chkPhanQuyen('dstaikhoan', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dstaikhoan');
+            return view('errors.noperm')->with('machucnang', 'dstaikhoan');
         }
         $inputs = $request->all();
         $m_taikhoan = dstaikhoan::where('tendangnhap', $inputs['tendangnhap'])->first();
@@ -199,7 +199,7 @@ class dstaikhoanController extends Controller
     public function LuuPhanQuyen(Request $request)
     {
         if (!chkPhanQuyen('dstaikhoan', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dstaikhoan');
+            return view('errors.noperm')->with('machucnang', 'dstaikhoan');
         }
 
         $inputs = $request->all();
@@ -249,7 +249,7 @@ class dstaikhoanController extends Controller
     public function NhomChucNang(Request $request)
     {
         if (!chkPhanQuyen('dstaikhoan', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dstaikhoan');
+            return view('errors.noperm')->with('machucnang', 'dstaikhoan');
         }
 
         $inputs = $request->all();

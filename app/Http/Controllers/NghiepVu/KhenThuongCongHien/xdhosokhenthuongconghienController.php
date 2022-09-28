@@ -31,7 +31,7 @@ class xdhosokhenthuongconghienController extends Controller
     public function ThongTin(Request $request)
     {
         if (!chkPhanQuyen('xdhosokhenthuongconghien', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'xdhosokhenthuongconghien')->with('tenphanquyen', 'danhsach');
+            return view('errors.noperm')->with('machucnang', 'xdhosokhenthuongconghien')->with('tenphanquyen', 'danhsach');
         }
 
         $inputs = $request->all();
@@ -86,7 +86,7 @@ class xdhosokhenthuongconghienController extends Controller
     public function TraLai(Request $request)
     {
         if (!chkPhanQuyen('xdhosokhenthuongconghien', 'hoanthanh')) {
-            return view('errors.noperm')->with('machucang', 'xdhosokhenthuongconghien')->with('tenphanquyen', 'hoanthanh');
+            return view('errors.noperm')->with('machucnang', 'xdhosokhenthuongconghien')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
         $thoigian = date('Y-m-d H:i:s');
@@ -113,7 +113,7 @@ class xdhosokhenthuongconghienController extends Controller
     public function ChuyenHoSo(Request $request)
     {
         if (!chkPhanQuyen('xdhosokhenthuongconghien', 'hoanthanh')) {
-            return view('errors.noperm')->with('machucang', 'xdhosokhenthuongconghien')->with('tenphanquyen', 'hoanthanh');
+            return view('errors.noperm')->with('machucnang', 'xdhosokhenthuongconghien')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
         $thoigian = date('Y-m-d H:i:s');

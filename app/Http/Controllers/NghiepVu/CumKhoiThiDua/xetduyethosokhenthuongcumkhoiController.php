@@ -32,7 +32,7 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
     public function ThongTin(Request $request)
     {
         if (!chkPhanQuyen('xdhosokhenthuongcumkhoi', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'xdhosokhenthuongcumkhoi')->with('tenphanquyen', 'danhsach');
+            return view('errors.noperm')->with('machucnang', 'xdhosokhenthuongcumkhoi')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
         $inputs['url_hs'] = '/CumKhoiThiDua/KTCumKhoi/HoSo/';

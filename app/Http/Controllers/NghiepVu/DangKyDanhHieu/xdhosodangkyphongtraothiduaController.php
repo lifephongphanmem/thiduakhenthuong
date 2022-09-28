@@ -29,7 +29,7 @@ class xdhosodangkyphongtraothiduaController extends Controller
     public function ThongTin(Request $request)
     {
         if (!chkPhanQuyen('xdhosodangkythidua', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'xdhosodangkythidua')->with('tenphanquyen', 'danhsach');
+            return view('errors.noperm')->with('machucnang', 'xdhosodangkythidua')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
         $m_donvi = getDonViXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
@@ -77,7 +77,7 @@ class xdhosodangkyphongtraothiduaController extends Controller
     public function TraLai(Request $request)
     {
         if (!chkPhanQuyen('xdhosodangkythidua', 'hoanthanh')) {
-            return view('errors.noperm')->with('machucang', 'xdhosodangkythidua')->with('tenphanquyen', 'hoanthanh');
+            return view('errors.noperm')->with('machucnang', 'xdhosodangkythidua')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
         $thoigian = date('Y-m-d H:i:s');
@@ -103,7 +103,7 @@ class xdhosodangkyphongtraothiduaController extends Controller
     public function ChuyenHoSo(Request $request)
     {
         if (!chkPhanQuyen('xdhosodangkythidua', 'hoanthanh')) {
-            return view('errors.noperm')->with('machucang', 'xdhosodangkythidua')->with('tenphanquyen', 'hoanthanh');
+            return view('errors.noperm')->with('machucnang', 'xdhosodangkythidua')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
         dd($inputs);
@@ -124,7 +124,7 @@ class xdhosodangkyphongtraothiduaController extends Controller
     public function NhanHoSo(Request $request)
     {
         if (!chkPhanQuyen('xdhosodangkythidua', 'hoanthanh')) {
-            return view('errors.noperm')->with('machucang', 'xdhosodangkythidua')->with('tenphanquyen', 'hoanthanh');
+            return view('errors.noperm')->with('machucnang', 'xdhosodangkythidua')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
         //dd($inputs);

@@ -26,7 +26,7 @@ class dsdonviController extends Controller
     public function ThongTin(Request $request)
     {
         if (!chkPhanQuyen('dsdonvi', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'dsdonvi');
+            return view('errors.noperm')->with('machucnang', 'dsdonvi');
         }
         $inputs = $request->all();
         $model = getDiaBan(session('admin')->capdo);
@@ -45,7 +45,7 @@ class dsdonviController extends Controller
     public function DanhSach(Request $request)
     {
         if (!chkPhanQuyen('dsdonvi', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'dsdonvi');
+            return view('errors.noperm')->with('machucnang', 'dsdonvi');
         }
         $inputs = $request->all();
         $inputs['url'] = '/DonVi';
@@ -65,7 +65,7 @@ class dsdonviController extends Controller
     public function create(Request $request)
     {
         if (!chkPhanQuyen('dsdonvi', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dsdonvi');
+            return view('errors.noperm')->with('machucnang', 'dsdonvi');
         }
         $inputs = $request->all();
         //$modeldvql = DSDonVi::where('tonghop', '1')->get();
@@ -86,7 +86,7 @@ class dsdonviController extends Controller
     public function store(Request $request)
     {
         if (!chkPhanQuyen('dsdonvi', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dsdonvi');
+            return view('errors.noperm')->with('machucnang', 'dsdonvi');
         }
         $inputs = $request->all();
         $model = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
@@ -110,7 +110,7 @@ class dsdonviController extends Controller
     public function edit(Request $request)
     {
         if (!chkPhanQuyen('dsdonvi', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dsdonvi');
+            return view('errors.noperm')->with('machucnang', 'dsdonvi');
         }
         $inputs = $request->all();
         $model = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
@@ -129,7 +129,7 @@ class dsdonviController extends Controller
     public function destroy(Request $request)
     {
         if (!chkPhanQuyen('dsdonvi', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dsdonvi');
+            return view('errors.noperm')->with('machucnang', 'dsdonvi');
         }
         $id = $request->all()['id'];
         $model = dsdonvi::findorFail($id);
@@ -141,7 +141,7 @@ class dsdonviController extends Controller
     public function QuanLy(Request $request)
     {
         if (!chkPhanQuyen('dsdonvi', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dsdonvi');
+            return view('errors.noperm')->with('machucnang', 'dsdonvi');
         }
         $inputs = $request->all();
         //dd($inputs);
@@ -156,7 +156,7 @@ class dsdonviController extends Controller
     public function LuuQuanLy(Request $request)
     {
         if (!chkPhanQuyen('dsdonvi', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dsdonvi');
+            return view('errors.noperm')->with('machucnang', 'dsdonvi');
         }
         $inputs = $request->all();
         dsdiaban::where('madiaban', $inputs['madiaban'])->first()->update($inputs);

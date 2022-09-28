@@ -42,7 +42,7 @@ class qdhosokhenthuongdoingoaiController extends Controller
     public function ThongTin(Request $request)
     {
         if (!chkPhanQuyen('qdhosokhenthuongdoingoai', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'qdhosokhenthuongdoingoai')->with('tenphanquyen', 'danhsach');
+            return view('errors.noperm')->with('machucnang', 'qdhosokhenthuongdoingoai')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
         $inputs['url_hs'] = '/KhenThuongDoiNgoai/HoSo/';
@@ -100,7 +100,7 @@ class qdhosokhenthuongdoingoaiController extends Controller
     {
         if (!chkPhanQuyen('qdhosokhenthuongdoingoai', 'thaydoi')) {
             return view('errors.noperm')
-                ->with('machucang', 'qdhosokhenthuongdoingoai')
+                ->with('machucnang', 'qdhosokhenthuongdoingoai')
                 ->with('tenphanquyen', 'thaydoi');
         }
 
@@ -699,7 +699,7 @@ class qdhosokhenthuongdoingoaiController extends Controller
     {
         if (!chkPhanQuyen('qdhosokhenthuongdoingoai', 'hoanthanh')) {
             return view('errors.noperm')
-                ->with('machucang', 'qdhosokhenthuongdoingoai')
+                ->with('machucnang', 'qdhosokhenthuongdoingoai')
                 ->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
@@ -722,7 +722,7 @@ class qdhosokhenthuongdoingoaiController extends Controller
     {
         if (!chkPhanQuyen('qdhosokhenthuongdoingoai', 'hoanthanh')) {
             return view('errors.noperm')
-                ->with('machucang', 'qdhosokhenthuongdoingoai')
+                ->with('machucnang', 'qdhosokhenthuongdoingoai')
                 ->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
@@ -746,7 +746,7 @@ class qdhosokhenthuongdoingoaiController extends Controller
     {
         if (!chkPhanQuyen('qdhosokhenthuongdoingoai', 'hoanthanh')) {
             return view('errors.noperm')
-                ->with('machucang', 'qdhosokhenthuongdoingoai')
+                ->with('machucnang', 'qdhosokhenthuongdoingoai')
                 ->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
@@ -764,7 +764,7 @@ class qdhosokhenthuongdoingoaiController extends Controller
     {
         if (!chkPhanQuyen('qdhosokhenthuongdoingoai', 'thaydoi')) {
             return view('errors.noperm')
-                ->with('machucang', 'qdhosokhenthuongdoingoai')
+                ->with('machucnang', 'qdhosokhenthuongdoingoai')
                 ->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
@@ -806,7 +806,7 @@ class qdhosokhenthuongdoingoaiController extends Controller
     {
         if (!chkPhanQuyen('qdhosokhenthuongdoingoai', 'thaydoi')) {
             return view('errors.noperm')
-                ->with('machucang', 'qdhosokhenthuongdoingoai')
+                ->with('machucnang', 'qdhosokhenthuongdoingoai')
                 ->with('tenphanquyen', 'thaydoi');
         }
 
@@ -854,7 +854,7 @@ class qdhosokhenthuongdoingoaiController extends Controller
     {
         if (!chkPhanQuyen('qdhosokhenthuongdoingoai', 'thaydoi')) {
             return view('errors.noperm')
-                ->with('machucang', 'qdhosokhenthuongdoingoai')
+                ->with('machucnang', 'qdhosokhenthuongdoingoai')
                 ->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();

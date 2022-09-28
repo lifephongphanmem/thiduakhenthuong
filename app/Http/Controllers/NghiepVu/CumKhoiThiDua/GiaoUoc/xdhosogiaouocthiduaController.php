@@ -30,7 +30,7 @@ class xdhosogiaouocthiduaController extends Controller
     public function ThongTin(Request $request)
     {        
         if (!chkPhanQuyen('xdgiaouocthiduacumkhoi', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'xdgiaouocthiduacumkhoi')->with('tenphanquyen', 'danhsach');
+            return view('errors.noperm')->with('machucnang', 'xdgiaouocthiduacumkhoi')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
         $inputs['url'] = static::$url;
@@ -70,7 +70,7 @@ class xdhosogiaouocthiduaController extends Controller
     public function TraLai(Request $request)
     {
         if (!chkPhanQuyen('xdgiaouocthiduacumkhoi', 'hoanthanh')) {
-            return view('errors.noperm')->with('machucang', 'xdgiaouocthiduacumkhoi')->with('tenphanquyen', 'hoanthanh');
+            return view('errors.noperm')->with('machucnang', 'xdgiaouocthiduacumkhoi')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
         $thoigian = date('Y-m-d H:i:s');
@@ -94,7 +94,7 @@ class xdhosogiaouocthiduaController extends Controller
     public function NhanHoSo(Request $request)
     {
         if (!chkPhanQuyen('xdgiaouocthiduacumkhoi', 'hoanthanh')) {
-            return view('errors.noperm')->with('machucang', 'xdgiaouocthiduacumkhoi')->with('tenphanquyen', 'hoanthanh');
+            return view('errors.noperm')->with('machucnang', 'xdgiaouocthiduacumkhoi')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
         //dd($inputs);

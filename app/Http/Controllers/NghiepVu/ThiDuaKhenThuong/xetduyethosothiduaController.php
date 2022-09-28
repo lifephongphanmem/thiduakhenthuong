@@ -31,7 +31,7 @@ class xetduyethosothiduaController extends Controller
     public function ThongTin(Request $request)
     {
         if (!chkPhanQuyen('xdhosothidua', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'xdhosothidua')->with('tenphanquyen', 'danhsach');
+            return view('errors.noperm')->with('machucnang', 'xdhosothidua')->with('tenphanquyen', 'danhsach');
         }
 
             $inputs = $request->all();
@@ -87,7 +87,7 @@ class xetduyethosothiduaController extends Controller
     public function DanhSach(Request $request)
     {
         if (!chkPhanQuyen('xdhosothidua', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'xdhosothidua')->with('tenphanquyen', 'danhsach');
+            return view('errors.noperm')->with('machucnang', 'xdhosothidua')->with('tenphanquyen', 'danhsach');
         }
             $inputs = $request->all();
             $m_dangky = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
@@ -166,7 +166,7 @@ class xetduyethosothiduaController extends Controller
     public function TraLai(Request $request)
     {
         if (!chkPhanQuyen('xdhosothidua', 'hoanthanh')) {
-            return view('errors.noperm')->with('machucang', 'xdhosothidua')->with('tenphanquyen', 'hoanthanh');
+            return view('errors.noperm')->with('machucnang', 'xdhosothidua')->with('tenphanquyen', 'hoanthanh');
         }
             $inputs = $request->all();
             $inputs = $request->all();
@@ -204,7 +204,7 @@ class xetduyethosothiduaController extends Controller
     public function ChuyenHoSo(Request $request)
     {
         if (!chkPhanQuyen('xdhosothidua', 'hoanthanh')) {
-            return view('errors.noperm')->with('machucang', 'xdhosothidua')->with('tenphanquyen', 'hoanthanh');
+            return view('errors.noperm')->with('machucnang', 'xdhosothidua')->with('tenphanquyen', 'hoanthanh');
         }
             $inputs = $request->all();
             //dd($inputs);
@@ -226,7 +226,7 @@ class xetduyethosothiduaController extends Controller
     public function NhanHoSo(Request $request)
     {
         if (!chkPhanQuyen('xdhosothidua', 'hoanthanh')) {
-            return view('errors.noperm')->with('machucang', 'xdhosothidua')->with('tenphanquyen', 'hoanthanh');
+            return view('errors.noperm')->with('machucnang', 'xdhosothidua')->with('tenphanquyen', 'hoanthanh');
         }
             $inputs = $request->all();
             $thoigian = date('Y-m-d H:i:s');

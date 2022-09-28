@@ -35,7 +35,7 @@ class tracuutaptheController extends Controller
     public function ThongTin(Request $request)
     {
         if (!chkPhanQuyen('timkiemphongtrao', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'timkiemphongtrao')->with('tenphanquyen', 'danhsach');
+            return view('errors.noperm')->with('machucnang', 'timkiemphongtrao')->with('tenphanquyen', 'danhsach');
         }
         $m_tapthe = view_tdkt_tapthe::all();
         return view('TraCuu.TapThe.ThongTin')

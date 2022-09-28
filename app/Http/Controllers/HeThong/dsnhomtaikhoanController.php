@@ -33,7 +33,7 @@ class dsnhomtaikhoanController extends Controller
     public function ThongTin(Request $request)
     {
         if (!chkPhanQuyen('dsnhomtaikhoan', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'dsnhomtaikhoan');
+            return view('errors.noperm')->with('machucnang', 'dsnhomtaikhoan');
         }
 
         $inputs = $request->all();        
@@ -55,7 +55,7 @@ class dsnhomtaikhoanController extends Controller
     public function store(Request $request)
     {
         if (!chkPhanQuyen('dsnhomtaikhoan', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dsnhomtaikhoan');
+            return view('errors.noperm')->with('machucnang', 'dsnhomtaikhoan');
         }
         $inputs = $request->all();
        
@@ -81,7 +81,7 @@ class dsnhomtaikhoanController extends Controller
     public function destroy(Request $request)
     {
         if (!chkPhanQuyen('dsnhomtaikhoan', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dsnhomtaikhoan');
+            return view('errors.noperm')->with('machucnang', 'dsnhomtaikhoan');
         }
         $id = $request->all()['id'];
         $model = dsnhomtaikhoan::findorFail($id);
@@ -97,7 +97,7 @@ class dsnhomtaikhoanController extends Controller
         //duyệt từng phần tử => nếu count(magoc) > 0 => nhóm có phần tử con
         //dùng biến 'phanquyen' tương tư biến "sudung" để lọc chức năng trong nhóm con
         if (!chkPhanQuyen('dsnhomtaikhoan', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dstaikhoan');
+            return view('errors.noperm')->with('machucnang', 'dstaikhoan');
         }
         $inputs = $request->all();
         $m_nhomtaikhoan = dsnhomtaikhoan::where('manhomchucnang', $inputs['manhomchucnang'])->first();
@@ -122,7 +122,7 @@ class dsnhomtaikhoanController extends Controller
     public function LuuPhanQuyen(Request $request)
     {
         if (!chkPhanQuyen('dsnhomtaikhoan', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dstaikhoan');
+            return view('errors.noperm')->with('machucnang', 'dstaikhoan');
         }
         
         $inputs = $request->all();

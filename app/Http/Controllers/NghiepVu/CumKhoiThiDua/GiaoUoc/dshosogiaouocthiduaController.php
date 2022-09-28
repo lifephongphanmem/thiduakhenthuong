@@ -38,7 +38,7 @@ class dshosogiaouocthiduaController extends Controller
     public function ThongTin(Request $request)
     {
         if (!chkPhanQuyen('dsgiaouocthiduacumkhoi', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'dsgiaouocthiduacumkhoi')->with('tenphanquyen', 'danhsach');
+            return view('errors.noperm')->with('machucnang', 'dsgiaouocthiduacumkhoi')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
         $inputs['url'] = static::$url;
@@ -67,7 +67,7 @@ class dshosogiaouocthiduaController extends Controller
     public function Them(Request $request)
     {
         if (!chkPhanQuyen('dsgiaouocthiduacumkhoi', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dsgiaouocthiduacumkhoi')->with('tenphanquyen', 'thaydoi');
+            return view('errors.noperm')->with('machucnang', 'dsgiaouocthiduacumkhoi')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();        
         $inputs['mahosodk'] = (string)getdate()[0];
@@ -80,7 +80,7 @@ class dshosogiaouocthiduaController extends Controller
     public function ThayDoi(Request $request)
     {
         if (!chkPhanQuyen('dsgiaouocthiduacumkhoi', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dsgiaouocthiduacumkhoi')->with('tenphanquyen', 'thaydoi');
+            return view('errors.noperm')->with('machucnang', 'dsgiaouocthiduacumkhoi')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
         $inputs['url'] = static::$url;
@@ -131,7 +131,7 @@ class dshosogiaouocthiduaController extends Controller
     public function LuuHoSo(Request $request)
     {
         if (!chkPhanQuyen('dsgiaouocthiduacumkhoi', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dsgiaouocthiduacumkhoi')->with('tenphanquyen', 'thaydoi');
+            return view('errors.noperm')->with('machucnang', 'dsgiaouocthiduacumkhoi')->with('tenphanquyen', 'thaydoi');
         }
 
         $inputs = $request->all();
@@ -223,7 +223,7 @@ class dshosogiaouocthiduaController extends Controller
     public function ChuyenHoSo(Request $request)
     {
         if (!chkPhanQuyen('dsgiaouocthiduacumkhoi', 'hoanthanh')) {
-            return view('errors.noperm')->with('machucang', 'dsgiaouocthiduacumkhoi')->with('tenphanquyen', 'hoanthanh');
+            return view('errors.noperm')->with('machucnang', 'dsgiaouocthiduacumkhoi')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
         $model = dshosogiaouocthidua::where('mahosodk', $inputs['mahoso'])->first();
@@ -289,7 +289,7 @@ class dshosogiaouocthiduaController extends Controller
     public function XoaHoSo(Request $request)
     {
         if (!chkPhanQuyen('dsgiaouocthiduacumkhoi', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'dsgiaouocthiduacumkhoi')->with('tenphanquyen', 'thaydoi');
+            return view('errors.noperm')->with('machucnang', 'dsgiaouocthiduacumkhoi')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
         $model = dshosogiaouocthidua::findorfail($inputs['id']);

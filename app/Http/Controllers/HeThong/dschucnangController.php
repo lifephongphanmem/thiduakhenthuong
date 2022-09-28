@@ -24,7 +24,7 @@ class dschucnangController extends Controller
     public function ThongTin()
     {
         if (!chkPhanQuyen('hethongchung_chucnang', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'hethongchung_chucnang');
+            return view('errors.noperm')->with('machucnang', 'hethongchung_chucnang');
         }
 
         $m_chucnang = hethongchung_chucnang::all();
@@ -42,7 +42,7 @@ class dschucnangController extends Controller
     public function LuuChucNang(Request $request)
     {
         if (!chkPhanQuyen('hethongchung_chucnang', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'hethongchung_chucnang');
+            return view('errors.noperm')->with('machucnang', 'hethongchung_chucnang');
         }
         $inputs = $request->all();
         $model = hethongchung_chucnang::where('machucnang', $inputs['machucnang'])->first();
@@ -76,7 +76,7 @@ class dschucnangController extends Controller
     public function XoaChucNang(Request $request)
     {
         if (!chkPhanQuyen('hethongchung_chucnang', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'hethongchung_chucnang');
+            return view('errors.noperm')->with('machucnang', 'hethongchung_chucnang');
         }
         $inputs = $request->all();
         $model = hethongchung_chucnang::findorfail($inputs['iddelete']);

@@ -33,7 +33,7 @@ class tracuuphongtraoController extends Controller
     public function ThongTin(Request $request)
     {
         if (!chkPhanQuyen('timkiemphongtrao', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'timkiemphongtrao')->with('tenphanquyen', 'danhsach');
+            return view('errors.noperm')->with('machucnang', 'timkiemphongtrao')->with('tenphanquyen', 'danhsach');
         }
         $m_donvi = getDonVi(session('admin')->capdo);
         $m_diaban = getDiaBan(session('admin')->capdo);

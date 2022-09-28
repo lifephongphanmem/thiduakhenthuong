@@ -28,7 +28,7 @@ class dsquyetdinhkhenthuongController extends Controller
     public function ThongTin(Request $request)
     {
         if (!chkPhanQuyen('quyetdinhkhenthuong', 'danhsach')) {
-            return view('errors.noperm')->with('machucang', 'quyetdinhkhenthuong')->with('tenphanquyen', 'danhsach');
+            return view('errors.noperm')->with('machucnang', 'quyetdinhkhenthuong')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
         $inputs['url'] = static::$url;
@@ -45,7 +45,7 @@ class dsquyetdinhkhenthuongController extends Controller
     public function LuuHoSo(Request $request)
     {
         if (!chkPhanQuyen('quyetdinhkhenthuong', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'quyetdinhkhenthuong')->with('tenphanquyen', 'thaydoi');
+            return view('errors.noperm')->with('machucnang', 'quyetdinhkhenthuong')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
         $model = dsquyetdinhkhenthuong::where('maquyetdinh', $inputs['maquyetdinh'])->first();
@@ -66,7 +66,7 @@ class dsquyetdinhkhenthuongController extends Controller
     public function XoaHoSo(Request $request)
     {
         if (!chkPhanQuyen('quyetdinhkhenthuong', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'quyetdinhkhenthuong')->with('tenphanquyen', 'thaydoi');
+            return view('errors.noperm')->with('machucnang', 'quyetdinhkhenthuong')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
         //dd($inputs);
@@ -77,7 +77,7 @@ class dsquyetdinhkhenthuongController extends Controller
     public function Them()
     {
         if (!chkPhanQuyen('quyetdinhkhenthuong', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'quyetdinhkhenthuong')->with('tenphanquyen', 'thaydoi');
+            return view('errors.noperm')->with('machucnang', 'quyetdinhkhenthuong')->with('tenphanquyen', 'thaydoi');
         }
         $inputs['url'] = static::$url;
         $model = new dsvanbanphaply();
@@ -93,7 +93,7 @@ class dsquyetdinhkhenthuongController extends Controller
     public function ThayDoi(Request $request)
     {
         if (!chkPhanQuyen('quyetdinhkhenthuong', 'thaydoi')) {
-            return view('errors.noperm')->with('machucang', 'quyetdinhkhenthuong')->with('tenphanquyen', 'thaydoi');
+            return view('errors.noperm')->with('machucnang', 'quyetdinhkhenthuong')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
         $model = dsquyetdinhkhenthuong::where('maquyetdinh', $inputs['maquyetdinh'])->first();

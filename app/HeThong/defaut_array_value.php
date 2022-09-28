@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Admin
@@ -6,7 +7,8 @@
  * Time: 3:05 PM
  */
 
-function getTenTrangThaiPT($trangthai){
+function getTenTrangThaiPT($trangthai)
+{
     $a_trangthai = array(
         'DKT' => 'Đã khen thưởng',
         'DXKT' => 'Đang xét khen thưởng',
@@ -15,11 +17,12 @@ function getTenTrangThaiPT($trangthai){
     return $a_trangthai[$trangthai] ?? $trangthai;
 }
 
-function getLoaiVbQlNn(){
-    $vbqlnn = array(        
+function getLoaiVbQlNn()
+{
+    $vbqlnn = array(
         'luat' => 'Luật',
-        'nghidinh'=>'Nghị định',
-        'nghiquyet'=> 'Nghị quyết',
+        'nghidinh' => 'Nghị định',
+        'nghiquyet' => 'Nghị quyết',
         'thongtu' => 'Thông tư',
         'quyetdinh' => 'Quyết định',
         'vbhd' => 'Văn bản hướng dẫn',
@@ -31,11 +34,12 @@ function getLoaiVbQlNn(){
     return $vbqlnn;
 }
 
-function getTrangThaiVanBan(){
-    $vbqlnn = array(        
+function getTrangThaiVanBan()
+{
+    $vbqlnn = array(
         'CONHL' => 'Còn hiệu lực',
-        'HETMP'=> 'Hết hiệu lực một phần',
-        'HETHL'=>'Hết hiệu lực',       
+        'HETMP' => 'Hết hiệu lực một phần',
+        'HETHL' => 'Hết hiệu lực',
     );
     return $vbqlnn;
 }
@@ -142,9 +146,9 @@ function getPhamViPhongTrao($capdo = 'T')
 
 function getPhamViApDungPhongTrao($capdo = 'T')
 {
-    $a_kq['T'] =  array('T','TW',);
-    $a_kq['H'] =  array('H','T','TW',);
-    $a_kq['X'] =  array('X','H','T','TW',);    
+    $a_kq['T'] =  array('T', 'TW',);
+    $a_kq['H'] =  array('H', 'T', 'TW',);
+    $a_kq['X'] =  array('X', 'H', 'T', 'TW',);
     return $a_kq[$capdo];
 }
 
@@ -231,4 +235,18 @@ function getNam($all = false)
         $a_tl[$i] = $i;
     }
     return $a_tl;
+}
+
+function getTrangThaiHoSo()
+{
+    return [
+        'CC' => 'Chờ chuyển',
+        'CD' => 'Chờ duyệt',
+        'BTL' => 'Bị trả lại',
+        'BTLXD' => 'Trả lại xét duyệt',
+        'CXKT' => 'Chờ xét khen thưởng',
+        'DKT' => 'Đã khen thưởng',
+        'DXKT' => 'Đang xétkhen thưởng',
+        'DD' => 'Đã duyệt',
+    ];
 }

@@ -15,23 +15,12 @@
     <script>
         jQuery(document).ready(function() {
             TableManaged3.init();
-            $('#madonvi').change(function() {
-                window.location.href = '/KhenThuongKhangChien/ChongPhapCaNhan/ThongTin?madonvi=' + $(
-                        '#madonvi').val() +
-                    '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
+            $('#madonvi, #maloaihinhkt, #nam, #trangthai').change(function() {
+                window.location.href = "{{ $inputs['url'] }}" + 'ThongTin?madonvi=' + $('#madonvi').val() +
+                    '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val() +
+                    '&trangthai=' + $('#trangthai').val();
             });
-            $('#maloaihinhkt').change(function() {
-                window.location.href = '/KhenThuongKhangChien/ChongPhapCaNhan/ThongTin?madonvi=' + $(
-                        '#madonvi').val() +
-                    '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
-            });
-            $('#nam').change(function() {
-                window.location.href = '/KhenThuongKhangChien/ChongPhapCaNhan/ThongTin?madonvi=' + $(
-                        '#madonvi').val() +
-                    '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
-            });
-        });        
-    
+        });
     </script>
 @stop
 
@@ -43,8 +32,9 @@
                 <h3 class="card-label text-uppercase">Danh sách hồ sơ khen thưởng kháng chiến chống Pháp cho cá nhân</h3>
             </div>
             <div class="card-toolbar">
-                @if (chkPhanQuyen('dshosochongphap_canhan', 'modify'))
-                    <a href="{{url('/KhenThuongKhangChien/ChongPhapCaNhan/Them?madonvi='.$inputs['madonvi'])}}" class="btn btn-success btn-xs" >
+                @if (chkPhanQuyen('khenthuongchongphapcanhan', 'thaydoi'))
+                    <a href="{{ url('/KhenThuongKhangChien/ChongPhapCaNhan/Them?madonvi=' . $inputs['madonvi']) }}"
+                        class="btn btn-success btn-xs">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</a>
                 @endif
             </div>
@@ -67,11 +57,24 @@
                 </div>
                 <div class="col-md-5">
                     <label style="font-weight: bold">Loại hình khen thưởng</label>
-                    {!! Form::select('maloaihinhkt', setArrayAll($a_loaihinhkt), $inputs['maloaihinhkt'], ['id' => 'maloaihinhkt', 'class' => 'form-control select2basic']) !!}
+                    {!! Form::select('maloaihinhkt', setArrayAll($a_loaihinhkt), $inputs['maloaihinhkt'], [
+                        'id' => 'maloaihinhkt',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
                 </div>
                 <div class="col-md-2">
                     <label style="font-weight: bold">Năm</label>
                     {!! Form::select('nam', getNam(true), $inputs['nam'], ['id' => 'nam', 'class' => 'form-control select2basic']) !!}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-5">
+                    <label style="font-weight: bold">Trạng thái</label>
+                    {!! Form::select('trangthai', setArrayAll(getTrangThaiHoSo(), 'Tất cả'), $inputs['trangthai'], [
+                        'id' => 'trangthai',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
                 </div>
             </div>
 
@@ -122,7 +125,6 @@
                                             href="{{ url('/KhenThuongKhangChien/ChongPhapCaNhan/Xem?mahosokt=' . $tt->mahosokt) }}"
                                             class="btn btn-sm btn-clean btn-icon" target="_blank">
                                             <i class="icon-lg la fa-eye text-dark"></i></a>
-                                       
                                     @endif
                                 </td>
                             </tr>
@@ -133,7 +135,7 @@
         </div>
     </div>
     <!--end::Card-->
-    
+
     @include('includes.modal.modal-lydo')
     @include('includes.modal.modal-delete')
     @include('includes.modal.modal_accept_hs')

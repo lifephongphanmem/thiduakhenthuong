@@ -39,7 +39,7 @@ class tracuucanhanController extends Controller
     {
         if (!chkPhanQuyen('timkiemcanhan', 'danhsach')) {
             return view('errors.noperm')
-                ->with('machucang', 'timkiemcanhan')
+                ->with('machucnang', 'timkiemcanhan')
                 ->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
