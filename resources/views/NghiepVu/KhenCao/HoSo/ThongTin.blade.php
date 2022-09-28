@@ -112,7 +112,7 @@
                                             class="btn btn-sm btn-clean btn-icon">
                                             <i class="icon-lg la flaticon-edit-1 text-success icon-2x"></i>
                                         </a>                                       --}}
-                                        
+
                                         <a href="{{ url($inputs['url'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
                                             class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
                                             title="Thông tin hồ sơ khen thưởng">

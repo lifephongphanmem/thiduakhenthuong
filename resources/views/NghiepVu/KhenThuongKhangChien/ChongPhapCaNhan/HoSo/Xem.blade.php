@@ -1,145 +1,100 @@
-@extends('HeThong.main')
-
-@section('custom-style')
-    <link rel="stylesheet" type="text/css" href="{{ url('assets/css/pages/dataTables.bootstrap.css') }}" />
-    {{-- <link rel="stylesheet" type="text/css" href="{{ url('assets/css/pages/select2.css') }}" /> --}}
-@stop
-
-@section('custom-script-footer')
-    <!-- BEGIN PAGE LEVEL PLUGINS -->
-    <script src="/assets/js/pages/select2.js"></script>
-    <script src="/assets/js/pages/jquery.dataTables.min.js"></script>
-    <script src="/assets/js/pages/dataTables.bootstrap.js"></script>
-    <script src="/assets/js/pages/table-lifesc.js"></script>
-    <!-- END PAGE LEVEL PLUGINS -->
-@stop
+@extends('BaoCao.main_baocao')
 
 @section('content')
-    <!--begin::Card-->
+    <table id="data_header" class="header" width="96%" border="0" cellspacing="0" cellpadding="8"
+        style="margin:0 auto 25px; text-align: center;">
+        <tr>
+            <td style="text-align: left;width: 60%">
+                <b>{{ $m_donvi->tendvcqhienthi }}</b>
+            </td>
 
-    <div class="card card-custom" style="min-height: 600px">
-        <div class="card-header">
-            <div class="card-title">
-                <h3 class="card-label text-uppercase">Thông tin hồ sơ khen thưởng kháng chiến chống Pháp cho cá nhân</h3>
-            </div>
-            <div class="card-toolbar">
-                <!--begin::Button-->
-                <!--end::Button-->
-            </div>
-        </div>
+            <td style="text-align: center; font-weight: bold">
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: left;width: 60%">
+                <b>{{ $m_donvi->tendvhienthi }}</b>
+            </td>
 
-        {!! Form::model($model, ['method' => 'POST','url'=> '', 'class' => 'form', 'id' => 'frm_ThayDoi', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
-        {{ Form::hidden('madonvi', null, ['id' => 'madonvi']) }}
-        {{ Form::hidden('mahosokt', null, ['id' => 'mahosokt']) }}
-        <div class="card-body">
-            <div class="form-group row">
-                <div class="col-lg-6">
-                    <label>Tên đơn vị nhập liệu</label>
-                    {!! Form::text('tendonvi', null, ['class' => 'form-control', 'readonly']) !!}
-                </div>
+            <td style="text-align: center; font-style: italic">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="font-weight: bold;">
+                <h4> THÔNG TIN HỒ SƠ KHEN THƯỞNG KHÁNG CHIẾN CHỐNG PHÁP CHO CÁ NHÂN </h4>
+            </td>
+        </tr>
+    </table>
 
-                <div class="col-lg-6">
-                    <label>Ngày tạo hồ sơ<span class="require">*</span></label>
-                    {!! Form::input('date', 'ngayhoso', null, ['class' => 'form-control', 'required']) !!}
-                </div>
-            </div>
+    <table id="data_body" class="money" cellspacing="0" cellpadding="0" border="0"
+        style="margin: 5px auto; border-collapse: collapse;font:normal 12px Times, serif;">
+        <tr>
+            <td class="text-left" width="15%">Tên đơn vị nhập liệu: {{ $m_donvi->tendonvi }}</td>
+        </tr>        
+        <tr>
+            <td>Tên đối tượng: {{ $model->tendoituong }}</td>
+        </tr>
+        <tr>
+            <td>Ngày tháng năm sinh: {{  getDayVn($model->namsinh) }}</td>
+        </tr>
+        <tr>
+            <td>Chính quán: {{ $model->chinhquan }}</td>
+        </tr>
+        <tr>
+            <td>Chỗ ở hiện nay: {{ $model->noio }}</td>
+        </tr>
+        <tr>
+            <td>Thời gian tham gia kháng chiến: {{ $model->tgiantgkc }}</td>
+        </tr>
+        <tr>
+            <td>Thời gian kháng chiến quy đổi: {{ $model->tgiankcqd }}</td>
+        </tr>
+        <tr>
+            <td>Loại hình khen thưởng: {{ $a_loaihinhkt[$model->maloaihinhkt] ?? '' }}</td>
+        </tr>
+        <tr>
+            <td>Hình thức khen thưởng: {{ $a_hinhthuckt[$model->mahinhthuckt] ?? '' }}</td>
+        </tr>           
+        <tr>
+            <td>Nơi trình khen thưởng: {{ $model->noitrinhkt }}</td>
+        </tr>
+        <tr>
+            <td>Loại hồ sơ kháng chiến: {{ $model->loaihosokc }}</td>
+        </tr>
+        <tr>
+            <td>Mô tả hồ sơ: {{ $model->noidung }}</td>
+        </tr>
+        <tr>
+            <td>Số quyết định: {{ $model->soqd }}</td>
+        </tr>
+        <tr>
+            <td>Ngày quyết định: {{  getDayVn($model->ngayqd) }}</td>
+        </tr>
+    </table>
+    
 
-            <div class="form-group row">
-                <div class="col-lg-6">
-                    <label>Thời gian tham gia kháng chiến<span class="require">*</span></label>
-                    {!! Form::input('date', 'tgiantgkc', null, ['class' => 'form-control']) !!}
-                </div>
-                <div class="col-lg-6">
-                    <label>Thời gian kháng chiến quy đổi</label>
-                    {!! Form::text('tgiankcqd', null, ['class' => 'form-control']) !!}
-                </div>
-            </div>
+    <table id="data_footer" class="header" width="96%" border="0" cellspacing="0" cellpadding="8"
+        style="margin:20px auto; text-align: center;">
+        <tr>
+            <td style="text-align: left;" width="50%"></td>
+            <td style="text-align: center; font-style: italic" width="50%">
+                {{ $m_donvi->diadanh . ', ' . Date2Str($model->ngayhoso) }}</td>
+        </tr>
+        <tr style="font-weight: bold">
+            <td style="text-align: center;" width="50%">Người lập biểu</td>
+            <td style="text-align: center;" width="50%">{{ $m_donvi->cdlanhdao }}</td>
+        </tr>
+        <tr style="font-style: italic">
+            <td style="text-align: center;" width="50%">(Ghi rõ họ tên)</td>
+            <td style="text-align: center;" width="50%">(Ký tên, đóng dấu)</td>
+        </tr>
+        <tr>
+            <td style="border-top: 100px"></td>
+        </tr>
 
-
-            <div class="form-group row">
-                <div class="col-lg-6">
-                    <label class="control-label">Số quyết định</label>
-                    {!! Form::text('soqd', null, ['class' => 'form-control']) !!}
-                </div>
-                <div class="col-lg-6">
-                    <label class="control-label">Số được duyệt</label>
-                    {!! Form::text('sodd', null, ['class' => 'form-control']) !!}
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-lg-6">
-                    <label class="control-label">Tên đối tượng</label>
-                    {!! Form::text('tendoituong', null, ['class' => 'form-control']) !!}
-                </div>
-                <div class="col-lg-6">
-                    <label class="control-label">Ngày tháng năm sinh</label>
-                    {!! Form::input('date', 'namsinh', null, ['class' => 'form-control']) !!}
-                </div>                
-            </div>
-
-            <div class="form-group row">
-                <div class="col-lg-6">
-                    <label class="control-label">Loại khen thưởng</label>
-                    {!! Form::select('maloaihinhkt', $a_loaihinhkt, null, ['class' => 'form-control']) !!}
-                </div>
-                <div class="col-lg-6">
-                    <label class="control-label">Hình thức khen thưởng</label>
-                    {!! Form::select('mahinhthuckt', $a_hinhthuckt, null, [ 'class' => 'form-control']) !!}
-                </div>
-
-            </div>
-            
-            <div class="form-group row">
-                <div class="col-lg-6">
-                    <label class="control-label">Nơi trình khen thưởng</label>
-                    {!! Form::text('noitrinhkt', null, ['class' => 'form-control required']) !!}
-                </div>
-                <div class="col-lg-6">
-                    <label class="control-label">Chính quán</label>
-                    {!! Form::text('chinhquan', null, ['class' => 'form-control']) !!}
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-lg-6">
-                    <label class="control-label">Chỗ ở hiện nay</label>
-                    {!! Form::text('noio', null, [ 'class' => 'form-control']) !!}
-                </div>
-                <div class="col-lg-6">
-                    <label class="control-label">Loại hồ sơ kháng chiến(theo phần mềm cũ)</label>
-                    {!! Form::text('loaihosokc', null, ['class' => 'form-control']) !!}
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-lg-12">
-                    <label>Mô tả hồ sơ</label>
-                    {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows' => 2]) !!}
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-lg-6">
-                    <label>Tài liệu khác: </label>
-                    @if ($model->tailieukhac != '')
-                        <span class="form-control" style="border-style: none">
-                            <a href="{{ url('/data/tailieukhac/' . $model->tailieukhac) }}"
-                                target="_blank">{{ $model->tailieukhac }}</a>
-                        </span>
-                    @endif
-                </div>
-            </div>
-        </div>
-        <div class="card-footer">
-            <div class="row text-center">
-                <div class="col-lg-12">
-                    
-                </div>
-            </div>
-        </div>
-        {!! Form::close() !!}
-    </div>
-    <!--end::Card-->
-
-
+        <tr>
+            <td style="text-align: center;" width="50%">{{ $m_donvi->nguoilapbieu }}</td>
+            <td style="text-align: center;" width="50%">{{ $m_donvi->lanhdao }}</td>
+        </tr>
+    </table>
 @stop

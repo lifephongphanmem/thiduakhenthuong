@@ -11,5 +11,8 @@ Route::group(['prefix' => 'KhenThuongKhangChien'], function () {
         Route::get('Sua', [dshosochongphap_canhanController::class, 'SuaHoSo']);
         Route::post('NhanHoSo', [dshosochongphap_canhanController::class, 'NhanHoSo']);
         Route::get('Xem', [dshosochongphap_canhanController::class, 'XemHoSo']);
+        Route::get('TaiLieuDinhKem', [dshosochongphap_canhanController::class, 'TaiLieuDinhKem']);
+        Route::post('PheDuyet', [dshosochongphap_canhanController::class, 'PheDuyet']);
+        Route::post('HuyPheDuyet', [dshosochongphap_canhanController::class, 'HuyPheDuyet']);
     });
 });

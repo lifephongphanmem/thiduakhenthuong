@@ -56,5 +56,11 @@ class dshosochongmy_canhan extends Model
         'thongtin_tw', //chưa dùng
         'trangthai_tw',
         'thoigian_tw',
+        //Thông tin khen thưởng
+        'donvikhenthuong',
+        'capkhenthuong',
+        'chucvunguoikyqd',
+        'hotennguoikyqd',
+        'ngayqd',
     ];
 }

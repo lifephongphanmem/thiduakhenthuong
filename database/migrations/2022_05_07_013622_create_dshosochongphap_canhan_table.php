@@ -62,6 +62,12 @@ class CreateDshosochongphapCanhanTable extends Migration
             $table->string('thongtin_tw')->nullable(); //chưa dùng
             $table->string('trangthai_tw')->nullable(20);
             $table->dateTime('thoigian_tw')->nullable();
+            //Thông tin khen thưởng
+            $table->date('ngayqd')->nullable();
+            $table->string('donvikhenthuong')->nullable();
+            $table->string('capkhenthuong')->nullable();
+            $table->string('chucvunguoikyqd')->nullable();
+            $table->string('hotennguoikyqd')->nullable();
             $table->timestamps();
         });
     }
