@@ -11,6 +11,7 @@ use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\DanhMuc\dsnhomtaikhoan;
+use App\Model\DanhMuc\dsnhomtaikhoan_phanquyen;
 use App\Model\DanhMuc\dstaikhoan;
 use App\Model\DanhMuc\dstaikhoan_phanquyen;
 use App\Model\HeThong\hethongchung_chucnang;
@@ -253,8 +254,34 @@ class dstaikhoanController extends Controller
         }
 
         $inputs = $request->all();
-        dd($inputs);
-        return redirect('/TaiKhoan/DanhSach?tendangnhap=' . $inputs['tendangnhap']);
-    }
+        $m_taikhoan = dstaikhoan::where('tendangnhap', $inputs['tendangnhap'])->first();
+        // dd($inputs);
 
+        if (!isset($inputs['manhomchucnang'])) {
+            return view('errors.404')
+                ->with('message', 'Bạn cần chọn nhóm chức năng cho tài khoản để cài lại phân quyền')
+                ->with('url', '/TaiKhoan/DanhSach?madonvi=' . $m_taikhoan->madonvi);
+        }
+
+       
+        $a_phanquyen = [];
+        foreach (dsnhomtaikhoan_phanquyen::where('manhomchucnang', $inputs['manhomchucnang'])->get() as $phanquyen) {
+            $a_phanquyen[] = [
+                "tendangnhap" => $inputs['tendangnhap'],
+                "machucnang" => $phanquyen->machucnang,
+                "phanquyen" => $phanquyen->phanquyen,
+                "danhsach" => $phanquyen->danhsach,
+                "thaydoi" => $phanquyen->thaydoi,
+                "hoanthanh" => $phanquyen->hoanthanh,
+            ];
+        }
+        //Xóa phân quyền cũ
+        dstaikhoan_phanquyen::where('tendangnhap', $inputs['tendangnhap'])->delete();
+        //Lưu thông tin nhóm tài khoản
+        $m_taikhoan->manhomchucnang = $inputs['manhomchucnang'];
+        $m_taikhoan->save();
+        //Lưu phân uyền
+        dstaikhoan_phanquyen::insert($a_phanquyen);        
+        return redirect('/TaiKhoan/DanhSach?madonvi=' . $m_taikhoan->madonvi);
+    }
 }

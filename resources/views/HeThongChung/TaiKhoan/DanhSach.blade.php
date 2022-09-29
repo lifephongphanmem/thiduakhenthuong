@@ -106,7 +106,7 @@
                                                     class="btn btn-sm btn-clean btn-icon">
                                                     <i class="icon-lg la flaticon-user-settings text-primary icon-2x"></i></a>
 
-                                                <button type="button" onclick="setPerGroup('{{ $tt->manhomchucnang }}')"
+                                                <button type="button" onclick="setPerGroup('{{ $tt->manhomchucnang }}','{{ $tt->tendangnhap }}')"
                                                     class="btn btn-sm btn-clean btn-icon" data-target="#modify-nhomchucnang"
                                                     data-toggle="modal" title="Đặt lại quyền theo nhóm chức năng">
                                                     <i class="icon-lg la flaticon-network text-primary icon-2x"></i>
@@ -138,8 +138,7 @@
     <!--Modal Nhận và trình khen thưởng hồ sơ hồ sơ-->
 <div id="modify-nhomchucnang" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
     {!! Form::open(['url' => '/TaiKhoan/NhomChucNang', 'id' => 'frm_nhomchucnang']) !!}
-    <input type="hidden" name="mahoso" />
-    <input type="hidden" name="madonvi" />
+    <input type="hidden" name="tendangnhap" />
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header modal-header-primary">
@@ -153,7 +152,7 @@
                 <div class="form-group row">
                     <div class="col-md-12">
                         <label class="control-label">Tên nhóm chức năng<span class="require">*</span></label>
-                        {!! Form::select('manhomchucnang', $a_nhomtk, null, ['class' => 'form-control select2_modal']) !!}
+                        {!! Form::select('manhomchucnang', $a_nhomtk, null, ['class' => 'form-control select2_modal', 'required'=>'true']) !!}
                     </div>
                 </div>
             </div>
@@ -172,8 +171,9 @@
         $('#frm_nhomchucnang').submit();
     }
 
-    function setPerGroup(manhomchucnang) {
+    function setPerGroup(manhomchucnang, tendangnhap) {
         $('#frm_nhomchucnang').find("[name='manhomchucnang']").val(manhomchucnang);
+        $('#frm_nhomchucnang').find("[name='tendangnhap']").val(tendangnhap);
     }
 </script>
 
