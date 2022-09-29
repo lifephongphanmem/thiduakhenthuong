@@ -42,7 +42,7 @@
                 <h3 class="card-label text-uppercase">Danh sách hồ sơ trình khen thưởng chuyên đề</h3>
             </div>
             <div class="card-toolbar">
-                @if (chkPhanQuyen('xdhosokhenthuongnienhan', 'modify'))
+                @if (chkPhanQuyen('xdhosokhenthuongnienhan', 'thaydoi'))
                     <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
                 @endif

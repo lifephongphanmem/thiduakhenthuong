@@ -34,13 +34,13 @@
 @section('content')
     <!--begin::Card-->
     <div class="card card-custom" style="min-height: 600px">
-        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+        <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
                 <h3 class="card-label text-uppercase">Danh mục danh hiệu thi đua</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
-                @if (chkPhanQuyen('dmdanhhieuthidua', 'modify'))
+                @if (chkPhanQuyen('dmdanhhieuthidua', 'thaydoi'))
                     <button type="button" onclick="add()" class="btn btn-success btn-xs" data-target="#modify-modal"
                         data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
@@ -69,7 +69,7 @@
                                     <td>{{ $a_phanloai[$ct->phanloai] ?? '' }}</td>
                                     <td>{{ $ct->tendanhhieutd }}</td>
                                     <td style="text-align: center">
-                                        @if (chkPhanQuyen('dmdanhhieuthidua', 'modify'))
+                                        @if (chkPhanQuyen('dmdanhhieuthidua', 'thaydoi'))
                                             <button type="button" title="Chỉnh sửa"
                                                 onclick="edit('{{ $ct->madanhhieutd }}','{{ $ct->tendanhhieutd }}','{{ $ct->phanloai }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"

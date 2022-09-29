@@ -37,8 +37,8 @@ class baocaotonghopController extends Controller
         if (!chkPhanQuyen('baocaotapthe', 'danhsach')) {
             return view('errors.noperm')->with('machucnang', 'baocaotapthe')->with('tenphanquyen', 'danhsach');
         }
-        $m_diaban = getDiaBan(session('admin')->capdo);
-        $m_donvi = getDonVi(session('admin')->capdo);
+        $m_donvi = getDonVi(session('admin')->capdo, 'baocaotapthe');
+        $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
         return view('BaoCao.TongHop.ThongTin')
             ->with('m_diaban', $m_diaban)
             ->with('m_donvi', $m_donvi)

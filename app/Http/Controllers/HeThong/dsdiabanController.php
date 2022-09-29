@@ -28,8 +28,8 @@ class dsdiabanController extends Controller
             return view('errors.noperm')->with('machucnang', 'dsdiaban');
         }
 
-        $model = dsdiaban::all();
         $inputs = $request->all();
+        $model = getDiaBan(session('admin')->capdo);
         $a_donvi = array_column(dsdonvi::all()->toarray(), 'tendonvi', 'madonvi');
         //dd($model);
         return view('HeThongChung.DiaBan.ThongTin')
@@ -71,7 +71,18 @@ class dsdiabanController extends Controller
             return view('errors.noperm')->with('machucnang', 'dsdiaban');
         }
         $inputs = $request->all();
-        dsdiaban::findorfail($inputs['iddelete'])->delete();
+        
+        $model = dsdiaban::findorfail($inputs['id']);
+        $chk_db = dsdiaban::where('madiabanQL',$model->madiaban)->count();
+        $chk_dv = dsdonvi::where('madiaban',$model->madiaban)->count();
+        if($chk_db == 0 && $chk_dv == 0){
+            $model->delete();
+        }else{
+            return view('errors.403')
+            ->with('message', 'Bạn cần xóa hết địa bàn trực thuộc và các đơn vị trong địa bàn.')
+            ->with('url', '/DiaBan/ThongTin');
+        }
+        
         return redirect('/DiaBan/ThongTin');
     }
 

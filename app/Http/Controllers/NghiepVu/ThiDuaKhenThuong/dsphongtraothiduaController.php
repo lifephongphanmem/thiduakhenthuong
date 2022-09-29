@@ -40,8 +40,8 @@ class dsphongtraothiduaController extends Controller
             return view('errors.noperm')->with('machucnang', 'dsphongtraothidua');
         }
         $inputs = $request->all();
-        $m_donvi = getDonVi(session('admin')->capdo);
-        $m_diaban = getDiaBan(session('admin')->capdo);
+        $m_donvi = getDonVi(session('admin')->capdo, 'dsphongtraothidua');        
+        $m_diaban = dsdiaban::wherein('madiaban',array_column($m_donvi->toarray(),'madiaban'))->get();
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';

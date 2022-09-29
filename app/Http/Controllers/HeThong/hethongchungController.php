@@ -48,7 +48,9 @@ class hethongchungController extends Controller
 
         //Tài khoản đang bị khóa
         if ($ttuser->trangthai == "0") {
-            return view('errors.lockuser');
+            return view('errors.403')
+                ->with('message', 'Tài khoản đang bị khóa. Bạn hãy liên hệ với người quản trị để mở khóa tài khoản.')
+                ->with('url', '/DangNhap');
         }
         $a_HeThongChung = getHeThongChung();
         $solandn = chkDbl($a_HeThongChung->solandn);
@@ -59,7 +61,9 @@ class hethongchungController extends Controller
                 if ($ttuser->solandn >= $solandn) {
                     $ttuser->status = 'Vô hiệu';
                     $ttuser->save();
-                    return view('errors.lockuser');
+                    return view('errors.lockuser')
+                        ->with('message', 'Tài khoản đang bị khóa. Bạn hãy liên hệ với người quản trị để mở khóa tài khoản.')
+                        ->with('url', '/DangNhap');
                 }
                 $ttuser->save();
                 return view('errors.403')
@@ -91,16 +95,7 @@ class hethongchungController extends Controller
             $ttuser->chucvukythay = $m_donvi->chucvukythay;
             $ttuser->nguoiky = $m_donvi->nguoiky;
             $ttuser->diadanh = $m_donvi->diadanh;
-            //Gán chức năng
-            // $ttuser->chucnang = [];
-            // if($ttuser->nhaplieu)
-            //     $ttuser->chucnang[] = 'nhaplieu';
-            // if($ttuser->tonghop)
-            //     $ttuser->chucnang[] = 'tonghop';
-            // if($ttuser->hethong)
-            //     $ttuser->chucnang[] = 'hethong';
-            // if($ttuser->chucnangkhac)
-            //     $ttuser->chucnang[] = 'chucnangkhac';
+            
             //Lấy thông tin địa bàn
             $m_diaban = dsdiaban::where('madiaban', $ttuser->madiaban)->first();
 
@@ -108,9 +103,9 @@ class hethongchungController extends Controller
             $ttuser->capdo = $m_diaban->capdo;
             $ttuser->phanquyen = json_decode($ttuser->phanquyen, true);
         } else {
-            $ttuser->chucnang = array('SSA');
+            //$ttuser->chucnang = array('SSA');
             $ttuser->capdo = "SSA";
-            $ttuser->phanquyen = [];
+            //$ttuser->phanquyen = [];
         }
 
         //Lấy setting gán luôn vào phiên đăng nhập

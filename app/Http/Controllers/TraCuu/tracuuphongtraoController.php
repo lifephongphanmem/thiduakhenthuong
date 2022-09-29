@@ -11,6 +11,7 @@ use App\Model\DanhMuc\dmdanhhieuthidua;
 use App\Model\DanhMuc\dmdanhhieuthidua_tieuchuan;
 use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
+use App\Model\DanhMuc\dsdiaban;
 use App\Model\View\view_cumkhoi_canhan;
 use App\Model\View\view_cumkhoi_tapthe;
 use App\Model\View\view_tdkt_canhan;
@@ -36,7 +37,7 @@ class tracuuphongtraoController extends Controller
             return view('errors.noperm')->with('machucnang', 'timkiemphongtrao')->with('tenphanquyen', 'danhsach');
         }
         $m_donvi = getDonVi(session('admin')->capdo);
-        $m_diaban = getDiaBan(session('admin')->capdo);
+        $m_diaban = dsdiaban::wherein('madiaban',array_column($m_donvi->toarray(),'madiaban'))->get();
         return view('TraCuu.PhongTrao.ThongTin')
             ->with('a_donvi', setArrayAll(array_column($m_donvi->toArray(), 'tendonvi', 'madonvi')))
             ->with('a_diaban', setArrayAll(array_column($m_diaban->toArray(), 'tendiaban', 'madiaban')))

@@ -32,7 +32,7 @@
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
-                @if (chkPhanQuyen('dstaikhoan', 'modify'))
+                @if (chkPhanQuyen('dstaikhoan', 'thaydoi'))
                     <a href="{{ url('/TaiKhoan/Them?&madonvi=' . $inputs['madonvi']) }}" class="btn btn-success btn-xs">
                         <i class="fa fa-plus"></i> Thêm mới</a>
                 @endif
@@ -94,7 +94,7 @@
                                     @endif
 
                                     <td class="text-center">
-                                        @if (chkPhanQuyen('dstaikhoan', 'modify'))
+                                        @if (chkPhanQuyen('dstaikhoan', 'thaydoi'))
                                             <a title="Sửa thông tin"
                                                 href="{{ url('/TaiKhoan/Sua?tendangnhap=' . $tt->tendangnhap) }}"
                                                 class="btn btn-sm btn-clean btn-icon">

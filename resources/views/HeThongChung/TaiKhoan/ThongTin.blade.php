@@ -63,42 +63,42 @@
                         <thead>
                             <tr class="text-center">
                                 <th width="10%">STT</th>
-                                <th>Tên đơn vị</th>                                
+                                <th>Tên đơn vị</th>
                                 <th width="10%">Thao tác</th>
                             </tr>
-                            
+
                         </thead>
                         <tbody>
                             <?php
                             $i = 1;
                             ?>
                             @foreach ($m_diaban as $tt_diaban)
-                            <?php 
-                            $j=1;
-                            $donvi = $m_donvi->where('madiaban', $tt_diaban->madiaban);
-                            ?>
+                                <?php
+                                $j = 1;
+                                $donvi = $m_donvi->where('madiaban', $tt_diaban->madiaban);
+                                ?>
                                 <tr>
                                     <td class="text-center">{{ romanNumerals($i++) }}</td>
                                     <td class="text-primary">{{ $tt_diaban->tendiaban }}</td>
                                     <td></td>
                                 </tr>
                                 @foreach ($donvi as $tt_donvi)
-                                <tr>
-                                    <td class="text-right">{{ $j++ }}</td>
-                                    <td>{{ $tt_donvi->tendonvi }}</td>
-                                    <td class="text-center">
-                                        <a href="{{ '/TaiKhoan/DanhSach?madonvi=' . $tt_donvi->madonvi }}"
-                                            class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
-                                            title="Danh sách tài khoản">
-                                            <span class="svg-icon svg-icon-xl">
-                                                <i class="icon-lg flaticon-user text-success icon-2x"></i>
-                                            </span>
-                                            <span
-                                                class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt_donvi->sotaikhoan }}</span>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
+                                    <tr>
+                                        <td class="text-right">{{ $j++ }}</td>
+                                        <td>{{ $tt_donvi->tendonvi }}</td>
+                                        <td class="text-center">
+                                            <a href="{{ '/TaiKhoan/DanhSach?madonvi=' . $tt_donvi->madonvi }}"
+                                                class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
+                                                title="Danh sách tài khoản">
+                                                <span class="svg-icon svg-icon-xl">
+                                                    <i class="icon-lg flaticon-user text-success icon-2x"></i>
+                                                </span>
+                                                <span
+                                                    class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt_donvi->sotaikhoan }}</span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             @endforeach
                         </tbody>
                     </table>
@@ -107,5 +107,5 @@
         </div>
     </div>
     <!--end::Card-->
-    @include("includes.modal.modal-delete")
+    @include('includes.modal.modal-delete')
 @stop

@@ -28,7 +28,7 @@
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
-                @if (chkPhanQuyen('dsdonvi', 'modify'))
+                @if (chkPhanQuyen('dsdonvi', 'thaydoi'))
                     <a href="{{url('DonVi/Them?madiaban='.$inputs['madiaban'])}}" class="btn btn-info btn-sm">
                         <i class="fa fa-plus"></i> Thêm mới</a>
                 @endif
@@ -45,7 +45,7 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <table class="table table-striped table-bordered table-hover table-responsive" id="sample_3">
+                    <table class="table table-striped table-bordered table-hover" id="sample_3">
                         <thead>
                             <tr class="text-center">
                                 <th width="5%">STT</th>

@@ -38,7 +38,7 @@
                 <h3 class="card-label text-uppercase">Danh sách hồ sơ khen thưởng danh hiệu thi đua</h3>
             </div>
             <div class="card-toolbar">
-                @if (chkPhanQuyen('qdhosodangkythidua', 'modify'))
+                @if (chkPhanQuyen('qdhosodangkythidua', 'thaydoi'))
                     <button type="button" class="btn btn-success btn-xs" data-target="#khenthuong-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
                 @endif

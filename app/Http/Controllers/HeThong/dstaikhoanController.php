@@ -37,8 +37,9 @@ class dstaikhoanController extends Controller
         }
 
         $inputs = $request->all();
-        $m_donvi = getDiaBan(session('admin')->capdo);
-        $m_diaban = getDonVi(session('admin')->capdo);
+        
+        $m_diaban = getDiaBan(session('admin')->capdo);
+        $m_donvi = dsdonvi::wherein('madiaban', $m_diaban->toarray('madiaban'))->get();
         //dd($m_donvi);
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $model = dstaikhoan::all();
@@ -61,7 +62,8 @@ class dstaikhoanController extends Controller
         }
         $inputs = $request->all();
         $m_donvi = getDonVi(session('admin')->capdo);
-        $m_diaban = getDiaBan(session('admin')->capdo);
+        //dd($m_donvi);
+        $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
         //dd($m_donvi);
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $model = dstaikhoan::where('madonvi', $inputs['madonvi'])->get();
@@ -263,7 +265,7 @@ class dstaikhoanController extends Controller
                 ->with('url', '/TaiKhoan/DanhSach?madonvi=' . $m_taikhoan->madonvi);
         }
 
-       
+
         $a_phanquyen = [];
         foreach (dsnhomtaikhoan_phanquyen::where('manhomchucnang', $inputs['manhomchucnang'])->get() as $phanquyen) {
             $a_phanquyen[] = [
@@ -281,7 +283,7 @@ class dstaikhoanController extends Controller
         $m_taikhoan->manhomchucnang = $inputs['manhomchucnang'];
         $m_taikhoan->save();
         //Lưu phân uyền
-        dstaikhoan_phanquyen::insert($a_phanquyen);        
+        dstaikhoan_phanquyen::insert($a_phanquyen);
         return redirect('/TaiKhoan/DanhSach?madonvi=' . $m_taikhoan->madonvi);
     }
 }

@@ -1,4 +1,6 @@
 <?php
+
+
 function getQuyetDinhCKE($maso)
 {
     $a_qd = [];
@@ -231,13 +233,51 @@ function chkGiaoDien($machucnang, $tentruong = 'sudung')
 
 function getDonVi($capdo, $chucnang = null, $tenquyen = null)
 {
-    return App\Model\View\viewdiabandonvi::all();
+    if ($capdo == 'SSA' || $capdo == 'ADMIN') {
+        $m_donvi = App\Model\View\viewdiabandonvi::all();
+    } else {
+        $m_donvi = App\Model\View\viewdiabandonvi::where('madonvi', session('admin')->madonvi)->get();
+    }
+
+    if ($chucnang != null) {
+        $a_tk = App\Model\DanhMuc\dstaikhoan::wherein('madonvi', array_column($m_donvi->toarray(), 'madonvi'))->get('tendangnhap');
+        $a_tk_pq = App\Model\DanhMuc\dstaikhoan_phanquyen::where('machucnang', $chucnang)->where('phanquyen', '1')
+            ->wherein('tendangnhap', $a_tk)->get('tendangnhap');
+        $m_donvi = App\Model\View\viewdiabandonvi::wherein('madonvi', function ($qr) use ($a_tk_pq) {
+            $qr->select('madonvi')->from('dstaikhoan')->wherein('tendangnhap', $a_tk_pq)->distinct();
+        })->get();
+    }
+
+    return $m_donvi;
 }
 
+//Chức năng
 function getDiaBan($capdo, $chucnang = null, $tenquyen = null)
 {
-    return App\Model\View\viewdiabandonvi::all();
+    if ($capdo == 'SSA' || $capdo == 'ADMIN') {
+        $m_donvi = App\Model\DanhMuc\dsdiaban::all();
+    } else {
+        $m_donvi = App\Model\DanhMuc\dsdiaban::where('madiaban', session('admin')->madiaban)->get();
+        //Lấy địa bàn trực thuộc
+        $dsdiaban = App\Model\DanhMuc\dsdiaban::where('madiaban', '<>', session('admin')->madiaban)->get();
+        getDiaBanTrucThuoc($dsdiaban, session('admin')->madiaban, $m_donvi);
+    }
+
+    return $m_donvi;
 }
+
+function getDiaBanTrucThuoc(&$dsdiaban, $madiabanQL, &$ketqua)
+{
+    foreach ($dsdiaban as $key => $val) {
+        if ($val->madiabanQL == $madiabanQL) {
+            $ketqua->add($val);
+            $dsdiaban->forget($key);
+            getDiaBanTrucThuoc($dsdiaban, $val->madiaban, $ketqua);
+        }
+    }
+}
+
+
 
 function setArrayAll($array, $noidung = 'Tất cả', $giatri = 'ALL')
 {

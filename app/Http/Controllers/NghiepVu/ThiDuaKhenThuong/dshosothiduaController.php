@@ -46,7 +46,7 @@ class dshosothiduaController extends Controller
         $inputs = $request->all();
         $inputs['url'] = static::$url;
         $m_donvi = getDonVi(session('admin')->capdo, 'dshosothidua');
-        $m_diaban = getDiaBan(session('admin')->capdo);
+        $m_diaban = dsdiaban::wherein('madiaban',array_column($m_donvi->toarray(),'madiaban'))->get();
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $inputs['phamviapdung'] = $inputs['phamviapdung'] ?? 'ALL';

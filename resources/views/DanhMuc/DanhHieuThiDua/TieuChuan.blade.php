@@ -39,7 +39,7 @@
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
-                @if (chkPhanQuyen('dmdanhhieuthidua', 'modify'))
+                @if (chkPhanQuyen('dmdanhhieuthidua', 'thaydoi'))
                     <button type="button" onclick="add()" class="btn btn-success btn-xs" data-target="#modify-modal"
                         data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
@@ -75,7 +75,7 @@
                                     <td>{{ $ct->tentieuchuandhtd }}</td>
                                     <td>{{ $ct->cancu }}</td>
                                     <td style="text-align: center">
-                                        @if (chkPhanQuyen('dmdanhhieuthidua', 'modify'))
+                                        @if (chkPhanQuyen('dmdanhhieuthidua', 'thaydoi'))
                                             <button type="button" title="Chỉnh sửa"
                                                 onclick="edit('{{ $ct->madanhhieutd }}', '{{ $ct->matieuchuandhtd }}','{{ $ct->tentieuchuandhtd }}','{{ $ct->cancu }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"

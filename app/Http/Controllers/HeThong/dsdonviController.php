@@ -30,7 +30,7 @@ class dsdonviController extends Controller
         }
         $inputs = $request->all();
         $model = getDiaBan(session('admin')->capdo);
-        $m_donvi = getDonVi(session('admin')->capdo);
+        $m_donvi = dsdonvi::wherein('madiaban', $model->toarray('madiaban'))->get();
         foreach ($model as $chitiet) {
             $chitiet->sodonvi = $m_donvi->where('madiaban', $chitiet->madiaban)->count();
         }

@@ -42,7 +42,7 @@
                 <h3 class="card-label text-uppercase">Danh sách hồ sơ trình khen thưởng</h3>
             </div>
             <div class="card-toolbar">
-                {{-- @if (chkPhanQuyen('xdhosokhenthuongconghien', 'modify'))
+                {{-- @if (chkPhanQuyen('xdhosokhenthuongconghien', 'thaydoi'))
                     <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
                 @endif --}}
@@ -106,7 +106,7 @@
                                         href="{{ url($inputs['url_hs'] . 'Xem?mahosotdkt=' . $tt->mahosotdkt) }}"
                                         class="btn btn-sm btn-clean btn-icon" target="_blank">
                                         <i class="icon-lg la fa-eye text-dark icon-2x"></i></a>
-                                    @if (chkPhanQuyen('xdhosokhenthuongconghien', 'modify'))
+                                    @if (chkPhanQuyen('xdhosokhenthuongconghien', 'thaydoi'))
                                         @if (in_array($tt->trangthai_hoso, ['CD', 'BTLXD']))
                                             <button title="Trả lại hồ sơ" type="button"
                                                 onclick="confirmTraLai('{{ $tt->mahosotdkt }}', '{{ $inputs['madonvi'] }}', '{{ $inputs['url'] . 'TraLai' }}')"

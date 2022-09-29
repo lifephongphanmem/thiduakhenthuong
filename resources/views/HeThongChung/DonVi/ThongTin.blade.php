@@ -61,21 +61,22 @@
                                     <td class="font-weight-bold">{{ $ct_t->tendiaban }}</td>
                                     <td>{{ $a_donvi[$ct_t->madonviQL] ?? '' }}</td>
                                     <td style="text-align: center">
-                                        @if (chkPhanQuyen('dsdonvi', 'modify'))
+                                        @if (chkPhanQuyen('dsdonvi', 'thaydoi'))
                                             <a href={{ '/DonVi/QuanLy?madiaban=' . $ct_t->madiaban }}
                                                 class="btn btn-sm btn-clean btn-icon"
                                                 title="Thay đổi đơn vị quản lý địa bàn">
-                                                <i class="icon-lg la fa-edit text-primary icon-2x"></i></a>
+                                                <i class="icon-lg flaticon-edit-1 text-primary"></i>
+                                            </a>
 
                                             <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_t->madiaban }}"
                                                 class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
                                                 title="Danh sách đơn vị">
                                                 <span class="svg-icon svg-icon-xl">
-                                                    <i class="icon-lg la la-clipboard-list text-success icon-2x"></i>
+                                                    <i class="icon-lg flaticon-list-2 text-dark"></i>
                                                 </span>
                                                 <span
                                                     class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $ct_t->sodonvi }}</span>
-                                            </a>                                            
+                                            </a>
                                         @endif
 
                                     </td>
@@ -92,21 +93,22 @@
                                         <td>{{ $ct_h->tendiaban }}</td>
                                         <td>{{ $a_donvi[$ct_h->madonviQL] ?? '' }}</td>
                                         <td style="text-align: center">
-                                            @if (chkPhanQuyen('dsdonvi', 'modify'))
+                                            @if (chkPhanQuyen('dsdonvi', 'thaydoi'))
                                                 <a href={{ '/DonVi/QuanLy?madiaban=' . $ct_h->madiaban }}
                                                     class="btn btn-sm btn-clean btn-icon"
                                                     title="Thay đổi đơn vị quản lý địa bàn">
-                                                    <i class="icon-lg la fa-edit text-primary icon-2x"></i></a>
+                                                    <i class="icon-lg flaticon-edit-1 text-primary"></i>
+                                                </a>
 
-                                                    <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_h->madiaban }}"
-                                                        class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
-                                                        title="Danh sách đơn vị">
-                                                        <span class="svg-icon svg-icon-xl">
-                                                            <i class="icon-lg la la-clipboard-list text-success icon-2x"></i>
-                                                        </span>
-                                                        <span
-                                                            class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $ct_h->sodonvi }}</span>
-                                                    </a>
+                                                <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_h->madiaban }}"
+                                                    class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
+                                                    title="Danh sách đơn vị">
+                                                    <span class="svg-icon svg-icon-xl">
+                                                        <i class="icon-lg flaticon-list-2 text-dark"></i>
+                                                    </span>
+                                                    <span
+                                                        class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $ct_h->sodonvi }}</span>
+                                                </a>
                                             @endif
 
                                         </td>
@@ -123,21 +125,22 @@
                                             <td class="em" style="font-style: italic;">{{ $ct_x->tendiaban }}</td>
                                             <td>{{ $a_donvi[$ct_x->madonviQL] ?? '' }}</td>
                                             <td style="text-align: center">
-                                                @if (chkPhanQuyen('dsdonvi', 'modify'))
+                                                @if (chkPhanQuyen('dsdonvi', 'thaydoi'))
                                                     <a href={{ '/DonVi/QuanLy?madiaban=' . $ct_x->madiaban }}
                                                         class="btn btn-sm btn-clean btn-icon"
                                                         title="Thay đổi đơn vị quản lý địa bàn">
-                                                        <i class="icon-lg la fa-edit text-primary icon-2x"></i></a>
+                                                        <i class="icon-lg flaticon-edit-1 text-primary"></i>
+                                                    </a>
 
-                                                        <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_x->madiaban }}"
-                                                            class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
-                                                            title="Danh sách đơn vị">
-                                                            <span class="svg-icon svg-icon-xl">
-                                                                <i class="icon-lg la la-clipboard-list text-success icon-2x"></i>
-                                                            </span>
-                                                            <span
-                                                                class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $ct_x->sodonvi }}</span>
-                                                        </a>
+                                                    <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_x->madiaban }}"
+                                                        class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
+                                                        title="Danh sách đơn vị">
+                                                        <span class="svg-icon svg-icon-xl">
+                                                            <i class="icon-lg flaticon-list-2 text-dark"></i>
+                                                        </span>
+                                                        <span
+                                                            class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $ct_x->sodonvi }}</span>
+                                                    </a>
                                                 @endif
 
                                             </td>

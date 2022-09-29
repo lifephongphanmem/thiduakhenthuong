@@ -61,13 +61,13 @@
 @section('content')
     <!--begin::Card-->
     <div class="card card-custom wave wave-animate-slow wave-primary" style="min-height: 600px">
-        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+        <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
                 <h3 class="card-label text-uppercase">Danh sách địa bàn hành chính</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
-                @if (chkPhanQuyen('dsdiaban', 'modify'))
+                @if (chkPhanQuyen('dsdiaban', 'thaydoi'))
                     <button type="button" onclick="setDiaBan('','','T','','')" class="btn btn-success btn-xs"
                         data-target="#modify-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
@@ -104,30 +104,38 @@
                                 $model_h = $model->where('madiabanQL', $ct_t->madiaban);
                                 ?>
                                 <tr class="success">
-                                    <td style="text-align: center">{{ $i++ }}</td>
+                                    <td class="text-primary text-center text-uppercase">{{ toAlpha($i++) }}</td>
                                     <td></td>
                                     <td></td>
-                                    <td class="text-dark">{{ $ct_t->madiaban }}</td>
-                                    <td class="text-dark font-weight-bold"><b>{{ $ct_t->tendiaban }}</b></td>
-                                    <td>{{ $a_donvi[$ct_t->madonviQL] ?? '' }}</td>
+                                    <td class="text-primary">{{ $ct_t->madiaban }}</td>
+                                    <td class="text-primary">{{ $ct_t->tendiaban }}</td>
+                                    <td class="text-primary">{{ $a_donvi[$ct_t->madonviQL] ?? '' }}</td>
                                     <td style="text-align: center">
-                                        @if (chkPhanQuyen('dsdonvi', 'modify'))
+                                        @if (chkPhanQuyen('dsdonvi', 'thaydoi'))
                                             <button
                                                 onclick="setDiaBan('{{ $ct_t->madiaban }}','{{ $ct_t->tendiaban }}','{{ $ct_t->capdo }}','{{ $ct_t->madonviQL }}','{{ $ct_t->madiabanQL }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                 title="Thay đổi thông tin địa bàn" data-toggle="modal">
-                                                <i class="icon-lg flaticon-edit-1 text-info icon-2x"></i>
+                                                <i class="icon-lg flaticon-edit-1 text-primary"></i>
                                             </button>
 
                                             <button onclick="setDiaBan('','','H','','{{ $ct_t->madiaban }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                 title="Thêm địa bàn trực thuộc" data-toggle="modal">
-                                                <i class="icon-lg flaticon-add text-info icon-2x"></i>
+                                                <i class="icon-lg flaticon-add text-info"></i>
                                             </button>
 
                                             <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_t->madiaban }}"
                                                 class="btn btn-sm btn-clean btn-icon" title="Danh sách đơn vị">
-                                                <i class="icon-lg flaticon-list-1 text-info icon-2x"></i></a>
+                                                <i class="icon-lg flaticon-list-2 text-dark"></i>
+                                            </a>
+
+                                            <button title="Xóa thông tin" type="button"
+                                                onclick="confirmDelete('{{ $ct_t->id }}','/DiaBan/Xoa')"
+                                                class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
+                                                data-toggle="modal">
+                                                <i class="icon-lg flaticon-delete text-danger"></i>
+                                            </button>
                                         @endif
 
                                     </td>
@@ -136,30 +144,37 @@
                                 @foreach ($model_h as $ct_h)
                                     <tr class="info">
                                         <td></td>
-                                        <td style="text-align: center">{{ $j++ }}</td>
+                                        <td class="text-info text-center">{{ romanNumerals($j++) }}</td>
                                         <td></td>
-                                        <td class="text-info"><b>{{ $ct_h->madiaban }}</b></td>
-                                        <td class="text-info"><b>{{ $ct_h->tendiaban }}</b></td>
-                                        <td class="text-info"><b>{{ $a_donvi[$ct_h->madonviQL] ?? '' }}</b></td>
+                                        <td class="text-info">{{ $ct_h->madiaban }}</td>
+                                        <td class="text-info">{{ $ct_h->tendiaban }}</td>
+                                        <td class="text-info">{{ $a_donvi[$ct_h->madonviQL] ?? '' }}</b></td>
                                         <td style="text-align: center">
-                                            @if (chkPhanQuyen('dsdonvi', 'modify'))
+                                            @if (chkPhanQuyen('dsdonvi', 'thaydoi'))
                                                 <button
                                                     onclick="setDiaBan('{{ $ct_h->madiaban }}','{{ $ct_h->tendiaban }}','{{ $ct_h->capdo }}','{{ $ct_h->madonviQL }}','{{ $ct_h->madiabanQL }}')"
                                                     class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                     title="Thay đổi thông tin địa bàn" data-toggle="modal">
-                                                    <i class="icon-lg flaticon-edit-1 text-info icon-2x"></i>
+                                                    <i class="icon-lg flaticon-edit-1 text-primary"></i>
                                                 </button>
 
                                                 <button onclick="setDiaBan('','','X','','{{ $ct_h->madiaban }}')"
                                                     class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                     title="Thêm địa bàn trực thuộc" data-toggle="modal">
-                                                    <i class="icon-lg flaticon-add text-info icon-2x"></i>
+                                                    <i class="icon-lg flaticon-add text-info"></i>
                                                 </button>
 
                                                 <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_h->madiaban }}"
                                                     class="btn btn-sm btn-clean btn-icon" title="Danh sách đơn vị">
-                                                    <i class="icon-lg flaticon-list-1 text-info icon-2x"></i>
+                                                    <i class="icon-lg flaticon-list-2 text-dark"></i>
                                                 </a>
+
+                                                <button title="Xóa thông tin" type="button"
+                                                    onclick="confirmDelete('{{ $ct_h->id }}','/DiaBan/Xoa')"
+                                                    class="btn btn-sm btn-clean btn-icon"
+                                                    data-target="#delete-modal-confirm" data-toggle="modal">
+                                                    <i class="icon-lg flaticon-delete text-danger"></i>
+                                                </button>
                                             @endif
 
                                         </td>
@@ -173,22 +188,30 @@
                                             <td></td>
                                             <td></td>
                                             <td style="text-align: center">{{ $k++ }}</td>
-                                            <td class="em"style="font-style: italic;">{{ $ct_x->madiaban }}</td>
-                                            <td class="em"style="font-style: italic;">{{ $ct_x->tendiaban }}</td>
-                                            <td class="em"style="font-style: italic;">{{ $a_donvi[$ct_x->madonviQL] ?? '' }}</td>
+                                            <td style="font-style: italic;">{{ $ct_x->madiaban }}</td>
+                                            <td style="font-style: italic;">{{ $ct_x->tendiaban }}</td>
+                                            <td style="font-style: italic;">
+                                                {{ $a_donvi[$ct_x->madonviQL] ?? '' }}</td>
                                             <td style="text-align: center">
-                                                @if (chkPhanQuyen('dsdonvi', 'modify'))
+                                                @if (chkPhanQuyen('dsdonvi', 'thaydoi'))
                                                     <button
                                                         onclick="setDiaBan('{{ $ct_x->madiaban }}','{{ $ct_x->tendiaban }}','{{ $ct_x->capdo }}','{{ $ct_x->madonviQL }}','{{ $ct_x->madiabanQL }}')"
                                                         class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                         title="Thay đổi thông tin địa bàn" data-toggle="modal">
-                                                        <i class="icon-lg flaticon-edit-1 text-info icon-2x"></i>
+                                                        <i class="icon-lg flaticon-edit-1 text-primary"></i>
                                                     </button>
 
                                                     <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_x->madiaban }}"
                                                         class="btn btn-sm btn-clean btn-icon" title="Danh sách đơn vị">
-                                                        <i class="icon-lg flaticon-list-1 text-info icon-2x"></i>
+                                                        <i class="icon-lg flaticon-list-2 text-dark"></i>
                                                     </a>
+
+                                                    <button title="Xóa thông tin" type="button"
+                                                        onclick="confirmDelete('{{ $ct_x->id }}','/DiaBan/Xoa')"
+                                                        class="btn btn-sm btn-clean btn-icon"
+                                                        data-target="#delete-modal-confirm" data-toggle="modal">
+                                                        <i class="icon-lg flaticon-delete text-danger"></i>
+                                                    </button>
                                                 @endif
 
                                             </td>
@@ -263,28 +286,5 @@
     </div>
     {!! Form::close() !!}
 
-    <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                {!! Form::open(['url' => 'diaban/delete', 'id' => 'frm_delete']) !!}
-                <div class="modal-header">
-                    <h4 class="modal-title">Đồng ý xóa?</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                </div>
-                <input type="hidden" name="iddelete" id="iddelete">
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-danger" onclick="ClickDelete()">Đồng ý</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
-                </div>
-                {!! Form::close() !!}
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-
-
-
-
+    @include('includes.modal.modal-delete')
 @stop

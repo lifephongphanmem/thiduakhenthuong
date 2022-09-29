@@ -50,7 +50,7 @@
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
-                @if (chkPhanQuyen('dmnhomphanloai', 'modify'))
+                @if (chkPhanQuyen('dmnhomphanloai', 'thaydoi'))
                     <button type="button" onclick="add()" class="btn btn-success btn-xs" data-target="#modify-modal"
                         data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
@@ -89,7 +89,7 @@
                                     <td>{{ $ct->maphanloai }}</td>
                                     <td>{{ $ct->tenphanloai }}</td>
                                     <td style="text-align: center">
-                                        @if (chkPhanQuyen('dmnhomphanloai', 'modify'))
+                                        @if (chkPhanQuyen('dmnhomphanloai', 'thaydoi'))
                                             <button type="button" title="Chỉnh sửa"
                                                 onclick="edit('{{ $ct->manhomphanloai }}','{{ $ct->maphanloai }}','{{ $ct->tenphanloai }}','{{ $ct->stt }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"

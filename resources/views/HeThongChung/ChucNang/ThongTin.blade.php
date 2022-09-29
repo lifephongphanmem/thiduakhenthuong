@@ -89,7 +89,7 @@
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
-                @if (chkPhanQuyen('hethongchung_chucnang', 'modify'))
+                @if (chkPhanQuyen('hethongchung_chucnang', 'thaydoi'))
                     <button type="button" onclick="add()" class="btn btn-success btn-xs" data-target="#modify-modal"
                         data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
@@ -128,7 +128,7 @@
                                     <td class="font-weight-bold {{ $c1->sudung == 0 ? 'text-line-through' : '' }}">
                                         {{ $a_loaihinhkt[$c1->maloaihinhkt] ?? '' }}</td>
                                     <td style="text-decoration: none;text-align: center">
-                                        @if (chkPhanQuyen('hethongchung_chucnang', 'modify'))
+                                        @if (chkPhanQuyen('hethongchung_chucnang', 'thaydoi'))
                                             <button onclick="getChucNang({{ $c1->id }})"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                 title="Thay đổi thông tin" data-toggle="modal">
@@ -166,7 +166,7 @@
                                         <td class="{{ $sudung_c2 == 0 ? 'text-line-through' : '' }}">{{ $a_hinhthuckt[$c2->mahinhthuckt] ?? '' }}</td>
                                         <td class="{{ $sudung_c2 == 0 ? 'text-line-through' : '' }}">{{ $a_loaihinhkt[$c2->maloaihinhkt] ?? '' }}</td>
                                         <td style="text-decoration: none;text-align: center">
-                                            @if (chkPhanQuyen('hethongchung_chucnang', 'modify'))
+                                            @if (chkPhanQuyen('hethongchung_chucnang', 'thaydoi'))
                                                 <button onclick="getChucNang({{ $c2->id }})"
                                                     class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                     title="Thay đổi thông tin" data-toggle="modal">
@@ -204,7 +204,7 @@
                                             <td class="{{ $sudung_c3 == 0 ? 'text-line-through' : '' }}">{{ $a_hinhthuckt[$c3->mahinhthuckt] ?? '' }}</td>
                                             <td class="{{ $sudung_c3 == 0 ? 'text-line-through' : '' }}">{{ $a_loaihinhkt[$c3->maloaihinhkt] ?? '' }}</td>
                                             <td style="text-align: center">
-                                                @if (chkPhanQuyen('hethongchung_chucnang', 'modify'))
+                                                @if (chkPhanQuyen('hethongchung_chucnang', 'thaydoi'))
                                                     <button onclick="getChucNang({{ $c3->id }})"
                                                         class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                         title="Thay đổi thông tin" data-toggle="modal">
@@ -242,7 +242,7 @@
                                                 <td class="{{ $sudung_c4 == 0 ? 'text-line-through' : '' }}">{{ $a_hinhthuckt[$c4->mahinhthuckt] ?? '' }}</td>
                                                 <td class="{{ $sudung_c4 == 0 ? 'text-line-through' : '' }}">{{ $a_loaihinhkt[$c4->maloaihinhkt] ?? '' }}</td>
                                                 <td style="text-align: center">
-                                                    @if (chkPhanQuyen('hethongchung_chucnang', 'modify'))
+                                                    @if (chkPhanQuyen('hethongchung_chucnang', 'thaydoi'))
                                                         <button onclick="getChucNang({{ $c4->id }})"
                                                             class="btn btn-sm btn-clean btn-icon"
                                                             data-target="#modify-modal" title="Thay đổi thông tin"
