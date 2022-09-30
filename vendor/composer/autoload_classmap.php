@@ -53,6 +53,8 @@ return array(
     'App\\Http\\Controllers\\NghiepVu\\KhenThuongDotXuat\\dshosokhenthuongdotxuatController' => $baseDir . '/app/Http/Controllers/NghiepVu/KhenThuongDotXuat/dshosokhenthuongdotxuatController.php',
     'App\\Http\\Controllers\\NghiepVu\\KhenThuongDotXuat\\qdhosokhenthuongdotxuatController' => $baseDir . '/app/Http/Controllers/NghiepVu/KhenThuongDotXuat/qdhosokhenthuongdotxuatController.php',
     'App\\Http\\Controllers\\NghiepVu\\KhenThuongDotXuat\\xdhosokhenthuongdotxuatController' => $baseDir . '/app/Http/Controllers/NghiepVu/KhenThuongDotXuat/xdhosokhenthuongdotxuatController.php',
+    'App\\Http\\Controllers\\NghiepVu\\KhenThuongKhangChien\\ChongMyCaNhan\\dshosochongmy_canhanController' => $baseDir . '/app/Http/Controllers/NghiepVu/KhenThuongKhangChien/ChongMyCaNhan/dshosochongmy_canhanController.php',
+    'App\\Http\\Controllers\\NghiepVu\\KhenThuongKhangChien\\ChongMyGiaDinh\\dshosochongmy_giadinhController' => $baseDir . '/app/Http/Controllers/NghiepVu/KhenThuongKhangChien/ChongMyGiaDinh/dshosochongmy_giadinhController.php',
     'App\\Http\\Controllers\\NghiepVu\\KhenThuongKhangChien\\ChongPhapCaNhan\\dshosochongphap_canhanController' => $baseDir . '/app/Http/Controllers/NghiepVu/KhenThuongKhangChien/ChongPhapCaNhan/dshosochongphap_canhanController.php',
     'App\\Http\\Controllers\\NghiepVu\\KhenThuongNienHan\\qdhosokhenthuongnienhanController' => $baseDir . '/app/Http/Controllers/NghiepVu/KhenThuongNienHan/qdhosokhenthuongnienhanController.php',
     'App\\Http\\Controllers\\NghiepVu\\KhenThuongNienHan\\xdhosokhenthuongnienhanController' => $baseDir . '/app/Http/Controllers/NghiepVu/KhenThuongNienHan/xdhosokhenthuongnienhanController.php',

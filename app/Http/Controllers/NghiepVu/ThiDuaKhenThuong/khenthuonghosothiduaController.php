@@ -63,14 +63,12 @@ class khenthuonghosothiduaController extends Controller
         }
         //$model = $model->where('trangthai', 'DD');
         $ngayhientai = date('Y-m-d');
-        $m_hoso = dshosothiduakhenthuong::wherein('mahosotdkt', function ($qr) {
-            $qr->select('mahoso')->from('trangthaihoso')->wherein('trangthai', ['CD', 'DD'])->where('phanloai', 'dshosothiduakhenthuong')->get();
-        })->get();
+        $m_hoso = dshosothiduakhenthuong::wherein('trangthai', ['CD', 'DD'])->get();
         //dd($model);
         //$m_hoso = dshosothiduakhenthuong::all();
         $m_khenthuong = dshosokhenthuong::all();
         //$m_khenthuong = dshosokhenthuong::where('madonvi', $inputs['madonvi'])->get();
-        foreach ($model as $DangKy) {
+        foreach ($model as $DangKy) {            
             if ($DangKy->trangthai == 'CC') {
                 $DangKy->nhanhoso = 'CHUABATDAU';
                 if ($DangKy->tungay < $ngayhientai && $DangKy->denngay > $ngayhientai) {
@@ -78,6 +76,7 @@ class khenthuonghosothiduaController extends Controller
                 }
                 if (strtotime($DangKy->denngay) < strtotime($ngayhientai)) {
                     $DangKy->nhanhoso = 'KETTHUC';
+                    $DangKy->trangthai = 'DD';
                 }
             }
             // } else {

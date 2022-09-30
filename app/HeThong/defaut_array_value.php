@@ -132,6 +132,7 @@ function getPhamViPhongTrao($capdo = 'T')
         'X' => 'Phong trào thi đua cấp Xã',
         'H' => 'Phong trào thi đua cấp Huyện',
         'T' => 'Phong trào thi đua cấp Tỉnh',
+        'SBN' => 'Phong trào cho Sở, ban, ngành',
         'TW' => 'Phong trào thi đua cấp Trung Ương',
     );
     $a_kq['H'] =  array(
@@ -144,9 +145,34 @@ function getPhamViPhongTrao($capdo = 'T')
     return $a_kq[$capdo];
 }
 
+function getPhamViPhatDongPhongTrao($capdo = 'T')
+{
+    // return array(
+    //     'CUNGCAP' => 'Các đơn vị trong cùng cấp quản lý (cùng địa bàn quản lý)',
+    //     'CAPDUOI' => 'Các đơn vị cấp dưới quản lý trực tiếp',
+    //     'TOANTINH' => 'Toàn bộ các đơn vị trong Tỉnh',
+    //     'TRUNGUONG' => 'Phong trào thi đua cấp TW',
+    // );
+    $a_kq['T'] =  array(
+        //'X' => 'Phong trào thi đua cấp Xã',
+        //'H' => 'Phong trào thi đua cấp Huyện',
+        'T' => 'Phong trào thi đua cấp Tỉnh',
+        'SBN' => 'Phong trào cho Sở, ban, ngành',
+        'TW' => 'Phong trào thi đua cấp Trung Ương',
+    );
+    $a_kq['H'] =  array(
+        //'X' => 'Phong trào thi đua cấp Xã',
+        'H' => 'Phong trào thi đua cấp Huyện',
+    );
+    $a_kq['X'] =  array(
+        'X' => 'Phong trào thi đua cấp Xã',
+    );
+    return $a_kq[$capdo];
+}
+
 function getPhamViApDungPhongTrao($capdo = 'T')
 {
-    $a_kq['T'] =  array('T', 'TW',);
+    $a_kq['T'] =  array('T', 'TW','SBN');
     $a_kq['H'] =  array('H', 'T', 'TW',);
     $a_kq['X'] =  array('X', 'H', 'T', 'TW',);
     return $a_kq[$capdo];

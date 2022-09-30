@@ -111,14 +111,15 @@ class dstaikhoanController extends Controller
             return view('errors.noperm')->with('machucnang', 'dstaikhoan');
         }
         $inputs = $request->all();
-        $inputs['nhaplieu'] = isset($inputs['nhaplieu']) ? 1 : 0;
-        $inputs['tonghop'] = isset($inputs['tonghop']) ? 1 : 0;
-        $inputs['quantri'] = isset($inputs['quantri']) ? 1 : 0;
+        //dd($inputs);
+        // $inputs['nhaplieu'] = isset($inputs['nhaplieu']) ? 1 : 0;
+        // $inputs['tonghop'] = isset($inputs['tonghop']) ? 1 : 0;
+        // $inputs['quantri'] = isset($inputs['quantri']) ? 1 : 0;
         $inputs['tendangnhap'] = chuanhoachuoi($inputs['tendangnhap']);
 
         $model = dstaikhoan::where('tendangnhap', $inputs['tendangnhap'])->first();
         if ($model == null) {
-            $inputs['matkhau'] = md5($inputs['matkhau']);
+            $inputs['matkhaumoi'] = md5($inputs['matkhaumoi']);
             dstaikhoan::create($inputs);
         } else {
             if ($inputs['matkhaumoi'] == '')
@@ -158,7 +159,7 @@ class dstaikhoanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function XoaTaiKhoan(Request $request)
     {
         if (!chkPhanQuyen('dstaikhoan', 'thaydoi')) {
             return view('errors.noperm')->with('machucnang', 'dstaikhoan');
@@ -166,7 +167,7 @@ class dstaikhoanController extends Controller
         $id = $request->all()['id'];
         $model = dstaikhoan::findorFail($id);
         $model->delete();
-        return redirect('/TaiKhoan/ThongTin');
+        return redirect('/TaiKhoan/DanhSach?madonvi=' . $model->madonvi);
     }
 
     //chức năng phân quyền

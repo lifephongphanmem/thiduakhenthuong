@@ -92,7 +92,7 @@ class dsphongtraothiduaController extends Controller
             ->with('a_tieuchuan', array_column(dmdanhhieuthidua_tieuchuan::all()->toArray(), 'tentieuchuandhtd', 'matieuchuandhtd'))
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
-            ->with('a_phamvi', getPhamViPhongTrao($donvi->capdo))
+            ->with('a_phamvi', getPhamViPhatDongPhongTrao($donvi->capdo))
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách phong trào thi đua');
     }

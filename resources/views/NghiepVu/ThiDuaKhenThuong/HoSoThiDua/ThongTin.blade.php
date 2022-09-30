@@ -123,7 +123,7 @@
 
                                 <td style="text-align: center">
                                     <button type="button" title="In dữ liệu"
-                                        onclick="setInDuLieu('{{ $tt->mahosokt }}','{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}', '{{ $tt->trangthai }}')"
+                                        onclick="setInDuLieu('{{ $tt->mahosothamgiapt }}','{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}', '{{ $tt->trangthai }}')"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#indulieu-modal"
                                         data-toggle="modal">
                                         <i class="icon-lg la flaticon2-print text-dark icon-2x"></i>
@@ -140,7 +140,7 @@
                                         @if (chkPhanQuyen('dshosothidua', 'thaydoi'))
                                             @if (in_array($tt->trangthai, ['CC', 'BTL']))
                                                 <a title="Sửa hồ sơ đăng ký phong trào"
-                                                    href="{{ url('/HoSoThiDua/Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                                    href="{{ url('/HoSoThiDua/Sua?mahosothamgiapt=' . $tt->mahosothamgiapt) }}"
                                                     class="btn btn-sm btn-clean btn-icon">
                                                     <i class="icon-lg la flaticon-edit-1 text-success icon-2x"></i></a>
                                             @elseif (in_array($tt->trangthai, ['CXD']))
@@ -153,7 +153,7 @@
 
                                         @if ($tt->hosodonvi > 0 && in_array($tt->trangthai, ['CC', 'BTL']) && chkPhanQuyen('dshosothidua', 'hoanthanh'))
                                             <button title="Trình hồ sơ đăng ký" type="button"
-                                                onclick="confirmChuyen('{{ $tt->mahosotdkt }}','/HoSoThiDua/ChuyenHoSo')"
+                                                onclick="confirmChuyen('{{ $tt->mahosothamgiapt }}','/HoSoThiDua/ChuyenHoSo')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#chuyen-modal-confirm"
                                                 data-toggle="modal">
                                                 <i class="icon-lg la fa-share-square text-primary icon-2x"></i></button>
@@ -171,7 +171,7 @@
 
                                     @if ($tt->trangthai == 'BTL')
                                         <button title="Lý do hồ sơ bị trả lại" type="button"
-                                            onclick="viewLyDo('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}','/HoSoThiDua/LayLyDo')"
+                                            onclick="viewLyDo('{{ $tt->mahosothamgiapt }}','{{ $inputs['madonvi'] }}','/HoSoThiDua/LayLyDo')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#tralai-modal"
                                             data-toggle="modal">
                                             <i class="icon-lg la fa-archive text-dark icon-2x"></i></button>

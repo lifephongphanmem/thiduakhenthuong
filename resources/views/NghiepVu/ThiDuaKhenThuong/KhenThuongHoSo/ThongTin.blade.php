@@ -115,11 +115,6 @@
                                         data-toggle="modal">
                                         <i class="icon-lg la la-file-download text-dark icon-2x"></i>
                                     </button>
-                                    {{-- <a title="Danh sách hồ sơ chi tiết"
-                                        href="{{ url('/XetDuyetHoSoThiDua/Xem?maphongtraotd=' . $tt->maphongtraotd . '&madonvi=' . $inputs['madonvi']) }}"
-                                        class="btn btn-sm btn-clean btn-icon" target="_blank">
-                                        <i class="icon-lg la la-clipboard-list text-dark"></i>
-                                    </a> --}}
                                     @if ($tt->nhanhoso == 'DANGNHAN')
                                         <button title="Kết thúc phong trào" type="button"
                                             onclick="setKetQua('{{ $tt->maphongtraotd }}')"
@@ -149,7 +144,7 @@
                                                 <i class="icon-lg la flaticon-interface-4 text-primary"></i>
                                             </a>
 
-                                            @if ($tt->mahosokt != null)
+                                            @if ($tt->mahosokt != '-1')
                                                 <button title="Phê duyệt hồ sơ khen thưởng" type="button"
                                                     onclick="setPheDuyet('{{ $tt->mahosokt }}')"
                                                     class="btn btn-sm btn-clean btn-icon" data-target="#modal-PheDuyet"

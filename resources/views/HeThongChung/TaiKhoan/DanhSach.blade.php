@@ -110,15 +110,10 @@
                                                     class="btn btn-sm btn-clean btn-icon" data-target="#modify-nhomchucnang"
                                                     data-toggle="modal" title="Đặt lại quyền theo nhóm chức năng">
                                                     <i class="icon-lg la flaticon-network text-primary icon-2x"></i>
-                                                </button>
-
-                                                {{-- <a title="Sao chép tài khoản"
-                                                    href="{{ url('taikhoan/copy?username=' . $tt->username) }}"
-                                                    class="btn btn-sm btn-clean btn-icon">
-                                                    <i class="icon-lg la fa-copy text-info icon-2x"></i></a> --}}
+                                                </button>                                               
 
                                                 <button title="Xóa thông tin" type="button"
-                                                    onclick="confirmDelete('{{ $tt->id }}','TaiKhoan/Xoa' }}')"
+                                                    onclick="confirmDelete('{{ $tt->id }}','/TaiKhoan/Xoa')"
                                                     class="btn btn-sm btn-clean btn-icon"
                                                     data-target="#delete-modal-confirm" data-toggle="modal">
                                                     <i class="icon-lg la fa-trash-alt text-danger icon-2x"></i></button>
