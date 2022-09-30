@@ -4369,7 +4369,7 @@ input[type=button].btn-block {
   text-align: center;
   white-space: nowrap;
   background-color: #F3F6F9;
-  border: 1px solid #E4E6EF;
+  border: 1px solid #444;
   border-radius: 0.42rem;
 }
 .input-group-text input[type=radio],

@@ -153,10 +153,6 @@ class dshosokhenthuongcongtrangController extends Controller
         if (!chkPhanQuyen('dshosokhenthuongcongtrang', 'thaydoi')) {
             return view('errors.noperm')->with('machucnang', 'dshosokhenthuongcongtrang')->with('tenphanquyen', 'thaydoi');
         }
-        //tài khoản SSA; tài khoản quản trị + có phân quyền
-        if (!chkPhanQuyen()) {
-            return view('errors.noperm');
-        }
         $inputs = $request->all();
         $inputs['mahosotdkt'] = (string)getdate()[0];
         $inputs['trangthai'] = 'CC';

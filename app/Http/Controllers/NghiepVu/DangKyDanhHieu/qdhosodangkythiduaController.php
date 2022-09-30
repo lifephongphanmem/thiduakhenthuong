@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Session;
 
 class qdhosodangkythiduaController extends Controller
 {
+    //chức năng này ko dùng
     public function ThongTin(Request $request)
     {
         if (Session::has('admin')) {
