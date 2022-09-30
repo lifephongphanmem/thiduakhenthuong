@@ -343,8 +343,8 @@
         {!! Form::close() !!}
     </div>
     <!--end::Card-->
-    @include('NghiepVu._DungChung.modal_CaNhan')
-    @include('NghiepVu._DungChung.modal_TapThe')
+    @include('NghiepVu._DungChung.modal_HSPT_CaNhan')
+    @include('NghiepVu._DungChung.modal_HSPT_TapThe')
     {{-- chưa dùng tiêu chuẩn --}}
     @include('NghiepVu._DungChung.modal_TieuChuan')
     @include('NghiepVu._DungChung.modal_XoaDoiTuong')

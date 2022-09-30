@@ -4,7 +4,7 @@
     <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
     <input type="hidden" name="mahosotdkt" />
     <input type="hidden" name="maphongtraotd" />
-    <input type="hidden" name="mahosokt" />
+    <input type="hidden" name="mahosothamgiapt" />
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header modal-header-primary">
@@ -118,15 +118,12 @@
     {!! Form::close() !!}
 
 <script>
-    function setPheDuyet(mahosotdkt) {
-        $('#frm_PheDuyet').find("[name='mahosotdkt']").val(mahosotdkt);
-    }
-
-    function setInDuLieu(mahosokt, mahosotdkt, maphongtraotd, trangthai) {
+    
+    function setInDuLieu(mahosothamgiapt, mahosotdkt, maphongtraotd, trangthai) {
         $('#div_inDuLieu').hide();
         $('#frm_InDuLieu').find("[name='mahosotdkt']").val(mahosotdkt);
         $('#frm_InDuLieu').find("[name='maphongtraotd']").val(maphongtraotd);
-        $('#frm_InDuLieu').find("[name='mahosokt']").val(mahosokt);
+        $('#frm_InDuLieu').find("[name='mahosothamgiapt']").val(mahosothamgiapt);
         if (trangthai == 'DKT')
             $('#div_inDuLieu').show();
     }
@@ -136,7 +133,7 @@
     }
 
     function setInHS(e, url) {
-        e.prop('href', '/HoSoThiDua/Xem?mahosotdkt=' + $('#frm_InDuLieu').find("[name='mahosotdkt']").val());
+        e.prop('href', '/HoSoThiDua/Xem?mahosothamgiapt=' + $('#frm_InDuLieu').find("[name='mahosothamgiapt']").val());
     }
 
     function setInPT(e, url) {
@@ -164,9 +161,5 @@
                 }
             }
         });
-    }
-
-    function setHuyPheDuyet(mahosotdkt) {
-        $('#frm_HuyPheDuyet').find("[name='mahosotdkt']").val(mahosotdkt);
     }
 </script>

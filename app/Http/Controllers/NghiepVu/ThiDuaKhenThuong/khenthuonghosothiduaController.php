@@ -15,6 +15,7 @@ use App\Model\DanhMuc\dsdonvi;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosokhenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosokhenthuong_chitiet;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosokhenthuong_khenthuong;
+use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothamgiaphongtraotd;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_khenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tieuchuan;
@@ -63,11 +64,8 @@ class khenthuonghosothiduaController extends Controller
         }
         //$model = $model->where('trangthai', 'DD');
         $ngayhientai = date('Y-m-d');
-        $m_hoso = dshosothiduakhenthuong::wherein('trangthai', ['CD', 'DD'])->get();
-        //dd($model);
-        //$m_hoso = dshosothiduakhenthuong::all();
-        $m_khenthuong = dshosokhenthuong::all();
-        //$m_khenthuong = dshosokhenthuong::where('madonvi', $inputs['madonvi'])->get();
+        $m_hoso = dshosothamgiaphongtraotd::wherein('trangthai', ['CD', 'DD', 'CXKT'])->get();
+        $m_khenthuong = dshosothiduakhenthuong::all();
         foreach ($model as $DangKy) {            
             if ($DangKy->trangthai == 'CC') {
                 $DangKy->nhanhoso = 'CHUABATDAU';
@@ -108,21 +106,25 @@ class khenthuonghosothiduaController extends Controller
             return view('errors.noperm')->with('machucnang', 'qdhosothidua')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
-        $chk = dshosokhenthuong::where('maphongtraotd', $inputs['maphongtraotd'])
+        $chk = dshosothiduakhenthuong::where('maphongtraotd', $inputs['maphongtraotd'])
             ->where('madonvi', $inputs['madonvi'])->first();
         $m_phongtrao = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
+        //Lấy danh sách cán bộ đề nghị khen thưởng rồi thêm vào hosothiduakhenthuong
+        //Chuyển trạng thái hồ sơ tham gia
+        //chuyển trang thái phong trào
+        dd($inputs);
         if ($chk == null) {
             //chưa hoàn thiện
-            $m_hosokt = dshosothiduakhenthuong::where('maphongtraotd', $inputs['maphongtraotd'])
-                ->wherein('mahosotdkt', function ($qr) {
-                    $qr->select('mahosotdkt')->from('dshosothiduakhenthuong')
+            $m_hosokt = dshosothamgiaphongtraotd::where('maphongtraotd', $inputs['maphongtraotd'])
+                ->wherein('mahosothamgiapt', function ($qr) {
+                    $qr->select('mahosothamgiapt')->from('dshosothamgiaphongtraotd')
                         ->where('trangthai_t', 'CXKT')
                         ->orwhere('trangthai_h', 'CXKT')->get();
                 })->get();
             $inputs['mahosokt'] = (string)getdate()[0];
             $inputs['maloaihinhkt'] = $m_phongtrao->maloaihinhkt;
 
-            dshosokhenthuong::create($inputs);
+            dshosothiduakhenthuong::create($inputs);
             $m_phongtrao->trangthai = 'DXKT';
             $m_phongtrao->save();
             foreach ($m_hosokt as $hoso) {
