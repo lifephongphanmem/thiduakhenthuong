@@ -104,13 +104,13 @@
 
                                 <td style="text-align: center">
                                     <button type="button" title="In dữ liệu"
-                                        onclick="setInDuLieu('{{ $tt->mahosokt }}','{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}', '{{ $tt->trangthai }}')"
+                                        onclick="setInDuLieu('{{ $tt->mahosotdkt }}','{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}', '{{ $tt->trangthai }}')"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#indulieu-modal"
                                         data-toggle="modal">
                                         <i class="icon-lg la flaticon2-print text-dark icon-2x"></i>
                                     </button>
                                     <button title="Tài liệu đính kèm" type="button"
-                                        onclick="get_attack('{{ $tt->mahosokt }}', '/KhenThuongHoSoThiDua/TaiLieuDinhKem')"
+                                        onclick="get_attack('{{ $tt->mahosotdkt }}', '/KhenThuongHoSoThiDua/TaiLieuDinhKem')"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
                                         data-toggle="modal">
                                         <i class="icon-lg la la-file-download text-dark icon-2x"></i>
@@ -133,20 +133,20 @@
 
                                         @if ($tt->trangthai == 'DXKT')
                                             <a title="Thông tin hồ sơ khen thưởng"
-                                                href="{{ url('/KhenThuongHoSoThiDua/DanhSach?mahosokt=' . $tt->mahosokt) }}"
+                                                href="{{ url('/KhenThuongHoSoThiDua/DanhSach?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                 class="btn btn-sm btn-clean btn-icon">
                                                 <i class="icon-lg la flaticon-edit-1 text-primary"></i>
                                             </a>
 
                                             <a title="Dự thảo quyết định khen thưởng"
-                                                href="{{ url('/KhenThuongHoSoThiDua/QuyetDinh?mahosokt=' . $tt->mahosokt) }}"
+                                                href="{{ url('/KhenThuongHoSoThiDua/QuyetDinh?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                 class="btn btn-sm btn-clean btn-icon" target="_blank">
                                                 <i class="icon-lg la flaticon-interface-4 text-primary"></i>
                                             </a>
 
-                                            @if ($tt->mahosokt != '-1')
+                                            @if ($tt->mahosotdkt != '-1')
                                                 <button title="Phê duyệt hồ sơ khen thưởng" type="button"
-                                                    onclick="setPheDuyet('{{ $tt->mahosokt }}')"
+                                                    onclick="setPheDuyet('{{ $tt->mahosotdkt }}')"
                                                     class="btn btn-sm btn-clean btn-icon" data-target="#modal-PheDuyet"
                                                     data-toggle="modal">
                                                     <i class="icon-lg la flaticon-interface-10 text-success"></i>
@@ -156,7 +156,7 @@
 
                                         @if ($tt->trangthai == 'DKT')
                                             <button title="Hủy phê duyệt hồ sơ khen thưởng" type="button"
-                                                onclick="setHuyPheDuyet('{{ $tt->mahosokt }}')"
+                                                onclick="setHuyPheDuyet('{{ $tt->mahosotdkt }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modal-HuyPheDuyet"
                                                 data-toggle="modal">
                                                 <i class="icon-lg la flaticon-interface-10 text-danger"></i>
@@ -291,7 +291,7 @@
                     <h4 class="modal-title">Đồng ý phê duyệt hồ sơ khen thưởng?</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                 </div>
-                <input type="hidden" name="mahosokt" id="mahosokt">
+                <input type="hidden" name="mahosotdkt" id="mahosotdkt">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
@@ -328,7 +328,7 @@
                     <h4 class="modal-title">Đồng ý hủy phê duyệt hồ sơ khen thưởng?</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                 </div>
-                <input type="hidden" name="mahosokt" id="mahosokt">
+                <input type="hidden" name="mahosotdkt" id="mahosotdkt">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
@@ -349,12 +349,12 @@
 
 
     <script>
-        function setPheDuyet(mahosokt) {
-            $('#frm_PheDuyet').find("[name='mahosokt']").val(mahosokt);
+        function setPheDuyet(mahosotdkt) {
+            $('#frm_PheDuyet').find("[name='mahosotdkt']").val(mahosotdkt);
         }
 
-        function setHuyPheDuyet(mahosokt) {
-            $('#frm_HuyPheDuyet').find("[name='mahosokt']").val(mahosokt);
+        function setHuyPheDuyet(mahosotdkt) {
+            $('#frm_HuyPheDuyet').find("[name='mahosotdkt']").val(mahosotdkt);
         }
 
         function setKetQua(maphongtraotd) {
@@ -377,7 +377,7 @@
         <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
         <input type="hidden" name="mahosotdkt" />
         <input type="hidden" name="maphongtraotd" />
-        <input type="hidden" name="mahosokt" />
+        <input type="hidden" name="mahosotdkt" />
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header modal-header-primary">
@@ -465,7 +465,7 @@
     {{-- In phôi --}}
     {!! Form::open(['url' => '', 'id' => 'frm_InPhoi', 'target' => '_blank']) !!}
     <div id="modal-InPhoi" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
-        <input type="hidden" name="mahosokt" />
+        <input type="hidden" name="mahosotdkt" />
         <input type="hidden" name="phanloai" />
         <div class="modal-dialog">
             <div class="modal-content">
@@ -496,22 +496,22 @@
         //     $('#frm_PheDuyet').find("[name='mahosotdkt']").val(mahosotdkt);
         // }
 
-        function setInDuLieu(mahosokt, mahosotdkt, maphongtraotd, trangthai) {
+        function setInDuLieu(mahosotdkt, mahosotdkt, maphongtraotd, trangthai) {
             $('#div_inDuLieu').hide();
             $('#frm_InDuLieu').find("[name='mahosotdkt']").val(mahosotdkt);
             $('#frm_InDuLieu').find("[name='maphongtraotd']").val(maphongtraotd);
-            $('#frm_InDuLieu').find("[name='mahosokt']").val(mahosokt);
+            $('#frm_InDuLieu').find("[name='mahosotdkt']").val(mahosotdkt);
             if (trangthai == 'DKT')
                 $('#div_inDuLieu').show();
         }
 
         function setInQD(e, url) {
-            e.prop('href', '/KhenThuongHoSoThiDua/XemQuyetDinh?mahosokt=' + $('#frm_InDuLieu').find("[name='mahosokt']")
+            e.prop('href', '/KhenThuongHoSoThiDua/XemQuyetDinh?mahosotdkt=' + $('#frm_InDuLieu').find("[name='mahosotdkt']")
                 .val());
         }
 
         function setInHS(e, url) {
-            e.prop('href', '/KhenThuongHoSoThiDua/Xem?mahosokt=' + $('#frm_InDuLieu').find("[name='mahosokt']").val());
+            e.prop('href', '/KhenThuongHoSoThiDua/Xem?mahosotdkt=' + $('#frm_InDuLieu').find("[name='mahosotdkt']").val());
         }
 
         function setInPT(e, url) {
@@ -520,7 +520,7 @@
 
         function setInPhoi(url, phanloai) {
             $('#frm_InPhoi').attr('action', url);
-            $('#frm_InPhoi').find("[name='mahosokt']").val($('#frm_InDuLieu').find("[name='mahosokt']").val());
+            $('#frm_InPhoi').find("[name='mahosotdkt']").val($('#frm_InDuLieu').find("[name='mahosotdkt']").val());
             $('#frm_InPhoi').find("[name='phanloai']").val(phanloai);
             var formData = new FormData($('#frm_InPhoi')[0]);
 
