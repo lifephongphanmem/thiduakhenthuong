@@ -15,6 +15,7 @@ use App\Model\DanhMuc\dsnhomtaikhoan_phanquyen;
 use App\Model\DanhMuc\dstaikhoan;
 use App\Model\DanhMuc\dstaikhoan_phanquyen;
 use App\Model\HeThong\hethongchung_chucnang;
+use App\Model\View\viewdiabandonvi;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Session;
 
@@ -37,10 +38,15 @@ class dstaikhoanController extends Controller
         }
 
         $inputs = $request->all();
-        
+
         $m_diaban = getDiaBan(session('admin')->capdo);
-        $m_donvi = dsdonvi::wherein('madiaban', $m_diaban->toarray('madiaban'))->get();
-        //dd($m_donvi);
+        $m_donvi = viewdiabandonvi::wherein('madiaban', $m_diaban->toarray('madiaban'))->get();
+        $inputs['capdo'] = $inputs['capdo'] ?? 'ALL';
+        if ($inputs['capdo'] != 'ALL') {
+            $m_donvi = $m_donvi->where('capdo', $inputs['capdo']);
+            $m_diaban = $m_diaban->where('capdo', $inputs['capdo']);
+        }
+        //dd($m_diaban);
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $model = dstaikhoan::all();
         foreach ($m_donvi as $donvi) {
@@ -51,6 +57,7 @@ class dstaikhoanController extends Controller
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
             ->with('a_nhomtk', [])
+            ->with('a_capdo', getPhanLoaiDonVi_DiaBan())
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách tài khoản');
     }

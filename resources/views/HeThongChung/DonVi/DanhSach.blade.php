@@ -24,12 +24,12 @@
     <div class="card card-custom" style="min-height: 600px">
         <div class="card-header flex-wrap border-0 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">danh sách&nbsp;đơn vị - {{$inputs['tendiaban']}}</h3>
+                <h3 class="card-label text-uppercase">danh sách&nbsp;đơn vị - {{ $inputs['tendiaban'] }}</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
                 @if (chkPhanQuyen('dsdonvi', 'thaydoi'))
-                    <a href="{{url('DonVi/Them?madiaban='.$inputs['madiaban'])}}" class="btn btn-info btn-sm">
+                    <a href="{{ url('DonVi/Them?madiaban=' . $inputs['madiaban']) }}" class="btn btn-info btn-sm">
                         <i class="fa fa-plus"></i> Thêm mới</a>
                 @endif
                 <!--end::Button-->
@@ -39,7 +39,10 @@
             <div class="form-group row">
                 <div class="col-lg-6">
                     <label>Địa bàn</label>
-                    {!! Form::select('madiaban', getDiaBan_All(), $inputs['madiaban'], ['id' => 'madiaban', 'class' => 'form-control select2basic']) !!}
+                    {!! Form::select('madiaban', getDiaBan_All(), $inputs['madiaban'], [
+                        'id' => 'madiaban',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
                 </div>
             </div>
 
@@ -54,21 +57,32 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach($model as $key=>$tt)
-                            <tr class="odd gradeX">
-                                <td class="text-center">{{$key + 1}}</td>
-                                <td class="active">{{$tt->tendonvi}}</td>
-                                <td class="text-center">
-                                    <a title="Sửa thông tin" href="{{url('/DonVi/Sua?madonvi='.$tt->madonvi)}}" class="btn btn-sm btn-clean btn-icon">
-                                        <i class="icon-lg la fa-edit text-primary"></i></a>
+                            @foreach ($model as $key => $tt)
+                                <tr class="odd gradeX">
+                                    <td class="text-center">{{ $key + 1 }}</td>
+                                    <td class="active">{{ $tt->tendonvi }}</td>
+                                    <td class="text-center">
+                                        <a title="Sửa thông tin" href="{{ url('/DonVi/Sua?madonvi=' . $tt->madonvi) }}"
+                                            class="btn btn-sm btn-clean btn-icon">
+                                            <i class="icon-lg la flaticon-edit-1 text-primary"></i>
+                                        </a>
+                                        <a href="{{ url('/TaiKhoan/DanhSach?madonvi=' . $tt->madonvi) }}" class="btn btn-icon btn-clean btn-lg mb-1 position-relative" title="Danh sách tài khoản">
+                                            <span class="svg-icon svg-icon-xl">
+                                                <i class="icon-lg flaticon-list-2 text-dark"></i>
+                                            </span>
+                                            <span class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{$tt->sotaikhoan}}</span>
+                                        </a>
 
-                                    <button title="Xóa thông tin" type="button" onclick="confirmDelete('{{$tt->id}}','{{$inputs['url'].'/Xoa'}}')" class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm" data-toggle="modal">
-                                        <i class="icon-lg la fa-trash-alt text-danger"></i></button>
-                                </td>
-                            </tr>
-                        @endforeach
+                                        <button title="Xóa thông tin" type="button"
+                                            onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url'] . '/Xoa' }}')"
+                                            class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
+                                            data-toggle="modal">
+                                            <i class="icon-lg flaticon-delete text-danger"></i></button>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
-                </table>
+                    </table>
                 </div>
             </div>
         </div>

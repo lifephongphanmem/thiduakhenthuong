@@ -16,8 +16,8 @@
         jQuery(document).ready(function() {
             TableManaged3.init();
 
-            $('#madonvi').change(function() {
-                window.location.href = '/TaiKhoan/ThongTin?madonvi=' + $(this).val();
+            $('#madonvi, #capdo').change(function() {
+                window.location.href = '/TaiKhoan/ThongTin?madonvi=' + $('#madonvi').val() + '&capdo=' + $('#capdo').val();
             });
         });
     </script>
@@ -54,6 +54,10 @@
                             </optgroup>
                         @endforeach
                     </select>
+                </div>
+                <div class="col-md-6">
+                    <label style="font-weight: bold">Cấp độ</label>
+                    {!! Form::select('capdo', setArrayAll($a_capdo,'Tất cả', 'ALL'), $inputs['capdo'], ['id' => 'capdo', 'class' => 'form-control select2basic']) !!}                    
                 </div>
             </div>
 

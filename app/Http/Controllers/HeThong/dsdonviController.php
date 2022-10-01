@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
+use App\Model\DanhMuc\dstaikhoan;
 use Illuminate\Support\Facades\Session;
 
 class dsdonviController extends Controller
@@ -51,6 +52,10 @@ class dsdonviController extends Controller
         $inputs['url'] = '/DonVi';
         $inputs['tendiaban'] = dsdiaban::where('madiaban', $inputs['madiaban'])->first()->tendiaban ?? '';
         $model = dsdonvi::where('madiaban', $inputs['madiaban'])->get();
+        $m_taikhoan = dstaikhoan::all();
+        foreach ($model as $chitiet) {
+            $chitiet->sotaikhoan = $m_taikhoan->where('madonvi', $chitiet->madonvi)->count();
+        }
         return view('HeThongChung.DonVi.DanhSach')
             ->with('model', $model)
             ->with('inputs', $inputs)
