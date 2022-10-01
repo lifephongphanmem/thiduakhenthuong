@@ -40,13 +40,13 @@ class dstaikhoanController extends Controller
         $inputs = $request->all();
 
         $m_diaban = getDiaBan(session('admin')->capdo);
-        $m_donvi = viewdiabandonvi::wherein('madiaban', $m_diaban->toarray('madiaban'))->get();
+        $m_donvi = viewdiabandonvi::wherein('madiaban', array_column($m_diaban->toarray(),'madiaban'))->get();        
         $inputs['capdo'] = $inputs['capdo'] ?? 'ALL';
         if ($inputs['capdo'] != 'ALL') {
             $m_donvi = $m_donvi->where('capdo', $inputs['capdo']);
             $m_diaban = $m_diaban->where('capdo', $inputs['capdo']);
         }
-        //dd($m_diaban);
+        
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $model = dstaikhoan::all();
         foreach ($m_donvi as $donvi) {

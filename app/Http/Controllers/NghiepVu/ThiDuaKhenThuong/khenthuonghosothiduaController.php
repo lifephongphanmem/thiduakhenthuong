@@ -16,6 +16,7 @@ use App\Model\NghiepVu\ThiDuaKhenThuong\dshosokhenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosokhenthuong_chitiet;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosokhenthuong_khenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothamgiaphongtraotd;
+use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothamgiaphongtraotd_canhan;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_khenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tieuchuan;
@@ -112,7 +113,7 @@ class khenthuonghosothiduaController extends Controller
         //Lấy danh sách cán bộ đề nghị khen thưởng rồi thêm vào hosothiduakhenthuong
         //Chuyển trạng thái hồ sơ tham gia
         //chuyển trang thái phong trào
-        dd($inputs);
+        
         if ($chk == null) {
             //chưa hoàn thiện
             $m_hosokt = dshosothamgiaphongtraotd::where('maphongtraotd', $inputs['maphongtraotd'])
@@ -123,11 +124,15 @@ class khenthuonghosothiduaController extends Controller
                 })->get();
             $inputs['mahosokt'] = (string)getdate()[0];
             $inputs['maloaihinhkt'] = $m_phongtrao->maloaihinhkt;
-
-            dshosothiduakhenthuong::create($inputs);
-            $m_phongtrao->trangthai = 'DXKT';
-            $m_phongtrao->save();
+            
+            $a_canhan = [];
+            $a_tapthe = [];
             foreach ($m_hosokt as $hoso) {
+                //Khen thưởng cá nhân
+                $m_canhan = dshosothamgiaphongtraotd_canhan::where('mahosothamgiapt', $hoso->mahosothamgiapt)->get();
+
+                //Khen thưởng tập thể
+
                 $khenthuong = new dshosokhenthuong_chitiet();
                 $khenthuong->mahosokt = $inputs['mahosokt'];
                 $khenthuong->mahosotdkt = $hoso->mahosotdkt;
@@ -141,6 +146,10 @@ class khenthuonghosothiduaController extends Controller
                 setTrangThaiHoSo($hoso->madonvi, $hoso, ['trangthai' => 'DXKT']);
                 $hoso->save();
             }
+
+            dshosothiduakhenthuong::create($inputs);
+            $m_phongtrao->trangthai = 'DXKT';
+            $m_phongtrao->save();
         }
         return redirect('KhenThuongHoSoThiDua/DanhSach?mahosokt=' . $inputs['mahosokt']);
     }
