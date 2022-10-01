@@ -129,7 +129,9 @@ class khenthuonghosothiduaController extends Controller
             $a_tapthe = [];
             foreach ($m_hosokt as $hoso) {
                 //Khen thưởng cá nhân
-                $m_canhan = dshosothamgiaphongtraotd_canhan::where('mahosothamgiapt', $hoso->mahosothamgiapt)->get();
+                foreach (dshosothamgiaphongtraotd_canhan::where('mahosothamgiapt', $hoso->mahosothamgiapt)->get() as $canhan){
+
+                }
 
                 //Khen thưởng tập thể
 

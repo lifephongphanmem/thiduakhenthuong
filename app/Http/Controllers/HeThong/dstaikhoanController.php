@@ -125,8 +125,8 @@ class dstaikhoanController extends Controller
         $inputs['tendangnhap'] = chuanhoachuoi($inputs['tendangnhap']);
 
         $model = dstaikhoan::where('tendangnhap', $inputs['tendangnhap'])->first();
-        if ($model == null) {
-            $inputs['matkhaumoi'] = md5($inputs['matkhaumoi']);
+        if ($model == null) {           
+            $inputs['matkhau'] = md5($inputs['matkhaumoi']);
             dstaikhoan::create($inputs);
         } else {
             if ($inputs['matkhaumoi'] == '')
