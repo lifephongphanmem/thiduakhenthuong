@@ -65,9 +65,10 @@
                 <div class="col-12">
                     <label>Tên phong trào thi đua</label>
                     {!! Form::text('tenphongtrao', null, [
-                        'class' => 'form-control', 'readonly',
+                        'class' => 'form-control',
+                        'readonly',
                     ]) !!}
-                </div>                
+                </div>
             </div>
 
             <div class="form-group row">
@@ -167,7 +168,7 @@
                                             </span>
                                             <span class="nav-text">Khen thưởng cá nhân</span>
                                         </a>
-                                    </li>                                    
+                                    </li>
                                 </ul>
                             </div>
                             <div class="card-toolbar">
@@ -226,16 +227,21 @@
                                                                     class="btn btn-sm btn-clean btn-icon"
                                                                     data-target="#modal-create-tapthe"
                                                                     data-toggle="modal">
-                                                                    <i
-                                                                        class="icon-lg la fa-edit text-primary"></i></button>
+                                                                    <i class="icon-lg la fa-edit text-primary"></i>
+                                                                </button>
                                                                 <button title="Xóa" type="button"
                                                                     onclick="delKhenThuong('{{ $tt->id }}',  '{{ $inputs['url'] . 'XoaTapThe' }}', 'TAPTHE')"
                                                                     class="btn btn-sm btn-clean btn-icon"
                                                                     data-target="#modal-delete-khenthuong"
                                                                     data-toggle="modal">
-                                                                    <i
-                                                                        class="icon-lg la fa-trash text-danger"></i></button>
-
+                                                                    <i class="icon-lg la fa-trash text-danger"></i>
+                                                                </button>
+                                                                <button title="Tiêu chuẩn" type="button"
+                                                                    onclick="getTieuChuan('{{ $tt->id }}','TAPTHE','{{ $tt->tentapthe }}')"
+                                                                    class="btn btn-sm btn-clean btn-icon"
+                                                                    data-target="#modal-tieuchuan" data-toggle="modal">
+                                                                    <i class="icon-lg la fa-list text-dark"></i>
+                                                                </button>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -298,21 +304,25 @@
                                                             <td class="text-center">
                                                                 {{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td>
                                                             <td class="text-center">
-
                                                                 <button title="Sửa thông tin" type="button"
                                                                     onclick="getCaNhan('{{ $tt->id }}')"
                                                                     class="btn btn-sm btn-clean btn-icon"
                                                                     data-target="#modal-create" data-toggle="modal">
-                                                                    <i
-                                                                        class="icon-lg la fa-edit text-primary"></i></button>
+                                                                    <i class="icon-lg la fa-edit text-primary"></i>
+                                                                </button>
                                                                 <button title="Xóa" type="button"
                                                                     onclick="delKhenThuong('{{ $tt->id }}',  '{{ $inputs['url'] . 'XoaCaNhan' }}', 'CANHAN')"
                                                                     class="btn btn-sm btn-clean btn-icon"
                                                                     data-target="#modal-delete-khenthuong"
                                                                     data-toggle="modal">
-                                                                    <i
-                                                                        class="icon-lg la fa-trash text-danger"></i></button>
-
+                                                                    <i class="icon-lg la fa-trash text-danger"></i>
+                                                                </button>
+                                                                <button title="Tiêu chuẩn" type="button"
+                                                                    onclick="getTieuChuan('{{ $tt->id }}','CANHAN','{{ $tt->tendoituong }}')"
+                                                                    class="btn btn-sm btn-clean btn-icon"
+                                                                    data-target="#modal-tieuchuan" data-toggle="modal">
+                                                                    <i class="icon-lg la fa-list text-dark"></i>
+                                                                </button>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -320,8 +330,8 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>                               
-                                
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -345,8 +355,8 @@
     <!--end::Card-->
     @include('NghiepVu._DungChung.modal_HSPT_CaNhan')
     @include('NghiepVu._DungChung.modal_HSPT_TapThe')
-    {{-- chưa dùng tiêu chuẩn --}}
-    @include('NghiepVu._DungChung.modal_TieuChuan')
+    @include('NghiepVu._DungChung.modal_HSPT_TieuChuan')
+
     @include('NghiepVu._DungChung.modal_XoaDoiTuong')
     @include('NghiepVu._DungChung.modal_Excel')
     @include('NghiepVu._DungChung.modal_DoiTuong')

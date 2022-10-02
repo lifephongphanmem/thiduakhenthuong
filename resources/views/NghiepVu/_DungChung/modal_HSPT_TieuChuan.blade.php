@@ -1,4 +1,3 @@
-    
     {{-- Thông tin tiêu chuẩn --}}
     {!! Form::open([
         'url' => '',
@@ -15,12 +14,17 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
+                    <div class="form-group row">
+                        <div class="col-8">
                             <label class="form-control-label">Tên đối tượng</label>
                             {!! Form::text('tendoituong', null, ['id' => 'tendoituong', 'class' => 'form-control']) !!}
                         </div>
+                        <div class="col-4">
+                            <label class="form-control-label">Phân loại</label>
+                            {!! Form::select('phanloaidoituong', getPhanLoaiTDKT(), null, ['class' => 'form-control']) !!}
+                        </div>
                     </div>
+
                     <hr>
                     <div class="row" id="dstieuchuan">
 
@@ -43,7 +47,8 @@
         'class' => 'form',
     ]) !!}
     <div id="modal-luutieuchuan" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
-        <input type="hidden" id="matieuchuandhtd_ltc" name="matieuchuandhtd_ltc" />
+        <input type="hidden"name="id" />
+        <input type="hidden"name="matieuchuandhtd" />
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header modal-header-primary">
@@ -51,31 +56,28 @@
                     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="form-control-label">Tên tiêu chuẩn</label>
-                                {!! Form::textarea('tentieuchuandhtd_ltc', null, [
-                                    'id' => 'tentieuchuandhtd_ltc',
-                                    'class' => 'form-control',
-                                    'rows' => '3',
-                                ]) !!}
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <label class="form-control-label">Tên tiêu chuẩn</label>
+                            {!! Form::textarea('tentieuchuandhtd', null, [
+                                'id' => 'tentieuchuandhtd',
+                                'class' => 'form-control',
+                                'rows' => '3',
+                            ]) !!}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-offset-4 col-md-8">
+                            <div class="md-checkbox">
+                                <input type="checkbox" id="dieukien_ltc" name="dieukien_ltc" class="md-check">
+                                <label for="dieukien_ltc">
+                                    <span></span><span class="check"></span><span class="box"></span>Đủ điều
+                                    kiện</label>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="form-group">
-                            <div class="col-md-offset-4 col-md-3">
-                                <div class="md-checkbox">
-                                    <input type="checkbox" id="dieukien_ltc" name="dieukien_ltc" class="md-check">
-                                    <label for="dieukien_ltc">
-                                        <span></span><span class="check"></span><span class="box"></span>Đủ điều
-                                        kiện</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
@@ -88,19 +90,19 @@
     <script>
         function getTieuChuan(iddoituong, phanloaidoituong, tendoituong) {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            $('#iddoituong').val(iddoituong);
-            $('#tendoituong').val(tendoituong);
-            $('#phanloaidoituong').val(phanloaidoituong);
+            $('#frm_DSTieuChuan').find("[name='iddoituong']").val(iddoituong);
+            $('#frm_DSTieuChuan').find("[name='tendoituong']").val(tendoituong);
+            $('#frm_DSTieuChuan').find("[name='phanloaidoituong']").val(phanloaidoituong).trigger('change');
             $.ajax({
-                url: "{{$inputs['url_hs']}}" + 'LayTieuChuan',
+                url: "{{ $inputs['url_hs'] }}" + 'LayTieuChuan',
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,
                     iddoituong: iddoituong,
-                    
+                    phanloaidoituong: phanloaidoituong,
                     madonvi: $('#madonvi').val(),
                     maphongtraotd: $('#frm_ThayDoi').find("[name='maphongtraotd']").val(),
-                    mahosotdkt: $('#frm_ThayDoi').find("[name='mahosotdkt']").val()
+                    mahosothamgiapt: $('#frm_ThayDoi').find("[name='mahosothamgiapt']").val()
                 },
                 dataType: 'JSON',
                 success: function(data) {
@@ -111,26 +113,28 @@
             })
         }
 
-        function ThayDoiTieuChuan(matieuchuandhtd, tentieuchuandhtd) {
+        function ThayDoiTieuChuan(matieuchuandhtd, id, tentieuchuandhtd) {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            $('#tentieuchuandhtd_ltc').val(tentieuchuandhtd);
-            $('#matieuchuandhtd_ltc').val(matieuchuandhtd);
+            $('#frm_TieuChuan').find("[name='tentieuchuandhtd']").val(tentieuchuandhtd);
+            $('#frm_TieuChuan').find("[name='matieuchuandhtd']").val(matieuchuandhtd);
+            $('#frm_TieuChuan').find("[name='id']").val(id);
         }
 
         function LuuTieuChuan() {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
             $.ajax({
-                url: "{{$inputs['url_hs']}}" + 'LuuTieuChuan',
+                url: "{{ $inputs['url_hs'] }}" + 'LuuTieuChuan',
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,
-                    madoituong: $('#madoituong_tc').val(),
-                    madanhhieutd: $('#madanhhieutd_tc').val(),
-                    matieuchuandhtd: $('#matieuchuandhtd_ltc').val(),
+                    iddoituong: $('#frm_DSTieuChuan').find("[name='iddoituong']").val(),
+                    id: $('#frm_TieuChuan').find("[name='id']").val(),
+                    matieuchuandhtd: $('#frm_TieuChuan').find("[name='matieuchuandhtd']").val(),
                     madonvi: $('#madonvi').val(),
+                    phanloaidoituong: $('#frm_DSTieuChuan').find("[name='phanloaidoituong']").val(),
                     maphongtraotd: $('#frm_ThayDoi').find("[name='maphongtraotd']").val(),
-                    mahosotdkt: $('#frm_ThayDoi').find("[name='mahosotdkt']").val()
+                    mahosothamgiapt: $('#frm_ThayDoi').find("[name='mahosothamgiapt']").val()
                 },
                 dataType: 'JSON',
                 success: function(data) {

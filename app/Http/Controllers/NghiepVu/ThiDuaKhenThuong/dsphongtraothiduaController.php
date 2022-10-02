@@ -40,8 +40,8 @@ class dsphongtraothiduaController extends Controller
             return view('errors.noperm')->with('machucnang', 'dsphongtraothidua');
         }
         $inputs = $request->all();
-        $m_donvi = getDonVi(session('admin')->capdo, 'dsphongtraothidua');        
-        $m_diaban = dsdiaban::wherein('madiaban',array_column($m_donvi->toarray(),'madiaban'))->get();
+        $m_donvi = getDonVi(session('admin')->capdo, 'dsphongtraothidua');
+        $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
@@ -84,7 +84,7 @@ class dsphongtraothiduaController extends Controller
             $model->maloaihinhkt = session('chucnang')['dsphongtraothidua']['mahinhthuckt'] ?? '';
         }
         $model->tendonvi = getThongTinDonVi($model->madonvi, 'tendonvi');
-        $model_tieuchuan = dsphongtraothidua_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->get();
+        $model_tieuchuan = dsphongtraothidua_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->orderby('phanloaidoituong')->get();
         //dd($model_tieuchuan);
         return view('NghiepVu.ThiDuaKhenThuong.PhongTraoThiDua.ThayDoi')
             ->with('model', $model)
@@ -93,6 +93,7 @@ class dsphongtraothiduaController extends Controller
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
             ->with('a_phamvi', getPhamViPhatDongPhongTrao($donvi->capdo))
+            ->with('a_phanloaidt', getPhanLoaiTDKT())
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách phong trào thi đua');
     }
@@ -102,7 +103,7 @@ class dsphongtraothiduaController extends Controller
         $inputs = $request->all();
         $model = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
         $model->tendonvi = getThongTinDonVi($model->madonvi, 'tendonvi');
-        $model_tieuchi = dsphongtraothidua_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->get();
+        $model_tieuchi = dsphongtraothidua_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->orderby('phanloaidoituong')->get();
         $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
         return view('NghiepVu.ThiDuaKhenThuong.PhongTraoThiDua.InPhongTrao')
             ->with('model', $model)
@@ -110,6 +111,7 @@ class dsphongtraothiduaController extends Controller
             ->with('m_donvi', $m_donvi)
             ->with('a_phamvi', getPhamViPhongTrao('T'))
             ->with('a_phanloai', getPhanLoaiPhongTraoThiDua(true))
+            ->with('a_phanloaidt', getPhanLoaiTDKT())
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách phong trào thi đua');
     }
@@ -152,7 +154,6 @@ class dsphongtraothiduaController extends Controller
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
     }
 
-
     public function delete(Request $request)
     {
         if (!chkPhanQuyen('dsphongtraothidua', 'thaydoi')) {
@@ -160,6 +161,7 @@ class dsphongtraothiduaController extends Controller
         }
         $inputs = $request->all();
         $model = dsphongtraothidua::findorfail($inputs['iddelete']);
+        dsphongtraothidua_tieuchuan::where('maphongtraotd',$model->maphongtraotd)->delete();
         $model->delete();
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }
@@ -275,18 +277,20 @@ class dsphongtraothiduaController extends Controller
             $model = new dsphongtraothidua_tieuchuan();
             $model->maphongtraotd = $inputs['maphongtraotd'];
             $model->tentieuchuandhtd = $inputs['tentieuchuandhtd'];
+            $model->phanloaidoituong = $inputs['phanloaidoituong'];
             $model->matieuchuandhtd = getdate()[0];
-            $model->batbuoc = isset($inputs['batbuoc']) ? 1 : 0;
+            $model->batbuoc =$inputs['batbuoc'];
             $model->save();
         } else {
-            $model->batbuoc = isset($inputs['batbuoc']) ? 1 : 0;
+            $model->batbuoc =$inputs['batbuoc'];
             $model->tentieuchuandhtd = $inputs['tentieuchuandhtd'];
+            $model->phanloaidoituong = $inputs['phanloaidoituong'];
             $model->save();
         }
 
-        $modelct = dsphongtraothidua_tieuchuan::where('maphongtraotd', $inputs['maphongtraotd'])->get();
+        $modelct = dsphongtraothidua_tieuchuan::where('maphongtraotd', $inputs['maphongtraotd'])->orderby('phanloaidoituong')->get();
         if (isset($modelct)) {
-
+            $a_phanloaidt = getPhanLoaiTDKT();
             $result['message'] = '<div class="row" id="dstieuchuan">';
 
             $result['message'] .= '<div class="col-md-12">';
@@ -294,6 +298,7 @@ class dsphongtraothiduaController extends Controller
             $result['message'] .= '<thead>';
             $result['message'] .= '<tr>';
             $result['message'] .= '<th width="5%" style="text-align: center">STT</th>';
+            $result['message'] .= '<th style="text-align: center">Đối tượng áp dụng</th>';
             $result['message'] .= '<th style="text-align: center">Tên tiêu chuẩn xét khen thưởng</th>';
             $result['message'] .= '<th style="text-align: center" width="10%">Tiêu chuẩn</br>Bắt buộcc</th>';
             $result['message'] .= '<th style="text-align: center" width="10%">Thao tác</th>';
@@ -306,8 +311,16 @@ class dsphongtraothiduaController extends Controller
 
                 $result['message'] .= '<tr>';
                 $result['message'] .= '<td style="text-align: center">' . $key++ . '</td>';
+                $result['message'] .= '<td>' . ($a_phanloaidt[$ct->phanloaidoituong] ?? $ct->phanloaidoituong) . '</td>';
                 $result['message'] .= '<td class="active">' . $ct->tentieuchuandhtd . '</td>';
-                $result['message'] .= '<td style="text-align: center">' . $ct->batbuoc . '</td>';
+
+                if ($ct->batbuoc == 0) {
+                    $result['message'] .= '<td style="text-align: center"></td>';
+                } else {
+                    $result['message'] .= '<td class="text-center"><button class="btn btn-sm btn-clean btn-icon">'
+                        . '<i class="icon-lg la fa-check text-success"></i></button></td>';
+                }
+
                 $result['message'] .= '<td>' .
                     '<button type="button" data-target="#modal-tieuchuan" data-toggle="modal" class="btn btn-sm btn-clean btn-icon" onclick="getTieuChuan(' . $ct->id . ')" ><i class="icon-lg la fa-edit text-dark"></i></button>' .
                     '<button type="button" data-target="#delete-modal" data-toggle="modal" class="btn btn-sm btn-clean btn-icon" onclick="editDanhHieu(' . $ct->id . ')"><i class="icon-lg la fa-trash-alt text-dangert"></i></button>'

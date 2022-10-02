@@ -47,9 +47,7 @@
 
         function ThemTieuChuan() {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            var batbuoc = 0;
-            if ($('#batbuoc').checked)
-                batbuoc = 1;
+            var batbuoc = $("#batbuoc").is(":checked");
             $.ajax({
                 url: '/PhongTraoThiDua/ThemTieuChuan',
                 type: 'GET',
@@ -58,6 +56,7 @@
                     batbuoc: batbuoc,
                     matieuchuandhtd: $('#frmThemTieuChuan').find("[name='matieuchuandhtd']").val(),
                     tentieuchuandhtd: $('#frmThemTieuChuan').find("[name='tentieuchuandhtd']").val(),
+                    phanloaidoituong: $('#frmThemTieuChuan').find("[name='phanloaidoituong']").val(),
                     maphongtraotd: $('#frm_ThayDoi').find("[name='maphongtraotd']").val()
                 },
                 dataType: 'JSON',
@@ -68,16 +67,17 @@
                         jQuery(document).ready(function() {
                             TableManaged4.init();
                         });
-                        $('#modal-TieuChuan').modal("hide");
+
 
                     }
                 }
-            })
+            });
+            $('#modal-tieuchuan').modal("hide");
         }
 
-        function setTieuChuan() {            
-            $('#frmThemTieuChuan').find("[name='matieuchuandhtd']").val(null);            
-        } 
+        function setTieuChuan() {
+            $('#frmThemTieuChuan').find("[name='matieuchuandhtd']").val(null);
+        }
 
         function getTieuChuan(id) {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
@@ -94,13 +94,15 @@
                 success: function(data) {
                     $('#frmThemTieuChuan').find("[name='tentieuchuandhtd']").val(data.tentieuchuandhtd);
                     $('#frmThemTieuChuan').find("[name='matieuchuandhtd']").val(data.matieuchuandhtd)
+                    $('#frmThemTieuChuan').find("[name='phanloaidoituong']").val(data.phanloaidoituong).trigger(
+                        'change');
                     if (data.batbuoc == 1) {
                         $('#frmThemTieuChuan').find("[name='batbuoc']").prop('checked', true);
                     } else
                         $('#frmThemTieuChuan').find("[name='batbuoc']").prop('checked', false);
                 }
             })
-        }       
+        }
 
         function deleteRow() {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
@@ -145,7 +147,14 @@
             </div>
         </div>
 
-        {!! Form::model($model, ['method' => 'POST', '/PhongTraoThiDua/Them', 'class' => 'form', 'id' => 'frm_ThayDoi', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
+        {!! Form::model($model, [
+            'method' => 'POST',
+            '/PhongTraoThiDua/Them',
+            'class' => 'form',
+            'id' => 'frm_ThayDoi',
+            'files' => true,
+            'enctype' => 'multipart/form-data',
+        ]) !!}
         {{ Form::hidden('madonvi', null) }}
         {{ Form::hidden('maphongtraotd', null) }}
         <div class="card-body">
@@ -207,7 +216,7 @@
                 </div>
             </div>
 
-            <div class="form-group row">                
+            <div class="form-group row">
                 <div class="col-lg-6">
                     <label>Quyết định: </label>
                     {!! Form::file('qdkt', null, ['id' => 'qdkt', 'class' => 'form-control']) !!}
@@ -217,7 +226,7 @@
                         </span>
                     @endif
                 </div>
-           
+
                 <div class="col-lg-6">
                     <label>Tài liệu khác: </label>
                     {!! Form::file('tailieukhac', null, ['id' => 'tailieukhac', 'class' => 'form-control']) !!}
@@ -234,7 +243,8 @@
 
             <div class="form-group row">
                 <div class="col-lg-12">
-                    <button onclick="setTieuChuan()" type="button" data-target="#modal-tieuchuan" data-toggle="modal" class="btn btn-success btn-xs">
+                    <button onclick="setTieuChuan()" type="button" data-target="#modal-tieuchuan" data-toggle="modal"
+                        class="btn btn-success btn-xs">
                         <i class="fa fa-plus"></i>&nbsp;Thêm</button>
                 </div>
             </div>
@@ -245,6 +255,7 @@
                         <thead>
                             <tr>
                                 <th style="text-align: center" width="10%">STT</th>
+                                <th style="text-align: center">Đối tượng áp dụng</th>
                                 <th style="text-align: center">Tên tiêu chuẩn xét khen thưởng</th>
                                 <th style="text-align: center" width="10%">Tiêu chuẩn</br>Bắt buộc</th>
                                 <th style="text-align: center" width="12%">Thao tác</th>
@@ -255,6 +266,7 @@
                             @foreach ($model_tieuchuan as $key => $tt)
                                 <tr class="odd gradeX">
                                     <td style="text-align: center">{{ $i++ }}</td>
+                                    <td>{{ $a_phanloaidt[$tt->phanloaidoituong] ?? $tt->phanloaidoituong }}</td>
                                     <td>{{ $tt->tentieuchuandhtd }}</td>
                                     @if ($tt->batbuoc == 0)
                                         <td class="text-center"></td>
@@ -307,7 +319,20 @@
                     <div class="form-group row">
                         <div class="col-lg-12">
                             <label class="control-label">Mô tả tiêu chuẩn</label>
-                            {!! Form::textarea('tentieuchuandhtd', null, ['id' => 'tentieuchuandhtd', 'class' => 'form-control', 'rows' => 3]) !!}
+                            {!! Form::select('phanloaidoituong', $a_phanloaidt, null, [
+                                'id' => 'phanloaidoituong',
+                                'class' => 'form-control',
+                            ]) !!}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label class="control-label">Mô tả tiêu chuẩn</label>
+                            {!! Form::textarea('tentieuchuandhtd', null, [
+                                'id' => 'tentieuchuandhtd',
+                                'class' => 'form-control',
+                                'rows' => 3,
+                            ]) !!}
                         </div>
                     </div>
 
@@ -316,8 +341,8 @@
                             <div class="md-checkbox">
                                 <input type="checkbox" id="batbuoc" name="batbuoc" class="md-check">
                                 <label for="batbuoc">
-                                    <span></span><span class="check"></span><span
-                                        class="box"></span>Tiêu chuẩn bắt buộc</label>
+                                    <span></span><span class="check"></span><span class="box"></span>Tiêu chuẩn bắt
+                                    buộc</label>
                             </div>
                         </div>
                     </div>
@@ -355,7 +380,7 @@
         function getId(id) {
             $('#frm_delete').find("[name='id']").val(id);
         }
-    
+
         function clickdelete() {
             $('#frm_delete').submit();
         }

@@ -3,11 +3,12 @@
 use App\Http\Controllers\NghiepVu\KhenThuongCongTrang\dshosokhenthuongcongtrangController;
 use App\Http\Controllers\NghiepVu\KhenThuongCongTrang\qdhosokhenthuongcongtrangController;
 use App\Http\Controllers\NghiepVu\ThiDuaKhenThuong\dshosothiduaController;
+use App\Http\Controllers\NghiepVu\ThiDuaKhenThuong\dsphongtraothiduaController;
 use App\Http\Controllers\NghiepVu\ThiDuaKhenThuong\khenthuonghosothiduaController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'PhongTraoThiDua'], function () {
-    Route::get('ThongTin', 'NghiepVu\ThiDuaKhenThuong\dsphongtraothiduaController@ThongTin');
+    Route::get('ThongTin', [dsphongtraothiduaController::class,'ThongTin']);
     Route::get('Xem', 'NghiepVu\ThiDuaKhenThuong\dsphongtraothiduaController@XemThongTin');
     Route::get('Them', 'NghiepVu\ThiDuaKhenThuong\dsphongtraothiduaController@ThayDoi');
     Route::post('Them', 'NghiepVu\ThiDuaKhenThuong\dsphongtraothiduaController@LuuPhongTrao');
@@ -32,7 +33,7 @@ Route::group(['prefix' => 'HoSoThiDua'], function () {
     Route::get('Xem', 'NghiepVu\ThiDuaKhenThuong\dshosothiduaController@XemHoSo');
     Route::post('Xoa', 'NghiepVu\ThiDuaKhenThuong\dshosothiduaController@XoaHoSo');   
 
-    Route::get('LayTieuChuan', 'NghiepVu\ThiDuaKhenThuong\dshosothiduaController@LayTieuChuan');
+    Route::get('LayTieuChuan', [dshosothiduaController::class,'LayTieuChuan']);
     Route::get('LuuTieuChuan', 'NghiepVu\ThiDuaKhenThuong\dshosothiduaController@LuuTieuChuan');
     Route::post('ChuyenHoSo', 'NghiepVu\ThiDuaKhenThuong\dshosothiduaController@ChuyenHoSo');
     Route::post('delete', 'NghiepVu\ThiDuaKhenThuong\dshosothiduaController@delete');

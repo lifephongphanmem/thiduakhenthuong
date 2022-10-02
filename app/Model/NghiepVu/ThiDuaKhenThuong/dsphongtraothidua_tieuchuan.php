@@ -13,6 +13,7 @@ class dsphongtraothidua_tieuchuan extends Model
         'maphongtraotd', // ký hiệu
         'madanhhieutd',//bỏ
         'matieuchuandhtd',//bỏ
+        'phanloaidoituong',//Áp dụng cho cá nhân, tập thể
         'tentieuchuandhtd',
         'cancu',
         'ghichu',

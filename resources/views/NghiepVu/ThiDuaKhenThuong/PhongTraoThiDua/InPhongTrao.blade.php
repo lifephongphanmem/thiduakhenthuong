@@ -61,6 +61,7 @@
             <thead>
                 <tr class="text-center">
                     <th width="10%">STT</th>
+                    <th>Đối tượng áp dụng</th>
                     <th>Tên tiêu chuẩn xét khen thưởng</th>
                     <th>Điều kiện bắt buộc</th>
                 </tr>
@@ -69,6 +70,7 @@
             @foreach ($model_tieuchi as $key => $tt)
                 <tr class="odd gradeX">
                     <td class="text-center">{{ $i++ }}</td>
+                    <td>{{$a_phanloaidt[$tt->phanloaidoituong] ?? $tt->phanloaidoituong}}</td>
                     <td>{{ $tt->tentieuchuandhtd }}</td>
                     <td class="text-center">{{ $tt->batbuoc == '1' ? 'Có' : 'Không' }}</td>
                 </tr>

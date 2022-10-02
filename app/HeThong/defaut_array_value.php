@@ -101,9 +101,9 @@ function getPhanLoaiDonVi()
 function getPhanLoaiTDKT()
 {
     return array(
-        'CANHAN' => 'Danh hiệu thi đua đối với cá nhân',
-        'TAPTHE' => 'Danh hiệu thi đua đối với tập thể',
-        'HOGIADINH' => 'Danh hiệu thi đua đối với hộ gia đình',
+        'CANHAN' => 'Áp dụng đối với cá nhân',
+        'TAPTHE' => 'Áp dụng đối với tập thể',
+        'HOGIADINH' => 'Áp dụng đối với hộ gia đình',
     );
 }
 
