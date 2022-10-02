@@ -49,8 +49,9 @@ class qdhosokhenthuongnienhanController extends Controller
         $inputs['url_xd'] = '/KhenThuongNienHan/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongNienHan/KhenThuong/';
 
-        $m_donvi = getDonViXetDuyetHoSo(session('admin')->capdo, null, 'qdhosokhenthuongnienhan', 'MODEL');
-        $m_diaban = getDiaBanXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
+        $m_donvi = getDonVi(session('admin')->capdo, 'qdhosokhenthuongnienhan');
+        $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
+
         //$m_donvi = viewdiabandonvi::wherein('madonvi', array_column($m_donvi->toarray(), 'madonviQL'))->get();
 
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';

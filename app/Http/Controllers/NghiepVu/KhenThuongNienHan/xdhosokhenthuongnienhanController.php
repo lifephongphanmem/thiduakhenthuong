@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
+use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\HeThong\trangthaihoso;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosokhenthuong;
@@ -37,8 +38,9 @@ class xdhosokhenthuongnienhanController extends Controller
         $inputs['url_hs'] = '/KhenThuongNienHan/HoSo/';
         $inputs['url_xd'] = '/KhenThuongNienHan/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongNienHan/KhenThuong/';
-        $m_donvi = getDonViXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
-        $m_diaban = getDiaBanXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
+        $m_donvi = getDonVi(session('admin')->capdo, 'xdhosokhenthuongnienhan');
+        $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
+
         //$m_donvi = viewdiabandonvi::wherein('madonvi', array_column($m_donvi->toarray(), 'madonviQL'))->get();
         
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';

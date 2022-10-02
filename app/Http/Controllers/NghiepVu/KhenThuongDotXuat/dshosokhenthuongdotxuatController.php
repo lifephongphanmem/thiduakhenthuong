@@ -37,17 +37,17 @@ class dshosokhenthuongdotxuatController extends Controller
     public function ThongTin(Request $request)
     {
 
-        if (!chkPhanQuyen('qdhosokhenthuongdotxuat', 'danhsach')) {
-            return view('errors.noperm')->with('machucnang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'danhsach');
+        if (!chkPhanQuyen('dshosokhenthuongdotxuat', 'danhsach')) {
+            return view('errors.noperm')->with('machucnang', 'dshosokhenthuongdotxuat')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
-        $m_donvi = getDonVi(session('admin')->capdo);
-        $m_diaban = dsdiaban::all();
+        $m_donvi = getDonVi(session('admin')->capdo, 'dshosokhenthuongdotxuat');
+        $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
         
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
-        $inputs['maloaihinhkt'] = session('chucnang')['qdhosokhenthuongdotxuat']['maloaihinhkt'] ?? 'ALL';
+        $inputs['maloaihinhkt'] = session('chucnang')['dshosokhenthuongdotxuat']['maloaihinhkt'] ?? 'ALL';
         $model = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi']);
         if ($inputs['maloaihinhkt'] != 'ALL')
             $model = $model->where('maloaihinhkt', $inputs['maloaihinhkt']);
@@ -76,8 +76,8 @@ class dshosokhenthuongdotxuatController extends Controller
     public function ThayDoi(Request $request)
     {
 
-        if (!chkPhanQuyen('qdhosokhenthuongdotxuat', 'thaydoi')) {
-            return view('errors.noperm')->with('machucnang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'danhsach');
+        if (!chkPhanQuyen('dshosokhenthuongdotxuat', 'thaydoi')) {
+            return view('errors.noperm')->with('machucnang', 'dshosokhenthuongdotxuat')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
@@ -136,8 +136,8 @@ class dshosokhenthuongdotxuatController extends Controller
     public function Them(Request $request)
     {
 
-        if (!chkPhanQuyen('qdhosokhenthuongdotxuat', 'thaydoi')) {
-            return view('errors.noperm')->with('machucnang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'danhsach');
+        if (!chkPhanQuyen('dshosokhenthuongdotxuat', 'thaydoi')) {
+            return view('errors.noperm')->with('machucnang', 'dshosokhenthuongdotxuat')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
         $inputs['mahosotdkt'] = (string)getdate()[0];
@@ -150,8 +150,8 @@ class dshosokhenthuongdotxuatController extends Controller
     public function LuuHoSo(Request $request)
     {
 
-        if (!chkPhanQuyen('qdhosokhenthuongdotxuat', 'thaydoi')) {
-            return view('errors.noperm')->with('machucnang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'danhsach');
+        if (!chkPhanQuyen('dshosokhenthuongdotxuat', 'thaydoi')) {
+            return view('errors.noperm')->with('machucnang', 'dshosokhenthuongdotxuat')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
         if (isset($inputs['totrinh'])) {
@@ -408,8 +408,8 @@ class dshosokhenthuongdotxuatController extends Controller
 
     public function ChuyenHoSo(Request $request)
     {
-        if (!chkPhanQuyen('qdhosokhenthuongdotxuat', 'hoanthanh')) {
-            return view('errors.noperm')->with('machucnang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'hoanthanh');
+        if (!chkPhanQuyen('dshosokhenthuongdotxuat', 'hoanthanh')) {
+            return view('errors.noperm')->with('machucnang', 'dshosokhenthuongdotxuat')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();

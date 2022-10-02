@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\NghiepVu\KhenThuongChuyenDe;
+namespace App\Http\Controllers\NghiepVu\KhenThuongNienHan;
 
 
 use Carbon\Carbon;

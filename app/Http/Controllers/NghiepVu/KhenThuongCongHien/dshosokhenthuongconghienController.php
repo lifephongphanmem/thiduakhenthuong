@@ -50,7 +50,9 @@ class dshosokhenthuongconghienController extends Controller
         $inputs['url'] = '/KhenThuongCongHien/HoSo/';
         $inputs['url_kt'] = '/KhenThuongCongHien/KhenThuong/';
         //dd(session('chucnang')['dshosokhenthuongconghien']['maloaihinhkt']);
-        $m_donvi = getDonVi(session('admin')->capdo);
+        $m_donvi = getDonVi(session('admin')->capdo, 'dshosokhenthuongconghien');
+        $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
+
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
@@ -62,7 +64,7 @@ class dshosokhenthuongconghienController extends Controller
         foreach ($model as $hoso) {
             $model->mahosokt = $m_khenthuong->where('mahosotdkt', $hoso->mahosotdkt)->first()->mahosokt ?? null;
         }
-        $m_diaban = dsdiaban::all();
+        
         if (in_array($inputs['maloaihinhkt'], ['', 'ALL', 'all'])) {
             $m_loaihinh = dmloaihinhkhenthuong::all();
         } else {

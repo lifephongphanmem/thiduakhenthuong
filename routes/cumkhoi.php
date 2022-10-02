@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\NghiepVu\CumKhoiThiDua\dscumkhoiController;
 use App\Http\Controllers\NghiepVu\CumKhoiThiDua\dshosokhenthuongcumkhoiController;
+use App\Http\Controllers\NghiepVu\CumKhoiThiDua\dsphongtraothiduacumkhoiController;
 use App\Http\Controllers\NghiepVu\CumKhoiThiDua\GiaoUoc\dshosogiaouocthiduaController;
 use App\Http\Controllers\NghiepVu\CumKhoiThiDua\GiaoUoc\xdhosogiaouocthiduaController;
 use App\Http\Controllers\NghiepVu\CumKhoiThiDua\khenthuonghosokhenthuongcumkhoiController;
@@ -21,6 +22,23 @@ Route::group(['prefix' => 'CumKhoiThiDua'], function () {
         Route::get('DanhSach', 'NghiepVu\CumKhoiThiDua\dscumkhoiController@DanhSach');
         Route::post('ThemDonVi', 'NghiepVu\CumKhoiThiDua\dscumkhoiController@ThemDonVi');
         Route::post('XoaDonVi', 'NghiepVu\CumKhoiThiDua\dscumkhoiController@XoaDonVi');
+    });
+
+    Route::group(['prefix' => 'PhongTraoThiDua'], function () {
+        Route::get('ThongTin', [dsphongtraothiduacumkhoiController::class,'ThongTin']);
+        Route::get('Xem', [dsphongtraothiduacumkhoiController::class,'XemThongTin']);
+        Route::get('Them', [dsphongtraothiduacumkhoiController::class,'ThayDoi']);
+        Route::post('Them', [dsphongtraothiduacumkhoiController::class,'LuuPhongTrao']);
+        Route::get('Sua', [dsphongtraothiduacumkhoiController::class,'ThayDoi']);
+        Route::post('Sua', [dsphongtraothiduacumkhoiController::class,'LuuPhongTrao']);
+    
+        Route::get('ThemKhenThuong', [dsphongtraothiduacumkhoiController::class,'ThemKhenThuong']);
+        Route::get('ThemTieuChuan', [dsphongtraothiduacumkhoiController::class,'ThemTieuChuan']);
+        Route::get('LayTieuChuan', [dsphongtraothiduacumkhoiController::class,'LayTieuChuan']);
+        Route::get('XoaTieuChuan', [dsphongtraothiduacumkhoiController::class,'XoaTieuChuan']);
+        Route::get('TaiLieuDinhKem', [dsphongtraothiduacumkhoiController::class,'TaiLieuDinhKem']);
+    
+        //Route::get('Sua','system\DSTaiKhoanController@edit');
     });
 
     Route::group(['prefix' => 'KTCumKhoi'], function () {
