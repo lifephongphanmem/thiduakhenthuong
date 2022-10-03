@@ -21,12 +21,12 @@
                             <label class="form-control-label">Tên đối tượng</label>
                             {!! Form::text('tendoituong', null, ['class' => 'form-control']) !!}
                         </div>
-                        <div class="col-lg-1">
+                        {{-- <div class="col-lg-1">
                             <label class="text-center">Chọn</label>
                             <button type="button" class="btn btn-default btn-icon" data-target="#modal-doituong"
                                 data-toggle="modal">
                                 <i class="fa fa-plus"></i></button>
-                        </div>
+                        </div> --}}
                         <div class="col-md-3">
                             <label class="form-control-label">Ngày sinh</label>
                             {!! Form::input('date', 'ngaysinh', null, ['class' => 'form-control']) !!}

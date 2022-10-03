@@ -55,12 +55,14 @@ class khenthuonghosothiduaController extends Controller
         }
 
         $inputs = $request->all();
+        $inputs['capdo'] = $request->all();
         $m_donvi = getDonVi(session('admin')->capdo, 'qdhosothidua', null, 'MODEL');
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
         //$m_donvi = viewdiabandonvi::wherein('madonvi', array_column($m_donvi->toarray(), 'madonviQL'))->get();
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
+        $inputs['capdo'] = $donvi->capdo;
 
         $a_phamvi = getPhamViApDungPhongTrao($donvi->capdo ?? 'T');
         $model = viewdonvi_dsphongtrao::wherein('phamviapdung', $a_phamvi)->orderby('tungay')->get();
@@ -277,6 +279,7 @@ class khenthuonghosothiduaController extends Controller
             ->with('pageTitle', 'Kết quả phong trào thi đua');
     }
 
+    //bỏ
     public function HoSo(Request $request)
     {
         if (!chkPhanQuyen('qdhosothidua', 'thaydoi')) {

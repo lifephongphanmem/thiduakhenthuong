@@ -115,7 +115,7 @@ function getDonViQuanLyDiaBan($madiaban, $kieudulieu = 'ARRAY')
 
 function getDonViCK($capdo, $madonvi = null, $kieudulieu = 'ARRAY')
 {
-    $model = \App\Model\View\view_dscumkhoi::all();
+    $model = \App\Model\View\view_dscumkhoi::all();    
     switch ($kieudulieu) {
         case 'MODEL': {
                 return $model;
@@ -247,7 +247,9 @@ function getDonVi($capdo, $chucnang = null, $tenquyen = null)
             $qr->select('madonvi')->from('dstaikhoan')->wherein('tendangnhap', $a_tk_pq)->distinct();
         })->get();
     }
-
+    // if(count($m_donvi) == 0){
+    //     return redirect('/DangNhap');
+    // }
     return $m_donvi;
 }
 

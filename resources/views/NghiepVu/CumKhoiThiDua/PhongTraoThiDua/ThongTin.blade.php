@@ -34,7 +34,7 @@
             <div class="card-toolbar">
                 <!--begin::Button-->
                 @if (chkPhanQuyen('dsphongtraothiduacumkhoi', 'thaydoi'))
-                    <a href="{{ url($inputs['url'] . 'Them?madonvi=' . $inputs['madonvi'] . '&macumkhoi=') }}" class="btn btn-success btn-xs">
+                    <a href="{{ url($inputs['url'] . 'Them?madonvi=' . $inputs['madonvi'] . '&macumkhoi='.$inputs['macumkhoi']) }}" class="btn btn-success btn-xs">
                         <i class="fa fa-plus"></i> Thêm mới</a>
                 @endif
                 <!--end::Button-->
@@ -70,6 +70,17 @@
             </div>
 
             <div class="form-group row">
+                <div class="col-12">
+                    <label style="font-weight: bold">Cụm, khối thi đua</label>
+                    <select class="form-control select2basic" id="macumkhoi">
+                        @foreach ($m_cumkhoi as $cumkhoi)
+                            <option {{ $cumkhoi->macumkhoi == $inputs['macumkhoi'] ? 'selected' : '' }}
+                                value="{{ $cumkhoi->macumkhoi }}">{{ $cumkhoi->tencumkhoi }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
                 {{-- <div class="col-md-4">
                     <label style="font-weight: bold">Phạm vi phát động</label>
                     {!! Form::select('phamviapdung', setArrayAll($a_phamvi, 'Tất cả', 'ALL'), $inputs['phamviapdung'], [
@@ -90,7 +101,7 @@
                                 <th>Nội dung phong trào</th>
                                 <th width="15%">Loại hình khen thưởng</th>
                                 <th>Ngày quyết định</th>
-                                <th width="15%">Phạm vi phát động</th>
+                                {{-- <th width="15%">Phạm vi phát động</th> --}}
                                 <th width="15%">Hình thức tổ chức</th>
                                 <th>Trạng thái</th>
                                 <th width="10%">Thao tác</th>
@@ -102,12 +113,12 @@
                                 <td class="active">{{ $tt->noidung }}</td>
                                 <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
                                 <td class="text-center">{{ getDayVn($tt->ngayqd) }}</td>
-                                <td>{{ $a_phamvi[$tt->phamviapdung] ?? '' }}</td>
+                                {{-- <td>{{ $a_phamvi[$tt->phamviapdung] ?? '' }}</td> --}}
                                 <td>{{ $a_phanloai[$tt->phanloai] ?? '' }}</td>
                                 @include('includes.td.td_trangthai_phongtrao')
                                 <td class=" text-center">
                                     <a title="Xem chi tiết"
-                                        href="{{ url($inputs['url'] . '.Xem?maphongtraotd=' . $tt->maphongtraotd) }}"
+                                        href="{{ url($inputs['url'] . 'Xem?maphongtraotd=' . $tt->maphongtraotd) }}"
                                         class="btn btn-sm btn-clean btn-icon" target="_blank">
                                         <i class="icon-lg la fa-eye text-dark icon-2x"></i>
                                     </a>

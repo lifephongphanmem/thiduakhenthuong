@@ -39,8 +39,6 @@
                         jQuery(document).ready(function() {
                             TableManaged4.init();
                         });
-
-
                     }
                 }
             });
@@ -48,7 +46,7 @@
         }
 
         function setTieuChuan() {
-            $('#frmThemTieuChuan').find("[name='matieuchuandhtd']").val(null);
+            $('#frmThemTieuChuan').find("[name='matieuchuandhtd']").val('-1');
         }
 
         function getTieuChuan(id) {
@@ -84,7 +82,7 @@
     <div class="card card-custom" style="min-height: 600px">
         <div class="card-header">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Thông tin chi tiết phong trào thi đua</h3>
+                <h3 class="card-label text-uppercase">Thông tin chi tiết phong trào thi đua trong cụm, khối</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
@@ -102,7 +100,6 @@
         ]) !!}
         {{ Form::hidden('madonvi', null) }}
         {{ Form::hidden('maphongtraotd', null) }}
-        {{ Form::hidden('macumkhoi', null) }}
         <div class="card-body">
             <div class="form-group row">
                 <div class="col-lg-12">
@@ -110,18 +107,25 @@
                     {!! Form::text('tendonvi', null, ['class' => 'form-control text-success text-bold', 'readonly']) !!}
                 </div>
             </div>
+
             <div class="form-group row">
-                <div class="col-lg-4">
+                <div class="col-12">
+                    <label>Cụm, khối thi đua</label>
+                    {!! Form::select('macumkhoi', $a_cumkhoi, null, ['class' => 'form-control select2basic']) !!}
+                </div>
+            </div>
+            <div class="form-group row">
+                {{-- <div class="col-lg-4">
                     <label>Phạm vị phát động</label>
                     {!! Form::select('phamviapdung', $a_phamvi, null, ['class' => 'form-control select2basic']) !!}
-                </div>
+                </div> --}}
 
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                     <label>Loại hình khen thưởng</label>
                     {!! Form::select('maloaihinhkt', $a_loaihinhkt, null, ['class' => 'form-control select2basic']) !!}
                 </div>
 
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                     <label>Hình thức tổ chức</label>
                     {!! Form::select('phanloai', getPhanLoaiPhongTraoThiDua(), null, ['class' => 'form-control select2basic']) !!}
                 </div>

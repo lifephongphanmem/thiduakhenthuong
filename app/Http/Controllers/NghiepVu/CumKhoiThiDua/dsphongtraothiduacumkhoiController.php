@@ -11,9 +11,12 @@ use App\Model\DanhMuc\dmdanhhieuthidua;
 use App\Model\DanhMuc\dmdanhhieuthidua_tieuchuan;
 use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
+use App\Model\DanhMuc\dscumkhoi;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\HeThong\trangthaihoso;
+use App\Model\NghiepVu\CumKhoiThiDua\dsphongtraothiduacumkhoi;
+use App\Model\NghiepVu\CumKhoiThiDua\dsphongtraothiduacumkhoi_tieuchuan;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua_khenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua_tieuchuan;
@@ -41,13 +44,19 @@ class dsphongtraothiduacumkhoiController extends Controller
         }
         $inputs = $request->all();
         $inputs['url'] = static::$url;
-        $m_donvi = getDonVi(session('admin')->capdo, 'dsphongtraothiduacumkhoi');
+        $m_donvi = getDonViQuanLyCumKhoi('ALL','MODEL');
+        if (count($m_donvi) == 0) {
+            return view('errors.403')->with('message', 'Hệ thống chưa có trưởng, phó cụm khối thi đua nào. Bạn hãy kiểm tra lại danh sách cụm khối.');
+        }
+        
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
+        $m_cumkhoi = dscumkhoi::wherein('macumkhoi', array_column($m_donvi->toarray(), 'macumkhoi'))->get();
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
         $inputs['phamviapdung'] = $inputs['phamviapdung'] ?? 'ALL';
-        $model = dsphongtraothidua::where('madonvi', $inputs['madonvi']);
+        $inputs['macumkhoi'] = $inputs['macumkhoi'] ?? $m_cumkhoi->first()->macumkhoi;
+        $model = dsphongtraothiduacumkhoi::where('madonvi', $inputs['madonvi']);
         if ($inputs['nam'] != 'ALL')
             $model = $model->whereYear('ngayqd', $inputs['nam']);
         if ($inputs['phanloai'] != 'ALL')
@@ -57,6 +66,7 @@ class dsphongtraothiduacumkhoiController extends Controller
             ->with('model', $model->orderby('ngayqd')->get())
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
+            ->with('m_cumkhoi', $m_cumkhoi)
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('a_phamvi', getPhamViPhongTrao($m_donvi->where('madonvi', $inputs['madonvi'])->first()->capdo ?? 'T'))
             ->with('a_phanloai', getPhanLoaiPhongTraoThiDua(true))
@@ -73,39 +83,43 @@ class dsphongtraothiduacumkhoiController extends Controller
         $inputs = $request->all();
         $inputs['url'] = static::$url;
         $inputs['maphongtraotd'] = $inputs['maphongtraotd'] ?? null;
-        $model = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
+        $model = dsphongtraothiduacumkhoi::where('maphongtraotd', $inputs['maphongtraotd'])->first();
         $inputs['madonvi'] = $inputs['madonvi'] ?? $model->madonvi;
         $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
-
+        
         if ($model == null) {
             $model = new dsphongtraothidua();
             $model->madonvi = $inputs['madonvi'];
             $model->maphongtraotd = getdate()[0];
             $model->trangthai = 'CC';
             $model->phanloai = $donvi->capdo;
+            $model->macumkhoi = $inputs['macumkhoi'];
             $model->maloaihinhkt = session('chucnang')['dsphongtraothiduacumkhoi']['mahinhthuckt'] ?? '';
         }
+        $m_cumkhoi = dscumkhoi::where('macumkhoi', $model->macumkhoi)->get();
         $model->tendonvi = getThongTinDonVi($model->madonvi, 'tendonvi');
-        $model_tieuchuan = dsphongtraothidua_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->orderby('phanloaidoituong')->get();
+        $model_tieuchuan = dsphongtraothiduacumkhoi_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->orderby('phanloaidoituong')->get();
         //dd($model_tieuchuan);
         return view('NghiepVu.CumKhoiThiDua.PhongTraoThiDua.ThayDoi')
             ->with('model', $model)
             ->with('model_tieuchuan', $model_tieuchuan)
+            ->with('m_cumkhoi', $m_cumkhoi)
+            ->with('a_cumkhoi', array_column($m_cumkhoi->toArray(), 'tencumkhoi', 'macumkhoi'))
             ->with('a_tieuchuan', array_column(dmdanhhieuthidua_tieuchuan::all()->toArray(), 'tentieuchuandhtd', 'matieuchuandhtd'))
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
             ->with('a_phamvi', getPhamViPhatDongPhongTrao($donvi->capdo))
             ->with('a_phanloaidt', getPhanLoaiTDKT())
             ->with('inputs', $inputs)
-            ->with('pageTitle', 'Danh sách phong trào thi đua');
+            ->with('pageTitle', 'Danh sách phong trào thi đua trong cụm, khối');
     }
 
     public function XemThongTin(Request $request)
     {
         $inputs = $request->all();
-        $model = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
+        $model = dsphongtraothiduacumkhoi::where('maphongtraotd', $inputs['maphongtraotd'])->first();
         $model->tendonvi = getThongTinDonVi($model->madonvi, 'tendonvi');
-        $model_tieuchi = dsphongtraothidua_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->orderby('phanloaidoituong')->get();
+        $model_tieuchi = dsphongtraothiduacumkhoi_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->orderby('phanloaidoituong')->get();
         $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
         return view('NghiepVu.CumKhoiThiDua.PhongTraoThiDua.InPhongTrao')
             ->with('model', $model)
@@ -137,10 +151,10 @@ class dsphongtraothiduacumkhoiController extends Controller
             $filedk->move(public_path() . '/data/tailieukhac/', $inputs['tailieukhac']);
         }
 
-        $model = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
+        $model = dsphongtraothiduacumkhoi::where('maphongtraotd', $inputs['maphongtraotd'])->first();
         if ($model == null) {
             $inputs['trangthai'] = 'CC';
-            dsphongtraothidua::create($inputs);
+            dsphongtraothiduacumkhoi::create($inputs);
 
             $trangthai = new trangthaihoso();
             $trangthai->trangthai = 'CC';
@@ -162,8 +176,8 @@ class dsphongtraothiduacumkhoiController extends Controller
             return view('errors.noperm')->with('machucnang', 'dsphongtraothiduacumkhoi');
         }
         $inputs = $request->all();
-        $model = dsphongtraothidua::findorfail($inputs['iddelete']);
-        dsphongtraothidua_tieuchuan::where('maphongtraotd',$model->maphongtraotd)->delete();
+        $model = dsphongtraothiduacumkhoi::findorfail($inputs['iddelete']);
+        dsphongtraothiduacumkhoi_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->delete();
         $model->delete();
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }
@@ -272,25 +286,26 @@ class dsphongtraothiduacumkhoiController extends Controller
             );
             die(json_encode($result));
         }
-        //dd($request);
-        $inputs = $request->all();
-        $model = dsphongtraothidua_tieuchuan::where('maphongtraotd', $inputs['maphongtraotd'])->where('matieuchuandhtd', $inputs['matieuchuandhtd'])->first();
+        
+        $inputs = $request->all();        
+        $model = dsphongtraothiduacumkhoi_tieuchuan::where('maphongtraotd', $inputs['maphongtraotd'])->where('matieuchuandhtd', $inputs['matieuchuandhtd'])->first();
+        
         if ($model == null) {
-            $model = new dsphongtraothidua_tieuchuan();
+            $model = new dsphongtraothiduacumkhoi_tieuchuan();
             $model->maphongtraotd = $inputs['maphongtraotd'];
             $model->tentieuchuandhtd = $inputs['tentieuchuandhtd'];
             $model->phanloaidoituong = $inputs['phanloaidoituong'];
             $model->matieuchuandhtd = getdate()[0];
-            $model->batbuoc =$inputs['batbuoc'];
+            $model->batbuoc = $inputs['batbuoc'];
             $model->save();
         } else {
-            $model->batbuoc =$inputs['batbuoc'];
+            $model->batbuoc = $inputs['batbuoc'];
             $model->tentieuchuandhtd = $inputs['tentieuchuandhtd'];
             $model->phanloaidoituong = $inputs['phanloaidoituong'];
             $model->save();
         }
 
-        $modelct = dsphongtraothidua_tieuchuan::where('maphongtraotd', $inputs['maphongtraotd'])->orderby('phanloaidoituong')->get();
+        $modelct = dsphongtraothiduacumkhoi_tieuchuan::where('maphongtraotd', $inputs['maphongtraotd'])->orderby('phanloaidoituong')->get();
         if (isset($modelct)) {
             $a_phanloaidt = getPhanLoaiTDKT();
             $result['message'] = '<div class="row" id="dstieuchuan">';
@@ -354,7 +369,7 @@ class dsphongtraothiduacumkhoiController extends Controller
         }
         //dd($request);
         $inputs = $request->all();
-        $model = dsphongtraothidua_tieuchuan::findorfail($inputs['id']);
+        $model = dsphongtraothiduacumkhoi_tieuchuan::findorfail($inputs['id']);
         die(json_encode($model));
     }
 
@@ -366,7 +381,7 @@ class dsphongtraothiduacumkhoiController extends Controller
         );
 
         $inputs = $request->all();
-        $model = dsphongtraothidua::where('maphongtraotd', $inputs['mahs'])->first();
+        $model = dsphongtraothiduacumkhoi::where('maphongtraotd', $inputs['mahs'])->first();
         $result['message'] = '<div class="modal-body" id = "dinh_kem" >';
 
         if (isset($model->qdkt)) {

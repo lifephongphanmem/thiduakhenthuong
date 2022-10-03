@@ -196,7 +196,7 @@
                     <div class="form-group row">
                         <div class="col-lg-12">
                             <label>Cấp độ khen thưởng</label>
-                            {!! Form::select('capkhenthuong', getPhamViApDung(), 'T', ['class' => 'form-control']) !!}
+                            {!! Form::select('capkhenthuong', getPhamViApDung(), $inputs['capdo'], ['class' => 'form-control']) !!}
                         </div>
                     </div>
 

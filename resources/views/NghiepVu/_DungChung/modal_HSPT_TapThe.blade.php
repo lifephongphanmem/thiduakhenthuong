@@ -21,12 +21,12 @@
                             <label class="form-control-label">Tên tập thể</label>
                             {!! Form::text('tentapthe', null, ['class' => 'form-control']) !!}
                         </div>
-                        <div class="col-lg-1">
+                        {{-- <div class="col-lg-1">
                             <label class="text-center">Chọn</label>
                             <button type="button" class="btn btn-default btn-icon" data-target="#modal-tapthe"
                                 data-toggle="modal">
                                 <i class="fa fa-plus"></i></button>
-                        </div>
+                        </div> --}}
                     </div>
 
                     <div class="form-group row">
