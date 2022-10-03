@@ -99,23 +99,9 @@ function getDonViQuanLyDiaBan($madiaban, $kieudulieu = 'ARRAY')
     }
 }
 
-// function getDonViCumKhoi($macumkhoi, $kieudulieu = 'ARRAY')
-// {
-//     $donvi = \App\Model\DanhMuc\dscumkhoi_chitiet::where('macumkhoi', $macumkhoi)->get();
-//     $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', array_column($donvi->toarray(), 'madonvi'))->get();
-//     switch ($kieudulieu) {
-//         case 'MODEL': {
-//                 return $model;
-//                 break;
-//             }
-//         default:
-//             return array_column($model->toarray(), 'tendonvi', 'madonvi');
-//     }
-// }
-
 function getDonViCK($capdo, $madonvi = null, $kieudulieu = 'ARRAY')
 {
-    $model = \App\Model\View\view_dscumkhoi::all();    
+    $model = \App\Model\View\view_dscumkhoi::all();
     switch ($kieudulieu) {
         case 'MODEL': {
                 return $model;
@@ -158,9 +144,26 @@ function getDonViQuanLyTinh($kieudulieu = 'ARRAY')
 }
 
 //lây các đơn vị có chức năng quản lý địa bàn
-function getDonViXetDuyetHoSo($capdo, $madiaban = null, $chucnang = null, $kieudulieu = 'ARRAY')
-{
-    $model = \App\Model\View\viewdiabandonvi::wherein('capdo', ['T', 'H', 'X'])->get();
+function getDonViXetDuyetHoSo($madonvi = null, $chucnang = null, $kieudulieu = 'ARRAY')
+{  
+    //Lấy đơn vị có thông tin đơn vị
+    $m_donvi = \App\Model\View\viewdiabandonvi::where('madonvi', $madonvi)->get();
+
+    //Lấy đơn vị quản lý địa bàn
+    $model = \App\Model\View\viewdiabandonvi::where('madonvi', $m_donvi->first()->madonviQL)->get();
+    if ($chucnang != null) {
+        $a_tk = App\Model\DanhMuc\dstaikhoan::wherein('madonvi', array_column($m_donvi->toarray(), 'madonvi'))->get('tendangnhap');
+        $a_tk_pq = App\Model\DanhMuc\dstaikhoan_phanquyen::where('machucnang', $chucnang)->where('phanquyen', '1')
+            ->wherein('tendangnhap', $a_tk)->get('tendangnhap');
+        $m_donvi = App\Model\View\viewdiabandonvi::wherein('madonvi', function ($qr) use ($a_tk_pq) {
+            $qr->select('madonvi')->from('dstaikhoan')->wherein('tendangnhap', $a_tk_pq)->distinct();
+        })->get();
+    }
+    
+    foreach($m_donvi as $donvi){
+        $model->add($donvi);
+    }
+
     switch ($kieudulieu) {
         case 'MODEL': {
                 return $model;

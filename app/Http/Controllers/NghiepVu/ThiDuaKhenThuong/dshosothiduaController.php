@@ -56,16 +56,35 @@ class dshosothiduaController extends Controller
         $inputs['phamviapdung'] = $inputs['phamviapdung'] ?? 'ALL';
         $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
-        $capdo = $donvi->capdo;
-        $a_phamvi = getPhamViApDungPhongTrao($capdo);
-        $model = viewdonvi_dsphongtrao::wherein('phamviapdung', $a_phamvi)->orderby('tungay')->get();
+        
+        //lấy hết phong trào cấp tỉnh
+        $model = viewdonvi_dsphongtrao::wherein('phamviapdung', ['T','TW'])->orderby('tungay')->get();
+        
+        switch($donvi->capdo){
+            case 'X' :{
+                //đơn vị cấp xã => chỉ các phong trào trong huyện, xã
+                $model_xa = viewdonvi_dsphongtrao::wherein('madiaban',[$donvi->madiaban, $donvi->madiabanQL])->orderby('tungay')->get();                
+                break;
+            }
+            case 'H' :{
+                //đơn vị cấp huyện =>chỉ các phong trào trong huyện
+                $model_xa = viewdonvi_dsphongtrao::where('madiaban', $donvi->madiaban)->orderby('tungay')->get();
+                break;
+            }
+            case 'T' :{
+                //Phong trào theo SBN
+                $model_xa = viewdonvi_dsphongtrao::where('phamviapdung', 'SBN')->orderby('tungay')->get();
+                break;
+            }
+        }
+        foreach ($model_xa as $ct) {
+            $model->add($ct);
+        }
+        //kết quả
         if ($inputs['phamviapdung'] != 'ALL') {
             $model = $model->where('phamviapdung', $inputs['phamviapdung']);
         }
-        //đơn vị cấp huyện =>chỉ các phong trào trong huyện
-
-        //đơn vị cấp xã => chỉ các phong trào trong huyện, xã
-
+        
         $ngayhientai = date('Y-m-d');
         $m_hoso = dshosothamgiaphongtraotd::wherein('maphongtraotd', array_column($model->toarray(), 'maphongtraotd'))->get();
         $m_hoso_khenthuong = dshosothamgiaphongtraotd::wherein('maphongtraotd', array_column($model->toarray(), 'maphongtraotd'))->where('trangthai', 'DKT')->get();
@@ -99,7 +118,7 @@ class dshosothiduaController extends Controller
 
         return view('NghiepVu.ThiDuaKhenThuong.HoSoThiDua.ThongTin')
             ->with('inputs', $inputs)
-            ->with('model', $model)
+            ->with('model', $model->sortby('tungay'))
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
             ->with('a_donviql', getDonViQuanLyDiaBan($donvi->madiaban))
@@ -606,9 +625,10 @@ class dshosothiduaController extends Controller
             'message' => 'error',
         );
 
-        $inputs = $request->all();
-        $model = dshosothamgiaphongtraotd::where('mahosothamgiapt', $inputs['mahs'])->first();
+        $inputs = $request->all();        
         $result['message'] = '<div class="modal-body" id = "dinh_kem" >';
+        $model = dshosothamgiaphongtraotd::where('mahosothamgiapt', $inputs['mahs'])->first();
+        $result['message'] .= '<h5>Tài liệu hồ sơ đề nghị khen thưởng</h5>';
         if (isset($model->totrinh)) {
             $result['message'] .= '<div class="form-group row">';
             $result['message'] .= '<label class="col-2 col-form-label font-weight-bold" >Tờ trình:</label>';
@@ -631,6 +651,21 @@ class dshosothiduaController extends Controller
             $result['message'] .= '<div class="form-group row">';
             $result['message'] .= '<label class="col-2 col-form-label font-weight-bold" >Tài liệu khác</label>';
             $result['message'] .= '<div class="col-10 form-control"><a target = "_blank" href = "' . url('/data/tailieukhac/' . $model->tailieukhac) . '">' . $model->tailieukhac . '</a ></div>';
+            $result['message'] .= '</div>';
+        }
+        $result['message'] .= '<hr><h5>Tài liệu phong trào thi đua</h5>';
+        $model_pt = dsphongtraothidua::where('maphongtraotd', $model->maphongtraotd)->first();
+        if (isset($model_pt->qdkt)) {
+            $result['message'] .= '<div class="form-group row">';
+            $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Quyết định:</label>';
+            $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/qdkt/' . $model_pt->qdkt) . '">' . $model_pt->qdkt . '</a ></div>';
+            $result['message'] .= '</div>';
+        }
+
+        if (isset($model_pt->tailieukhac)) {
+            $result['message'] .= '<div class="form-group row">';
+            $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Tài liệu khác:</label>';
+            $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/tailieukhac/' . $model_pt->tailieukhac) . '">' . $model_pt->tailieukhac . '</a ></div>';
             $result['message'] .= '</div>';
         }
         $result['message'] .= '</div>';

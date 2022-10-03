@@ -75,26 +75,79 @@
                         <!--begin::Nav-->
                         <ul class="nav flex-column" role="tablist">
                             <!--begin::Item-->
-                            <li class="nav-item mb-3" data-toggle="tooltip" data-placement="right"
-                                data-container="body" data-boundary="window" title="Trình đơn">
-                                <a href="#" class="nav-link btn btn-icon btn-clean btn-lg active" data-toggle="tab"
-                                    data-target="#kt_aside_tab_2" role="tab">
+                            <li class="nav-item mb-3" data-toggle="tooltip" data-placement="right" data-container="body"
+                                data-boundary="window" title="Trình đơn">
+                                <a href="#" class="nav-link btn btn-icon btn-clean btn-lg active"
+                                    data-toggle="tab" data-target="#kt_aside_tab_2" role="tab">
                                     <span class="svg-icon svg-icon-xl">
-                                        <!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Group.svg-->
                                         <svg xmlns="http://www.w3.org/2000/svg"
                                             xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
                                             viewBox="0 0 24 24" version="1.1">
                                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                <polygon points="0 0 24 0 24 24 0 24" />
+                                                <rect x="0" y="0" width="24" height="24">
+                                                </rect>
+                                                <rect fill="#000000" x="4" y="4" width="7"
+                                                    height="7" rx="1.5"></rect>
                                                 <path
-                                                    d="M18,14 C16.3431458,14 15,12.6568542 15,11 C15,9.34314575 16.3431458,8 18,8 C19.6568542,8 21,9.34314575 21,11 C21,12.6568542 19.6568542,14 18,14 Z M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z"
+                                                    d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z"
+                                                    fill="#000000" opacity="0.3"></path>
+                                            </g>
+                                        </svg>
+                                    </span>
+                                </a>
+                            </li>
+                            <!--end::Item-->
+
+                            <!--begin::Item-->
+                            <li class="nav-item mb-3" data-toggle="tooltip" data-placement="right" data-container="body"
+                                data-boundary="window">
+                                <a href="#" class="btn btn-icon btn-clean btn-lg mb-1"
+                                    id="kt_quick_actions_toggle" data-toggle="tooltip" data-placement="right"
+                                    data-container="body" data-boundary="window" title="Thông tin hỗ trợ">
+                                    <span class="svg-icon svg-icon-primary svg-icon-2x">
+                                        <!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Communication\Active-call.svg--><svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
+                                            viewBox="0 0 24 24" version="1.1">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect x="0" y="0" width="24" height="24" />
+                                                <path
+                                                    d="M13.0799676,14.7839934 L15.2839934,12.5799676 C15.8927139,11.9712471 16.0436229,11.0413042 15.6586342,10.2713269 L15.5337539,10.0215663 C15.1487653,9.25158901 15.2996742,8.3216461 15.9083948,7.71292558 L18.6411989,4.98012149 C18.836461,4.78485934 19.1530435,4.78485934 19.3483056,4.98012149 C19.3863063,5.01812215 19.4179321,5.06200062 19.4419658,5.11006808 L20.5459415,7.31801948 C21.3904962,9.0071287 21.0594452,11.0471565 19.7240871,12.3825146 L13.7252616,18.3813401 C12.2717221,19.8348796 10.1217008,20.3424308 8.17157288,19.6923882 L5.75709327,18.8875616 C5.49512161,18.8002377 5.35354162,18.5170777 5.4408655,18.2551061 C5.46541191,18.1814669 5.50676633,18.114554 5.56165376,18.0596666 L8.21292558,15.4083948 C8.8216461,14.7996742 9.75158901,14.6487653 10.5215663,15.0337539 L10.7713269,15.1586342 C11.5413042,15.5436229 12.4712471,15.3927139 13.0799676,14.7839934 Z"
+                                                    fill="#000000" />
+                                                <path
+                                                    d="M14.1480759,6.00715131 L13.9566988,7.99797396 C12.4781389,7.8558405 11.0097207,8.36895892 9.93933983,9.43933983 C8.8724631,10.5062166 8.35911588,11.9685602 8.49664195,13.4426352 L6.50528978,13.6284215 C6.31304559,11.5678496 7.03283934,9.51741319 8.52512627,8.02512627 C10.0223249,6.52792766 12.0812426,5.80846733 14.1480759,6.00715131 Z M14.4980938,2.02230302 L14.313049,4.01372424 C11.6618299,3.76737046 9.03000738,4.69181803 7.1109127,6.6109127 C5.19447112,8.52735429 4.26985715,11.1545872 4.51274152,13.802405 L2.52110319,13.985098 C2.22450978,10.7517681 3.35562581,7.53777247 5.69669914,5.19669914 C8.04101739,2.85238089 11.2606138,1.72147333 14.4980938,2.02230302 Z"
                                                     fill="#000000" fill-rule="nonzero" opacity="0.3" />
-                                                <path
-                                                    d="M17.6011961,15.0006174 C21.0077043,15.0378534 23.7891749,16.7601418 23.9984937,20.4 C24.0069246,20.5466056 23.9984937,21 23.4559499,21 L19.6,21 C19.6,18.7490654 18.8562935,16.6718327 17.6011961,15.0006174 Z M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z"
-                                                    fill="#000000" fill-rule="nonzero" />
                                             </g>
                                         </svg>
                                         <!--end::Svg Icon-->
+                                    </span>
+                                </a>
+                            </li>
+                            <!--end::Item-->
+
+                            <!--begin::Item-->
+                            <li class="nav-item mb-3" data-toggle="tooltip" data-placement="right"
+                                data-container="body" data-boundary="window">
+                                <a href="#" class="btn btn-icon btn-clean btn-lg w-40px h-40px"
+                                    id="kt_quick_user_toggle" data-toggle="tooltip" data-placement="right"
+                                    data-container="body" data-boundary="window" title="Thông tin người dùng: {{ session('admin')->tentaikhoan }}">
+                                    <span class="symbol symbol-30 symbol-lg-40">
+                                        <span class="svg-icon svg-icon-primary svg-icon-2x">
+                                            <!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Communication\Address-card.svg--><svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                                                height="24px" viewBox="0 0 24 24" version="1.1">
+                                                <g stroke="none" stroke-width="1" fill="none"
+                                                    fill-rule="evenodd">
+                                                    <rect x="0" y="0" width="24"
+                                                        height="24" />
+                                                    <path
+                                                        d="M6,2 L18,2 C19.6568542,2 21,3.34314575 21,5 L21,19 C21,20.6568542 19.6568542,22 18,22 L6,22 C4.34314575,22 3,20.6568542 3,19 L3,5 C3,3.34314575 4.34314575,2 6,2 Z M12,11 C13.1045695,11 14,10.1045695 14,9 C14,7.8954305 13.1045695,7 12,7 C10.8954305,7 10,7.8954305 10,9 C10,10.1045695 10.8954305,11 12,11 Z M7.00036205,16.4995035 C6.98863236,16.6619875 7.26484009,17 7.4041679,17 C11.463736,17 14.5228466,17 16.5815,17 C16.9988413,17 17.0053266,16.6221713 16.9988413,16.5 C16.8360465,13.4332455 14.6506758,12 11.9907452,12 C9.36772908,12 7.21569918,13.5165724 7.00036205,16.4995035 Z"
+                                                        fill="#000000" />
+                                                </g>
+                                            </svg>
+                                            <!--end::Svg Icon-->
+                                        </span>
                                     </span>
                                 </a>
                             </li>
@@ -113,51 +166,11 @@
                         </span>
                         <!--end::Aside Toggle-->
                         <!--begin::Quick Actions-->
-                        <a href="#" class="btn btn-icon btn-clean btn-lg mb-1" id="kt_quick_actions_toggle"
-                            data-toggle="tooltip" data-placement="right" data-container="body" data-boundary="window"
-                            title="Thông tin hỗ trợ">
-                            <span class="svg-icon svg-icon-xl">
-                                <!--begin::Svg Icon | path:assets/media/svg/icons/Media/Equalizer.svg-->
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                        <rect x="0" y="0" width="24" height="24" />
-                                        <rect fill="#000000" opacity="0.3" x="13" y="4" width="3" height="16"
-                                            rx="1.5" />
-                                        <rect fill="#000000" x="8" y="9" width="3" height="11" rx="1.5" />
-                                        <rect fill="#000000" x="18" y="11" width="3" height="9" rx="1.5" />
-                                        <rect fill="#000000" x="3" y="13" width="3" height="7" rx="1.5" />
-                                    </g>
-                                </svg>
-                                <!--end::Svg Icon-->
-                            </span>
-                        </a>
+
                         <!--end::Quick Actions-->
 
                         <!--begin::User-->
-                        <a href="#" class="btn btn-icon btn-clean btn-lg w-40px h-40px" id="kt_quick_user_toggle"
-                            data-toggle="tooltip" data-placement="right" data-container="body" data-boundary="window"
-                            title="Thông tin người dùng">
-                            <span class="symbol symbol-30 symbol-lg-40">
-                                <span class="svg-icon svg-icon-xl">
-                                    <!--begin::Svg Icon | path:assets/media/svg/icons/General/User.svg-->
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                        width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                            <polygon points="0 0 24 0 24 24 0 24" />
-                                            <path
-                                                d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z"
-                                                fill="#000000" fill-rule="nonzero" opacity="0.3" />
-                                            <path
-                                                d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z"
-                                                fill="#000000" fill-rule="nonzero" />
-                                        </g>
-                                    </svg>
-                                    <!--end::Svg Icon-->
-                                </span>
-                                <!--<span class="symbol-label font-size-h5 font-weight-bold">S</span>-->
-                            </span>
-                        </a>
+
                         <!--end::User-->
                     </div>
                     <!--end::Footer-->
@@ -185,16 +198,16 @@
 
                                             @include('HeThong.main_subphongtraothidua')
 
-                                            @include('HeThong.main_subkhenthuong')                                            
+                                            @include('HeThong.main_subkhenthuong')
 
                                             @include('HeThong.main_subcumkhoithidua')
-                                            
+
                                             @include('HeThong.main_subkhenthuongkhac')
-                                            
+
                                             @include('HeThong.main_subqlvanban')
-                                            
+
                                             @include('HeThong.main_subtracuu')
-                                            
+
                                             @include('HeThong.main_subbaocao')
 
                                             @include('HeThong.main_subhethong')
@@ -221,10 +234,11 @@
                 <!--begin::Content-->
                 <!--begin::Subheader-->
                 <div class="subheader pb-5 subheader-transparent" id="kt_subheader">
-                    <div class="container d-flex align-items-center justify-content-between1 flex-wrap flex-sm-nowrap">                        
-						<a href="#" class="">
-							<img style="max-width: 100%;" src="{{ url('assets/media/logos/tdkt-panel.png') }}" alt="">
-						</a>                     
+                    <div class="container d-flex align-items-center justify-content-between1 flex-wrap flex-sm-nowrap">
+                        <a href="#" class="">
+                            <img style="max-width: 100%;" src="{{ url('assets/media/logos/tdkt-panel.png') }}"
+                                alt="">
+                        </a>
                     </div>
                 </div>
                 <!--end::Subheader-->
@@ -263,8 +277,8 @@
     <div id="kt_quick_actions" class="offcanvas offcanvas-left p-10">
         <!--begin::Header-->
         <div class="offcanvas-header d-flex align-items-center justify-content-between pb-10">
-            <h3 class="font-weight-bold m-0">Thông tin
-                <small class="text-muted font-size-sm ml-2">finance &amp; reports</small>
+            <h3 class="font-weight-bold m-0">Thông tin hỗ trợ
+                {{-- <small class="text-muted font-size-sm ml-2">finance &amp; reports</small> --}}
             </h3>
             <a href="#" class="btn btn-xs btn-icon btn-light btn-hover-primary" id="kt_quick_actions_close">
                 <i class="ki ki-close icon-xs text-muted"></i>
@@ -276,7 +290,8 @@
             <div class="row gutter-b">
                 <!--begin::Item-->
                 <div class="col-12">
-                    <a href="#" class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-10 px-5">
+                    <a href="#"
+                        class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-10 px-5">
                         <span class="svg-icon svg-icon-3x svg-icon-primary m-0">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Shopping/Euro.svg-->
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -303,8 +318,9 @@
 
             <div class="row">
                 <!--begin::Item-->
-                <div class="col-6">
-                    <a href="#" class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-10 px-5">
+                <div class="col-12">
+                    <a href="#"
+                        class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-10 px-5">
                         <span class="svg-icon svg-icon-3x svg-icon-primary m-0">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Shopping/Euro.svg-->
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -349,7 +365,7 @@
                 </div>
 
                 <div class="d-flex flex-column">
-                    <div class="text-muted mt-1">{{session('admin')->tentaikhoan}}</div>
+                    <div class="text-muted mt-1">{{ session('admin')->tentaikhoan }}</div>
                 </div>
             </div>
             <!--end::Header-->
@@ -372,7 +388,8 @@
                                             <path
                                                 d="M13.2070325,4 C13.0721672,4.47683179 13,4.97998812 13,5.5 C13,8.53756612 15.4624339,11 18.5,11 C19.0200119,11 19.5231682,10.9278328 20,10.7929675 L20,17 C20,18.6568542 18.6568542,20 17,20 L7,20 C5.34314575,20 4,18.6568542 4,17 L4,7 C4,5.34314575 5.34314575,4 7,4 L13.2070325,4 Z"
                                                 fill="#000000" />
-                                            <circle fill="#000000" opacity="0.3" cx="18.5" cy="5.5" r="2.5" />
+                                            <circle fill="#000000" opacity="0.3" cx="18.5" cy="5.5"
+                                                r="2.5" />
                                         </g>
                                     </svg>
                                     <!--end::Svg Icon-->
@@ -396,15 +413,15 @@
                                         width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                             <rect x="0" y="0" width="24" height="24" />
-                                            <rect fill="#000000" opacity="0.3" x="12" y="4" width="3" height="13"
-                                                rx="1.5" />
-                                            <rect fill="#000000" opacity="0.3" x="7" y="9" width="3" height="8"
-                                                rx="1.5" />
+                                            <rect fill="#000000" opacity="0.3" x="12" y="4"
+                                                width="3" height="13" rx="1.5" />
+                                            <rect fill="#000000" opacity="0.3" x="7" y="9"
+                                                width="3" height="8" rx="1.5" />
                                             <path
                                                 d="M5,19 L20,19 C20.5522847,19 21,19.4477153 21,20 C21,20.5522847 20.5522847,21 20,21 L4,21 C3.44771525,21 3,20.5522847 3,20 L3,4 C3,3.44771525 3.44771525,3 4,3 C4.55228475,3 5,3.44771525 5,4 L5,19 Z"
                                                 fill="#000000" fill-rule="nonzero" />
-                                            <rect fill="#000000" opacity="0.3" x="17" y="11" width="3" height="6"
-                                                rx="1.5" />
+                                            <rect fill="#000000" opacity="0.3" x="17" y="11"
+                                                width="3" height="6" rx="1.5" />
                                         </g>
                                     </svg>
                                     <!--end::Svg Icon-->
@@ -438,7 +455,8 @@
                 height="24px" viewBox="0 0 24 24" version="1.1">
                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                     <polygon points="0 0 24 0 24 24 0 24" />
-                    <rect fill="#000000" opacity="0.3" x="11" y="10" width="2" height="10" rx="1" />
+                    <rect fill="#000000" opacity="0.3" x="11" y="10" width="2"
+                        height="10" rx="1" />
                     <path
                         d="M6.70710678,12.7071068 C6.31658249,13.0976311 5.68341751,13.0976311 5.29289322,12.7071068 C4.90236893,12.3165825 4.90236893,11.6834175 5.29289322,11.2928932 L11.2928932,5.29289322 C11.6714722,4.91431428 12.2810586,4.90106866 12.6757246,5.26284586 L18.6757246,10.7628459 C19.0828436,11.1360383 19.1103465,11.7686056 18.7371541,12.1757246 C18.3639617,12.5828436 17.7313944,12.6103465 17.3242754,12.2371541 L12.0300757,7.38413782 L6.70710678,12.7071068 Z"
                         fill="#000000" fill-rule="nonzero" />

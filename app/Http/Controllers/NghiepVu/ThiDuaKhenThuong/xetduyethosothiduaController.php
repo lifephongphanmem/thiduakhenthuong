@@ -41,9 +41,31 @@ class xetduyethosothiduaController extends Controller
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
-        $a_phamvi = getPhamViApDungPhongTrao($donvi->capdo ?? 'T');
-        $model = viewdonvi_dsphongtrao::wherein('phamviapdung', $a_phamvi)->orderby('tungay')->get();
-
+        //$a_phamvi = getPhamViApDungPhongTrao($donvi->capdo ?? 'T');
+        //$model = viewdonvi_dsphongtrao::wherein('phamviapdung', $a_phamvi)->orderby('tungay')->get();
+        //lấy hết phong trào cấp tỉnh
+        $model = viewdonvi_dsphongtrao::wherein('phamviapdung', ['T','TW'])->orderby('tungay')->get();
+        switch ($donvi->capdo) {
+            case 'X': {
+                    //đơn vị cấp xã => chỉ các phong trào trong huyện, xã
+                    $model_xa = viewdonvi_dsphongtrao::wherein('madiaban', [$donvi->madiaban, $donvi->madiabanQL])->orderby('tungay')->get();
+                    break;
+                }
+            case 'H': {
+                    //đơn vị cấp huyện =>chỉ các phong trào trong huyện
+                    $model_xa = viewdonvi_dsphongtrao::where('madiaban', $donvi->madiaban)->orderby('tungay')->get();
+                    break;
+                }
+            case 'T': {
+                    //Phong trào theo SBN
+                    $model_xa = viewdonvi_dsphongtrao::where('phamviapdung', 'SBN')->orderby('tungay')->get();
+                    break;
+                }
+        }
+        foreach ($model_xa as $ct) {
+            $model->add($ct);
+        }
+        //kết quả        
         $inputs['phamviapdung'] = $inputs['phamviapdung'] ?? 'ALL';
         if ($inputs['phamviapdung'] != 'ALL') {
             $model = $model->where('phamviapdung', $inputs['phamviapdung']);
@@ -72,7 +94,7 @@ class xetduyethosothiduaController extends Controller
 
         return view('NghiepVu.ThiDuaKhenThuong.XetDuyetHoSo.ThongTin')
             ->with('inputs', $inputs)
-            ->with('model', $model)
+            ->with('model', $model->sortby('tungay'))
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
             ->with('a_trangthaihoso', getTrangThaiTDKT())
@@ -88,7 +110,7 @@ class xetduyethosothiduaController extends Controller
         $inputs = $request->all();
         $m_dangky = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
         $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
-        
+
         $model = dshosothamgiaphongtraotd::where('maphongtraotd', $inputs['maphongtraotd'])
             ->wherein('mahosothamgiapt', function ($qr) use ($inputs) {
                 $qr->select('mahosothamgiapt')->from('dshosothamgiaphongtraotd')
@@ -177,7 +199,7 @@ class xetduyethosothiduaController extends Controller
         setTraLaiHoSo_Nhan($inputs['madonvi'], $model, ['trangthai' => '', 'thoigian' => '', 'lydo' => '', 'madonvi_nhan' => '', 'madonvi' => '']);
         //dd($model);
         $model->save();
-        
+
         $m_hoso = dshosothamgiaphongtraotd::where('mahosothamgiapt', $inputs['mahoso'])->first();
 
         return redirect('/XetDuyetHoSoThiDua/DanhSach?maphongtraotd=' . $m_hoso->maphongtraotd . '&madonvi=' . $inputs['madonvi']);

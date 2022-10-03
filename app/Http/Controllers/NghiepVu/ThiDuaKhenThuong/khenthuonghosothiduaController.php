@@ -64,13 +64,42 @@ class khenthuonghosothiduaController extends Controller
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         $inputs['capdo'] = $donvi->capdo;
 
-        $a_phamvi = getPhamViApDungPhongTrao($donvi->capdo ?? 'T');
-        $model = viewdonvi_dsphongtrao::wherein('phamviapdung', $a_phamvi)->orderby('tungay')->get();
+        // $a_phamvi = getPhamViApDungPhongTrao($donvi->capdo ?? 'T');
+        // $model = viewdonvi_dsphongtrao::wherein('phamviapdung', $a_phamvi)->orderby('tungay')->get();
+        // $inputs['phamviapdung'] = $inputs['phamviapdung'] ?? 'ALL';
+        // if ($inputs['phamviapdung'] != 'ALL') {
+        //     $model = $model->where('phamviapdung', $inputs['phamviapdung']);
+        // }
+        //$model = $model->where('trangthai', 'DD');
+
+        //lấy hết phong trào cấp tỉnh
+        $model = viewdonvi_dsphongtrao::wherein('phamviapdung', ['T','TW'])->orderby('tungay')->get();
+        switch ($donvi->capdo) {
+            case 'X': {
+                    //đơn vị cấp xã => chỉ các phong trào trong huyện, xã
+                    $model_xa = viewdonvi_dsphongtrao::wherein('madiaban', [$donvi->madiaban, $donvi->madiabanQL])->orderby('tungay')->get();
+                    break;
+                }
+            case 'H': {
+                    //đơn vị cấp huyện =>chỉ các phong trào trong huyện
+                    $model_xa = viewdonvi_dsphongtrao::where('madiaban', $donvi->madiaban)->orderby('tungay')->get();
+                    break;
+                }
+            case 'T': {
+                    //Phong trào theo SBN
+                    $model_xa = viewdonvi_dsphongtrao::where('phamviapdung', 'SBN')->orderby('tungay')->get();
+                    break;
+                }
+        }
+        foreach ($model_xa as $ct) {
+            $model->add($ct);
+        }
+        //kết quả        
         $inputs['phamviapdung'] = $inputs['phamviapdung'] ?? 'ALL';
         if ($inputs['phamviapdung'] != 'ALL') {
             $model = $model->where('phamviapdung', $inputs['phamviapdung']);
         }
-        //$model = $model->where('trangthai', 'DD');
+
         $ngayhientai = date('Y-m-d');
         $m_hoso = dshosothamgiaphongtraotd::wherein('trangthai', ['CD', 'DD', 'CXKT'])->get();
         $m_khenthuong = dshosothiduakhenthuong::all();
@@ -99,7 +128,7 @@ class khenthuonghosothiduaController extends Controller
 
         return view('NghiepVu.ThiDuaKhenThuong.KhenThuongHoSo.ThongTin')
             ->with('inputs', $inputs)
-            ->with('model', $model)
+            ->with('model', $model->sortby('tungay'))
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
             ->with('a_trangthaihoso', getTrangThaiTDKT())
@@ -374,7 +403,7 @@ class khenthuonghosothiduaController extends Controller
             return view('errors.noperm')->with('machucnang', 'qdhosothidua')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
-        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();       
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model->trangthai = 'DKT';
         dshosothamgiaphongtraotd::where('mahosotdkt', $model->mahosotdkt)->update(['trangthai' => $model->trangthai]);
         dsphongtraothidua::where('maphongtraotd', $model->maphongtraotd)->first()->update(['trangthai' => $model->trangthai]);
