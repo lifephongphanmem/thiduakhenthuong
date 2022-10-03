@@ -38,8 +38,8 @@ class baocaodonviController extends Controller
             return view('errors.noperm')->with('machucnang', 'baocaodonvi')->with('tenphanquyen', 'danhsach');
         }
 
-        $m_canhan = view_tdkt_canhan::all();
-        $m_tapthe = view_tdkt_tapthe::all();
+        $m_canhan = view_tdkt_canhan::where('trangthai', 'DKT')->get();
+        $m_tapthe = view_tdkt_tapthe::where('trangthai', 'DKT')->get();
         $m_phongtrao = dsphongtraothidua::all();
         return view('BaoCao.DonVi.ThongTin')
             ->with('m_canhan', $m_canhan)
@@ -51,10 +51,21 @@ class baocaodonviController extends Controller
     public function CaNhan(Request $request)
     {
         $inputs = $request->all();
+        if (!isset($inputs['tendoituong'])) {
+            return view('errors.403')
+                ->with('message', 'Đối tượng tìm kiếm không được bỏ trống.')
+                ->with('url', '/BaoCao/DonVi/ThongTin');
+        }
         $m_khenthuong = view_tdkt_canhan::where('tendoituong', 'Like', '%' . $inputs['tendoituong'] . '%')
             ->where('ngayqd', '>=', $inputs['ngaytu'])
             ->where('ngayqd', '<=', $inputs['ngayden'])
             ->get();
+
+        if (count($m_khenthuong) == 0) {
+            return view('errors.403')
+                ->with('message', 'Không tìm thấy đối tượng phù hợp với yêu cầu.')
+                ->with('url', '/BaoCao/DonVi/ThongTin');
+        }
 
         $m_donvi = dsdonvi::where('madonvi', $m_khenthuong->first()->madonvi)->first();
 
@@ -73,11 +84,21 @@ class baocaodonviController extends Controller
     public function TapThe(Request $request)
     {
         $inputs = $request->all();
+        if (!isset($inputs['tentapthe'])) {
+            return view('errors.403')
+                ->with('message', 'Đối tượng tìm kiếm không được bỏ trống.')
+                ->with('url', '/BaoCao/DonVi/ThongTin');
+        }
         $m_khenthuong = view_tdkt_tapthe::where('tentapthe', 'Like', '%' . $inputs['tentapthe'] . '%')
             ->where('ngayqd', '>=', $inputs['ngaytu'])
             ->where('ngayqd', '<=', $inputs['ngayden'])
             ->get();
 
+        if (count($m_khenthuong) == 0) {
+            return view('errors.403')
+                ->with('message', 'Không tìm thấy đối tượng phù hợp với yêu cầu.')
+                ->with('url', '/BaoCao/DonVi/ThongTin');
+        }
         $m_donvi = dsdonvi::where('madonvi', $m_khenthuong->first()->madonvi)->first();
         return view('BaoCao.DonVi.MauChung.TapThe')
             ->with('inputs', $inputs)

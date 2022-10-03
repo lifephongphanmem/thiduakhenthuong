@@ -52,7 +52,7 @@
 
                         <li>
                             <button class="btn btn-clean text-dark" data-target="#modal-tapthe" data-toggle="modal"
-                                title="Dữ liệu chi trả theo tổng hợp lương tại đơn vị">
+                                title="">
                                 Báo cáo thành tích theo tập thể
                             </button>
                         </li>
@@ -86,6 +86,7 @@
             </div>
             <div class="modal-body">
                 <div class="form-horizontal">
+                    <p style="color: #0000FF">Đối tượng kết xuất là các cá nhân đã được khen thưởng tại đơn vị.</p>
                     <div class="form-group row">
                         <label class="control-label"> Chọn đối tượng</label>
                         {!! Form::select('tendoituong', array_column($m_canhan->toarray(), 'tendoituong', 'tendoituong'), null, [
@@ -127,14 +128,15 @@
         ]) !!}
         <div class="modal-dialog modal-content">
             <div class="modal-header modal-header-primary">
-                <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
                 <h4 id="modal-header-primary-label" class="modal-title">Thông tin kết xuất</h4>
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-horizontal">
-                    <div class="form-group">
-                        <label class="col-md-4 control-label"> Chọn tập thể</label>
-                        <div class="col-md-8">
+                    <p style="color: #0000FF">Đối tượng kết xuất là các tập thể đã được khen thưởng tại đơn vị.</p>
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <label> Chọn tập thể</label>
                             {!! Form::select('tentapthe', array_column($m_tapthe->toarray(), 'tentapthe', 'tentapthe'), null, [
                                 'id' => 'tentapthe',
                                 'class' => 'form-control',
@@ -142,16 +144,16 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-md-4 control-label"> Từ ngày</label>
-                        <div class="col-md-8">
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <label class="control-label"> Từ ngày</label>
                             {!! Form::input('date', 'ngaytu', date('Y') . '-01-01', ['id' => 'ngaytu', 'class' => 'form-control']) !!}
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-md-4 control-label"> Đến ngày</label>
-                        <div class="col-md-8">
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <label class="control-label"> Đến ngày</label>
                             {!! Form::input('date', 'ngayden', date('Y') . '-12-31', ['id' => 'ngayden', 'class' => 'form-control']) !!}
                         </div>
                     </div>
@@ -201,5 +203,5 @@
             </div>
         </div>
         {!! Form::close() !!}
-    </div> 
+    </div>
 @stop
