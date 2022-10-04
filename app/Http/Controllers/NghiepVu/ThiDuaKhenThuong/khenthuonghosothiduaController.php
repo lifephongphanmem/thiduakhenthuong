@@ -58,6 +58,7 @@ class khenthuonghosothiduaController extends Controller
         $inputs['capdo'] = $request->all();
         $m_donvi = getDonVi(session('admin')->capdo, 'qdhosothidua', null, 'MODEL');
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
+        //dd($m_donvi);
         //$m_donvi = viewdiabandonvi::wherein('madonvi', array_column($m_donvi->toarray(), 'madonviQL'))->get();
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
@@ -103,6 +104,8 @@ class khenthuonghosothiduaController extends Controller
         $ngayhientai = date('Y-m-d');
         $m_hoso = dshosothamgiaphongtraotd::wherein('trangthai', ['CD', 'DD', 'CXKT'])->get();
         $m_khenthuong = dshosothiduakhenthuong::all();
+        //tính thiếu trường hợp phong trao cấp tỉnh... đơn vị nộp trên tỉnh
+        //thống kê lại hồ sơ đăng ký
         foreach ($model as $DangKy) {
             if ($DangKy->trangthai == 'CC') {
                 $DangKy->nhanhoso = 'CHUABATDAU';
@@ -120,8 +123,8 @@ class khenthuonghosothiduaController extends Controller
 
             $HoSo = $m_hoso->where('maphongtraotd', $DangKy->maphongtraotd);
             $DangKy->sohoso = $HoSo == null ? 0 : $HoSo->count();
-            //$khenthuong = $m_khenthuong->where('maphongtraotd', $DangKy->maphongtraotd)->where('madonvi', $inputs['madonvi'])->first();
-            $khenthuong = $m_khenthuong->where('maphongtraotd', $DangKy->maphongtraotd)->first();
+            $khenthuong = $m_khenthuong->where('maphongtraotd', $DangKy->maphongtraotd)->where('madonvi', $inputs['madonvi'])->first();
+            //$khenthuong = $m_khenthuong->where('maphongtraotd', $DangKy->maphongtraotd)->first();
             $DangKy->mahosotdkt = $khenthuong->mahosotdkt ?? '-1';
         }
         //dd($model);

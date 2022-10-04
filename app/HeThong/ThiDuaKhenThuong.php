@@ -144,7 +144,7 @@ function getDonViQuanLyTinh($kieudulieu = 'ARRAY')
 
 //lây các đơn vị có chức năng quản lý địa bàn
 function getDonViXetDuyetHoSo($madonvi = null, $chucnang = null, $kieudulieu = 'ARRAY')
-{  
+{
     //Lấy đơn vị có thông tin đơn vị
     $m_donvi = \App\Model\View\viewdiabandonvi::where('madonvi', $madonvi)->get();
 
@@ -158,8 +158,8 @@ function getDonViXetDuyetHoSo($madonvi = null, $chucnang = null, $kieudulieu = '
             $qr->select('madonvi')->from('dstaikhoan')->wherein('tendangnhap', $a_tk_pq)->distinct();
         })->get();
     }
-    
-    foreach($m_donvi as $donvi){
+
+    foreach ($m_donvi as $donvi) {
         $model->add($donvi);
     }
 
@@ -256,6 +256,16 @@ function getDonVi($capdo, $chucnang = null, $tenquyen = null)
     return $m_donvi;
 }
 
+//Lấy danh sách địa bàn theo đơn vị để kết xuất báo cáo tổng hợp
+function getDiaBanBaoCaoTongHop($donvi)
+{
+    $m_donvi = App\Model\DanhMuc\dsdiaban::where('madiaban', $donvi->madiaban)->get();
+    //Lấy địa bàn trực thuộc
+    $dsdiaban = App\Model\DanhMuc\dsdiaban::where('madiaban', '<>', $donvi->madiaban)->get();
+    getDiaBanTrucThuoc($dsdiaban, $donvi->madiaban, $m_donvi);
+    return $m_donvi;
+}
+
 //Chức năng
 function getDiaBan($capdo, $chucnang = null, $tenquyen = null)
 {
@@ -285,27 +295,27 @@ function getDiaBanTrucThuoc(&$dsdiaban, $madiabanQL, &$ketqua)
 function getDSPhongTrao($donvi)
 {
     $m_phongtrao = App\Model\View\viewdonvi_dsphongtrao::wherein('phamviapdung', ['T', 'TW'])->orderby('tungay')->get();
-        switch ($donvi->capdo) {
-            case 'X': {
-                    //đơn vị cấp xã => chỉ các phong trào trong huyện, xã
-                    $model_xa = App\Model\View\viewdonvi_dsphongtrao::wherein('madiaban', [$donvi->madiaban, $donvi->madiabanQL])->orderby('tungay')->get();
-                    break;
-                }
-            case 'H': {
-                    //đơn vị cấp huyện =>chỉ các phong trào trong huyện
-                    $model_xa = App\Model\View\viewdonvi_dsphongtrao::where('madiaban', $donvi->madiaban)->orderby('tungay')->get();
-                    break;
-                }
-            case 'T': {
-                    //Phong trào theo SBN
-                    $model_xa = App\Model\View\viewdonvi_dsphongtrao::where('phamviapdung', 'SBN')->orderby('tungay')->get();
-                    break;
-                }
-        }
-        foreach ($model_xa as $ct) {
-            $m_phongtrao->add($ct);
-        }
-        return $m_phongtrao;
+    switch ($donvi->capdo) {
+        case 'X': {
+                //đơn vị cấp xã => chỉ các phong trào trong huyện, xã
+                $model_xa = App\Model\View\viewdonvi_dsphongtrao::wherein('madiaban', [$donvi->madiaban, $donvi->madiabanQL])->orderby('tungay')->get();
+                break;
+            }
+        case 'H': {
+                //đơn vị cấp huyện =>chỉ các phong trào trong huyện
+                $model_xa = App\Model\View\viewdonvi_dsphongtrao::where('madiaban', $donvi->madiaban)->orderby('tungay')->get();
+                break;
+            }
+        case 'T': {
+                //Phong trào theo SBN
+                $model_xa = App\Model\View\viewdonvi_dsphongtrao::where('phamviapdung', 'SBN')->orderby('tungay')->get();
+                break;
+            }
+    }
+    foreach ($model_xa as $ct) {
+        $m_phongtrao->add($ct);
+    }
+    return $m_phongtrao;
 }
 
 function setArrayAll($array, $noidung = 'Tất cả', $giatri = 'ALL')

@@ -15,6 +15,8 @@ use App\Model\DanhMuc\dsdonvi;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosokhenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosokhenthuong_khenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
+use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_canhan;
+use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tapthe;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua;
 use App\Model\View\viewdiabandonvi;
 use Illuminate\Support\Collection;
@@ -37,11 +39,16 @@ class baocaotonghopController extends Controller
         if (!chkPhanQuyen('baocaotapthe', 'danhsach')) {
             return view('errors.noperm')->with('machucnang', 'baocaotapthe')->with('tenphanquyen', 'danhsach');
         }
+        $inputs = $request->all();
+        $inputs['url'] = '/BaoCao/TongHop/';
         $m_donvi = getDonVi(session('admin')->capdo, 'baocaotapthe');
-        $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
+        $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
+        $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
+        $m_diaban = getDiaBanBaoCaoTongHop($donvi);
         return view('BaoCao.TongHop.ThongTin')
             ->with('m_diaban', $m_diaban)
             ->with('m_donvi', $m_donvi)
+            ->with('inputs', $inputs)
             ->with('a_diaban', array_column($m_diaban->toArray(), 'tendiaban', 'madiaban'))
             ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))
             ->with('pageTitle', 'Báo cáo tổng hợp');
@@ -50,20 +57,90 @@ class baocaotonghopController extends Controller
     public function PhongTrao(Request $request)
     {
         $inputs = $request->all();
-        $model = dsphongtraothidua::all();
-        $m_donvi = viewdiabandonvi::wherein('madonvi', array_column($model->toArray(), 'madonvi'))->get();
-        $a_diaban = array_column($m_donvi->toArray(), 'tendiaban', 'madiaban');
+        $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
+        $m_diaban = getDiaBanBaoCaoTongHop($donvi);
+        // if ($inputs['madiaban'] != 'ALL') {
+        //     $m_diaban = $m_diaban->where('madiaban', $inputs['madiaban']);
+        // }
+        $a_donvi = dsdonvi::wherein('madiaban',array_column($m_diaban->toarray(),'madiaban'))->get('madonvi');
+        $model = getDSPhongTrao($donvi);
+        //dd($inputs);
+        //Lọc thời gian khen thưởng
+        //ngayqd
+        $m_hoso = dshosothiduakhenthuong::wherein('maphongtraotd', array_column($model->toarray(), 'maphongtraotd'))
+            //->wherein('madonvi',$a_donvi) //bỏ thống theo từng địa bàn
+            ->wherebetween('ngayqd',[$inputs['ngaytu'], $inputs['ngayden']])
+            ->where('trangthai', 'DKT')->get();
+
+            //dd($m_hoso);
+        //hình thức khen thưởng cấp xã
+        $m_hoso_xa = $m_hoso->where('capkhenthuong', 'X');
+        $m_chitiet_xa_canhan = dshosothiduakhenthuong_canhan::wherein('mahosotdkt', array_column($m_hoso_xa->toarray(), 'mahosotdkt'))->where('ketqua', '1')->get();
+        $m_chitiet_xa_tapthe = dshosothiduakhenthuong_tapthe::wherein('mahosotdkt', array_column($m_hoso_xa->toarray(), 'mahosotdkt'))->where('ketqua', '1')->get();
+
+        $a_hinhthuckt_xa = array_unique(
+            array_merge(
+                array_column($m_chitiet_xa_canhan->toarray(), 'mahinhthuckt'),
+                array_column($m_chitiet_xa_tapthe->toarray(), 'mahinhthuckt')
+            )
+        );
+        //Hình thức khent thưởng cấp Huyện
+        $m_hoso_huyen = $m_hoso->where('capkhenthuong', 'H');
+        $m_chitiet_huyen_canhan = dshosothiduakhenthuong_canhan::wherein('mahosotdkt', array_column($m_hoso_huyen->toarray(), 'mahosotdkt'))->where('ketqua', '1')->get();
+        $m_chitiet_huyen_tapthe = dshosothiduakhenthuong_tapthe::wherein('mahosotdkt', array_column($m_hoso_huyen->toarray(), 'mahosotdkt'))->where('ketqua', '1')->get();
+
+        $a_hinhthuckt_huyen = array_unique(
+            array_merge(
+                array_column($m_chitiet_huyen_canhan->toarray(), 'mahinhthuckt'),
+                array_column($m_chitiet_huyen_tapthe->toarray(), 'mahinhthuckt')
+            )
+        );
+        //Hình thức khen thưởng cấp Tỉnh
+        $m_hoso_tinh = $m_hoso->where('capkhenthuong', 'T');
+        $m_chitiet_tinh_canhan = dshosothiduakhenthuong_canhan::wherein('mahosotdkt', array_column($m_hoso_tinh->toarray(), 'mahosotdkt'))->where('ketqua', '1')->get();
+        $m_chitiet_tinh_tapthe = dshosothiduakhenthuong_tapthe::wherein('mahosotdkt', array_column($m_hoso_tinh->toarray(), 'mahosotdkt'))->where('ketqua', '1')->get();
+
+        $a_hinhthuckt_tinh = array_unique(
+            array_merge(
+                array_column($m_chitiet_tinh_canhan->toarray(), 'mahinhthuckt'),
+                array_column($m_chitiet_tinh_tapthe->toarray(), 'mahinhthuckt')
+            )
+        );
         foreach ($model as $ct) {
-            $ct->madiaban = $m_donvi->where('madonvi', $ct->madonvi)->first()->madiaban;
+            $ct->tongcong = 0;
+            //Thống kê khen thưởng cấp Xã
+            foreach ($a_hinhthuckt_xa as $ma) {
+                $ct->$ma = $m_chitiet_xa_canhan->where('mahinhthuckt', $ma)->count()
+                    + $m_chitiet_xa_tapthe->where('mahinhthuckt', $ma)->count();
+
+                $ct->tongcong += $ct->$ma;
+            }
+            //Thống kê khen thưởng cấp Huyện
+            foreach ($a_hinhthuckt_huyen as $ma) {
+                $ct->$ma = $m_chitiet_huyen_canhan->where('mahinhthuckt', $ma)->count()
+                    + $m_chitiet_huyen_tapthe->where('mahinhthuckt', $ma)->count();
+
+                $ct->tongcong += $ct->$ma;
+            }
+            //Thống kê khen thưởng cấp Tỉnh
+            foreach ($a_hinhthuckt_tinh as $ma) {
+                $ct->$ma = $m_chitiet_tinh_canhan->where('mahinhthuckt', $ma)->count()
+                    + $m_chitiet_tinh_tapthe->where('mahinhthuckt', $ma)->count();
+
+                $ct->tongcong += $ct->$ma;
+            }
         }
-        $m_donvibc = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
+        //Thông tin đơn vị
+        $m_donvi = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
         return view('BaoCao.TongHop.PhongTrao')
             ->with('model', $model)
-            ->with('m_donvi', $m_donvibc)
-            ->with('a_diaban', $a_diaban)
-            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+            ->with('a_hinhthuckt_xa', $a_hinhthuckt_xa)
+            ->with('a_hinhthuckt_huyen', $a_hinhthuckt_huyen)
+            ->with('a_hinhthuckt_tinh', $a_hinhthuckt_tinh)
+            ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
             ->with('a_phamvi', getPhamViPhongTrao())
             ->with('a_phanloai', getPhanLoaiPhongTraoThiDua(true))
+            ->with('m_donvi', $m_donvi)
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Báo cáo tổng hợp phong trào thi đua');
     }

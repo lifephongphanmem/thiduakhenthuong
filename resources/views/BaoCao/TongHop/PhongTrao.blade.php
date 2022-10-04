@@ -23,7 +23,13 @@
 
         <tr>
             <td colspan="2" style="text-align: center; font-weight: bold; font-size: 20px;text-transform: uppercase">
-                DANH SÁCH phong trào thi đua khen thưởng
+                BÁO CÁO THỐNG KÊ KHEN THƯỞNG phong trào thi đua
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2" style="text-align: center; font-weight: bold; font-style: italic">
+                {{getThoiDiem()[$inputs['thoidiem']] }}
             </td>
         </tr>
 
@@ -36,34 +42,74 @@
     </table>
 
     <table cellspacing="0" cellpadding="0" border="1" style="margin: 20px auto; border-collapse: collapse;">
-        <tr class="text-center">
-            <th style="width: 3%">STT</th>
-            <th>Tên phong trào thi đua</th>
-            <th>Loại hình khen thưởng</th>
-            <th>Phạm vi phát động</th>
-            <th style="width: 12%">Ngày bắt đầu</th>
-            <th style="width: 12%">Ngày kết thúc</th>
-        </tr>
-        <?php $i = 1; ?>
-        @foreach ($a_diaban as $k_diaban => $v_diaban)
-            <tr class="font-weight-boldest">
-                <td style="text-align: center">{{ IntToRoman($i++) }}</td>
-                <td colspan="5">{{ $v_diaban }}</td>
+        <thead>
+            <tr class="text-center">
+                <th rowspan="2" style="width: 3%">STT</th>
+                <th rowspan="2">Tên phong trào thi đua</th>
+                <th rowspan="2">Phạm vi phát động</th>
+                <th rowspan="2">Tổng số</th>
+                <th colspan="{{ chkSoKhong(count($a_hinhthuckt_xa)) }}">Khen thưởng cấp Xã</th>
+                <th colspan="{{ chkSoKhong(count($a_hinhthuckt_huyen)) }}">Khen thưởng cấp Huyện</th>
+                <th colspan="{{ chkSoKhong(count($a_hinhthuckt_tinh)) }}">Khen thưởng cấp Tỉnh</th>
             </tr>
-            <?php
-            $chitiet = $model->where('madiaban', $k_diaban);
-            $k = 1;
-            ?>
-            @foreach ($chitiet as $ct)
-                <tr>
-                    <td class="text-right">{{ $k++ }}</td>
-                    <td>{{ $ct->noidung }}</td>
-                    <td>{{ $a_loaihinhkt[$ct->maloaihinhkt] ?? '' }}</td>
-                    <td>{{ $a_phamvi[$ct->phamviapdung] ?? '' }}</td>
-                    <td class="text-center">{{ getDayVn($ct->tungay) }}</td>
-                    <td class="text-center">{{ getDayVn($ct->denngay) }}</td>
-                </tr>
-            @endforeach
+            <tr>
+                @if (count($a_hinhthuckt_xa) > 0)
+                    @foreach ($a_hinhthuckt_xa as $item)
+                        <th style="width: 5%" class="text-center">{{ $a_hinhthuckt[$item] ?? $item }}</th>
+                    @endforeach
+                @else
+                    <th style="width: 5%"></th>
+                @endif
+
+                @if (count($a_hinhthuckt_huyen) > 0)
+                    @foreach ($a_hinhthuckt_huyen as $item)
+                        <th style="width: 5%" class="text-center">{{ $a_hinhthuckt[$item] ?? $item }}</th>
+                    @endforeach
+                @else
+                    <th style="width: 5%"></th>
+                @endif
+
+                @if (count($a_hinhthuckt_tinh) > 0)
+                    @foreach ($a_hinhthuckt_tinh as $item)
+                        <th style="width: 5%" class="text-center">{{ $a_hinhthuckt[$item] ?? $item }}</th>
+                    @endforeach
+                @else
+                    <th style="width: 5%"></th>
+                @endif
+            </tr>
+        </thead>
+        <?php $i = 1; ?>
+
+        @foreach ($model as $ct)
+            <tr>
+                <td class="text-center">{{ $i++ }}</td>
+                <td>{{ $ct->noidung }}</td>
+                <td>{{ $a_phamvi[$ct->phamviapdung] ?? '' }}</td>
+                <td class="text-center">{{ $ct->tongcong }}</td>
+                @if (count($a_hinhthuckt_xa) > 0)
+                    @foreach ($a_hinhthuckt_xa as $item)
+                        <td class="text-center">{{ $ct->$item }}</td>
+                    @endforeach
+                @else
+                    <td></td>
+                @endif
+
+                @if (count($a_hinhthuckt_huyen) > 0)
+                    @foreach ($a_hinhthuckt_huyen as $item)
+                        <td class="text-center">{{ $ct->$item }}</td>
+                    @endforeach
+                @else
+                    <td></td>
+                @endif
+
+                @if (count($a_hinhthuckt_tinh) > 0)
+                    @foreach ($a_hinhthuckt_tinh as $item)
+                        <td class="text-center">{{ $ct->$item }}</td>
+                    @endforeach
+                @else
+                    <td></td>
+                @endif
+            </tr>
         @endforeach
 
     </table>
@@ -71,7 +117,7 @@
     <table width="96%" border="0" cellspacing="0" style="text-align: center">
         <tr>
             <td style="width: 50%"></td>
-            <td style="width: 50%">…………, Ngày…...tháng …… năm ……</td>
+            <td style="width: 50%">{{$m_donvi->diadanh}}, Ngày…...tháng …… năm ……</td>
         </tr>
         <tr>
             <td>{{ $m_donvi->cdketoan }}</td>

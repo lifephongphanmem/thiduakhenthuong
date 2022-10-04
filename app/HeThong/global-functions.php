@@ -19,6 +19,14 @@ function getDateTime($date)
     return $newday;
 }
 
+function chkSoKhong($num)
+{
+    if ($num == 0)
+        return 1;
+    else
+        return $num;
+}
+
 function getDbl($obj)
 {
     $obj = str_replace(',', '', $obj);
