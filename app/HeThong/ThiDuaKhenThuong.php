@@ -1,6 +1,5 @@
 <?php
 
-
 function getQuyetDinhCKE($maso)
 {
     $a_qd = [];
@@ -174,6 +173,7 @@ function getDonViXetDuyetHoSo($madonvi = null, $chucnang = null, $kieudulieu = '
     }
 }
 
+
 function getDonViXetDuyetHoSoCumKhoi($capdo, $madiaban = null, $chucnang = null, $kieudulieu = 'ARRAY')
 {
     $model = \App\Model\View\viewdiabandonvi::wherein('madonvi', function ($qr) {
@@ -282,7 +282,31 @@ function getDiaBanTrucThuoc(&$dsdiaban, $madiabanQL, &$ketqua)
     }
 }
 
-
+function getDSPhongTrao($donvi)
+{
+    $m_phongtrao = App\Model\View\viewdonvi_dsphongtrao::wherein('phamviapdung', ['T', 'TW'])->orderby('tungay')->get();
+        switch ($donvi->capdo) {
+            case 'X': {
+                    //đơn vị cấp xã => chỉ các phong trào trong huyện, xã
+                    $model_xa = App\Model\View\viewdonvi_dsphongtrao::wherein('madiaban', [$donvi->madiaban, $donvi->madiabanQL])->orderby('tungay')->get();
+                    break;
+                }
+            case 'H': {
+                    //đơn vị cấp huyện =>chỉ các phong trào trong huyện
+                    $model_xa = App\Model\View\viewdonvi_dsphongtrao::where('madiaban', $donvi->madiaban)->orderby('tungay')->get();
+                    break;
+                }
+            case 'T': {
+                    //Phong trào theo SBN
+                    $model_xa = App\Model\View\viewdonvi_dsphongtrao::where('phamviapdung', 'SBN')->orderby('tungay')->get();
+                    break;
+                }
+        }
+        foreach ($model_xa as $ct) {
+            $m_phongtrao->add($ct);
+        }
+        return $m_phongtrao;
+}
 
 function setArrayAll($array, $noidung = 'Tất cả', $giatri = 'ALL')
 {

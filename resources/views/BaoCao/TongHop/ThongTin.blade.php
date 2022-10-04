@@ -57,18 +57,18 @@
                                 bàn</button>
                         </li>
                         <li>
-                            <button type="button" onclick="setURL('/BaoCao/TongHop/Mau0701')" class="btn btn-clean text-dark"
-                                data-target="#modal-thongtu03" data-toggle="modal">Số
+                            <button type="button" onclick="setURL('/BaoCao/TongHop/Mau0701')"
+                                class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
                                 phong trào thi đua (mẫu 0701.N/BNV-TĐKT)</button>
                         </li>
                         <li>
-                            <button type="button" onclick="setURL('/BaoCao/TongHop/Mau0702')" class="btn btn-clean text-dark"
-                                data-target="#modal-thongtu03" data-toggle="modal">Số
+                            <button type="button" onclick="setURL('/BaoCao/TongHop/Mau0702')"
+                                class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
                                 lượng khen thưởng cấp nhà nước (mẫu 0702.N/BNV-TĐKT)</button>
                         </li>
                         <li>
-                            <button type="button" onclick="setURL('/BaoCao/TongHop/Mau0703')" class="btn btn-clean text-dark"
-                                data-target="#modal-thongtu03" data-toggle="modal">Số
+                            <button type="button" onclick="setURL('/BaoCao/TongHop/Mau0703')"
+                                class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
                                 lượng khen thưởng cấp ban ngành đoàn thể trung ương (mẫu 0703.N/BNV-TĐKT)</button>
                         </li>
                     </ol>
@@ -79,7 +79,13 @@
     <!--end::Card-->
     {{-- Phong trào thi đua --}}
     <div id="modal-phongtrao" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
-        {!! Form::open(['url' => 'BaoCao/TongHop/PhongTrao', 'target' => '_blank', 'method' => 'post', 'id' => 'thoai_phongtrao', 'class' => 'form-horizontal form-validate']) !!}
+        {!! Form::open([
+            'url' => 'BaoCao/TongHop/PhongTrao',
+            'target' => '_blank',
+            'method' => 'post',
+            'id' => 'frm_phongtrao',
+            'class' => 'form-horizontal form-validate',
+        ]) !!}
         <div class="modal-dialog modal-content">
             <div class="modal-header modal-header-primary">
                 <h4 id="modal-header-primary-label" class="modal-title">Thông tin kết xuất phong trào thi đua</h4>
@@ -96,7 +102,10 @@
                 <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Thời điểm báo cáo</label>
-                        {!! Form::select('thoidiem', getThoiDiem(), null, ['madiaban' => 'madt', 'class' => 'form-control']) !!}
+                        {!! Form::select('thoidiem', getThoiDiem(), 'CANAM', [
+                            'class' => 'form-control select2_modal',
+                            'onchange' => 'setNgayThang($(this),"frm_phongtrao")',
+                        ]) !!}
                     </div>
                 </div>
 
@@ -128,7 +137,13 @@
 
     {{-- Hồ sơ đăng ký thi đua, khen thưởng --}}
     <div id="modal-hosotdkt" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
-        {!! Form::open(['url' => 'BaoCao/TongHop/HoSo', 'target' => '_blank', 'method' => 'post', 'id' => 'thoai_hoso', 'class' => 'form-horizontal form-validate']) !!}
+        {!! Form::open([
+            'url' => 'BaoCao/TongHop/HoSo',
+            'target' => '_blank',
+            'method' => 'post',
+            'id' => 'frm_hoso',
+            'class' => 'form-horizontal form-validate',
+        ]) !!}
         <div class="modal-dialog modal-content">
             <div class="modal-header modal-header-primary">
                 <h4 id="modal-header-primary-label" class="modal-title">Thông tin kết xuất hồ sơ đăng ký thi đua, khen
@@ -146,7 +161,10 @@
                 <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Thời điểm báo cáo</label>
-                        {!! Form::select('thoidiem', getThoiDiem(), null, ['madiaban' => 'madt', 'class' => 'form-control']) !!}
+                        {!! Form::select('thoidiem', getThoiDiem(), 'CANAM', [
+                            'class' => 'form-control select2_modal',
+                            'onchange' => 'setNgayThang($(this),"frm_hoso")',
+                        ]) !!}
                     </div>
                 </div>
 
@@ -178,7 +196,13 @@
 
     {{-- Danh hiệu thi đua trên địa bàn --}}
     <div id="modal-danhhieutd" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
-        {!! Form::open(['url' => 'BaoCao/TongHop/DanhHieu', 'target' => '_blank', 'method' => 'post', 'id' => 'thoai_hoso', 'class' => 'form-horizontal form-validate']) !!}
+        {!! Form::open([
+            'url' => 'BaoCao/TongHop/DanhHieu',
+            'target' => '_blank',
+            'method' => 'post',
+            'id' => 'frm_dhtd',
+            'class' => 'form-horizontal form-validate',
+        ]) !!}
         <div class="modal-dialog modal-content">
             <div class="modal-header modal-header-primary">
                 <h4 id="modal-header-primary-label" class="modal-title">Thông tin kết xuất danh hiệu thi đua</h4>
@@ -195,7 +219,10 @@
                 <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Thời điểm báo cáo</label>
-                        {!! Form::select('thoidiem', getThoiDiem(), null, ['madiaban' => 'madt', 'class' => 'form-control']) !!}
+                        {!! Form::select('thoidiem', getThoiDiem(), 'CANAM', [
+                            'class' => 'form-control select2_modal',
+                            'onchange' => 'setNgayThang($(this),"frm_dhtd")',
+                        ]) !!}
                     </div>
                 </div>
 
@@ -227,7 +254,13 @@
 
     {{-- Hình thức khen thưởng --}}
     <div id="modal-khenthuong" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
-        {!! Form::open(['url' => 'BaoCao/TongHop/KhenThuong', 'target' => '_blank', 'method' => 'post', 'id' => 'thoai_hoso', 'class' => 'form-horizontal form-validate']) !!}
+        {!! Form::open([
+            'url' => 'BaoCao/TongHop/KhenThuong',
+            'target' => '_blank',
+            'method' => 'post',
+            'id' => 'frm_htkt',
+            'class' => 'form-horizontal form-validate',
+        ]) !!}
         <div class="modal-dialog modal-content">
             <div class="modal-header modal-header-primary">
                 <h4 id="modal-header-primary-label" class="modal-title">Thông tin kết xuất hình thức khen thưởng</h4>
@@ -244,7 +277,10 @@
                 <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Thời điểm báo cáo</label>
-                        {!! Form::select('thoidiem', getThoiDiem(), null, ['madiaban' => 'madt', 'class' => 'form-control']) !!}
+                        {!! Form::select('thoidiem', getThoiDiem(), 'CANAM', [
+                            'class' => 'form-control select2_modal',
+                            'onchange' => 'setNgayThang($(this),"frm_htkt")',
+                        ]) !!}
                     </div>
                 </div>
 
@@ -276,7 +312,13 @@
 
     {{-- Mẫu thông tu 03 / 2018 --}}
     <div id="modal-thongtu03" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
-        {!! Form::open(['url' => '/BaoCao/TongHop/KhenThuong', 'target' => '_blank', 'method' => 'post', 'id' => 'thoai_thongtu03', 'class' => 'form-horizontal form-validate']) !!}
+        {!! Form::open([
+            'url' => '/BaoCao/TongHop/KhenThuong',
+            'target' => '_blank',
+            'method' => 'post',
+            'id' => 'frm_thongtu03',
+            'class' => 'form-horizontal form-validate',
+        ]) !!}
         <div class="modal-dialog modal-content">
             <div class="modal-header modal-header-primary">
                 <h4 id="modal-header-primary-label" class="modal-title">Thông tin kết xuất hình thức khen thưởng</h4>
@@ -293,7 +335,10 @@
                 <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Thời điểm báo cáo</label>
-                        {!! Form::select('thoidiem', getThoiDiem(), null, ['madiaban' => 'madt', 'class' => 'form-control']) !!}
+                        {!! Form::select('thoidiem', getThoiDiem(), 'CANAM', [
+                            'class' => 'form-control select2_modal',
+                            'onchange' => 'setNgayThang($(this),"frm_thongtu03")',
+                        ]) !!}
                     </div>
                 </div>
 
@@ -322,6 +367,41 @@
         </div>
         {!! Form::close() !!}
     </div>
-    
 
+    <script>
+        function getThoiGianBaoCao($nam) {
+            var a_thoigian = Array();
+            a_thoigian['06THANGDAUNAM'] = [$nam + '-01-01', $nam + '-06-30'];
+            a_thoigian['06THANGCUOINAM'] = [$nam + '-07-01', $nam + '-12-31'];
+            a_thoigian['CANAM'] = [$nam + '-01-01', $nam + '-12-31'];
+            a_thoigian['05NAM'] = ['2020-01-01', '2025-12-31'];
+            a_thoigian['quy1'] = [$nam + '-01-01', $nam + '-03-31'];
+            a_thoigian['quy2'] = [$nam + '-04-01', $nam + '-06-30'];
+            a_thoigian['quy3'] = [$nam + '-07-01', $nam + '-09-30'];
+            a_thoigian['quy4'] = [$nam + '-10-01', $nam + '-12-31'];
+            a_thoigian['thang01'] = [$nam + '-01-01', $nam + '-01-31'];
+            a_thoigian['thang02'] = [$nam + '-02-01', $nam + '-02-28'];
+            a_thoigian['thang03'] = [$nam + '-03-01', $nam + '-03-31'];
+            a_thoigian['thang04'] = [$nam + '-04-01', $nam + '-04-03'];
+            a_thoigian['thang05'] = [$nam + '-05-01', $nam + '-05-31'];
+            a_thoigian['thang06'] = [$nam + '-06-01', $nam + '-06-30'];
+            a_thoigian['thang07'] = [$nam + '-07-01', $nam + '-07-31'];
+            a_thoigian['thang08'] = [$nam + '-08-01', $nam + '-08-31'];
+            a_thoigian['thang09'] = [$nam + '-09-01', $nam + '-09-30'];
+            a_thoigian['thang10'] = [$nam + '-10-01', $nam + '-10-31'];
+            a_thoigian['thang11'] = [$nam + '-11-01', $nam + '-11-30'];
+            a_thoigian['thang12'] = [$nam + '-12-01', $nam + '-12-31'];
+            return a_thoigian;
+        }
+
+        function setNgayThang(e, formname) {
+            let d = new Date();
+            let a_thoigian = getThoiGianBaoCao(d.getFullYear());
+            let tungay = a_thoigian[e.val()][0];
+            let denngay = a_thoigian[e.val()][1];
+            var form = document.getElementById(formname);
+            form.elements.ngaytu.value = a_thoigian[e.val()][0];
+            form.elements.ngayden.value = a_thoigian[e.val()][1];
+        }
+    </script>
 @stop

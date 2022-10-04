@@ -11,12 +11,15 @@ use App\Model\DanhMuc\dmdanhhieuthidua;
 use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
 use App\Model\DanhMuc\dmnhomphanloai_chitiet;
+use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_khenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua;
 use App\Model\View\view_tdkt_canhan;
 use App\Model\View\view_tdkt_tapthe;
+use App\Model\View\viewdiabandonvi;
+use App\Model\View\viewdonvi_dsphongtrao;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
 
@@ -37,14 +40,23 @@ class baocaodonviController extends Controller
         if (!chkPhanQuyen('baocaodonvi', 'danhsach')) {
             return view('errors.noperm')->with('machucnang', 'baocaodonvi')->with('tenphanquyen', 'danhsach');
         }
-
+        $inputs = $request->all();
+        $m_donvi = getDonVi(session('admin')->capdo, 'dshosokhenthuongchuyende');
+        $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
+        $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
+        
         $m_canhan = view_tdkt_canhan::where('trangthai', 'DKT')->get();
-        $m_tapthe = view_tdkt_tapthe::where('trangthai', 'DKT')->get();
-        $m_phongtrao = dsphongtraothidua::all();
+        $m_tapthe = view_tdkt_tapthe::where('trangthai', 'DKT')->get();        
+        //lấy hết phong trào cấp tỉnh
+        $m_phongtrao = getDSPhongTrao($m_donvi->where('madonvi', $inputs['madonvi'])->first());
+
         return view('BaoCao.DonVi.ThongTin')
             ->with('m_canhan', $m_canhan)
             ->with('m_tapthe', $m_tapthe)
             ->with('m_phongtrao', $m_phongtrao)
+            ->with('m_donvi', $m_donvi)
+            ->with('m_diaban', $m_diaban)
+            ->with('inputs', $inputs)
             ->with('pageTitle', 'Báo cáo theo đơn vị');
     }
 
@@ -114,21 +126,16 @@ class baocaodonviController extends Controller
 
     public function PhongTrao(Request $request)
     {
-        $inputs = $request->all();
-        $model = DangKyTd::where('kihieudhtd', $inputs['kihieudhtd'])->first();
-        $m_donvi = DSDonVi::where('madonvi', $model->madonvi)->first();
-        $m_tapthe = LapHoSoTd_KhenThuong::where('kihieudhtd', $inputs['kihieudhtd'])->where('phanloai', 'TAPTHE')->get();
-        $m_canhan = LapHoSoTd_KhenThuong::where('kihieudhtd', $inputs['kihieudhtd'])->where('phanloai', 'CANHAN')->get();
-        $m_danhhieu = dmdanhhieutd::all();
-
-        return view('reports.DonVi.PhongTrao')
+        $inputs = $request->all();        
+        $m_donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
+        $model = getDSPhongTrao($m_donvi);       
+        return view('BaoCao.DonVi.MauChung.PhongTrao')
             ->with('inputs', $inputs)
-            ->with('model', $model)
-            ->with('m_tapthe', $m_tapthe)
-            ->with('m_canhan', $m_canhan)
             ->with('m_donvi', $m_donvi)
-            ->with('a_danhhieu', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
-            ->with('a_donvi', array_column(DSDonVi::all()->toArray(), 'tendonvi', 'madonvi'))
+            ->with('model', $model)
+            ->with('a_phamvi', setArrayAll(getPhamViPhongTrao()))
+            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+            ->with('a_phanloai', getPhanLoaiPhongTraoThiDua(true))           
             ->with('pageTitle', 'Báo cáo theo phong trào');
     }
 }

@@ -44,7 +44,7 @@ class baocaotonghopController extends Controller
             ->with('m_donvi', $m_donvi)
             ->with('a_diaban', array_column($m_diaban->toArray(), 'tendiaban', 'madiaban'))
             ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))
-            ->with('pageTitle', 'Báo cáo theo đơn vị');
+            ->with('pageTitle', 'Báo cáo tổng hợp');
     }
 
     public function PhongTrao(Request $request)

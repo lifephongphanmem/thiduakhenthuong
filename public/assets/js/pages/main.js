@@ -1,7 +1,7 @@
 $(function () {
     //còn pải tính toán
     var url = window.location.href;
-    
+
     var m = url.indexOf('?');
     if (m > 0) {
         url = url.substring(0, m);
@@ -34,36 +34,36 @@ $(function () {
     }
 
     index = chk.indexOf('create');
-    if(index > -1) {
+    if (index > -1) {
         url = '';
         for (var i = 0; i < index; i++) {
-            if(i == index - 1){
+            if (i == index - 1) {
                 url += chk[i];
-            }else {
+            } else {
                 url += chk[i] + "/";
             }
         }
     }
 
     index = chk.indexOf('edit');
-    if(index > -1) {
+    if (index > -1) {
         url = '';
         for (var i = 0; i < index; i++) {
-            if(i == index - 1){
+            if (i == index - 1) {
                 url += chk[i];
-            }else {
+            } else {
                 url += chk[i] + "/";
             }
         }
     }
 
     index = chk.indexOf('nhanexcel');
-    if(index > -1) {
+    if (index > -1) {
         url = '';
         for (var i = 0; i < index; i++) {
-            if(i == index - 1){
+            if (i == index - 1) {
                 url += chk[i];
-            }else {
+            } else {
                 url += chk[i] + "/";
             }
         }
@@ -104,8 +104,8 @@ $(function () {
     var index = url.indexOf('QuyetDinh');
     if (index > 0) {
         url = url.substring(0, index - 1) + '/ThongTin';
-    }    
-    
+    }
+
     var index = url.indexOf('PhanQuyen');
     if (index > 0) {
         url = url.substring(0, index - 1) + '/ThongTin';
@@ -113,7 +113,7 @@ $(function () {
     //
     chk = url.split('/');
     //alert(url);
-    if (chk.length>3 && chk[3] != '') {
+    if (chk.length > 3 && chk[3] != '') {
         var element = $('ul.menu-subnav a').filter(function () {
             return this.href == url || this.href.indexOf(url) == 0;
             //return this.href == url;

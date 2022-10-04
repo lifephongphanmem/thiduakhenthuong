@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\BaoCao\baocaodonviController;
+use Illuminate\Support\Facades\Route;
 Route::group(['prefix'=>'BaoCao'], function(){
     Route::group(['prefix'=>'DonVi'], function(){
         Route::get('ThongTin', [baocaodonviController::class, 'ThongTin']);
