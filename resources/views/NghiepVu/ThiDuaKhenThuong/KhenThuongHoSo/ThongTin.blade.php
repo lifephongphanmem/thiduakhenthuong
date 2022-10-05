@@ -17,15 +17,15 @@
             TableManaged3.init();
             $('#madonvi').change(function() {
                 window.location.href = '/KhenThuongHoSoThiDua/ThongTin?madonvi=' + $('#madonvi').val() +
-                    '&nam=' + $('#nam').val() +  '&phamviapdung=' + $('#phamviapdung').val();
+                    '&nam=' + $('#nam').val() + '&phamviapdung=' + $('#phamviapdung').val();
             });
             $('#nam').change(function() {
                 window.location.href = '/KhenThuongHoSoThiDua/ThongTin?madonvi=' + $('#madonvi').val() +
-                    '&nam=' + $('#nam').val()+  '&phamviapdung=' + $('#phamviapdung').val();
+                    '&nam=' + $('#nam').val() + '&phamviapdung=' + $('#phamviapdung').val();
             });
             $('#phamviapdung').change(function() {
                 window.location.href = '/KhenThuongHoSoThiDua/ThongTin?madonvi=' + $('#madonvi').val() +
-                    '&nam=' + $('#nam').val()+  '&phamviapdung=' + $('#phamviapdung').val();
+                    '&nam=' + $('#nam').val() + '&phamviapdung=' + $('#phamviapdung').val();
             });
         });
     </script>
@@ -115,14 +115,18 @@
                                         data-toggle="modal">
                                         <i class="icon-lg la la-file-download text-dark icon-2x"></i>
                                     </button>
-                                    @if ($tt->nhanhoso == 'DANGNHAN')
+
+                                    @if ($tt->nhanhoso == 'DANGNHAN' && $ct->ketthucpt)
                                         <button title="Kết thúc phong trào" type="button"
                                             onclick="setKetQua('{{ $tt->maphongtraotd }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#modal-KetThuc"
                                             data-toggle="modal">
-                                            <i class="icon-lg la flaticon-calendar-3 text-warning"></i></button>
-                                    @else
-                                        @if ($tt->trangthai == 'CXKT')
+                                            <i class="icon-lg la flaticon-calendar-3 text-warning"></i>
+                                        </button>
+                                    @endif
+
+                                    @if ($tt->nhanhoso == 'KETTHUC' && chkPhanQuyen('qdhosothidua', 'thaydoi'))
+                                        @if ($tt->mahosotdkt == '-1')
                                             <button title="Tạo hồ sơ khen thưởng" type="button"
                                                 onclick="confirmKhenThuong('{{ $tt->maphongtraotd }}','{{ $inputs['madonvi'] }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#khenthuong-modal"
@@ -130,8 +134,7 @@
                                                 <i class="icon-lg la flaticon-edit-1 text-success"></i>
                                             </button>
                                         @endif
-
-                                        @if ($tt->trangthai == 'DXKT')
+                                        @if ($tt->mahosotdkt != '-1' && $tt->trangthaikt != 'DKT')
                                             <a title="Thông tin hồ sơ khen thưởng"
                                                 href="{{ url('/KhenThuongHoSoThiDua/DanhSach?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                 class="btn btn-sm btn-clean btn-icon">
@@ -143,26 +146,27 @@
                                                 class="btn btn-sm btn-clean btn-icon" target="_blank">
                                                 <i class="icon-lg la flaticon-interface-4 text-primary"></i>
                                             </a>
-
-                                            @if ($tt->mahosotdkt != '-1')
-                                                <button title="Phê duyệt hồ sơ khen thưởng" type="button"
-                                                    onclick="setPheDuyet('{{ $tt->mahosotdkt }}')"
-                                                    class="btn btn-sm btn-clean btn-icon" data-target="#modal-PheDuyet"
-                                                    data-toggle="modal">
-                                                    <i class="icon-lg la flaticon-interface-10 text-success"></i>
-                                                </button>
-                                            @endif
                                         @endif
+                                    @endif
 
-                                        @if ($tt->trangthai == 'DKT')
+                                    @if ($tt->mahosotdkt != '-1' && chkPhanQuyen('qdhosothidua', 'hoanthanh'))
+                                        @if ($tt->trangthaikt == 'DKT')
                                             <button title="Hủy phê duyệt hồ sơ khen thưởng" type="button"
                                                 onclick="setHuyPheDuyet('{{ $tt->mahosotdkt }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modal-HuyPheDuyet"
                                                 data-toggle="modal">
                                                 <i class="icon-lg la flaticon-interface-10 text-danger"></i>
                                             </button>
+                                        @else
+                                            <button title="Phê duyệt hồ sơ khen thưởng" type="button"
+                                                onclick="setPheDuyet('{{ $tt->mahosotdkt }}')"
+                                                class="btn btn-sm btn-clean btn-icon" data-target="#modal-PheDuyet"
+                                                data-toggle="modal">
+                                                <i class="icon-lg la flaticon-interface-10 text-success"></i>
+                                            </button>
                                         @endif
                                     @endif
+
                                 </td>
                             </tr>
                         @endforeach
@@ -203,7 +207,7 @@
                     <div class="form-group row">
                         <div class="col-lg-12">
                             <label>Ngày ra quyết định</label>
-                            {!! Form::input('date', 'ngayhoso', date('Y-m-d'), ['class' => 'form-control']) !!}
+                            {!! Form::input('date', 'ngayqd', date('Y-m-d'), ['class' => 'form-control']) !!}
                         </div>
                     </div>
 
@@ -217,11 +221,11 @@
                     <div class="form-group row">
                         <div class="col-lg-6">
                             <label>Chức vụ người ký</label>
-                            {!! Form::text('chucvunguoiky', null, ['class' => 'form-control']) !!}
+                            {!! Form::text('chucvunguoikyqd', null, ['class' => 'form-control']) !!}
                         </div>
                         <div class="col-lg-6">
                             <label>Họ tên người ký</label>
-                            {!! Form::text('hotennguoiky', null, ['class' => 'form-control']) !!}
+                            {!! Form::text('hotennguoikyqd', null, ['class' => 'form-control']) !!}
                         </div>
                     </div>
                 </div>
@@ -299,7 +303,7 @@
                         </div>
                     </div>
 
-                    
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
@@ -401,7 +405,16 @@
                             <div class="col-lg-12">
                                 <a onclick="setInHS($(this), '')" class="btn btn-sm btn-clean text-dark font-weight-bold"
                                     target="_blank">
-                                    <i class="la flaticon2-print"></i>Thông tin hồ sơ
+                                    <i class="la flaticon2-print"></i>Thông tin hồ sơ đề nghị
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <a onclick="setInHS($(this), '')" class="btn btn-sm btn-clean text-dark font-weight-bold"
+                                    target="_blank">
+                                    <i class="la flaticon2-print"></i>Thông tin hồ sơ khen thưởng
                                 </a>
                             </div>
                         </div>

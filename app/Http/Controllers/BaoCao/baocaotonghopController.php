@@ -62,17 +62,17 @@ class baocaotonghopController extends Controller
         // if ($inputs['madiaban'] != 'ALL') {
         //     $m_diaban = $m_diaban->where('madiaban', $inputs['madiaban']);
         // }
-        $a_donvi = dsdonvi::wherein('madiaban',array_column($m_diaban->toarray(),'madiaban'))->get('madonvi');
+        $a_donvi = dsdonvi::wherein('madiaban', array_column($m_diaban->toarray(), 'madiaban'))->get('madonvi');
         $model = getDSPhongTrao($donvi);
         //dd($inputs);
         //Lọc thời gian khen thưởng
         //ngayqd
         $m_hoso = dshosothiduakhenthuong::wherein('maphongtraotd', array_column($model->toarray(), 'maphongtraotd'))
             //->wherein('madonvi',$a_donvi) //bỏ thống theo từng địa bàn
-            ->wherebetween('ngayqd',[$inputs['ngaytu'], $inputs['ngayden']])
+            ->wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
             ->where('trangthai', 'DKT')->get();
 
-            //dd($m_hoso);
+        //dd($m_hoso);
         //hình thức khen thưởng cấp xã
         $m_hoso_xa = $m_hoso->where('capkhenthuong', 'X');
         $m_chitiet_xa_canhan = dshosothiduakhenthuong_canhan::wherein('mahosotdkt', array_column($m_hoso_xa->toarray(), 'mahosotdkt'))->where('ketqua', '1')->get();

@@ -219,6 +219,48 @@
                 </div>
             </div>
 
+           
+            <h4 class="text-dark font-weight-bold mb-5">Thông tin quyết định khen thưởng</h4>
+            <div class="form-group row">
+                <div class="col-lg-9">
+                    <label>Đơn vị khen thưởng</label>
+                    {!! Form::text('donvikhenthuong', null, ['class' => 'form-control']) !!}
+                </div>
+                <div class="col-lg-3">
+                    <label>Loại hình khen thưởng</label>
+                    {!! Form::select('capkhenthuong', getPhamViApDung(), null, ['class' => 'form-control']) !!}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label style="font-weight: bold">Nôi dung khen thưởng</label>
+                    {!! Form::textarea('noidung', $model->noidung, ['class' => 'form-control text-bold', 'rows' => 2]) !!}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label style="font-weight: bold">Số quyết định</label>
+                    {!! Form::text('soqd', $model->soquyetdinh, ['class' => 'form-control text-bold']) !!}
+                </div>
+                <div class="col-md-6">
+                    <label style="font-weight: bold">Ngày quyết định</label>
+                    {!! Form::input('date', 'ngayqd', $model->ngayhoso, ['class' => 'form-control']) !!}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label style="font-weight: bold">Chức vụ người ký</label>
+                    {!! Form::text('chucvunguoikyqd', $model->chucvunguoiky, ['class' => 'form-control text-bold']) !!}
+                </div>
+                <div class="col-md-6">
+                    <label style="font-weight: bold">Họ tên người ký</label>
+                    {!! Form::text('hotennguoikyqd', $model->hotennguoiky, ['class' => 'form-control text-bold']) !!}
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-custom">
