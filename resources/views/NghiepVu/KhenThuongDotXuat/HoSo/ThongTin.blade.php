@@ -15,20 +15,9 @@
     <script>
         jQuery(document).ready(function() {
             TableManaged3.init();
-            $('#madonvi').change(function() {
-                window.location.href = '/KhenThuongDotXuat/HoSo/ThongTin?madonvi=' + $(
-                        '#madonvi').val() +
-                    '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
-            });
-            $('#maloaihinhkt').change(function() {
-                window.location.href = '/KhenThuongDotXuat/HoSo/ThongTin?madonvi=' + $(
-                        '#madonvi').val() +
-                    '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
-            });
-            $('#nam').change(function() {
-                window.location.href = '/KhenThuongDotXuat/HoSo/ThongTin?madonvi=' + $(
-                        '#madonvi').val() +
-                    '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
+            $('#madonvi, #nam, #phanloai').change(function() {
+                window.location.href = "{{ $inputs['url_hs'] }}" + "ThongTin?madonvi=" + $(
+                    '#madonvi').val() + "&nam=" + $('#nam').val() + "&phanloai=" + $('#phanloai').val();
             });
         });        
     
@@ -51,12 +40,12 @@
         </div>
         <div class="card-body">
             <div class="form-group row">
-                <div class="col-md-5">
+                <div class="col-5">
                     <label style="font-weight: bold">Đơn vị</label>
                     <select class="form-control select2basic" id="madonvi">
-                        @foreach ($m_diaban as $diaban)
-                            <optgroup label="{{ $diaban->tendiaban }}">
-                                <?php $donvi = $m_donvi->where('madiaban', $diaban->madiaban); ?>
+                        @foreach ($a_diaban as $key => $val)
+                            <optgroup label="{{ $val }}">
+                                <?php $donvi = $m_donvi->where('madiaban', $key); ?>
                                 @foreach ($donvi as $ct)
                                     <option {{ $ct->madonvi == $inputs['madonvi'] ? 'selected' : '' }}
                                         value="{{ $ct->madonvi }}">{{ $ct->tendonvi }}</option>
@@ -65,11 +54,16 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-5">
-                    <label style="font-weight: bold">Loại hình khen thưởng</label>
-                    {!! Form::select('maloaihinhkt', $a_loaihinhkt, $inputs['maloaihinhkt'], ['id' => 'maloaihinhkt', 'class' => 'form-control select2basic']) !!}
+
+                <div class="col-5">
+                    <label style="font-weight: bold">Phân loại hồ sơ</label>
+                    {!! Form::select('phanloai', setArrayAll($a_phanloaihs, 'Tất cả', 'ALL'), $inputs['phanloai'], [
+                        'id' => 'phanloai',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
                 </div>
-                <div class="col-md-2">
+
+                <div class="col-2">
                     <label style="font-weight: bold">Năm</label>
                     {!! Form::select('nam', getNam(true), $inputs['nam'], ['id' => 'nam', 'class' => 'form-control select2basic']) !!}
                 </div>
@@ -81,6 +75,7 @@
                         <thead>
                             <tr class="text-center">
                                 <th width="2%">STT</th>
+                                <th>Phân loại hồ sơ</th>
                                 <th>Nội dung hồ sơ</th>
                                 <th width="15%">Loại hình khen thưởng</th>
                                 <th width="8%">Ngày tạo</th>
@@ -93,6 +88,7 @@
                         @foreach ($model as $key => $tt)
                             <tr>
                                 <td class="text-center">{{ $key + 1 }}</td>
+                                <td>{{$a_phanloaihs[$tt->phanloai] ?? $tt->phanloai }}</td>
                                 <td>{{ $tt->noidung }}</td>
                                 <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
                                 <td class="text-center">{{ getDayVn($tt->ngayhoso) }}</td>
@@ -192,5 +188,5 @@
     
     @include('includes.modal.modal-lydo')
     @include('includes.modal.modal-delete')
-    @include('includes.modal.modal_approve_hs')
+    @include('includes.modal.modal_chuyenhs')
 @stop

@@ -73,6 +73,13 @@ class qdhosokhenthuongconghienController extends Controller
         if ($inputs['maloaihinhkt'] != 'ALL')
             $model = $model->where('maloaihinhkt', $inputs['maloaihinhkt']);
 
+        $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
+        if ($inputs['phanloai'] != 'ALL')
+            $model = $model->where('phanloai', $inputs['phanloai']);
+        $inputs['nam'] = $inputs['nam'] ?? 'ALL';
+        if ($inputs['nam'] != 'ALL')
+            $model = $model->whereyear('ngayhoso', $inputs['nam']);
+        //Lấy hồ sơ
         $model = $model->orderby('ngayhoso')->get();
         // $m_khenthuong = dshosokhenthuong::wherein('mahosotdkt', array_column($model->toarray(), 'mahosotdkt'))->where('trangthai', 'DKT')->get();
         foreach ($model as $hoso) {
@@ -95,6 +102,7 @@ class qdhosokhenthuongconghienController extends Controller
             ->with('m_diaban', $m_diaban)
             ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
             ->with('a_loaihinhkt', array_column($m_loaihinh->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+            ->with('a_phanloaihs', getPhanLoaiHoSo())
             //->with('a_trangthaihoso', getTrangThaiTDKT())
             //->with('a_phamvi', getPhamViPhongTrao())
             ->with('pageTitle', 'Danh sách hồ sơ trình khen thưởng');

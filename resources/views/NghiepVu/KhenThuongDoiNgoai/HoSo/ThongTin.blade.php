@@ -15,14 +15,9 @@
     <script>
         jQuery(document).ready(function() {
             TableManaged3.init();
-            $('#madonvi').change(function() {
+            $('#madonvi, #nam, #phanloai').change(function() {
                 window.location.href = "{{ $inputs['url_hs'] }}" + "ThongTin?madonvi=" + $(
-                    '#madonvi').val() + "&nam=" + $('#nam').val();
-            });
-
-            $('#nam').change(function() {
-                window.location.href = "{{ $inputs['url_hs'] }}" + "ThongTin?madonvi=" + $(
-                    '#madonvi').val() + "&nam=" + $('#nam').val();
+                    '#madonvi').val() + "&nam=" + $('#nam').val() + "&phanloai=" + $('#phanloai').val();
             });
         });
     </script>
@@ -44,7 +39,7 @@
         </div>
         <div class="card-body">
             <div class="form-group row">
-                <div class="col-lg-9">
+                <div class="col-5">
                     <label style="font-weight: bold">Đơn vị</label>
                     <select class="form-control select2basic" id="madonvi">
                         @foreach ($a_diaban as $key => $val)
@@ -59,7 +54,15 @@
                     </select>
                 </div>
 
-                <div class="col-lg-3">
+                <div class="col-5">
+                    <label style="font-weight: bold">Phân loại hồ sơ</label>
+                    {!! Form::select('phanloai', setArrayAll($a_phanloaihs, 'Tất cả', 'ALL'), $inputs['phanloai'], [
+                        'id' => 'phanloai',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
+                </div>
+
+                <div class="col-2">
                     <label style="font-weight: bold">Năm</label>
                     {!! Form::select('nam', getNam(true), $inputs['nam'], ['id' => 'nam', 'class' => 'form-control select2basic']) !!}
                 </div>
@@ -71,6 +74,7 @@
                         <thead>
                             <tr class="text-center">
                                 <th width="2%">STT</th>
+                                <th>Phân loại hồ sơ</th>
                                 <th>Nội dung hồ sơ</th>
                                 <th width="8%">Tờ trình</th>
                                 <th width="8%">Trạng thái</th>
@@ -82,6 +86,7 @@
                         @foreach ($model as $key => $tt)
                             <tr>
                                 <td class="text-center">{{ $key + 1 }}</td>
+                                <td>{{$a_phanloaihs[$tt->phanloai] ?? $tt->phanloai }}</td>
                                 <td>{{ $tt->noidung }}</td>
                                 <td class="text-center">{{ $tt->sototrinh }}<br>{{ getDayVn($tt->ngayhoso) }}
                                 </td>
@@ -198,7 +203,7 @@
 
     @include('NghiepVu._DungChung.InDuLieu')
     @include('includes.modal.modal-delete')
-    @include('includes.modal.modal_approve_hs')
+    @include('includes.modal.modal_chuyenhs')
     @include('includes.modal.modal_attackfile')
     @include('includes.modal.modal-lydo')
 @stop

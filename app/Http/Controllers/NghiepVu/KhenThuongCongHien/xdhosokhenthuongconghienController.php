@@ -44,7 +44,7 @@ class xdhosokhenthuongconghienController extends Controller
 
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
-        //$donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
+        $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         //$capdo = $donvi->capdo ?? '';
         //$inputs['maloaihinhkt'] = $inputs['maloaihinhkt'] ?? 'ALL';
         $inputs['maloaihinhkt'] = session('chucnang')['dshosokhenthuongconghien']['maloaihinhkt'] ?? 'ALL';
@@ -59,6 +59,13 @@ class xdhosokhenthuongconghienController extends Controller
         if ($inputs['maloaihinhkt'] != 'ALL')
             $model = $model->where('maloaihinhkt', $inputs['maloaihinhkt']);
 
+        $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
+        if ($inputs['phanloai'] != 'ALL')
+            $model = $model->where('phanloai', $inputs['phanloai']);
+        $inputs['nam'] = $inputs['nam'] ?? 'ALL';
+        if ($inputs['nam'] != 'ALL')
+            $model = $model->whereyear('ngayhoso', $inputs['nam']);
+        //Lấy hồ sơ
         $model = $model->orderby('ngayhoso')->get();
 
         // $m_khenthuong = dshosokhenthuong::wherein('mahosotdkt', array_column($model->toarray(), 'mahosotdkt'))->where('trangthai', 'DKT')->get();
@@ -77,7 +84,8 @@ class xdhosokhenthuongconghienController extends Controller
             ->with('a_capdo', getPhamViApDung())
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
-            ->with('a_donviql', getDonViQuanLyTinh())
+            ->with('a_donviql', getDonViQuanLyDiaBan($donvi))
+            ->with('a_phanloaihs', getPhanLoaiHoSo())
             ->with('a_loaihinhkt', array_column($m_loaihinh->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách hồ sơ khen thưởng theo cống hiến');

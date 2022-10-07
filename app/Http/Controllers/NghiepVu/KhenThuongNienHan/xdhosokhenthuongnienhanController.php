@@ -42,17 +42,27 @@ class xdhosokhenthuongnienhanController extends Controller
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
 
         //$m_donvi = viewdiabandonvi::wherein('madonvi', array_column($m_donvi->toarray(), 'madonviQL'))->get();
-        
+
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
-        $inputs['maloaihinhkt'] = session('chucnang')['dshosokhenthuongnienhan']['maloaihinhkt'] ?? 'ALL';       
+        $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
+        $inputs['maloaihinhkt'] = session('chucnang')['dshosokhenthuongnienhan']['maloaihinhkt'] ?? 'ALL';
 
         $model = dshosothiduakhenthuong::wherein('mahosotdkt', function ($qr) use ($inputs) {
             $qr->select('mahosotdkt')->from('dshosothiduakhenthuong')
                 ->where('madonvi_nhan', $inputs['madonvi'])
                 ->orwhere('madonvi_nhan_h', $inputs['madonvi'])
                 ->orwhere('madonvi_nhan_t', $inputs['madonvi'])->get();
-        })->where('maloaihinhkt', $inputs['maloaihinhkt'])->orderby('ngayhoso')->get();
+        })->where('maloaihinhkt', $inputs['maloaihinhkt']); //->orderby('ngayhoso')->get();
+
+        $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
+        if ($inputs['phanloai'] != 'ALL')
+            $model = $model->where('phanloai', $inputs['phanloai']);
+        $inputs['nam'] = $inputs['nam'] ?? 'ALL';
+        if ($inputs['nam'] != 'ALL')
+            $model = $model->whereyear('ngayhoso', $inputs['nam']);
+        //Lấy hồ sơ
+        $model = $model->orderby('ngayhoso')->get();
 
         if (in_array($inputs['maloaihinhkt'], ['', 'ALL', 'all'])) {
             $m_loaihinh = dmloaihinhkhenthuong::all();
@@ -70,7 +80,8 @@ class xdhosokhenthuongnienhanController extends Controller
             ->with('a_capdo', getPhamViApDung())
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
-            ->with('a_donviql', getDonViQuanLyTinh())
+            ->with('a_donviql', getDonViQuanLyDiaBan($donvi))
+            ->with('a_phanloaihs', getPhanLoaiHoSo())
             ->with('a_loaihinhkt', array_column($m_loaihinh->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách hồ sơ khen thưởng');
@@ -97,7 +108,7 @@ class xdhosokhenthuongnienhanController extends Controller
         setTrangThaiHoSo($inputs['madonvi'], $model, ['trangthai' => '', 'thoigian' => '', 'lydo' => '', 'madonvi_nhan' => '', 'madonvi' => '']);
         $model->save();
 
-        return redirect(static::$url.'ThongTin?madonvi=' . $inputs['madonvi']);
+        return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
     }
 
     public function ChuyenHoSo(Request $request)

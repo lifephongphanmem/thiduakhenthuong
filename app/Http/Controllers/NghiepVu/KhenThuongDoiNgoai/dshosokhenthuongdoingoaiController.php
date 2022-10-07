@@ -57,8 +57,16 @@ class dshosokhenthuongdoingoaiController extends Controller
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         $inputs['maloaihinhkt'] = session('chucnang')['dshosokhenthuongdoingoai']['maloaihinhkt'] ?? 'ALL';
         $model = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi'])
-            ->where('maloaihinhkt', $inputs['maloaihinhkt'])
-            ->orderby('ngayhoso')->get();
+            ->where('maloaihinhkt', $inputs['maloaihinhkt']);
+        //->orderby('ngayhoso')->get();
+        $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
+        if ($inputs['phanloai'] != 'ALL')
+            $model = $model->where('phanloai', $inputs['phanloai']);
+        $inputs['nam'] = $inputs['nam'] ?? 'ALL';
+        if ($inputs['nam'] != 'ALL')
+            $model = $model->whereyear('ngayhoso', $inputs['nam']);
+        //Lấy hồ sơ
+        $model = $model->orderby('ngayhoso')->get();
         if (in_array($inputs['maloaihinhkt'], ['', 'ALL', 'all'])) {
             $m_loaihinh = dmloaihinhkhenthuong::all();
         } else {
@@ -72,6 +80,8 @@ class dshosokhenthuongdoingoaiController extends Controller
             ->with('m_donvi', $m_donvi)
             ->with('a_diaban', $a_diaban)
             ->with('a_donviql', getDonViQuanLyDiaBan($donvi))
+            ->with('a_donvinganh', getDonViQuanLyNganh($donvi))
+            ->with('a_phanloaihs', getPhanLoaiHoSo())
             ->with('a_loaihinhkt', array_column($m_loaihinh->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách hồ sơ khen thưởng đối ngoại');
@@ -152,7 +162,7 @@ class dshosokhenthuongdoingoaiController extends Controller
     {
         if (!chkPhanQuyen('dshosokhenthuongdoingoai', 'thaydoi')) {
             return view('errors.noperm')->with('machucnang', 'dshosokhenthuongdoingoai')->with('tenphanquyen', 'thaydoi');
-        }        
+        }
         $inputs = $request->all();
         $inputs['mahosotdkt'] = (string)getdate()[0];
         $inputs['trangthai'] = 'CC';
