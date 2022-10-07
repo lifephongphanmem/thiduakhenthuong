@@ -7,6 +7,55 @@
  * Time: 3:05 PM
  */
 
+function getPhanLoaiHoSo()
+{
+    return array(
+        'KHENTHUONG' => 'Hồ sơ khen thưởng theo địa bàn',
+        'KTNGANH' => 'Hồ sơ khen thưởng theo ngành',
+    );
+}
+function getNganhLinhVuc()
+{
+    /*
+    Điều 3 Nghị định 99/NQ-CP ngày 24/6/2020 quy định
+    a) Ngành, lĩnh vực nội vụ, gồm: Tổ chức bộ máy hành chính nhà nước; đơn vị sự nghiệp công lập; tiền lương của cán bộ, công chức, viên chức, vị trí việc làm;
+
+    b) Ngành, lĩnh vực tài nguyên và môi trường, gồm: Biển và hải đảo;
+
+    c) Ngành, lĩnh vực thông tin và truyền thông, gồm: Phát thanh và truyền hình;
+
+    d) Ngành, lĩnh vực văn hóa, gồm: Điện ảnh;
+
+    đ) Ngành, lĩnh vực y tế, gồm: Khám bệnh, chữa bệnh;
+
+    e) Ngành, lĩnh vực xây dựng, gồm: Hoạt động đầu tư xây dựng; kiến trúc; quy hoạch; phát triển đô thị;
+
+    g) Ngành, lĩnh vực khoa học và công nghệ, gồm: Hoạt động khoa học và công nghệ;
+
+    h) Ngành, lĩnh vực lao động, thương binh và xã hội, gồm: Quản lý người lao động Việt Nam đi làm việc ở nước ngoài theo hợp đồng; an toàn, vệ sinh lao động;
+
+    i) Ngành, lĩnh vực tài chính, gồm: Thu ngân sách nhà nước; chi ngân sách nhà nước; quản lý nợ công; phí và lệ phí; tài sản công;
+
+    k) Ngành, lĩnh vực kế hoạch và đầu tư, gồm: Quản lý đầu tư; đầu tư công; đầu tư nước ngoài.
+    */
+    $a_nganh = array(
+        'NLVNOIVU' => 'Ngành, lĩnh vực nội vụ',
+        'NLVTAINGHUYEN' => 'Ngành, lĩnh vực tài nguyên và môi trường',
+        'NLVTHONGTIN' => 'Ngành, lĩnh vực thông tin và truyền thông',
+        'NLVVANHOA' => 'Ngành, lĩnh vực văn hóa',
+        'NLVYTE' => 'Ngành, lĩnh vực y tế',
+        'NLVXAYDUNG' => 'Ngành, lĩnh vực xây dựng',
+        'NLVKHOAHOC' => 'Ngành, lĩnh vực khoa học và công nghệ',
+        'NLVLAODONG' => 'Ngành, lĩnh vực lao động, thương binh và xã hội',
+        'NLVTAICHINH' => 'Ngành, lĩnh vực tài chính',
+        'NLVKEHOACH' => 'Ngành, lĩnh vực kế hoạch và đầu tư',
+        'NLVGDDT' => 'Ngành, lĩnh vực giáo dục và đào tạo',
+        'NLVTDTT' => 'Ngành, lĩnh vực thể dục và thể thao',
+        'NLVQLNN' => 'Ngành, lĩnh vực quản lý nhà nước',
+    );
+    return $a_nganh;
+}
+
 function getTenTrangThaiPT($trangthai)
 {
     $a_trangthai = array(

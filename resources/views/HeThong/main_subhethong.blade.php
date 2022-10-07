@@ -228,6 +228,15 @@
                         </div>
                     </li>
                 @endif
+                
+                <li class="menu-item" aria-haspopup="true">
+                    <a href="{{ url('/DonVi/Sua?madonvi=' . session('admin')->madonvi) }}" class="menu-link">
+                        <i class="menu-bullet menu-bullet-dot">
+                            <span></span>
+                        </i>
+                        <span class="menu-text font-weight-bold">Thông tin đơn vị</span>
+                    </a>
+                </li>
 
                 @if (chkPhanQuyen('hethongchung', 'phanquyen'))
                     <li class="menu-item" aria-haspopup="true">

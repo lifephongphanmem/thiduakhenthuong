@@ -13,6 +13,7 @@ class viewdiabandonvi extends Model
 // CREATE OR ALTER VIEW [dbo].[viewdiabandonvi]
 // AS
 // SELECT        dbo.dsdiaban.tendiaban, dbo.dsdiaban.capdo, dbo.dsdiaban.madiaban, dbo.dsdiaban.madonviQL, dbo.dsdiaban.madiabanQL, dbo.dsdonvi.madonvi, dbo.dsdonvi.tendonvi, dbo.dsdonvi.tendvhienthi, 
-//                          dbo.dsdonvi.tendvcqhienthi
+//                          dbo.dsdonvi.tendvcqhienthi, dbo.dsdonvi.linhvuchoatdong
 // FROM            dbo.dsdonvi INNER JOIN
 //                          dbo.dsdiaban ON dbo.dsdonvi.madiaban = dbo.dsdiaban.madiaban
+

@@ -31,7 +31,7 @@ class CreateDsdonviTable extends Migration
             $table->string('madonviQL',50)->nullable();
             $table->string('caphanhchinh',50)->default('XA');
             $table->string('maphanloai',50)->nullable();
-            $table->string('linhvuchoatdong')->nullable();//lĩnh vực hoạt động
+            $table->string('linhvuchoatdong')->nullable();//ngành, lĩnh vực hoạt động
             $table->date('ngaydung')->nullable();
             $table->double('chuyendoi')->default(0);
             $table->string('trangthai')->nullable();

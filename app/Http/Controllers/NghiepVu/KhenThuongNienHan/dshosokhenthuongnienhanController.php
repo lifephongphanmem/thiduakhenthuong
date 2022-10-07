@@ -71,7 +71,7 @@ class dshosokhenthuongnienhanController extends Controller
             ->with('a_capdo', getPhamViApDung())
             ->with('m_donvi', $m_donvi)
             ->with('a_diaban', $a_diaban)
-            ->with('a_donviql', getDonViQuanLyDiaBan($donvi->madiaban))
+            ->with('a_donviql', getDonViQuanLyDiaBan($donvi))
             ->with('a_loaihinhkt', array_column($m_loaihinh->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách hồ sơ khen thưởng niên hạn');

@@ -79,9 +79,16 @@
             <div class="form-group row">
                 <div class="col-lg-4">
                     <label>Địa bàn quản lý</label>
-                    {!! Form::select('madiaban', getDiaBan_All(), null, array('class'=>'form-control'))!!}
+                    {!! Form::select('madiaban', getDiaBan_All(), null, array('class'=>'form-control select2basic'))!!}
                 </div>
                 <div class="col-lg-8">
+                    <label>Ngành, lĩnh vực</label>
+                    {!! Form::select('linhvuchoatdong', setArrayAll(getNganhLinhVuc(),'Không chọn','') ,null, array('class'=>'form-control select2basic'))!!}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-lg-12">
                     <label>Thông tin liên hệ</label>
                     {!! Form::text('ttlienhe', null, array('class'=>'form-control'))!!}
                 </div>

@@ -73,7 +73,7 @@ class dshosokhencaoController extends Controller
             ->with('a_capdo', getPhamViApDung())
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
-            ->with('a_donviql', getDonViQuanLyDiaBan($donvi->madiaban))
+            ->with('a_donviql', getDonViQuanLyDiaBan($donvi))
             ->with('a_loaihinhkt', array_column($m_loaihinh->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách hồ sơ đề nghị khen cao');

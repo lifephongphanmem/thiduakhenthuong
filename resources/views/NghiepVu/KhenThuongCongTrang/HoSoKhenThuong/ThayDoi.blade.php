@@ -49,14 +49,19 @@
         <div class="card-body">
             <h4 class="text-dark font-weight-bold mb-5">Thông tin chung</h4>
             <div class="form-group row">
-                <div class="col-lg-6">
+                <div class="col-lg-4">
                     <label>Tên đơn vị</label>
                     {!! Form::text('tendonvi', null, ['class' => 'form-control', 'readonly' => 'true']) !!}
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-4">
                     <label>Loại hình khen thưởng</label>
                     {!! Form::select('maloaihinhkt', $a_loaihinhkt, null, ['class' => 'form-control']) !!}
+                </div>
+
+                <div class="col-lg-4">
+                    <label>Phân loại hồ sơ</label>
+                    {!! Form::select('phanloai', getPhanLoaiHoSo(), null, ['class' => 'form-control']) !!}
                 </div>
             </div>
 
@@ -70,7 +75,7 @@
                 <div class="col-1">
                     <label class="text-center">Chọn</label>
                     <button type="button" class="btn btn-default" data-target="#modal-phongtraotd" data-toggle="modal">
-                        <i class="fa fa-plus"></i></button>
+                        <i class="fa fa-list"></i></button>
                 </div>
             </div>
 

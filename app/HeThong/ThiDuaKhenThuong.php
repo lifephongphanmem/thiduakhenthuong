@@ -84,10 +84,11 @@ function getDiaBan_All($all = false)
     return $a_diaban;
 }
 
-function getDonViQuanLyDiaBan($madiaban, $kieudulieu = 'ARRAY')
+function getDonViQuanLyDiaBan($donvi, $kieudulieu = 'ARRAY')
 {
-    $m_diaban = \App\Model\DanhMuc\dsdiaban::where('madiaban', $madiaban)->first();
-    $model = \App\Model\DanhMuc\dsdonvi::where('madonvi', $m_diaban->madonviQL)->get();
+    //Lấy đơn vị quản lý địa bàn và đơn vi
+    $m_diaban = \App\Model\DanhMuc\dsdiaban::where('madiaban', $donvi->madiaban)->first();
+    $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', [$m_diaban->madonviQL, $donvi->madonvi])->get();
     switch ($kieudulieu) {
         case 'MODEL': {
                 return $model;
@@ -98,6 +99,33 @@ function getDonViQuanLyDiaBan($madiaban, $kieudulieu = 'ARRAY')
     }
 }
 
+function getDonViQuanLyNganh($donvi, $kieudulieu = 'ARRAY')
+{
+    //dd($donvi);
+    $linhvuchoatdong = $donvi->linhvuchoatdong == '' ? 'KHONGCHON' : $donvi->linhvuchoatdong;
+
+    //X => lấy ds huyện có cùng ngành, lĩnh vực
+    //H => lấy ds tỉnh có cùng ngành, lĩnh vực
+    //T => lấy ds đơn vị cùng ngành lĩnh vực
+    switch ($donvi->capdo) {
+        case 'X': {
+                $model = \App\Model\View\viewdiabandonvi::where('linhvuchoatdong', $linhvuchoatdong)->where('capdo', 'H')->get();
+                break;
+            }
+            //mặc định cấp tỉnh
+        default:
+            $model = \App\Model\View\viewdiabandonvi::where('linhvuchoatdong', $linhvuchoatdong)->where('capdo', 'T')->get();
+    }
+    //dd($model);
+    switch ($kieudulieu) {
+        case 'MODEL': {
+                return $model;
+                break;
+            }
+        default:
+            return array_column($model->toarray(), 'tendonvi', 'madonvi');
+    }
+}
 function getDonViCK($capdo, $madonvi = null, $kieudulieu = 'ARRAY')
 {
     $model = \App\Model\View\view_dscumkhoi::all();
