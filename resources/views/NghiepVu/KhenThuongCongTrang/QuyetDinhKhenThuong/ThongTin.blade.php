@@ -55,7 +55,7 @@
                         @endforeach
                     </select>
                 </div>
-                
+
                 <div class="col-2">
                     <label style="font-weight: bold">Năm</label>
                     {!! Form::select('nam', getNam(true), $inputs['nam'], ['id' => 'nam', 'class' => 'form-control select2basic']) !!}
@@ -107,10 +107,13 @@
                                 @include('includes.td.td_trangthai_hoso')
 
                                 <td style="text-align: center">
-                                    <a title="Thông tin hồ sơ"
-                                        href="{{ url($inputs['url_hs'] . 'Xem?mahosotdkt=' . $tt->mahosotdkt) }}"
-                                        class="btn btn-sm btn-clean btn-icon" target="_blank">
-                                        <i class="icon-lg la fa-eye text-dark icon-2x"></i></a>
+                                    <button type="button" title="In quyết định khen thưởng"
+                                        onclick="setInDuLieu('{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}','DKT')"
+                                        class="btn btn-sm btn-clean btn-icon" data-target="#indulieu-modal"
+                                        data-toggle="modal"
+                                        {{ $tt->thongtinquyetdinh == '' || $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}>
+                                        <i class="icon-lg la flaticon2-print text-dark icon-2x"></i>
+                                    </button>
                                     <button title="Tài liệu đính kèm" type="button"
                                         onclick="get_attack('{{ $tt->mahosotdkt }}', '{{ $inputs['url_hs'] . 'TaiLieuDinhKem' }}')"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
@@ -147,14 +150,6 @@
                                                 <i class="icon-lg la flaticon-edit-1 text-success icon-2x"></i>
                                             </a>
 
-                                            <button type="button" title="In quyết định khen thưởng"
-                                                onclick="setInDuLieu('{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}','DKT')"
-                                                class="btn btn-sm btn-clean btn-icon" data-target="#indulieu-modal"
-                                                data-toggle="modal"
-                                                {{ $tt->thongtinquyetdinh == '' || $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}>
-                                                <i class="icon-lg la flaticon2-print text-dark icon-2x"></i>
-                                            </button>
-
                                             <button title="Phê duyệt hồ sơ khen thưởng" type="button"
                                                 onclick="setPheDuyet('{{ $tt->mahosotdkt }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modal-PheDuyet"
@@ -181,12 +176,12 @@
                                         @endif
 
                                         @if ($tt->trangthai == 'DKT')
-                                            <button type="button" title="In quyết định khen thưởng"
+                                            {{-- <button type="button" title="In quyết định khen thưởng"
                                                 onclick="setInDuLieu('{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}','DKT')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#indulieu-modal"
                                                 data-toggle="modal">
                                                 <i class="icon-lg la flaticon2-print text-dark icon-2x"></i>
-                                            </button>
+                                            </button> --}}
 
                                             <button title="Hủy phê duyệt hồ sơ khen thưởng" type="button"
                                                 onclick="setHuyPheDuyet('{{ $tt->mahosotdkt }}')"

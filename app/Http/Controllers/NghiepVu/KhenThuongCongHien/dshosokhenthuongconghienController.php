@@ -47,11 +47,12 @@ class dshosokhenthuongconghienController extends Controller
         }
 
         $inputs = $request->all();
-        $inputs['url'] = '/KhenThuongCongHien/HoSo/';
+        $inputs['url_hs'] = '/KhenThuongCongHien/HoSo/';
+        $inputs['url_xd'] = '/KhenThuongCongHien/XetDuyet/';
         $inputs['url_kt'] = '/KhenThuongCongHien/KhenThuong/';
         //dd(session('chucnang')['dshosokhenthuongconghien']['maloaihinhkt']);
         $m_donvi = getDonVi(session('admin')->capdo, 'dshosokhenthuongconghien');
-        $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
+        $a_diaban = array_column($m_donvi->toArray(), 'tendiaban', 'madiaban');
 
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
@@ -84,7 +85,7 @@ class dshosokhenthuongconghienController extends Controller
             ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))
             ->with('a_capdo', getPhamViApDung())
             ->with('m_donvi', $m_donvi)
-            ->with('m_diaban', $m_diaban)
+            ->with('a_diaban', $a_diaban)
             ->with('a_donviql', getDonViQuanLyDiaBan($donvi))
             ->with('a_donvinganh', getDonViQuanLyNganh($donvi))
             ->with('a_phanloaihs', getPhanLoaiHoSo())

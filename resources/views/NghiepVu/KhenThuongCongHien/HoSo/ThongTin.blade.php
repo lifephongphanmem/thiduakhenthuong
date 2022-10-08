@@ -96,24 +96,24 @@
                                 <td style="text-align: center">
                                     @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']))
                                         <a title="Thông tin hồ sơ"
-                                            href="{{ url($inputs['url'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                            href="{{ url($inputs['url_hs'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
                                             class="btn btn-sm btn-clean btn-icon">
                                             <i class="icon-lg la fa-check-square text-primary icon-2x"></i></a>
 
                                         <button title="Trình hồ sơ đăng ký" type="button"
-                                            onclick="confirmChuyen('{{ $tt->mahosotdkt }}','{{ $inputs['url'] . 'ChuyenHoSo' }}')"
+                                            onclick="confirmChuyen('{{ $tt->mahosotdkt }}','{{ $inputs['url_hs'] . 'ChuyenHoSo' }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#chuyen-modal-confirm"
                                             data-toggle="modal">
                                             <i class="icon-lg la fa-share text-primary icon-2x"></i></button>
 
                                         <button type="button"
-                                            onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url'] . 'Xoa' }}')"
+                                            onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url_hs'] . 'Xoa' }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
                                             data-toggle="modal">
                                             <i class="icon-lg la fa-trash text-danger icon-2x"></i></button>
                                     @else
                                         <a title="Xem thông tin hồ sơ"
-                                            href="{{ url($inputs['url'] . 'Xem?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                            href="{{ url($inputs['url_hs'] . 'Xem?mahosotdkt=' . $tt->mahosotdkt) }}"
                                             class="btn btn-sm btn-clean btn-icon" target="_blank">
                                             <i class="icon-lg la fa-eye text-dark icon-2x"></i></a>
 
@@ -129,7 +129,7 @@
 
                                     @if ($tt->trangthai == 'BTL')
                                         <button title="Lý do hồ sơ bị trả lại" type="button"
-                                            onclick="viewLyDo('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}', '{{ $inputs['url'] . 'LayLyDo' }}')"
+                                            onclick="viewLyDo('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}', '{{ $inputs['url_hs'] . 'LayLyDo' }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#tralai-modal"
                                             data-toggle="modal">
                                             <i class="icon-lg la fa-archive text-info icon-2x"></i></button>
@@ -145,7 +145,7 @@
     <!--end::Card-->
 
     <!--Modal Tạo hồ sơ-->
-    {!! Form::open(['url' => $inputs['url'] . 'Them', 'id' => 'frm_hoso']) !!}
+    {!! Form::open(['url' => $inputs['url_hs'] . 'Them', 'id' => 'frm_hoso']) !!}
     <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
     <div id="taohoso-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
         <div class="modal-dialog modal-lg">
