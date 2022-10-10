@@ -49,25 +49,24 @@
                     <ol>
                         <li>
                             <button class="btn btn-clean text-dark" data-target="#modal-phongtrao" data-toggle="modal">Báo
-                                cáo khen thương theo phong trào thi đua</button>
+                                cáo khen thưởng theo phong trào thi đua</button>
+                        </li>
+                        {{-- báo cáo chi tiết --}}
+                        <li>
+                            <button class="btn btn-clean text-dark" data-target="#modal-hosotdkt" data-toggle="modal">Báo
+                                cáo số lượng hồ sơ thi đua, khen thưởng</button>
                         </li>
 
-                        <li>
-                            <button class="btn btn-clean text-dark" data-target="#modal-hosotdkt" data-toggle="modal">Hồ sơ
-                                đăng ký thi đua, khen
-                                thưởng</button>
-                        </li>
-
-                        <li>
+                        {{-- <li>
                             <button class="btn btn-clean text-dark" data-target="#modal-danhhieutd" data-toggle="modal">Danh
                                 hiệu thi đua trên địa
                                 bàn</button>
-                        </li>
+                        </li> --}}
 
                         <li>
-                            <button class="btn btn-clean text-dark" data-target="#modal-khenthuong" data-toggle="modal">Hình
-                                thức khen thưởng trên địa
-                                bàn</button>
+                            <button class="btn btn-clean text-dark" data-target="#modal-khenthuong" data-toggle="modal">Báo
+                                cáo hình
+                                thức khen thưởng trên địa bàn</button>
                         </li>
                         <li>
                             <button type="button" onclick="setURL('/BaoCao/TongHop/Mau0701')"
@@ -157,6 +156,7 @@
             'id' => 'frm_hoso',
             'class' => 'form-horizontal form-validate',
         ]) !!}
+        <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
         <div class="modal-dialog modal-content">
             <div class="modal-header modal-header-primary">
                 <h4 id="modal-header-primary-label" class="modal-title">Thông tin kết xuất hồ sơ đăng ký thi đua, khen
@@ -164,10 +164,19 @@
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
             </div>
             <div class="modal-body">
+                <p style="color: #0000FF">Thống kê các hồ sơ khen thưởng đã được phê duyệt hoặc khen thưởng theo địa bàn.
+                </p>
                 <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Địa bàn</label>
-                        {!! Form::select('madiaban', setArrayAll($a_diaban), null, ['madiaban' => 'madt', 'class' => 'form-control']) !!}
+                        {!! Form::select('madiaban', setArrayAll($a_diaban), null, ['class' => 'form-control']) !!}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label>Phạm vị thống kê</label>
+                        {!! Form::select('phamvithongke', setArrayAll($a_phamvithongke), null, ['class' => 'form-control']) !!}
                     </div>
                 </div>
 
@@ -263,6 +272,7 @@
             'id' => 'frm_htkt',
             'class' => 'form-horizontal form-validate',
         ]) !!}
+        <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
         <div class="modal-dialog modal-content">
             <div class="modal-header modal-header-primary">
                 <h4 id="modal-header-primary-label" class="modal-title">Thông tin kết xuất hình thức khen thưởng</h4>

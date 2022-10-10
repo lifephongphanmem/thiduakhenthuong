@@ -227,6 +227,14 @@ function getPhamViApDungPhongTrao($capdo = 'T')
     return $a_kq[$capdo];
 }
 
+function getPhamViThongKe($capdo = 'T')
+{
+    $a_kq['T'] =  array('T'=>'Các đơn vị hành chính cấp Tỉnh', 'H'=>'Các đơn vị hành chính cấp Huyện', 'X'=>'Các đơn vị hành chính cấp Xã');
+    $a_kq['H'] =  array('H'=>'Các đơn vị hành chính cấp Huyện', 'X'=>'Các đơn vị hành chính cấp Xã');
+    $a_kq['X'] =  array('X'=>'Các đơn vị hành chính cấp Xã');
+    return $a_kq[$capdo];
+}
+
 function getTrangThaiTDKT()
 {
     return array(

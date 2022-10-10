@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\BaoCao\baocaodonviController;
+use App\Http\Controllers\BaoCao\baocaotonghopController;
 use Illuminate\Support\Facades\Route;
 Route::group(['prefix'=>'BaoCao'], function(){
     Route::group(['prefix'=>'DonVi'], function(){
@@ -9,7 +10,7 @@ Route::group(['prefix'=>'BaoCao'], function(){
         Route::post('TapThe',[baocaodonviController::class, 'TapThe']);
     });
     Route::group(['prefix'=>'TongHop'], function(){
-        Route::get('ThongTin','BaoCao\baocaotonghopController@ThongTin');
+        Route::get('ThongTin',[baocaotonghopController::class,'ThongTin']);
         Route::post('PhongTrao','BaoCao\baocaotonghopController@PhongTrao');
         Route::post('HoSo','BaoCao\baocaotonghopController@HoSo');
         Route::post('DanhHieu','BaoCao\baocaotonghopController@DanhHieu');

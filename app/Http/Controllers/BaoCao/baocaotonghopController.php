@@ -51,6 +51,7 @@ class baocaotonghopController extends Controller
             ->with('inputs', $inputs)
             ->with('a_diaban', array_column($m_diaban->toArray(), 'tendiaban', 'madiaban'))
             ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))
+            ->with('a_phamvithongke', getPhamViThongKe($donvi->capdo))
             ->with('pageTitle', 'Báo cáo tổng hợp');
     }
 
@@ -148,9 +149,20 @@ class baocaotonghopController extends Controller
     public function HoSo(Request $request)
     {
         $inputs = $request->all();
-        $m_hoso = dshosothiduakhenthuong::wherenotin('trangthai', ['CC', 'BTL'])->get();
-        $model = viewdiabandonvi::wherein('madonvi', array_column($m_hoso->toArray(), 'madonvi'))->get();
-        $m_loaihinhkt = dmloaihinhkhenthuong::all();
+        $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
+        $m_diaban = getDiaBanBaoCaoTongHop($donvi);
+        if ($inputs['madiaban'] != 'ALL') {
+            $m_diaban = $m_diaban->where('madiaban', $inputs['madiaban']);
+        }
+        $model = viewdiabandonvi::wherein('madiaban', array_column($m_diaban->toArray(), 'madiaban'))->get();
+        if ($inputs['phamvithongke'] != 'ALL') {
+            $model = $model->where('capdo', $inputs['phamvithongke']);
+        }
+        $m_hoso = dshosothiduakhenthuong::wherenotin('trangthai', ['CC', 'BTL'])
+            ->wherebetween('ngayhoso', [$inputs['ngaytu'], $inputs['ngayden']])
+            ->wherein('madonvi', array_column($model->toArray(), 'madonvi'))->get();
+
+        $m_loaihinhkt = getLoaiHinhKhenThuong();
         $a_diaban = array_column($model->toArray(), 'tendiaban', 'madiaban');
         foreach ($model as $ct) {
             foreach ($m_loaihinhkt as $loaihinh) {
@@ -158,11 +170,12 @@ class baocaotonghopController extends Controller
                 $ct->$maloaihinhkt = $m_hoso->where('madonvi', $ct->madonvi)->where('maloaihinhkt', $maloaihinhkt)->count();
             }
         }
-        //dd($model);
-        $m_donvibc = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
+
+        //Thông tin đơn vị
+        $m_donvi = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
         return view('BaoCao.TongHop.HoSo')
             ->with('model', $model)
-            ->with('m_donvi', $m_donvibc)
+            ->with('m_donvi', $m_donvi)
             ->with('a_diaban', $a_diaban)
             ->with('a_loaihinhkt', array_column($m_loaihinhkt->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             //->with('a_phamvi', getPhamViPhongTrao())
@@ -183,7 +196,7 @@ class baocaotonghopController extends Controller
         $model = viewdiabandonvi::wherein('madonvi', array_column($m_khenthuong->toArray(), 'madonvi'))->get();
         $m_danhhieu = dmdanhhieuthidua::wherein('madanhhieutd', array_column($m_khenthuong->toArray(), 'madanhhieutd'))->get();
 
-        //$m_loaihinhkt = dmloaihinhkhenthuong::all();
+        //$m_loaihinhkt = getLoaiHinhKhenThuong();
         $a_diaban = array_column($model->toArray(), 'tendiaban', 'madiaban');
         foreach ($model as $ct) {
             foreach ($m_danhhieu as $danhhieu) {
@@ -218,7 +231,7 @@ class baocaotonghopController extends Controller
         $model = viewdiabandonvi::wherein('madonvi', array_column($m_khenthuong->toArray(), 'madonvi'))->get();
         $m_hinhthuc = dmhinhthuckhenthuong::wherein('mahinhthuckt', array_column($m_khenthuong->toArray(), 'mahinhthuckt'))->get();
         //dd($m_khenthuong);
-        //$m_loaihinhkt = dmloaihinhkhenthuong::all();
+        //$m_loaihinhkt = getLoaiHinhKhenThuong();
         $a_diaban = array_column($model->toArray(), 'tendiaban', 'madiaban');
         foreach ($model as $ct) {
             foreach ($m_hinhthuc as $hinhthuc) {

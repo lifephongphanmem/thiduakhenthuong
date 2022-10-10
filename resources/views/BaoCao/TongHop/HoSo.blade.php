@@ -23,10 +23,19 @@
 
         <tr>
             <td colspan="2" style="text-align: center; font-weight: bold; font-size: 20px;text-transform: uppercase">
-                DANH SÁCH hồ sơ thi đua, khen thưởng
+                BÁO CÁO SỐ LƯỢNG HỒ SƠ KHEN THƯỞNG TRÊN ĐỊA BÀN
             </td>
         </tr>
-
+        <tr>
+            <td colspan="2" style="text-align: center; font-weight: bold; font-style: italic">
+                Thời điểm báo cáo: {{ getThoiDiem()[$inputs['thoidiem']] }}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center; font-weight: bold; font-style: italic">
+                Phạm vị thống kê: {{ getPhamViApDung()[$inputs['phamvithongke']] ?? 'Tất cả' }}
+            </td>
+        </tr>
         <tr>
             <td colspan="2" style="text-align: center; font-style: italic">
                 Từ ngày: {{ getDayVn($inputs['ngaytu']) }} đến ngày: {{ getDayVn($inputs['ngayden']) }}
@@ -35,31 +44,34 @@
 
     </table>
 
-    <table id="data_render" cellspacing="0" cellpadding="0" border="1" style="margin: 20px auto; border-collapse: collapse;">
-        <tr class="text-center">
-            <th style="width: 3%" rowspan="2">STT</th>
-            <th rowspan="2">Tên đơn vị</th>
-            <th colspan="{{ count($a_loaihinhkt) }}">Loại hình khen thưởng</th>
-        </tr>
-        <tr class="text-center">
-            @foreach ($a_loaihinhkt as $k => $v)
-                <th style="width: 10%">{{ $v }}</th>
-            @endforeach
-        </tr>
+    <table id="data_render" cellspacing="0" cellpadding="0" border="1"
+        style="margin: 20px auto; border-collapse: collapse;">
+        <thead>
+            <tr class="text-center">
+                <th style="width: 3%" rowspan="2">STT</th>
+                <th rowspan="2">Tên đơn vị</th>
+                <th colspan="{{ count($a_loaihinhkt) }}">Loại hình khen thưởng</th>
+            </tr>
+            <tr class="text-center">
+                @foreach ($a_loaihinhkt as $k => $v)
+                    <th style="width: 10%">{{ $v }}</th>
+                @endforeach
+            </tr>
+        </thead>
         <?php $i = 1; ?>
         @foreach ($a_diaban as $k_diaban => $v_diaban)
             <?php
-                $chitiet = $model->where('madiaban', (string) $k_diaban);
-                $k = 1;
-                ?>
+            $chitiet = $model->where('madiaban', (string) $k_diaban);
+            $k = 1;
+            ?>
             <tr class="font-weight-boldest">
                 <td class="text-bold text-center">{{ IntToRoman($i++) }}</td>
                 <td class="text-bold">{{ $v_diaban }}</td>
                 @foreach ($a_loaihinhkt as $k_lh => $v_lh)
-                <td class="text-center">{{ dinhdangso($chitiet->sum($k_lh)) }}</td>
-            @endforeach
-            </tr>           
-            
+                    <td class="text-center">{{ dinhdangso($chitiet->sum($k_lh)) }}</td>
+                @endforeach
+            </tr>
+
             @foreach ($chitiet as $ct)
                 <tr>
                     <td class="text-right">{{ $k++ }}</td>
@@ -73,7 +85,7 @@
         <tr class="font-weight-boldest">
             <td class="text-center" colspan="2">Tổng cộng</td>
             @foreach ($a_loaihinhkt as $k_lh => $v_lh)
-                <td class="text-center">{{dinhdangso($model->sum($k_lh)) }}</td>
+                <td class="text-center">{{ dinhdangso($model->sum($k_lh)) }}</td>
             @endforeach
         </tr>
 

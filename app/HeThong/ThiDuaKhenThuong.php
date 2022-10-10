@@ -126,6 +126,7 @@ function getDonViQuanLyNganh($donvi, $kieudulieu = 'ARRAY')
             return array_column($model->toarray(), 'tendonvi', 'madonvi');
     }
 }
+
 function getDonViCK($capdo, $madonvi = null, $kieudulieu = 'ARRAY')
 {
     $model = \App\Model\View\view_dscumkhoi::all();
@@ -344,6 +345,12 @@ function getDSPhongTrao($donvi)
         $m_phongtrao->add($ct);
     }
     return $m_phongtrao;
+}
+
+//Làm sẵn hàm sau lọc theo truonq theodoi = 1
+function getLoaiHinhKhenThuong()
+{
+    return App\Model\DanhMuc\dmloaihinhkhenthuong::all();   
 }
 
 function setArrayAll($array, $noidung = 'Tất cả', $giatri = 'ALL')
