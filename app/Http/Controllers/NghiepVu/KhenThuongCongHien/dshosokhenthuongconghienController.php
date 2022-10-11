@@ -49,7 +49,7 @@ class dshosokhenthuongconghienController extends Controller
         $inputs = $request->all();
         $inputs['url_hs'] = '/KhenThuongCongHien/HoSo/';
         $inputs['url_xd'] = '/KhenThuongCongHien/XetDuyet/';
-        $inputs['url_kt'] = '/KhenThuongCongHien/KhenThuong/';
+        $inputs['url_qd'] = '/KhenThuongCongHien/KhenThuong/';
         //dd(session('chucnang')['dshosokhenthuongconghien']['maloaihinhkt']);
         $m_donvi = getDonVi(session('admin')->capdo, 'dshosokhenthuongconghien');
         $a_diaban = array_column($m_donvi->toArray(), 'tendiaban', 'madiaban');
@@ -68,11 +68,7 @@ class dshosokhenthuongconghienController extends Controller
         if ($inputs['nam'] != 'ALL')
             $model = $model->whereyear('ngayhoso', $inputs['nam']);
         //Lấy hồ sơ
-        $model = $model->orderby('ngayhoso')->get();
-        // $m_khenthuong = dshosokhenthuong::wherein('mahosotdkt', array_column($model->toarray(), 'mahosotdkt'))->where('trangthai', 'DKT')->get();
-        // foreach ($model as $hoso) {
-        //     $model->mahosokt = $m_khenthuong->where('mahosotdkt', $hoso->mahosotdkt)->first()->mahosokt ?? null;
-        // }
+        $model = $model->orderby('ngayhoso')->get();       
 
         if (in_array($inputs['maloaihinhkt'], ['', 'ALL', 'all'])) {
             $m_loaihinh = dmloaihinhkhenthuong::all();
@@ -100,7 +96,9 @@ class dshosokhenthuongconghienController extends Controller
             return view('errors.noperm')->with('machucnang', 'dshosokhenthuongconghien')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
-        $inputs['url'] = '/KhenThuongCongHien/HoSo/';
+        $inputs['url_hs'] = '/KhenThuongCongHien/HoSo/';
+        $inputs['url_xd'] = '/KhenThuongCongHien/XetDuyet/';
+        $inputs['url_qd'] = '/KhenThuongCongHien/KhenThuong/';
         $inputs['mahinhthuckt'] = session('chucnang')['dshosokhenthuongconghien']['mahinhthuckt'] ?? 'ALL';
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
@@ -616,7 +614,7 @@ class dshosokhenthuongconghienController extends Controller
         $model->madonvi_nhan = $inputs['madonvi_nhan'];
         $model->thoigian = date('Y-m-d H:i:s');
         setChuyenHoSo($m_donvi->capdo, $model, ['madonvi' => $inputs['madonvi_nhan'], 'thoigian' => $model->thoigian, 'trangthai' => 'CD']);
-        //dd($model);
+        dd($model);
         $model->save();
 
         $trangthai = new trangthaihoso();

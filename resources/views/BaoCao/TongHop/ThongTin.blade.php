@@ -243,6 +243,13 @@
                 </div>
 
                 <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label>Phạm vị thống kê</label>
+                        {!! Form::select('phamvithongke', setArrayAll($a_phamvithongke), null, ['class' => 'form-control']) !!}
+                    </div>
+                </div>
+
+                <div class="form-group row">
                     <div class="col-lg-6">
                         <label> Từ ngày</label>
                         {!! Form::input('date', 'ngaytu', date('Y') . '-01-01', ['id' => 'ngaytu', 'class' => 'form-control']) !!}
@@ -297,6 +304,13 @@
                 </div>
 
                 <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label>Phạm vị thống kê</label>
+                        {!! Form::select('phamvithongke', setArrayAll($a_phamvithongke), null, ['class' => 'form-control']) !!}
+                    </div>
+                </div>
+
+                <div class="form-group row">
                     <div class="col-lg-6">
                         <label> Từ ngày</label>
                         {!! Form::input('date', 'ngaytu', date('Y') . '-01-01', ['id' => 'ngaytu', 'class' => 'form-control']) !!}
@@ -326,6 +340,7 @@
             'id' => 'frm_thongtu03',
             'class' => 'form-horizontal form-validate',
         ]) !!}
+        <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
         <div class="modal-dialog modal-content">
             <div class="modal-header modal-header-primary">
                 <h4 id="modal-header-primary-label" class="modal-title">Thông tin kết xuất hình thức khen thưởng</h4>
@@ -346,6 +361,13 @@
                             'class' => 'form-control select2_modal',
                             'onchange' => 'setNgayThang($(this),"frm_thongtu03")',
                         ]) !!}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label>Phạm vị thống kê</label>
+                        {!! Form::select('phamvithongke', setArrayAll($a_phamvithongke), null, ['class' => 'form-control']) !!}
                     </div>
                 </div>
 

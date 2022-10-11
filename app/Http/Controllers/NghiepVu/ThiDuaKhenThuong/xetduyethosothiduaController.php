@@ -71,7 +71,7 @@ class xetduyethosothiduaController extends Controller
             $model = $model->where('phamviapdung', $inputs['phamviapdung']);
         }
         $ngayhientai = date('Y-m-d');
-        $m_hoso = dshosothamgiaphongtraotd::wherein('trangthai', ['CD', 'DD'])->get();
+        $m_hoso = dshosothamgiaphongtraotd::wherein('trangthai', ['CD', 'DD', 'CXKT', 'DKT'])->get();
         //$m_trangthai_phongtrao = trangthaihoso::where('phanloai', 'dsphongtraothidua')->orderby('thoigian', 'desc')->get();
         //dd($ngayhientai);
         foreach ($model as $DangKy) {

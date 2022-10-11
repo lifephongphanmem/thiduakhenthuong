@@ -230,7 +230,7 @@
                 @endif
                 
                 <li class="menu-item" aria-haspopup="true">
-                    <a href="{{ url('/DonVi/Sua?madonvi=' . session('admin')->madonvi) }}" class="menu-link">
+                    <a href="{{ url('/ThongTinDonVi') }}" class="menu-link">
                         <i class="menu-bullet menu-bullet-dot">
                             <span></span>
                         </i>

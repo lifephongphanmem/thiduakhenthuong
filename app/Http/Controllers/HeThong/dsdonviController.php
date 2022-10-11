@@ -167,4 +167,37 @@ class dsdonviController extends Controller
         dsdiaban::where('madiaban', $inputs['madiaban'])->first()->update($inputs);
         return redirect('DonVi/ThongTin');
     }
+
+    public function ThongTinDonVi(Request $request)
+    {
+        $inputs = $request->all();
+        $m_donvi = getDonVi(session('admin')->capdo, 'dshosokhenthuongconghien');
+        $a_diaban = array_column($m_donvi->toArray(), 'tendiaban', 'madiaban');
+        $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
+        $model = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
+        //dd($model);
+        return view('HeThongChung.DonVi.ThongTinDonVi')
+            ->with('model', $model)
+            ->with('m_donvi', $m_donvi)
+            ->with('a_diaban', $a_diaban)
+            ->with('pageTitle', 'Chỉnh sửa thông tin đơn vị');
+    }
+
+    public function LuuThongTinDonVi(Request $request)
+    {
+        if (!chkPhanQuyen('dsdonvi', 'thaydoi')) {
+            return view('errors.noperm')->with('machucnang', 'dsdonvi');
+        }
+        $inputs = $request->all();
+        $model = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
+        if ($model == null) {
+            $inputs['madonvi'] = (string) getdate()[0];
+            dsdonvi::create($inputs);
+        } else {
+            $model->update($inputs);
+        }
+
+        return redirect('/');
+    }
+
 }

@@ -10,6 +10,8 @@ Route::get('DangNhap','HeThong\hethongchungController@DangNhap');
 Route::post('DangNhap','HeThong\hethongchungController@XacNhanDangNhap');
 Route::post('QuenMatKhau','HeThong\hethongchungController@QuenMatKhau');
 Route::get('DangXuat','HeThong\hethongchungController@DangXuat');
+Route::get('ThongTinDonVi','HeThong\dsdonviController@ThongTinDonVi');
+Route::post('ThongTinDonVi','HeThong\dsdonviController@LuuThongTinDonVi');
 
 Route::group(['prefix'=>'HeThongChung'], function(){
     Route::get('ThongTin','HeThong\hethongchungController@ThongTin');
