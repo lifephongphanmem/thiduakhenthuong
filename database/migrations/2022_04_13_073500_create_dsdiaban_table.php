@@ -19,7 +19,8 @@ class CreateDsdiabanTable extends Migration
             $table->string('tendiaban')->nullable();
             $table->string('capdo')->nullable();//ADMIN; T; H; X
             $table->text('ghichu')->nullable();
-            $table->string('madonviQL')->nullable();
+            $table->string('madonviQL')->nullable();//Đơn vị phê duyệt khen thưởng
+            $table->string('madonviKT')->nullable();//Đơn vị xét duyệt khen thưởng
             $table->string('madiabanQL')->nullable();
             $table->timestamps();
         });

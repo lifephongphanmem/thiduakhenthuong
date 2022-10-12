@@ -16,6 +16,31 @@
         jQuery(document).ready(function() {
             TableManaged3.init();
         });
+
+        function setDiaBan(madiaban, tendiaban, madonviQL, madonviKT) {
+            var form = $('#frm_modify');
+            form.find("[name='madiaban']").val(madiaban);
+            form.find("[name='tendiaban']").val(tendiaban);
+
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: "/DiaBan/LayDonVi",
+                type: "GET",
+                data: {
+                    _token: CSRF_TOKEN,
+                    madiaban: form.find("[name='madiaban']").val(),
+                },
+                dataType: 'JSON',
+                success: function(data) {
+                    console.log(data);
+                    if (data.status == 'success') {
+                        $('#donviql').replaceWith(data.message);
+                        form.find("[name='madonviQL']").val(madonviQL).trigger('change');
+                        form.find("[name='madonviKT']").val(madonviKT).trigger('change');
+                    }
+                }
+            });
+        }
     </script>
 @stop
 
@@ -39,8 +64,9 @@
                             <tr class="text-center">
                                 <th colspan="3">STT</th>
                                 <th rowspan="2">Tên địa bàn</th>
-                                <th rowspan="2" width="50%">Đơn vị quản lý địa bàn</th>
-                                <th rowspan="2" width="15%">Thao tác</th>
+                                <th rowspan="2" width="25%">Đơn vị phê<br>duyệt khen thưởng</th>
+                                <th rowspan="2" width="25%">Đơn vị xét<br>duyệt hồ sơ</th>
+                                <th rowspan="2" width="10%">Thao tác</th>
                             </tr>
                             <tr>
                                 <th width="3%">T</th>
@@ -55,18 +81,20 @@
                             ?>
                             @foreach ($model_t as $ct_t)
                                 <tr class="success">
-                                    <td style="text-align: center">{{ $i++ }}</td>
+                                    <td class="text-center text-uppercase">{{ toAlpha($i++) }}</td>
                                     <td></td>
                                     <td></td>
                                     <td class="font-weight-bold">{{ $ct_t->tendiaban }}</td>
                                     <td>{{ $a_donvi[$ct_t->madonviQL] ?? '' }}</td>
+                                    <td>{{ $a_donvi[$ct_t->madonviKT] ?? '' }}</td>
                                     <td style="text-align: center">
                                         @if (chkPhanQuyen('dsdonvi', 'thaydoi'))
-                                            <a href={{ '/DonVi/QuanLy?madiaban=' . $ct_t->madiaban }}
-                                                class="btn btn-sm btn-clean btn-icon"
-                                                title="Thay đổi đơn vị quản lý địa bàn">
+                                            <button
+                                                onclick="setDiaBan('{{ $ct_t->madiaban }}','{{ $ct_t->tendiaban }}','{{ $ct_t->madonviQL }}','{{ $ct_t->madonviKT }}')"
+                                                class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
+                                                title="Thay đổi thông tin địa bàn" data-toggle="modal">
                                                 <i class="icon-lg flaticon-edit-1 text-primary"></i>
-                                            </a>
+                                            </button>
 
                                             <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_t->madiaban }}"
                                                 class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
@@ -88,17 +116,19 @@
                                 @foreach ($model_h as $ct_h)
                                     <tr class="info">
                                         <td></td>
-                                        <td style="text-align: center">{{ $j++ }}</td>
+                                        <td style="text-align: center">{{ romanNumerals($j++) }}</td>
                                         <td></td>
                                         <td>{{ $ct_h->tendiaban }}</td>
                                         <td>{{ $a_donvi[$ct_h->madonviQL] ?? '' }}</td>
+                                        <td>{{ $a_donvi[$ct_h->madonviKT] ?? '' }}</td>
                                         <td style="text-align: center">
                                             @if (chkPhanQuyen('dsdonvi', 'thaydoi'))
-                                                <a href={{ '/DonVi/QuanLy?madiaban=' . $ct_h->madiaban }}
-                                                    class="btn btn-sm btn-clean btn-icon"
-                                                    title="Thay đổi đơn vị quản lý địa bàn">
+                                                <button
+                                                    onclick="setDiaBan('{{ $ct_h->madiaban }}','{{ $ct_h->tendiaban }}','{{ $ct_h->madonviQL }}','{{ $ct_h->madonviKT }}')"
+                                                    class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
+                                                    title="Thay đổi thông tin địa bàn" data-toggle="modal">
                                                     <i class="icon-lg flaticon-edit-1 text-primary"></i>
-                                                </a>
+                                                </button>
 
                                                 <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_h->madiaban }}"
                                                     class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
@@ -124,13 +154,15 @@
                                             <td style="text-align: center">{{ $k++ }}</td>
                                             <td class="em" style="font-style: italic;">{{ $ct_x->tendiaban }}</td>
                                             <td>{{ $a_donvi[$ct_x->madonviQL] ?? '' }}</td>
+                                            <td>{{ $a_donvi[$ct_x->madonviKT] ?? '' }}</td>
                                             <td style="text-align: center">
                                                 @if (chkPhanQuyen('dsdonvi', 'thaydoi'))
-                                                    <a href={{ '/DonVi/QuanLy?madiaban=' . $ct_x->madiaban }}
-                                                        class="btn btn-sm btn-clean btn-icon"
-                                                        title="Thay đổi đơn vị quản lý địa bàn">
+                                                    <button
+                                                        onclick="setDiaBan('{{ $ct_x->madiaban }}','{{ $ct_x->tendiaban }}','{{ $ct_x->madonviQL }}','{{ $ct_x->madonviKT }}')"
+                                                        class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
+                                                        title="Thay đổi thông tin địa bàn" data-toggle="modal">
                                                         <i class="icon-lg flaticon-edit-1 text-primary"></i>
-                                                    </a>
+                                                    </button>
 
                                                     <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_x->madiaban }}"
                                                         class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
@@ -155,4 +187,49 @@
         </div>
     </div>
     <!--end::Card-->
+
+    <!--Modal thông tin đơn vị quản lý -->
+    {!! Form::open(['url' => '/DonVi/QuanLy', 'id' => 'frm_modify']) !!}
+    <div id="modify-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header modal-header-primary">
+                    <h4 id="modal-header-primary-label" class="modal-title">Thông tin đơn vị địa bàn quản lý</h4>
+                    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group row">
+                            <div class="col-3">
+                                <label class="control-label">Mã số</label>
+                                {!! Form::text('madiaban', null, ['id' => 'madiaban', 'class' => 'form-control', 'readonly' => 'true']) !!}
+                            </div>
+
+                            <div class="col-9">
+                                <label class="control-label">Tên địa bàn</label>
+                                {!! Form::text('tendiaban', null, ['id' => 'tendiaban', 'class' => 'form-control', 'readonly' => 'true']) !!}
+                            </div>
+                        </div>
+
+                        <div id="donviql" class="form-group row">
+                            <div class="col6">
+                                <label class="control-label">Đơn vị phê duyệt khen thưởng</label>
+                                {!! Form::select('madonviQL', [], null, ['id' => 'madonviQL', 'class' => 'form-control select2_modal']) !!}
+                            </div>
+                            <div class="col6">
+                                <label class="control-label">Đơn vị xét duyệt hồ sơ</label>
+                                {!! Form::select('madonviKT', [], null, ['id' => 'madonviKT', 'class' => 'form-control select2_modal']) !!}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
+                    <button type="submit" id="submit" name="submit" value="submit" class="btn btn-primary">Đồng
+                        ý</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {!! Form::close() !!}
 @stop

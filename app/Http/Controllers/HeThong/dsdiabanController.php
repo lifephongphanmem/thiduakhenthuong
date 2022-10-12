@@ -30,8 +30,12 @@ class dsdiabanController extends Controller
 
         $inputs = $request->all();
         $model = getDiaBan(session('admin')->capdo);
-        $a_donvi = array_column(dsdonvi::all()->toarray(), 'tendonvi', 'madonvi');
-        //dd($model);
+       
+        $m_donvi = dsdonvi::all();
+        foreach ($model as $chitiet) {
+            $chitiet->sodonvi = $m_donvi->where('madiaban', $chitiet->madiaban)->count();
+        }
+        $a_donvi = array_column($m_donvi->toarray(), 'tendonvi', 'madonvi');
         return view('HeThongChung.DiaBan.ThongTin')
             ->with('model', $model)
             ->with('inputs', $inputs)
@@ -58,6 +62,7 @@ class dsdiabanController extends Controller
             $model->tendiaban = $inputs['tendiaban'];
             $model->capdo = $inputs['capdo'];
             $model->madonviQL = $inputs['madonviQL'];
+            $model->madonviKT = $inputs['madonviKT'];
             $model->madiabanQL = $inputs['madiabanQL'];
             $model->save();
         }
@@ -103,9 +108,18 @@ class dsdiabanController extends Controller
 
         $model = array_column(dsdonvi::where('madiaban', $inputs['madiaban'])->get()->toarray(), 'tendonvi', 'madonvi');
         $result['message'] = '<div id="donviql" class="form-group row">';
-        $result['message'] .= '<div class="col-md-12">';
-        $result['message'] .= '<label class="form-control-label">Đơn vị quản lý địa bàn</label>';
+        $result['message'] .= '<div class="col-6">';
+        $result['message'] .= '<label class="form-control-label">Đơn vị phê duyệt khen thưởng</label>';
         $result['message'] .= '<select class="form-control select2_modal" name="madonviQL">';
+        foreach ($model as $key => $val) {
+            $result['message'] .= '<option value="' . $key . '">' . $val . '</option>';
+        }
+        $result['message'] .= '</select>';
+        $result['message'] .= '</div>';
+
+        $result['message'] .= '<div class="col-6">';
+        $result['message'] .= '<label class="form-control-label">Đơn vị xét duyệt hồ sơ</label>';
+        $result['message'] .= '<select class="form-control select2_modal" name="madonviKT">';
         foreach ($model as $key => $val) {
             $result['message'] .= '<option value="' . $key . '">' . $val . '</option>';
         }

@@ -84,8 +84,9 @@
                                 <th colspan="3">STT</th>
                                 <th rowspan="2">Mã số</th>
                                 <th rowspan="2">Tên địa bàn</th>
-                                <th rowspan="2" width="50%">Đơn vị quản lý địa bàn</th>
-                                <th rowspan="2" width="15%">Thao tác</th>
+                                <th rowspan="2" width="25%">Đơn vị phê<br>duyệt khen thưởng</th>
+                                <th rowspan="2" width="25%">Đơn vị xét<br>duyệt hồ sơ</th>
+                                <th rowspan="2" width="10%">Thao tác</th>
                             </tr>
                             <tr>
                                 <th width="3%">T</th>
@@ -110,6 +111,7 @@
                                     <td class="text-primary">{{ $ct_t->madiaban }}</td>
                                     <td class="text-primary">{{ $ct_t->tendiaban }}</td>
                                     <td class="text-primary">{{ $a_donvi[$ct_t->madonviQL] ?? '' }}</td>
+                                    <td class="text-primary">{{ $a_donvi[$ct_t->madonviKT] ?? '' }}</td>
                                     <td style="text-align: center">
                                         @if (chkPhanQuyen('dsdonvi', 'thaydoi'))
                                             <button
@@ -126,8 +128,13 @@
                                             </button>
 
                                             <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_t->madiaban }}"
-                                                class="btn btn-sm btn-clean btn-icon" title="Danh sách đơn vị">
-                                                <i class="icon-lg flaticon-list-2 text-dark"></i>
+                                                class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
+                                                title="Danh sách đơn vị">
+                                                <span class="svg-icon svg-icon-xl">
+                                                    <i class="icon-lg flaticon-list-2 text-dark"></i>
+                                                </span>
+                                                <span
+                                                    class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $ct_t->sodonvi }}</span>
                                             </a>
 
                                             <button title="Xóa thông tin" type="button"
@@ -149,6 +156,7 @@
                                         <td class="text-info">{{ $ct_h->madiaban }}</td>
                                         <td class="text-info">{{ $ct_h->tendiaban }}</td>
                                         <td class="text-info">{{ $a_donvi[$ct_h->madonviQL] ?? '' }}</b></td>
+                                        <td class="text-info">{{ $a_donvi[$ct_h->madonviKT] ?? '' }}</b></td>
                                         <td style="text-align: center">
                                             @if (chkPhanQuyen('dsdonvi', 'thaydoi'))
                                                 <button
@@ -165,8 +173,13 @@
                                                 </button>
 
                                                 <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_h->madiaban }}"
-                                                    class="btn btn-sm btn-clean btn-icon" title="Danh sách đơn vị">
-                                                    <i class="icon-lg flaticon-list-2 text-dark"></i>
+                                                    class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
+                                                    title="Danh sách đơn vị">
+                                                    <span class="svg-icon svg-icon-xl">
+                                                        <i class="icon-lg flaticon-list-2 text-dark"></i>
+                                                    </span>
+                                                    <span
+                                                        class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $ct_h->sodonvi }}</span>
                                                 </a>
 
                                                 <button title="Xóa thông tin" type="button"
@@ -190,8 +203,8 @@
                                             <td style="text-align: center">{{ $k++ }}</td>
                                             <td style="font-style: italic;">{{ $ct_x->madiaban }}</td>
                                             <td style="font-style: italic;">{{ $ct_x->tendiaban }}</td>
-                                            <td style="font-style: italic;">
-                                                {{ $a_donvi[$ct_x->madonviQL] ?? '' }}</td>
+                                            <td style="font-style: italic;"> {{ $a_donvi[$ct_x->madonviQL] ?? '' }}</td>
+                                            <td style="font-style: italic;"> {{ $a_donvi[$ct_x->madonviKT] ?? '' }}</td>
                                             <td style="text-align: center">
                                                 @if (chkPhanQuyen('dsdonvi', 'thaydoi'))
                                                     <button
@@ -202,8 +215,13 @@
                                                     </button>
 
                                                     <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_x->madiaban }}"
-                                                        class="btn btn-sm btn-clean btn-icon" title="Danh sách đơn vị">
-                                                        <i class="icon-lg flaticon-list-2 text-dark"></i>
+                                                        class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
+                                                        title="Danh sách đơn vị">
+                                                        <span class="svg-icon svg-icon-xl">
+                                                            <i class="icon-lg flaticon-list-2 text-dark"></i>
+                                                        </span>
+                                                        <span
+                                                            class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $ct_x->sodonvi }}</span>
                                                     </a>
 
                                                     <button title="Xóa thông tin" type="button"
@@ -229,7 +247,7 @@
     <!--Modal thông tin chi tiết -->
     {!! Form::open(['url' => 'DiaBan/Sua', 'id' => 'frm_modify']) !!}
     <div id="modify-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header modal-header-primary">
                     <h4 id="modal-header-primary-label" class="modal-title">Thông tin địa bàn quản lý</h4>
@@ -238,40 +256,40 @@
                 <div class="modal-body">
                     <div class="form-horizontal">
                         <div class="form-group row">
-                            <div class="col-md-12">
+                            <div class="col-3">
                                 <label class="control-label">Mã số</label>
                                 {!! Form::text('madiaban', null, ['id' => 'madiaban', 'class' => 'form-control']) !!}
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <div class="col-md-12">
+                            <div class="col-9">
                                 <label class="control-label">Tên địa bàn<span class="require">*</span></label>
                                 {!! Form::text('tendiaban', null, ['id' => 'tendiaban', 'class' => 'form-control', 'required' => 'required']) !!}
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <div class="col-md-12">
+                            <div class="col-6">
                                 <label class="control-label">Phân loại</label>
                                 {!! Form::select('capdo', getPhanLoaiDonVi_DiaBan(), null, [
                                     'id' => 'capdo',
                                     'class' => 'form-control select2_modal',
                                 ]) !!}
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <div class="col-md-12">
+                            <div class="col-6">
                                 <label class="control-label">Trực thuộc địa bàn</label>
                                 {!! Form::select('madiabanQL', $a_diaban, null, ['id' => 'madiabanQL', 'class' => 'form-control select2_modal']) !!}
                             </div>
                         </div>
 
                         <div id="donviql" class="form-group row">
-                            <div class="col-md-12">
-                                <label class="control-label">Đơn vị quản lý địa bàn</label>
-                                {!! Form::select('madonviQL', $a_diaban, null, ['id' => 'madonviQL', 'class' => 'form-control select2_modal']) !!}
+                            <div class="col6">
+                                <label class="control-label">Đơn vị phê duyệt khen thưởng</label>
+                                {!! Form::select('madonviQL', [], null, ['id' => 'madonviQL', 'class' => 'form-control select2_modal']) !!}
+                            </div>
+                            <div class="col6">
+                                <label class="control-label">Đơn vị xét duyệt hồ sơ</label>
+                                {!! Form::select('madonviKT', [], null, ['id' => 'madonviKT', 'class' => 'form-control select2_modal']) !!}
                             </div>
                         </div>
                     </div>
