@@ -86,10 +86,10 @@
                                 <th>Tên đơn vị</th>
                                 <th>Phân loại hồ sơ</th>
                                 <th>Nội dung hồ sơ</th>
-                                <th>Ngày tạo</th>
+                                {{-- <th>Ngày tạo</th> --}}
                                 <th width="8%">Trạng thái</th>
-                                <th width="15%">Đơn vị tiếp nhận</th>
-                                <th width="10%">Thao tác</th>
+                                <th>Đơn vị tiếp nhận</th>
+                                <th width="15%">Thao tác</th>
                             </tr>
                         </thead>
 
@@ -99,9 +99,9 @@
                                 <td>{{ $a_donvi[$tt->madonvi] ?? '' }}</td>
                                 <td>{{ $a_phanloaihs[$tt->phanloai] ?? $tt->phanloai }}</td>
                                 <td>{{ $tt->noidung }}</td>
-                                <td class="text-center">{{ getDayVn($tt->ngayhoso) }}</td>
+                                {{-- <td class="text-center">{{ getDayVn($tt->ngayhoso) }}</td> --}}
                                 @include('includes.td.td_trangthai_hoso')
-                                <td>{{ $a_donvi[$tt->madonvi_nhan] ?? '' }}</td>
+                                <td>{{ $a_donvi[$tt->madonvi_nhan_hoso] ?? '' }}</td>
 
                                 <td style="text-align: center">
                                     <button type="button" title="In dữ liệu"
@@ -127,7 +127,8 @@
                                                 <i class="icon-lg flaticon-interface-5 text-success"></i>
                                             </button>
                                         @endif
-                                        @if (in_array($tt->trangthai_hoso, ['DD']))
+
+                                        @if (in_array($tt->trangthai_hoso, ['DD', 'BTLXD']))
                                             <a href="{{ url($inputs['url_xd'] . 'XetKT?mahosotdkt=' . $tt->mahosotdkt . '&madonvi=' . $inputs['madonvi']) }}"
                                                 class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
                                                 title="Thông tin hồ sơ khen thưởng">
@@ -146,17 +147,28 @@
 
                                             <button title="Chuyển phê duyệt khen thưởng" type="button"
                                                 onclick="confirmNhanvaTKT('{{ $tt->mahosotdkt }}','{{ $inputs['url_xd'] . 'ChuyenHoSo' }}','{{ $inputs['madonvi'] }}')"
-                                                class="btn btn-sm btn-clean btn-icon" {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }} data-target="#nhanvatkt-modal"
-                                                data-toggle="modal">
+                                                class="btn btn-sm btn-clean btn-icon"
+                                                {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}
+                                                data-target="#nhanvatkt-modal" data-toggle="modal">
                                                 <i class="icon-lg la fa-share-square text-success"></i>
                                             </button>
                                         @endif
-                                        <button title="Trả lại hồ sơ" type="button"
-                                            onclick="confirmTraLai('{{ $tt->mahosotdkt }}', '{{ $inputs['madonvi'] }}', '{{ $inputs['url_xd'] . 'TraLai' }}')"
-                                            class="btn btn-sm btn-clean btn-icon" data-target="#modal-tralai"
-                                            data-toggle="modal">
-                                            <i class="icon-lg la la-reply text-danger"></i>
-                                        </button>
+                                        @if ($tt->trangthai == 'BTLXD')
+                                            <button title="Lý do hồ sơ bị trả lại" type="button"
+                                                onclick="viewLyDo('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}', '{{ $inputs['url_xd'] . 'LayLyDo' }}')"
+                                                class="btn btn-sm btn-clean btn-icon" data-target="#tralai-modal"
+                                                data-toggle="modal">
+                                                <i class="icon-lg la fa-archive text-dark"></i>
+                                            </button>
+                                        @endif
+                                        @if (in_array($tt->trangthai_hoso, ['DD', 'CD', 'BTLXD']))
+                                            <button title="Trả lại hồ sơ" type="button"
+                                                onclick="confirmTraLai('{{ $tt->mahosotdkt }}', '{{ $inputs['madonvi'] }}', '{{ $inputs['url_xd'] . 'TraLai' }}')"
+                                                class="btn btn-sm btn-clean btn-icon" data-target="#modal-tralai"
+                                                data-toggle="modal">
+                                                <i class="icon-lg la la-reply text-danger"></i>
+                                            </button>
+                                        @endif
                                     @endif
                                 </td>
                             </tr>
@@ -172,4 +184,5 @@
     @include('includes.modal.modal_nhanvatrinhkt_hs')
     @include('NghiepVu._DungChung.InDuLieu')
     @include('includes.modal.modal_attackfile')
+    @include('includes.modal.modal-lydo')
 @stop

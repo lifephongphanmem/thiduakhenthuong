@@ -6,13 +6,13 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header modal-header-primary">
-                <h4 id="modal-header-primary-label" class="modal-title">Đồng ý tiếp nhận hồ sơ và trình khen thưởng?
+                <h4 id="modal-header-primary-label" class="modal-title">Đồng ý trình kết quả giải quyết?
                 </h4>
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
 
             </div>
             <div class="modal-body">
-                <p style="color: #0000FF">Hồ sơ đã tiếp nhận và trình xét duyệt khen thưởng. Bạn cần liên hệ đơn vị tiếp
+                <p style="color: #0000FF">Hồ sơ trình phê duyệt kết quả giải quyết. Bạn cần liên hệ đơn vị tiếp
                     nhận để chỉnh sửa hồ sơ nếu cần!</p>
                 <div class="form-group row">
                     <div class="col-md-12">

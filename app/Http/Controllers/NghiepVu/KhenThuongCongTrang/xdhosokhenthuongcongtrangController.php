@@ -133,24 +133,31 @@ class xdhosokhenthuongcongtrangController extends Controller
             return view('errors.noperm')->with('machucnang', 'xdhosokhenthuongconghien')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
-        //dd($inputs);
         $thoigian = date('Y-m-d H:i:s');
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
-        $m_donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi_nhan'])->first();
         //gán lại trạng thái hồ sơ để theo dõi
         $model->trangthai = 'CXKT';
+        $model->trangthai_xd = $model->trangthai;
+        $model->thoigian_xd = $thoigian;
+        $model->madonvi_nhan_xd = $inputs['madonvi_nhan'];
+
+        $model->madonvi_kt = $inputs['madonvi_nhan'];
+        $model->trangthai_kt = $model->trangthai;
+        $model->thoigian_kt = $thoigian;
+        $model->save();
 
         trangthaihoso::create([
-            'mahoso' => $inputs['mahoso'], 'trangthai' => $model->trangthai,
+            'mahoso' => $inputs['mahoso'],
+            'phanloai' => 'dshosothiduakhenthuong',
+            'trangthai' => $model->trangthai,
             'thoigian' => $thoigian,
             'madonvi_nhan' => $inputs['madonvi_nhan'],
             'madonvi' => $inputs['madonvi'],
-            'thongtin' => 'Nhận hồ sơ và trình đề nghị khen thưởng.',
+            'thongtin' => 'Trình đề nghị khen thưởng.',
         ]);
-        setTrangThaiHoSo($inputs['madonvi'], $model, ['thoigian' => $thoigian, 'trangthai' => $model->trangthai]);
-        setChuyenHoSo($m_donvi->capdo, $model, ['madonvi' => $inputs['madonvi_nhan'], 'thoigian' => $thoigian, 'trangthai' => $model->trangthai]);
+        //setTrangThaiHoSo($inputs['madonvi'], $model, ['thoigian' => $thoigian, 'trangthai' => $model->trangthai]);
+        //setChuyenHoSo($m_donvi->capdo, $model, ['madonvi' => $inputs['madonvi_nhan'], 'thoigian' => $thoigian, 'trangthai' => $model->trangthai]);
         //dd($model);
-        $model->save();
 
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
     }
@@ -165,7 +172,7 @@ class xdhosokhenthuongcongtrangController extends Controller
         $thoigian = date('Y-m-d H:i:s');
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
         //gán lại trạng thái hồ sơ để theo dõi
-        $model->trangthai = 'DD';        
+        $model->trangthai = 'DD';
         $model->trangthai_xd = 'DD';
         $model->thoigian_xd = $thoigian;
         $model->save();
@@ -478,7 +485,7 @@ class xdhosokhenthuongcongtrangController extends Controller
         $inputs = $request->all();
         $inputs['url'] = static::$url;
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        $inputs['madonvi'] =$model->madonvi_xd;
+        $inputs['madonvi'] = $model->madonvi_xd;
         if ($model->thongtinquyetdinh == '') {
             $thongtinquyetdinh = duthaoquyetdinh::all()->first()->codehtml ?? '';
             //noidung
@@ -603,6 +610,26 @@ class xdhosokhenthuongcongtrangController extends Controller
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model->thongtinquyetdinh = $inputs['thongtinquyetdinh'];
         $model->save();
-        return redirect(static::$url . 'ThongTin?madonvi='.$model->madonvi_xd);
+        return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_xd);
+    }
+
+    public function LayLyDo(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
+        }
+
+        $inputs = $request->all();
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $model->lydo = $model->lydo_xd;
+        die(json_encode($model));
     }
 }
