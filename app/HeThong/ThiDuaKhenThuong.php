@@ -99,6 +99,21 @@ function getDonViQuanLyDiaBan($donvi, $kieudulieu = 'ARRAY')
     }
 }
 
+function getDonViXetDuyetDiaBan($donvi, $kieudulieu = 'ARRAY')
+{
+    //Lấy đơn vị quản lý địa bàn và đơn vi
+    $m_diaban = \App\Model\DanhMuc\dsdiaban::where('madiaban', $donvi->madiaban)->first();
+    $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', [$m_diaban->madonviKT, $donvi->madonvi])->get();
+    switch ($kieudulieu) {
+        case 'MODEL': {
+                return $model;
+                break;
+            }
+        default:
+            return array_column($model->toarray(), 'tendonvi', 'madonvi');
+    }
+}
+
 function getDonViQuanLyNganh($donvi, $kieudulieu = 'ARRAY')
 {
     //dd($donvi);
@@ -350,7 +365,7 @@ function getDSPhongTrao($donvi)
 //Làm sẵn hàm sau lọc theo truonq theodoi = 1
 function getLoaiHinhKhenThuong()
 {
-    return App\Model\DanhMuc\dmloaihinhkhenthuong::all();   
+    return App\Model\DanhMuc\dmloaihinhkhenthuong::all();
 }
 
 function setArrayAll($array, $noidung = 'Tất cả', $giatri = 'ALL')
@@ -360,6 +375,30 @@ function setArrayAll($array, $noidung = 'Tất cả', $giatri = 'ALL')
         $a_kq[(string)$k] = $v;
     }
     return $a_kq;
+}
+
+function setChuyenXetDuyet($hoso, $a_hoanthanh)
+{
+    if (isset($a_hoanthanh['madonvi']))
+        $hoso->madonvi_xd = $a_hoanthanh['madonvi'];
+    if (isset($a_hoanthanh['trangthai']))
+        $hoso->trangthai_xd = $a_hoanthanh['trangthai'];
+    if (isset($a_hoanthanh['lydo']))
+        $hoso->lydo_xd = $a_hoanthanh['lydo'];
+    if (isset($a_hoanthanh['thoigian']))
+        $hoso->thoigian_xd = $a_hoanthanh['thoigian'];
+}
+
+function setChuyenKhenThuong($hoso, $a_hoanthanh)
+{
+    if (isset($a_hoanthanh['madonvi']))
+        $hoso->madonvi_kt = $a_hoanthanh['madonvi'];
+    if (isset($a_hoanthanh['trangthai']))
+        $hoso->trangthai_kt = $a_hoanthanh['trangthai'];
+    if (isset($a_hoanthanh['lydo']))
+        $hoso->lydo_kt = $a_hoanthanh['lydo'];
+    if (isset($a_hoanthanh['thoigian']))
+        $hoso->thoigian_kt = $a_hoanthanh['thoigian'];
 }
 
 function setChuyenHoSo($capdo, $hoso, $a_hoanthanh)

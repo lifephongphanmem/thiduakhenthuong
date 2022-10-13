@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DanhMuc\dmphanloaiController;
 use App\Http\Controllers\DanhMuc\duthaoquyetdinhController;
+use App\Http\Controllers\HeThong\dschucnangController;
 use App\Http\Controllers\HeThong\dsdonviController;
 use App\Http\Controllers\HeThong\dsnhomtaikhoanController;
 use Illuminate\Support\Facades\Route;
@@ -59,7 +60,7 @@ Route::group(['prefix' => 'HeThongAPI'], function () {
 });
 
 Route::group(['prefix' => 'ChucNang'], function () {
-    Route::get('ThongTin', 'HeThong\dschucnangController@ThongTin');
+    Route::get('ThongTin', [dschucnangController::class,'ThongTin']);
     Route::post('ThongTin', 'HeThong\dschucnangController@LuuChucNang');
     Route::get('LayChucNang', 'HeThong\dschucnangController@LayChucNang');
     Route::post('Xoa', 'HeThong\dschucnangController@XoaChucNang');

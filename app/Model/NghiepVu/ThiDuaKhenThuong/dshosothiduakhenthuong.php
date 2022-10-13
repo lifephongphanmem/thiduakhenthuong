@@ -59,7 +59,20 @@ class dshosothiduakhenthuong extends Model
         'thongtin_tw', //chưa dùng
         'trangthai_tw',
         'thoigian_tw',
-        //THông tin quyết định khen thưởng
+        //Trạng thái xét duyệt
+        'madonvi_xd',
+        'madonvi_nhan_xd',
+        'lydo_xd',
+        'thongtin_xd',
+        'trangthai_xd',
+        'thoigian_xd',
+        //Trạng thái khen thưởng
+        'madonvi_kt',
+        'madonvi_nhan_kt',
+        'lydo_kt',
+        'thongtin_kt',
+        'trangthai_kt',
+        'thoigian_kt',
         
         
     ];

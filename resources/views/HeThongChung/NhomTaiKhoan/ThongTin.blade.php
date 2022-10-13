@@ -17,7 +17,7 @@
             TableManaged3.init();
         });
 
-        function setNhomTK(manhomchucnang, tendiaban, stt) {
+        function setNhomTK(manhomchucnang, tennhomchucnang, stt) {
             var form = $('#frm_modify');
             form.find("[name='manhomchucnang']").val(manhomchucnang);
             form.find("[name='tennhomchucnang']").val(tennhomchucnang);
@@ -45,8 +45,6 @@
             </div>
         </div>
         <div class="card-body">
-
-
             <div class="form-group row">
                 <div class="col-md-12">
                     <table class="table table-bordered table-hover" id="sample_3">
@@ -65,13 +63,13 @@
                             @foreach ($model as $tt)
                                 <tr>
                                     <td class="text-center">{{ $i++ }}</td>
-                                    <td class="text-primary">{{ $tt->tennhomchucnang }}</td>
+                                    <td>{{ $tt->tennhomchucnang }}</td>
                                     <td class="text-center">
                                         <button
-                                            onclick="setDiaBan('{{ $tt->manhomchucnang }}','{{ $tt->tennhomchucnang }}','{{ $tt->stt }}',)"
+                                            onclick="setNhomTK('{{ $tt->manhomchucnang }}','{{ $tt->tennhomchucnang }}','{{ $tt->stt }}',)"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                             title="Thay đổi thông tin địa bàn" data-toggle="modal">
-                                            <i class="icon-lg flaticon-edit-1 text-info icon-2x"></i>
+                                            <i class="icon-lg flaticon-edit-1 text-info"></i>
                                         </button>
 
                                         <a title="Phân quyền"
@@ -84,7 +82,7 @@
                                             onclick="confirmDelete('{{ $tt->id }}','NhomChucNang/Xoa')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
                                             data-toggle="modal">
-                                            <i class="icon-lg la fa-trash-alt text-danger icon-2x"></i>
+                                            <i class="icon-lg flaticon-delete text-danger icon-2x"></i>
                                         </button>
                                     </td>
                                 </tr>

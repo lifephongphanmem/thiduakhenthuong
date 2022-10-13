@@ -71,13 +71,14 @@ class dshosokhenthuongcongtrangController extends Controller
             $model = $model->whereyear('ngayhoso', $inputs['nam']);
         //Lấy hồ sơ
         $model = $model->orderby('ngayhoso')->get();
+        //dd($model);
         return view('NghiepVu.KhenThuongCongTrang.HoSoKhenThuong.ThongTin')
             ->with('model', $model)
             ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))
             ->with('a_capdo', getPhamViApDung())
             ->with('m_donvi', $m_donvi)
             ->with('a_diaban', $a_diaban)
-            ->with('a_donviql', getDonViQuanLyDiaBan($donvi))
+            ->with('a_donviql', getDonViXetDuyetDiaBan($donvi))
             ->with('a_donvinganh', getDonViQuanLyNganh($donvi))
             ->with('a_phanloaihs', getPhanLoaiHoSo())
             ->with('a_loaihinhkt', array_column($m_loaihinh->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
@@ -393,12 +394,11 @@ class dshosokhenthuongcongtrangController extends Controller
         }
         $inputs = $request->all();
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
-        $m_donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi_nhan'])->first();
-
+       
         $model->trangthai = 'CD';
         $model->madonvi_nhan = $inputs['madonvi_nhan'];
         $model->thoigian = date('Y-m-d H:i:s');
-        setChuyenHoSo($m_donvi->capdo, $model, ['madonvi' => $inputs['madonvi_nhan'], 'thoigian' => $model->thoigian, 'trangthai' => 'CD']);
+        setChuyenXetDuyet($model, ['madonvi' => $inputs['madonvi_nhan'], 'thoigian' => $model->thoigian, 'trangthai' => 'CD']);
         //dd($model);
         $model->save();
 

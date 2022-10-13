@@ -11,8 +11,7 @@
 
             </div>
             <div class="modal-body">
-                <p style="color: #0000FF">Hồ sơ đã tiếp nhận và chờ xét duyệt khen thưởng. Bạn cần liên hệ đơn vị tiếp
-                    nhận để chỉnh sửa hồ sơ nếu cần!</p>
+                <p style="color: #0000FF">Hồ sơ sẽ được tiếp nhận và được xét duyệt dự thảo khen thưởng.</p>
 
             </div>
             <div class="modal-footer">

@@ -20,7 +20,7 @@ class dshosotdktcumkhoi extends Model
         'sototrinh',
         'nguoikytotrinh',
         //File đính kèm
-        'totrinh',//tờ trình khen thưởng
+        'totrinh', //tờ trình khen thưởng
         'baocao', //báo cáo thành tích
         'bienban', //biên bản cuộc họp
         'tailieukhac', //tài liệu khác
@@ -62,6 +62,19 @@ class dshosotdktcumkhoi extends Model
         'chucvunguoikyqd',
         'hotennguoikyqd',
         'thongtinquyetdinh',
-
+        //Trạng thái xét duyệt
+        'madonvi_xd',
+        'madonvi_nhan_xd',
+        'lydo_xd',
+        'thongtin_xd',
+        'trangthai_xd',
+        'thoigian_xd',
+        //Trạng thái khen thưởng
+        'madonvi_kt',
+        'madonvi_nhan_kt',
+        'lydo_kt',
+        'thongtin_kt',
+        'trangthai_kt',
+        'thoigian_kt',
     ];
 }
