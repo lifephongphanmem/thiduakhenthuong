@@ -1118,6 +1118,6 @@ class qdhosokhenthuongcongtrangController extends Controller
             $model->save();
         }
         //dd($m_hoso);
-        return redirect(static::$url . 'InPhoiBangKhen?mahosotdkt=' . $model->mahosotdkt);
+        return redirect(static::$url . 'InPhoi?mahosotdkt=' . $model->mahosotdkt);
     }
 }

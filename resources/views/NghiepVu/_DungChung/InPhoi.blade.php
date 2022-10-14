@@ -168,17 +168,17 @@
                                                                     onclick="getTapThe('{{ $tt->id }}', 'TAPTHE')"
                                                                     class="btn btn-sm btn-clean btn-icon"
                                                                     data-target="#modal-thaydoi" data-toggle="modal">
-                                                                    <i class="icon-lg la fa-edit text-primary"></i>
+                                                                    <i class="icon-lg la fa-edit text-primary icon-2x"></i>
                                                                 </button>
                                                                 <a target="_blank" title="In phôi bằng khen"
                                                                     href="{{ url($inputs['url_qd'] . 'InBangKhenTapThe?id=' . $tt->id) }}"
                                                                     class="btn btn-sm btn-clean btn-icon">
-                                                                    <i class="icon-lg la flaticon2-print text-dark"></i>
+                                                                    <i class="icon-lg la la-file-invoice text-dark icon-2x"></i>
                                                                 </a>
                                                                 <a target="_blank" title="In phôi giấy khen"
                                                                     href="{{ url($inputs['url_qd'] . 'InGiayKhenTapThe?id=' . $tt->id) }}"
                                                                     class="btn btn-sm btn-clean btn-icon">
-                                                                    <i class="icon-lg la flaticon2-print text-dark"></i>
+                                                                    <i class="icon-lg la la-file-contract text-dark icon-2x"></i>
                                                                 </a>
                                                             </td>
                                                         </tr>
@@ -232,17 +232,17 @@
                                                                     onclick="getCaNhan('{{ $tt->id }}', 'CANHAN')"
                                                                     class="btn btn-sm btn-clean btn-icon"
                                                                     data-target="#modal-thaydoi" data-toggle="modal">
-                                                                    <i class="icon-lg la fa-edit text-primary"></i>
+                                                                    <i class="icon-lg la fa-edit text-primary icon-2x"></i>
                                                                 </button>
                                                                 <a target="_blank" title="In phôi bằng khen"
                                                                     href="{{ url($inputs['url_qd'] . 'InBangKhenCaNhan?id=' . $tt->id) }}"
                                                                     class="btn btn-sm btn-clean btn-icon">
-                                                                    <i class="icon-lg la flaticon2-print text-dark"></i>
+                                                                    <i class="icon-lg la la-file-invoice text-dark icon-2x"></i>
                                                                 </a>
                                                                 <a target="_blank" title="In phôi giấy khen"
                                                                     href="{{ url($inputs['url_qd'] . 'InGiayKhenCaNhan?id=' . $tt->id) }}"
                                                                     class="btn btn-sm btn-clean btn-icon">
-                                                                    <i class="icon-lg la flaticon2-print text-dark"></i>
+                                                                    <i class="icon-lg la la-file-contract text-dark icon-2x"></i>
                                                                 </a>
                                                             </td>
                                                         </tr>

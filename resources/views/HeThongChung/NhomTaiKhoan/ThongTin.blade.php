@@ -79,10 +79,10 @@
                                         </a>
 
                                         <button title="Xóa thông tin" type="button"
-                                            onclick="confirmDelete('{{ $tt->id }}','NhomChucNang/Xoa')"
+                                            onclick="confirmDelete('{{ $tt->id }}','/NhomChucNang/Xoa')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
                                             data-toggle="modal">
-                                            <i class="icon-lg flaticon-delete text-danger icon-2x"></i>
+                                            <i class="icon-lg flaticon-delete text-danger"></i>
                                         </button>
                                     </td>
                                 </tr>

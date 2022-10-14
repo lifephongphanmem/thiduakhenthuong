@@ -17,13 +17,13 @@
             TableManaged3.init();
         });
 
-        function add(){
+        function add() {
             $('#madanhhieutd').val('');
-            $('#madanhhieutd').attr('readonly',true);
+            $('#madanhhieutd').attr('readonly', true);
         }
 
-        function edit(madanhhieutd, tendanhhieutd, phanloai){
-            $('#madanhhieutd').attr('readonly',false);
+        function edit(madanhhieutd, tendanhhieutd, phanloai) {
+            $('#madanhhieutd').attr('readonly', false);
             $('#madanhhieutd').val(madanhhieutd);
             $('#tendanhhieutd').val(tendanhhieutd);
             $('#phanloai').val(phanloai).trigger('change');
@@ -74,18 +74,20 @@
                                                 onclick="edit('{{ $ct->madanhhieutd }}','{{ $ct->tendanhhieutd }}','{{ $ct->phanloai }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                 data-toggle="modal">
-                                                <i class="icon-lg la fa-edit text-success"></i></button>
+                                                <i class="icon-lg la fa-edit text-success"></i>
+                                            </button>
 
                                             <button title="Xóa thông tin" type="button"
                                                 onclick="confirmDelete('{{ $ct->id }}','{{ '/DanhHieuThiDua/Xoa' }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
                                                 data-toggle="modal">
-                                                <i class="icon-lg la fa-trash-alt text-danger"></i></button>
-
-                                            <a href="{{ '/DanhHieuThiDua/TieuChuan?madanhhieutd=' . $ct->madanhhieutd }}"
-                                                class="btn btn-sm btn-clean btn-icon" title="Danh sách tiêu chuẩn">
-                                                <i class="icon-lg la fa-list-alt text-primary"></i></a>
+                                                <i class="icon-lg la fa-trash-alt text-danger"></i>
+                                            </button>
                                         @endif
+                                        <a href="{{ '/DanhHieuThiDua/TieuChuan?madanhhieutd=' . $ct->madanhhieutd }}"
+                                            class="btn btn-sm btn-clean btn-icon" title="Danh sách tiêu chuẩn">
+                                            <i class="icon-lg la fa-list-alt text-dark"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -116,16 +118,22 @@
 
                         <div class="row">
                             <div class="col-md-12">
-                                <label class="control-label">Tên danh hiệu thi đua<span
-                                        class="require">*</span></label>
-                                {!! Form::text('tendanhhieutd', null, ['id' => 'tendanhhieutd', 'class' => 'form-control', 'required' => 'required']) !!}
+                                <label class="control-label">Tên danh hiệu thi đua<span class="require">*</span></label>
+                                {!! Form::text('tendanhhieutd', null, [
+                                    'id' => 'tendanhhieutd',
+                                    'class' => 'form-control',
+                                    'required' => 'required',
+                                ]) !!}
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-12">
                                 <label class="control-label">Phân loại</label>
-                                {!! Form::select('phanloai', getPhanLoaiTDKT(), null, ['id' => 'phanloai', 'class' => 'form-control select2_modal']) !!}
+                                {!! Form::select('phanloai', getPhanLoaiTDKT(), null, [
+                                    'id' => 'phanloai',
+                                    'class' => 'form-control select2_modal',
+                                ]) !!}
                             </div>
                         </div>
 
@@ -133,7 +141,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
-                    <button type="submit" id="submit" name="submit" value="submit" class="btn btn-primary">Đồng ý</button>
+                    <button type="submit" id="submit" name="submit" value="submit" class="btn btn-primary">Đồng
+                        ý</button>
                 </div>
             </div>
         </div>

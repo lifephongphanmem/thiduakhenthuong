@@ -167,7 +167,7 @@
     <div class="card card-custom" style="min-height: 600px">
         <div class="card-header">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Thông tin hồ sơ đề nghị khen thưởng theo cống hiến</h3>
+                <h3 class="card-label text-uppercase">Thông tin hồ sơ đề nghị khen thưởng công trạng và thành tích</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->

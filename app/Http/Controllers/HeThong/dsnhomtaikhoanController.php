@@ -80,6 +80,7 @@ class dsnhomtaikhoanController extends Controller
         }
         $id = $request->all()['id'];
         $model = dsnhomtaikhoan::findorFail($id);
+        dd($model);
         $model->delete();
         return redirect('/NhomChucNang/ThongTin');
     }

@@ -18,10 +18,10 @@
             $('#madanhhieutd').change(function() {
                 window.location.href = '/DanhHieuThiDua/TieuChuan?madanhhieutd=' + $('#madanhhieutd').val();
             });
-        }); 
-        
-        function edit(madanhhieutd, matieuchuandhtd ,tentieuchuandhtd, cancu){
-            $('#frm_modify').find("[name='madanhhieutd']").attr('readonly',false);
+        });
+
+        function edit(madanhhieutd, matieuchuandhtd, tentieuchuandhtd, cancu) {
+            $('#frm_modify').find("[name='madanhhieutd']").attr('readonly', false);
             $('#frm_modify').find("[name='madanhhieutd']").val(madanhhieutd);
             $('#frm_modify').find("[name='matieuchuandhtd']").val(matieuchuandhtd);
             $('#frm_modify').find("[name='tentieuchuandhtd']").val(tentieuchuandhtd);
@@ -35,7 +35,7 @@
     <div class="card card-custom" style="min-height: 600px">
         <div class="card-header flex-wrap border-0 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">danh sách tiêu chuẩn thi đua - {{$m_danhhieu->tendanhhieutd}}</h3>
+                <h3 class="card-label text-uppercase">danh sách tiêu chuẩn thi đua - {{ $m_danhhieu->tendanhhieutd }}</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
@@ -51,7 +51,10 @@
             <div class="form-group row">
                 <div class="col-lg-6">
                     <label>Địa bàn</label>
-                    {!! Form::select('madanhhieutd', $a_danhhieu, $m_danhhieu->madanhhieutd, ['id' => 'madanhhieutd', 'class' => 'form-control select2basic']) !!}
+                    {!! Form::select('madanhhieutd', $a_danhhieu, $m_danhhieu->madanhhieutd, [
+                        'id' => 'madanhhieutd',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
                 </div>
             </div>
 
@@ -80,13 +83,15 @@
                                                 onclick="edit('{{ $ct->madanhhieutd }}', '{{ $ct->matieuchuandhtd }}','{{ $ct->tentieuchuandhtd }}','{{ $ct->cancu }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                 data-toggle="modal">
-                                                <i class="icon-lg la fa-edit text-success"></i></button>
+                                                <i class="icon-lg la fa-edit text-success"></i>
+                                            </button>
 
                                             <button title="Xóa thông tin" type="button"
                                                 onclick="confirmDelete('{{ $ct->id }}','/DanhHieuThiDua/Xoa')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
                                                 data-toggle="modal">
-                                                <i class="icon-lg la fa-trash-alt text-danger"></i></button>
+                                                <i class="icon-lg la fa-trash-alt text-danger"></i>
+                                            </button>
                                         @endif
                                     </td>
                                 </tr>
@@ -100,7 +105,7 @@
     <!--end::Card-->
     <!--Modal thông tin chi tiết -->
     {!! Form::open(['url' => 'DanhHieuThiDua/Them', 'id' => 'frm_modify']) !!}
-    <input type="hidden" name="madanhhieutd" value="{{$m_danhhieu->madanhhieutd}}" />
+    <input type="hidden" name="madanhhieutd" value="{{ $m_danhhieu->madanhhieutd }}" />
     <div id="modify-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -119,23 +124,27 @@
 
                         <div class="row">
                             <div class="col-md-12">
-                                <label>Tên tiêu chuẩn<span
-                                        class="require">*</span></label>
-                                {!! Form::textarea('tentieuchuandhtd', null, ['class' => 'form-control', 'required' => 'required', 'rows'=>'2']) !!}
+                                <label>Tên tiêu chuẩn<span class="require">*</span></label>
+                                {!! Form::textarea('tentieuchuandhtd', null, [
+                                    'class' => 'form-control',
+                                    'required' => 'required',
+                                    'rows' => '2',
+                                ]) !!}
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-12">
                                 <label>Căn cứ</label>
-                                {!! Form::textarea('cancu', null, ['class' => 'form-control', 'rows'=>'2']) !!}
+                                {!! Form::textarea('cancu', null, ['class' => 'form-control', 'rows' => '2']) !!}
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
-                    <button type="submit" id="submit" name="submit" value="submit" class="btn btn-primary">Đồng ý</button>
+                    <button type="submit" id="submit" name="submit" value="submit" class="btn btn-primary">Đồng
+                        ý</button>
                 </div>
             </div>
         </div>
