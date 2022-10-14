@@ -134,7 +134,7 @@
 
                                     @if (chkPhanQuyen('qdhosokhenthuongcongtrang', 'thaydoi'))
                                         @if ($tt->trangthai == 'CXKT')
-                                            @if ($tt->chinhsua)
+                                            {{-- @if ($tt->chinhsua)
                                                 <a href="{{ url($inputs['url_qd'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                     class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
                                                     title="Thông tin hồ sơ khen thưởng">
@@ -160,7 +160,7 @@
                                                 href="{{ url($inputs['url_qd'] . 'QuyetDinh?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                 class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
                                                 <i class="icon-lg la flaticon-edit-1 text-success"></i>
-                                            </a>
+                                            </a> --}}
 
                                             <button title="Phê duyệt hồ sơ khen thưởng" type="button"
                                                 onclick="setPheDuyet('{{ $tt->mahosotdkt }}')"
