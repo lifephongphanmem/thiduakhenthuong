@@ -29,6 +29,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class dshosokhenthuongconghienController extends Controller
 {
+    public static $url = '/KhenThuongCongHien/HoSo/';
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
@@ -60,7 +61,7 @@ class dshosokhenthuongconghienController extends Controller
         $inputs['maloaihinhkt'] = session('chucnang')['dshosokhenthuongconghien']['maloaihinhkt'] ?? 'ALL';
         $model = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi'])
             ->where('maloaihinhkt', $inputs['maloaihinhkt']);
-        //->orderby('ngayhoso')->get();
+        
         $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
         if ($inputs['phanloai'] != 'ALL')
             $model = $model->where('phanloai', $inputs['phanloai']);
@@ -82,7 +83,7 @@ class dshosokhenthuongconghienController extends Controller
             ->with('a_capdo', getPhamViApDung())
             ->with('m_donvi', $m_donvi)
             ->with('a_diaban', $a_diaban)
-            ->with('a_donviql', getDonViQuanLyDiaBan($donvi))
+            ->with('a_donviql', getDonViXetDuyetDiaBan($donvi))
             ->with('a_donvinganh', getDonViQuanLyNganh($donvi))
             ->with('a_phanloaihs', getPhanLoaiHoSo())
             ->with('a_loaihinhkt', array_column($m_loaihinh->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
@@ -608,13 +609,13 @@ class dshosokhenthuongconghienController extends Controller
         }
         $inputs = $request->all();
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
-        $m_donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi_nhan'])->first();
-
         $model->trangthai = 'CD';
         $model->madonvi_nhan = $inputs['madonvi_nhan'];
         $model->thoigian = date('Y-m-d H:i:s');
-        setChuyenHoSo($m_donvi->capdo, $model, ['madonvi' => $inputs['madonvi_nhan'], 'thoigian' => $model->thoigian, 'trangthai' => 'CD']);
-        dd($model);
+        $model->madonvi_xd = $model->madonvi_nhan;
+        $model->trangthai_xd = $model->trangthai;
+        $model->thoigian = $model->thoigian;
+        //dd($model);
         $model->save();
 
         $trangthai = new trangthaihoso();
@@ -624,10 +625,8 @@ class dshosokhenthuongconghienController extends Controller
         $trangthai->phanloai = 'dshosothiduakhenthuong';
         $trangthai->mahoso = $model->mahosotdkt;
         $trangthai->thoigian = $model->thoigian;
-        $trangthai->thongtin = "Trình hồ sơ để xét khen thưởng.";
         $trangthai->save();
-
-        return redirect('/KhenThuongCongHien/HoSo/ThongTin?madonvi=' . $model->madonvi);
+        return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }
 
     public function LayDoiTuong(Request $request)
