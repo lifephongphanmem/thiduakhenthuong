@@ -208,7 +208,7 @@
                                                         class="fas fa-file-import"></i></button>
                                                 <a target="_blank" title="Tải file mẫu" href="/data/download/TapThe.xlsx"
                                                     class="btn btn-primary btn-icon btn-sm"><i
-                                                        class="fa flaticon-download"></i></button></a>
+                                                        class="fa flaticon-download"></i></a>
                                             </div>
                                         </div>
                                     </div>

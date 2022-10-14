@@ -15,10 +15,9 @@
     <script>
         jQuery(document).ready(function() {
             TableManaged3.init();
-            $('#madonvi, #maloaihinhkt, #nam, #phanloai').change(function() {
+            $('#madonvi, #nam, #phanloai').change(function() {
                 window.location.href = "{{ $inputs['url_xd'] }}" + 'ThongTin?madonvi=' + $('#madonvi')
-                    .val() + '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val() +
-                    "&phanloai=" + $('#phanloai').val();
+                    .val() + '&nam=' + $('#nam').val() + "&phanloai=" + $('#phanloai').val();
             });
         });
     </script>
@@ -40,7 +39,7 @@
         </div>
         <div class="card-body">
             <div class="form-group row">
-                <div class="col-6">
+                <div class="col-5">
                     <label style="font-weight: bold">Đơn vị</label>
                     <select class="form-control select2basic" id="madonvi">
                         @foreach ($m_diaban as $diaban)
@@ -54,29 +53,19 @@
                         @endforeach
                     </select>
                 </div>
-
-                <div class="col-2">
-                    <label style="font-weight: bold">Năm</label>
-                    {!! Form::select('nam', getNam(true), $inputs['nam'], ['id' => 'nam', 'class' => 'form-control select2basic']) !!}
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-6">
-                    <label style="font-weight: bold">Loại hình khen thưởng</label>
-                    {!! Form::select('maloaihinhkt', $a_loaihinhkt, $inputs['maloaihinhkt'], [
-                        'id' => 'maloaihinhkt',
-                        'class' => 'form-control select2basic',
-                    ]) !!}
-                </div>
-
-                <div class="col-6">
+                <div class="col-5">
                     <label style="font-weight: bold">Phân loại hồ sơ</label>
                     {!! Form::select('phanloai', setArrayAll($a_phanloaihs, 'Tất cả', 'ALL'), $inputs['phanloai'], [
                         'id' => 'phanloai',
                         'class' => 'form-control select2basic',
                     ]) !!}
                 </div>
+                <div class="col-2">
+                    <label style="font-weight: bold">Năm</label>
+                    {!! Form::select('nam', getNam(true), $inputs['nam'], ['id' => 'nam', 'class' => 'form-control select2basic']) !!}
+                </div>
             </div>
+
             <div class="form-group row">
                 <div class="col-md-12">
                     <table class="table table-striped table-bordered table-hover" id="sample_3">
@@ -105,7 +94,7 @@
 
                                 <td style="text-align: center">
                                     <button type="button" title="In dữ liệu"
-                                        onclick="setInDuLieu('{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}', '{{ $tt->trangthai }}')"
+                                        onclick="setInDuLieu('{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}', '{{ $tt->trangthai }}', true)"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#indulieu-modal"
                                         data-toggle="modal">
                                         <i class="icon-lg la flaticon2-print text-dark"></i>

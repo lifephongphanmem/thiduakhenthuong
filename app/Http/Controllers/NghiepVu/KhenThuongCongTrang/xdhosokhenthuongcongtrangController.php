@@ -60,8 +60,7 @@ class xdhosokhenthuongcongtrangController extends Controller
         //         ->orwhere('madonvi_nhan_t', $inputs['madonvi'])->get();
         // })->where('maloaihinhkt', $inputs['maloaihinhkt']); //->orderby('ngayhoso')->get();
 
-        $model = dshosothiduakhenthuong::where('madonvi_xd', $inputs['madonvi'])
-            ->where('maloaihinhkt', $inputs['maloaihinhkt']); //->orderby('ngayhoso')->get();
+        $model = dshosothiduakhenthuong::where('madonvi_xd', $inputs['madonvi']); //->orderby('ngayhoso')->get();
 
         if (in_array($inputs['maloaihinhkt'], ['', 'ALL', 'all'])) {
             $m_loaihinh = dmloaihinhkhenthuong::all();
@@ -94,9 +93,7 @@ class xdhosokhenthuongcongtrangController extends Controller
             ->with('a_capdo', getPhamViApDung())
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
-            //->with('a_donviql', getDonViQuanLyTinh())
             ->with('a_donviql', getDonViQuanLyDiaBan($donvi))
-            //->with('a_donvinganh', getDonViQuanLyNganh($donvi))
             ->with('a_phanloaihs', getPhanLoaiHoSo())
             ->with('a_loaihinhkt', array_column($m_loaihinh->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('inputs', $inputs)

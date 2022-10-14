@@ -178,6 +178,13 @@ Route::group(['prefix' => 'KhenThuongCongTrang'], function () {
         Route::post('InBangKhen', [qdhosokhenthuongcongtrangController::class, 'InBangKhen']);
         Route::post('InGiayKhen', [qdhosokhenthuongcongtrangController::class, 'InGiayKhen']);
         Route::get('InHoSo', [qdhosokhenthuongcongtrangController::class, 'XemHoSo']);
+
+        Route::get('InPhoi', [qdhosokhenthuongcongtrangController::class, 'InPhoi']);
+        Route::post('NoiDungKhenThuong', [qdhosokhenthuongcongtrangController::class, 'NoiDungKhenThuong']);
+        Route::get('InBangKhenCaNhan', [qdhosokhenthuongcongtrangController::class, 'InBangKhenCaNhan']);
+        Route::get('InBangKhenTapThe', [qdhosokhenthuongcongtrangController::class, 'InBangKhenTapThe']);
+        Route::get('InGiayKhenCaNhan', [qdhosokhenthuongcongtrangController::class, 'InGiayKhenCaNhan']);
+        Route::get('InGiayKhenTapThe', [qdhosokhenthuongcongtrangController::class, 'InGiayKhenTapThe']);
     });
 });
 

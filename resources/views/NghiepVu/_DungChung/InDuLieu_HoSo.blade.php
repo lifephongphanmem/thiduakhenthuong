@@ -29,11 +29,11 @@
                         </a>
                     </div>
                 </div>
-
+                
                 <div id="div_inDuLieu">
                     <div class="row">
                         <div class="col-lg-12">
-                            <a onclick="setInDL($(this), '{{ $inputs['url_qd'] . 'InHoSo' }}')"
+                            <a onclick="setInDL($(this), '{{ $inputs['url_qd'] . 'InHoSo'}}')"
                                 class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
                                 <i class="la flaticon2-print"></i>Thông tin hồ sơ khen thưởng
                             </a>
@@ -42,23 +42,52 @@
 
                     <div class="row">
                         <div class="col-lg-12">
-                            <a id="btnInQD" onclick="setInDL($(this), '{{ $inputs['url_qd'] . 'InQuyetDinh' }}')"
+                            <a id="btnInQD" onclick="setInDL($(this), '{{ $inputs['url_qd'] . 'InQuyetDinh'}}')"
                                 class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
                                 <i class="la flaticon2-print"></i>Quyết định khen thưởng
                             </a>
                         </div>
                     </div>
-                </div>
 
-                <div id="div_inPhoi">
                     <div class="row">
                         <div class="col-lg-12">
-                            <a onclick="setInDL($(this), '{{ $inputs['url_qd'] . 'InPhoi' }}')"
-                                class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
-                                <i class="la flaticon2-print"></i>In phôi bằng khen, giấy khen
-                            </a>
+                            <button type="button" onclick="setInPhoi('{{ $inputs['url_qd'] . 'InBangKhen' }}', 'TAPTHE')"
+                                class="btn btn-sm btn-clean text-dark font-weight-bold" data-target="#modal-InPhoi"
+                                data-toggle="modal">
+                                <i class="la flaticon2-print"></i>In phôi bằng khen(Tập thể)
+                            </button>
                         </div>
-                    </div>                    
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <button type="button" onclick="setInPhoi('{{ $inputs['url_qd'] . 'InBangKhen' }}', 'CANHAN')"
+                                class="btn btn-sm btn-clean text-dark font-weight-bold" data-target="#modal-InPhoi"
+                                data-toggle="modal">
+                                <i class="la flaticon2-print"></i>In phôi bằng khen(Cá nhân)
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <button type="button" onclick="setInPhoi('{{ $inputs['url_qd'] . 'InGiayKhen' }}', 'TAPTHE')"
+                                class="btn btn-sm btn-clean text-dark font-weight-bold" data-target="#modal-InPhoi"
+                                data-toggle="modal">
+                                <i class="la flaticon2-print"></i>In phôi giấy khen(Tập thể)
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <button type="button" onclick="setInPhoi('{{ $inputs['url_qd'] . 'InGiayKhen' }}', 'CANHAN')"
+                                class="btn btn-sm btn-clean text-dark font-weight-bold" data-target="#modal-InPhoi"
+                                data-toggle="modal">
+                                <i class="la flaticon2-print"></i>In phôi giấy khen(Cá nhân)
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -99,48 +128,41 @@
 {!! Form::close() !!}
 
 <script>
-    function setInDuLieu(mahosotdkt, maphongtraotd, trangthai, inphoi = false) {
+    
+    function setInDuLieu(mahosotdkt, maphongtraotd, trangthai) {
         $('#div_inDuLieu').hide();
-        $('#div_inPhoi').hide();
         $('#frm_InDuLieu').find("[name='mahosotdkt']").val(mahosotdkt);
         $('#frm_InDuLieu').find("[name='maphongtraotd']").val(maphongtraotd);
-        if (trangthai == 'DKT') {
+        if (trangthai == 'DKT')
             $('#div_inDuLieu').show();
-            if (inphoi)
-                $('#div_inPhoi').show();
-        }
     }
 
     function setInDL(e, url) {
         e.prop('href', url + '?mahosotdkt=' + $('#frm_InDuLieu').find("[name='mahosotdkt']").val());
     }
 
-    function setInPhoi(e, url) {
-        e.prop('href', url + '?mahosotdkt=' + $('#frm_InDuLieu').find("[name='mahosotdkt']").val());
+    function setInPhoi(url, phanloai) {
+        $('#frm_InPhoi').attr('action', url);
+        $('#frm_InPhoi').find("[name='mahosotdkt']").val($('#frm_InDuLieu').find("[name='mahosotdkt']").val());
+        $('#frm_InPhoi').find("[name='phanloai']").val(phanloai);
+        var formData = new FormData($('#frm_InPhoi')[0]);
+
+        $.ajax({
+            url: "{{$inputs['url_qd']}}" + "LayDoiTuong",
+            method: "POST",
+            cache: false,
+            dataType: false,
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function(data) {
+                //console.log(data);               
+                if (data.status == 'success') {
+                    $('#doituonginphoi').replaceWith(data.message);
+                }
+            }
+        });
     }
-
-    // function setInPhoi(url, phanloai) {
-    //     $('#frm_InPhoi').attr('action', url);
-    //     $('#frm_InPhoi').find("[name='mahosotdkt']").val($('#frm_InDuLieu').find("[name='mahosotdkt']").val());
-    //     $('#frm_InPhoi').find("[name='phanloai']").val(phanloai);
-    //     var formData = new FormData($('#frm_InPhoi')[0]);
-
-    //     $.ajax({
-    //         url: "{{ $inputs['url_qd'] }}" + "LayDoiTuong",
-    //         method: "POST",
-    //         cache: false,
-    //         dataType: false,
-    //         processData: false,
-    //         contentType: false,
-    //         data: formData,
-    //         success: function(data) {
-    //             //console.log(data);               
-    //             if (data.status == 'success') {
-    //                 $('#doituonginphoi').replaceWith(data.message);
-    //             }
-    //         }
-    //     });
-    // }
 
     // function setPheDuyet(mahosotdkt) {
     //     $('#frm_PheDuyet').find("[name='mahosotdkt']").val(mahosotdkt);
