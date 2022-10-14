@@ -131,7 +131,7 @@ class dshosokhenthuongchuyendeController extends Controller
             ->with('a_canhan', $a_canhan)
             ->with('a_tapthe', $a_tapthe)
             ->with('inputs', $inputs)
-            ->with('pageTitle', 'Thông tin hồ sơ đề nghị khen thưởng niên hạn');
+            ->with('pageTitle', 'Thông tin hồ sơ đề nghị khen thưởng chuyên đề');
     }
 
     public function XemHoSo(Request $request)
@@ -497,7 +497,6 @@ class dshosokhenthuongchuyendeController extends Controller
         return redirect(static::$url . 'Sua?mahosotdkt=' . $model->mahosotdkt);
     }
 
-
     public function ThemCaNhan(Request $request)
     {
         $result = array(
@@ -611,7 +610,6 @@ class dshosokhenthuongchuyendeController extends Controller
         return redirect(static::$url .  'Sua?mahosotdkt=' . $inputs['mahosotdkt']);
     }
 
-
     public function ThemTapThe(Request $request)
     {
         $result = array(
@@ -716,7 +714,6 @@ class dshosokhenthuongchuyendeController extends Controller
 
         return redirect(static::$url . 'Sua?mahosotdkt=' . $inputs['mahosotdkt']);
     }
-
 
     function htmlTapThe(&$result, $model)
     {

@@ -11,9 +11,11 @@ use App\Model\DanhMuc\dmdanhhieuthidua;
 use App\Model\DanhMuc\dmdanhhieuthidua_tieuchuan;
 use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
+use App\Model\DanhMuc\dmnhomphanloai_chitiet;
 use App\Model\DanhMuc\dscumkhoi;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
+use App\Model\HeThong\trangthaihoso;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_khenthuong;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_tieuchuan;
@@ -21,7 +23,9 @@ use App\Model\NghiepVu\ThiDuaKhenThuong\dshosokhenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosokhenthuong_chitiet;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosokhenthuong_khenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
+use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_canhan;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_khenthuong;
+use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tapthe;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tieuchuan;
 use App\Model\View\view_tdkt_canhan;
 use App\Model\View\view_tdkt_tapthe;
@@ -47,8 +51,9 @@ class qdhosokhenthuongdotxuatController extends Controller
             return view('errors.noperm')->with('machucnang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
-        // $m_donvi = getDonViXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
-        // $m_diaban = getDiaBanXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
+        $inputs['url_hs'] = '/KhenThuongDotXuat/HoSo/';
+        $inputs['url_xd'] = '/KhenThuongDotXuat/XetDuyet/';
+        $inputs['url_qd'] = '/KhenThuongDotXuat/KhenThuong/';
         $m_donvi = getDonVi(session('admin')->capdo, 'qdhosokhenthuongdotxuat');
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
 
@@ -56,13 +61,13 @@ class qdhosokhenthuongdotxuatController extends Controller
         $m_loaihinh = dmloaihinhkhenthuong::all();
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
-        $inputs['maloaihinhkt'] = $inputs['maloaihinhkt'] ?? 'ALL';
-        $model = dshosothiduakhenthuong::wherein('mahosotdkt', function ($qr) use ($inputs) {
-            $qr->select('mahosotdkt')->from('dshosothiduakhenthuong')
-                ->where('madonvi_nhan', $inputs['madonvi'])
-                ->orwhere('madonvi_nhan_h', $inputs['madonvi'])
-                ->orwhere('madonvi_nhan_t', $inputs['madonvi'])->get();
-        })->where('phanloai', 'DOTXUAT')->wherein('trangthai', ['CXKT', 'DXKT', 'DKT']);
+        $inputs['maloaihinhkt'] = session('chucnang')['qdhosokhenthuongdotxuat']['maloaihinhkt'] ?? 'ALL';
+        $inputs['tendvcqhienthi'] = $m_donvi->where('madonvi', $inputs['madonvi'])->first()->tendvcqhienthi;
+        $inputs['capdo'] = $m_donvi->where('madonvi', $inputs['madonvi'])->first()->capdo;
+
+        $model = dshosothiduakhenthuong::where('madonvi_kt', $inputs['madonvi'])
+            ->wherein('trangthai', ['CXKT', 'DXKT', 'DKT']);
+
 
         if ($inputs['maloaihinhkt'] != 'ALL')
             $model = $model->where('maloaihinhkt', $inputs['maloaihinhkt']);
@@ -75,9 +80,11 @@ class qdhosokhenthuongdotxuatController extends Controller
                 $model = $model->whereyear('ngayhoso', $inputs['nam']);
             //Lấy hồ sơ
             $model = $model->orderby('ngayhoso')->get();
-        //$m_khenthuong = dshosokhenthuong::wherein('mahosotdkt', array_column($model->toarray(), 'mahosotdkt'))->where('trangthai', 'DKT')->get();
+
         foreach ($model as $hoso) {
-           // $model->mahosokt = $m_khenthuong->where('mahosotdkt', $hoso->mahosotdkt)->first()->mahosokt ?? null;
+            $hoso->chinhsua = $hoso->madonvi == $inputs['madonvi'] ? true : false;
+            $hoso->soluongkhenthuong = dshosothiduakhenthuong_canhan::where('mahosotdkt', $hoso->mahosotdkt)->where('ketqua', '1')->count()
+                + dshosothiduakhenthuong_tapthe::where('mahosotdkt', $hoso->mahosotdkt)->where('ketqua', '1')->count();
             getDonViChuyen($inputs['madonvi'], $hoso);
         }
         //dd($model);
@@ -189,44 +196,10 @@ class qdhosokhenthuongdotxuatController extends Controller
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Thông tin hồ sơ khen thưởng');
     }
-
-    public function XemHoSo(Request $request)
-    {
-
-        $inputs = $request->all();
-        $model =  dshosokhenthuong::where('mahosokt', $inputs['mahosokt'])->first();
-        $m_chitiet = dshosokhenthuong_chitiet::where('mahosokt', $model->mahosokt)->get();
-        $m_hosokt = dshosothiduakhenthuong::where('mahosotdkt',  $model->mahosotdkt)->get();
-        foreach ($m_chitiet as $chitiet) {
-            $chitiet->madonvi_kt = $m_hosokt->first()->madonvi;
-        }
-        $m_khenthuong = dshosokhenthuong_khenthuong::where('mahosokt',  $model->mahosokt)->get();
-        foreach ($m_khenthuong as $chitiet) {
-            $chitiet->madonvi_kt = $m_hosokt->first()->madonvi;
-        }
-        $m_danhhieu = dmdanhhieuthidua::all();
-        $m_donvi = dsdonvi::all();
-        $m_diaban = dsdiaban::all();
-        //dd($model);
-        return view('NghiepVu.KhenThuongDotXuat.QuyetDinh.Xem')
-            ->with('model', $model)
-            ->with('m_chitiet', $m_chitiet)
-            ->with('m_danhhieu', $m_danhhieu)
-            ->with('m_donvi', $m_donvi)
-            ->with('m_diaban', $m_diaban)
-            ->with('model_canhan', $m_khenthuong->where('phanloai', 'CANHAN'))
-            ->with('model_tapthe', $m_khenthuong->where('phanloai', 'TAPTHE'))
-            ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
-            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
-            ->with('a_donvi', array_column(viewdiabandonvi::all()->toArray(), 'tendonvi', 'madonvi'))
-            ->with('a_danhhieu', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
-            ->with('inputs', $inputs)
-            ->with('pageTitle', 'Thông tin hồ sơ khen thưởng');
-    }
+    
 
     public function HoSo(Request $request)
     {
-
         $inputs = $request->all();
         $m_chitiet = dshosokhenthuong_chitiet::where('mahosokt', $inputs['mahosokt'])->where('mahosotdkt', $inputs['mahosotdkt'])->first();
         if ($inputs['khenthuong'] == 0) {
@@ -281,24 +254,61 @@ class qdhosokhenthuongdotxuatController extends Controller
 
     public function PheDuyet(Request $request)
     {
-        if (!chkPhanQuyen('qdhosokhenthuongdotxuat', 'hoanthanh')) {
-            return view('errors.noperm')->with('machucnang', 'qdhosokhenthuongdotxuat')->with('tenphanquyen', 'hoanthanh');
+        if (!chkPhanQuyen('qdhosokhenthuongchuyende', 'hoanthanh')) {
+            return view('errors.noperm')
+                ->with('machucnang', 'qdhosokhenthuongchuyende')
+                ->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
-        $model = dshosokhenthuong::where('mahosokt', $inputs['mahosokt'])->first();
-        $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
+        $thoigian = date('Y-m-d H:i:s');
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model->trangthai = 'DKT';
-        $model_chitiet = dshosokhenthuong_chitiet::where('mahosokt', $inputs['mahosokt'])->get();
-        $m_hosokt = dshosothiduakhenthuong::wherein('mahosotdkt', array_column($model_chitiet->toarray(), 'mahosotdkt'))->get();
-        foreach ($m_hosokt as $hoso) {
-            $hoso->trangthai = $model->trangthai;
-            //khen thương cấp nào thì lưu cấp đó để sau còn thống kê khen thưởng ở các cấp
-            setChuyenHoSo($donvi->capdo, $hoso, ['trangthai' => $model->trangthai]);
-            //setNhanHoSo();
-            $hoso->save();
-        }
+        //gán trạng thái hồ sơ để theo dõi
+        $model->trangthai_xd = $model->trangthai;
+        $model->trangthai_kt = $model->trangthai;
+        $model->thoigian_kt = $thoigian;
+
+        $model->donvikhenthuong = $inputs['donvikhenthuong'];
+        $model->capkhenthuong = $inputs['capkhenthuong'];
+        $model->soqd = $inputs['soqd'];
+        $model->ngayqd = $inputs['ngayqd'];
+        $model->chucvunguoikyqd = $inputs['chucvunguoikyqd'];
+        $model->hotennguoikyqd = $inputs['hotennguoikyqd'];
+        //dd($model);
         $model->save();
-        return redirect('/KhenThuongDotXuat/KhenThuong/ThongTin?madonvi=' . $model->madonvi);
+        trangthaihoso::create([
+            'mahoso' => $inputs['mahosotdkt'],
+            'phanloai' => 'dshosothiduakhenthuong',
+            'trangthai' => $model->trangthai,
+            'thoigian' => $thoigian,
+            'madonvi' => $inputs['madonvi'],
+            'thongtin' => 'Phê duyệt đề nghị khen thưởng.',
+        ]);
+        return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
+    }
+
+    public function HuyPheDuyet(Request $request)
+    {
+        if (!chkPhanQuyen('qdhosokhenthuongchuyende', 'hoanthanh')) {
+            return view('errors.noperm')
+                ->with('machucnang', 'qdhosokhenthuongchuyende')
+                ->with('tenphanquyen', 'hoanthanh');
+        }
+        $inputs = $request->all();
+        $thoigian = date('Y-m-d H:i:s');
+        $trangthai = 'CXKT';
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        setTrangThaiHoSo($inputs['madonvi'], $model, ['thoigian' => $thoigian, 'trangthai' => $trangthai]);
+        $model->trangthai = $trangthai; //gán trạng thái hồ sơ để theo dõi
+        $model->donvikhenthuong = null;
+        $model->capkhenthuong = null;
+        $model->soqd = null;
+        $model->ngayqd = null;
+        $model->chucvunguoikyqd = null;
+        $model->hotennguoikyqd = null;
+        //dd($model);
+        $model->save();
+        return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
     }
 
     public function LayDoiTuong(Request $request)
@@ -492,5 +502,131 @@ class qdhosokhenthuongdotxuatController extends Controller
         $model->thongtinquyetdinh = $inputs['thongtinquyetdinh'];
         $model->save();
         return redirect('/KhenThuongHoSoThiDua/ThongTin');
+    }
+
+    public function XemHoSo(Request $request)
+    {
+        $inputs = $request->all();
+        $model =  dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
+        $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
+        $a_phanloaidt = array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai');
+        $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
+
+        return view('NghiepVu.KhenThuongDoiNgoai.KhenThuong.Xem')
+            ->with('model', $model)
+            ->with('model_canhan', $model_canhan)
+            ->with('model_tapthe', $model_tapthe)
+            ->with('m_donvi', $m_donvi)
+            ->with('a_phanloaidt', $a_phanloaidt)
+            ->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
+            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+            ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'Thông tin hồ sơ khen thưởng');
+    }
+
+    public function InPhoi(Request $request)
+    {
+        $inputs = $request->all();
+        $inputs['url_hs'] = '/KhenThuongChuyenDe/HoSo/';
+        $inputs['url_xd'] = '/KhenThuongChuyenDe/XetDuyet/';
+        $inputs['url_qd'] = '/KhenThuongChuyenDe/KhenThuong/';
+        $model =  dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
+        $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
+        $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
+
+        return view('NghiepVu._DungChung.InPhoi')
+            ->with('model', $model)
+            ->with('model_canhan', $model_canhan)
+            ->with('model_tapthe', $model_tapthe)
+            ->with('m_donvi', $m_donvi)
+            ->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
+            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+            ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'In bằng khen');
+    }
+
+    public function InBangKhenCaNhan(Request $request)
+    {
+        $inputs = $request->all();
+
+        $model = dshosothiduakhenthuong_canhan::where('id', $inputs['id'])->get();
+        $m_hoso = dshosothiduakhenthuong::where('mahosotdkt', $model->first()->mahosotdkt)->first();
+        foreach ($model as $doituong) {
+            $doituong->noidungkhenthuong = catchuoi($doituong->noidungkhenthuong);
+        }
+        //dd($m_hoso);
+        return view('BaoCao.DonVi.InBangKhenCaNhan')
+            ->with('model', $model)
+            ->with('m_hoso', $m_hoso)
+            ->with('pageTitle', 'In bằng khen cá nhân');
+    }
+
+    public function InBangKhenTapThe(Request $request)
+    {
+        $inputs = $request->all();
+
+        $model = dshosothiduakhenthuong_tapthe::where('id', $inputs['id'])->get();
+        $m_hoso = dshosothiduakhenthuong::where('mahosotdkt', $model->first()->mahosotdkt)->first();
+        foreach ($model as $doituong) {
+            $doituong->noidungkhenthuong = catchuoi($doituong->noidungkhenthuong);
+        }
+        //dd($m_hoso);
+        return view('BaoCao.DonVi.InBangKhenTapThe')
+            ->with('model', $model)
+            ->with('m_hoso', $m_hoso)
+            ->with('pageTitle', 'In bằng khen tập thể');
+    }
+
+    public function InGiayKhenCaNhan(Request $request)
+    {
+        $inputs = $request->all();
+
+        $model = dshosothiduakhenthuong_canhan::where('id', $inputs['id'])->get();
+        $m_hoso = dshosothiduakhenthuong::where('mahosotdkt', $model->first()->mahosotdkt)->first();
+        foreach ($model as $doituong) {
+            $doituong->noidungkhenthuong = catchuoi($doituong->noidungkhenthuong);
+        }
+        //dd($m_hoso);
+        return view('BaoCao.DonVi.InGiayKhenCaNhan')
+            ->with('model', $model)
+            ->with('m_hoso', $m_hoso)
+            ->with('pageTitle', 'In bằng khen cá nhân');
+    }
+
+    public function InGiayKhenTapThe(Request $request)
+    {
+        $inputs = $request->all();
+
+        $model = dshosothiduakhenthuong_tapthe::where('id', $inputs['id'])->get();
+        $m_hoso = dshosothiduakhenthuong::where('mahosotdkt', $model->first()->mahosotdkt)->first();
+        foreach ($model as $doituong) {
+            $doituong->noidungkhenthuong = catchuoi($doituong->noidungkhenthuong);
+        }
+        //dd($m_hoso);
+        return view('BaoCao.DonVi.InGiayKhenTapThe')
+            ->with('model', $model)
+            ->with('m_hoso', $m_hoso)
+            ->with('pageTitle', 'In bằng khen tập thể');
+    }
+
+    public function NoiDungKhenThuong(Request $request)
+    {
+        $inputs = $request->all();
+        
+        if ($inputs['phanloai'] == 'CANHAN') {
+            $model = dshosothiduakhenthuong_canhan::where('id', $inputs['id'])->first();
+            $model->noidungkhenthuong = $inputs['noidungkhenthuong'];
+            $model->save();
+        } else {
+            $model = dshosothiduakhenthuong_tapthe::where('id', $inputs['id'])->first();
+            $model->noidungkhenthuong = $inputs['noidungkhenthuong'];
+            $model->save();
+        }
+        //dd($m_hoso);
+        return redirect(static::$url . 'InPhoi?mahosotdkt=' . $model->mahosotdkt);
     }
 }
