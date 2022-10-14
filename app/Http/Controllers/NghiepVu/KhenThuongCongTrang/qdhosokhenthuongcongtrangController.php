@@ -786,6 +786,7 @@ class qdhosokhenthuongcongtrangController extends Controller
         $thoigian = date('Y-m-d H:i:s');
         $trangthai = 'BTLXD';
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
+        $madonvi = $model->madonvi_kt;
         //setTrangThaiHoSo($inputs['madonvi'], $model, ['thoigian' => $thoigian, 'trangthai' => $trangthai, 'lydo' => $inputs['lydo']]);
         $model->trangthai = $trangthai; //gán trạng thái hồ sơ để theo dõi           
         //dd($model);
@@ -808,7 +809,7 @@ class qdhosokhenthuongcongtrangController extends Controller
             'madonvi' => $inputs['madonvi'],
             'thongtin' => 'Trả lại hồ sơ trình đề nghị khen thưởng.',
         ]);
-        return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
+        return redirect(static::$url . 'ThongTin?madonvi=' . $madonvi);
     }
 
     public function Them(Request $request)

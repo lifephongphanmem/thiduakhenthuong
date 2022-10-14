@@ -79,8 +79,7 @@ class dsnhomtaikhoanController extends Controller
             return view('errors.noperm')->with('machucnang', 'dsnhomtaikhoan');
         }
         $id = $request->all()['id'];
-        $model = dsnhomtaikhoan::findorFail($id);
-        dd($model);
+        $model = dsnhomtaikhoan::findorFail($id);        
         $model->delete();
         return redirect('/NhomChucNang/ThongTin');
     }

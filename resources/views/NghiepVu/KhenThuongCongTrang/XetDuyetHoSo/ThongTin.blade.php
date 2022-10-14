@@ -72,7 +72,7 @@
                         <thead>
                             <tr class="text-center">
                                 <th width="2%">STT</th>
-                                <th>Tên đơn vị</th>
+                                <th>Tên đơn vị trình</th>
                                 <th>Phân loại hồ sơ</th>
                                 <th>Nội dung hồ sơ</th>
                                 {{-- <th>Ngày tạo</th> --}}

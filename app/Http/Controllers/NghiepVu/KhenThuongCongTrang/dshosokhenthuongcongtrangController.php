@@ -398,7 +398,9 @@ class dshosokhenthuongcongtrangController extends Controller
         $model->trangthai = 'CD';
         $model->madonvi_nhan = $inputs['madonvi_nhan'];
         $model->thoigian = date('Y-m-d H:i:s');
-        setChuyenXetDuyet($model, ['madonvi' => $inputs['madonvi_nhan'], 'thoigian' => $model->thoigian, 'trangthai' => 'CD']);
+        $model->madonvi_xd = $model->madonvi_nhan;
+        $model->trangthai_xd = $model->trangthai;
+        $model->thoigian = $model->thoigian;
         //dd($model);
         $model->save();
 

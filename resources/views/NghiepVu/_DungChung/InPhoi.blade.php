@@ -28,7 +28,7 @@
     <div class="card card-custom" style="min-height: 600px">
         <div class="card-header">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Thông tin hồ sơ đề nghị khen thưởng theo công trạng và thành tích</h3>
+                <h3 class="card-label text-uppercase">Thông tin hồ sơ khen thưởng</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
@@ -92,8 +92,6 @@
                     {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows' => 2]) !!}
                 </div>
             </div>
-
-
 
             <div class="row">
                 <div class="col-md-12">

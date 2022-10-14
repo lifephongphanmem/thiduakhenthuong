@@ -78,8 +78,8 @@
                                 <th>Nội dung hồ sơ</th>
                                 <th width="8%">Tờ trình</th>
                                 <th width="8%">Trạng thái</th>
-                                <th width="20%">Đơn vị tiếp nhận</th>
-                                <th width="10%">Thao tác</th>
+                                <th>Đơn vị tiếp nhận</th>
+                                <th width="15%">Thao tác</th>
                             </tr>
                         </thead>
 
@@ -98,34 +98,34 @@
                                         onclick="setInDuLieu('{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}', '{{ $tt->trangthai }}')"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#indulieu-modal"
                                         data-toggle="modal">
-                                        <i class="icon-lg la flaticon2-print text-dark icon-2x"></i>
+                                        <i class="icon-lg la flaticon2-print text-dark"></i>
                                     </button>
 
                                     <button title="Tài liệu đính kèm" type="button"
                                         onclick="get_attack('{{ $tt->mahosotdkt }}', '{{ $inputs['url_hs'] . 'TaiLieuDinhKem' }}')"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
                                         data-toggle="modal">
-                                        <i class="icon-lg la la-file-download text-dark icon-2x"></i>
+                                        <i class="icon-lg la la-file-download text-dark"></i>
                                     </button>
 
                                     @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']) && chkPhanQuyen('dshosokhenthuongchuyende', 'thaydoi'))
                                         <a title="Thông tin hồ sơ"
                                             href="{{ url($inputs['url_hs'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
                                             class="btn btn-sm btn-clean btn-icon">
-                                            <i class="icon-lg la flaticon-edit-1 text-success icon-2x"></i>
+                                            <i class="icon-lg la flaticon-edit-1 text-success"></i>
                                         </a>
 
                                         <button title="Trình hồ sơ đăng ký" type="button"
-                                            onclick="confirmChuyen('{{ $tt->mahosotdkt }}','{{$inputs['url_hs'].'ChuyenHoSo'}}')"
-                                            class="btn btn-sm btn-clean btn-icon" data-target="#chuyen-modal-confirm"
-                                            data-toggle="modal">
-                                            <i class="icon-lg la fa-share text-primary icon-2x"></i></button>
+                                            onclick="confirmChuyen('{{ $tt->mahosotdkt }}','{{ $inputs['url_hs'] . 'ChuyenHoSo' }}', '{{$tt->phanloai}}')"
+                                            class="btn btn-sm btn-clean btn-icon">
+                                            <i class="icon-lg la fa-share text-primary"></i>
+                                        </button>
 
                                         <button type="button"
-                                            onclick="confirmDelete('{{ $tt->id }}','{{$inputs['url_hs'].'Xoa'}}')"
+                                            onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url_hs'] . 'Xoa' }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
                                             data-toggle="modal">
-                                            <i class="icon-lg la fa-trash text-danger icon-2x"></i></button>                                   
+                                            <i class="icon-lg la fa-trash text-danger"></i></button>
                                     @endif
 
                                     @if ($tt->trangthai == 'BTL')
@@ -133,7 +133,7 @@
                                             onclick="viewLyDo('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}', '{{$inputs['url_hs'].'LayLyDo'}}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#tralai-modal"
                                             data-toggle="modal">
-                                            <i class="icon-lg la fa-archive text-info icon-2x"></i></button>
+                                            <i class="icon-lg la fa-archive text-info"></i></button>
                                     @endif
                                 </td>
                             </tr>
@@ -144,7 +144,7 @@
         </div>
     </div>
     <!--end::Card-->
-    <!--Modal Nhận hồ sơ-->
+    <!--Modal Tạo hồ sơ-->
     {!! Form::open(['url' =>$inputs['url_hs']. 'Them', 'id' => 'frm_hoso']) !!}
     <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
     <div id="taohoso-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
