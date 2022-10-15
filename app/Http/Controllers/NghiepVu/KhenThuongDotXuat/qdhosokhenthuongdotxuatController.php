@@ -12,13 +12,9 @@ use App\Model\DanhMuc\dmdanhhieuthidua_tieuchuan;
 use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
 use App\Model\DanhMuc\dmnhomphanloai_chitiet;
-use App\Model\DanhMuc\dscumkhoi;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\HeThong\trangthaihoso;
-use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi;
-use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_khenthuong;
-use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_tieuchuan;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosokhenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosokhenthuong_chitiet;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosokhenthuong_khenthuong;
@@ -67,7 +63,6 @@ class qdhosokhenthuongdotxuatController extends Controller
 
         $model = dshosothiduakhenthuong::where('madonvi_kt', $inputs['madonvi'])
             ->wherein('trangthai', ['CXKT', 'DXKT', 'DKT']);
-
 
         if ($inputs['maloaihinhkt'] != 'ALL')
             $model = $model->where('maloaihinhkt', $inputs['maloaihinhkt']);
@@ -393,7 +388,6 @@ class qdhosokhenthuongdotxuatController extends Controller
         }
         die(json_encode($result));
     }
-
 
     public function QuyetDinh(Request $request)
     {

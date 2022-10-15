@@ -643,65 +643,7 @@ class qdhosokhenthuongcongtrangController extends Controller
 
         $result['status'] = 'success';
         return response()->json($result);
-    }
-
-    public function InBangKhen(Request $request)
-    {
-        $inputs = $request->all();
-        $m_hoso = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        $m_hoso->diadanh = dsdonvi::where('madonvi', $m_hoso->madonvi)->first()->diadanh ?? '';
-        if ($inputs['phanloai'] == 'CANHAN') {
-            if ($inputs['tendoituong'] == 'ALL') {
-                $model = dshosothiduakhenthuong_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
-            } else {
-                $model = dshosothiduakhenthuong_canhan::where('id', $inputs['tendoituong'])->get();
-            }
-        } else {
-            if ($inputs['tendoituong'] == 'ALL') {
-                $model = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
-            } else {
-                $model = dshosothiduakhenthuong_tapthe::where('id', $inputs['tendoituong'])->get();
-            }
-        }
-        foreach ($model as $doituong) {
-            $doituong->noidungkhenthuong = catchuoi($doituong->noidungkhenthuong);
-        }
-        //dd($m_hoso);
-        return view('BaoCao.DonVi.InBangKhen')
-            ->with('model', $model)
-            ->with('m_hoso', $m_hoso)
-            ->with('pageTitle', 'In bằng khen');
-    }
-
-    public function InGiayKhen(Request $request)
-    {
-        $inputs = $request->all();
-        $m_hoso = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        $m_hoso->diadanh = dsdonvi::where('madonvi', $m_hoso->madonvi)->first()->diadanh ?? '';
-        if ($inputs['phanloai'] == 'CANHAN') {
-            if ($inputs['tendoituong'] == 'ALL') {
-                $model = dshosothiduakhenthuong_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
-            } else {
-                $model = dshosothiduakhenthuong_canhan::where('id', $inputs['tendoituong'])->get();
-            }
-        } else {
-            if ($inputs['tendoituong'] == 'ALL') {
-                $model = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
-            } else {
-                $model = dshosothiduakhenthuong_tapthe::where('id', $inputs['tendoituong'])->get();
-            }
-        }
-
-        //$a_danhhieutd = array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd');
-        foreach ($model as $doituong) {
-            $doituong->noidungkhenthuong = catchuoi($doituong->noidungkhenthuong);
-        }
-        //dd($m_hoso);
-        return view('BaoCao.DonVi.InGiayKhen')
-            ->with('model', $model)
-            ->with('m_hoso', $m_hoso)
-            ->with('pageTitle', 'In giấy khen');
-    }
+    }   
 
     public function PheDuyet(Request $request)
     {

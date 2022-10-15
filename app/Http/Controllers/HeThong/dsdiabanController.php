@@ -29,8 +29,8 @@ class dsdiabanController extends Controller
         }
 
         $inputs = $request->all();
-        $model = getDiaBan(session('admin')->capdo);
-       
+        $model = getDiaBan(session('admin')->capdo);//1649996519
+        //dd($model->where('madiabanQL', '1649996519')->toarray());
         $m_donvi = dsdonvi::all();
         foreach ($model as $chitiet) {
             $chitiet->sodonvi = $m_donvi->where('madiaban', $chitiet->madiaban)->count();
@@ -63,7 +63,7 @@ class dsdiabanController extends Controller
             $model->capdo = $inputs['capdo'];
             $model->madonviQL = $inputs['madonviQL'];
             $model->madonviKT = $inputs['madonviKT'];
-            $model->madiabanQL = $inputs['madiabanQL'];
+            $model->madiabanQL = $inputs['madiabanQL'] ?? null;
             $model->save();
         }
         return redirect('/DiaBan/ThongTin');

@@ -52,7 +52,7 @@ class xdhosokhenthuongdotxuatController extends Controller
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         //$capdo = $donvi->capdo ?? '';
         $inputs['maloaihinhkt'] = session('chucnang')['xdhosokhenthuongdotxuat']['maloaihinhkt'] ?? 'ALL';
-        $model = dshosothiduakhenthuong::where('madonvi_xd', $inputs['madonvi']);        
+        $model = dshosothiduakhenthuong::where('madonvi_xd', $inputs['madonvi']);
 
         if ($inputs['maloaihinhkt'] != 'ALL')
             $model = $model->where('maloaihinhkt', $inputs['maloaihinhkt']);
