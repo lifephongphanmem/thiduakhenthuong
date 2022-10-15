@@ -249,9 +249,9 @@ class qdhosokhenthuongdotxuatController extends Controller
 
     public function PheDuyet(Request $request)
     {
-        if (!chkPhanQuyen('qdhosokhenthuongchuyende', 'hoanthanh')) {
+        if (!chkPhanQuyen('qdhosokhenthuongdotxuat', 'hoanthanh')) {
             return view('errors.noperm')
-                ->with('machucnang', 'qdhosokhenthuongchuyende')
+                ->with('machucnang', 'qdhosokhenthuongdotxuat')
                 ->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
@@ -284,9 +284,9 @@ class qdhosokhenthuongdotxuatController extends Controller
 
     public function HuyPheDuyet(Request $request)
     {
-        if (!chkPhanQuyen('qdhosokhenthuongchuyende', 'hoanthanh')) {
+        if (!chkPhanQuyen('qdhosokhenthuongdotxuat', 'hoanthanh')) {
             return view('errors.noperm')
-                ->with('machucnang', 'qdhosokhenthuongchuyende')
+                ->with('machucnang', 'qdhosokhenthuongdotxuat')
                 ->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
@@ -304,6 +304,44 @@ class qdhosokhenthuongdotxuatController extends Controller
         //dd($model);
         $model->save();
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
+    }
+
+    public function TraLai(Request $request)
+    {
+        if (!chkPhanQuyen('qdhosokhenthuongdotxuat', 'hoanthanh')) {
+            return view('errors.noperm')
+                ->with('machucnang', 'qdhosokhenthuongdotxuat')
+                ->with('tenphanquyen', 'hoanthanh');
+        }
+        $inputs = $request->all();
+        //dd($inputs);
+        $thoigian = date('Y-m-d H:i:s');
+        $trangthai = 'BTLXD';
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
+        $madonvi = $model->madonvi_kt;
+        //setTrangThaiHoSo($inputs['madonvi'], $model, ['thoigian' => $thoigian, 'trangthai' => $trangthai, 'lydo' => $inputs['lydo']]);
+        $model->trangthai = $trangthai; //gán trạng thái hồ sơ để theo dõi           
+        //dd($model);
+        $model->trangthai_xd = $model->trangthai;
+        $model->thoigian_xd = $thoigian;
+        $model->lydo_xd = $inputs['lydo'];
+
+        $model->madonvi_nhan_xd = null;
+
+        $model->madonvi_kt = null;
+        $model->trangthai_kt = null;
+        $model->thoigian_kt = null;
+
+        $model->save();
+        trangthaihoso::create([
+            'mahoso' => $inputs['mahoso'],
+            'phanloai' => 'dshosothiduakhenthuong',
+            'trangthai' => $model->trangthai,
+            'thoigian' => $thoigian,
+            'madonvi' => $inputs['madonvi'],
+            'thongtin' => 'Trả lại hồ sơ trình đề nghị khen thưởng.',
+        ]);
+        return redirect(static::$url . 'ThongTin?madonvi=' . $madonvi);
     }
 
     public function LayDoiTuong(Request $request)

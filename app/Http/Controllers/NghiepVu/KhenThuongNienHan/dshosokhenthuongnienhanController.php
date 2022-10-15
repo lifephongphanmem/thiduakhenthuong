@@ -56,8 +56,9 @@ class dshosokhenthuongnienhanController extends Controller
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         $inputs['maloaihinhkt'] = session('chucnang')['dshosokhenthuongnienhan']['maloaihinhkt'] ?? 'ALL';
-        $model = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi'])
-            ->where('maloaihinhkt', $inputs['maloaihinhkt']);
+        $model = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi']);
+        if ($inputs['maloaihinhkt'] != 'ALL')
+            $model = $model->where('maloaihinhkt', $inputs['maloaihinhkt']);
         $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
         if ($inputs['phanloai'] != 'ALL')
             $model = $model->where('phanloai', $inputs['phanloai']);
@@ -78,7 +79,7 @@ class dshosokhenthuongnienhanController extends Controller
             ->with('a_capdo', getPhamViApDung())
             ->with('m_donvi', $m_donvi)
             ->with('a_diaban', $a_diaban)
-            ->with('a_donviql', getDonViQuanLyDiaBan($donvi))
+            ->with('a_donviql', getDonViXetDuyetDiaBan($donvi))
             ->with('a_donvinganh', getDonViQuanLyNganh($donvi))
             ->with('a_phanloaihs', getPhanLoaiHoSo())
             ->with('a_loaihinhkt', array_column($m_loaihinh->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
@@ -394,12 +395,12 @@ class dshosokhenthuongnienhanController extends Controller
         }
         $inputs = $request->all();
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
-        $m_donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi_nhan'])->first();
-
         $model->trangthai = 'CD';
         $model->madonvi_nhan = $inputs['madonvi_nhan'];
         $model->thoigian = date('Y-m-d H:i:s');
-        setChuyenHoSo($m_donvi->capdo, $model, ['madonvi' => $inputs['madonvi_nhan'], 'thoigian' => $model->thoigian, 'trangthai' => 'CD']);
+        $model->madonvi_xd = $model->madonvi_nhan;
+        $model->trangthai_xd = $model->trangthai;
+        $model->thoigian = $model->thoigian;
         //dd($model);
         $model->save();
 
@@ -411,7 +412,6 @@ class dshosokhenthuongnienhanController extends Controller
         $trangthai->mahoso = $model->mahosotdkt;
         $trangthai->thoigian = $model->thoigian;
         $trangthai->save();
-
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }
 
