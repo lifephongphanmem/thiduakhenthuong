@@ -314,53 +314,7 @@ class khenthuonghosothiduaController extends Controller
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Kết quả phong trào thi đua');
     }
-
-    //bỏ
-    public function HoSo(Request $request)
-    {
-        if (!chkPhanQuyen('qdhosothidua', 'thaydoi')) {
-            return view('errors.noperm')->with('machucnang', 'qdhosothidua')->with('tenphanquyen', 'thaydoi');
-        }
-        $inputs = $request->all();
-        $m_chitiet = dshosothiduakhenthuong_chitiet::where('mahosotdkt', $inputs['mahosotdkt'])->where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        if ($inputs['khenthuong'] == 0) {
-            dshosothiduakhenthuong_khenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->where('mahosotdkt', $inputs['mahosotdkt'])->delete();
-        }
-        if ($inputs['khenthuong'] == 1 && $m_chitiet->ketqua == 0) {
-            $m_hosotdkt = dshosothiduakhenthuong_khenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->get();
-            $a_khenthuong = [];
-            foreach ($m_hosotdkt as $khenthuong) {
-                $a_khenthuong[] = [
-                    'mahosotdkt' => $inputs['mahosotdkt'],
-                    'mahosotdkt' => $inputs['mahosotdkt'],
-                    'madanhhieutd' => $khenthuong->madanhhieutd,
-                    'noidungkhenthuong' => '',
-                    'phanloai' => $khenthuong->phanloai,
-                    //Thông tin cá nhân 
-                    'madoituong' => $khenthuong->madoituong,
-                    'maccvc' => $khenthuong->maccvc,
-                    'tendoituong' => $khenthuong->tendoituong,
-                    'ngaysinh' => $khenthuong->ngaysinh,
-                    'gioitinh' => $khenthuong->gioitinh,
-                    'chucvu' => $khenthuong->chucvu,
-                    'lanhdao' => $khenthuong->lanhdao,
-                    //Thông tin tập thể
-                    'matapthe' => $khenthuong->matapthe,
-                    'tentapthe' => $khenthuong->tentapthe,
-                    //Kết quả đánh giá
-                    'ketqua' => '1',
-                    'mahinhthuckt' => $khenthuong->mahinhthuckt,
-                ];
-            }
-            //dd($a_khenthuong);
-            dshosothiduakhenthuong_khenthuong::insert($a_khenthuong);
-        }
-        $m_chitiet->ketqua = $inputs['khenthuong'];
-        $m_chitiet->save();
-        //dd($inputs);
-        return redirect('KhenThuongHoSoThiDua/DanhSach?mahosotdkt=' . $inputs['mahosotdkt']);
-    }
-
+    
     public function KetQua(Request $request)
     {
         if (!chkPhanQuyen('qdhosothidua', 'thaydoi')) {

@@ -107,40 +107,20 @@
                                     <a title="Xem chi tiết"
                                         href="{{ url('/PhongTraoThiDua/Xem?maphongtraotd=' . $tt->maphongtraotd) }}"
                                         class="btn btn-sm btn-clean btn-icon" target="_blank">
-                                        <i class="icon-lg la fa-eye text-dark icon-2x"></i>
+                                        <i class="icon-lg la fa-eye text-dark"></i>
                                     </a>
-                                    @if ($tt->nhanhoso == 'DANGNHAN')
-                                        @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']))
-                                            <a title="Danh sách chi tiết"
-                                                href="{{ url('/XetDuyetHoSoThiDua/DanhSach?maphongtraotd=' . $tt->maphongtraotd . '&madonvi=' . $inputs['madonvi'] . '&trangthai=true') }}"
-                                                class="btn btn-icon btn-clean btn-lg mb-1 position-relative">
-                                                <span class="svg-icon svg-icon-xl">
-                                                    <i class="icon-lg la flaticon-list text-success icon-2x"></i>
-                                                </span>
-                                                <span
-                                                    class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->sohoso }}</span>
-                                            </a>
-                                        @else
-                                            <a title="Danh sách chi tiết"
-                                                href="{{ url('/XetDuyetHoSoThiDua/DanhSach?maphongtraotd=' . $tt->maphongtraotd . '&madonvi=' . $inputs['madonvi'] . '&trangthai=false') }}"
-                                                class="btn btn-icon btn-clean btn-lg mb-1 position-relative">
-                                                <span class="svg-icon svg-icon-xl">
-                                                    <i class="icon-lg la flaticon-list text-dark icon-2x"></i>
-                                                </span>
-                                                <span
-                                                    class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->sohoso }}</span>
-                                            </a>
-                                        @endif
-                                    @else
-                                        <a title="Danh sách chi tiết"
-                                            href="{{ url('/XetDuyetHoSoThiDua/DanhSach?maphongtraotd=' . $tt->maphongtraotd . '&madonvi=' . $inputs['madonvi'] . '&trangthai=false') }}"
-                                            class="btn btn-icon btn-clean btn-lg mb-1 position-relative">
-                                            <span class="svg-icon svg-icon-xl">
-                                                <i class="icon-lg la flaticon-list text-dark icon-2x"></i>
-                                            </span>
-                                            <span
-                                                class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->sohoso }}</span>
-                                        </a>
+
+                                    <a title="Danh sách chi tiết"
+                                        href="{{ url('/XetDuyetHoSoThiDua/DanhSach?maphongtraotd=' . $tt->maphongtraotd . '&madonvi=' . $inputs['madonvi'] . '&trangthai=false') }}"
+                                        class="btn btn-icon btn-clean btn-lg mb-1 position-relative">
+                                        <span class="svg-icon svg-icon-xl">
+                                            <i class="icon-lg la flaticon-folder-1 text-dark"></i>
+                                        </span>
+                                        <span
+                                            class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->sohoso }}</span>
+                                    </a>
+                                    @if ($tt->nhanhoso == 'KETTHUC')
+
                                     @endif
                                 </td>
                             </tr>

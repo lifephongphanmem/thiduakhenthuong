@@ -161,7 +161,7 @@ class dsphongtraothiduaController extends Controller
         }
         $inputs = $request->all();
         $model = dsphongtraothidua::findorfail($inputs['iddelete']);
-        dsphongtraothidua_tieuchuan::where('maphongtraotd',$model->maphongtraotd)->delete();
+        dsphongtraothidua_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->delete();
         $model->delete();
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }
@@ -279,10 +279,10 @@ class dsphongtraothiduaController extends Controller
             $model->tentieuchuandhtd = $inputs['tentieuchuandhtd'];
             $model->phanloaidoituong = $inputs['phanloaidoituong'];
             $model->matieuchuandhtd = getdate()[0];
-            $model->batbuoc =$inputs['batbuoc'];
+            $model->batbuoc = $inputs['batbuoc'];
             $model->save();
         } else {
-            $model->batbuoc =$inputs['batbuoc'];
+            $model->batbuoc = $inputs['batbuoc'];
             $model->tentieuchuandhtd = $inputs['tentieuchuandhtd'];
             $model->phanloaidoituong = $inputs['phanloaidoituong'];
             $model->save();
@@ -384,5 +384,35 @@ class dsphongtraothiduaController extends Controller
         $result['status'] = 'success';
 
         die(json_encode($result));
+    }
+
+    public function KetThuc(Request $request)
+    {
+        if (!chkPhanQuyen('dsphongtraothidua', 'thaydoi')) {
+            return view('errors.noperm')->with('machucnang', 'qdhosothidua')->with('tenphanquyen', 'thaydoi');
+        }
+        $inputs = $request->all();
+        //dd($inputs);
+        $model = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
+        $model->trangthai = 'CXKT';
+        $model->thoigian = date('Y-m-d H:i:s');
+        $model->save();
+
+        return redirect('/PhongTraoThiDua/ThongTin?madonvi=' . $model->madonvi);
+    }
+
+    public function HuyKetThuc(Request $request)
+    {
+        if (!chkPhanQuyen('dsphongtraothidua', 'thaydoi')) {
+            return view('errors.noperm')->with('machucnang', 'qdhosothidua')->with('tenphanquyen', 'thaydoi');
+        }
+        $inputs = $request->all();
+        //dd($inputs);
+        $model = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
+        $model->trangthai = 'CC';
+        $model->thoigian = date('Y-m-d H:i:s');
+        $model->save();
+
+        return redirect('/PhongTraoThiDua/ThongTin?madonvi=' . $model->madonvi);
     }
 }

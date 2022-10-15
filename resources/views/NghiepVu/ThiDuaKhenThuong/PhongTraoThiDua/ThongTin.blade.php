@@ -35,7 +35,7 @@
                     '&nam=' + $('#nam').val() + '&phanloai=' + $('#phanloai').val() + '&phamviapdung=' + $(
                         '#phamviapdung').val();
             });
-           
+
         });
     </script>
 @stop
@@ -72,7 +72,7 @@
                             </optgroup>
                         @endforeach
                     </select>
-                </div>               
+                </div>
             </div>
 
             <div class="form-group row">
@@ -109,40 +109,57 @@
                                 <th width="15%">Phạm vi phát động</th>
                                 <th width="15%">Hình thức tổ chức</th>
                                 <th>Trạng thái</th>
-                                <th width="10%">Thao tác</th>
+                                <th width="15%">Thao tác</th>
                             </tr>
                         </thead>
                         @foreach ($model as $key => $tt)
                             <tr>
                                 <td style="text-align: center">{{ $key + 1 }}</td>
                                 <td class="active">{{ $tt->noidung }}</td>
-                                <td>{{$a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
+                                <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
                                 <td class="text-center">{{ getDayVn($tt->ngayqd) }}</td>
-                                <td>{{$a_phamvi[$tt->phamviapdung] ?? ''}}</td>
-                                <td>{{$a_phanloai[$tt->phanloai] ?? ''}}</td>
+                                <td>{{ $a_phamvi[$tt->phamviapdung] ?? '' }}</td>
+                                <td>{{ $a_phanloai[$tt->phanloai] ?? '' }}</td>
                                 @include('includes.td.td_trangthai_phongtrao')
                                 <td class=" text-center">
-                                    <a title="Xem chi tiết" href="{{ url('/PhongTraoThiDua/Xem?maphongtraotd=' . $tt->maphongtraotd) }}"
+                                    <a title="Xem chi tiết"
+                                        href="{{ url('/PhongTraoThiDua/Xem?maphongtraotd=' . $tt->maphongtraotd) }}"
                                         class="btn btn-sm btn-clean btn-icon" target="_blank">
-                                        <i class="icon-lg la fa-eye text-dark icon-2x"></i>
+                                        <i class="icon-lg la fa-eye text-dark"></i>
                                     </a>
                                     <button title="Tài liệu đính kèm" type="button"
                                         onclick="get_attack('{{ $tt->maphongtraotd }}', '/PhongTraoThiDua/TaiLieuDinhKem')"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
                                         data-toggle="modal">
-                                        <i class="icon-lg la la-file-download text-dark icon-2x"></i></button>
-                                    @if (chkPhanQuyen('dsphongtraothidua', 'thaydoi'))                                        
+                                        <i class="icon-lg la la-file-download text-dark"></i></button>
+                                    @if (chkPhanQuyen('dsphongtraothidua', 'thaydoi'))
                                         @if ($tt->trangthai == 'CC')
                                             <a title="Chỉnh sửa"
                                                 href="{{ url('/PhongTraoThiDua/Sua?maphongtraotd=' . $tt->maphongtraotd) }}"
                                                 class="btn btn-sm btn-clean btn-icon"><i
-                                                    class="icon-lg la fa-edit text-success icon-2x"></i>
-                                                </a>
-                                                    
-                                            <button title="Xóa hồ sơ" type="button" onclick="confirmDelete('{{ $tt->id }}','/PhongTraoThiDua/Xoa')"
-                                                class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal"
+                                                    class="icon-lg la fa-edit text-success"></i>
+                                            </a>
+
+                                            <button title="Kết thúc phong trào" type="button"
+                                                onclick="setKetQua('{{ $tt->maphongtraotd }}')"
+                                                class="btn btn-sm btn-clean btn-icon" data-target="#modal-KetThuc"
                                                 data-toggle="modal">
-                                                <i class="icon-lg la fa-trash-alt text-danger icon-2x"></i></button>
+                                                <i class="icon-lg la flaticon-calendar-3 text-warning"></i>
+                                            </button>
+
+                                            <button title="Xóa hồ sơ" type="button"
+                                                onclick="confirmDelete('{{ $tt->id }}','/PhongTraoThiDua/Xoa')"
+                                                class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
+                                                data-toggle="modal">
+                                                <i class="icon-lg la fa-trash-alt text-danger"></i>
+                                            </button>
+                                        @else
+                                        <button title="Hủy kết thúc phong trào" type="button"
+                                                onclick="setHuyKetThuc('{{ $tt->maphongtraotd }}')"
+                                                class="btn btn-sm btn-clean btn-icon" data-target="#modal-HuyKetThuc"
+                                                data-toggle="modal">
+                                                <i class="icon-lg la flaticon-calendar-3 text-danger"></i>
+                                            </button>
                                         @endif
                                     @endif
                                 </td>
@@ -154,6 +171,92 @@
         </div>
     </div>
     <!--end::Card-->
+
+    <!--Modal kết thúc nhận hồ sơ để khen thưởng-->
+    <div class="modal fade" id="modal-KetThuc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {!! Form::open([
+                    'url' => '/PhongTraoThiDua/KetThuc',
+                    'method' => 'post',
+                    'files' => true,
+                    'id' => 'frm_KetThuc',
+                    'class' => 'form-horizontal',
+                    'enctype' => 'multipart/form-data',
+                ]) !!}
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Đồng ý kết thúc phong trào và xét khen thưởng?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                </div>
+                <input type="hidden" name="maphongtraotd" id="maphongtraotd">
+                <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            Bạn đồng ý kết thúc phong trào thi đua để chuyển sang quá trình xét duyệt khen thưởng.
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Đồng ý</button>
+                </div>
+                {!! Form::close() !!}
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <script>
+        function setKetQua(maphongtraotd) {
+            $('#frm_KetThuc').find("[name='maphongtraotd']").val(maphongtraotd);
+        }
+    </script>
+
+    <!--Modal Hủy kết thúc để tiếp tục nhận hồ sơ để khen thưởng-->
+    <div class="modal fade" id="modal-HuyKetThuc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {!! Form::open([
+                    'url' => '/PhongTraoThiDua/HuyKetThuc',
+                    'method' => 'post',
+                    'files' => true,
+                    'id' => 'frm_HuyKetThuc',
+                    'class' => 'form-horizontal',
+                    'enctype' => 'multipart/form-data',
+                ]) !!}
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Đồng ý hủy kết thúc phong trào để tiếp tục nhận hồ sơ khen thưởng?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                </div>
+                <input type="hidden" name="maphongtraotd" id="maphongtraotd">
+                <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            Bạn đồng ý hủy kết thúc phong trào để tiếp tục nhận hồ sơ đề nghị khen thưởng.
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Đồng ý</button>
+                </div>
+                {!! Form::close() !!}
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <script>
+        function setHuyKetThuc(maphongtraotd) {
+            $('#frm_HuyKetThuc').find("[name='maphongtraotd']").val(maphongtraotd);
+        }
+    </script>
     @include('includes.modal.modal-delete')
     @include('includes.modal.modal_attackfile')
 @stop

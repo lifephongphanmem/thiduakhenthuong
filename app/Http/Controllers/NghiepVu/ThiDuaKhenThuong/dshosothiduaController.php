@@ -121,7 +121,7 @@ class dshosothiduaController extends Controller
             ->with('model', $model->sortby('tungay'))
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
-            ->with('a_donviql', getDonViQuanLyDiaBan($donvi))
+            ->with('a_donviql', getDonViXetDuyetDiaBan($donvi))
             ->with('a_phamvi', getPhamViPhongTrao())
             ->with('a_phanloai', getPhanLoaiPhongTraoThiDua(true))
             ->with('a_trangthaihoso', getTrangThaiTDKT())
