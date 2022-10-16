@@ -66,6 +66,7 @@
                     <th>Phân loại tập thể</th>
                     <th>Hình thức khen thưởng</th>
                     <th>Danh hiệu thi đua</th>
+                    <th>Kết quả<br>khen thưởng</th>
                 </tr>
             </thead>
             <?php $i = 1; ?>
@@ -76,6 +77,7 @@
                     <td>{{ $a_phanloaidt[$tt->maphanloaitapthe] ?? '' }}</td>
                     <td>{{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
                     <td>{{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td>
+                    <td class="text-center">{{ $tt->ketqua == '1' ? 'Có' : 'Không' }}</td>
                 </tr>
             @endforeach
         </table>
@@ -93,6 +95,7 @@
                     <th>Thông tin công tác</th>
                     <th>Hình thức khen thưởng</th>
                     <th>Danh hiệu thi đua</th>
+                    <th>Kết quả<br>khen thưởng</th>
                 </tr>
             </thead>
             <?php $i = 1; ?>
@@ -104,6 +107,7 @@
                     <td>{{ $tt->chucvu . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}</td>
                     <td>{{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
                     <td>{{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td>
+                    <td class="text-center">{{ $tt->ketqua == '1' ? 'Có' : 'Không' }}</td>
                 </tr>
             @endforeach
         </table>

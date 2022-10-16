@@ -24,8 +24,8 @@
                 <div id="div_inHoSo">
                     <div class="row">
                         <div class="col-lg-12">
-                            <a onclick="setInHS($(this), '/HoSoThiDua/')" class="btn btn-sm btn-clean text-dark font-weight-bold"
-                                target="_blank">
+                            <a onclick="setInHS($(this), '/HoSoThiDua/')"
+                                class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
                                 <i class="la flaticon2-print"></i>Thông tin hồ sơ tham gia thi đua
                             </a>
                         </div>
@@ -35,24 +35,23 @@
                 <div id="div_inHoSoDN">
                     <div class="row">
                         <div class="col-lg-12">
-                            <a onclick="setInKT($(this), '/XetDuyetHoSoThiDua/')" class="btn btn-sm btn-clean text-dark font-weight-bold"
-                                target="_blank">
+                            <a onclick="setInKT($(this), '/XetDuyetHoSoThiDua/')"
+                                class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
                                 <i class="la flaticon2-print"></i>Thông tin hồ sơ đề nghị khen thưởng
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <a onclick="setInKT($(this), '/KhenThuongHoSoThiDua/')"
+                                class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
+                                <i class="la flaticon2-print"></i>Thông tin hồ sơ quyết định khen thưởng
                             </a>
                         </div>
                     </div>
                 </div>
 
                 <div id="div_inDuLieu">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <a onclick="setInKT($(this), '/KhenThuongHoSoThiDua/')" class="btn btn-sm btn-clean text-dark font-weight-bold"
-                                target="_blank">
-                                <i class="la flaticon2-print"></i>Thông tin hồ sơ quyết định khen thưởng
-                            </a>
-                        </div>
-                    </div>
-
                     <div class="row">
                         <div class="col-lg-12">
                             <a id="btnInQD" onclick="setInQD($(this), '')"
@@ -62,45 +61,17 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <button type="button" onclick="setInPhoi('/KhenThuongHoSoThiDua/InBangKhen', 'TAPTHE')"
-                                class="btn btn-sm btn-clean text-dark font-weight-bold" data-target="#modal-InPhoi"
-                                data-toggle="modal">
-                                <i class="la flaticon2-print"></i>In phôi bằng khen(Tập thể)
-                            </button>
+                    <div id="div_inPhoi">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <a onclick="setInDL($(this), '{{ $inputs['url_qd'] . 'InPhoi' }}')"
+                                    class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
+                                    <i class="la flaticon2-print"></i>In phôi bằng khen, giấy khen
+                                </a>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <button type="button" onclick="setInPhoi('/KhenThuongHoSoThiDua/InBangKhen', 'CANHAN')"
-                                class="btn btn-sm btn-clean text-dark font-weight-bold" data-target="#modal-InPhoi"
-                                data-toggle="modal">
-                                <i class="la flaticon2-print"></i>In phôi bằng khen(Cá nhân)
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <button type="button" onclick="setInPhoi('/KhenThuongHoSoThiDua/InGiayKhen', 'TAPTHE')"
-                                class="btn btn-sm btn-clean text-dark font-weight-bold" data-target="#modal-InPhoi"
-                                data-toggle="modal">
-                                <i class="la flaticon2-print"></i>In phôi giấy khen(Tập thể)
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <button type="button" onclick="setInPhoi('/KhenThuongHoSoThiDua/InGiayKhen', 'CANHAN')"
-                                class="btn btn-sm btn-clean text-dark font-weight-bold" data-target="#modal-InPhoi"
-                                data-toggle="modal">
-                                <i class="la flaticon2-print"></i>In phôi giấy khen(Cá nhân)
-                            </button>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -141,7 +112,7 @@
 {!! Form::close() !!}
 
 <script>
-    function setInDuLieu(mahosothamgiapt, mahosotdkt, maphongtraotd, trangthai) {
+    function setInDuLieu(mahosothamgiapt, mahosotdkt, maphongtraotd, trangthai, inphoi = false) {
         $('#div_inDuLieu').hide();
         $('#div_inHoSo').hide();
         $('#div_inHoSoDN').hide();
@@ -152,12 +123,15 @@
             $('#div_inHoSo').show();
         if (mahosotdkt != '-1')
             $('#div_inHoSoDN').show();
-        if (trangthai == 'DKT')
+        if (trangthai == 'DKT') {
             $('#div_inDuLieu').show();
+            if (inphoi)
+                $('#div_inPhoi').show();
+        }
     }
 
     function setInQD(e, url) {
-        e.prop('href', '/KhenThuongHoSoThiDua/XemQuyetDinh?mahosokt=' + $('#frm_InDuLieu').find("[name='mahosokt']")
+        e.prop('href', '/KhenThuongHoSoThiDua/XemQuyetDinh?mahosotdkt=' + $('#frm_InDuLieu').find("[name='mahosotdkt']")
             .val());
     }
 
@@ -173,26 +147,30 @@
         e.prop('href', url + 'Xem?maphongtraotd=' + $('#frm_InDuLieu').find("[name='maphongtraotd']").val());
     }
 
-    function setInPhoi(url, phanloai) {
-        $('#frm_InPhoi').attr('action', url);
-        $('#frm_InPhoi').find("[name='mahosokt']").val($('#frm_InDuLieu').find("[name='mahosokt']").val());
-        $('#frm_InPhoi').find("[name='phanloai']").val(phanloai);
-        var formData = new FormData($('#frm_InPhoi')[0]);
-
-        $.ajax({
-            url: "/KhenThuongHoSoThiDua/LayDoiTuong",
-            method: "POST",
-            cache: false,
-            dataType: false,
-            processData: false,
-            contentType: false,
-            data: formData,
-            success: function(data) {
-                //console.log(data);               
-                if (data.status == 'success') {
-                    $('#doituonginphoi').replaceWith(data.message);
-                }
-            }
-        });
+    function setInDL(e, url) {
+        e.prop('href', url + '?mahosotdkt=' + $('#frm_InDuLieu').find("[name='mahosotdkt']").val());
     }
+    
+    // function setInPhoi(url, phanloai) {
+    //     $('#frm_InPhoi').attr('action', url);
+    //     $('#frm_InPhoi').find("[name='mahosokt']").val($('#frm_InDuLieu').find("[name='mahosokt']").val());
+    //     $('#frm_InPhoi').find("[name='phanloai']").val(phanloai);
+    //     var formData = new FormData($('#frm_InPhoi')[0]);
+
+    //     $.ajax({
+    //         url: "/KhenThuongHoSoThiDua/LayDoiTuong",
+    //         method: "POST",
+    //         cache: false,
+    //         dataType: false,
+    //         processData: false,
+    //         contentType: false,
+    //         data: formData,
+    //         success: function(data) {
+    //             //console.log(data);               
+    //             if (data.status == 'success') {
+    //                 $('#doituonginphoi').replaceWith(data.message);
+    //             }
+    //         }
+    //     });
+    // }
 </script>
