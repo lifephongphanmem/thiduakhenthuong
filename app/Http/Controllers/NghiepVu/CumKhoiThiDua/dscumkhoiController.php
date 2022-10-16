@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\DanhMuc\dscumkhoi;
 use App\Model\DanhMuc\dscumkhoi_chitiet;
+use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\View\viewdiabandonvi;
 use Illuminate\Support\Facades\Session;
@@ -102,11 +103,16 @@ class dscumkhoiController extends Controller
         $inputs = $request->all();
         $m_cumkhoi = dscumkhoi::where('macumkhoi', $inputs['macumkhoi'])->first();
         $model = dscumkhoi_chitiet::where('macumkhoi', $inputs['macumkhoi'])->get();
-        $m_donvi = viewdiabandonvi::where('capdo', $m_cumkhoi->capdo)->get();
+        
+        $a_donvi = array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi');
+        $m_donvi = viewdiabandonvi::wherenotin('madonvi', array_column($model->toarray(),'madonvi'))->get();
+        //$m_donvi = viewdiabandonvi::where('capdo', $m_cumkhoi->capdo)->get();
         return view('NghiepVu.CumKhoiThiDua.DanhSach.DanhSach')
             ->with('model', $model)
             ->with('m_cumkhoi', $m_cumkhoi)
-            ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))
+            ->with('m_donvi', $m_donvi)
+            ->with('a_donvi', $a_donvi)
+            ->with('a_diaban',array_column($m_donvi->toArray(), 'tendiaban', 'madiaban'))
             ->with('a_phanloai', getPhanLoaiDonViCumKhoi())
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Thông tin đơn vị trong cụm, khối thi đua');

@@ -10,6 +10,7 @@ class dshosotdktcumkhoi_tapthe extends Model
     protected $fillable = [
         'id',
         'mahosotdkt',
+        'stt',
         'maphanloaitapthe', //Tập thể nhà nước; Doanh nghiệp; Hộ gia đình
         //Thông tin tập thể            
         'tentapthe',

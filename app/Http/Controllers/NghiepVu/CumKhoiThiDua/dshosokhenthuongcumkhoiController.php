@@ -109,7 +109,7 @@ class dshosokhenthuongcumkhoiController extends Controller
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
             ->with('m_diaban', $m_diaban)
-            ->with('a_donviql', getDonViQuanLyCumKhoi($inputs['macumkhoi']))
+            ->with('a_donviql', getDonViXetDuyetCumKhoi($inputs['macumkhoi']))
             ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
@@ -418,12 +418,12 @@ class dshosokhenthuongcumkhoiController extends Controller
         }
         $inputs = $request->all();
         $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahoso'])->first();
-        $m_donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi_nhan'])->first();
-
         $model->trangthai = 'CD';
         $model->madonvi_nhan = $inputs['madonvi_nhan'];
         $model->thoigian = date('Y-m-d H:i:s');
-        setChuyenHoSo($m_donvi->capdo, $model, ['madonvi' => $inputs['madonvi_nhan'], 'thoigian' => $model->thoigian, 'trangthai' => 'CD']);
+        $model->madonvi_xd = $model->madonvi_nhan;
+        $model->trangthai_xd = $model->trangthai;
+        $model->thoigian = $model->thoigian;
         //dd($model);
         $model->save();
 
@@ -431,7 +431,7 @@ class dshosokhenthuongcumkhoiController extends Controller
         $trangthai->trangthai = 'CD';
         $trangthai->madonvi = $model->madonvi;
         $trangthai->madonvi_nhan = $inputs['madonvi_nhan'];
-        $trangthai->phanloai = 'dshosotdktcumkhoi';
+        $trangthai->phanloai = 'dshosothiduakhenthuong';
         $trangthai->mahoso = $model->mahosotdkt;
         $trangthai->thoigian = $model->thoigian;
         $trangthai->save();

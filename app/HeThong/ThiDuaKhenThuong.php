@@ -155,13 +155,28 @@ function getDonViCK($capdo, $madonvi = null, $kieudulieu = 'ARRAY')
     }
 }
 
-function getDonViQuanLyCumKhoi($macumkhoi = 'ALL', $kieudulieu = 'ARRAY')
+function getDonViXetDuyetCumKhoi($macumkhoi, $kieudulieu = 'ARRAY')
 {
-    if ($macumkhoi == 'ALL')
-        $model = \App\Model\View\view_dscumkhoi::wherein('phanloai', ['TRUONGKHOI'])->get();
-    else
-        $model = \App\Model\View\view_dscumkhoi::where('macumkhoi', $macumkhoi)->wherein('phanloai', ['TRUONGKHOI'])->get();
+    $m_donvi = \App\Model\View\view_dscumkhoi::where('macumkhoi', $macumkhoi)->wherein('phanloai', ['TRUONGKHOI'])->first();
+    $m_diaban = \App\Model\DanhMuc\dsdiaban::where('madiaban', $m_donvi->madiaban)->first();
+    // $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', [$m_diaban->madonviKT, $m_donvi->madonvi])->get();
+    $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', [$m_diaban->madonviKT])->get();    
+    switch ($kieudulieu) {
+        case 'MODEL': {
+                return $model;
+                break;
+            }
+        default:
+            return array_column($model->toarray(), 'tendonvi', 'madonvi');
+    }
+}
 
+function getDonViQuanLyCumKhoi($macumkhoi, $kieudulieu = 'ARRAY')
+{
+    $m_donvi = \App\Model\View\view_dscumkhoi::where('macumkhoi', $macumkhoi)->wherein('phanloai', ['TRUONGKHOI'])->first();
+    $m_diaban = \App\Model\DanhMuc\dsdiaban::where('madiaban', $m_donvi->madiaban)->first();
+    // $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', [$m_diaban->madonviQL, $m_donvi->madonvi])->get();
+    $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', [$m_diaban->madonviQL])->get();    
     switch ($kieudulieu) {
         case 'MODEL': {
                 return $model;

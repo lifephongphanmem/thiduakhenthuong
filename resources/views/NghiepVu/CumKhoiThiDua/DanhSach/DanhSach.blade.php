@@ -71,7 +71,7 @@
                                     </button>
                                     <button title="Xóa cụm khối" type="button"
                                         onclick="confirmDelete('{{ $tt->id }}','/CumKhoiThiDua/CumKhoi/XoaDonVi')"
-                                        class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal"
+                                        class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
                                         data-toggle="modal">
                                         <i class="icon-lg la fa-trash-alt text-danger"></i>
                                     </button>
@@ -107,7 +107,16 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <label class="control-label">Tên đơn vị</label>
-                                {!! Form::select('madonvi', $a_donvi, null, ['id' => 'madonvi', 'class' => 'form-control select2_modal']) !!}
+                                <select class="form-control select2_modal" name="madonvi">
+                                    @foreach ($a_diaban as $key => $val)
+                                        <optgroup label="{{ $val }}">
+                                            <?php $donvi = $m_donvi->where('madiaban', $key); ?>
+                                            @foreach ($donvi as $ct)
+                                                <option value="{{ $ct->madonvi }}">{{ $ct->tendonvi }}</option>
+                                            @endforeach
+                                        </optgroup>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 

@@ -73,7 +73,7 @@
 
                                         <button title="Xóa cụm khối" type="button"
                                             onclick="confirmDelete('{{ $tt->id }}',$inputs['url'].'Xoa')"
-                                            class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal"
+                                            class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
                                             data-toggle="modal">
                                             <i class="icon-lg la fa-trash-alt text-danger"></i>
                                         </button>

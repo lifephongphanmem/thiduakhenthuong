@@ -122,69 +122,36 @@
                                 @include('includes.td.td_trangthai_hoso')
 
                                 <td style="text-align: center">
-                                    <button type="button" title="In dữ liệu"
-                                        onclick="setInDuLieu('{{ $tt->mahosotdkt }}','{{ $tt->maphongtraotd }}', '{{ $tt->trangthai }}')"
+                                    <button type="button" title="In quyết định khen thưởng"
+                                        onclick="setInDuLieu('{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}','DKT',true)"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#indulieu-modal"
-                                        data-toggle="modal">
-                                        <i class="icon-lg la flaticon2-print text-dark icon-2x"></i>
+                                        data-toggle="modal"
+                                        {{ $tt->thongtinquyetdinh == '' || $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}>
+                                        <i class="icon-lg la flaticon2-print text-dark"></i>
                                     </button>
-
+                                    
                                     <button title="Tài liệu đính kèm" type="button"
                                         onclick="get_attack('{{ $tt->mahosotdkt }}', '{{ $inputs['url_hs'] . 'TaiLieuDinhKem' }}')"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
                                         data-toggle="modal">
                                         <i class="icon-lg la la-file-download text-dark icon-2x"></i>
                                     </button>
-                                    {{-- <a title="Thông tin hồ sơ"
-                                        href="{{ url('/CumKhoiThiDua/HoSoKhenThuong/Xem?mahosotdkt=' . $tt->mahosotdkt) }}"
-                                        class="btn btn-sm btn-clean btn-icon" target="_blank">
-                                        <i class="icon-lg la fa-eye text-dark"></i>
-                                    </a> --}}
-                                    @if (in_array($tt->trangthai, ['CXKT', 'DXKT']))
-                                        @if ($tt->chinhsua && chkPhanQuyen('qdhosokhenthuongcumkhoi', 'thaydoi'))
-                                            <a href="{{ url($inputs['url_qd'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
-                                                class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
-                                                title="Thông tin hồ sơ khen thưởng">
-                                                <span class="svg-icon svg-icon-xl">
-                                                    <i class="icon-lg la flaticon-list text-success"></i>
-                                                </span>
-                                                <span
-                                                    class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->soluongkhenthuong }}</span>
-                                            </a>
-                                        @endif
 
-                                        @if (!$tt->chinhsua && chkPhanQuyen('qdhosokhenthuongcumkhoi', 'thaydoi'))
-                                            <a href="{{ url($inputs['url_qd'] . 'XetKT?mahosotdkt=' . $tt->mahosotdkt) .'&madonvi='.$inputs['madonvi'] }}"
-                                                class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
-                                                title="Thông tin hồ sơ khen thưởng">
-                                                <span class="svg-icon svg-icon-xl">
-                                                    <i class="icon-lg la flaticon-list text-success"></i>
-                                                </span>
-                                                <span
-                                                    class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->soluongkhenthuong }}</span>
-                                            </a>
-                                        @endif
-
-                                        <a title="Dự thảo quyết định khen thưởng"
-                                            href="{{ url($inputs['url_qd'] . 'QuyetDinh?mahosotdkt=' . $tt->mahosotdkt) }}"
-                                            class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
-                                            <i class="icon-lg la flaticon-edit-1 text-success icon-2x"></i>
-                                        </a>
-
-                                        @if (chkPhanQuyen('qdhosokhenthuongcumkhoi', 'hoanthanh'))
+                                    @if (chkPhanQuyen('qdhosokhenthuongcumkhoi', 'thaydoi'))
+                                        @if ($tt->trangthai == 'CXKT')
                                             <button title="Phê duyệt hồ sơ khen thưởng" type="button"
                                                 onclick="setPheDuyet('{{ $tt->mahosotdkt }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modal-PheDuyet"
                                                 data-toggle="modal"
                                                 {{ $tt->thongtinquyetdinh == '' || $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}>
-                                                <i class="icon-lg la flaticon-interface-10 text-success icon-2x"></i>
+                                                <i class="icon-lg la flaticon-interface-10 text-success"></i>
                                             </button>
 
                                             <button title="Trả lại hồ sơ" type="button"
                                                 onclick="confirmTraLai('{{ $tt->mahosotdkt }}', '{{ $inputs['madonvi'] }}', '{{ $inputs['url_qd'] . 'TraLai' }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modal-tralai"
                                                 data-toggle="modal">
-                                                <i class="icon-lg la la-reply text-danger icon-2x"></i>
+                                                <i class="icon-lg la la-reply text-danger"></i>
                                             </button>
 
                                             @if ($tt->chinhsua)
@@ -192,19 +159,19 @@
                                                     onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url_qd'] . 'Xoa' }}')"
                                                     class="btn btn-sm btn-clean btn-icon"
                                                     data-target="#delete-modal-confirm" data-toggle="modal">
-                                                    <i class="icon-lg la fa-trash text-danger icon-2x"></i>
+                                                    <i class="icon-lg la fa-trash text-danger"></i>
                                                 </button>
                                             @endif
                                         @endif
-                                    @endif
 
-                                    @if ($tt->trangthai == 'DKT' && chkPhanQuyen('qdhosokhenthuongcumkhoi', 'hoanthanh'))
-                                        <button title="Hủy phê duyệt hồ sơ khen thưởng" type="button"
-                                            onclick="setHuyPheDuyet('{{ $tt->mahosotdkt }}')"
-                                            class="btn btn-sm btn-clean btn-icon" data-target="#modal-HuyPheDuyet"
-                                            data-toggle="modal">
-                                            <i class="icon-lg la flaticon-interface-10 text-danger icon-2x"></i>
-                                        </button>
+                                        @if ($tt->trangthai == 'DKT')
+                                            <button title="Hủy phê duyệt hồ sơ khen thưởng" type="button"
+                                                onclick="setHuyPheDuyet('{{ $tt->mahosotdkt }}')"
+                                                class="btn btn-sm btn-clean btn-icon" data-target="#modal-HuyPheDuyet"
+                                                data-toggle="modal">
+                                                <i class="icon-lg la flaticon-interface-10 text-danger"></i>
+                                            </button>
+                                        @endif
                                     @endif
                                 </td>
                             </tr>

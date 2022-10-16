@@ -15,6 +15,7 @@ class CreateDshosotdktcumkhoiTaptheTable extends Migration
     {
         Schema::create('dshosotdktcumkhoi_tapthe', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('stt')->default(1);
             $table->string('mahosotdkt')->nullable();
             $table->string('maphanloaitapthe')->nullable(); //Tập thể nhà nước; Doanh nghiệp; Hộ gia đình
             //Thông tin tập thể            
