@@ -14,24 +14,45 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-lg-12">
-                        <a onclick="setInPT($(this), '')" class="btn btn-sm btn-clean text-dark font-weight-bold"
-                            target="_blank">
+                        <a onclick="setInPT($(this), '/PhongTraoThiDua/')"
+                            class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
                             <i class="la flaticon2-print"></i>Thông tin phong trào thi đua
                         </a>
                     </div>
                 </div>
+
                 <div id="div_inHoSo">
                     <div class="row">
                         <div class="col-lg-12">
-                            <a onclick="setInHS($(this), '')" class="btn btn-sm btn-clean text-dark font-weight-bold"
+                            <a onclick="setInHS($(this), '/HoSoThiDua/')" class="btn btn-sm btn-clean text-dark font-weight-bold"
                                 target="_blank">
-                                <i class="la flaticon2-print"></i>Thông tin hồ sơ
+                                <i class="la flaticon2-print"></i>Thông tin hồ sơ tham gia thi đua
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="div_inHoSoDN">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <a onclick="setInKT($(this), '/XetDuyetHoSoThiDua/')" class="btn btn-sm btn-clean text-dark font-weight-bold"
+                                target="_blank">
+                                <i class="la flaticon2-print"></i>Thông tin hồ sơ đề nghị khen thưởng
                             </a>
                         </div>
                     </div>
                 </div>
 
                 <div id="div_inDuLieu">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <a onclick="setInKT($(this), '/KhenThuongHoSoThiDua/')" class="btn btn-sm btn-clean text-dark font-weight-bold"
+                                target="_blank">
+                                <i class="la flaticon2-print"></i>Thông tin hồ sơ quyết định khen thưởng
+                            </a>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-lg-12">
                             <a id="btnInQD" onclick="setInQD($(this), '')"
@@ -123,11 +144,14 @@
     function setInDuLieu(mahosothamgiapt, mahosotdkt, maphongtraotd, trangthai) {
         $('#div_inDuLieu').hide();
         $('#div_inHoSo').hide();
+        $('#div_inHoSoDN').hide();
         $('#frm_InDuLieu').find("[name='mahosotdkt']").val(mahosotdkt);
         $('#frm_InDuLieu').find("[name='maphongtraotd']").val(maphongtraotd);
         $('#frm_InDuLieu').find("[name='mahosothamgiapt']").val(mahosothamgiapt);
         if (mahosothamgiapt != '-1')
             $('#div_inHoSo').show();
+        if (mahosotdkt != '-1')
+            $('#div_inHoSoDN').show();
         if (trangthai == 'DKT')
             $('#div_inDuLieu').show();
     }
@@ -138,11 +162,15 @@
     }
 
     function setInHS(e, url) {
-        e.prop('href', '/HoSoThiDua/Xem?mahosothamgiapt=' + $('#frm_InDuLieu').find("[name='mahosothamgiapt']").val());
+        e.prop('href', url + 'Xem?mahosothamgiapt=' + $('#frm_InDuLieu').find("[name='mahosothamgiapt']").val());
+    }
+
+    function setInKT(e, url) {
+        e.prop('href', url + 'Xem?mahosotdkt=' + $('#frm_InDuLieu').find("[name='mahosotdkt']").val());
     }
 
     function setInPT(e, url) {
-        e.prop('href', '/PhongTraoThiDua/Xem?maphongtraotd=' + $('#frm_InDuLieu').find("[name='maphongtraotd']").val());
+        e.prop('href', url + 'Xem?maphongtraotd=' + $('#frm_InDuLieu').find("[name='maphongtraotd']").val());
     }
 
     function setInPhoi(url, phanloai) {

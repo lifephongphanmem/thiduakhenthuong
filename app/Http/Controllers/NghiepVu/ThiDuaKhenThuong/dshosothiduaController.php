@@ -112,10 +112,11 @@ class dshosothiduaController extends Controller
             $DangKy->hosodonvi = $HoSodv == null ? 0 : 1;
             $DangKy->id = $HoSodv == null ? -1 : $HoSodv->id;
             $DangKy->mahosothamgiapt = $HoSodv == null ? -1 : $HoSodv->mahosothamgiapt;
+
+            //gán để ko in hồ sơ mahosotdkt
+            $DangKy->mahosotdkt = '-1';
         }
         //dd($m_diaban);
-        //->with('a_phamvi', getPhamViPhongTrao($m_donvi->where('madonvi', $inputs['madonvi'])->first()->capdo ?? 'T'))
-
         return view('NghiepVu.ThiDuaKhenThuong.HoSoThiDua.ThongTin')
             ->with('inputs', $inputs)
             ->with('model', $model->sortby('tungay'))

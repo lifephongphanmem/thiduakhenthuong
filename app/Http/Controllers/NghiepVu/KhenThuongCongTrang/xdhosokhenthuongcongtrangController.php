@@ -114,10 +114,10 @@ class xdhosokhenthuongcongtrangController extends Controller
         $model->lydo = $inputs['lydo'];
         $model->madonvi_nhan = null;         
         
-        $model->madonvi_xd = null;
-        $model->trangthai_xd = null;
-        $model->thoigian_xd = null;       
-        $model->madonvi_nhan_xd = null;
+        // $model->madonvi_xd = null;
+        // $model->trangthai_xd = null;
+        // $model->thoigian_xd = null;       
+        // $model->madonvi_nhan_xd = null;
 
         $model->madonvi_kt = null;
         $model->trangthai_kt = null;
