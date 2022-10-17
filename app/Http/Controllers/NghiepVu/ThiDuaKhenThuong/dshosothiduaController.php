@@ -49,6 +49,8 @@ class dshosothiduaController extends Controller
 
         $inputs = $request->all();
         $inputs['url'] = static::$url;
+        $inputs['url_hs'] = '/HoSoThiDua/';
+        $inputs['url_qd'] = '/KhenThuongHoSoThiDua/';
         $m_donvi = getDonVi(session('admin')->capdo, 'dshosothidua');
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
