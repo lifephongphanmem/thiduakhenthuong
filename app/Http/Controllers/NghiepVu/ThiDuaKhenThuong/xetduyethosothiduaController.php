@@ -348,13 +348,12 @@ class xetduyethosothiduaController extends Controller
             $chitiet->mahosodk = $m_hoso_dangky->where('madonvi', $chitiet->madonvi)->first()->mahosodk ?? null;
             getDonViChuyen($inputs['madonvi'], $chitiet);
         }
-        $m_donvi = getDonVi(session('admin')->capdo);
-
+        
         return view('NghiepVu.ThiDuaKhenThuong.XetDuyetHoSo.DanhSach')
             ->with('inputs', $inputs)
             ->with('model', $model)
             ->with('m_phongtrao', $m_phongtrao)
-            ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))
+            ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
             ->with('pageTitle', 'Danh sách hồ sơ đăng ký thi đua');
     }
 

@@ -43,12 +43,12 @@
                     {!! Form::select('capdo', getPhamViApDung(), null, ['class' => 'form-control']) !!}
                 </div>
             </div>
-            <div class="form-group row">               
+            {{-- <div class="form-group row">               
                 <div class="col-lg-12">
                     <label>Đơn vị quản lý</label>
                     {!! Form::select('madonviql', $a_donvi, null, ['class' => 'form-control']) !!}
                 </div>
-            </div>  
+            </div>   --}}
         </div>
         <div class="card-footer">
             <div class="row text-center">

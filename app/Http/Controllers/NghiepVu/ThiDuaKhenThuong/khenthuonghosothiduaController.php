@@ -107,7 +107,7 @@ class khenthuonghosothiduaController extends Controller
         //         ->orwhere('madonvi_nhan_t', $inputs['madonvi'])->get();
         // })->wherein('trangthai', ['CD', 'DD', 'CXKT'])->get();
 
-        $m_khenthuong = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi'])->get();
+        $m_khenthuong = dshosothiduakhenthuong::where('madonvi_kt', $inputs['madonvi'])->wherein('trangthai', ['DD', 'CXKT', 'DKT'])->get();
         
         //tính thiếu trường hợp phong trao cấp tỉnh... đơn vị nộp trên tỉnh
         //thống kê lại hồ sơ đăng ký
@@ -127,12 +127,14 @@ class khenthuonghosothiduaController extends Controller
             // $ct->sohoso = $hoso == null ? 0 : $hoso->count();
             $khenthuong = $m_khenthuong->where('maphongtraotd', $ct->maphongtraotd)->first();
             $ct->mahosotdkt = $khenthuong->mahosotdkt ?? '-1';
-            $ct->trangthaikt = $khenthuong->trangthai ?? '';          
+            $ct->trangthaikt = $khenthuong->trangthai ?? 'CXD';          
+            $ct->noidungkt = $khenthuong->noidung ?? '';          
+            $ct->madonvi_xd = $khenthuong->madonvi_xd ?? '';          
 
             //gán để ko in hồ sơ mahosothamgiapt
             $ct->mahosothamgiapt = '-1';
         }        
-        //dd($model);
+        //dd($m_khenthuong);
         return view('NghiepVu.ThiDuaKhenThuong.KhenThuongHoSo.ThongTin')
             ->with('inputs', $inputs)
             ->with('model', $model->sortby('tungay'))
@@ -140,6 +142,7 @@ class khenthuonghosothiduaController extends Controller
             ->with('m_diaban', $m_diaban)
             ->with('a_trangthaihoso', getTrangThaiTDKT())
             ->with('a_phamvi', getPhamViPhongTrao())
+            ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
             ->with('pageTitle', 'Khen thưởng hồ sơ thi đua');
     }
 

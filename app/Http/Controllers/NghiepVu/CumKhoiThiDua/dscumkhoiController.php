@@ -28,7 +28,6 @@ class dscumkhoiController extends Controller
     }
     public function ThongTin(Request $request)
     {
-
         if (!chkPhanQuyen('dscumkhoithidua', 'danhsach')) {
             return view('errors.noperm')->with('machucnang', 'dscumkhoithidua')->with('tenphanquyen', 'danhsach');
         }
@@ -67,7 +66,7 @@ class dscumkhoiController extends Controller
         // })->get();
         return view('NghiepVu.CumKhoiThiDua.DanhSach.ThayDoi')
             ->with('model', $model)
-            ->with('a_donvi', getDonViQuanLyCumKhoi($model->macumkhoi))
+            //->with('a_donvi', getDonViQuanLyCumKhoi($model->macumkhoi))
             ->with('pageTitle', 'Thông tin cụm, khối thi đua');
     }
 
@@ -86,7 +85,6 @@ class dscumkhoiController extends Controller
         return redirect(static::$url . 'ThongTin');
     }
 
-
     public function Xoa(Request $request)
     {
         if (!chkPhanQuyen('dscumkhoithidua', 'thaydoi')) {
@@ -96,7 +94,6 @@ class dscumkhoiController extends Controller
         dscumkhoi::findorfail($inputs['iddelete'])->delete();
         return redirect(static::$url . 'ThongTin');
     }
-
 
     public function DanhSach(Request $request)
     {

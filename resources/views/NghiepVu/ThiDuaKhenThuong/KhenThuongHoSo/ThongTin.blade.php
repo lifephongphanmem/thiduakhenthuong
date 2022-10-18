@@ -76,17 +76,21 @@
                     <table class="table table-striped table-bordered table-hover" id="sample_3">
                         <thead>
                             <tr class="text-center">
-                                <th rowspan="2" width="2%">STT</th>
-                                <th rowspan="2">Đơn vị phát động</th>
-                                <th rowspan="2">Nội dung hồ sơ</th>
-                                <th rowspan="2">Trạng thái</th>
-                                <th colspan="3">Phong trào</th>
+                                <th rowspan="2" width="2%">STT</th>                               
+                                <th colspan="5">Phong trào thi đua</th>
+                                <th colspan="3">Hồ sơ đề nghị khen thưởng</th>
                                 <th rowspan="2" style="text-align: center" width="10%">Thao tác</th>
                             </tr>
                             <tr class="text-center">
+                                <th>Đơn vị phát động</th>
+                                <th>Nội dung phong trào</th>
                                 <th width="10%">Thời gian</th>
                                 <th width="8%">Trạng thái</th>
                                 <th>Phạm vị phát động</th>
+
+                                <th>Đơn vị đề nghị</th>
+                                <th>Nội dung hồ sơ</th>
+                                <th>Trạng thái<br>hồ sơ</th>
                             </tr>
                         </thead>
                         @foreach ($model as $key => $tt)
@@ -94,11 +98,15 @@
                                 <td style="text-align: center">{{ $key + 1 }}</td>
                                 <td>{{ $tt->tendonvi }}</td>
                                 <td>{{ $tt->noidung }}</td>
-                                @include('includes.td.td_trangthai_khenthuong')
+                               
                                 <td class="text-center">Từ {{ getDayVn($tt->tungay) }}</br> đến
                                     {{ getDayVn($tt->denngay) }}</td>
                                 @include('includes.td.td_trangthai_phongtrao')
                                 <td>{{ $a_phamvi[$tt->phamviapdung] ?? '' }}</td>
+
+                                <td>{{ $a_donvi[$tt->madonvi_xd] ?? '' }}</td>
+                                <td>{{ $tt->noidungkt }}</td>
+                                @include('includes.td.td_trangthai_khenthuong')
 
                                 <td style="text-align: center">
                                     <button type="button" title="In dữ liệu"
