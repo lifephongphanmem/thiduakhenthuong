@@ -217,7 +217,7 @@ class baocaotonghopController extends Controller
             ->with('pageTitle', 'Báo cáo tổng hợp danh hiệu thi đua');
     }
 
-    public function KhenThuong(Request $request)
+    public function KhenThuong_m1(Request $request)
     {
         $inputs = $request->all();
         $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();

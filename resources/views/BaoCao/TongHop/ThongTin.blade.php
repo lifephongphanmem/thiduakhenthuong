@@ -64,9 +64,13 @@
                         </li> --}}
 
                         <li>
-                            <button class="btn btn-clean text-dark" data-target="#modal-khenthuong" data-toggle="modal">Báo
-                                cáo hình
-                                thức khen thưởng trên địa bàn</button>
+                            <button class="btn btn-clean text-dark" onclick="setBaoCao('frm_htkt','/BaoCao/TongHop/KhenThuong_m1')" data-target="#modal-khenthuong" data-toggle="modal">Báo
+                                cáo hình thức khen thưởng trên địa bàn (Mẫu 01)</button>
+                        </li>
+
+                        <li>
+                            <button class="btn btn-clean text-dark" onclick="setBaoCao('frm_htkt','/BaoCao/TongHop/KhenThuong_m2')" data-target="#modal-khenthuong" data-toggle="modal">Báo
+                                cáo hình thức khen thưởng trên địa bàn (Mẫu 02)</button>
                         </li>
                         <li>
                             <button type="button" onclick="setURL('/BaoCao/TongHop/Mau0701')"
@@ -273,7 +277,7 @@
     {{-- Hình thức khen thưởng --}}
     <div id="modal-khenthuong" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
         {!! Form::open([
-            'url' => 'BaoCao/TongHop/KhenThuong',
+            'url' => '',
             'target' => '_blank',
             'method' => 'post',
             'id' => 'frm_htkt',
@@ -426,6 +430,11 @@
             var form = document.getElementById(formname);
             form.elements.ngaytu.value = a_thoigian[e.val()][0];
             form.elements.ngayden.value = a_thoigian[e.val()][1];
+        }
+
+        function setBaoCao(formname, url) {
+            var form = document.getElementById(formname);
+            form.action = url;
         }
     </script>
 @stop

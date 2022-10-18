@@ -96,16 +96,18 @@ class xetduyethosothiduaController extends Controller
             $hoso = $m_hoso->where('maphongtraotd', $ct->maphongtraotd);
             $ct->sohoso = $hoso == null ? 0 : $hoso->count();
 
-            $khenthuong = $m_khenthuong->where('maphongtraotd', $ct->maphongtraotd)->first();
+            $khenthuong = $m_khenthuong->where('maphongtraotd', $ct->maphongtraotd)->first();            
             $ct->mahosotdkt = $khenthuong->mahosotdkt ?? '-1';
             $ct->trangthaikt = $khenthuong->trangthai ?? 'CXD';
+            $ct->noidungkt = $khenthuong->noidung ?? '';          
+            $ct->madonvinhankt = $khenthuong->madonvi_nhan_xd ?? '';
+
             $ct->soluongkhenthuong = dshosothiduakhenthuong_canhan::where('mahosotdkt', $ct->mahosotdkt)->where('ketqua', '1')->count()
                 + dshosothiduakhenthuong_tapthe::where('mahosotdkt', $ct->mahosotdkt)->where('ketqua', '1')->count();
             
             //gán để ko in hồ sơ mahosothamgiapt
             $ct->mahosothamgiapt = '-1';
-        }
-        //dd($model);
+        }        
 
         return view('NghiepVu.ThiDuaKhenThuong.XetDuyetHoSo.ThongTin')
             ->with('inputs', $inputs)
@@ -116,6 +118,7 @@ class xetduyethosothiduaController extends Controller
             ->with('a_trangthaihoso', getTrangThaiTDKT())
             ->with('a_phamvi', getPhamViPhongTrao())
             ->with('a_donviql', getDonViQuanLyDiaBan($donvi))
+            ->with('a_dsdonvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
             ->with('pageTitle', 'Xét duyệt hồ sơ thi đua');
     }
 

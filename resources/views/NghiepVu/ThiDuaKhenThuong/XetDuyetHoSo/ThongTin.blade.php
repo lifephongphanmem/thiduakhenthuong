@@ -79,31 +79,31 @@
                         <thead>
                             <tr class="text-center">
                                 <th rowspan="2" width="2%">STT</th>
-                                <th rowspan="2">Đơn vị phát động</th>
-                                <th rowspan="2">Nội dung hồ sơ</th>
-                                <th rowspan="2">Trạng thái</th>
-                                <th colspan="4">Phong trào</th>
+                                <th colspan="3">Hồ sơ đề nghị khen thưởng</th>
+                                <th colspan="3">Phong trào</th>
                                 <th rowspan="2" style="text-align: center" width="10%">Thao tác</th>
                             </tr>
                             <tr class="text-center">
-                                <th width="10%">Thời gian</th>
-                                <th width="8%">Trạng thái</th>
-                                <th width="6%">Số hồ<br>sơ đã<br>nhận</th>
+                                <th>Nội dung hồ sơ</th>
+                                <th>Trạng thái</th>
+                                <th>Đơn vị tiếp nhận</th>
+
                                 <th>Phạm vị phát động</th>
+                                <th>Nội dung hồ sơ</th>
+                                <th width="8%">Trạng thái</th>
                             </tr>
                         </thead>
                         <?php $i=1; ?>
                         @foreach ($model as $key => $tt)
                             <tr>
                                 <td style="text-align: center">{{ $i++ }}</td>
-                                <td>{{ $tt->tendonvi }}</td>
-                                <td>{{ $tt->noidung }}</td>
+                                <td>{{ $tt->noidungkt }}</td>
                                 @include('includes.td.td_trangthai_khenthuong')
-                                <td class="text-center">Từ {{ getDayVn($tt->tungay) }}</br> đến
-                                    {{ getDayVn($tt->denngay) }}</td>
-                                <td style="text-align: center">{{ $a_trangthaihoso[$tt->nhanhoso] }}</td>
-                                <td style="text-align: center">{{ chkDbl($tt->sohoso) }}</td>
+                                <td>{{ $a_dsdonvi[$tt->madonvinhankt] ?? '' }}</td>
+                                
                                 <td>{{ $a_phamvi[$tt->phamviapdung] ?? '' }}</td>
+                                <td>{{ $tt->noidung }}</td>
+                                <td style="text-align: center">{{ $a_trangthaihoso[$tt->nhanhoso] }}</td>
 
                                 <td style="text-align: center">
                                     <button type="button" title="In dữ liệu"
