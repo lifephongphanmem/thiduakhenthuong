@@ -105,7 +105,7 @@ class xetduyethosothiduaController extends Controller
             //gán để ko in hồ sơ mahosothamgiapt
             $ct->mahosothamgiapt = '-1';
         }
-        //dd($m_donvi);
+        //dd($model);
 
         return view('NghiepVu.ThiDuaKhenThuong.XetDuyetHoSo.ThongTin')
             ->with('inputs', $inputs)

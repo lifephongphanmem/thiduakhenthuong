@@ -104,7 +104,7 @@
                                 <td style="text-align: center">{{ chkDbl($tt->sohoso) }}</td>
                                 <td>{{ $a_phamvi[$tt->phamviapdung] ?? '' }}</td>
 
-                                <td style="text-align: center">                                   
+                                <td style="text-align: center">
                                     <button type="button" title="In dữ liệu"
                                         onclick="setInDuLieu('{{ $tt->mahosothamgiapt }}','{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}', '{{ $tt->trangthaikt }}')"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#indulieu-modal"
@@ -128,7 +128,9 @@
                                         <span
                                             class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->sohoso }}</span>
                                     </a>
-                                    @if ($tt->nhanhoso == 'KETTHUC' && chkPhanQuyen('xdhosothidua', 'hoanthanh') && in_array($tt->trangthaikt,['DD','BTLXD']))
+                                    @if ($tt->nhanhoso == 'KETTHUC' &&
+                                        chkPhanQuyen('xdhosothidua', 'hoanthanh') &&
+                                        in_array($tt->trangthaikt, ['DD', 'BTLXD', 'CXD']))
                                         @if ($tt->mahosotdkt == '-1')
                                             <button title="Tạo hồ sơ khen thưởng" type="button"
                                                 onclick="confirmKhenThuong('{{ $tt->maphongtraotd }}')"
