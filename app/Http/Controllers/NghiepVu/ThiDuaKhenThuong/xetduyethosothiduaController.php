@@ -87,7 +87,7 @@ class xetduyethosothiduaController extends Controller
             $model = $model->where('phamviapdung', $inputs['phamviapdung']);
         }
         $ngayhientai = date('Y-m-d');
-        $m_hoso = dshosothamgiaphongtraotd::wherein('trangthai', ['CD', 'DD', 'CXKT', 'DKT'])->get();
+        $m_hoso = dshosothamgiaphongtraotd::wherein('trangthai', ['CD', 'DD', 'CXKT', 'DKT'])->where('madonvi_nhan',$inputs['madonvi'])->get();
         $m_khenthuong = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi'])->get();
         //$m_trangthai_phongtrao = trangthaihoso::where('phanloai', 'dsphongtraothidua')->orderby('thoigian', 'desc')->get();
         //dd($ngayhientai);
@@ -457,6 +457,8 @@ class xetduyethosothiduaController extends Controller
         $model->madonvi_kt = $inputs['madonvi_nhan'];
         $model->trangthai_kt = $model->trangthai;
         $model->thoigian_kt = $thoigian;
+        //Gán mặc định quyết định
+        getDuThaoKhenThuong($model);
         $model->save();
 
         trangthaihoso::create([

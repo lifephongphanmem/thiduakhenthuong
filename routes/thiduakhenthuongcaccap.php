@@ -21,6 +21,7 @@ Route::group(['prefix' => 'PhongTraoThiDua'], function () {
     Route::post('Sua', 'NghiepVu\ThiDuaKhenThuong\dsphongtraothiduaController@LuuPhongTrao');
     Route::post('KetThuc', [dsphongtraothiduaController::class, 'KetThuc']);
     Route::post('HuyKetThuc', [dsphongtraothiduaController::class, 'HuyKetThuc']);
+    Route::post('Xoa', 'NghiepVu\ThiDuaKhenThuong\dsphongtraothiduaController@Xoa');
 
     Route::get('ThemKhenThuong', 'NghiepVu\ThiDuaKhenThuong\dsphongtraothiduaController@ThemKhenThuong');
     Route::get('ThemTieuChuan', 'NghiepVu\ThiDuaKhenThuong\dsphongtraothiduaController@ThemTieuChuan');

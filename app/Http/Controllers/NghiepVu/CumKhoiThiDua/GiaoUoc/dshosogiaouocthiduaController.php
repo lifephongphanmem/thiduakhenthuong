@@ -59,7 +59,7 @@ class dshosogiaouocthiduaController extends Controller
             ->with('a_capdo', getPhamViApDung())
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
-            ->with('a_donviql', getDonViQuanLyCumKhoi($donvi->macumkhoi))
+            ->with('a_donviql', getDonViXetDuyetCumKhoi($donvi->macumkhoi))
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách hồ sơ giao ước thi đua');
     }

@@ -1,6 +1,6 @@
 {{-- Modal tra lại --}}
 <div id="tralai-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
-    {!! Form::open(['url'=>'','id' => 'frm_tralai'])!!}
+    {!! Form::open(['url'=>'','id' => 'frm_lydo'])!!}
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header modal-header-primary">                   
@@ -13,7 +13,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label class="control-label">Lý do trả lại</label>
-                            {!! Form::textarea('lydo', null, array('id' => 'lydo','class' => 'form-control', 'rows'=>'3','required'=>'required')) !!}
+                            {!! Form::textarea('lydo', null, array('id' => 'lydo','class' => 'form-control', 'rows'=>'3')) !!}
                         </div>
                     </div>
                 </div>
@@ -40,8 +40,8 @@
                 madonvi: madv
             },
             dataType: 'JSON',
-            success: function (data) {
-                $('#frm_tralai').find("[id='lydo']").val(data.lydo);
+            success: function (data) {               
+                $('#frm_lydo').find("[name='lydo']").val(data.lydo);
             }
         })
     }

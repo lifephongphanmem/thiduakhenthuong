@@ -139,6 +139,8 @@ class xdhosokhenthuongconghienController extends Controller
         $model->madonvi_kt = $inputs['madonvi_nhan'];
         $model->trangthai_kt = $model->trangthai;
         $model->thoigian_kt = $thoigian;
+        //Gán mặc định quyết định
+        getDuThaoKhenThuong($model);
         $model->save();
 
         trangthaihoso::create([

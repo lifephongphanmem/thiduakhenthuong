@@ -92,9 +92,10 @@
                                 <th>Phạm vị phát động</th>
                             </tr>
                         </thead>
+                        <?php $i=1; ?>
                         @foreach ($model as $key => $tt)
                             <tr>
-                                <td style="text-align: center">{{ $key + 1 }}</td>
+                                <td style="text-align: center">{{ $i++ }}</td>
                                 <td>{{ $tt->tendonvi }}</td>
                                 <td>{{ $tt->noidung }}</td>
                                 @include('includes.td.td_trangthai_khenthuong')

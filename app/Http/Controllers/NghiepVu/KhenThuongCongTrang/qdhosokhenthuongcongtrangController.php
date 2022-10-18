@@ -741,7 +741,7 @@ class qdhosokhenthuongcongtrangController extends Controller
         $model->madonvi_kt = null;
         $model->trangthai_kt = null;
         $model->thoigian_kt = null;
-
+        //dd($model);
         $model->save();
         trangthaihoso::create([
             'mahoso' => $inputs['mahoso'],

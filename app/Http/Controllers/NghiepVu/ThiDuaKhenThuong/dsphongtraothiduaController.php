@@ -154,13 +154,13 @@ class dsphongtraothiduaController extends Controller
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
     }
 
-    public function delete(Request $request)
+    public function Xoa(Request $request)
     {
         if (!chkPhanQuyen('dsphongtraothidua', 'thaydoi')) {
             return view('errors.noperm')->with('machucnang', 'dsphongtraothidua');
         }
         $inputs = $request->all();
-        $model = dsphongtraothidua::findorfail($inputs['iddelete']);
+        $model = dsphongtraothidua::findorfail($inputs['id']);
         dsphongtraothidua_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->delete();
         $model->delete();
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);

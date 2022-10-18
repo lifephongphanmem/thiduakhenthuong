@@ -33,10 +33,10 @@
                 <h3 class="card-label text-uppercase">Danh sách hồ sơ trình khen thưởng niên hạn</h3>
             </div>
             <div class="card-toolbar">
-                @if (chkPhanQuyen('qdhosokhenthuongnienhan', 'thaydoi'))
+                {{-- @if (chkPhanQuyen('qdhosokhenthuongnienhan', 'thaydoi'))
                     <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
-                @endif
+                @endif --}}
             </div>
         </div>
         <div class="card-body">
