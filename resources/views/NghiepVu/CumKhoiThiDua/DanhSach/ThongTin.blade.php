@@ -44,7 +44,7 @@
                             <tr class="text-center">
                                 <th width="5%">STT</th>
                                 <th>Tên cụm, khối thi đua</th>
-                                <th width="15%">Cấp độ</th>
+                                {{-- <th width="15%">Cấp độ</th> --}}
                                 <th width="8%">Số</br>đơn vị</th>
                                 <th width="30%">Đơn vị quản lý</th>
                                 <th width="10%">Thao tác</th>
@@ -54,7 +54,7 @@
                             <tr>
                                 <td style="text-align: center">{{ $key + 1 }}</td>
                                 <td class="active">{{ $tt->tencumkhoi }}</td>
-                                <td>{{ $a_capdo[$tt->capdo] ?? '' }}</td>
+                                {{-- <td>{{ $a_capdo[$tt->capdo] ?? '' }}</td> --}}
                                 <td class=" text-center">{{ $tt->sodonvi }}</td>
                                 <td>{{ $a_donvi[$tt->madonviql] ?? '' }}</td>
                                 <td class=" text-center">

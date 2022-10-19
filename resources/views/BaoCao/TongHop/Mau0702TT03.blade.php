@@ -30,6 +30,16 @@
         </tr>
 
         <tr>
+            <td colspan="2" style="text-align: center; font-weight: bold; font-style: italic">
+                Thời điểm báo cáo: {{ getThoiDiem()[$inputs['thoidiem']] }}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center; font-weight: bold; font-style: italic">
+                Phạm vị thống kê: {{ getPhamViApDung()[$inputs['phamvithongke']] ?? 'Tất cả' }}
+            </td>
+        </tr>
+        <tr>
             <td colspan="2" style="text-align: center; font-style: italic">
                 Từ ngày: {{ getDayVn($inputs['ngaytu']) }} đến ngày: {{ getDayVn($inputs['ngayden']) }}
             </td>

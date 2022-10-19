@@ -171,7 +171,7 @@ class dsdonviController extends Controller
     public function ThongTinDonVi(Request $request)
     {
         $inputs = $request->all();
-        $m_donvi = getDonVi(session('admin')->capdo, 'dshosokhenthuongconghien');
+        $m_donvi = getDonVi(session('admin')->capdo, 'dsdonvi');
         $a_diaban = array_column($m_donvi->toArray(), 'tendiaban', 'madiaban');
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $model = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
@@ -185,9 +185,7 @@ class dsdonviController extends Controller
 
     public function LuuThongTinDonVi(Request $request)
     {
-        if (!chkPhanQuyen('dsdonvi', 'thaydoi')) {
-            return view('errors.noperm')->with('machucnang', 'dsdonvi');
-        }
+        
         $inputs = $request->all();
         $model = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
         if ($model == null) {
