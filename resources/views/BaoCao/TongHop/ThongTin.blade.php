@@ -64,12 +64,12 @@
                         </li> --}}
 
                         <li>
-                            <button class="btn btn-clean text-dark" onclick="setBaoCao('frm_htkt','/BaoCao/TongHop/KhenThuong_m1')" data-target="#modal-khenthuong" data-toggle="modal">Báo
+                            <button class="btn btn-clean text-dark" onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenThuong_m1', 'ALL')" data-target="#modal-khenthuong" data-toggle="modal">Báo
                                 cáo hình thức khen thưởng trên địa bàn (Mẫu 01)</button>
                         </li>
 
                         <li>
-                            <button class="btn btn-clean text-dark" onclick="setBaoCao('frm_htkt','/BaoCao/TongHop/KhenThuong_m2')" data-target="#modal-khenthuong" data-toggle="modal">Báo
+                            <button class="btn btn-clean text-dark" onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenThuong_m2')" data-target="#modal-khenthuong" data-toggle="modal">Báo
                                 cáo hình thức khen thưởng trên địa bàn (Mẫu 02)</button>
                         </li>
                         <li>
@@ -314,6 +314,13 @@
                     </div>
                 </div>
 
+                {{-- <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label>Loại hình khen thưởng</label>
+                        {!! Form::select('loaihinhkhenthuong', setArrayAll($a_loaihinhkt), null, ['class' => 'form-control select2_modal', 'multiple']) !!}
+                    </div>
+                </div> --}}
+
                 <div class="form-group row">
                     <div class="col-lg-6">
                         <label> Từ ngày</label>
@@ -432,7 +439,7 @@
             form.elements.ngayden.value = a_thoigian[e.val()][1];
         }
 
-        function setBaoCao(formname, url) {
+        function setBaoCaoKT(formname, url, a_loaihinh) {            
             var form = document.getElementById(formname);
             form.action = url;
         }
