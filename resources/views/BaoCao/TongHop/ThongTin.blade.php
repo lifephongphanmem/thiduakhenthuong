@@ -73,17 +73,17 @@
                                 cáo hình thức khen thưởng trên địa bàn (Mẫu 02)</button>
                         </li>
                         <li>
-                            <button type="button" onclick="setURL('/BaoCao/TongHop/Mau0701')"
+                            <button type="button" onclick="setBaoCaoKT('frm_thongtu03','/BaoCao/TongHop/Mau0701')"
                                 class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
                                 phong trào thi đua (mẫu 0701.N/BNV-TĐKT)</button>
                         </li>
                         <li>
-                            <button type="button" onclick="setURL('/BaoCao/TongHop/Mau0702')"
+                            <button type="button" onclick="setBaoCaoKT('frm_thongtu03','/BaoCao/TongHop/Mau0702')"
                                 class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
                                 lượng khen thưởng cấp nhà nước (mẫu 0702.N/BNV-TĐKT)</button>
                         </li>
                         <li>
-                            <button type="button" onclick="setURL('/BaoCao/TongHop/Mau0703')"
+                            <button type="button" onclick="setBaoCaoKT('frm_thongtu03','/BaoCao/TongHop/Mau0703')"
                                 class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
                                 lượng khen thưởng cấp ban ngành đoàn thể trung ương (mẫu 0703.N/BNV-TĐKT)</button>
                         </li>
@@ -345,7 +345,7 @@
     {{-- Mẫu thông tu 03 / 2018 --}}
     <div id="modal-thongtu03" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
         {!! Form::open([
-            'url' => '/BaoCao/TongHop/KhenThuong',
+            'url' => '',
             'target' => '_blank',
             'method' => 'post',
             'id' => 'frm_thongtu03',

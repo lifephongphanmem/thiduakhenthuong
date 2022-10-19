@@ -84,6 +84,25 @@
                 <th style="width: 5%">Số<br>lượng<br>khen<br>thưởng<br>cho<br>Doanh<br>nghiệp</th>
                 <th style="width: 5%">Số lượng khen thưởng cho cá nhân</th>
             </tr>
+            <tr class="text-center">
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+                <th>4</th>
+                <th>5</th>
+                <th>6</th>
+                <th>7=6:3</th>
+                <th>8</th>
+                <th>9</th>
+                <th>10</th>
+                <th>11=10:3</th>
+                <th>12</th>
+                <th>13</th>
+                <th>14</th>
+                <th>15=14:3</th>
+                <th>16</th>
+                <th>17=16:3</th>
+            </tr>
             {{-- <tr class="text-center">
             @foreach ($a_danhhieutd as $k => $v)
                 <th style="width: 10%">{{ $v }}</th>
