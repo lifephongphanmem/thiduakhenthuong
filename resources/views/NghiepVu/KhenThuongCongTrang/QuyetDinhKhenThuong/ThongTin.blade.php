@@ -132,7 +132,7 @@
                                         data-toggle="modal">
                                         <i class="icon-lg la la-file-download text-dark"></i></button>
 
-                                    @if (chkPhanQuyen('qdhosokhenthuongcongtrang', 'thaydoi'))
+                                    @if (chkPhanQuyen('qdhosokhenthuongcongtrang', 'hoanthanh'))
                                         @if ($tt->trangthai == 'CXKT')
                                             {{-- @if ($tt->chinhsua)
                                                 <a href="{{ url($inputs['url_qd'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"

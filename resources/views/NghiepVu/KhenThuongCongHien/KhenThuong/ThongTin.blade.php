@@ -111,7 +111,7 @@
                                         <i class="icon-lg la la-file-download text-dark icon-2x"></i>
                                     </button>
 
-                                    @if (chkPhanQuyen('qdhosokhenthuongconghien', 'thaydoi'))
+                                    @if (chkPhanQuyen('qdhosokhenthuongconghien', 'hoanthanh'))
                                         @if ($tt->trangthai == 'CXKT')
                                             <button title="Phê duyệt hồ sơ khen thưởng" type="button"
                                                 onclick="setPheDuyet('{{ $tt->mahosotdkt }}')"

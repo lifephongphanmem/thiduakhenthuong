@@ -87,8 +87,9 @@ class xetduyethosothiduaController extends Controller
             $model = $model->where('phamviapdung', $inputs['phamviapdung']);
         }
         $ngayhientai = date('Y-m-d');
-        $m_hoso = dshosothamgiaphongtraotd::wherein('trangthai', ['CD', 'DD', 'CXKT', 'DKT'])->where('madonvi_nhan',$inputs['madonvi'])->get();
+        $m_hoso = dshosothamgiaphongtraotd::wherein('trangthai', ['CD', 'DD', 'CXKT', 'DKT', 'DXKT'])->where('madonvi_nhan', $inputs['madonvi'])->get();
         $m_khenthuong = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi'])->get();
+
         //$m_trangthai_phongtrao = trangthaihoso::where('phanloai', 'dsphongtraothidua')->orderby('thoigian', 'desc')->get();
         //dd($ngayhientai);
         foreach ($model as $ct) {
@@ -96,19 +97,19 @@ class xetduyethosothiduaController extends Controller
             $hoso = $m_hoso->where('maphongtraotd', $ct->maphongtraotd);
             $ct->sohoso = $hoso == null ? 0 : $hoso->count();
 
-            $khenthuong = $m_khenthuong->where('maphongtraotd', $ct->maphongtraotd)->first();            
+            $khenthuong = $m_khenthuong->where('maphongtraotd', $ct->maphongtraotd)->first();
             $ct->mahosotdkt = $khenthuong->mahosotdkt ?? '-1';
             $ct->trangthaikt = $khenthuong->trangthai ?? 'CXD';
-            $ct->noidungkt = $khenthuong->noidung ?? '';          
+            $ct->noidungkt = $khenthuong->noidung ?? '';
             $ct->madonvinhankt = $khenthuong->madonvi_nhan_xd ?? '';
 
             $ct->soluongkhenthuong = dshosothiduakhenthuong_canhan::where('mahosotdkt', $ct->mahosotdkt)->where('ketqua', '1')->count()
                 + dshosothiduakhenthuong_tapthe::where('mahosotdkt', $ct->mahosotdkt)->where('ketqua', '1')->count();
-            
+
             //gán để ko in hồ sơ mahosothamgiapt
             $ct->mahosothamgiapt = '-1';
-        }        
-
+        }
+        //dd($model);
         return view('NghiepVu.ThiDuaKhenThuong.XetDuyetHoSo.ThongTin')
             ->with('inputs', $inputs)
             ->with('model', $model->sortby('tungay'))
@@ -299,6 +300,7 @@ class xetduyethosothiduaController extends Controller
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)->delete();
         dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->delete();
+        dshosothamgiaphongtraotd::where('mahosotdkt', $model->mahosotdkt)->update(['trangthai' => 'DD', 'mahosotdkt' => null]);
         $model->delete();
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }
@@ -323,7 +325,6 @@ class xetduyethosothiduaController extends Controller
             ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Thông tin hồ sơ đề nghị khen thưởng');
-    
     }
 
     public function DanhSach(Request $request)
@@ -351,7 +352,7 @@ class xetduyethosothiduaController extends Controller
             $chitiet->mahosodk = $m_hoso_dangky->where('madonvi', $chitiet->madonvi)->first()->mahosodk ?? null;
             getDonViChuyen($inputs['madonvi'], $chitiet);
         }
-        
+        //dd($model);
         return view('NghiepVu.ThiDuaKhenThuong.XetDuyetHoSo.DanhSach')
             ->with('inputs', $inputs)
             ->with('model', $model)
@@ -422,7 +423,7 @@ class xetduyethosothiduaController extends Controller
         $m_hoso = dshosothamgiaphongtraotd::where('mahosothamgiapt', $inputs['mahoso'])->first();
 
         return redirect('/XetDuyetHoSoThiDua/DanhSach?maphongtraotd=' . $m_hoso->maphongtraotd . '&madonvi=' . $inputs['madonvi']);
-    }    
+    }
 
     public function NhanHoSo(Request $request)
     {
@@ -450,7 +451,7 @@ class xetduyethosothiduaController extends Controller
         $thoigian = date('Y-m-d H:i:s');
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
         //gán lại trạng thái hồ sơ để theo dõi
-        $model->madonvi_xd = $model->madonvi;//do đơn vị tạo hồ sơ ở bước xét duyệt
+        $model->madonvi_xd = $model->madonvi; //do đơn vị tạo hồ sơ ở bước xét duyệt
         $model->trangthai = 'CXKT';
         $model->trangthai_xd = $model->trangthai;
         $model->thoigian_xd = $thoigian;
@@ -555,7 +556,7 @@ class xetduyethosothiduaController extends Controller
         $inputs['url'] = static::$url;
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $a_duthao = array_column(duthaoquyetdinh
-        ::all()->toArray(), 'noidung', 'maduthao');
+            ::all()->toArray(), 'noidung', 'maduthao');
         $inputs['maduthao'] = $inputs['maduthao'] ?? array_key_first($a_duthao);
         $thongtinquyetdinh = duthaoquyetdinh::where('maduthao', $inputs['maduthao'])->first()->codehtml ?? '';
         //noidung

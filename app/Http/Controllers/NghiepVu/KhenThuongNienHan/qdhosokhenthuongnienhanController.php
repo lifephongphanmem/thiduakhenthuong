@@ -684,8 +684,11 @@ class qdhosokhenthuongnienhanController extends Controller
         $thoigian = date('Y-m-d H:i:s');
         $trangthai = 'CXKT';
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        setTrangThaiHoSo($inputs['madonvi'], $model, ['thoigian' => $thoigian, 'trangthai' => $trangthai]);
-        $model->trangthai = $trangthai; //gán trạng thái hồ sơ để theo dõi
+        $model->trangthai = $trangthai;
+        $model->trangthai_xd = $model->trangthai;
+        $model->trangthai_kt = $model->trangthai;
+        $model->thoigian_kt = null;
+
         $model->donvikhenthuong = null;
         $model->capkhenthuong = null;
         $model->soqd = null;
@@ -694,6 +697,14 @@ class qdhosokhenthuongnienhanController extends Controller
         $model->hotennguoikyqd = null;
         //dd($model);
         $model->save();
+        trangthaihoso::create([
+            'mahoso' => $inputs['mahosotdkt'],
+            'phanloai' => 'dshosothiduakhenthuong',
+            'trangthai' => $model->trangthai,
+            'thoigian' => $thoigian,
+            'madonvi' => $inputs['madonvi'],
+            'thongtin' => 'Phê duyệt đề nghị khen thưởng.',
+        ]);
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
     }
 

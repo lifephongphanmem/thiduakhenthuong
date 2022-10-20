@@ -90,21 +90,13 @@
                                                 data-toggle="modal">
                                                 <i class="icon-lg flaticon-interface-5 text-success"></i>
                                             </button>
-                                            
-                                            <button title="Trả lại hồ sơ" type="button"
-                                                onclick="confirmTraLai('{{ $tt->mahosothamgiapt }}', '{{ $inputs['madonvi'] }}', '/XetDuyetHoSoThiDua/TraLai')"
-                                                class="btn btn-sm btn-clean btn-icon" data-target="#modal-tralai"
-                                                data-toggle="modal">
-                                                <i class="icon-lg la la-reply text-danger"></i>
-                                            </button>
-                                        @else
-                                            <button title="Trả lại hồ sơ" type="button"
-                                                onclick="confirmTraLai('{{ $tt->mahosothamgiapt }}', '{{ $inputs['madonvi'] }}', '/XetDuyetHoSoThiDua/TraLai')"
-                                                class="btn btn-sm btn-clean btn-icon" data-target="#modal-tralai"
-                                                data-toggle="modal">
-                                                <i class="icon-lg la la-reply text-danger"></i>
-                                            </button>
                                         @endif
+                                        <button title="Trả lại hồ sơ" type="button"
+                                            onclick="confirmTraLai('{{ $tt->mahosothamgiapt }}', '{{ $inputs['madonvi'] }}', '/XetDuyetHoSoThiDua/TraLai')"
+                                            class="btn btn-sm btn-clean btn-icon" data-target="#modal-tralai"
+                                            data-toggle="modal">
+                                            <i class="icon-lg la la-reply text-danger"></i>
+                                        </button>
                                     @endif
                                 </td>
                             </tr>

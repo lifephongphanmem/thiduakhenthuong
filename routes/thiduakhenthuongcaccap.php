@@ -38,7 +38,7 @@ Route::group(['prefix' => 'HoSoThiDua'], function () {
     Route::post('Them', 'NghiepVu\ThiDuaKhenThuong\dshosothiduaController@LuuHoSo');
     Route::get('Sua', 'NghiepVu\ThiDuaKhenThuong\dshosothiduaController@ThayDoi');
     Route::post('Sua', 'NghiepVu\ThiDuaKhenThuong\dshosothiduaController@LuuHoSo');
-    Route::get('Xem', 'NghiepVu\ThiDuaKhenThuong\dshosothiduaController@XemHoSo');
+    Route::get('Xem',[dshosothiduaController::class, 'XemHoSo']);
     Route::post('Xoa', 'NghiepVu\ThiDuaKhenThuong\dshosothiduaController@XoaHoSo');
 
     Route::get('LayTieuChuan', [dshosothiduaController::class, 'LayTieuChuan']);

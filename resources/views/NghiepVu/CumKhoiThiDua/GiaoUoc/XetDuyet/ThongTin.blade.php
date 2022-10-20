@@ -16,12 +16,12 @@
         jQuery(document).ready(function() {
             TableManaged3.init();
             $('#madonvi').change(function() {
-                window.location.href = "{{$inputs['url']}}" + 'ThongTin?madonvi=' + $(
+                window.location.href = "{{ $inputs['url'] }}" + 'ThongTin?madonvi=' + $(
                         '#madonvi').val() +
                     '&nam=' + $('#nam').val();
             });
             $('#nam').change(function() {
-                window.location.href = "{{$inputs['url']}}" +'ThongTin?madonvi=' + $(
+                window.location.href = "{{ $inputs['url'] }}" + 'ThongTin?madonvi=' + $(
                         '#madonvi').val() +
                     '&nam=' + $('#nam').val();
             });
@@ -37,7 +37,7 @@
                 <h3 class="card-label text-uppercase">Danh sách hồ sơ giao ước thi đua</h3>
             </div>
             <div class="card-toolbar">
-                
+
             </div>
         </div>
         <div class="card-body">
@@ -93,19 +93,20 @@
                                         <i class="icon-lg la fa-eye text-dark"></i></a>
 
                                     @if (in_array($tt->trangthai_hoso, ['CD']))
-                                        <button title="Trả lại hồ sơ" type="button"
-                                            onclick="confirmTraLai('{{ $tt->mahosodk }}', '{{ $inputs['madonvi'] }}', '/GiaoUocThiDua/XetDuyet/TraLai')"
-                                            class="btn btn-sm btn-clean btn-icon" data-target="#modal-tralai"
-                                            data-toggle="modal">
-                                            <i class="icon-lg la la-reply text-danger"></i></button>
-
                                         <button title="Nhận hồ sơ đăng ký" type="button"
                                             onclick="confirmNhan('{{ $tt->mahosodk }}','/GiaoUocThiDua/XetDuyet/NhanHoSo','{{ $inputs['madonvi'] }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#nhan-modal-confirm"
                                             data-toggle="modal">
-                                            <i class="icon-lg la fa-share-square text-success"></i></button>
+                                            <i class="icon-lg la fa-share-square text-success"></i>
+                                        </button>
                                     @endif
-                                    
+                                    <button title="Trả lại hồ sơ" type="button"
+                                        onclick="confirmTraLai('{{ $tt->mahosodk }}', '{{ $inputs['madonvi'] }}', '/GiaoUocThiDua/XetDuyet/TraLai')"
+                                        class="btn btn-sm btn-clean btn-icon" data-target="#modal-tralai"
+                                        data-toggle="modal">
+                                        <i class="icon-lg la la-reply text-danger"></i>
+                                    </button>
+
                                 </td>
                             </tr>
                         @endforeach

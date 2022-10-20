@@ -248,17 +248,18 @@ class dshosothiduaController extends Controller
         $model->tenphongtrao = $m_phongtrao->noidung;
         $model_canhan = dshosothamgiaphongtraotd_canhan::where('mahosothamgiapt', $model->mahosothamgiapt)->get();
         $model_tapthe = dshosothamgiaphongtraotd_tapthe::where('mahosothamgiapt', $model->mahosothamgiapt)->get();
-        $m_danhhieu = dsphongtraothidua_khenthuong::where('maphongtraotd', $model->maphongtraotd)->get();
+        $m_danhhieu = dmdanhhieuthidua::all();
         $m_tieuchuan = dsphongtraothidua_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->get();
-
-        //dd( $model);
+        $a_phanloaidt = array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai');
+        //dd( $model_canhan);
 
         return view('NghiepVu.ThiDuaKhenThuong.HoSoThiDua.Xem')
             ->with('model', $model)
             ->with('m_donvi', $m_donvi)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
-            ->with('a_danhhieu', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
+            ->with('a_phanloaidt', $a_phanloaidt)
+            ->with('a_danhhieutd', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
             ->with('a_tieuchuan', array_column($m_tieuchuan->toArray(), 'tentieuchuandhtd', 'matieuchuandhtd'))
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
