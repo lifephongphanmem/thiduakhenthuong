@@ -159,7 +159,7 @@ class dshosokhencaoController extends Controller
         $inputs['trangthai'] = 'DD';
         $inputs['phanloai'] = 'KHENTHUONG';
         dshosokhencao::create($inputs);
-        return redirect(static::$url . 'Sua?mahosokt=' . $inputs['mahosokt']);
+        return redirect(static::$url . 'Sua?mahosotdkt=' . $inputs['mahosotdkt']);
     }
 
     public function LuuHoSo(Request $request)
@@ -602,5 +602,26 @@ class dshosokhencaoController extends Controller
         //dd($model);
         $model->save();
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
+    }
+
+    public function XoaHoSo(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
+        }
+        $inputs = $request->all();
+        $model = dshosokhencao::findorfail($inputs['id']);
+        dshosokhencao_canhan::where('mahosotdkt', $model->mahosotdkt)->delete();
+        dshosokhencao_tapthe::where('mahosotdkt', $model->mahosotdkt)->delete();
+        $model->delete();
+        return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }
 }

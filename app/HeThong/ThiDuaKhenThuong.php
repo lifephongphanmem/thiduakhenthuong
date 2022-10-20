@@ -142,17 +142,36 @@ function getDonViQuanLyNganh($donvi, $kieudulieu = 'ARRAY')
     }
 }
 
-function getDonViCK($capdo, $madonvi = null, $kieudulieu = 'ARRAY')
+function getDonViCK($capdo, $chucnang = null, $kieudulieu = 'ARRAY')
 {
-    $model = \App\Model\View\view_dscumkhoi::all();
-    switch ($kieudulieu) {
-        case 'MODEL': {
-                return $model;
-                break;
-            }
-        default:
-            return array_column($model->toarray(), 'tendonvi', 'madonvi');
+    // $model = \App\Model\View\view_dscumkhoi::all();
+    // switch ($kieudulieu) {
+    //     case 'MODEL': {
+    //             return $model;
+    //             break;
+    //         }
+    //     default:
+    //         return array_column($model->toarray(), 'tendonvi', 'madonvi');
+    // }
+
+    if ($capdo == 'SSA' || $capdo == 'ADMIN') {
+        $m_donvi = App\Model\View\view_dscumkhoi::all();
+    } else {
+        $m_donvi = App\Model\View\view_dscumkhoi::where('madonvi', session('admin')->madonvi)->get();
     }
+
+    if ($chucnang != null) {
+        $a_tk = App\Model\DanhMuc\dstaikhoan::wherein('madonvi', array_column($m_donvi->toarray(), 'madonvi'))->get('tendangnhap');
+        $a_tk_pq = App\Model\DanhMuc\dstaikhoan_phanquyen::where('machucnang', $chucnang)->where('phanquyen', '1')
+            ->wherein('tendangnhap', $a_tk)->get('tendangnhap');
+        $m_donvi = App\Model\View\viewdiabandonvi::wherein('madonvi', function ($qr) use ($a_tk_pq) {
+            $qr->select('madonvi')->from('dstaikhoan')->wherein('tendangnhap', $a_tk_pq)->distinct();
+        })->get();
+    }
+    // if(count($m_donvi) == 0){
+    //     return redirect('/DangNhap');
+    // }
+    return $m_donvi;
 }
 
 function getDonViXetDuyetCumKhoi($macumkhoi, $kieudulieu = 'ARRAY')

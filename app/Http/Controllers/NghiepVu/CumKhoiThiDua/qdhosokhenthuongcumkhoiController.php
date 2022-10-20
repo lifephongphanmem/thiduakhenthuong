@@ -798,8 +798,19 @@ class qdhosokhenthuongcumkhoiController extends Controller
         $thoigian = date('Y-m-d H:i:s');
         $trangthai = 'BTLXD';
         $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahoso'])->first();
-        setTrangThaiHoSo($inputs['madonvi'], $model, ['thoigian' => $thoigian, 'trangthai' => $trangthai, 'lydo' => $inputs['lydo']]);
-        $model->trangthai = $trangthai; //gán trạng thái hồ sơ để theo dõi           
+        //setTrangThaiHoSo($inputs['madonvi'], $model, ['thoigian' => $thoigian, 'trangthai' => $trangthai, 'lydo' => $inputs['lydo']]);
+        $model->trangthai = $trangthai; //gán trạng thái hồ sơ để theo dõi   
+        
+        $model->trangthai_xd = $model->trangthai;
+        $model->thoigian_xd = $thoigian;
+        $model->lydo_xd = $inputs['lydo'];
+
+        $model->madonvi_nhan_xd = null;
+
+        $model->madonvi_kt = null;
+        $model->trangthai_kt = null;
+        $model->thoigian_kt = null;
+        
         //dd($inputs);
         $model->save();
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);

@@ -139,29 +139,21 @@
                                                 class="btn btn-sm btn-clean btn-icon"><i
                                                     class="icon-lg la fa-edit text-success"></i>
                                             </a>
-
-                                            <button title="Kết thúc phong trào" type="button"
-                                                onclick="setKetQua('{{ $tt->maphongtraotd }}')"
-                                                class="btn btn-sm btn-clean btn-icon" data-target="#modal-KetThuc"
-                                                data-toggle="modal">
-                                                <i class="icon-lg la flaticon-calendar-3 text-warning"></i>
-                                            </button>
-
                                             <button title="Xóa hồ sơ" type="button"
                                                 onclick="confirmDelete('{{ $tt->id }}','/PhongTraoThiDua/Xoa')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
                                                 data-toggle="modal">
                                                 <i class="icon-lg la fa-trash-alt text-danger"></i>
                                             </button>
-                                        @else
-                                        <button title="Hủy kết thúc phong trào" type="button"
-                                                onclick="setHuyKetThuc('{{ $tt->maphongtraotd }}')"
-                                                class="btn btn-sm btn-clean btn-icon" data-target="#modal-HuyKetThuc"
-                                                data-toggle="modal">
-                                                <i class="icon-lg la flaticon-calendar-3 text-danger"></i>
-                                            </button>
                                         @endif
+                                        <button title="Thiết lập phong trào" type="button"
+                                            onclick="setKetQua('{{ $tt->maphongtraotd }}')"
+                                            class="btn btn-sm btn-clean btn-icon" data-target="#modal-KetThuc"
+                                            data-toggle="modal">
+                                            <i class="icon-lg la flaticon-calendar-3 text-warning"></i>
+                                        </button>
                                     @endif
+
                                 </td>
                             </tr>
                         @endforeach
@@ -187,15 +179,25 @@
                 ]) !!}
                 <div class="modal-header">
 
-                    <h4 class="modal-title">Đồng ý kết thúc phong trào và xét khen thưởng?</h4>
+                    <h4 class="modal-title">Thiết lập trạng thái phong trào thi đua</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                 </div>
                 <input type="hidden" name="maphongtraotd" id="maphongtraotd">
                 <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}">
                 <div class="modal-body">
+                    
                     <div class="row">
-                        <div class="col-md-12">
-                            Bạn đồng ý kết thúc phong trào thi đua để chuyển sang quá trình xét duyệt khen thưởng.
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="control-label">Trạng thái phong trào</label>
+                                {!! Form::select(
+                                    'trangthai',
+                                    ['CC' => 'Nhận hồ sơ', 'CXKT' => 'Chờ khen thưởng', 'DXKT' => 'Xét khen thưởng', 'DKT' => 'Đã kết thúc'],
+                                    null,
+                                    ['class' => 'form-control select2_modal'],
+                                ) !!}
+
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -241,6 +243,7 @@
                             Bạn đồng ý hủy kết thúc phong trào để tiếp tục nhận hồ sơ đề nghị khen thưởng.
                         </div>
                     </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
