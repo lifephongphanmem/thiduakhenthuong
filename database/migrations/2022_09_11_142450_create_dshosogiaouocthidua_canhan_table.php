@@ -27,8 +27,9 @@ class CreateDshosogiaouocthiduaCanhanTable extends Migration
             $table->string('tencoquan')->nullable();
             $table->string('tenphongban')->nullable();
             $table->string('maphanloaicanbo')->nullable();//phân loại cán bộ           
-            $table->string('mahinhthuckt')->nullable();
-            $table->string('madanhhieutd')->nullable();
+            $table->string('madanhhieutd')->nullable();//bỏ
+            $table->string('mahinhthuckt')->nullable();//bỏ
+            $table->string('madanhhieukhenthuong')->nullable();//gộp danh hiệu & khen thưởng
             $table->string('madonvi')->nullable();//phục vụ lấy dữ liệu
             $table->timestamps();
         });

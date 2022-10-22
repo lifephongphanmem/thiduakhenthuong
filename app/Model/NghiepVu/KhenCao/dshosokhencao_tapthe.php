@@ -17,8 +17,9 @@ class dshosokhencao_tapthe extends Model
         'ghichu', //
         //Kết quả đánh giá
         'ketqua',
-        'madanhhieutd',
-        'mahinhthuckt',
+        'madanhhieutd',//bỏ
+        'mahinhthuckt',//bỏ
+        'madanhhieukhenthuong',//gộp danh hiệu & khen thưởng
         'lydo',
         'noidungkhenthuong', //in trên phôi bằng khen
         'madonvi', //phục vụ lấy dữ liệu

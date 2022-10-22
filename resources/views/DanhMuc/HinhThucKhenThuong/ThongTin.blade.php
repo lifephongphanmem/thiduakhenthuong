@@ -22,10 +22,11 @@
             $('#frm_modify').find("[name='mahinhthuckt']").val(null);
         }
 
-        function edit(mahinhthuckt, tenhinhthuckt){
+        function edit(mahinhthuckt, tenhinhthuckt, phamviapdung){
             $('#frm_modify').find("[name='mahinhthuckt']").attr('readonly',false);
             $('#frm_modify').find("[name='mahinhthuckt']").val(mahinhthuckt);
             $('#frm_modify').find("[name='tenhinhthuckt']").val(tenhinhthuckt);
+            $('#frm_modify').find("[name='phamviapdung[]']").val(phamviapdung.split(';')).trigger('change');
         }
     </script>
 @stop
@@ -56,6 +57,7 @@
                                 <th width="5%">STT</th>
                                 <th width="25%">Phân loại khen thưởng</th>
                                 <th>Tên hình thức khen thưởng</th>
+                                <th>Phạm vi áp dụng</th>
                                 <th width="15%">Thao tác</th>
                             </tr>
 
@@ -67,10 +69,11 @@
                                     <td class="text-center">{{ $i++ }}</td>
                                     <td>{{$a_phanloai[$ct->phanloai] ?? '' }}</td>
                                     <td>{{ $ct->tenhinhthuckt }}</td>
+                                    <td>{{ $ct->tenphamviapdung }}</td>
                                     <td style="text-align: center">
                                         @if (chkPhanQuyen('dmhinhthuckhenthuong', 'thaydoi'))
                                             <button type="button" title="Chỉnh sửa"
-                                                onclick="edit('{{ $ct->mahinhthuckt }}','{{ $ct->tenhinhthuckt }}')"
+                                                onclick="edit('{{ $ct->mahinhthuckt }}','{{ $ct->tenhinhthuckt }}', '{{ $ct->phamviapdung }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                 data-toggle="modal">
                                                 <i class="icon-lg la fa-edit text-success"></i></button>
@@ -102,25 +105,32 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-horizontal">
-                        <div class="row">
-                            <div class="col-md-12">
+                        <div class="form-group row">
+                            <div class="col-12">
                                 <label class="control-label">Mã số</label>
                                 {!! Form::text('mahinhthuckt', null, ['class' => 'form-control', 'required' => 'required']) !!}
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-12">
+                        <div class="form-group row">
+                            <div class="col-12">
                                 <label class="control-label">Tên hình thức khen thưởng<span
                                         class="require">*</span></label>
                                 {!! Form::text('tenhinhthuckt', null, ['class' => 'form-control', 'required' => 'required']) !!}
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-12">
+                        <div class="form-group row">
+                            <div class="col-12">
                                 <label class="control-label">Phân loại</label>
                                 {!! Form::select('phanloai', $a_phanloai, null, ['class' => 'form-control select2_modal']) !!}
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-12">
+                                <label class="control-label">Phạm vi áp dụng</label>
+                                {!! Form::select('phamviapdung[]', getPhamViApDung(), null, ['class' => 'form-control select2_modal', 'multiple','required' => 'required']) !!}
                             </div>
                         </div>
                     </div>

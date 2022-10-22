@@ -43,6 +43,33 @@ function getHeThongChung()
     return  \App\Model\HeThong\hethongchung::all()->first() ?? new \App\Model\HeThong\hethongchung();
 }
 
+function getDanhHieuKhenThuong($capdo, $phanloai = 'CANHAN')
+{
+    $a_ketqua = [];
+    if ($capdo == 'ALL')
+        $m_danhhieu = App\Model\DanhMuc\dmdanhhieuthidua::all();
+    else {
+        if ($phanloai == 'CANHAN')
+            $m_danhhieu = App\Model\DanhMuc\dmdanhhieuthidua::where('phanloai', $phanloai)->get();
+        else
+            $m_danhhieu = App\Model\DanhMuc\dmdanhhieuthidua::where('phanloai', '<>', $phanloai)->get();
+    }
+    foreach ($m_danhhieu as $danhhieu) {
+        if ($capdo == 'ALL')
+            $a_ketqua[$danhhieu->madanhhieutd] = $danhhieu->tendanhhieutd;
+        elseif (in_array($capdo, explode(';', $danhhieu->phamviapdung)))
+            $a_ketqua[$danhhieu->madanhhieutd] = $danhhieu->tendanhhieutd;
+    }
+    foreach (App\Model\DanhMuc\dmhinhthuckhenthuong::all() as $danhhieu) {
+        if ($capdo == 'ALL')
+            $a_ketqua[$danhhieu->mahinhthuckt] = $danhhieu->tenhinhthuckt;
+        elseif (in_array($capdo, explode(';', $danhhieu->phamviapdung)))
+            $a_ketqua[$danhhieu->mahinhthuckt] = $danhhieu->tenhinhthuckt;
+    }
+
+    return $a_ketqua;
+}
+
 function getDoiTuongKhenCao()
 {
     $m_hoso = \App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong::all('mahosotdkt');
@@ -179,7 +206,7 @@ function getDonViXetDuyetCumKhoi($macumkhoi, $kieudulieu = 'ARRAY')
     $m_donvi = \App\Model\View\view_dscumkhoi::where('macumkhoi', $macumkhoi)->wherein('phanloai', ['TRUONGKHOI'])->first();
     $m_diaban = \App\Model\DanhMuc\dsdiaban::where('madiaban', $m_donvi->madiaban)->first();
     // $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', [$m_diaban->madonviKT, $m_donvi->madonvi])->get();
-    $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', [$m_diaban->madonviKT])->get();    
+    $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', [$m_diaban->madonviKT])->get();
     switch ($kieudulieu) {
         case 'MODEL': {
                 return $model;
@@ -195,7 +222,7 @@ function getDonViQuanLyCumKhoi($macumkhoi, $kieudulieu = 'ARRAY')
     $m_donvi = \App\Model\View\view_dscumkhoi::where('macumkhoi', $macumkhoi)->wherein('phanloai', ['TRUONGKHOI'])->first();
     $m_diaban = \App\Model\DanhMuc\dsdiaban::where('madiaban', $m_donvi->madiaban)->first();
     // $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', [$m_diaban->madonviQL, $m_donvi->madonvi])->get();
-    $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', [$m_diaban->madonviQL])->get();    
+    $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', [$m_diaban->madonviQL])->get();
     switch ($kieudulieu) {
         case 'MODEL': {
                 return $model;

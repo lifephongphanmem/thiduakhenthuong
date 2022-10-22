@@ -21,10 +21,17 @@ class dmhinhthuckhenthuongController extends Controller
 
     public function ThongTin(Request $request)
     {
-        if (!chkPhanQuyen('dmhinhthuckhenthuong','danhsach')) {
+        if (!chkPhanQuyen('dmhinhthuckhenthuong', 'danhsach')) {
             return view('errors.noperm')->with('machucnang', 'dmhinhthuckhenthuong');
         }
         $model = dmhinhthuckhenthuong::all();
+        $a_phamviapdung = getPhamViApDung();
+        foreach ($model as $ct) {
+            $ct->tenphamviapdung = '';
+            foreach (explode(';', $ct->phamviapdung) as $phamvi) {
+                $ct->tenphamviapdung .= ($a_phamviapdung[$phamvi] ?? '') . '; ';
+            }
+        }
         $inputs = $request->all();
         //dd($model);
         return view('DanhMuc.HinhThucKhenThuong.ThongTin')
@@ -37,10 +44,12 @@ class dmhinhthuckhenthuongController extends Controller
     public function store(Request $request)
     {
         //tài khoản SSA; tài khoản quản trị + có phân quyền
-        if (!chkPhanQuyen('dmhinhthuckhenthuong','thaydoi')) {
+        if (!chkPhanQuyen('dmhinhthuckhenthuong', 'thaydoi')) {
             return view('errors.noperm')->with('machucnang', 'dmhinhthuckhenthuong');
         }
         $inputs = $request->all();
+        $inputs['phamviapdung'] = implode(';', $inputs['phamviapdung']);
+        //dd($inputs);
         $model = dmhinhthuckhenthuong::where('mahinhthuckt', $inputs['mahinhthuckt'])->first();
         if ($model == null) {
             $inputs['mahinhthuckt'] = getdate()[0];
@@ -55,7 +64,7 @@ class dmhinhthuckhenthuongController extends Controller
     public function delete(Request $request)
     {
         //tài khoản SSA; tài khoản quản trị + có phân quyền
-        if (!chkPhanQuyen('dmhinhthuckhenthuong','thaydoi')) {
+        if (!chkPhanQuyen('dmhinhthuckhenthuong', 'thaydoi')) {
             return view('errors.noperm')->with('machucnang', 'dmhinhthuckhenthuong');
         }
         $inputs = $request->all();

@@ -23,8 +23,9 @@ class dshosothamgiaphongtraotd_canhan extends Model
         'tenphongban',
         'maphanloaicanbo', //phân loại cán bộ
         //Kết quả đánh giá
-        'mahinhthuckt',
-        'madanhhieutd',
+        'madanhhieutd',//bỏ
+        'mahinhthuckt',//bỏ
+        'madanhhieukhenthuong',//gộp danh hiệu & khen thưởng
         'madonvi',
     ];
 }

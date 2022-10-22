@@ -8,7 +8,7 @@
     ]) !!}
     <input type="hidden" name="mahosothamgiapt" value="{{ $model->mahosothamgiapt }}" />
     <input type="hidden" name="id" />
-    <div class="modal fade bs-modal-lg" id="modal-create-tapthe" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade bs-modal-lg kt_select2_modal" id="modal-create-tapthe" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -33,13 +33,19 @@
                         <div class="col-md-12">
                             <label class="control-label">Phân loại đơn vị</label>
                             {!! Form::select('maphanloaitapthe', $a_tapthe, null, [
-                                'class' => 'form-control',
+                                'class' => 'form-control select2_modal',
                             ]) !!}
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
+                            <label class="control-label">Danh hiệu thi đua/Hình thức khen thưởng</label>
+                            {!! Form::select('madanhhieukhenthuong', $a_dhkt_tapthe, null, [
+                                'class' => 'form-control select2_modal',
+                            ]) !!}
+                        </div>
+                        {{-- <div class="col-md-6">
                             <label class="control-label">Danh hiệu thi đua</label>
                             {!! Form::select('madanhhieutd', setArrayAll($a_danhhieutd, 'Không đăng ký', 'null'), null, [
                                 'class' => 'form-control',
@@ -49,7 +55,7 @@
                         <div class="col-md-6">
                             <label class="control-label">Hình thức khen thưởng</label>
                             {!! Form::select('mahinhthuckt', $a_hinhthuckt, $inputs['mahinhthuckt'], ['class' => 'form-control']) !!}
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -82,8 +88,8 @@
                     var form = $('#frm_ThemTapThe');
                     form.find("[name='id']").val(data.id);
                     form.find("[name='maphanloaitapthe']").val(data.maphanloaitapthe).trigger('change');
-                    form.find("[name='madanhhieutd']").val(data.madanhhieutd).trigger('change');
-                    form.find("[name='mahinhthuckt']").val(data.mahinhthuckt).trigger('change');
+                    form.find("[name='madanhhieukhenthuong']").val(data.madanhhieukhenthuong).trigger('change');
+                    //form.find("[name='mahinhthuckt']").val(data.mahinhthuckt).trigger('change');
                     form.find("[name='tentapthe']").val(data.tentapthe);
                 }
             });

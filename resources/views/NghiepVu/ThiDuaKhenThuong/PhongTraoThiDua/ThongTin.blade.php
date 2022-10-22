@@ -104,17 +104,18 @@
                             <tr class="text-center">
                                 <th width="2%">STT</th>
                                 <th>Nội dung phong trào</th>
-                                <th width="15%">Loại hình khen thưởng</th>
+                                <th>Loại hình khen thưởng</th>
                                 <th>Ngày quyết định</th>
-                                <th width="15%">Phạm vi phát động</th>
-                                <th width="15%">Hình thức tổ chức</th>
+                                <th>Phạm vi phát động</th>
+                                <th>Hình thức tổ chức</th>
                                 <th>Trạng thái</th>
-                                <th width="15%">Thao tác</th>
+                                <th width="10%">Thao tác</th>
                             </tr>
                         </thead>
+                        <?php $i = 1; ?>
                         @foreach ($model as $key => $tt)
                             <tr>
-                                <td style="text-align: center">{{ $key + 1 }}</td>
+                                <td style="text-align: center">{{ $i++ }}</td>
                                 <td class="active">{{ $tt->noidung }}</td>
                                 <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
                                 <td class="text-center">{{ getDayVn($tt->ngayqd) }}</td>

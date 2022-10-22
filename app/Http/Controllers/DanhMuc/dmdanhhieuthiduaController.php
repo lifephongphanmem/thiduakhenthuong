@@ -28,25 +28,32 @@ class dmdanhhieuthiduaController extends Controller
         if (!chkPhanQuyen('dmdanhhieuthidua', 'danhsach')) {
             return view('errors.noperm')->with('machucnang', 'dmdanhhieuthidua');
         }
-        $model = dmdanhhieuthidua::all();
         $inputs = $request->all();
+        $model = dmdanhhieuthidua::all();
+        $a_phamviapdung = getPhamViApDung();
+        foreach ($model as $ct) {
+            $ct->tenphamviapdung = '';
+            foreach (explode(';', $ct->phamviapdung) as $phamvi) {
+                $ct->tenphamviapdung .= ($a_phamviapdung[$phamvi] ?? '') . '; ';
+            }
+        }
+        
         //dd($model);
         return view('DanhMuc.DanhHieuThiDua.ThongTin')
             ->with('model', $model)
             ->with('inputs', $inputs)
             ->with('a_phanloai', getPhanLoaiTDKT())
-            //->with('a_diaban', getDiaBan_All(true))
             ->with('pageTitle', 'Danh mục danh hiệu thi đua');
     }
 
     public function store(Request $request)
     {
-
         //tài khoản SSA; tài khoản quản trị + có phân quyền
         if (!chkPhanQuyen('dmdanhhieuthidua', 'thaydoi')) {
             return view('errors.noperm')->with('machucnang', 'dmdanhhieuthidua');
         }
         $inputs = $request->all();
+        $inputs['phamviapdung'] = implode(';', $inputs['phamviapdung']);
         $model = dmdanhhieuthidua::where('madanhhieutd', $inputs['madanhhieutd'])->first();
         if ($model == null) {
             $inputs['madanhhieutd'] = getdate()[0];
@@ -60,7 +67,6 @@ class dmdanhhieuthiduaController extends Controller
 
     public function delete(Request $request)
     {
-
         //tài khoản SSA; tài khoản quản trị + có phân quyền
         if (!chkPhanQuyen('dmdanhhieuthidua', 'thaydoi')) {
             return view('errors.noperm')->with('machucnang', 'dmdanhhieuthidua');
@@ -72,7 +78,6 @@ class dmdanhhieuthiduaController extends Controller
 
     public function TieuChuan(Request $request)
     {
-
         $inputs = $request->all();
         $model = dmdanhhieuthidua_tieuchuan::where('madanhhieutd', $inputs['madanhhieutd'])->get();
         $m_danhhieu = dmdanhhieuthidua::all();
@@ -85,7 +90,6 @@ class dmdanhhieuthiduaController extends Controller
 
     public function ThemTieuChuan(Request $request)
     {
-
         //tài khoản SSA; tài khoản quản trị + có phân quyền
         if (!chkPhanQuyen('dmdanhhieuthidua', 'thaydoi')) {
             return view('errors.noperm')->with('machucnang', 'dmdanhhieuthidua');
@@ -104,7 +108,6 @@ class dmdanhhieuthiduaController extends Controller
 
     public function delete_TieuChuan(Request $request)
     {
-
         //tài khoản SSA; tài khoản quản trị + có phân quyền
         if (!chkPhanQuyen('dmdanhhieuthidua', 'thaydoi')) {
             return view('errors.noperm')->with('machucnang', 'dmdanhhieuthidua');

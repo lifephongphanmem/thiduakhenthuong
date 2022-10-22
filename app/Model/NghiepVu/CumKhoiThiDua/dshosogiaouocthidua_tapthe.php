@@ -15,8 +15,9 @@ class dshosogiaouocthidua_tapthe extends Model
         //Thông tin tập thể            
         'tentapthe',
         'ghichu',           
-        'madanhhieutd',
-        'mahinhthuckt',           
+        'madanhhieutd',//bỏ
+        'mahinhthuckt',//bỏ
+        'madanhhieukhenthuong',//gộp danh hiệu & khen thưởng
         'madonvi',
     ];
 }

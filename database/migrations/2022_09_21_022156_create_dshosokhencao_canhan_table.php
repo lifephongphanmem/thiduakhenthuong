@@ -30,8 +30,9 @@ class CreateDshosokhencaoCanhanTable extends Migration
             $table->string('maphanloaicanbo')->nullable();//phân loại cán bộ
             //Kết quả đánh giá
             $table->boolean('ketqua')->default(0);//
-            $table->string('mahinhthuckt')->nullable();
-            $table->string('madanhhieutd')->nullable();
+            $table->string('madanhhieutd')->nullable();//bỏ
+            $table->string('mahinhthuckt')->nullable();//bỏ
+            $table->string('madanhhieukhenthuong')->nullable();//gộp danh hiệu & khen thưởng
             $table->string('lydo')->nullable();
             $table->string('noidungkhenthuong')->nullable();//in trên phôi bằng khen
             $table->string('madonvi')->nullable();//phục vụ lấy dữ liệu

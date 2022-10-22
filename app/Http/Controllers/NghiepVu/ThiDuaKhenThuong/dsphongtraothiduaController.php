@@ -74,23 +74,31 @@ class dsphongtraothiduaController extends Controller
         $model = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
         $inputs['madonvi'] = $inputs['madonvi'] ?? $model->madonvi;
         $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
-
+        $inputs['maloaihinhkt'] =session('chucnang')['dsphongtraothidua']['maloaihinhkt'] ?? '';
         if ($model == null) {
             $model = new dsphongtraothidua();
             $model->madonvi = $inputs['madonvi'];
             $model->maphongtraotd = getdate()[0];
             $model->trangthai = 'CC';
             $model->phanloai = $donvi->capdo;
-            $model->maloaihinhkt = session('chucnang')['dsphongtraothidua']['mahinhthuckt'] ?? '';
+            $model->maloaihinhkt = $inputs['maloaihinhkt'];
+            $model->mahinhthuckt = session('chucnang')['dsphongtraothidua']['mahinhthuckt'] ?? '';
+            //dd( $model);
         }
         $model->tendonvi = getThongTinDonVi($model->madonvi, 'tendonvi');
         $model_tieuchuan = dsphongtraothidua_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->orderby('phanloaidoituong')->get();
-        //dd($model_tieuchuan);
+        
+        if (in_array($inputs['maloaihinhkt'], ['', 'ALL', 'all'])) {
+            $m_loaihinh = dmloaihinhkhenthuong::all();
+        } else {
+            $m_loaihinh = dmloaihinhkhenthuong::where('maloaihinhkt', $inputs['maloaihinhkt'])->get();
+        }
+
         return view('NghiepVu.ThiDuaKhenThuong.PhongTraoThiDua.ThayDoi')
             ->with('model', $model)
             ->with('model_tieuchuan', $model_tieuchuan)
             ->with('a_tieuchuan', array_column(dmdanhhieuthidua_tieuchuan::all()->toArray(), 'tentieuchuandhtd', 'matieuchuandhtd'))
-            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+            ->with('a_loaihinhkt', array_column($m_loaihinh->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
             ->with('a_phamvi', getPhamViPhatDongPhongTrao($donvi->capdo))
             ->with('a_phanloaidt', getPhanLoaiTDKT())

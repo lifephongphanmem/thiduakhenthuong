@@ -89,7 +89,7 @@
                                 <th>Đơn vị tiếp nhận</th>
 
                                 <th>Phạm vị phát động</th>
-                                <th>Nội dung hồ sơ</th>
+                                <th width="30%">Tên phong trào thi đua</th>
                                 <th width="8%">Trạng thái</th>
                             </tr>
                         </thead>

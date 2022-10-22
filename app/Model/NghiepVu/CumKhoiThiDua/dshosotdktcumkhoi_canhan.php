@@ -24,8 +24,9 @@ class dshosotdktcumkhoi_canhan extends Model
         'maphanloaicanbo', //phân loại cán bộ
         //Kết quả đánh giá
         'ketqua',
-        'mahinhthuckt',
-        'madanhhieutd',
+        'madanhhieutd',//bỏ
+        'mahinhthuckt',//bỏ
+        'madanhhieukhenthuong',//gộp danh hiệu & khen thưởng
         'lydo',
         'noidungkhenthuong', //in trên phôi bằng khen
         'madonvi', //phục vụ lấy dữ liệu

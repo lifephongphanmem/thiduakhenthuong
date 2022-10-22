@@ -109,9 +109,10 @@
                                 <th width="8%">Số hồ sơ<br>đã nhận</th>
                             </tr>
                         </thead>
+                        <?php $i = 1; ?>
                         @foreach ($model as $key => $tt)
-                            <tr class="{{ $tt->nhanhoso == 'DANGNHAN' ? 'text-success' : '' }}">
-                                <td style="text-align: center">{{ $key + 1 }}</td>
+                            <tr>
+                                <td style="text-align: center">{{ $i++ }}</td>
                                 <td>{{ $tt->tendonvi }}</td>
                                 <td>{{ $tt->noidung }}</td>
                                 <td class="text-center">{{ $a_phamvi[$tt->phamviapdung] ?? '' }}</td>

@@ -22,11 +22,12 @@
             $('#madanhhieutd').attr('readonly', true);
         }
 
-        function edit(madanhhieutd, tendanhhieutd, phanloai) {
+        function edit(madanhhieutd, tendanhhieutd, phanloai, phamviapdung) {
             $('#madanhhieutd').attr('readonly', false);
             $('#madanhhieutd').val(madanhhieutd);
             $('#tendanhhieutd').val(tendanhhieutd);
             $('#phanloai').val(phanloai).trigger('change');
+            $('#frm_modify').find("[name='phamviapdung[]']").val(phamviapdung.split(';')).trigger('change');            
         }
     </script>
 @stop
@@ -55,8 +56,9 @@
                         <thead>
                             <tr class="text-center">
                                 <th width="5%">STT</th>
-                                <th width="30%">Phân loại</th>
+                                <th>Phân loại</th>
                                 <th>Tên danh hiệu</th>
+                                <th>Phạm vi áp dụng</th>
                                 <th width="15%">Thao tác</th>
                             </tr>
 
@@ -68,6 +70,7 @@
                                     <td style="text-align: center">{{ $i++ }}</td>
                                     <td>{{ $a_phanloai[$ct->phanloai] ?? '' }}</td>
                                     <td>{{ $ct->tendanhhieutd }}</td>
+                                    <td>{{ $ct->tenphamviapdung }}</td>
                                     <td style="text-align: center">
                                         @if (chkPhanQuyen('dmdanhhieuthidua', 'thaydoi'))
                                             <button type="button" title="Chỉnh sửa"
@@ -109,14 +112,14 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-horizontal">
-                        <div class="row">
+                        <div class="form-group row">
                             <div class="col-md-12">
                                 <label class="control-label">Mã số</label>
                                 {!! Form::text('madanhhieutd', null, ['id' => 'madanhhieutd', 'class' => 'form-control']) !!}
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="form-group row">
                             <div class="col-md-12">
                                 <label class="control-label">Tên danh hiệu thi đua<span class="require">*</span></label>
                                 {!! Form::text('tendanhhieutd', null, [
@@ -127,7 +130,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="form-group row">
                             <div class="col-md-12">
                                 <label class="control-label">Phân loại</label>
                                 {!! Form::select('phanloai', getPhanLoaiTDKT(), null, [
@@ -137,6 +140,12 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <div class="col-12">
+                                <label class="control-label">Phạm vi áp dụng</label>
+                                {!! Form::select('phamviapdung[]', getPhamViApDung(), null, ['class' => 'form-control select2_modal', 'multiple','required' => 'required']) !!}
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

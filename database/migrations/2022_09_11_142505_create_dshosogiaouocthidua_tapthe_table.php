@@ -21,8 +21,9 @@ class CreateDshosogiaouocthiduaTaptheTable extends Migration
             //Thông tin tập thể            
             $table->string('tentapthe')->nullable();
             $table->string('ghichu')->nullable();           
-            $table->string('madanhhieutd')->nullable();
-            $table->string('mahinhthuckt')->nullable();           
+            $table->string('madanhhieutd')->nullable();//bỏ
+            $table->string('mahinhthuckt')->nullable();//bỏ
+            $table->string('madanhhieukhenthuong')->nullable();//gộp danh hiệu & khen thưởng
             $table->string('madonvi')->nullable();            
             $table->timestamps();
         });

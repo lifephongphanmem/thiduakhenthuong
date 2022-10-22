@@ -14,8 +14,9 @@ class dshosodangkyphongtraothidua_tapthe extends Model
         'maphanloaitapthe', //Tập thể nhà nước; Doanh nghiệp; Hộ gia đình                   
         'tentapthe',
         'ghichu',
-        'madanhhieutd',
-        'mahinhthuckt',
+        'madanhhieutd',//bỏ
+        'mahinhthuckt',//bỏ
+        'madanhhieukhenthuong',//gộp danh hiệu & khen thưởng
         'madonvi',
     ];
 }

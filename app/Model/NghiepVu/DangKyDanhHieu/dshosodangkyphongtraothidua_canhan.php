@@ -21,7 +21,8 @@ class dshosodangkyphongtraothidua_canhan extends Model
         'tencoquan',
         'tenphongban',
         'maphanloaicanbo',
-        'mahinhthuckt',
-        'madanhhieutd',
+        'madanhhieutd',//bỏ
+        'mahinhthuckt',//bỏ
+        'madanhhieukhenthuong',//gộp danh hiệu & khen thưởng
     ];
 }

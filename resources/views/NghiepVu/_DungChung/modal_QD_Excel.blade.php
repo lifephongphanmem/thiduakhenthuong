@@ -111,6 +111,11 @@
                                         </div>
 
                                         <div class="col-md-4">
+                                            <label class="control-label">Hình thức khen thưởng/Danh hiệu thi đua</label>
+                                            {!! Form::select('madanhhieukhenthuong_md', $a_dhkt_tapthe, $inputs['mahinhthuckt'], ['class' => 'form-control']) !!}
+                                        </div>
+
+                                        {{-- <div class="col-md-4">
                                             <label class="control-label">Hình thức khen thưởng</label>
                                             {!! Form::select('mahinhthuckt_md', $a_hinhthuckt, $inputs['mahinhthuckt'], ['class' => 'form-control']) !!}
                                         </div>
@@ -120,7 +125,7 @@
                                             {!! Form::select('madanhhieutd_md', setArrayAll($a_danhhieutd, 'Không đăng ký', 'null'), null, [
                                                 'class' => 'form-control',
                                             ]) !!}
-                                        </div>
+                                        </div> --}}
                                     </div>
                                     <hr>
                                     <div class="row text-center">
@@ -232,6 +237,11 @@
                                         </div>
 
                                         <div class="col-md-4">
+                                            <label class="control-label">Hình thức khen thưởng/Danh hiệu thi đua</label>
+                                            {!! Form::select('madanhhieukhenthuong_md', $a_dhkt_tapthe, $inputs['mahinhthuckt'], ['class' => 'form-control']) !!}
+                                        </div>
+                                        
+                                        {{-- <div class="col-md-4">
                                             <label class="control-label">Hình thức khen thưởng</label>
                                             {!! Form::select('mahinhthuckt_md', $a_hinhthuckt, $inputs['mahinhthuckt'], ['class' => 'form-control']) !!}
                                         </div>
@@ -241,7 +251,7 @@
                                             {!! Form::select('madanhhieutd_md', setArrayAll($a_danhhieutd, 'Không đăng ký', 'null'), null, [
                                                 'class' => 'form-control',
                                             ]) !!}
-                                        </div>
+                                        </div> --}}
                                     </div>
                                     <hr>
                                     <div class="row text-center">

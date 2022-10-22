@@ -21,8 +21,9 @@ class dshosogiaouocthidua_canhan extends Model
         'tencoquan',
         'tenphongban',
         'maphanloaicanbo', //phân loại cán bộ           
-        'mahinhthuckt',
-        'madanhhieutd',
+        'madanhhieutd',//bỏ
+        'mahinhthuckt',//bỏ
+        'madanhhieukhenthuong',//gộp danh hiệu & khen thưởng
         'madonvi', //phục vụ lấy dữ liệu
     ];
 }
