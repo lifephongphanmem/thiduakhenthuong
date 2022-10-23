@@ -77,7 +77,7 @@
                                 <th>Tên đơn vị trình</th>
                                 <th>Phân loại hồ sơ</th>
                                 <th>Nội dung hồ sơ</th>
-                                <th width="8%">Ngày tạo</th>
+                                {{-- <th width="8%">Ngày tạo</th> --}}
                                 <th width="8%">Trạng thái</th>
                                 <th>Đơn vị tiếp nhận</th>
                                 <th width="15%">Thao tác</th>
@@ -90,7 +90,7 @@
                                 <td>{{ $a_donvi[$tt->madonvi] ?? '' }}</td>
                                 <td>{{ $a_phanloaihs[$tt->phanloai] ?? $tt->phanloai }}</td>
                                 <td>{{ $tt->noidung }}</td>
-                                <td class="text-center">{{ getDayVn($tt->ngayhoso) }}</td>
+                                {{-- <td class="text-center">{{ getDayVn($tt->ngayhoso) }}</td> --}}
                                 @include('includes.td.td_trangthai_hoso')
                                 <td>{{ $a_donvi[$tt->madonvi_nhan_xd] ?? '' }}</td>
 

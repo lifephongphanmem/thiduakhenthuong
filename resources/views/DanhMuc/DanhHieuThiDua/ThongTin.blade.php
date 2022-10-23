@@ -74,7 +74,7 @@
                                     <td style="text-align: center">
                                         @if (chkPhanQuyen('dmdanhhieuthidua', 'thaydoi'))
                                             <button type="button" title="Chỉnh sửa"
-                                                onclick="edit('{{ $ct->madanhhieutd }}','{{ $ct->tendanhhieutd }}','{{ $ct->phanloai }}')"
+                                                onclick="edit('{{ $ct->madanhhieutd }}','{{ $ct->tendanhhieutd }}','{{ $ct->phanloai }}','{{ $ct->phamviapdung }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                 data-toggle="modal">
                                                 <i class="icon-lg la fa-edit text-success"></i>

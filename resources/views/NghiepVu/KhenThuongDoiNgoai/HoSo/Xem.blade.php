@@ -34,9 +34,7 @@
         <tr>
             <td>Loại hình khen thưởng: {{ $a_loaihinhkt[$model->maloaihinhkt] ?? '' }}</td>
         </tr>
-        <tr>
-            <td>Tên phong trào thi đua: {{ $model->tenphongtraotd }}</td>
-        </tr>
+       
         <tr>
             <td>Số tờ trình: {{ $model->sototrinh }}</td>
         </tr>
@@ -57,8 +55,7 @@
                     <th width="5%">STT</th>
                     <th>Tên tập thể</th>
                     <th>Phân loại tập thể</th>
-                    <th>Hình thức khen thưởng</th>
-                    <th>Danh hiệu thi đua</th>
+                    <th>Hình thức khen thưởng/<br>Danh hiệu thi đua</th>
                 </tr>
             </thead>
             <?php $i = 1; ?>
@@ -67,8 +64,7 @@
                     <td class="text-center">{{ $i++ }}</td>
                     <td>{{ $tt->tentapthe }}</td>
                     <td>{{ $a_phanloaidt[$tt->maphanloaitapthe] ?? '' }}</td>
-                    <td>{{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
-                    <td>{{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td>
+                    <td class="text-center">{{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}</td>
                 </tr>
             @endforeach
         </table>
@@ -84,8 +80,7 @@
                     <th>Tên đối tượng</th>
                     <th>Phân loại cán bộ</th>
                     <th>Thông tin công tác</th>
-                    <th>Hình thức khen thưởng</th>
-                    <th>Danh hiệu thi đua</th>
+                    <th>Hình thức khen thưởng/<br>Danh hiệu thi đua</th>
                 </tr>
             </thead>
             <?php $i = 1; ?>
@@ -95,8 +90,7 @@
                     <td>{{ $tt->tendoituong }}</td>
                     <td>{{ $a_phanloaidt[$tt->maphanloaicanbo] ?? '' }}</td>
                     <td>{{ $tt->chucvu . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}</td>
-                    <td>{{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
-                    <td>{{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td>
+                    <td class="text-center">{{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}</td>
                 </tr>
             @endforeach
         </table>

@@ -179,9 +179,8 @@ class qdhosokhenthuongdoingoaiController extends Controller
     function htmlCaNhan(&$result, $model)
     {
         if (isset($model)) {
-            $a_hinhthuckt = array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt');
-            $a_danhhieutd = array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd');
             $a_tapthe = array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai');
+            $a_dhkt = getDanhHieuKhenThuong('ALL');
 
             $result['message'] = '<div class="row" id="dskhenthuongcanhan">';
             $result['message'] .= '<div class="col-md-12">';
@@ -194,8 +193,7 @@ class qdhosokhenthuongdoingoaiController extends Controller
             $result['message'] .= '<th width="5%">Giới</br>tính</th>';
             $result['message'] .= '<th width="15%">Phân loại cán bộ</th>';
             $result['message'] .= '<th>Thông tin công tác</th>';
-            $result['message'] .= '<th>Hình thức<br>khen thưởng</th>';
-            $result['message'] .= '<th>Danh hiệu<br>thi đua</th>';
+            $result['message'] .= '<th>Hình thức khen thưởng/<br>Danh hiệu thi đua</th>';
             $result['message'] .= '<th>Kết quả<br>khen thưởng</th>';
             $result['message'] .= '<th width="10%">Thao tác</th>';
             $result['message'] .= '</tr>';
@@ -210,8 +208,7 @@ class qdhosokhenthuongdoingoaiController extends Controller
                 $result['message'] .= '<td>' . $tt->gioitinh . '</td>';
                 $result['message'] .= '<td>' . ($a_tapthe[$tt->maphanloaicanbo] ?? '') . '</td>';
                 $result['message'] .= '<td class="text-center">' . $tt->chucvu . ',' . $tt->tenphongban . ',' . $tt->tencoquan . '</td>';
-                $result['message'] .= '<td class="text-center"> ' . ($a_hinhthuckt[$tt->mahinhthuckt] ?? '') . '</td>';
-                $result['message'] .= '<td class="text-center"> ' . ($a_danhhieutd[$tt->madanhhieutd] ?? '') . '</td>';
+                $result['message'] .= '<td class="text-center"> ' . ($a_dhkt[$tt->madanhhieukhenthuong] ?? '') . '</td>';
                 if ($tt->ketqua == '1')
                     $result['message'] .= '<td class="text-center"><button class="btn btn-sm btn-clean btn-icon">
                 <i class="icon-lg la fa-check text-primary icon-2x"></i></button></td>';
@@ -239,9 +236,8 @@ class qdhosokhenthuongdoingoaiController extends Controller
     function htmlTapThe(&$result, $model)
     {
         if (isset($model)) {
-            $a_hinhthuckt = array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt');
-            $a_danhhieutd = array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd');
             $a_tapthe = array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai');
+            $a_dhkt = getDanhHieuKhenThuong('ALL');             
 
             $result['message'] = '<div class="row" id="dskhenthuongtapthe">';
             $result['message'] .= '<div class="col-md-12">';
@@ -251,8 +247,7 @@ class qdhosokhenthuongdoingoaiController extends Controller
             $result['message'] .= '<th width="5%">STT</th>';
             $result['message'] .= '<th>Tên tập thể</th>';
             $result['message'] .= '<th>Phân loại<br>tập thể</th>';
-            $result['message'] .= '<th>Hình thức<br>khen thưởng</th>';
-            $result['message'] .= '<th>Danh hiệu<br>thi đua</th>';
+            $result['message'] .= '<th>Hình thức khen thưởng/<br>Danh hiệu thi đua</th>';
             $result['message'] .= '<th>Kết quả<br>khen thưởng</th>';
             $result['message'] .= '<th width="15%">Thao tác</th>';
             $result['message'] .= '</tr>';
@@ -264,8 +259,7 @@ class qdhosokhenthuongdoingoaiController extends Controller
                 $result['message'] .= '<td class="text-center">' . $i++ . '</td>';
                 $result['message'] .= '<td>' . $tt->tentapthe . '</td>';
                 $result['message'] .= '<td>' . ($a_tapthe[$tt->maphanloaitapthe] ?? '') . '</td>';
-                $result['message'] .= '<td class="text-center">' . ($a_hinhthuckt[$tt->mahinhthuckt] ?? '') . '</td>';
-                $result['message'] .= '<td class="text-center">' . ($a_danhhieutd[$tt->madanhhieutd] ?? '') . '</td>';
+                $result['message'] .= '<td class="text-center"> ' . ($a_dhkt[$tt->madanhhieukhenthuong] ?? '') . '</td>';
                 if ($tt->ketqua == '1')
                     $result['message'] .= '<td class="text-center"><button class="btn btn-sm btn-clean btn-icon">
                     <i class="icon-lg la fa-check text-primary icon-2x"></i></button></td>';
@@ -790,8 +784,10 @@ class qdhosokhenthuongdoingoaiController extends Controller
         $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
         $a_phanloaidt = array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai');
         $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
-
+        $a_dhkt = getDanhHieuKhenThuong('ALL');
+		
         return view('NghiepVu.KhenThuongDoiNgoai.KhenThuong.Xem')
+		->with('a_dhkt', $a_dhkt)
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
@@ -814,8 +810,10 @@ class qdhosokhenthuongdoingoaiController extends Controller
         $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
         $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
-
+        $a_dhkt = getDanhHieuKhenThuong('ALL');
+		$model->tendonvi = $m_donvi->tendonvi;
         return view('NghiepVu._DungChung.InPhoi')
+		->with('a_dhkt', $a_dhkt)
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
@@ -930,6 +928,7 @@ class qdhosokhenthuongdoingoaiController extends Controller
         $model->ngayqd = $inputs['ngayqd'];
         $model->chucvunguoikyqd = $inputs['chucvunguoikyqd'];
         $model->hotennguoikyqd = $inputs['hotennguoikyqd'];
+        getDuThaoKhenThuong($model);
         //dd($model);
         $model->save();
         trangthaihoso::create([

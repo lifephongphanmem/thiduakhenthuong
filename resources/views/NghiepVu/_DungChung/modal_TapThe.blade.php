@@ -39,7 +39,13 @@
                     </div>
 
                     <div class="form-group row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
+                            <label class="control-label">Danh hiệu thi đua/Hình thức khen thưởng</label>
+                            {!! Form::select('madanhhieukhenthuong', $a_dhkt_tapthe, null, [
+                                'class' => 'form-control select2_modal',
+                            ]) !!}
+                        </div>
+                        {{-- <div class="col-md-6">
                             <label class="control-label">Danh hiệu thi đua</label>
                             {!! Form::select('madanhhieutd', setArrayAll($a_danhhieutd, 'Không đăng ký', 'null'), null, [
                                 'class' => 'form-control',
@@ -49,7 +55,7 @@
                         <div class="col-md-6">
                             <label class="control-label">Hình thức khen thưởng</label>
                             {!! Form::select('mahinhthuckt', $a_hinhthuckt, $inputs['mahinhthuckt'], ['class' => 'form-control']) !!}
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -82,8 +88,9 @@
                     var form = $('#frm_ThemTapThe');
                     form.find("[name='id']").val(data.id);
                     form.find("[name='maphanloaitapthe']").val(data.maphanloaitapthe).trigger('change');
-                    form.find("[name='madanhhieutd']").val(data.madanhhieutd).trigger('change');
-                    form.find("[name='mahinhthuckt']").val(data.mahinhthuckt).trigger('change');
+                    // form.find("[name='madanhhieutd']").val(data.madanhhieutd).trigger('change');
+                    // form.find("[name='mahinhthuckt']").val(data.mahinhthuckt).trigger('change');
+                    form.find("[name='madanhhieukhenthuong']").val(data.madanhhieukhenthuong).trigger('change');
                     form.find("[name='tentapthe']").val(data.tentapthe);
                 }
             });

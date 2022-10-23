@@ -55,10 +55,14 @@
                 </div>
 
                 <div class="col-lg-6">
+                    <label>Phân loại hồ sơ</label>
+                    {!! Form::select('phanloai', getPhanLoaiHoSo(), null, ['class' => 'form-control']) !!}
+                </div>
+                {{-- <div class="col-lg-6">
                     <label>Loại hình khen thưởng</label>
                     {!! Form::select('maloaihinhkt', $a_loaihinhkt, null, ['class' => 'form-control']) !!}
-                </div>
-            </div>            
+                </div> --}}
+            </div>
 
             <div class="form-group row">
                 <div class="col-lg-6">
@@ -202,9 +206,8 @@
                                                         <th width="5%">STT</th>
                                                         <th>Tên tập thể</th>
                                                         <th>Phân loại<br>tập thể</th>
-                                                        <th>Hình thức<br>khen thưởng</th>
-                                                        <th>Danh hiệu<br>thi đua</th>
-                                                        <th width="15%">Thao tác</th>
+                                                        <th>Hình thức khen thưởng/<br>Danh hiệu thi đua</th>
+                                                        <th width="10%">Thao tác</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -215,24 +218,23 @@
                                                             <td>{{ $tt->tentapthe }}</td>
                                                             <td>{{ $a_tapthe[$tt->maphanloaitapthe] ?? '' }}</td>
                                                             <td class="text-center">
-                                                                {{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
-                                                            <td class="text-center">
-                                                                {{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td>
+                                                                {{ $a_dhkt_tapthe[$tt->madanhhieukhenthuong] ?? '' }}
+                                                            </td>
                                                             <td class="text-center">
                                                                 <button title="Sửa thông tin" type="button"
                                                                     onclick="getTapThe('{{ $tt->id }}')"
                                                                     class="btn btn-sm btn-clean btn-icon"
                                                                     data-target="#modal-create-tapthe"
                                                                     data-toggle="modal">
-                                                                    <i
-                                                                        class="icon-lg la fa-edit text-primary"></i></button>
+                                                                    <i class="icon-lg la fa-edit text-primary"></i>
+                                                                </button>
                                                                 <button title="Xóa" type="button"
-                                                                    onclick="delKhenThuong('{{ $tt->id }}',  '{{ $inputs['url'] . 'XoaTapThe' }}', 'TAPTHE')"
+                                                                    onclick="delKhenThuong('{{ $tt->id }}',  '{{ $inputs['url_hs'] . 'XoaTapThe' }}', 'TAPTHE')"
                                                                     class="btn btn-sm btn-clean btn-icon"
                                                                     data-target="#modal-delete-khenthuong"
                                                                     data-toggle="modal">
-                                                                    <i
-                                                                        class="icon-lg la fa-trash text-danger"></i></button>
+                                                                    <i class="icon-lg la fa-trash text-danger"></i>
+                                                                </button>
 
                                                             </td>
                                                         </tr>
@@ -274,8 +276,7 @@
                                                         <th width="5%">Giới</br>tính</th>
                                                         <th width="15%">Phân loại cán bộ</th>
                                                         <th>Thông tin công tác</th>
-                                                        <th>Hình thức<br>khen thưởng</th>
-                                                        <th>Danh hiệu<br>thi đua</th>
+                                                        <th>Hình thức khen thưởng/<br>Danh hiệu thi đua</th>
                                                         <th width="10%">Thao tác</th>
                                                     </tr>
                                                 </thead>
@@ -292,24 +293,24 @@
                                                                 {{ $tt->chucvu . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}
                                                             </td>
                                                             <td class="text-center">
-                                                                {{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
-                                                            <td class="text-center">
-                                                                {{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td>
+                                                                {{ $a_dhkt_canhan[$tt->madanhhieukhenthuong] ?? '' }}
+                                                            </td>
+
                                                             <td class="text-center">
 
                                                                 <button title="Sửa thông tin" type="button"
                                                                     onclick="getCaNhan('{{ $tt->id }}')"
                                                                     class="btn btn-sm btn-clean btn-icon"
                                                                     data-target="#modal-create" data-toggle="modal">
-                                                                    <i
-                                                                        class="icon-lg la fa-edit text-primary"></i></button>
+                                                                    <i class="icon-lg la fa-edit text-primary"></i>
+                                                                </button>
                                                                 <button title="Xóa" type="button"
-                                                                    onclick="delKhenThuong('{{ $tt->id }}',  '{{ $inputs['url'] . 'XoaCaNhan' }}', 'CANHAN')"
+                                                                    onclick="delKhenThuong('{{ $tt->id }}',  '{{ $inputs['url_hs'] . 'XoaCaNhan' }}', 'CANHAN')"
                                                                     class="btn btn-sm btn-clean btn-icon"
                                                                     data-target="#modal-delete-khenthuong"
                                                                     data-toggle="modal">
-                                                                    <i
-                                                                        class="icon-lg la fa-trash text-danger"></i></button>
+                                                                    <i class="icon-lg la fa-trash text-danger"></i>
+                                                                </button>
 
                                                             </td>
                                                         </tr>
@@ -323,9 +324,8 @@
                                     <div class="form-group row">
                                         <div class="col-lg-12 text-right">
                                             <div class="btn-group" role="group">
-                                                <button type="button" onclick="setDeTai()"
-                                                    data-target="#modal-detai" data-toggle="modal"
-                                                    class="btn btn-light-dark btn-icon btn-sm">
+                                                <button type="button" onclick="setDeTai()" data-target="#modal-detai"
+                                                    data-toggle="modal" class="btn btn-light-dark btn-icon btn-sm">
                                                     <i class="fa fa-plus"></i></button>
                                                 <button title="Nhận từ file Excel" data-target="#modal-nhanexcel"
                                                     data-toggle="modal" type="button"
@@ -354,7 +354,7 @@
                                                     @foreach ($model_detai as $key => $tt)
                                                         <tr class="odd gradeX">
                                                             <td class="text-center">{{ $i++ }}</td>
-                                                            <td>{{ $tt->tensangkien }}</td>                                                            
+                                                            <td>{{ $tt->tensangkien }}</td>
                                                             <td class="text-center">
                                                                 {{ $tt->tendoituong . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}
                                                             </td>
@@ -362,15 +362,13 @@
                                                                 <button title="Sửa thông tin" type="button"
                                                                     onclick="getDeTai('{{ $tt->id }}')"
                                                                     class="btn btn-sm btn-clean btn-icon"
-                                                                    data-target="#modal-detai"
-                                                                    data-toggle="modal">
+                                                                    data-target="#modal-detai" data-toggle="modal">
                                                                     <i class="icon-lg la fa-edit text-primary"></i>
                                                                 </button>
                                                                 <button title="Xóa" type="button"
                                                                     onclick="delDeTai('{{ $tt->id }}',  '{{ $inputs['url_hs'] . 'XoaDeTai' }}')"
                                                                     class="btn btn-sm btn-clean btn-icon"
-                                                                    data-target="#modal-delete-detai"
-                                                                    data-toggle="modal">
+                                                                    data-target="#modal-delete-detai" data-toggle="modal">
                                                                     <i class="icon-lg la fa-trash text-danger"></i>
                                                                 </button>
 
@@ -410,6 +408,6 @@
     @include('NghiepVu._DungChung.modal_TieuChuan')
     @include('NghiepVu._DungChung.modal_XoaDoiTuong')
     @include('NghiepVu._DungChung.modal_Excel')
-    @include('NghiepVu._DungChung.modal_DoiTuong')
+    {{-- @include('NghiepVu._DungChung.modal_DoiTuong') --}}
 
 @stop

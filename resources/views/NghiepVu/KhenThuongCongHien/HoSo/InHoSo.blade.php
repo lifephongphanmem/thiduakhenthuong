@@ -54,8 +54,7 @@
                     <th width="5%">STT</th>
                     <th>Tên tập thể</th>
                     <th>Phân loại tập thể</th>
-                    <th>Hình thức khen thưởng</th>
-                    <th>Danh hiệu thi đua</th>
+                    <th>Hình thức khen thưởng/<br>Danh hiệu thi đua</th>
                 </tr>
             </thead>
             <?php $i = 1; ?>
@@ -64,8 +63,7 @@
                     <td class="text-center">{{ $i++ }}</td>
                     <td>{{ $tt->tentapthe }}</td>
                     <td>{{ $a_phanloaidt[$tt->maphanloaitapthe] ?? '' }}</td>
-                    <td>{{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
-                    <td>{{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td>
+                    <td class="text-center">{{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}</td>
                 </tr>
             @endforeach
         </table>
@@ -81,8 +79,7 @@
                     <th>Tên đối tượng</th>
                     <th>Phân loại cán bộ</th>
                     <th>Thông tin công tác</th>
-                    <th>Hình thức khen thưởng</th>
-                    <th>Danh hiệu thi đua</th>
+                    <th>Hình thức khen thưởng/<br>Danh hiệu thi đua</th>
                 </tr>
             </thead>
             <?php $i = 1; ?>
@@ -92,34 +89,13 @@
                     <td>{{ $tt->tendoituong }}</td>
                     <td>{{ $a_phanloaidt[$tt->maphanloaicanbo] ?? '' }}</td>
                     <td>{{ $tt->chucvu . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}</td>
-                    <td>{{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
-                    <td>{{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td>
+                    <td class="text-center">{{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}</td>
                 </tr>
             @endforeach
         </table>
     @endif
 
-    @if (count($model_detai) > 0)
-    <p style="text-left: center; font-size: 18px;">Thông tin đề tài sáng kiến</p>
-    <table id="data_body2" class="money" cellspacing="0" cellpadding="0" border="1"
-        style="margin: 5px auto; border-collapse: collapse;font:normal 12px Times, serif;">
-        <thead>
-            <tr class="text-center">
-                <th width="10%">STT</th>
-                <th>Tên đề tài, sáng kiến</th>
-                <th>Thông tin tác giả</th>
-            </tr>
-        </thead>
-        <?php $i = 1; ?>
-        @foreach ($model_detai as $key => $tt)
-            <tr class="odd gradeX">
-                <td class="text-center">{{ $i++ }}</td>
-                <td>{{ $tt->tensangkien }}</td>
-                <td>{{ $tt->tendoituong . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}</td>
-            </tr>
-        @endforeach
-    </table>
-    @endif
+    
 
     <table id="data_footer" class="header" width="96%" border="0" cellspacing="0" cellpadding="8"
         style="margin:20px auto; text-align: center;">

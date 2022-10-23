@@ -51,8 +51,10 @@ function getDanhHieuKhenThuong($capdo, $phanloai = 'CANHAN')
     else {
         if ($phanloai == 'CANHAN')
             $m_danhhieu = App\Model\DanhMuc\dmdanhhieuthidua::where('phanloai', $phanloai)->get();
-        else
-            $m_danhhieu = App\Model\DanhMuc\dmdanhhieuthidua::where('phanloai', '<>', $phanloai)->get();
+        else{
+            $m_danhhieu = App\Model\DanhMuc\dmdanhhieuthidua::where('phanloai', '<>', 'CANHAN')->get();            
+        }
+            
     }
     foreach ($m_danhhieu as $danhhieu) {
         if ($capdo == 'ALL')

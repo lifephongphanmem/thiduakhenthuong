@@ -55,7 +55,7 @@
 
                 <div class="col-lg-4">
                     <label>Loại hình khen thưởng</label>
-                    {!! Form::select('maloaihinhkt', $a_loaihinhkt, null, ['class' => 'form-control']) !!}
+                    {!! Form::select('maloaihinhkt', $a_loaihinhkt, null, ['class' => 'form-control', 'disabled']) !!}
                 </div>
 
                 <div class="col-lg-4">
@@ -145,8 +145,7 @@
                                                         <th width="5%">STT</th>
                                                         <th>Tên tập thể</th>
                                                         <th>Nôi dung khen thưởng</th>
-                                                        <th>Hình thức<br>khen thưởng</th>
-                                                        <th>Danh hiệu<br>thi đua</th>
+                                                        <th>Hình thức khen thưởng/<br>Danh hiệu thi đua</th>
                                                         <th width="15%">Thao tác</th>
                                                     </tr>
                                                 </thead>
@@ -158,9 +157,8 @@
                                                             <td>{{ $tt->tentapthe }}</td>
                                                             <td>{{ $tt->noidungkhenthuong }}</td>
                                                             <td class="text-center">
-                                                                {{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
-                                                            <td class="text-center">
-                                                                {{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td>
+                                                                {{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}
+                                                            </td>
                                                             <td class="text-center">
                                                                 <button title="Sửa thông tin" type="button"
                                                                     onclick="getTapThe('{{ $tt->id }}', 'TAPTHE')"
@@ -209,8 +207,7 @@
                                                         <th width="2%">STT</th>
                                                         <th>Tên đối tượng</th>
                                                         <th>Nôi dung khen thưởng</th>
-                                                        <th>Hình thức<br>khen thưởng</th>
-                                                        <th>Danh hiệu<br>thi đua</th>
+                                                        <th>Hình thức khen thưởng/<br>Danh hiệu thi đua</th>
                                                         <th width="10%">Thao tác</th>
                                                     </tr>
                                                 </thead>
@@ -222,9 +219,8 @@
                                                             <td>{{ $tt->tendoituong }}</td>
                                                             <td>{{ $tt->noidungkhenthuong }}</td>
                                                             <td class="text-center">
-                                                                {{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
-                                                            <td class="text-center">
-                                                                {{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td>
+                                                                {{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}
+                                                            </td>
                                                             <td class="text-center">
                                                                 <button title="Sửa thông tin" type="button"
                                                                     onclick="getCaNhan('{{ $tt->id }}', 'CANHAN')"

@@ -70,7 +70,13 @@
                     </div>
 
                     <div class="form-group row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
+                            <label class="control-label">Danh hiệu thi đua/Hình thức khen thưởng</label>
+                            {!! Form::select('madanhhieukhenthuong', $a_dhkt_canhan, null, [
+                                'class' => 'form-control select2_modal',
+                            ]) !!}
+                        </div>
+                        {{-- <div class="col-md-6">
                             <label class="control-label">Danh hiệu thi đua</label>
                             {!! Form::select('madanhhieutd', setArrayAll($a_danhhieutd, 'Không đăng ký', 'null'), null, [
                                 'class' => 'form-control',
@@ -80,7 +86,7 @@
                         <div class="col-md-6">
                             <label class="control-label">Hình thức khen thưởng</label>
                             {!! Form::select('mahinhthuckt', $a_hinhthuckt, $inputs['mahinhthuckt'], ['class' => 'form-control']) !!}
-                        </div>
+                        </div> --}}
                     </div>
 
                 </div>
@@ -121,8 +127,9 @@
                     form.find("[name='tenphongban']").val(data.tenphongban);
                     form.find("[name='tencoquan']").val(data.tencoquan);
                     form.find("[name='maphanloaicanbo']").val(data.maphanloaicanbo).trigger('change');
-                    form.find("[name='mahinhthuckt']").val(data.mahinhthuckt).trigger('change');
-                    form.find("[name='madanhhieutd']").val(data.madanhhieutd).trigger('change');
+                    // form.find("[name='mahinhthuckt']").val(data.mahinhthuckt).trigger('change');
+                    // form.find("[name='madanhhieutd']").val(data.madanhhieutd).trigger('change');
+                    form.find("[name='madanhhieukhenthuong']").val(data.madanhhieukhenthuong).trigger('change');
                 }
             })
         }

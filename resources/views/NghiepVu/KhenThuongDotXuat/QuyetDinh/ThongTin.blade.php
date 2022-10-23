@@ -126,14 +126,14 @@
                                                 <i class="icon-lg la la-reply text-danger"></i>
                                             </button>
 
-                                            @if ($tt->chinhsua)
+                                            {{-- @if ($tt->chinhsua)
                                                 <button type="button"
                                                     onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url_qd'] . 'Xoa' }}')"
                                                     class="btn btn-sm btn-clean btn-icon"
                                                     data-target="#delete-modal-confirm" data-toggle="modal">
                                                     <i class="icon-lg la fa-trash text-danger"></i>
                                                 </button>
-                                            @endif
+                                            @endif --}}
                                         @endif
 
                                         @if ($tt->trangthai == 'DKT')
