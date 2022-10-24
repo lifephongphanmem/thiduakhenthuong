@@ -74,14 +74,33 @@
                 </div>
             </div>
 
+            <div class="form-group row">                
+                <div class="col-md-6">
+                    <label style="font-weight: bold">Cấp độ hồ sơ khen thưởng</label>
+                    {!! Form::select('capkhenthuong', setArrayAll($a_phamvi), $inputs['capkhenthuong'], [
+                        'id' => 'capkhenthuong',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
+                </div>
+                <div class="col-md-6">
+                    <label style="font-weight: bold">Phân loại hồ sơ khen thưởng</label>
+                    {!! Form::select('phanloai', setArrayAll($a_phanloaidt), $inputs['phanloai'], [
+                        'id' => 'phanloai',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
+                </div>
+            </div>
+
             <div class="form-group row">
                 <div class="col-md-12">
                     <table class="table table-striped table-bordered table-hover" id="sample_3">
                         <thead>
                             <tr class="text-center">
                                 <th width="5%">STT</th>
+                                <th width="10%">Cấp độ khen thưởng</th>
+                                <th width="15%">Phân loại hồ sơ</th>
+                                <th width="15%">Hình thức khen thưởng</th>
                                 <th>Nội dung hồ sơ</th>
-                                <th>Hình thức khen thưởng</th>
                                 <th width="8%">Trạng thái</th>
                                 <th width="10%">Thao tác</th>
                             </tr>
@@ -90,8 +109,10 @@
                         @foreach ($model as $key => $tt)
                             <tr>
                                 <td class="text-center">{{ $key + 1 }}</td>
-                                <td>{{ $tt->noidung }}</td>
+                                <td>{{ $a_phamvi[$tt->capkhenthuong] ?? $tt->capkhenthuong }}</td>
+                                <td>{{ $a_phanloaidt[$tt->phanloai] ?? $tt->phanloai }}</td>
                                 <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? $tt->maloaihinhkt }}</td>
+                                <td>{{ $tt->noidung }}</td>
                                 @include('includes.td.td_trangthai_hoso')
 
                                 <td style="text-align: center">

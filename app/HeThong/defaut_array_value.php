@@ -17,6 +17,23 @@ function getPhanLoaiHoSo()
     );
 }
 
+function getPhamViKhenCao()
+{
+    return array(
+        'H' => 'Hồ sơ khen cao cấp Huyện',
+        'T' => 'Hồ sơ khen cao cấp Tỉnh',
+        'TW' => 'Hồ sơ khen cao cấp TW',
+    );
+}
+
+function getPhanLoaiHoSoKhenCao()
+{
+    return array(
+        'CHINHPHU' => 'Hồ sơ cao của Chính phủ, Thủ tướng chính phủ',
+        'CHUTICHNUOC' => 'Hồ sơ cao của Nhà nước, Chủ tịch nước',
+    );
+}
+
 function getDuThaoKhenThuong(&$model)
 {
     if ($model->thongtinquyetdinh == '') {

@@ -57,6 +57,8 @@ class dshosokhencaoController extends Controller
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         $inputs['maloaihinhkt'] = $inputs['maloaihinhkt'] ?? 'ALL';
+        $inputs['capkhenthuong'] = $inputs['capkhenthuong'] ?? 'ALL';
+        $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
         $model = dshosokhencao::where('madonvi', $inputs['madonvi']);
         if ($inputs['maloaihinhkt'] != 'ALL')
             $model = $model->where('maloaihinhkt', $inputs['maloaihinhkt']);
@@ -76,6 +78,8 @@ class dshosokhencaoController extends Controller
             ->with('m_diaban', $m_diaban)
             ->with('a_donviql', getDonViQuanLyDiaBan($donvi))
             ->with('a_loaihinhkt', array_column($m_loaihinh->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+            ->with('a_phamvi', getPhamViKhenCao())
+            ->with('a_phanloaidt', getPhanLoaiHoSoKhenCao())
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách hồ sơ đề nghị khen cao');
     }
@@ -95,8 +99,8 @@ class dshosokhencaoController extends Controller
         $model = dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
         $model->tendonvi = $donvi->tendonvi;
-        $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
-        $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
+        $a_dhkt_canhan = getDanhHieuKhenThuong('TW');
+        $a_dhkt_tapthe = getDanhHieuKhenThuong('TW', 'TAPTHE');
         $model->tendonvi = $donvi->tendonvi;
         $model_canhan =  dshosokhencao_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
         $model_tapthe = dshosokhencao_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();

@@ -73,6 +73,10 @@
                                 cáo hình thức khen thưởng trên địa bàn (Mẫu 02)</button>
                         </li>
                         <li>
+                            <button class="btn btn-clean text-dark" onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenThuong_m3')" data-target="#modal-khenthuong" data-toggle="modal">Báo
+                                cáo hình thức khen thưởng (Khen cao)</button>
+                        </li>
+                        <li>
                             <button type="button" onclick="setBaoCaoKT('frm_thongtu03','/BaoCao/TongHop/Mau0701')"
                                 class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
                                 phong trào thi đua (mẫu 0701.N/BNV-TĐKT)</button>

@@ -60,7 +60,7 @@
                 </div>
             </div>
 
-            <div class="form-group row">
+            {{-- <div class="form-group row">
                 <div class="col-11">
                     <label>Tên phong trào thi đua</label>
                     {!! Form::select('maphongtraotd', setArrayAll($a_phongtraotd, 'Không chọn', 'null'), null, [
@@ -71,6 +71,17 @@
                     <label class="text-center">Chọn</label>
                     <button type="button" class="btn btn-default" data-target="#modal-phongtraotd" data-toggle="modal">
                         <i class="fa fa-plus"></i></button>
+                </div>
+            </div> --}}
+
+            <div class="form-group row">
+                <div class="col-lg-6">
+                    <label>Cấp độ khen thưởng</label>
+                    {!! Form::select('capkhenthuong', getPhamViKhenCao(), null, ['class' => 'form-control']) !!}
+                </div>
+                <div class="col-lg-6">
+                    <label>Phân loại hồ sơ</label>
+                    {!! Form::select('phanloai', getPhanLoaiHoSoKhenCao(), null, ['class' => 'form-control']) !!}
                 </div>
             </div>
 
