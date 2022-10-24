@@ -113,7 +113,7 @@
         @foreach ($model as $chitiet)
             <tr>
                 <td class="text-bold text-center">{{ $i++ }}</td>
-                <td class="text-bold">{{ $chitiet->tenhinhthuckt }}</td>
+                <td class="text-bold">{{ $chitiet->tendanhhieukhenthuong }}</td>
 
                 <td class="text-center">{{ dinhdangso($chitiet->tongso) }}</td>
                 <td class="text-center">{{ dinhdangso($chitiet->tongdn) }}</td>

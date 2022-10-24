@@ -51,11 +51,11 @@
             <tr class="text-center">
                 <th style="width: 3%" rowspan="2">STT</th>
                 <th rowspan="2">Tên đơn vị</th>
-                <th colspan="{{ count($a_danhhieutd) + 1 }}">Hình thức khen thưởng</th>
+                <th colspan="{{ count($a_hinhthuckt) + 1 }}">Hình thức khen thưởng</th>
             </tr>
             <tr class="text-center">
                 <th style="width: 10%">Tổng số</th>
-                @foreach ($a_danhhieutd as $k => $v)
+                @foreach ($a_hinhthuckt as $k => $v)
                     <th>{{ $v }}</th>
                 @endforeach
             </tr>
@@ -70,7 +70,7 @@
                 <td class="text-bold text-center">{{ IntToRoman($i++) }}</td>
                 <td class="text-bold">{{ $v_diaban }}</td>
                 <td class="text-center">{{ dinhdangso($chitiet->sum('tongso')) }}</td>
-                @foreach ($a_danhhieutd as $k_lh => $v_lh)
+                @foreach ($a_hinhthuckt as $k_lh => $v_lh)
                     <td class="text-center">{{ dinhdangso($chitiet->sum($k_lh)) }}</td>
                 @endforeach
             </tr>
@@ -80,7 +80,7 @@
                     <td class="text-right">{{ $k++ }}</td>
                     <td>{{ $ct->tendonvi }}</td>
                     <td class="text-center">{{ dinhdangso($ct->tongso) }}</td>
-                    @foreach ($a_danhhieutd as $k_lh => $v_lh)
+                    @foreach ($a_hinhthuckt as $k_lh => $v_lh)
                         <td class="text-center">{{ dinhdangso($ct->$k_lh) }}</td>
                     @endforeach
                 </tr>
@@ -89,7 +89,7 @@
         <tr class="font-weight-boldest">
             <td class="text-center" colspan="2">Tổng cộng</td>
             <td class="text-center">{{ dinhdangso($model->sum('tongso')) }}</td>
-            @foreach ($a_danhhieutd as $k_lh => $v_lh)
+            @foreach ($a_hinhthuckt as $k_lh => $v_lh)
                 <td class="text-center">{{ dinhdangso($model->sum($k_lh)) }}</td>
             @endforeach
         </tr>

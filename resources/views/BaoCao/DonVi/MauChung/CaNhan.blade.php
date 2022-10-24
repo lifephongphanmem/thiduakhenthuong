@@ -72,8 +72,7 @@ style="margin:0 auto 25px; text-align: center;">
                     <th rowspan="2">Phân loại cán bộ</th>
                     <th rowspan="2">Thông tin công tác</th>
                     <th rowspan="2">Loại hình khen thưởng</th>
-                    <th rowspan="2">Danh hiệu thi đua</th>
-                    <th rowspan="2">Hình thức khen thưởng</th>
+                    <th rowspan="2">Danh hiệu thi đua/<br>Hình thức khen thưởng</th>
 
                 </tr>
                 <tr class="text-center">
@@ -97,8 +96,7 @@ style="margin:0 auto 25px; text-align: center;">
                     <td>{{ $a_canhan[$tt->maphanloaicanbo] ?? '' }}</td>
                     <td>{{ $tt->chucvu . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}</td>
                     <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
-                    <td>{{ $a_danhhieu[$tt->madanhhieutd] ?? '' }}</td>
-                    <td>{{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
+                    <td class="text-center">{{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}</td>
                 </tr>
             @endforeach
         </table>

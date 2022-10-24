@@ -80,8 +80,10 @@ class baocaodonviController extends Controller
         }
 
         $m_donvi = dsdonvi::where('madonvi', $m_khenthuong->first()->madonvi)->first();
-
+		$a_dhkt = getDanhHieuKhenThuong('ALL');
+		
         return view('BaoCao.DonVi.MauChung.CaNhan')
+		->with('a_dhkt', $a_dhkt)
             ->with('inputs', $inputs)
             ->with('model', $m_khenthuong->first())
             ->with('model_khenthuong', $m_khenthuong)
@@ -112,7 +114,10 @@ class baocaodonviController extends Controller
                 ->with('url', '/BaoCao/DonVi/ThongTin');
         }
         $m_donvi = dsdonvi::where('madonvi', $m_khenthuong->first()->madonvi)->first();
+        $a_dhkt = getDanhHieuKhenThuong('ALL');
+		
         return view('BaoCao.DonVi.MauChung.TapThe')
+		->with('a_dhkt', $a_dhkt)
             ->with('inputs', $inputs)
             ->with('model', $m_khenthuong->first())
             ->with('model_khenthuong', $m_khenthuong)

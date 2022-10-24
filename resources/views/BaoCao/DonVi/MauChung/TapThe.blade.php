@@ -71,9 +71,7 @@ style="margin: 5px auto; border-collapse: collapse;font:normal 12px Times, serif
         <th rowspan="2">Tên cơ quan, tập thể</th>
         <th rowspan="2">Phân loại cơ quan, tập thể</th>
         <th rowspan="2">Loại hình khen thưởng</th>
-        <th rowspan="2">Danh hiệu thi đua</th>
-        <th rowspan="2">Hình thức khen thưởng</th>
-
+        <th rowspan="2">Danh hiệu thi đua/<br>Hình thức khen thưởng</th>
     </tr>
     <tr class="text-center">
         <th>Số QĐ</th>
@@ -94,10 +92,9 @@ style="margin: 5px auto; border-collapse: collapse;font:normal 12px Times, serif
             <td class="text-center">{{ $tt->sototrinh }}</td>
             <td class="text-center">{{ getDayVn($tt->ngayhoso) }}</td>
             <td>{{ $tt->tentapthe }}</td>
-            <td>{{ $a_tapthe[$tt->maphanloaitapthe] ?? '' }}</td>
+            <td>{{ $a_canhan[$tt->maphanloaitapthe] ?? '' }}</td>
             <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
-            <td>{{ $a_danhhieu[$tt->madanhhieutd] ?? '' }}</td>
-            <td>{{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
+            <td class="text-center">{{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}</td>
         </tr>
     @endforeach
 </tbody>

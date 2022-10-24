@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Database\Eloquent\Collection;
+
 function getQuyetDinhCKE($maso)
 {
     $a_qd = [];
@@ -51,10 +53,9 @@ function getDanhHieuKhenThuong($capdo, $phanloai = 'CANHAN')
     else {
         if ($phanloai == 'CANHAN')
             $m_danhhieu = App\Model\DanhMuc\dmdanhhieuthidua::where('phanloai', $phanloai)->get();
-        else{
-            $m_danhhieu = App\Model\DanhMuc\dmdanhhieuthidua::where('phanloai', '<>', 'CANHAN')->get();            
+        else {
+            $m_danhhieu = App\Model\DanhMuc\dmdanhhieuthidua::where('phanloai', '<>', 'CANHAN')->get();
         }
-            
     }
     foreach ($m_danhhieu as $danhhieu) {
         if ($capdo == 'ALL')
@@ -70,6 +71,25 @@ function getDanhHieuKhenThuong($capdo, $phanloai = 'CANHAN')
     }
 
     return $a_ketqua;
+}
+
+function DHKT_BaoCao()
+{
+    $ketqua = new Collection();
+    $m_danhhieu = App\Model\DanhMuc\dmdanhhieuthidua::all();
+
+    foreach ($m_danhhieu as $danhhieu) {
+        $danhhieu->madanhhieukhenthuong = $danhhieu->madanhhieutd;
+        $danhhieu->tendanhhieukhenthuong = $danhhieu->tendanhhieutd;
+        $ketqua->add($danhhieu);
+    }
+    foreach (App\Model\DanhMuc\dmhinhthuckhenthuong::all() as $danhhieu) {
+        $danhhieu->madanhhieukhenthuong = $danhhieu->mahinhthuckt;
+        $danhhieu->tendanhhieukhenthuong = $danhhieu->tenhinhthuckt;
+        $ketqua->add($danhhieu);
+    }
+
+    return $ketqua;
 }
 
 function getDoiTuongKhenCao()
