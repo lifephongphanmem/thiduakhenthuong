@@ -172,7 +172,7 @@
                                             <span class="nav-text">Khen thưởng cá nhân</span>
                                         </a>
                                     </li>
-                                    
+
                                 </ul>
                             </div>
                             <div class="card-toolbar">
@@ -209,9 +209,9 @@
                                                         <th width="5%">STT</th>
                                                         <th>Tên tập thể</th>
                                                         <th>Phân loại<br>tập thể</th>
-                                                        <th>Hình thức<br>khen thưởng</th>
-                                                        <th>Danh hiệu<br>thi đua</th>
-                                                        <th width="15%">Thao tác</th>
+                                                        <th>Hình thức khen thưởng/<br>Danh hiệu thi đua</th>
+                                                        <th>Kết quả<br>khen thưởng</th>
+                                                        <th width="10%">Thao tác</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -222,25 +222,35 @@
                                                             <td>{{ $tt->tentapthe }}</td>
                                                             <td>{{ $a_tapthe[$tt->maphanloaitapthe] ?? '' }}</td>
                                                             <td class="text-center">
-                                                                {{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
-                                                            <td class="text-center">
-                                                                {{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td>
+                                                                {{ $a_dhkt_tapthe[$tt->madanhhieukhenthuong] ?? '' }}</td>
+
+                                                            @if ($tt->ketqua == 1)
+                                                                <td class="text-center">
+                                                                    <a class="btn btn-sm btn-clean btn-icon">
+                                                                        <i
+                                                                            class="icon-lg la fa-check text-primary icon-2x"></i></a>
+                                                                @else
+                                                                <td class="text-center">
+                                                                    <a class="btn btn-sm btn-clean btn-icon">
+                                                                        <i
+                                                                            class="icon-lg la fa-times-circle text-danger icon-2x"></i></a>
+                                                                </td>
+                                                            @endif
                                                             <td class="text-center">
                                                                 <button title="Sửa thông tin" type="button"
                                                                     onclick="getTapThe('{{ $tt->id }}')"
                                                                     class="btn btn-sm btn-clean btn-icon"
                                                                     data-target="#modal-create-tapthe"
                                                                     data-toggle="modal">
-                                                                    <i
-                                                                        class="icon-lg la fa-edit text-primary"></i>
-                                                                    </button>
+                                                                    <i class="icon-lg la fa-edit text-primary"></i>
+                                                                </button>
                                                                 <button title="Xóa" type="button"
                                                                     onclick="delKhenThuong('{{ $tt->id }}',  '{{ $inputs['url_hs'] . 'XoaTapThe' }}', 'TAPTHE')"
                                                                     class="btn btn-sm btn-clean btn-icon"
                                                                     data-target="#modal-delete-khenthuong"
                                                                     data-toggle="modal">
                                                                     <i class="icon-lg la fa-trash text-danger"></i>
-                                                                    </button>
+                                                                </button>
 
                                                             </td>
                                                         </tr>
@@ -282,8 +292,8 @@
                                                         <th width="5%">Giới</br>tính</th>
                                                         <th width="15%">Phân loại cán bộ</th>
                                                         <th>Thông tin công tác</th>
-                                                        <th>Hình thức<br>khen thưởng</th>
-                                                        <th>Danh hiệu<br>thi đua</th>
+                                                        <th>Hình thức khen thưởng/<br>Danh hiệu thi đua</th>
+                                                        <th>Kết quả<br>khen thưởng</th>
                                                         <th width="10%">Thao tác</th>
                                                     </tr>
                                                 </thead>
@@ -300,26 +310,34 @@
                                                                 {{ $tt->chucvu . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}
                                                             </td>
                                                             <td class="text-center">
-                                                                {{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
+                                                                {{ $a_dhkt_canhan[$tt->madanhhieukhenthuong] ?? '' }}
+                                                            </td>
+                                                            @if ($tt->ketqua == 1)
+                                                                <td class="text-center">
+                                                                    <a class="btn btn-sm btn-clean btn-icon">
+                                                                        <i
+                                                                            class="icon-lg la fa-check text-primary icon-2x"></i></a>
+                                                                @else
+                                                                <td class="text-center">
+                                                                    <a class="btn btn-sm btn-clean btn-icon">
+                                                                        <i
+                                                                            class="icon-lg la fa-times-circle text-danger icon-2x"></i></a>
+                                                                </td>
+                                                            @endif
                                                             <td class="text-center">
-                                                                {{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td>
-                                                            <td class="text-center">
-
                                                                 <button title="Sửa thông tin" type="button"
                                                                     onclick="getCaNhan('{{ $tt->id }}')"
                                                                     class="btn btn-sm btn-clean btn-icon"
                                                                     data-target="#modal-create" data-toggle="modal">
-                                                                    <i
-                                                                        class="icon-lg la fa-edit text-primary"></i>
-                                                                    </button>
+                                                                    <i class="icon-lg la fa-edit text-primary"></i>
+                                                                </button>
                                                                 <button title="Xóa" type="button"
                                                                     onclick="delKhenThuong('{{ $tt->id }}',  '{{ $inputs['url_hs'] . 'XoaCaNhan' }}', 'CANHAN')"
                                                                     class="btn btn-sm btn-clean btn-icon"
                                                                     data-target="#modal-delete-khenthuong"
                                                                     data-toggle="modal">
-                                                                    <i
-                                                                        class="icon-lg la fa-trash text-danger"></i>
-                                                                    </button>
+                                                                    <i class="icon-lg la fa-trash text-danger"></i>
+                                                                </button>
 
                                                             </td>
                                                         </tr>
@@ -329,7 +347,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -357,6 +375,6 @@
     {{-- @include('NghiepVu._DungChung.modal_TieuChuan') --}}
     @include('NghiepVu._DungChung.modal_XoaDoiTuong')
     @include('NghiepVu._DungChung.modal_QD_Excel')
-    @include('NghiepVu._DungChung.modal_DoiTuong')
+    {{-- @include('NghiepVu._DungChung.modal_DoiTuong') --}}
 
 @stop

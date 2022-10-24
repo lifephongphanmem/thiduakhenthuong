@@ -67,11 +67,11 @@
                         'class' => 'form-control select2basic',
                     ]) !!}
                 </div>
-                <div class="col-1">
+                {{-- <div class="col-1">
                     <label class="text-center">Chọn</label>
                     <button type="button" class="btn btn-default" data-target="#modal-phongtraotd" data-toggle="modal">
                         <i class="fa fa-plus"></i></button>
-                </div>
+                </div> --}}
             </div>
 
             <div class="form-group row">
@@ -216,9 +216,8 @@
                                                         <th width="5%">STT</th>
                                                         <th>Tên tập thể</th>
                                                         <th>Phân loại<br>tập thể</th>
-                                                        <th>Hình thức<br>khen thưởng</th>
-                                                        <th>Danh hiệu<br>thi đua</th>
-                                                        <th width="15%">Thao tác</th>
+                                                        <th>Hình thức khen thưởng/<br>Danh hiệu thi đua</th>
+                                                        <th width="10%">Thao tác</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -228,10 +227,7 @@
                                                             <td class="text-center">{{ $i++ }}</td>
                                                             <td>{{ $tt->tentapthe }}</td>
                                                             <td>{{ $a_tapthe[$tt->maphanloaitapthe] ?? '' }}</td>
-                                                            <td class="text-center">
-                                                                {{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
-                                                            <td class="text-center">
-                                                                {{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td>
+                                                            <td class="text-center">{{ $a_dhkt_canhan[$tt->madanhhieukhenthuong] ?? '' }}</td>
                                                             <td class="text-center">
                                                                 <button title="Sửa thông tin" type="button"
                                                                     onclick="getTapThe('{{ $tt->id }}')"
@@ -288,8 +284,7 @@
                                                         <th width="5%">Giới</br>tính</th>
                                                         <th width="15%">Phân loại cán bộ</th>
                                                         <th>Thông tin công tác</th>
-                                                        <th>Hình thức<br>khen thưởng</th>
-                                                        <th>Danh hiệu<br>thi đua</th>
+                                                        <th>Hình thức khen thưởng/<br>Danh hiệu thi đua</th>
                                                         <th width="10%">Thao tác</th>
                                                     </tr>
                                                 </thead>
@@ -305,11 +300,7 @@
                                                             <td class="text-center">
                                                                 {{ $tt->chucvu . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}
                                                             </td>
-                                                            <td class="text-center">
-                                                                {{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
-                                                            <td class="text-center">
-                                                                {{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td>
-                                                            <td class="text-center">
+                                                            <td class="text-center">{{ $a_dhkt_canhan[$tt->madanhhieukhenthuong] ?? '' }}</td>
 
                                                                 <button title="Sửa thông tin" type="button"
                                                                     onclick="getCaNhan('{{ $tt->id }}')"

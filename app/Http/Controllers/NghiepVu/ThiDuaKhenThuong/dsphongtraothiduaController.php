@@ -402,7 +402,7 @@ class dsphongtraothiduaController extends Controller
         $inputs = $request->all();
         //dd($inputs);
         $model = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
-        $model->trangthai = 'CXKT';
+        $model->trangthai = $inputs['trangthai'];
         $model->thoigian = date('Y-m-d H:i:s');
         $model->save();
 
