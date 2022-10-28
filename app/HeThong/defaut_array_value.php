@@ -39,16 +39,16 @@ function getDuThaoKhenThuong(&$model)
     if ($model->thongtinquyetdinh == '') {
         getQuyetDinhKhenThuong($model);
     }
-    $tendonvi = dsdonvi::where('madonvi',$model->madonvi)->first()->tendonvi ?? '';
-    $model->thongtinquyetdinh = str_replace('[chucvunguoiky]', $model->chucvunguoiky, $model->thongtinquyetdinh);    
+    $tendonvi = dsdonvi::where('madonvi', $model->madonvi)->first()->tendonvi ?? '';
+    $model->thongtinquyetdinh = str_replace('[chucvunguoiky]', $model->chucvunguoiky, $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[hotennguoiky]',  $model->hotennguoiky, $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[soqd]',  $model->soqd, $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[sototrinh]',  $model->sototrinh, $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[diadanh]',  '......', $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[ngayqd]',  Date2Str($model->ngayqd), $model->thongtinquyetdinh);
-    $model->thongtinquyetdinh = str_replace('[ngayhoso]',  Date2Str($model->ngayhoso), $model->thongtinquyetdinh);    
-    $model->thongtinquyetdinh = str_replace('[donvidenghi]',  $tendonvi, $model->thongtinquyetdinh);    
-    $model->thongtinquyetdinh = str_replace('[donvikhenthuong]',  $model->donvikhenthuong, $model->thongtinquyetdinh);    
+    $model->thongtinquyetdinh = str_replace('[ngayhoso]',  Date2Str($model->ngayhoso), $model->thongtinquyetdinh);
+    $model->thongtinquyetdinh = str_replace('[donvidenghi]',  $tendonvi, $model->thongtinquyetdinh);
+    $model->thongtinquyetdinh = str_replace('[donvikhenthuong]',  $model->donvikhenthuong, $model->thongtinquyetdinh);
 }
 
 function getQuyetDinhKhenThuong(&$model)
@@ -439,7 +439,35 @@ function getTrangThaiHoSo()
         'BTLXD' => 'Trả lại xét duyệt',
         'CXKT' => 'Chờ xét khen thưởng',
         'DKT' => 'Đã khen thưởng',
-        'DXKT' => 'Đang xétkhen thưởng',
+        'DXKT' => 'Đang xét khen thưởng',
         'DD' => 'Đã duyệt',
+    ];
+}
+
+//Gán cho mặc định chức năg
+function getTrangThaiChucNangHoSo()
+{
+    return [
+        'CC' => 'Chờ chuyển', //=>Nộp hồ sơ bình thưởng
+        'CXKT' => 'Chờ xét khen thưởng', //Đã gán madonvi_xd,madonvi_kt,
+        'DKT' => 'Đã khen thưởng', //Đã gán madonvi_xd,madonvi_kt,
+    ];
+}
+
+function getTEST()
+{
+    return [
+        'HOSO' => ['CC' => 'Chờ chuyển',],
+        'XETDUYET' => ['CD' => 'Chờ duyệt', 'DD' => 'Đã duyệt',],
+        'PHEDUYET' => ['CXKT' => 'Chờ xét khen thưởng', 'DKT' => 'Đã khen thưởng',],
+    ];
+}
+
+function getTEST_gr()
+{
+    return [
+        'HOSO' => 'Hồ sơ',
+        'XETDUYET' => 'Xét duyệt',
+        'PHEDUYET' => 'Phê duyệt',
     ];
 }

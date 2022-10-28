@@ -400,7 +400,7 @@ class dshosokhenthuongchuyendeController extends Controller
     public function ChuyenHoSo(Request $request)
     {
         if (!chkPhanQuyen('dshosokhenthuongchuyende', 'hoanthanh')) {
-            return view('errors.noperm')->with('machucnang', 'dshosokhenthuongcongtrang')->with('tenphanquyen', 'hoanthanh');
+            return view('errors.noperm')->with('machucnang', 'dshosodenghikhenthuongcongtrang')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();

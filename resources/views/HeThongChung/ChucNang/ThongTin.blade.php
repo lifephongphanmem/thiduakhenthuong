@@ -62,6 +62,7 @@
                     form.find("[name='api']").val(data.api);
                     form.find("[name='mahinhthuckt']").val(data.mahinhthuckt).trigger('change');
                     form.find("[name='maloaihinhkt']").val(data.maloaihinhkt).trigger('change');
+                    form.find("[name='trangthai']").val(data.trangthai).trigger('change');
                 }
             });
         }
@@ -106,12 +107,13 @@
                                 <th rowspan="2" width="10%">STT</th>
                                 <th rowspan="2">Mã số</th>
                                 <th rowspan="2">Tên chức năng</th>
-                                <th colspan="2">Tham số mặc định</th>
-                                <th rowspan="2" width="15%">Thao tác</th>
+                                <th colspan="3">Tham số mặc định</th>
+                                <th rowspan="2" width="10%">Thao tác</th>
                             </tr>
                             <tr class="text-center">
-                                <th width="15%">Hình thức</br>khen thưởng</th>
-                                <th width="15%">Loại hình</br>khen thưởng</th>
+                                <th width="12%">Hình thức</br>khen thưởng</th>
+                                <th width="12%">Loại hình</br>khen thưởng</th>
+                                <th width="12%">Trạng thái</br>hồ sơ</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -124,28 +126,33 @@
                                     <td class="font-weight-bold {{ $c1->sudung == 0 ? 'text-line-through' : '' }}">{{ $c1->machucnang }}</td>
                                     <td class="font-weight-bold {{ $c1->sudung == 0 ? 'text-line-through' : '' }}">{{ $c1->tenchucnang }}</td>
                                     <td class="font-weight-bold {{ $c1->sudung == 0 ? 'text-line-through' : '' }}">
-                                        {{ $a_hinhthuckt[$c1->mahinhthuckt] ?? '' }}</td>
+                                        {{ $a_hinhthuckt[$c1->mahinhthuckt] ?? '' }}
+                                    </td>
                                     <td class="font-weight-bold {{ $c1->sudung == 0 ? 'text-line-through' : '' }}">
-                                        {{ $a_loaihinhkt[$c1->maloaihinhkt] ?? '' }}</td>
+                                        {{ $a_loaihinhkt[$c1->maloaihinhkt] ?? '' }}
+                                    </td>
+                                    <td class="font-weight-bold {{ $c1->sudung == 0 ? 'text-line-through' : '' }}">
+                                        {{ $a_trangthaihs[$c1->trangthai] ?? '' }}
+                                    </td>
                                     <td style="text-decoration: none;text-align: center">
                                         @if (chkPhanQuyen('hethongchung_chucnang', 'thaydoi'))
                                             <button onclick="getChucNang({{ $c1->id }})"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                 title="Thay đổi thông tin" data-toggle="modal">
-                                                <i class="icon-lg la fa-edit text-primary icon-2x"></i></button>
+                                                <i class="icon-lg la fa-edit text-primary"></i></button>
                                             {{-- chỉ để quyền SSA thêm chức năng mới --}}
                                             @if (session('admin')->capdo == 'SSA' && $c1->sudung == '1')
                                                 <button
                                                     onclick="addChucNang('{{ $c1->machucnang }}','2','{{ count($model_c2) + 1 }}')"
                                                     class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                     title="Thêm chức năng" data-toggle="modal">
-                                                    <i class="icon-lg la fa-plus text-primary icon-2x"></i>
+                                                    <i class="icon-lg la fa-plus text-primary"></i>
                                                 </button>
                                                 <button title="Xóa thông tin" type="button"
                                                     onclick="confirmDelete('{{ $c1->id }}','/ChucNang/Xoa')"
                                                     class="btn btn-sm btn-clean btn-icon"
                                                     data-target="#delete-modal-confirm" data-toggle="modal">
-                                                    <i class="icon-lg la fa-trash-alt text-danger icon-2x"></i>
+                                                    <i class="icon-lg la fa-trash-alt text-danger"></i>
                                                 </button>
                                             @endif
                                         @endif
@@ -165,24 +172,25 @@
                                         <td class="{{ $sudung_c2 == 0 ? 'text-line-through' : '' }}">{{ $c2->tenchucnang }}</td>
                                         <td class="{{ $sudung_c2 == 0 ? 'text-line-through' : '' }}">{{ $a_hinhthuckt[$c2->mahinhthuckt] ?? '' }}</td>
                                         <td class="{{ $sudung_c2 == 0 ? 'text-line-through' : '' }}">{{ $a_loaihinhkt[$c2->maloaihinhkt] ?? '' }}</td>
+                                        <td class="{{ $sudung_c2 == 0 ? 'text-line-through' : '' }}">{{ $a_trangthaihs[$c2->trangthai] ?? '' }}</td>
                                         <td style="text-decoration: none;text-align: center">
                                             @if (chkPhanQuyen('hethongchung_chucnang', 'thaydoi'))
                                                 <button onclick="getChucNang({{ $c2->id }})"
                                                     class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                     title="Thay đổi thông tin" data-toggle="modal">
-                                                    <i class="icon-lg la fa-edit text-dark icon-2x"></i>
+                                                    <i class="icon-lg la fa-edit text-dark"></i>
                                                 </button>
                                                 @if (session('admin')->capdo == 'SSA' && $sudung_c2 == '1')
                                                     <button
                                                         onclick="addChucNang('{{ $c2->machucnang }}','3','{{ count($model_c3) + 1 }}')"
                                                         class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                         title="Thêm chức năng" data-toggle="modal">
-                                                        <i class="icon-lg la fa-plus text-dark icon-2x"></i></button>
+                                                        <i class="icon-lg la fa-plus text-dark"></i></button>
                                                     <button title="Xóa thông tin" type="button"
                                                         onclick="confirmDelete('{{ $c2->id }}','/ChucNang/Xoa')"
                                                         class="btn btn-sm btn-clean btn-icon"
                                                         data-target="#delete-modal-confirm" data-toggle="modal">
-                                                        <i class="icon-lg la fa-trash-alt text-danger icon-2x"></i>
+                                                        <i class="icon-lg la fa-trash-alt text-danger"></i>
                                                     </button>
                                                 @endif
                                             @endif
@@ -203,25 +211,26 @@
                                             <td class="{{ $sudung_c3 == 0 ? 'text-line-through' : '' }}">{{ $c3->tenchucnang }}</td>
                                             <td class="{{ $sudung_c3 == 0 ? 'text-line-through' : '' }}">{{ $a_hinhthuckt[$c3->mahinhthuckt] ?? '' }}</td>
                                             <td class="{{ $sudung_c3 == 0 ? 'text-line-through' : '' }}">{{ $a_loaihinhkt[$c3->maloaihinhkt] ?? '' }}</td>
+                                            <td class="{{ $sudung_c3 == 0 ? 'text-line-through' : '' }}">{{ $a_trangthaihs[$c3->trangthai] ?? '' }}</td>
                                             <td style="text-align: center">
                                                 @if (chkPhanQuyen('hethongchung_chucnang', 'thaydoi'))
                                                     <button onclick="getChucNang({{ $c3->id }})"
                                                         class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                         title="Thay đổi thông tin" data-toggle="modal">
-                                                        <i class="icon-lg la fa-edit text-dark icon-2x"></i></button>
+                                                        <i class="icon-lg la fa-edit text-dark"></i></button>
                                                     @if (session('admin')->capdo == 'SSA' && $sudung_c3 == '1')
                                                         <button
                                                             onclick="addChucNang('{{ $c3->machucnang }}','4','{{ count($model_c4) + 1 }}')"
                                                             class="btn btn-sm btn-clean btn-icon"
                                                             data-target="#modify-modal" title="Thêm chức năng"
                                                             data-toggle="modal">
-                                                            <i class="icon-lg la fa-plus text-dark icon-2x"></i>
+                                                            <i class="icon-lg la fa-plus text-dark"></i>
                                                         </button>
                                                         <button title="Xóa thông tin" type="button"
                                                             onclick="confirmDelete('{{ $c3->id }}','/ChucNang/Xoa')"
                                                             class="btn btn-sm btn-clean btn-icon"
                                                             data-target="#delete-modal-confirm" data-toggle="modal">
-                                                            <i class="icon-lg la fa-trash-alt text-danger icon-2x"></i>
+                                                            <i class="icon-lg la fa-trash-alt text-danger"></i>
                                                         </button>
                                                     @endif
                                                 @endif
@@ -241,20 +250,21 @@
                                                 <td class="{{ $sudung_c4 == 0 ? 'text-line-through' : '' }}">{{ $c4->tenchucnang }}</td>
                                                 <td class="{{ $sudung_c4 == 0 ? 'text-line-through' : '' }}">{{ $a_hinhthuckt[$c4->mahinhthuckt] ?? '' }}</td>
                                                 <td class="{{ $sudung_c4 == 0 ? 'text-line-through' : '' }}">{{ $a_loaihinhkt[$c4->maloaihinhkt] ?? '' }}</td>
+                                                <td class="{{ $sudung_c4 == 0 ? 'text-line-through' : '' }}">{{ $a_trangthaihs[$c4->trangthai] ?? '' }}</td>
                                                 <td style="text-align: center">
                                                     @if (chkPhanQuyen('hethongchung_chucnang', 'thaydoi'))
                                                         <button onclick="getChucNang({{ $c4->id }})"
                                                             class="btn btn-sm btn-clean btn-icon"
                                                             data-target="#modify-modal" title="Thay đổi thông tin"
                                                             data-toggle="modal">
-                                                            <i class="icon-lg la fa-edit text-dark icon-2x"></i>
+                                                            <i class="icon-lg la fa-edit text-dark"></i>
                                                         </button>
                                                         @if (session('admin')->capdo == 'SSA' && $sudung_c4 == '1')
                                                             <button title="Xóa thông tin" type="button"
                                                                 onclick="confirmDelete('{{ $c4->id }}','TaiKhoan/Xoa')"
                                                                 class="btn btn-sm btn-clean btn-icon"
                                                                 data-target="#delete-modal-confirm" data-toggle="modal">
-                                                                <i class="icon-lg la fa-trash-alt text-danger icon-2x"></i>
+                                                                <i class="icon-lg la fa-trash-alt text-danger"></i>
                                                             </button>
                                                         @endif
                                                     @endif
@@ -344,16 +354,23 @@
                         <hr>
                         <h4>Tham số mặc định</h4>
                         <div class="row form-group">
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <label class="control-label">Hình thức khen thưởng</label>
                                 {!! Form::select('mahinhthuckt', setArrayAll($a_hinhthuckt, 'Không chọn'), null, [
                                     'class' => 'form-control select2_modal',
                                 ]) !!}
                             </div>
 
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <label class="control-label">Loại hình khen thưởng</label>
                                 {!! Form::select('maloaihinhkt', setArrayAll($a_loaihinhkt, 'Không chọn'), null, [
+                                    'class' => 'form-control select2_modal',
+                                ]) !!}
+                            </div>
+
+                            <div class="col-lg-4">
+                                <label class="control-label">Trạng thái hồ sơ</label>
+                                {!! Form::select('trangthai', setArrayAll($a_trangthaihs, 'Không chọn'), null, [
                                     'class' => 'form-control select2_modal',
                                 ]) !!}
                             </div>

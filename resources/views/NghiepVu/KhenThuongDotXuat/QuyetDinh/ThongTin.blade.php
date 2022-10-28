@@ -32,7 +32,7 @@
                 <h3 class="card-label text-uppercase">Danh sách hồ sơ trình khen thưởng đột xuất</h3>
             </div>
             <div class="card-toolbar">
-                {{-- @if (chkPhanQuyen('qdhosokhenthuongcongtrang', 'thaydoi'))
+                {{-- @if (chkPhanQuyen('qdhosodenghikhenthuongcongtrang', 'thaydoi'))
                     <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
                 @endif --}}

@@ -31,7 +31,7 @@
                 <h3 class="card-label text-uppercase">Danh sách hồ sơ trình khen thưởng theo công trạng và thành tích</h3>
             </div>
             <div class="card-toolbar">
-                @if (chkPhanQuyen('dshosokhenthuongcongtrang', 'thaydoi'))
+                @if (chkPhanQuyen('dshosodenghikhenthuongcongtrang', 'thaydoi'))
                     <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
                 @endif
@@ -54,13 +54,13 @@
                     </select>
                 </div>
 
-                <div class="col-5">
+                {{-- <div class="col-5">
                     <label style="font-weight: bold">Phân loại hồ sơ</label>
                     {!! Form::select('phanloai', setArrayAll($a_phanloaihs, 'Tất cả', 'ALL'), $inputs['phanloai'], [
                         'id' => 'phanloai',
                         'class' => 'form-control select2basic',
                     ]) !!}
-                </div>
+                </div> --}}
 
                 <div class="col-2">
                     <label style="font-weight: bold">Năm</label>
@@ -74,7 +74,7 @@
                         <thead>
                             <tr class="text-center">
                                 <th width="2%">STT</th>
-                                <th>Phân loại hồ sơ</th>
+                                {{-- <th>Phân loại hồ sơ</th> --}}
                                 <th>Nội dung hồ sơ</th>
                                 <th width="8%">Tờ trình</th>
                                 <th width="8%">Trạng thái</th>
@@ -86,7 +86,7 @@
                         @foreach ($model as $key => $tt)
                             <tr>
                                 <td class="text-center">{{ $key + 1 }}</td>
-                                <td>{{$a_phanloaihs[$tt->phanloai] ?? $tt->phanloai }}</td>
+                                {{-- <td>{{$a_phanloaihs[$tt->phanloai] ?? $tt->phanloai }}</td> --}}
                                 <td>{{ $tt->noidung }}</td>
                                 <td class="text-center">{{ $tt->sototrinh }}<br>{{ getDayVn($tt->ngayhoso) }}
                                 </td>
@@ -108,7 +108,7 @@
                                         <i class="icon-lg la la-file-download text-dark icon-2x"></i>
                                     </button>
 
-                                    @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']) && chkPhanQuyen('dshosokhenthuongcongtrang', 'thaydoi'))
+                                    @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']) && chkPhanQuyen('dshosodenghikhenthuongcongtrang', 'thaydoi'))
                                         <a title="Thông tin hồ sơ"
                                             href="{{ url($inputs['url_hs'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
                                             class="btn btn-sm btn-clean btn-icon">
@@ -143,64 +143,9 @@
             </div>
         </div>
     </div>
-    <!--end::Card-->
-    <!--Modal Tạo hồ sơ-->
-    {!! Form::open(['url' => $inputs['url_hs'] . 'Them', 'id' => 'frm_hoso']) !!}
-    <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
-    <div id="taohoso-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header modal-header-primary">
-                    <h4 id="modal-header-primary-label" class="modal-title">Đồng ý tạo hồ sơ trình khen thưởng?</h4>
-                    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-                </div>
+    <!--end::Card-->    
 
-                <div class="modal-body">
-                    <div class="form-group row">
-                        <div class="col-lg-12">
-                            <label>Cấp độ khen thưởng</label>
-                            {!! Form::select('maloaihinhkt', $a_loaihinhkt, $inputs['maloaihinhkt'], ['class' => 'form-control']) !!}
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-lg-6">
-                            <label>Số tờ trình</label>
-                            {!! Form::text('sototrinh', null, ['class' => 'form-control']) !!}
-                        </div>
-                        <div class="col-lg-6">
-                            <label>Ngày tạo hồ sơ</label>
-                            {!! Form::input('date', 'ngayhoso', date('Y-m-d'), ['class' => 'form-control']) !!}
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-lg-6">
-                            <label>Chức vụ người ký tờ trình</label>
-                            {!! Form::text('chucvunguoiky', null, ['class' => 'form-control']) !!}
-                        </div>
-                        <div class="col-lg-6">
-                            <label>Họ tên người ký tờ trình</label>
-                            {!! Form::text('nguoikytotrinh', null, ['class' => 'form-control']) !!}
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-lg-12">
-                            <label>Nội dung trình khen thưởng</label>
-                            {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows' => 3]) !!}
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
-                    <button type="submit" class="btn btn-primary">Đồng ý</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    {!! Form::close() !!}
-
+    @include('NghiepVu._DungChung.HoSo_TaoHoSo')
     @include('NghiepVu._DungChung.InDuLieu')
     @include('includes.modal.modal-delete')
     @include('includes.modal.modal_chuyenhs')

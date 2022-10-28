@@ -21,5 +21,6 @@ class hethongchung_chucnang extends Model
         //Các trường mặc định cho chức năng
         'mahinhthuckt',
         'maloaihinhkt',
+        'trangthai',//trạng thái hồ sơ để tính đơn vị gửi
     ];
 }

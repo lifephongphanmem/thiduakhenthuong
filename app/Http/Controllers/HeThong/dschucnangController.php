@@ -30,12 +30,14 @@ class dschucnangController extends Controller
         $m_chucnang = hethongchung_chucnang::all();
         $a_hinhthuckt = array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt');
         $a_loaihinhkt = array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt');
+        
         return view('HeThongChung.ChucNang.ThongTin')
             ->with('model', $m_chucnang->where('capdo', '1')->sortby('sapxep'))
             ->with('m_chucnang', $m_chucnang)
             ->with('a_chucnanggoc', array_column($m_chucnang->toArray(), 'tenchucnang', 'machucnang'))
             ->with('a_hinhthuckt', $a_hinhthuckt)
             ->with('a_loaihinhkt', $a_loaihinhkt)
+            ->with('a_trangthaihs',getTrangThaiChucNangHoSo())
             ->with('pageTitle', 'Danh sách chức năng hệ thống');
     }
 

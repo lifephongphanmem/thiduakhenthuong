@@ -24,6 +24,7 @@ class CreateHethongchungChucnangTable extends Migration
             $table->integer('capdo')->nullable();
             $table->string('machucnang_goc',50)->nullable();//Áp dụng cho cấp độ 2 trở lên
             $table->integer('sapxep')->nullable();
+            $table->string('trangthai')->nullable();//trạng thái hồ sơ để tính đơn vị gửi
             $table->timestamps();
         });
     }
