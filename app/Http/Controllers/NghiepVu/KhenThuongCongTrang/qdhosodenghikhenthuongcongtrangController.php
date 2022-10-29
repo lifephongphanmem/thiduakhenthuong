@@ -671,7 +671,7 @@ class qdhosodenghikhenthuongcongtrangController extends Controller
         $model->chucvunguoikyqd = $inputs['chucvunguoikyqd'];
         $model->hotennguoikyqd = $inputs['hotennguoikyqd'];
         //dd($model);
-        getDuThaoKhenThuong($model);        
+        getTaoQuyetDinhKT($model);        
         $model->save();
         trangthaihoso::create([
             'mahoso' => $inputs['mahosotdkt'],

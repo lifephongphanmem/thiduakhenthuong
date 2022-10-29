@@ -2,44 +2,63 @@
 
 use Illuminate\Database\Eloquent\Collection;
 
-function getQuyetDinhCKE($maso)
-{
-    $a_qd = [];
-    $a_qd['QUYETDINH'] = "<figure class=&#34;table&#34;><table>
-            <tbody>
-                <tr><td><strong>ỦY BAN NHÂN DÂN</strong></td><td><p style=&#34;text-align:center;&#34;><strong>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</strong></p></td></tr>
-                <tr><td><strong>TỈNH QUẢNG BÌNH</strong></td><td><p style=&#34;text-align:center;&#34;><strong>Độc lập - Tự do - Hạnh phúc</strong></p></td></tr>
-                <tr><td>Số: .....&nbsp;</td><td><p style=&#34;text-align:right;&#34;><i>Quảng Bình, ngày..... tháng ...... năm ........</i></p></td></tr>
-                </tbody>
-            </table></figure>
-            <h2 style=&#34;text-align:center;&#34;><strong>QUYẾT ĐỊNH</strong></h2>
-            <h4 style=&#34;text-align:center;&#34;>[noidung]</h4>
-            <p style=&#34;text-align:center;&#34;><strong>CHỦ TỊCH ỦY BAN NHÂN DÂN TỈNH QUẢNG BÌNH</strong></p>
-            <p style=&#34;margin-left:40px;text-align:justify;&#34;>Căn cứ Luật Tổ chức Chính quyền địa phương ngày 19/6/2015;</p>
-            <p style=&#34;margin-left:40px;text-align:justify;&#34;>Căn cứ Luật Thi đua, Khen thưởng ngày 26/11/2003 và Luật sửa đổi, bổ sung một số Điều của Luật Thi đua, Khen thưởng ngày 16/11 /2013;</p>
-            <p style=&#34;margin-left:40px;text-align:justify;&#34;>Căn cứ Nghị định số 91/2017/NĐ-CP ngày 31/7/2017 của Chính phủ quy định chi tiết thi hành một số Điều của Luật thi đua, khen thưởng;</p>
-            <p style=&#34;margin-left:40px;text-align:justify;&#34;>Căn cứ Quyết định số 35/2019/QĐ-UBND ngày 11/11/2019 của UBND Tỉnh ban hành quy chế Quy chế Thi đua, khen thưởng Tỉnh Quảng Bình;</p>
-            <p style=&#34;margin-left:40px;text-align:justify;&#34;>Xét đề nghị của ………………………………………………………; đề nghị của Trưởng Ban Thi đua Khen thưởng tỉnh tại Tờ trình số ……….. &nbsp;ngày ………………….,&nbsp;</p>
-            <p style=&#34;margin-left:25px;text-align:center;&#34;><strong>QUYẾT ĐỊNH:</strong></p>
-            <p style=&#34;margin-left:25px;&#34;><strong>Điều 1.</strong></p>
-            <p style=&#34;margin-left:25px;&#34;><strong>Điều 2.</strong></p>
-            <figure class=&#34;table newpage&#34;><table class=&#34;table newpage&#34;>
-                <tbody>
-                    <tr><td rowspan=&#34;4&#34;><p style=&#34;margin-left:25px;&#34;>Nơi nhận:</p><p style=&#34;margin-left:40px;&#34;>- Như điều 2</p><p style=&#34;margin-left:40px;&#34;>- Lưu VT, NC</p></td><td><p style=&#34;text-align:center;&#34;><strong>[chucvunguoiky]</strong></p></td></tr>
-                    <tr><td>&nbsp;</td></tr><tr><td>&nbsp;</td></tr>
-                    <tr><td><p style=&#34;text-align:center;&#34;><strong>[hotennguoiky]</strong></p></td></tr>
-                </tbody></table></figure>
-                <p>[sangtrangmoi]</p>
-                <h3 style=&#34;margin-left:25px;text-align:center;&#34;>DANH SÁCH</h3>
-                <p style=&#34;margin-left:25px;text-align:center;&#34;>(<i>Kèm theo quyết định số .... ngày .... tháng ..... năm..... của .....</i>)</p>
-                <h4 style=&#34;margin-left:25px;&#34;>I. Cá nhân</h4>
-                <p style=&#34;margin-left:25px;&#34;>[khenthuongcanhan]</p>
-                <h4 style=&#34;margin-left:25px;&#34;>II. Tập thể</h4>
-                <p style=&#34;margin-left:25px;&#34;>[khenthuongtapthe]</p>
-                <p style=&#34;margin-left:65px;&#34;>&nbsp;</p>";
+// function getQuyetDinhCKE($maso)
+// {
+//     $a_qd = [];
+//     $a_qd['QUYETDINH'] = "<figure class=&#34;table&#34;><table>
+//             <tbody>
+//                 <tr><td><strong>ỦY BAN NHÂN DÂN</strong></td><td><p style=&#34;text-align:center;&#34;><strong>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</strong></p></td></tr>
+//                 <tr><td><strong>TỈNH QUẢNG BÌNH</strong></td><td><p style=&#34;text-align:center;&#34;><strong>Độc lập - Tự do - Hạnh phúc</strong></p></td></tr>
+//                 <tr><td>Số: .....&nbsp;</td><td><p style=&#34;text-align:right;&#34;><i>Quảng Bình, ngày..... tháng ...... năm ........</i></p></td></tr>
+//                 </tbody>
+//             </table></figure>
+//             <h2 style=&#34;text-align:center;&#34;><strong>QUYẾT ĐỊNH</strong></h2>
+//             <h4 style=&#34;text-align:center;&#34;>[noidung]</h4>
+//             <p style=&#34;text-align:center;&#34;><strong>CHỦ TỊCH ỦY BAN NHÂN DÂN TỈNH QUẢNG BÌNH</strong></p>
+//             <p style=&#34;margin-left:40px;text-align:justify;&#34;>Căn cứ Luật Tổ chức Chính quyền địa phương ngày 19/6/2015;</p>
+//             <p style=&#34;margin-left:40px;text-align:justify;&#34;>Căn cứ Luật Thi đua, Khen thưởng ngày 26/11/2003 và Luật sửa đổi, bổ sung một số Điều của Luật Thi đua, Khen thưởng ngày 16/11 /2013;</p>
+//             <p style=&#34;margin-left:40px;text-align:justify;&#34;>Căn cứ Nghị định số 91/2017/NĐ-CP ngày 31/7/2017 của Chính phủ quy định chi tiết thi hành một số Điều của Luật thi đua, khen thưởng;</p>
+//             <p style=&#34;margin-left:40px;text-align:justify;&#34;>Căn cứ Quyết định số 35/2019/QĐ-UBND ngày 11/11/2019 của UBND Tỉnh ban hành quy chế Quy chế Thi đua, khen thưởng Tỉnh Quảng Bình;</p>
+//             <p style=&#34;margin-left:40px;text-align:justify;&#34;>Xét đề nghị của ………………………………………………………; đề nghị của Trưởng Ban Thi đua Khen thưởng tỉnh tại Tờ trình số ……….. &nbsp;ngày ………………….,&nbsp;</p>
+//             <p style=&#34;margin-left:25px;text-align:center;&#34;><strong>QUYẾT ĐỊNH:</strong></p>
+//             <p style=&#34;margin-left:25px;&#34;><strong>Điều 1.</strong></p>
+//             <p style=&#34;margin-left:25px;&#34;><strong>Điều 2.</strong></p>
+//             <figure class=&#34;table newpage&#34;><table class=&#34;table newpage&#34;>
+//                 <tbody>
+//                     <tr><td rowspan=&#34;4&#34;><p style=&#34;margin-left:25px;&#34;>Nơi nhận:</p><p style=&#34;margin-left:40px;&#34;>- Như điều 2</p><p style=&#34;margin-left:40px;&#34;>- Lưu VT, NC</p></td><td><p style=&#34;text-align:center;&#34;><strong>[chucvunguoiky]</strong></p></td></tr>
+//                     <tr><td>&nbsp;</td></tr><tr><td>&nbsp;</td></tr>
+//                     <tr><td><p style=&#34;text-align:center;&#34;><strong>[hotennguoiky]</strong></p></td></tr>
+//                 </tbody></table></figure>
+//                 <p>[sangtrangmoi]</p>
+//                 <h3 style=&#34;margin-left:25px;text-align:center;&#34;>DANH SÁCH</h3>
+//                 <p style=&#34;margin-left:25px;text-align:center;&#34;>(<i>Kèm theo quyết định số .... ngày .... tháng ..... năm..... của .....</i>)</p>
+//                 <h4 style=&#34;margin-left:25px;&#34;>I. Cá nhân</h4>
+//                 <p style=&#34;margin-left:25px;&#34;>[khenthuongcanhan]</p>
+//                 <h4 style=&#34;margin-left:25px;&#34;>II. Tập thể</h4>
+//                 <p style=&#34;margin-left:25px;&#34;>[khenthuongtapthe]</p>
+//                 <p style=&#34;margin-left:65px;&#34;>&nbsp;</p>";
 
-    return $a_qd[$maso];
+//     return $a_qd[$maso];
+// }
+
+function setThongTinHoSo(&$inputs)
+{
+    switch($inputs['trangthai']){
+        //Chờ xét khen thưởng =>tự động gán đơn vị xét duyệt
+        case 'CXKT':
+        //Đã xét khen thưởng
+        case 'DKT':{
+            $inputs['madonvi_nhan'] = $inputs['madonvi_xd'];
+            $inputs['trangthai_xd'] = $inputs['trangthai'];
+            $inputs['thoidiem_xd'] = $inputs['ngayhoso'];
+            $inputs['madonvi_nhan_xd'] = $inputs['madonvi_kt'];
+            $inputs['trangthai_kt'] = $inputs['trangthai'];  
+            $inputs['thoidiem_kt'] = $inputs['ngayhoso'];          
+            break;
+        }
+    }
 }
+
 function getHeThongChung()
 {
     return  \App\Model\HeThong\hethongchung::all()->first() ?? new \App\Model\HeThong\hethongchung();
@@ -335,7 +354,6 @@ function getThongTinDonVi($madonvi, $tentruong)
     return $model->$tentruong ?? '';
 }
 
-//chưa làm 
 function chkPhanQuyen($machucnang = null, $tenphanquyen = null)
 {
     //return true;

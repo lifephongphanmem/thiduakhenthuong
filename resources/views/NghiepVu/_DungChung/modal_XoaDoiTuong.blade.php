@@ -16,7 +16,7 @@
                 <input type="hidden" id="phanloaixoa" name="phanloaixoa">
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-default">Thoát</button>
-                    <button type="button" onclick="confirmXoaKhenThuong()" class="btn btn-primary">Đồng ý</button>
+                    <button type="button" class="btn btn-primary" onclick="confirmXoaKhenThuong()">Đồng ý</button>
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -36,14 +36,15 @@
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             var form = $('#frm_XoaDoiTuong');
             var phanloai = form.find("[name='phanloaixoa']").val();
+            var id = form.find("[name='iddelete']").val();
 
-            if (phanloai == 'TAPTHE')
+            if (phanloai == 'TAPTHE')                
                 $.ajax({
                     url: form.attr('action'),
                     type: 'GET',
                     data: {
                         _token: CSRF_TOKEN,
-                        id: $('#iddelete').val(),
+                        id: id
                     },
                     dataType: 'JSON',
                     success: function(data) {
@@ -52,16 +53,15 @@
                         jQuery(document).ready(function() {
                             TableManaged4.init();
                         });
-
                     }
-                });
+                })
             else
                 $.ajax({
                     url: form.attr('action'),
                     type: 'GET',
                     data: {
                         _token: CSRF_TOKEN,
-                        id: $('#iddelete').val(),
+                        id: id,
                     },
                     dataType: 'JSON',
                     success: function(data) {

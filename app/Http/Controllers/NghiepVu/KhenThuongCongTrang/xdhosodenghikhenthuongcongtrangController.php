@@ -147,7 +147,7 @@ class xdhosodenghikhenthuongcongtrangController extends Controller
         $model->trangthai_kt = $model->trangthai;
         $model->thoigian_kt = $thoigian;
         //Gán mặc định quyết định
-        getQuyetDinhKhenThuong($model);
+        getTaoDuThaoKT($model);
         $model->save();
 
         trangthaihoso::create([
@@ -496,7 +496,7 @@ class xdhosodenghikhenthuongcongtrangController extends Controller
         $inputs['url'] = static::$url;
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $inputs['madonvi'] = $model->madonvi_xd;
-        getQuyetDinhKhenThuong($model);
+        getTaoDuThaoKT($model);
         $a_duthao = array_column(duthaoquyetdinh::all()->toArray(), 'noidung', 'maduthao');
         $inputs['maduthao'] = $inputs['maduthao'] ?? array_key_first($a_duthao);
         return view('BaoCao.DonVi.QuyetDinh.MauChung')

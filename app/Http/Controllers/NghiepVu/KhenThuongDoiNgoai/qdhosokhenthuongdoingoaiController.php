@@ -928,7 +928,7 @@ class qdhosokhenthuongdoingoaiController extends Controller
         $model->ngayqd = $inputs['ngayqd'];
         $model->chucvunguoikyqd = $inputs['chucvunguoikyqd'];
         $model->hotennguoikyqd = $inputs['hotennguoikyqd'];
-        getDuThaoKhenThuong($model);
+        getTaoQuyetDinhKT($model);
         //dd($model);
         $model->save();
         trangthaihoso::create([

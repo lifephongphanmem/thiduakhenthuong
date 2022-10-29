@@ -138,7 +138,7 @@ class xdhosokhenthuongchuyendeController extends Controller
         $model->trangthai_kt = $model->trangthai;
         $model->thoigian_kt = $thoigian;
         //Gán mặc định quyết định
-        getQuyetDinhKhenThuong($model);
+        getTaoDuThaoKT($model);
         $model->save();
 
         trangthaihoso::create([

@@ -387,9 +387,9 @@ class khenthuonghosothiduaController extends Controller
         $model->hotennguoikyqd = $inputs['hotennguoikyqd'];
         //dd($model);
         //Gán mặc định quyết định
-        getDuThaoKhenThuong($model);
+        getTaoQuyetDinhKT($model);
         //Gán thông tin quyết định
-        getQuyetDinhKhenThuong($model);
+        getTaoDuThaoKT($model);
         $model->save();
         trangthaihoso::create([
             'mahoso' => $inputs['mahosotdkt'],

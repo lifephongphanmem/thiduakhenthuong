@@ -144,7 +144,7 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
         $model->madonvi_kt = $inputs['madonvi_nhan'];
         $model->trangthai_kt = $model->trangthai;
         $model->thoigian_kt = $thoigian;
-        getQuyetDinhKhenThuong($model);
+        getTaoDuThaoKT($model);
         $model->save();
 
         trangthaihoso::create([

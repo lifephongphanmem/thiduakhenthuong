@@ -34,10 +34,10 @@ function getPhanLoaiHoSoKhenCao()
     );
 }
 
-function getDuThaoKhenThuong(&$model)
+function getTaoQuyetDinhKT(&$model)
 {
     if ($model->thongtinquyetdinh == '') {
-        getQuyetDinhKhenThuong($model);
+        getTaoDuThaoKT($model);
     }
     $tendonvi = dsdonvi::where('madonvi', $model->madonvi)->first()->tendonvi ?? '';
     $model->thongtinquyetdinh = str_replace('[chucvunguoiky]', $model->chucvunguoiky, $model->thongtinquyetdinh);
@@ -51,16 +51,20 @@ function getDuThaoKhenThuong(&$model)
     $model->thongtinquyetdinh = str_replace('[donvikhenthuong]',  $model->donvikhenthuong, $model->thongtinquyetdinh);
 }
 
-function getQuyetDinhKhenThuong(&$model)
+function getTaoDuThaoKT(&$model, $maduthao = null)
 {
     if ($model->thongtinquyetdinh == '') {
-        $thongtinquyetdinh = App\Model\DanhMuc\duthaoquyetdinh::all()->first()->codehtml ?? '';
-        //noidung
+        if ($maduthao == null)
+            $thongtinquyetdinh = App\Model\DanhMuc\duthaoquyetdinh::all()->first()->codehtml ?? '';
+        else
+            $thongtinquyetdinh = App\Model\DanhMuc\duthaoquyetdinh::where('maduthao', $maduthao)->first()->codehtml ?? '';
+        $tendonvi = dsdonvi::where('madonvi', $model->madonvi)->first()->tendonvi ?? '';
+        
+        //Gán thông tin
         $thongtinquyetdinh = str_replace('[noidung]', $model->noidung, $thongtinquyetdinh);
-        // //chucvunguoiky
-        // $thongtinquyetdinh = str_replace('[chucvunguoiky]', $model->chucvunguoiky, $thongtinquyetdinh);
-        // //hotennguoiky
-        // $thongtinquyetdinh = str_replace('[hotennguoiky]',  $model->hotennguoiky, $thongtinquyetdinh);
+        $thongtinquyetdinh = str_replace('[donvidenghi]',  $tendonvi, $thongtinquyetdinh);
+        $thongtinquyetdinh = str_replace('[sototrinh]',  $model->sototrinh, $thongtinquyetdinh);
+        $thongtinquyetdinh = str_replace('[ngayhoso]',  Date2Str($model->ngayhoso), $thongtinquyetdinh);
 
         $m_canhan = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)
             ->where('ketqua', '1')->orderby('stt')->get();
@@ -445,29 +449,21 @@ function getTrangThaiHoSo()
 }
 
 //Gán cho mặc định chức năg
-function getTrangThaiChucNangHoSo()
+function getTrangThaiChucNangHoSo($trangthai = 'ALL')
 {
-    return [
+    $a_kq = [
         'CC' => 'Chờ chuyển', //=>Nộp hồ sơ bình thưởng
         'CXKT' => 'Chờ xét khen thưởng', //Đã gán madonvi_xd,madonvi_kt,
         'DKT' => 'Đã khen thưởng', //Đã gán madonvi_xd,madonvi_kt,
     ];
+    return $trangthai == 'ALL' ? $a_kq : [$trangthai => $a_kq[$trangthai]];
 }
 
 function getTEST()
 {
     return [
-        'HOSO' => ['CC' => 'Chờ chuyển',],
-        'XETDUYET' => ['CD' => 'Chờ duyệt', 'DD' => 'Đã duyệt',],
-        'PHEDUYET' => ['CXKT' => 'Chờ xét khen thưởng', 'DKT' => 'Đã khen thưởng',],
-    ];
-}
-
-function getTEST_gr()
-{
-    return [
-        'HOSO' => 'Hồ sơ',
-        'XETDUYET' => 'Xét duyệt',
-        'PHEDUYET' => 'Phê duyệt',
+        'Hồ sơ' => ['CC' => 'Chờ chuyển',],
+        'Xét duyệt' => ['CD' => 'Chờ duyệt', 'DD' => 'Đã duyệt',],
+        'Phê duyệt' => ['CXKT' => 'Chờ xét khen thưởng', 'DKT' => 'Đã khen thưởng',],
     ];
 }

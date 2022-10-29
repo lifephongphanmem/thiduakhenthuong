@@ -1,8 +1,6 @@
 <?php
 //Phong trào thi đua
-use App\Http\Controllers\NghiepVu\KhenThuongCongTrang\dshosodenghikhenthuongcongtrangController;
-use App\Http\Controllers\NghiepVu\KhenThuongCongTrang\qdhosodenghikhenthuongcongtrangController;
-use App\Http\Controllers\NghiepVu\KhenThuongCongTrang\xdhosodenghikhenthuongcongtrangController;
+
 use App\Http\Controllers\NghiepVu\KhenThuongDotXuat\dshosokhenthuongdotxuatController;
 use App\Http\Controllers\NghiepVu\KhenThuongDotXuat\qdhosokhenthuongdotxuatController;
 use App\Http\Controllers\NghiepVu\KhenThuongDotXuat\xdhosokhenthuongdotxuatController;
@@ -135,6 +133,9 @@ Route::group(['prefix' => 'KhenThuongHoSoThiDua'], function () {
     Route::get('InGiayKhenTapThe', [khenthuonghosothiduaController::class, 'InGiayKhenTapThe']);
 });
 
+use App\Http\Controllers\NghiepVu\KhenThuongCongTrang\dshosodenghikhenthuongcongtrangController;
+use App\Http\Controllers\NghiepVu\KhenThuongCongTrang\qdhosodenghikhenthuongcongtrangController;
+use App\Http\Controllers\NghiepVu\KhenThuongCongTrang\xdhosodenghikhenthuongcongtrangController;
 //Khen thưởng theo công trạng
 Route::group(['prefix' => 'KhenThuongCongTrang'], function () {
     Route::group(['prefix' => 'HoSo'], function () {
@@ -165,6 +166,12 @@ Route::group(['prefix' => 'KhenThuongCongTrang'], function () {
         Route::get('LayLyDo', 'NghiepVu\KhenThuongCongTrang\dshosodenghikhenthuongcongtrangController@LayLyDo');
         Route::get('LayTieuChuan', 'NghiepVu\KhenThuongCongTrang\dshosodenghikhenthuongcongtrangController@LayTieuChuan');
         Route::get('LayDoiTuong', 'NghiepVu\KhenThuongCongTrang\dshosodenghikhenthuongcongtrangController@LayDoiTuong');
+        //29.10.2022
+        Route::get('QuyetDinh', [dshosodenghikhenthuongcongtrangController::class, 'QuyetDinh']);
+        Route::get('TaoDuThao', [dshosodenghikhenthuongcongtrangController::class, 'DuThaoQuyetDinh']);
+        Route::post('QuyetDinh', [dshosodenghikhenthuongcongtrangController::class, 'LuuQuyetDinh']);
+        Route::get('PheDuyet', [dshosodenghikhenthuongcongtrangController::class, 'PheDuyet']);
+
     });
 
     Route::group(['prefix' => 'XetDuyet'], function () {
