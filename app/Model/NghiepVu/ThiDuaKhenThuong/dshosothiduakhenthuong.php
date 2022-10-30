@@ -23,6 +23,7 @@ class dshosothiduakhenthuong extends Model
         'baocao', //báo cáo thành tích
         'bienban', //biên bản cuộc họp
         'tailieukhac', //tài liệu khác
+        'quyetdinh', //tài liệu khác
         //Kết quả khen thưởng
         'soqd',
         'ngayqd',

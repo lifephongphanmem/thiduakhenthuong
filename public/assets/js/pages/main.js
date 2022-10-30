@@ -106,6 +106,15 @@ $(function () {
         url = url.substring(0, index - 1) + '/ThongTin';
     }
 
+    var index = url.indexOf('PheDuyet');
+    if (index > 0) {
+        url = url.substring(0, index - 1) + '/ThongTin';
+    }
+    var index = url.indexOf('TaoDuThao');
+    if (index > 0) {
+        url = url.substring(0, index - 1) + '/ThongTin';
+    }
+    
     var index = url.indexOf('PhanQuyen');
     if (index > 0) {
         url = url.substring(0, index - 1) + '/ThongTin';

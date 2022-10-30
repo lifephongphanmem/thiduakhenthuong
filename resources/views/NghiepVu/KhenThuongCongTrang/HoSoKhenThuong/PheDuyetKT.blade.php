@@ -37,7 +37,7 @@
 
         {!! Form::model($model, [
             'method' => 'POST',
-            'url' => '',
+            'url' => $inputs['url_hs'] . 'PheDuyet',
             'class' => 'form',
             'id' => 'frm_ThayDoi',
             'files' => true,
@@ -45,10 +45,9 @@
         ]) !!}
         {{ Form::hidden('madonvi', null, ['id' => 'madonvi']) }}
         {{ Form::hidden('mahosotdkt', null, ['id' => 'mahosotdkt']) }}
-        <div class="card-body"> 
+        <div class="card-body">
             @include('NghiepVu._DungChung.HoSo_ThongTinQD')
-            
-            @include('NghiepVu._DungChung.HoSo_TaiLieuDinhKem')
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-custom">
@@ -283,7 +282,7 @@
                 <div class="col-lg-12">
                     <a href="{{ url($inputs['url_xd'] . 'ThongTin?madonvi=' . $model->madonvi_xd) }}"
                         class="btn btn-danger mr-5"><i class="fa fa-reply"></i>&nbsp;Quay lại</a>
-
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i>Hoàn thành</button>
                 </div>
             </div>
         </div>

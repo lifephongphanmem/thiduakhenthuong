@@ -40,8 +40,8 @@ function getTaoQuyetDinhKT(&$model)
         getTaoDuThaoKT($model);
     }
     $tendonvi = dsdonvi::where('madonvi', $model->madonvi)->first()->tendonvi ?? '';
-    $model->thongtinquyetdinh = str_replace('[chucvunguoiky]', $model->chucvunguoiky, $model->thongtinquyetdinh);
-    $model->thongtinquyetdinh = str_replace('[hotennguoiky]',  $model->hotennguoiky, $model->thongtinquyetdinh);
+    $model->thongtinquyetdinh = str_replace('[chucvunguoiky]', $model->chucvunguoikyqd, $model->thongtinquyetdinh);
+    $model->thongtinquyetdinh = str_replace('[hotennguoiky]',  $model->hotennguoikyqd, $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[soqd]',  $model->soqd, $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[sototrinh]',  $model->sototrinh, $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[diadanh]',  '......', $model->thongtinquyetdinh);

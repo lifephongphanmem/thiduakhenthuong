@@ -93,9 +93,9 @@
                                 @include('includes.td.td_trangthai_hoso')
                                 <td>{{ $a_donvi[$tt->madonvi_nhan] ?? '' }}</td>
 
-                                <td style="text-align: center">
+                                <td style="text-align: center">                                    
                                     <button type="button" title="In dữ liệu"
-                                        onclick="setInDuLieu('{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}', '{{ $tt->trangthai }}')"
+                                        onclick="setInDuLieu('{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}', '{{ $tt->trangthai }}', '{{$inputs['trangthai'] == 'CC' ? false : true}}')"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#indulieu-modal"
                                         data-toggle="modal">
                                         <i class="icon-lg la flaticon2-print text-dark"></i>
@@ -160,14 +160,6 @@
                                                 class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
                                                 <i class="icon-lg la flaticon-interface-10 text-success"></i>
                                             </a>
-
-                                            <button title="Phê duyệt hồ sơ khen thưởng" type="button"
-                                                onclick="setPheDuyet('{{ $tt->mahosotdkt }}')"
-                                                class="btn btn-sm btn-clean btn-icon " data-target="#modal-PheDuyet"
-                                                data-toggle="modal"
-                                                {{ $tt->thongtinquyetdinh == '' || $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}>
-                                                <i class="icon-lg la flaticon-interface-10 text-success"></i>
-                                            </button>
                                         @endif
 
                                         @if ($tt->trangthai == 'DKT')

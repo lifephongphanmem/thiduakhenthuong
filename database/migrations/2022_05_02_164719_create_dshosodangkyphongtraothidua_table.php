@@ -23,7 +23,8 @@ class CreateDshosodangkyphongtraothiduaTable extends Migration
             //File đính kèm
             $table->string('baocao')->nullable();//báo cáo thành tích
             $table->string('bienban')->nullable();//biên bản cuộc họp
-            $table->string('tailieukhac')->nullable();//tài liệu khác           
+            $table->string('tailieukhac')->nullable();//tài liệu khác 
+            $table->string('quyetdinh')->nullable();//đính kèm quyết định khen thưởng          
             //Trạng thái đơn vị
             $table->string('madonvi')->nullable(50);
             $table->string('madonvi_nhan')->nullable(50);

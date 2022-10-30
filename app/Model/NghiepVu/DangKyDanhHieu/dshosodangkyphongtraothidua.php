@@ -19,7 +19,8 @@ class dshosodangkyphongtraothidua extends Model
         //File đính kèm
         'baocao', //báo cáo thành tích
         'bienban', //biên bản cuộc họp
-        'tailieukhac', //tài liệu khác       
+        'tailieukhac', //tài liệu khác    
+        'quyetdinh', //đính kèm quyết định khen thưởng   
         //Trạng thái đơn vị
         'madonvi',
         'madonvi_nhan',
