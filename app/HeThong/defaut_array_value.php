@@ -9,6 +9,14 @@ use App\Model\DanhMuc\dsdonvi;
  * Time: 3:05 PM
  */
 
+function getPhanLoaiHoSoKT()
+{
+    //30.10.22 Chia thêm nhóm để tách hồ sơ khen thưởng và hồ sơ đề nghị khen thưởng
+    return array(
+        'KTDONVI' => 'Hồ sơ khen thưởng tại đơn vị',
+    );
+}
+
 function getPhanLoaiHoSo()
 {
     return array(
