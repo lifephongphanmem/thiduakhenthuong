@@ -126,7 +126,8 @@
                                                 onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url_hs'] . 'Xoa' }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
                                                 data-toggle="modal">
-                                                <i class="icon-lg la fa-trash text-danger"></i></button>
+                                                <i class="icon-lg la fa-trash text-danger"></i>
+                                            </button>
                                         @endif
 
                                         @if ($tt->trangthai == 'BTL')
@@ -134,11 +135,12 @@
                                                 onclick="viewLyDo('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}', '{{ $inputs['url_hs'] . 'LayLyDo' }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#tralai-modal"
                                                 data-toggle="modal">
-                                                <i class="icon-lg la fa-archive text-info"></i></button>
+                                                <i class="icon-lg la fa-archive text-info"></i>
+                                            </button>
                                         @endif
                                     @else
                                         {{-- Trường hợp gộp các quy trình vào làm một để chỉ theo dõi hồ sơ --}}
-                                        @if (in_array($tt->trangthai, ['CXKT']) && chkPhanQuyen('dshosodenghikhenthuongcongtrang', 'hoanthanh'))
+                                        @if (in_array($tt->trangthai, ['CXKT','CC', 'BTL', 'CXD']) && chkPhanQuyen('dshosodenghikhenthuongcongtrang', 'hoanthanh'))
                                             <a href="{{ url($inputs['url_hs'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                 class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
                                                 title="Thông tin hồ sơ khen thưởng">
@@ -160,6 +162,13 @@
                                                 class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
                                                 <i class="icon-lg la flaticon-interface-10 text-success"></i>
                                             </a>
+
+                                            <button type="button"
+                                                onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url_hs'] . 'Xoa' }}')"
+                                                class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
+                                                data-toggle="modal">
+                                                <i class="icon-lg la fa-trash text-danger"></i>
+                                            </button>
                                         @endif
 
                                         @if ($tt->trangthai == 'DKT')

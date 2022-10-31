@@ -156,6 +156,10 @@
                 </div>
             </div>
 
+            @if ($model->trangthai == 'DKT')
+                @include('NghiepVu._DungChung.HoSo_ThongTinQD')
+            @endif
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-custom">
@@ -233,7 +237,7 @@
                                                             <td class="text-center">{{ $i++ }}</td>
                                                             <td>{{ $tt->tentapthe }}</td>
                                                             <td>{{ $a_tapthe[$tt->maphanloaitapthe] ?? '' }}</td>
-                                                            <td class="text-center">  
+                                                            <td class="text-center">
                                                                 {{ $a_dhkt_tapthe[$tt->madanhhieukhenthuong] ?? '' }}
                                                             </td>
                                                             {{-- <td class="text-center">
@@ -252,7 +256,7 @@
                                                                     data-target="#modal-delete-khenthuong"
                                                                     data-toggle="modal">
                                                                     <i class="icon-lg la fa-trash text-danger"></i>
-                                                                    </button>
+                                                                </button>
 
                                                             </td>
                                                         </tr>
@@ -310,7 +314,7 @@
                                                             <td class="text-center">
                                                                 {{ $tt->chucvu . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}
                                                             </td>
-                                                            <td class="text-center">  
+                                                            <td class="text-center">
                                                                 {{ $a_dhkt_canhan[$tt->madanhhieukhenthuong] ?? '' }}
                                                             </td>
                                                             {{-- <td class="text-center">
@@ -345,9 +349,8 @@
                                     <div class="form-group row">
                                         <div class="col-lg-12 text-right">
                                             <div class="btn-group" role="group">
-                                                <button type="button" onclick="setDeTai()"
-                                                    data-target="#modal-detai" data-toggle="modal"
-                                                    class="btn btn-light-dark btn-icon btn-sm">
+                                                <button type="button" onclick="setDeTai()" data-target="#modal-detai"
+                                                    data-toggle="modal" class="btn btn-light-dark btn-icon btn-sm">
                                                     <i class="fa fa-plus"></i></button>
                                                 <button title="Nhận từ file Excel" data-target="#modal-nhanexcel"
                                                     data-toggle="modal" type="button"
@@ -376,7 +379,7 @@
                                                     @foreach ($model_detai as $key => $tt)
                                                         <tr class="odd gradeX">
                                                             <td class="text-center">{{ $i++ }}</td>
-                                                            <td>{{ $tt->tensangkien }}</td>                                                            
+                                                            <td>{{ $tt->tensangkien }}</td>
                                                             <td class="text-center">
                                                                 {{ $tt->tendoituong . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}
                                                             </td>
@@ -384,15 +387,13 @@
                                                                 <button title="Sửa thông tin" type="button"
                                                                     onclick="getDeTai('{{ $tt->id }}')"
                                                                     class="btn btn-sm btn-clean btn-icon"
-                                                                    data-target="#modal-detai"
-                                                                    data-toggle="modal">
+                                                                    data-target="#modal-detai" data-toggle="modal">
                                                                     <i class="icon-lg la fa-edit text-primary"></i>
                                                                 </button>
                                                                 <button title="Xóa" type="button"
                                                                     onclick="delDeTai('{{ $tt->id }}',  '{{ $inputs['url_hs'] . 'XoaDeTai' }}')"
                                                                     class="btn btn-sm btn-clean btn-icon"
-                                                                    data-target="#modal-delete-detai"
-                                                                    data-toggle="modal">
+                                                                    data-target="#modal-delete-detai" data-toggle="modal">
                                                                     <i class="icon-lg la fa-trash text-danger"></i>
                                                                 </button>
 
