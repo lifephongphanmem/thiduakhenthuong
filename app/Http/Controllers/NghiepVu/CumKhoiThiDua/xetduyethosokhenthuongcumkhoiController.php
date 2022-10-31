@@ -130,7 +130,7 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
     public function ChuyenHoSo(Request $request)
     {
         if (!chkPhanQuyen('xdhosokhenthuongcumkhoi', 'hoanthanh')) {
-            return view('errors.noperm')->with('machucnang', 'xdhosokhenthuongchuyende')->with('tenphanquyen', 'hoanthanh');
+            return view('errors.noperm')->with('machucnang', 'xdhosodenghikhenthuongchuyende')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
         $thoigian = date('Y-m-d H:i:s');
@@ -162,9 +162,9 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
 
     public function XetKT(Request $request)
     {
-        if (!chkPhanQuyen('xdhosokhenthuongchuyende', 'thaydoi')) {
+        if (!chkPhanQuyen('xdhosodenghikhenthuongchuyende', 'thaydoi')) {
             return view('errors.noperm')
-                ->with('machucnang', 'xdhosokhenthuongchuyende')
+                ->with('machucnang', 'xdhosodenghikhenthuongchuyende')
                 ->with('tenphanquyen', 'thaydoi');
         }
 

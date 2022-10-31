@@ -908,9 +908,9 @@ class qdhosokhenthuongdoingoaiController extends Controller
 
     public function PheDuyet(Request $request)
     {
-        if (!chkPhanQuyen('qdhosokhenthuongchuyende', 'hoanthanh')) {
+        if (!chkPhanQuyen('qdhosodenghikhenthuongchuyende', 'hoanthanh')) {
             return view('errors.noperm')
-                ->with('machucnang', 'qdhosokhenthuongchuyende')
+                ->with('machucnang', 'qdhosodenghikhenthuongchuyende')
                 ->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
@@ -944,9 +944,9 @@ class qdhosokhenthuongdoingoaiController extends Controller
 
     public function HuyPheDuyet(Request $request)
     {
-        if (!chkPhanQuyen('qdhosokhenthuongchuyende', 'hoanthanh')) {
+        if (!chkPhanQuyen('qdhosodenghikhenthuongchuyende', 'hoanthanh')) {
             return view('errors.noperm')
-                ->with('machucnang', 'qdhosokhenthuongchuyende')
+                ->with('machucnang', 'qdhosodenghikhenthuongchuyende')
                 ->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();

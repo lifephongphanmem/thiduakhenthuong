@@ -41,7 +41,7 @@ class baocaodonviController extends Controller
             return view('errors.noperm')->with('machucnang', 'baocaodonvi')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
-        $m_donvi = getDonVi(session('admin')->capdo, 'dshosokhenthuongchuyende');
+        $m_donvi = getDonVi(session('admin')->capdo, 'dshosodenghikhenthuongchuyende');
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         

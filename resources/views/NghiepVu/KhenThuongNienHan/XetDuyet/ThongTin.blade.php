@@ -117,7 +117,7 @@
                                         <i class="icon-lg la la-file-download text-dark"></i>
                                     </button>
 
-                                    @if (chkPhanQuyen('xdhosokhenthuongchuyende', 'thaydoi'))
+                                    @if (chkPhanQuyen('xdhosodenghikhenthuongchuyende', 'thaydoi'))
                                         @if (in_array($tt->trangthai_hoso, ['CD']))
                                             <button title="Tiếp nhận hồ sơ" type="button"
                                                 onclick="confirmNhan('{{ $tt->mahosotdkt }}','{{ $inputs['url_xd'] . 'NhanHoSo' }}','{{ $inputs['madonvi'] }}')"
