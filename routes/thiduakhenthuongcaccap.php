@@ -412,10 +412,55 @@ Route::group(['prefix' => 'KhenCao'], function () {
 
 //Khen thưởng công hiến
 use App\Http\Controllers\NghiepVu\KhenThuongCongHien\dshosodenghikhenthuongconghienController;
+use App\Http\Controllers\NghiepVu\KhenThuongCongHien\dshosokhenthuongconghienController;
 use App\Http\Controllers\NghiepVu\KhenThuongCongHien\qdhosodenghikhenthuongconghienController;
 use App\Http\Controllers\NghiepVu\KhenThuongCongHien\xdhosodenghikhenthuongconghienController;
 
 Route::group(['prefix' => 'KhenThuongCongHien'], function () {
+    Route::group(['prefix' => 'HoSoKT'], function () {
+        Route::get('ThongTin', [dshosokhenthuongconghienController::class, 'ThongTin']);
+        Route::post('Them', [dshosokhenthuongconghienController::class, 'Them']);
+        Route::get('Sua', [dshosokhenthuongconghienController::class, 'ThayDoi']);
+        Route::post('Sua', [dshosokhenthuongconghienController::class, 'LuuHoSo']);
+        Route::get('InHoSo', [dshosokhenthuongconghienController::class, 'XemHoSo']);
+        Route::post('Xoa', [dshosokhenthuongconghienController::class, 'XoaHoSo']);
+
+        Route::post('ThemTapThe', [dshosokhenthuongconghienController::class, 'ThemTapThe']);
+        Route::get('XoaTapThe', [dshosokhenthuongconghienController::class, 'XoaTapThe']);
+        Route::get('LayTapThe', [dshosokhenthuongconghienController::class, 'LayTapThe']);
+        Route::post('NhanExcelTapThe', [dshosokhenthuongconghienController::class, 'NhanExcelTapThe']);
+
+        Route::post('ThemCaNhan', [dshosokhenthuongconghienController::class, 'ThemCaNhan']);
+        Route::get('XoaCaNhan', [dshosokhenthuongconghienController::class, 'XoaCaNhan']);
+        Route::get('LayCaNhan', [dshosokhenthuongconghienController::class, 'LayCaNhan']);
+        Route::post('NhanExcelCaNhan', [dshosokhenthuongconghienController::class, 'NhanExcelCaNhan']);
+
+        Route::post('ThemDeTai', [dshosokhenthuongconghienController::class, 'ThemDeTai']);
+        Route::get('XoaDeTai', [dshosokhenthuongconghienController::class, 'XoaDeTai']);
+        Route::get('LayDeTai', [dshosokhenthuongconghienController::class, 'LayDeTai']);
+        Route::post('NhanExcelDeTai', [dshosokhenthuongconghienController::class, 'NhanExcelDeTai']);
+
+        Route::get('TaiLieuDinhKem', [dshosokhenthuongconghienController::class, 'TaiLieuDinhKem']);
+        Route::post('ChuyenHoSo', [dshosokhenthuongconghienController::class, 'ChuyenHoSo']);
+        Route::get('LayLyDo', [dshosokhenthuongconghienController::class, 'LayLyDo']);
+       
+        //29.10.2022
+        Route::get('QuyetDinh', [dshosokhenthuongconghienController::class, 'QuyetDinh']);
+        Route::get('TaoDuThao', [dshosokhenthuongconghienController::class, 'DuThaoQuyetDinh']);
+        Route::post('QuyetDinh', [dshosokhenthuongconghienController::class, 'LuuQuyetDinh']);
+        Route::get('PheDuyet', [dshosokhenthuongconghienController::class, 'PheDuyet']);
+        Route::post('PheDuyet', [dshosokhenthuongconghienController::class, 'LuuPheDuyet']);
+        Route::post('HuyPheDuyet', [dshosokhenthuongconghienController::class, 'HuyPheDuyet']);
+        Route::get('InQuyetDinh', [dshosokhenthuongconghienController::class, 'InQuyetDinh']);
+        Route::get('InPhoi', [dshosokhenthuongconghienController::class, 'InPhoi']);  
+        
+        Route::post('NoiDungKhenThuong', [dshosokhenthuongconghienController::class, 'NoiDungKhenThuong']);
+        Route::get('InBangKhenCaNhan', [dshosokhenthuongconghienController::class, 'InBangKhenCaNhan']);
+        Route::get('InBangKhenTapThe', [dshosokhenthuongconghienController::class, 'InBangKhenTapThe']);
+        Route::get('InGiayKhenCaNhan', [dshosokhenthuongconghienController::class, 'InGiayKhenCaNhan']);
+        Route::get('InGiayKhenTapThe', [dshosokhenthuongconghienController::class, 'InGiayKhenTapThe']);
+    });
+
     Route::group(['prefix' => 'HoSo'], function () {
         Route::get('ThongTin', [dshosodenghikhenthuongconghienController::class, 'ThongTin']);
         Route::post('Them', [dshosodenghikhenthuongconghienController::class, 'Them']);
