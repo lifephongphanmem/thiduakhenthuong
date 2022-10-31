@@ -142,7 +142,7 @@
                                     @else
                                         {{-- Trường hợp gộp các quy trình vào làm một để chỉ theo dõi hồ sơ --}}
                                         @if (in_array($tt->trangthai, ['CXKT', 'CC', 'BTL', 'CXD']) &&
-                                            chkPhanQuyen('dshosodenghikhenthuongchuyende', 'hoanthanh'))
+                                            chkPhanQuyen('dshosodenghikhenthuongdotxuat', 'hoanthanh'))
                                             <a href="{{ url($inputs['url_hs'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                 class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
                                                 title="Thông tin hồ sơ khen thưởng">
