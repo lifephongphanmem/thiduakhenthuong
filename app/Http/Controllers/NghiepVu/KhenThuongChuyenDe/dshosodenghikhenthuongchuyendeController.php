@@ -954,7 +954,7 @@ class dshosodenghikhenthuongchuyendeController extends Controller
         $model->capkhenthuong =  $donvi_kt->capdo;
         $model->donvikhenthuong =  $donvi_kt->tendvhienthi;
 
-        return view('NghiepVu.KhenThuongCongTrang.HoSoKhenThuong.PheDuyetKT')
+        return view('NghiepVu.KhenThuongChuyenDe.HoSoKhenThuong.PheDuyetKT')
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)

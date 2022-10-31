@@ -1073,9 +1073,9 @@ class khenthuonghosothiduaController extends Controller
 
     public function TraLai(Request $request)
     {
-        if (!chkPhanQuyen('qdhosokhenthuongdotxuat', 'hoanthanh')) {
+        if (!chkPhanQuyen('qdhosodenghikhenthuongdotxuat', 'hoanthanh')) {
             return view('errors.noperm')
-                ->with('machucnang', 'qdhosokhenthuongdotxuat')
+                ->with('machucnang', 'qdhosodenghikhenthuongdotxuat')
                 ->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();

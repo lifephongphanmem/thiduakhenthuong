@@ -21,7 +21,7 @@ use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tapthe;
 use App\Model\View\viewdiabandonvi;
 use Illuminate\Support\Facades\Session;
 
-class xdhosokhenthuongdotxuatController extends Controller
+class xdhosodenghikhenthuongdotxuatController extends Controller
 {
     public static $url = '';
     public function __construct()
@@ -36,14 +36,14 @@ class xdhosokhenthuongdotxuatController extends Controller
     }
     public function ThongTin(Request $request)
     {
-        if (!chkPhanQuyen('xdhosokhenthuongdotxuat', 'danhsach')) {
-            return view('errors.noperm')->with('machucnang', 'xdhosokhenthuongdotxuat')->with('tenphanquyen', 'danhsach');
+        if (!chkPhanQuyen('xdhosodenghikhenthuongdotxuat', 'danhsach')) {
+            return view('errors.noperm')->with('machucnang', 'xdhosodenghikhenthuongdotxuat')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
         $inputs['url_hs'] = '/KhenThuongDotXuat/HoSo/';
         $inputs['url_xd'] = '/KhenThuongDotXuat/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongDotXuat/KhenThuong/';
-        $m_donvi = getDonVi(session('admin')->capdo, 'xdhosokhenthuongdotxuat');
+        $m_donvi = getDonVi(session('admin')->capdo, 'xdhosodenghikhenthuongdotxuat');
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
 
         //$m_donvi = viewdiabandonvi::wherein('madonvi', array_column($m_donvi->toarray(), 'madonviQL'))->get();
@@ -52,7 +52,7 @@ class xdhosokhenthuongdotxuatController extends Controller
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         //$capdo = $donvi->capdo ?? '';
-        $inputs['maloaihinhkt'] = session('chucnang')['xdhosokhenthuongdotxuat']['maloaihinhkt'] ?? 'ALL';
+        $inputs['maloaihinhkt'] = session('chucnang')['xdhosodenghikhenthuongdotxuat']['maloaihinhkt'] ?? 'ALL';
         $model = dshosothiduakhenthuong::where('madonvi_xd', $inputs['madonvi']);
 
         if ($inputs['maloaihinhkt'] != 'ALL')
