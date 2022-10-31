@@ -515,10 +515,55 @@ Route::group(['prefix' => 'KhenThuongCongHien'], function () {
 
 //Khen thưởng theo đối ngoại
 use App\Http\Controllers\NghiepVu\KhenThuongDoiNgoai\dshosodenghikhenthuongdoingoaiController;
+use App\Http\Controllers\NghiepVu\KhenThuongDoiNgoai\dshosokhenthuongdoingoaiController;
 use App\Http\Controllers\NghiepVu\KhenThuongDoiNgoai\qdhosodenghikhenthuongdoingoaiController;
 use App\Http\Controllers\NghiepVu\KhenThuongDoiNgoai\xdhosodenghikhenthuongdoingoaiController;
 
 Route::group(['prefix' => 'KhenThuongDoiNgoai'], function () {
+    Route::group(['prefix' => 'HoSoKT'], function () {
+        Route::get('ThongTin', [dshosokhenthuongdoingoaiController::class, 'ThongTin']);
+        Route::post('Them', [dshosokhenthuongdoingoaiController::class, 'Them']);
+        Route::get('Sua', [dshosokhenthuongdoingoaiController::class, 'ThayDoi']);
+        Route::post('Sua', [dshosokhenthuongdoingoaiController::class, 'LuuHoSo']);
+        Route::get('InHoSo', [dshosokhenthuongdoingoaiController::class, 'XemHoSo']);
+        Route::post('Xoa', [dshosokhenthuongdoingoaiController::class, 'XoaHoSo']);
+
+        Route::post('ThemTapThe', [dshosokhenthuongdoingoaiController::class, 'ThemTapThe']);
+        Route::get('XoaTapThe', [dshosokhenthuongdoingoaiController::class, 'XoaTapThe']);
+        Route::get('LayTapThe', [dshosokhenthuongdoingoaiController::class, 'LayTapThe']);
+        Route::post('NhanExcelTapThe', [dshosokhenthuongdoingoaiController::class, 'NhanExcelTapThe']);
+
+        Route::post('ThemCaNhan', [dshosokhenthuongdoingoaiController::class, 'ThemCaNhan']);
+        Route::get('XoaCaNhan', [dshosokhenthuongdoingoaiController::class, 'XoaCaNhan']);
+        Route::get('LayCaNhan', [dshosokhenthuongdoingoaiController::class, 'LayCaNhan']);
+        Route::post('NhanExcelCaNhan', [dshosokhenthuongdoingoaiController::class, 'NhanExcelCaNhan']);
+
+        Route::post('ThemDeTai', [dshosokhenthuongdoingoaiController::class, 'ThemDeTai']);
+        Route::get('XoaDeTai', [dshosokhenthuongdoingoaiController::class, 'XoaDeTai']);
+        Route::get('LayDeTai', [dshosokhenthuongdoingoaiController::class, 'LayDeTai']);
+        Route::post('NhanExcelDeTai', [dshosokhenthuongdoingoaiController::class, 'NhanExcelDeTai']);
+
+        Route::get('TaiLieuDinhKem', [dshosokhenthuongdoingoaiController::class, 'TaiLieuDinhKem']);
+        Route::post('ChuyenHoSo', [dshosokhenthuongdoingoaiController::class, 'ChuyenHoSo']);
+        Route::get('LayLyDo', [dshosokhenthuongdoingoaiController::class, 'LayLyDo']);
+       
+        //29.10.2022
+        Route::get('QuyetDinh', [dshosokhenthuongdoingoaiController::class, 'QuyetDinh']);
+        Route::get('TaoDuThao', [dshosokhenthuongdoingoaiController::class, 'DuThaoQuyetDinh']);
+        Route::post('QuyetDinh', [dshosokhenthuongdoingoaiController::class, 'LuuQuyetDinh']);
+        Route::get('PheDuyet', [dshosokhenthuongdoingoaiController::class, 'PheDuyet']);
+        Route::post('PheDuyet', [dshosokhenthuongdoingoaiController::class, 'LuuPheDuyet']);
+        Route::post('HuyPheDuyet', [dshosokhenthuongdoingoaiController::class, 'HuyPheDuyet']);
+        Route::get('InQuyetDinh', [dshosokhenthuongdoingoaiController::class, 'InQuyetDinh']);
+        Route::get('InPhoi', [dshosokhenthuongdoingoaiController::class, 'InPhoi']);  
+        
+        Route::post('NoiDungKhenThuong', [dshosokhenthuongdoingoaiController::class, 'NoiDungKhenThuong']);
+        Route::get('InBangKhenCaNhan', [dshosokhenthuongdoingoaiController::class, 'InBangKhenCaNhan']);
+        Route::get('InBangKhenTapThe', [dshosokhenthuongdoingoaiController::class, 'InBangKhenTapThe']);
+        Route::get('InGiayKhenCaNhan', [dshosokhenthuongdoingoaiController::class, 'InGiayKhenCaNhan']);
+        Route::get('InGiayKhenTapThe', [dshosokhenthuongdoingoaiController::class, 'InGiayKhenTapThe']);
+    });
+
     Route::group(['prefix' => 'HoSo'], function () {
         Route::get('ThongTin', [dshosodenghikhenthuongdoingoaiController::class, 'ThongTin']);
         Route::post('Them', [dshosodenghikhenthuongdoingoaiController::class, 'Them']);

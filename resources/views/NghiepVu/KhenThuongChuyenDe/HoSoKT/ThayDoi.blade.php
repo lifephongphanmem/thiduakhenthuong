@@ -156,14 +156,7 @@
                                             <span class="nav-text">Khen thưởng cá nhân</span>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#kt_detai">
-                                            <span class="nav-icon">
-                                                <i class="far fa-newspaper"></i>
-                                            </span>
-                                            <span class="nav-text">Đề tài sáng kiến</span>
-                                        </a>
-                                    </li>
+                                    
                                 </ul>
                             </div>
                             <div class="card-toolbar">
@@ -318,67 +311,7 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="tab-pane fade" id="kt_detai" role="tabpanel" aria-labelledby="kt_detai">
-                                    <div class="form-group row">
-                                        <div class="col-lg-12 text-right">
-                                            <div class="btn-group" role="group">
-                                                <button type="button" onclick="setDeTai()" data-target="#modal-detai"
-                                                    data-toggle="modal" class="btn btn-light-dark btn-icon btn-sm">
-                                                    <i class="fa fa-plus"></i></button>
-                                                <button title="Nhận từ file Excel" data-target="#modal-nhanexcel"
-                                                    data-toggle="modal" type="button"
-                                                    class="btn btn-info btn-icon btn-sm"><i
-                                                        class="fas fa-file-import"></i></button>
-                                                <a target="_blank" title="Tải file mẫu" href="/data/download/DeTai.xlsx"
-                                                    class="btn btn-primary btn-icon btn-sm"><i
-                                                        class="fa flaticon-download"></i></button></a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row" id="dsdetai">
-                                        <div class="col-md-12">
-                                            <table id="sample_5" class="table table-striped table-bordered table-hover">
-                                                <thead>
-                                                    <tr class="text-center">
-                                                        <th width="5%">STT</th>
-                                                        <th>Tên đề tài, sáng kiến</th>
-                                                        <th>Thông tin tác giả</th>
-                                                        <th width="10%">Thao tác</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php $i = 1; ?>
-                                                    @foreach ($model_detai as $key => $tt)
-                                                        <tr class="odd gradeX">
-                                                            <td class="text-center">{{ $i++ }}</td>
-                                                            <td>{{ $tt->tensangkien }}</td>
-                                                            <td class="text-center">
-                                                                {{ $tt->tendoituong . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <button title="Sửa thông tin" type="button"
-                                                                    onclick="getDeTai('{{ $tt->id }}')"
-                                                                    class="btn btn-sm btn-clean btn-icon"
-                                                                    data-target="#modal-detai" data-toggle="modal">
-                                                                    <i class="icon-lg la fa-edit text-primary"></i>
-                                                                </button>
-                                                                <button title="Xóa" type="button"
-                                                                    onclick="delDeTai('{{ $tt->id }}',  '{{ $inputs['url_hs'] . 'XoaDeTai' }}')"
-                                                                    class="btn btn-sm btn-clean btn-icon"
-                                                                    data-target="#modal-delete-detai" data-toggle="modal">
-                                                                    <i class="icon-lg la fa-trash text-danger"></i>
-                                                                </button>
-
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
+                                </div>                                
                             </div>
                         </div>
                     </div>

@@ -28,10 +28,10 @@
     <div class="card card-custom wave wave-animate-slow wave-info" style="min-height: 600px">
         <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Danh sách hồ sơ khen thưởng theo chuyên đề</h3>
+                <h3 class="card-label text-uppercase">Danh sách hồ sơ khen thưởng đối ngoại</h3>
             </div>
             <div class="card-toolbar">
-                @if (chkPhanQuyen('dshosokhenthuongchuyende', 'thaydoi'))
+                @if (chkPhanQuyen('dshosokhenthuongdoingoai', 'thaydoi'))
                     <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới
                     </button>
@@ -100,7 +100,7 @@
                                     </button>
                                     @if ($inputs['trangthai'] == 'CC')
                                         {{-- Trường hợp cũ đầy đủ quy trình --}}
-                                        @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']) && chkPhanQuyen('dshosokhenthuongchuyende', 'thaydoi'))
+                                        @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']) && chkPhanQuyen('dshosokhenthuongdoingoai', 'thaydoi'))
                                             <a title="Thông tin hồ sơ"
                                                 href="{{ url($inputs['url_hs'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                 class="btn btn-sm btn-clean btn-icon">
@@ -129,7 +129,7 @@
                                         @endif
                                     @else
                                         {{-- Trường hợp gộp các quy trình vào làm một để chỉ theo dõi hồ sơ --}}
-                                        @if (in_array($tt->trangthai, ['CXKT']) && chkPhanQuyen('dshosokhenthuongchuyende', 'hoanthanh'))
+                                        @if (in_array($tt->trangthai, ['CXKT']) && chkPhanQuyen('dshosokhenthuongdoingoai', 'hoanthanh'))
                                             <a href="{{ url($inputs['url_hs'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                 class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
                                                 title="Thông tin hồ sơ khen thưởng">
