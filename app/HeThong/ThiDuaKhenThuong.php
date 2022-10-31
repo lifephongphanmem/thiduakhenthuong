@@ -43,40 +43,50 @@ use Illuminate\Database\Eloquent\Collection;
 
 function setThongTinHoSo(&$inputs)
 {
-    switch($inputs['trangthai']){
-        //Chờ xét khen thưởng =>tự động gán đơn vị xét duyệt
+    switch ($inputs['trangthai']) {
+            //Chờ xét khen thưởng =>tự động gán đơn vị xét duyệt
         case 'CXKT':
-        //Đã xét khen thưởng
-        case 'DKT':{
-            $inputs['madonvi_nhan'] = $inputs['madonvi_xd'];
-            $inputs['trangthai_xd'] = $inputs['trangthai'];
-            $inputs['thoidiem_xd'] = $inputs['ngayhoso'];
-            $inputs['madonvi_nhan_xd'] = $inputs['madonvi_kt'];
-            $inputs['trangthai_kt'] = $inputs['trangthai'];  
-            $inputs['thoidiem_kt'] = $inputs['ngayhoso'];          
-            break;
-        }
+            //Đã xét khen thưởng
+        case 'DKT': {
+                $inputs['madonvi_nhan'] = $inputs['madonvi_xd'];
+                $inputs['trangthai_xd'] = $inputs['trangthai'];
+                $inputs['thoidiem_xd'] = $inputs['ngayhoso'];
+                $inputs['madonvi_nhan_xd'] = $inputs['madonvi_kt'];
+                $inputs['trangthai_kt'] = $inputs['trangthai'];
+                $inputs['thoidiem_kt'] = $inputs['ngayhoso'];
+
+                //Gán thông tin đơn vị khen thưởng
+                $donvi_kt = App\Model\View\viewdiabandonvi::where('madonvi', $inputs['madonvi_kt'])->first();
+                $inputs['capkhenthuong'] =  $donvi_kt->capdo ?? '';
+                $inputs['donvikhenthuong'] =  $donvi_kt->tendvhienthi ?? '';
+                break;
+            }
     }
 }
 
 function setThongTinHoSoKT(&$inputs)
 {
     //Khen thưởng tại đơn vị
-    switch($inputs['trangthai']){
-        //Chờ xét khen thưởng =>tự động gán đơn vị xét duyệt
+    switch ($inputs['trangthai']) {
+            //Chờ xét khen thưởng =>tự động gán đơn vị xét duyệt
         case 'CXKT':
-        //Đã xét khen thưởng
-        case 'DKT':{
-            $inputs['madonvi_xd'] = $inputs['madonvi'];
-            $inputs['madonvi_kt'] = $inputs['madonvi'];
-            $inputs['madonvi_nhan'] = $inputs['madonvi'];
-            $inputs['trangthai_xd'] = $inputs['trangthai'];
-            $inputs['thoidiem_xd'] = $inputs['ngayhoso'];
-            $inputs['madonvi_nhan_xd'] = $inputs['madonvi'];
-            $inputs['trangthai_kt'] = $inputs['trangthai'];  
-            $inputs['thoidiem_kt'] = $inputs['ngayhoso'];          
-            break;
-        }
+            //Đã xét khen thưởng
+        case 'DKT': {
+                $inputs['madonvi_xd'] = $inputs['madonvi'];
+                $inputs['madonvi_kt'] = $inputs['madonvi'];
+                $inputs['madonvi_nhan'] = $inputs['madonvi'];
+                $inputs['trangthai_xd'] = $inputs['trangthai'];
+                $inputs['thoidiem_xd'] = $inputs['ngayhoso'];
+                $inputs['madonvi_nhan_xd'] = $inputs['madonvi'];
+                $inputs['trangthai_kt'] = $inputs['trangthai'];
+                $inputs['thoidiem_kt'] = $inputs['ngayhoso'];
+
+                //Gán thông tin đơn vị khen thưởng
+                $donvi_kt = App\Model\View\viewdiabandonvi::where('madonvi', $inputs['madonvi_kt'])->first();
+                $inputs['capkhenthuong'] =  $donvi_kt->capdo ?? '';
+                $inputs['donvikhenthuong'] =  $donvi_kt->tendvhienthi ?? '';
+                break;
+            }
     }
 }
 

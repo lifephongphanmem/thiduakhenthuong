@@ -28,10 +28,10 @@
     <div class="card card-custom wave wave-animate-slow wave-info" style="min-height: 600px">
         <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Danh sách hồ sơ trình khen thưởng đột xuất</h3>
+                <h3 class="card-label text-uppercase">Danh sách hồ sơ đề nghị khen thưởng đột xuất</h3>
             </div>
             <div class="card-toolbar">
-                @if (chkPhanQuyen('dshosokhenthuongdotxuat', 'thaydoi'))
+                @if (chkPhanQuyen('dshosodenghikhenthuongdotxuat', 'thaydoi'))
                     <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
                 @endif
@@ -96,7 +96,7 @@
 
                                 <td style="text-align: center">
                                     <button type="button" title="In dữ liệu"
-                                        onclick="setInDuLieu('{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}', '{{ $tt->trangthai }}')"
+                                        onclick="setInDuLieu('{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}', '{{ $tt->trangthai }}', '{{ $inputs['trangthai'] == 'CC' ? false : true }}')"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#indulieu-modal"
                                         data-toggle="modal">
                                         <i class="icon-lg la flaticon2-print text-dark"></i>
@@ -108,33 +108,81 @@
                                         data-toggle="modal">
                                         <i class="icon-lg la la-file-download text-dark"></i>
                                     </button>
-                                    @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']) && chkPhanQuyen('dshosokhenthuongdotxuat', 'thaydoi'))
-                                        <a title="Thông tin hồ sơ"
-                                            href="{{ url($inputs['url_hs'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
-                                            class="btn btn-sm btn-clean btn-icon">
-                                            <i class="icon-lg la flaticon-edit-1 text-success"></i>
-                                        </a>
 
-                                        <button title="Trình hồ sơ đăng ký" type="button"
-                                            onclick="confirmChuyen('{{ $tt->mahosotdkt }}','{{ $inputs['url_hs'] . 'ChuyenHoSo' }}', '{{ $tt->phanloai }}')"
-                                            class="btn btn-sm btn-clean btn-icon">
-                                            <i class="icon-lg la fa-share text-primary"></i>
-                                        </button>
+                                    @if ($inputs['trangthai'] == 'CC')
+                                        {{-- Trường hợp cũ đầy đủ quy trình --}}
+                                        @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']) && chkPhanQuyen('dshosodenghikhenthuongdotxuat', 'thaydoi'))
+                                            <a title="Thông tin hồ sơ"
+                                                href="{{ url($inputs['url_hs'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                                class="btn btn-sm btn-clean btn-icon">
+                                                <i class="icon-lg la flaticon-edit-1 text-success"></i>
+                                            </a>
 
-                                        <button type="button"
-                                            onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url_hs'] . 'Xoa' }}')"
-                                            class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
-                                            data-toggle="modal">
-                                            <i class="icon-lg la fa-trash text-danger"></i></button>
+                                            <button title="Trình hồ sơ đăng ký" type="button"
+                                                onclick="confirmChuyen('{{ $tt->mahosotdkt }}','{{ $inputs['url_hs'] . 'ChuyenHoSo' }}', '{{ $tt->phanloai }}')"
+                                                class="btn btn-sm btn-clean btn-icon">
+                                                <i class="icon-lg la fa-share text-primary"></i>
+                                            </button>
+
+                                            <button type="button"
+                                                onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url_hs'] . 'Xoa' }}')"
+                                                class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
+                                                data-toggle="modal">
+                                                <i class="icon-lg la fa-trash text-danger"></i>
+                                            </button>
+                                        @endif
+
+                                        @if ($tt->trangthai == 'BTL')
+                                            <button title="Lý do hồ sơ bị trả lại" type="button"
+                                                onclick="viewLyDo('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}', '{{ $inputs['url_hs'] . 'LayLyDo' }}')"
+                                                class="btn btn-sm btn-clean btn-icon" data-target="#tralai-modal"
+                                                data-toggle="modal">
+                                                <i class="icon-lg la fa-archive text-info"></i></button>
+                                        @endif
+                                    @else
+                                        {{-- Trường hợp gộp các quy trình vào làm một để chỉ theo dõi hồ sơ --}}
+                                        @if (in_array($tt->trangthai, ['CXKT', 'CC', 'BTL', 'CXD']) &&
+                                            chkPhanQuyen('dshosodenghikhenthuongdotxuat', 'hoanthanh'))
+                                            <a href="{{ url($inputs['url_hs'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                                class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
+                                                title="Thông tin hồ sơ khen thưởng">
+                                                <span class="svg-icon svg-icon-xl">
+                                                    <i class="icon-lg la flaticon-list text-success"></i>
+                                                </span>
+                                                <span
+                                                    class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->soluongkhenthuong }}</span>
+                                            </a>
+
+                                            <a title="Tạo dự thảo quyết định khen thưởng"
+                                                href="{{ url($inputs['url_hs'] . 'QuyetDinh?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                                class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
+                                                <i class="icon-lg la flaticon-edit-1 text-success"></i>
+                                            </a>
+
+                                            <a title="Phê duyệt hồ sơ khen thưởng"
+                                                href="{{ url($inputs['url_hs'] . 'PheDuyet?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                                class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
+                                                <i class="icon-lg la flaticon-interface-10 text-success"></i>
+                                            </a>
+
+                                            <button type="button"
+                                                onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url_hs'] . 'Xoa' }}')"
+                                                class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
+                                                data-toggle="modal">
+                                                <i class="icon-lg la fa-trash text-danger"></i>
+                                            </button>
+                                        @endif
+
+                                        @if ($tt->trangthai == 'DKT')
+                                            <button title="Hủy phê duyệt hồ sơ khen thưởng" type="button"
+                                                onclick="setHuyPheDuyet('{{ $tt->mahosotdkt }}')"
+                                                class="btn btn-sm btn-clean btn-icon" data-target="#modal-HuyPheDuyet"
+                                                data-toggle="modal">
+                                                <i class="icon-lg la flaticon-interface-10 text-danger"></i>
+                                            </button>
+                                        @endif
                                     @endif
 
-                                    @if ($tt->trangthai == 'BTL')
-                                        <button title="Lý do hồ sơ bị trả lại" type="button"
-                                            onclick="viewLyDo('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}', '{{ $inputs['url_hs'] . 'LayLyDo' }}')"
-                                            class="btn btn-sm btn-clean btn-icon" data-target="#tralai-modal"
-                                            data-toggle="modal">
-                                            <i class="icon-lg la fa-archive text-info"></i></button>
-                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -145,63 +193,8 @@
     </div>
     <!--end::Card-->
 
-    <!--Modal Tạo hồ sơ-->
-    {!! Form::open(['url' => $inputs['url_hs'] . 'Them', 'id' => 'frm_hoso']) !!}
-    <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
-    <div id="taohoso-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header modal-header-primary">
-                    <h4 id="modal-header-primary-label" class="modal-title">Đồng ý tạo hồ sơ trình khen thưởng?</h4>
-                    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-                </div>
-
-                <div class="modal-body">
-                    <div class="form-group row">
-                        <div class="col-lg-12">
-                            <label>Cấp độ khen thưởng</label>
-                            {!! Form::select('maloaihinhkt', $a_loaihinhkt, $inputs['maloaihinhkt'], ['class' => 'form-control']) !!}
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-lg-6">
-                            <label>Số tờ trình</label>
-                            {!! Form::text('sototrinh', null, ['class' => 'form-control']) !!}
-                        </div>
-                        <div class="col-lg-6">
-                            <label>Ngày tạo hồ sơ</label>
-                            {!! Form::input('date', 'ngayhoso', date('Y-m-d'), ['class' => 'form-control']) !!}
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-lg-6">
-                            <label>Chức vụ người ký tờ trình</label>
-                            {!! Form::text('chucvunguoiky', null, ['class' => 'form-control']) !!}
-                        </div>
-                        <div class="col-lg-6">
-                            <label>Họ tên người ký tờ trình</label>
-                            {!! Form::text('nguoikytotrinh', null, ['class' => 'form-control']) !!}
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-lg-12">
-                            <label>Nội dung trình khen thưởng</label>
-                            {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows' => 3]) !!}
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
-                    <button type="submit" class="btn btn-primary">Đồng ý</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    {!! Form::close() !!}
-
+    @include('NghiepVu._DungChung.modal_PheDuyet')
+    @include('NghiepVu._DungChung.HoSo_TaoHoSo')
     @include('NghiepVu._DungChung.InDuLieu')
     @include('includes.modal.modal-delete')
     @include('includes.modal.modal_chuyenhs')

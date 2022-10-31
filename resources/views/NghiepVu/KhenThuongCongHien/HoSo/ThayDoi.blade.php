@@ -136,6 +136,10 @@
                 </div>
             </div>
 
+            @if ($model->trangthai == 'DKT')
+                @include('NghiepVu._DungChung.HoSo_ThongTinQD')
+            @endif
+            
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-custom">

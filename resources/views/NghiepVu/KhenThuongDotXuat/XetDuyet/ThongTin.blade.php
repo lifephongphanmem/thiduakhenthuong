@@ -31,7 +31,7 @@
                 <h3 class="card-label text-uppercase">Danh sách hồ sơ trình khen thưởng đột xuất</h3>
             </div>
             <div class="card-toolbar">
-                {{-- @if (chkPhanQuyen('xdhosokhenthuongdotxuat', 'thaydoi'))
+                {{-- @if (chkPhanQuyen('xdhosodenghikhenthuongdotxuat', 'thaydoi'))
                     <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
                 @endif --}}
@@ -108,7 +108,7 @@
                                         <i class="icon-lg la la-file-download text-dark"></i>
                                     </button>
 
-                                    @if (chkPhanQuyen('xdhosokhenthuongchuyende', 'thaydoi'))
+                                    @if (chkPhanQuyen('xdhosodenghikhenthuongchuyende', 'thaydoi'))
                                         @if (in_array($tt->trangthai_hoso, ['CD']))
                                             <button title="Tiếp nhận hồ sơ" type="button"
                                                 onclick="confirmNhan('{{ $tt->mahosotdkt }}','{{ $inputs['url_xd'] . 'NhanHoSo' }}','{{ $inputs['madonvi'] }}')"

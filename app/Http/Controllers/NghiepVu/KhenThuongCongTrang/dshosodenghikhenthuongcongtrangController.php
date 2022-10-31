@@ -44,9 +44,8 @@ class dshosodenghikhenthuongcongtrangController extends Controller
             return view('errors.noperm')->with('machucnang', 'dshosodenghikhenthuongcongtrang')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
-        $inputs['url_hs'] = '/KhenThuongCongTrang/HoSo/';
-        $inputs['url_xd'] = '/KhenThuongCongTrang/XetDuyet/';
-        $inputs['url_qd'] = '/KhenThuongCongTrang/KhenThuong/';
+
+
         $m_donvi = getDonVi(session('admin')->capdo, 'dshosodenghikhenthuongcongtrang');
         $a_diaban = array_column($m_donvi->toArray(), 'tendiaban', 'madiaban');
 
@@ -75,6 +74,18 @@ class dshosodenghikhenthuongcongtrangController extends Controller
         foreach ($model as $hoso) {
             $hoso->soluongkhenthuong = $model_canhan->where('mahosotdkt', $hoso->mahosotdkt)->count()
                 + $model_tapthe->where('mahosotdkt', $hoso->mahosotdkt)->count();
+        }
+        //Gán đường dẫn
+        if ($inputs['trangthai'] == 'CC') {
+            //Đi theo quy trình bình thường
+            $inputs['url_hs'] = '/KhenThuongCongTrang/HoSo/';
+            $inputs['url_xd'] = '/KhenThuongCongTrang/XetDuyet/';
+            $inputs['url_qd'] = '/KhenThuongCongTrang/KhenThuong/';
+        } else {
+            //Chỉ sử lý ở màn hình "ThongTin"
+            $inputs['url_hs'] = '/KhenThuongCongTrang/HoSo/';
+            $inputs['url_xd'] = '/KhenThuongCongTrang/HoSo/';
+            $inputs['url_qd'] = '/KhenThuongCongTrang/HoSo/';
         }
         //dd($model);
         return view('NghiepVu.KhenThuongCongTrang.HoSoKhenThuong.ThongTin')
@@ -850,7 +861,7 @@ class dshosodenghikhenthuongcongtrangController extends Controller
         $inputs = $request->all();
         $inputs['url'] = static::$url;
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        $model->thongtinquyetdinh ='';
+        $model->thongtinquyetdinh = '';
         $inputs['madonvi'] = $model->madonvi_xd;
         $a_duthao = array_column(duthaoquyetdinh::all()->toArray(), 'noidung', 'maduthao');
         $inputs['maduthao'] = $inputs['maduthao'] ?? array_key_first($a_duthao);
@@ -877,8 +888,8 @@ class dshosodenghikhenthuongcongtrangController extends Controller
     {
         $inputs = $request->all();
         $inputs['url_hs'] = '/KhenThuongCongTrang/HoSo/';
-        $inputs['url_xd'] = '/KhenThuongCongTrang/XetDuyet/';
-        $inputs['url_qd'] = '/KhenThuongCongTrang/KhenThuong/';
+        $inputs['url_xd'] = '/KhenThuongCongTrang/HoSo/';
+        $inputs['url_qd'] = '/KhenThuongCongTrang/HoSo/';
         $inputs['mahinhthuckt'] = session('chucnang')['dshosodenghikhenthuongcongtrang']['mahinhthuckt'] ?? 'ALL';
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();

@@ -170,6 +170,8 @@ class dshosokhenthuongcongtrangController extends Controller
         
         //Kiểm tra trạng thái hồ sơ
         setThongTinHoSoKT($inputs);
+        
+
         //Lưu nhật ký
         dshosothiduakhenthuong::create($inputs);
         $trangthai = new trangthaihoso();
