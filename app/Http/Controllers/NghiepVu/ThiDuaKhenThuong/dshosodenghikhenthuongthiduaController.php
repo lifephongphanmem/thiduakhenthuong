@@ -88,8 +88,8 @@ class dshosodenghikhenthuongthiduaController extends Controller
         }
         $ngayhientai = date('Y-m-d');
         $m_hoso = dshosothamgiaphongtraotd::wherein('trangthai', ['CD', 'DD', 'CXKT', 'DKT', 'DXKT'])->where('madonvi_nhan', $inputs['madonvi'])->get();
-        
-        $m_khenthuong = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi'])->where('phanloai','KHENTHUONG')->get();
+
+        $m_khenthuong = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi'])->where('phanloai', 'KHENTHUONG')->get();
 
         //$m_trangthai_phongtrao = trangthaihoso::where('phanloai', 'dsphongtraothidua')->orderby('thoigian', 'desc')->get();
         //dd($ngayhientai);
@@ -110,6 +110,9 @@ class dshosodenghikhenthuongthiduaController extends Controller
             //gán để ko in hồ sơ mahosothamgiapt
             $ct->mahosothamgiapt = '-1';
         }
+        $inputs['trangthai'] = session('chucnang')['dshosodenghikhenthuongthidua']['trangthai'] ?? 'CC';
+        $inputs['trangthai'] = $inputs['trangthai'] == 'ALL' ? 'CC' : $inputs['trangthai'];
+        $a_donviql = getDonViQuanLyDiaBan($donvi);
         //dd($model);
         return view('NghiepVu.ThiDuaKhenThuong.XetDuyetHoSo.ThongTin')
             ->with('inputs', $inputs)
@@ -119,7 +122,7 @@ class dshosodenghikhenthuongthiduaController extends Controller
             ->with('m_diaban', $m_diaban)
             ->with('a_trangthaihoso', getTrangThaiTDKT())
             ->with('a_phamvi', getPhamViPhongTrao())
-            ->with('a_donviql', getDonViQuanLyDiaBan($donvi))
+            ->with('a_donviql', $a_donviql)
             ->with('a_dsdonvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
             ->with('pageTitle', 'Hồ sơ đề nghị khen thưởng thi đua');
     }
@@ -183,8 +186,7 @@ class dshosodenghikhenthuongthiduaController extends Controller
                         'tencoquan' => $canhan->tencoquan,
                         'tenphongban' => $canhan->tenphongban,
                         'maphanloaicanbo' => $canhan->maphanloaicanbo,
-                        'mahinhthuckt' => $canhan->mahinhthuckt,
-                        'madanhhieutd' => $canhan->madanhhieutd,
+                        'madanhhieukhenthuong' => $canhan->madanhhieukhenthuong,
                         'ketqua' => '1',
                     ];
                 }
@@ -196,8 +198,7 @@ class dshosodenghikhenthuongthiduaController extends Controller
                         'maphanloaitapthe' => $tapthe->maphanloaitapthe,
                         'tentapthe' => $tapthe->tentapthe,
                         'ghichu' => $tapthe->ghichu,
-                        'madanhhieutd' => $tapthe->madanhhieutd,
-                        'mahinhthuckt' => $tapthe->mahinhthuckt,
+                        'madanhhieukhenthuong' => $tapthe->madanhhieukhenthuong,
                         'ketqua' => '1',
                     ];
                 }
@@ -208,6 +209,11 @@ class dshosodenghikhenthuongthiduaController extends Controller
                 setTrangThaiHoSo($inputs['madonvi'], $hoso, ['madonvi' => $inputs['madonvi'], 'thoigian' => $thoigian, 'trangthai' => $inputs['trangthai']]);
                 setTrangThaiHoSo($hoso->madonvi, $hoso, ['trangthai' => $inputs['trangthai']]);
                 $hoso->save();
+            }
+            if (isset($inputs['totrinh'])) {
+                $filedk = $request->file('totrinh');
+                $inputs['totrinh'] = $inputs['mahosotdkt'] . '_totrinh.' . $filedk->getClientOriginalExtension();
+                $filedk->move(public_path() . '/data/totrinh/', $inputs['totrinh']);
             }
 
             dshosothiduakhenthuong::create($inputs);
@@ -445,12 +451,47 @@ class dshosodenghikhenthuongthiduaController extends Controller
 
     public function ChuyenHoSo(Request $request)
     {
-        if (!chkPhanQuyen('xdhosokhenthuongnienhan', 'hoanthanh')) {
+        if (!chkPhanQuyen('dshosodenghikhenthuongthidua', 'hoanthanh')) {
             return view('errors.noperm')->with('machucnang', 'xdhosokhenthuongnienhan')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
         $thoigian = date('Y-m-d H:i:s');
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
+        //Kiểm tra phong trào xem đơn vị tiếp nhận có quản lý không (phong trào cấp H thì đơn vị cấp Tỉnh ko nhìn thấy)        
+        $phamviapdung = dsphongtraothidua::where('maphongtraotd', $model->maphongtraotd)->first()->phamviapdung ?? 'PHAMVI';
+        $capdo = viewdiabandonvi::where('madonvi', $inputs['madonvi_nhan'])->first()->capdo ?? 'CAPDO';
+        switch ($phamviapdung) {
+            case 'X': {
+                    if ($phamviapdung != $capdo) {
+                        return view('errors.404')
+                            ->with('message', 'Phong trào thi đua không thuộc phạm vi quản lý của đơn vị tiếp nhận<br>nên đơn vị không thể xét khen thưởng.')
+                            ->with('url', '/XetDuyetHoSoThiDua/ThongTin?madonvi=' . $model->madonvi);
+                    }
+                    break;
+                }
+            case 'H': {
+                    if (!in_array($capdo, ['X', 'H'])) {
+                        return view('errors.404')
+                            ->with('message', 'Phong trào thi đua không thuộc phạm vi quản lý của đơn vị tiếp nhận<br>nên đơn vị không thể xét khen thưởng.')
+                            ->with('url', '/XetDuyetHoSoThiDua/ThongTin?madonvi=' . $model->madonvi);
+                    }
+                    break;
+                }
+            case 'SBN': {
+                    if (!in_array($capdo, ['T'])) {
+                        return view('errors.404')
+                            ->with('message', 'Phong trào thi đua không thuộc phạm vi quản lý của đơn vị tiếp nhận<br>nên đơn vị không thể xét khen thưởng.')
+                            ->with('url', '/XetDuyetHoSoThiDua/ThongTin?madonvi=' . $model->madonvi);
+                    }
+                    break;
+                }
+            default: {
+                    // return view('errors.404')
+                    //     ->with('message', 'Phong trào thi đua không thuộc phạm vi quản lý của đơn vị tiếp nhận<br>nên đơn vị không thể xét khen thưởng.')
+                    //     ->with('url', '/XetDuyetHoSoThiDua/ThongTin?madonvi=' . $model->madonvi);
+                }
+        }
+
         //gán lại trạng thái hồ sơ để theo dõi
         $model->madonvi_xd = $model->madonvi; //do đơn vị tạo hồ sơ ở bước xét duyệt
         $model->trangthai = 'CXKT';
@@ -554,7 +595,7 @@ class dshosodenghikhenthuongthiduaController extends Controller
     public function DuThaoQuyetDinh(Request $request)
     {
         $inputs = $request->all();
-        $inputs['url'] = static::$url;        
+        $inputs['url'] = static::$url;
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $inputs['madonvi'] = $model->madonvi;
         $a_duthao = array_column(duthaoquyetdinh
@@ -1006,5 +1047,34 @@ class dshosodenghikhenthuongthiduaController extends Controller
         $result['status'] = 'success';
 
         die(json_encode($result));
+    }
+
+    
+    public function GanKhenThuong(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
+        }
+        $inputs = $request->all();
+        //dd($inputs);
+        if ($inputs['phanloai'] == 'TAPTHE') {
+            dshosothiduakhenthuong_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->update(['ketqua' => $inputs['ketqua'], 'noidungkhenthuong' => $inputs['noidungkhenthuong']]);
+            $model = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+            $this->htmlTapThe($result, $model);
+        } else {
+            dshosothiduakhenthuong_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->update(['ketqua' => $inputs['ketqua'], 'noidungkhenthuong' => $inputs['noidungkhenthuong']]);
+            $model = dshosothiduakhenthuong_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+            $this->htmlCaNhan($result, $model);
+        }
+
+        return response()->json($result);
     }
 }

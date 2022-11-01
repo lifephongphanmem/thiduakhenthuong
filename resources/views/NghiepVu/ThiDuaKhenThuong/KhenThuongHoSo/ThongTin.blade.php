@@ -131,6 +131,12 @@
                                                 <i class="icon-lg la flaticon-interface-10 text-success"></i>
                                             </button>
 
+                                            <a title="Phê duyệt hồ sơ khen thưởng"
+                                                href="{{ url($inputs['url_qd'] . 'PheDuyet?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                                class="btn btn-sm btn-clean btn-icon">
+                                                <i class="icon-lg la flaticon-interface-10 text-success"></i>
+                                            </a>
+
                                             <button title="Trả lại hồ sơ" type="button"
                                                 onclick="confirmTraLai('{{ $tt->mahosotdkt }}', '{{ $inputs['madonvi'] }}', '{{ $inputs['url_qd'] . 'TraLai' }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modal-tralai"

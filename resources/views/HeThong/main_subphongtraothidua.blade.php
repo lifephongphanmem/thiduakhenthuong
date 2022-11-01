@@ -35,6 +35,18 @@
                                     </li>
                                 @endif
 
+                                @if (chkPhanQuyen('dshosokhenthuongthidua', 'phanquyen'))
+                                <li class="menu-item" aria-haspopup="true">
+                                    <a href="{{ url('/HoSoThiDuaKT/ThongTin') }}" class="menu-link">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span
+                                            class="menu-text font-weight-bold">{{ chkGiaoDien('dshosokhenthuongthidua', 'tenchucnang') }}</span>
+                                    </a>
+                                </li>
+                            @endif
+
                                 
                                 @if (chkPhanQuyen('dshosodenghikhenthuongthidua', 'phanquyen'))
                                     <li class="menu-item" aria-haspopup="true">

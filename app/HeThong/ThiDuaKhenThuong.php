@@ -183,11 +183,17 @@ function getDiaBan_All($all = false)
     return $a_diaban;
 }
 
+
+//Hàm lấy danh sách đơn vị quản lý địa bàn cùng cấp và cấp trên
 function getDonViQuanLyDiaBan($donvi, $kieudulieu = 'ARRAY')
 {
-    //Lấy đơn vị quản lý địa bàn và đơn vi
     $m_diaban = \App\Model\DanhMuc\dsdiaban::where('madiaban', $donvi->madiaban)->first();
-    $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', [$m_diaban->madonviQL, $donvi->madonvi])->get();
+    $a_donvi = [$m_diaban->madonviQL, $donvi->madonvi];
+    $m_diabanQL = \App\Model\DanhMuc\dsdiaban::where('madiaban', $m_diaban->madiabanQL)->first();
+    if($m_diabanQL != null)
+        $a_donvi = array_merge($a_donvi,[$m_diabanQL->madonviQL]);
+    
+    $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', $a_donvi)->get();
     switch ($kieudulieu) {
         case 'MODEL': {
                 return $model;
@@ -198,11 +204,17 @@ function getDonViQuanLyDiaBan($donvi, $kieudulieu = 'ARRAY')
     }
 }
 
+//Hàm lấy danh sách đơn vị xét duyệt trên địa bàn cùng cấp và cấp trên
 function getDonViXetDuyetDiaBan($donvi, $kieudulieu = 'ARRAY')
 {
     //Lấy đơn vị quản lý địa bàn và đơn vi
     $m_diaban = \App\Model\DanhMuc\dsdiaban::where('madiaban', $donvi->madiaban)->first();
-    $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', [$m_diaban->madonviKT, $donvi->madonvi])->get();
+    $a_donvi = [$m_diaban->madonviKT, $donvi->madonvi];
+    $m_diabanQL = \App\Model\DanhMuc\dsdiaban::where('madiaban', $m_diaban->madiabanQL)->first();
+    if($m_diabanQL != null)
+        $a_donvi = array_merge($a_donvi,[$m_diabanQL->madonviKT]);
+
+    $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', $a_donvi)->get();
     switch ($kieudulieu) {
         case 'MODEL': {
                 return $model;

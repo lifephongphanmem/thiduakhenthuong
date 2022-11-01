@@ -28,7 +28,7 @@
     <div class="card card-custom" style="min-height: 600px">
         <div class="card-header">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Thông tin hồ sơ tham gia phong trào thi đua</h3>
+                <h3 class="card-label text-uppercase">Thông tin hồ sơ khen thưởng thi đua</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
@@ -45,38 +45,24 @@
             'enctype' => 'multipart/form-data',
         ]) !!}
         {{ Form::hidden('madonvi', null, ['id' => 'madonvi']) }}
-        {{ Form::hidden('mahosothamgiapt', null, ['id' => 'mahosothamgiapt']) }}
-        {{ Form::hidden('maphongtraotd', null, ['id' => 'maphongtraotd']) }}
+        {{ Form::hidden('mahosotdkt', null, ['id' => 'mahosotdkt']) }}
+        {{ Form::hidden('maloaihinhkt', null, ['id' => 'maloaihinhkt']) }}
         <div class="card-body">
             <h4 class="text-dark font-weight-bold mb-5">Thông tin chung</h4>
             <div class="form-group row">
-                <div class="col-12">
-                    <label>Tên phong trào thi đua</label>
-                    {!! Form::text('tenphongtrao', null, [
-                        'class' => 'form-control',
-                        'readonly',
-                    ]) !!}
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-6">
+                <div class="col-lg-6">
                     <label>Tên đơn vị</label>
                     {!! Form::text('tendonvi', null, ['class' => 'form-control', 'readonly' => 'true']) !!}
                 </div>
 
-                <div class="col-3">
+                <div class="col-lg-3">
                     <label>Số tờ trình</label>
                     {!! Form::text('sototrinh', null, ['class' => 'form-control']) !!}
                 </div>
-                <div class="col-3">
+                <div class="col-lg-3">
                     <label>Ngày tháng trình<span class="require">*</span></label>
                     {!! Form::input('date', 'ngayhoso', null, ['class' => 'form-control', 'required']) !!}
                 </div>
-                {{-- <div class="col-lg-6">
-                    <label>Loại hình khen thưởng</label>
-                    {!! Form::select('maloaihinhkt', $a_loaihinhkt, null, ['class' => 'form-control']) !!}
-                </div> --}}
             </div>
 
             <div class="form-group row">
@@ -144,6 +130,10 @@
                 </div>
             </div>
 
+            @if ($model->trangthai == 'DKT')
+                @include('NghiepVu._DungChung.HoSo_ThongTinQD')
+            @endif
+            
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-custom">
@@ -166,6 +156,7 @@
                                             <span class="nav-text">Khen thưởng cá nhân</span>
                                         </a>
                                     </li>
+                                    
                                 </ul>
                             </div>
                             <div class="card-toolbar">
@@ -189,7 +180,7 @@
                                                         class="fas fa-file-import"></i></button>
                                                 <a target="_blank" title="Tải file mẫu" href="/data/download/TapThe.xlsx"
                                                     class="btn btn-primary btn-icon btn-sm"><i
-                                                        class="fa flaticon-download"></i></button></a>
+                                                        class="fa flaticon-download"></i></a>
                                             </div>
                                         </div>
                                     </div>
@@ -202,7 +193,7 @@
                                                         <th width="5%">STT</th>
                                                         <th>Tên tập thể</th>
                                                         <th>Phân loại<br>tập thể</th>
-                                                        <th>Hình thức khen thưởng /<br>Danh hiệu thi đua</th>
+                                                        <th>Hình thức khen thưởng/<br>Danh hiệu thi đua</th>
                                                         <th width="15%">Thao tác</th>
                                                     </tr>
                                                 </thead>
@@ -214,8 +205,10 @@
                                                             <td>{{ $tt->tentapthe }}</td>
                                                             <td>{{ $a_tapthe[$tt->maphanloaitapthe] ?? '' }}</td>
                                                             <td class="text-center">
-                                                                {{ $a_dhkt_tapthe[$tt->madanhhieukhenthuong] ?? '' }}</td>
-
+                                                                {{ $a_dhkt_tapthe[$tt->madanhhieukhenthuong] ?? '' }}
+                                                            </td>
+                                                            {{-- <td class="text-center">
+                                                                {{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td> --}}
                                                             <td class="text-center">
                                                                 <button title="Sửa thông tin" type="button"
                                                                     onclick="getTapThe('{{ $tt->id }}')"
@@ -231,12 +224,7 @@
                                                                     data-toggle="modal">
                                                                     <i class="icon-lg la fa-trash text-danger"></i>
                                                                 </button>
-                                                                <button title="Tiêu chuẩn" type="button"
-                                                                    onclick="getTieuChuan('{{ $tt->id }}','TAPTHE','{{ $tt->tentapthe }}')"
-                                                                    class="btn btn-sm btn-clean btn-icon"
-                                                                    data-target="#modal-tieuchuan" data-toggle="modal">
-                                                                    <i class="icon-lg la fa-list text-dark"></i>
-                                                                </button>
+
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -277,7 +265,7 @@
                                                         <th width="5%">Giới</br>tính</th>
                                                         <th width="15%">Phân loại cán bộ</th>
                                                         <th>Thông tin công tác</th>
-                                                        <th>Hình thức khen thưởng /<br>Danh hiệu thi đua</th>
+                                                        <th>Hình thức khen thưởng/<br>Danh hiệu thi đua</th>
                                                         <th width="10%">Thao tác</th>
                                                     </tr>
                                                 </thead>
@@ -294,27 +282,28 @@
                                                                 {{ $tt->chucvu . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}
                                                             </td>
                                                             <td class="text-center">
-                                                                {{ $a_dhkt_canhan[$tt->madanhhieukhenthuong] ?? '' }}</td>
+                                                                {{ $a_dhkt_canhan[$tt->madanhhieukhenthuong] ?? '' }}
+                                                            </td>
+                                                            {{-- <td class="text-center">
+                                                                {{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
                                                             <td class="text-center">
+                                                                {{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td> --}}
+                                                            <td class="text-center">
+
                                                                 <button title="Sửa thông tin" type="button"
                                                                     onclick="getCaNhan('{{ $tt->id }}')"
                                                                     class="btn btn-sm btn-clean btn-icon"
                                                                     data-target="#modal-create" data-toggle="modal">
-                                                                    <i class="icon-lg la fa-edit text-primary"></i>
-                                                                </button>
+                                                                    <i
+                                                                        class="icon-lg la fa-edit text-primary"></i></button>
                                                                 <button title="Xóa" type="button"
                                                                     onclick="delKhenThuong('{{ $tt->id }}',  '{{ $inputs['url_hs'] . 'XoaCaNhan' }}', 'CANHAN')"
                                                                     class="btn btn-sm btn-clean btn-icon"
                                                                     data-target="#modal-delete-khenthuong"
                                                                     data-toggle="modal">
-                                                                    <i class="icon-lg la fa-trash text-danger"></i>
-                                                                </button>
-                                                                <button title="Tiêu chuẩn" type="button"
-                                                                    onclick="getTieuChuan('{{ $tt->id }}','CANHAN','{{ $tt->tendoituong }}')"
-                                                                    class="btn btn-sm btn-clean btn-icon"
-                                                                    data-target="#modal-tieuchuan" data-toggle="modal">
-                                                                    <i class="icon-lg la fa-list text-dark"></i>
-                                                                </button>
+                                                                    <i
+                                                                        class="icon-lg la fa-trash text-danger"></i></button>
+
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -322,8 +311,7 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
-
+                                </div>                                
                             </div>
                         </div>
                     </div>
@@ -345,10 +333,11 @@
         {!! Form::close() !!}
     </div>
     <!--end::Card-->
-    @include('NghiepVu._DungChung.modal_HSPT_CaNhan')
-    @include('NghiepVu._DungChung.modal_HSPT_TapThe')
-    @include('NghiepVu._DungChung.modal_HSPT_TieuChuan')
-
+    @include('NghiepVu._DungChung.modal_CaNhan')
+    @include('NghiepVu._DungChung.modal_TapThe')
+    @include('NghiepVu._DungChung.modal_DeTai')
+    {{-- chưa dùng tiêu chuẩn --}}
+    @include('NghiepVu._DungChung.modal_TieuChuan')
     @include('NghiepVu._DungChung.modal_XoaDoiTuong')
     @include('NghiepVu._DungChung.modal_Excel')
     {{-- @include('NghiepVu._DungChung.modal_DoiTuong') --}}
