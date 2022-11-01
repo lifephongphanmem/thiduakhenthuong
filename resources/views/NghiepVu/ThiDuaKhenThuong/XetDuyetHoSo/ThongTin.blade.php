@@ -80,17 +80,15 @@
                             <tr class="text-center">
                                 <th rowspan="2" width="2%">STT</th>
                                 <th colspan="3">Hồ sơ đề nghị khen thưởng</th>
-                                <th colspan="3">Phong trào</th>
+                                <th colspan="2">Phong trào</th>
                                 <th rowspan="2" style="text-align: center" width="10%">Thao tác</th>
                             </tr>
                             <tr class="text-center">
                                 <th>Nội dung hồ sơ</th>
                                 <th>Trạng thái</th>
                                 <th>Đơn vị tiếp nhận</th>
-
                                 <th>Phạm vị phát động</th>
-                                <th width="30%">Tên phong trào thi đua</th>
-                                <th width="8%">Trạng thái</th>
+                                <th width="25%">Tên phong trào thi đua</th>
                             </tr>
                         </thead>
                         <?php $i=1; ?>
@@ -101,10 +99,8 @@
                                 @include('includes.td.td_trangthai_khenthuong')
                                 <td>{{ $a_dsdonvi[$tt->madonvinhankt] ?? '' }}</td>
                                 
-                                <td>{{ $a_phamvi[$tt->phamviapdung] ?? '' }}</td>
+                                <td class="text-center">{{ $a_phamvi[$tt->phamviapdung] ?? '' }}<br>({{$a_trangthaihoso[$tt->nhanhoso]}})</td>
                                 <td>{{ $tt->noidung }}</td>
-                                <td style="text-align: center">{{ $a_trangthaihoso[$tt->nhanhoso] }}</td>
-
                                 <td style="text-align: center">
                                     <button type="button" title="In dữ liệu"
                                         onclick="setInDuLieu('{{ $tt->mahosothamgiapt }}','{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}', '{{ $tt->trangthaikt }}')"
@@ -130,7 +126,7 @@
                                             class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->sohoso }}</span>
                                     </a>
                                     @if ($tt->nhanhoso == 'KETTHUC' &&
-                                        chkPhanQuyen('xdhosothidua', 'hoanthanh') &&
+                                        chkPhanQuyen('dshosodenghikhenthuongthidua', 'hoanthanh') &&
                                         in_array($tt->trangthaikt, ['DD', 'BTLXD', 'CXD']))
                                         @if ($tt->mahosotdkt == '-1')
                                             <button title="Tạo hồ sơ khen thưởng" type="button"
@@ -189,69 +185,7 @@
             </div>
         </div>
     </div>
-    <!--end::Card-->
-
-    <!--Modal Nhận hồ sơ-->
-    {!! Form::open(['url' => '/XetDuyetHoSoThiDua/ThemKT', 'id' => 'frm_hoso']) !!}
-    <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
-    <div id="taohoso-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header modal-header-primary">
-                    <h4 id="modal-header-primary-label" class="modal-title">Đồng ý tạo hồ sơ trình khen thưởng?</h4>
-                    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-                </div>
-
-                <div class="modal-body">
-                    <div class="form-group row">
-                        <div class="col-lg-12">
-                            <label>Phong trào thi đua</label>
-                            {!! Form::select('maphongtraotd', $a_phongtraotd, null, ['class' => 'form-control']) !!}
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-lg-6">
-                            <label>Số tờ trình</label>
-                            {!! Form::text('sototrinh', null, ['class' => 'form-control']) !!}
-                        </div>
-                        <div class="col-lg-6">
-                            <label>Ngày tạo hồ sơ</label>
-                            {!! Form::input('date', 'ngayhoso', date('Y-m-d'), ['class' => 'form-control']) !!}
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-lg-6">
-                            <label>Chức vụ người ký tờ trình</label>
-                            {!! Form::text('chucvunguoiky', null, ['class' => 'form-control']) !!}
-                        </div>
-                        <div class="col-lg-6">
-                            <label>Họ tên người ký tờ trình</label>
-                            {!! Form::text('nguoikytotrinh', null, ['class' => 'form-control']) !!}
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-lg-12">
-                            <label>Nội dung trình khen thưởng</label>
-                            {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows' => 3]) !!}
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
-                    <button type="submit" class="btn btn-primary">Đồng ý</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    {!! Form::close() !!}
-    <script>
-        function confirmKhenThuong(maphongtraotd) {
-            $('#frm_hoso').find("[name='maphongtraotd']").val(maphongtraotd).trigger('change');
-        }
-    </script>
+    <!--end::Card-->    
 
     {!! Form::open(['url' => '', 'id' => 'frm_delete']) !!}
     <div id="delete-modal-confirm" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
@@ -283,7 +217,7 @@
     </script>
 
     @include('NghiepVu.ThiDuaKhenThuong._DungChung.InDuLieu')
-
+    @include('NghiepVu.ThiDuaKhenThuong._DungChung.HoSo_TaoHoSo')
     @include('includes.modal.modal_unapprove_hs')
     @include('includes.modal.modal_accept_hs')
     @include('includes.modal.modal_nhanvatrinhkt_hs')

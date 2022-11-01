@@ -35,38 +35,27 @@
                                     </li>
                                 @endif
 
-                                @if (chkPhanQuyen('dshosothidua', 'phanquyen'))
-                                    <li class="menu-item" aria-haspopup="true">
-                                        <a href="{{ url('/HoSoThiDua/ThongTin') }}" class="menu-link">
-                                            <i class="menu-bullet menu-bullet-dot">
-                                                <span></span>
-                                            </i>
-                                            <span
-                                                class="menu-text font-weight-bold">{{ chkGiaoDien('dshosothidua', 'tenchucnang') }}</span>
-                                        </a>
-                                    </li>
-                                @endif
-
-                                @if (chkPhanQuyen('xdhosothidua', 'phanquyen'))
+                                
+                                @if (chkPhanQuyen('dshosodenghikhenthuongthidua', 'phanquyen'))
                                     <li class="menu-item" aria-haspopup="true">
                                         <a href="{{ url('/XetDuyetHoSoThiDua/ThongTin') }}" class="menu-link">
                                             <i class="menu-bullet menu-bullet-dot">
                                                 <span></span>
                                             </i>
                                             <span
-                                                class="menu-text font-weight-bold">{{ chkGiaoDien('xdhosothidua', 'tenchucnang') }}</span>
+                                                class="menu-text font-weight-bold">{{ chkGiaoDien('dshosodenghikhenthuongthidua', 'tenchucnang') }}</span>
                                         </a>
                                     </li>
                                 @endif
 
-                                @if (chkPhanQuyen('qdhosothidua', 'phanquyen'))
+                                @if (chkPhanQuyen('qdhosodenghikhenthuongthidua', 'phanquyen'))
                                     <li class="menu-item" aria-haspopup="true">
                                         <a href="{{ url('/KhenThuongHoSoThiDua/ThongTin') }}" class="menu-link">
                                             <i class="menu-bullet menu-bullet-dot">
                                                 <span></span>
                                             </i>
                                             <span
-                                                class="menu-text font-weight-bold">{{ chkGiaoDien('qdhosothidua', 'tenchucnang') }}</span>
+                                                class="menu-text font-weight-bold">{{ chkGiaoDien('qdhosodenghikhenthuongthidua', 'tenchucnang') }}</span>
                                         </a>
                                     </li>
                                 @endif
@@ -111,6 +100,18 @@
                                         </a>
                                     </li>
                                 @endif
+                                
+                                @if (chkPhanQuyen('dshosothidua', 'phanquyen'))
+                                <li class="menu-item" aria-haspopup="true">
+                                    <a href="{{ url('/HoSoThiDua/ThongTin') }}" class="menu-link">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span
+                                            class="menu-text font-weight-bold">{{ chkGiaoDien('dshosothidua', 'tenchucnang') }}</span>
+                                    </a>
+                                </li>
+                            @endif
 
                             </ul>
                         </div>

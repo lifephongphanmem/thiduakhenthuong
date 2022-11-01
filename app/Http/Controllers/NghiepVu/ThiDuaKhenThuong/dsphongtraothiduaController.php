@@ -397,7 +397,7 @@ class dsphongtraothiduaController extends Controller
     public function KetThuc(Request $request)
     {
         if (!chkPhanQuyen('dsphongtraothidua', 'thaydoi')) {
-            return view('errors.noperm')->with('machucnang', 'qdhosothidua')->with('tenphanquyen', 'thaydoi');
+            return view('errors.noperm')->with('machucnang', 'qdhosodenghikhenthuongthidua')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
         //dd($inputs);
@@ -412,7 +412,7 @@ class dsphongtraothiduaController extends Controller
     public function HuyKetThuc(Request $request)
     {
         if (!chkPhanQuyen('dsphongtraothidua', 'thaydoi')) {
-            return view('errors.noperm')->with('machucnang', 'qdhosothidua')->with('tenphanquyen', 'thaydoi');
+            return view('errors.noperm')->with('machucnang', 'qdhosodenghikhenthuongthidua')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
         //dd($inputs);
