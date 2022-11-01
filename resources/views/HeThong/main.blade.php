@@ -313,7 +313,7 @@
             <div class="row">
                 <!--begin::Item-->
                 <div class="col-12">
-                    <a href="{{ url('/data/download/LichsuTDKT.docx') }}"
+                    <a href="{{ url('/data/download/LichsuTDKT.docx') }}" target="_blank"
                         class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-5 px-5">                        
                         <span class="d-block font-weight-bold font-size-h6 mt-2">Lịch sử cập nhật</span>
                     </a>
