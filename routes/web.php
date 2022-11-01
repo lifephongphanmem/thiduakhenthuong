@@ -13,6 +13,7 @@ Route::get('thongtinhotro',function(){
 //dùng chung cho nghiệp vụ
 Route::group(['prefix' => 'DungChung'], function () {
     Route::get('getDonViKhenThuong_ThemHS', [dungchung_nghiepvuController::class, 'getDonViKhenThuong_ThemHS']);
+    Route::get('lichsucapnhat', [dungchung_nghiepvuController::class, 'getDonViKhenThuong_ThemHS']);
     
 });
 //Hệ thống
