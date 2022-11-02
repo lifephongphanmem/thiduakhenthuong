@@ -193,7 +193,7 @@
                                 <label class="control-label">Trạng thái phong trào</label>
                                 {!! Form::select(
                                     'trangthai',
-                                    ['CC' => 'Nhận hồ sơ', 'CXKT' => 'Chờ khen thưởng', 'DXKT' => 'Xét khen thưởng', 'DKT' => 'Đã kết thúc'],
+                                    ['CC' => 'Nhận hồ sơ', 'CXKT' => 'Chờ khen thưởng', 'DKT' => 'Đã kết thúc'],
                                     null,
                                     ['class' => 'form-control select2_modal'],
                                 ) !!}

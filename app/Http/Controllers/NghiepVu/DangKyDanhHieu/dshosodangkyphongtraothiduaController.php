@@ -50,7 +50,8 @@ class dshosodangkyphongtraothiduaController extends Controller
         if ($inputs['nam'] != 'ALL')
             $model = $model->where('namdangky', $inputs['nam']);
         $model = $model->orderby('ngayhoso')->get();
-
+        $inputs['trangthai'] = session('chucnang')['dshosodangkythidua']['trangthai'] ?? 'CC';
+        
         return view('NghiepVu.DangKyDanhHieu.HoSo.ThongTin')
             ->with('model', $model)
             ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
@@ -69,7 +70,9 @@ class dshosodangkyphongtraothiduaController extends Controller
         }
         $inputs = $request->all();
         $inputs['mahosodk'] = (string)getdate()[0];
-        $inputs['trangthai'] = 'CC';
+        $inputs['trangthai'] = session('chucnang')['dshosodangkythidua']['trangthai'] ?? 'CC';
+        //Thiết lập lại do chỉ có 2 bước trong quy trình
+        $inputs['trangthai'] = $inputs['trangthai'] != 'CC' ? 'DD' : $inputs['trangthai']; 
         $inputs['namdangky'] = date('Y');
         dshosodangkyphongtraothidua::create($inputs);
         return redirect(static::$url . 'Sua?mahosodk=' . $inputs['mahosodk']);

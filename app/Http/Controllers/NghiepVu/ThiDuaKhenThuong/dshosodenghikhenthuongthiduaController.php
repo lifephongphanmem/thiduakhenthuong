@@ -149,6 +149,7 @@ class dshosodenghikhenthuongthiduaController extends Controller
         }
         $inputs = $request->all();
         $chk = dshosothiduakhenthuong::where('maphongtraotd', $inputs['maphongtraotd'])
+            ->where('phanloai', 'KHENTHUONG')
             ->where('madonvi', $inputs['madonvi'])->first();
         $m_phongtrao = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
         //Lấy danh sách cán bộ đề nghị khen thưởng rồi thêm vào hosothiduakhenthuong
@@ -1049,7 +1050,7 @@ class dshosodenghikhenthuongthiduaController extends Controller
         die(json_encode($result));
     }
 
-    
+
     public function GanKhenThuong(Request $request)
     {
         $result = array(

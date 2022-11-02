@@ -100,6 +100,7 @@ class xdhosodangkyphongtraothiduaController extends Controller
         return redirect('/DangKyDanhHieu/XetDuyet/ThongTin?madonvi=' . $inputs['madonvi']);
     }
 
+    //chưa dùng
     public function ChuyenHoSo(Request $request)
     {
         if (!chkPhanQuyen('xdhosodangkythidua', 'hoanthanh')) {
@@ -117,7 +118,7 @@ class xdhosodangkyphongtraothiduaController extends Controller
         //dd($model);
         $model->save();
 
-        return redirect('/DangKyDanhHieu/XetDuye/ThongTin?madonvi=' . $model->madonvi_h);
+        return redirect('/DangKyDanhHieu/XetDuyet/ThongTin?madonvi=' . $model->madonvi_h);
     }
 
     //Chưa hoàn thiện
