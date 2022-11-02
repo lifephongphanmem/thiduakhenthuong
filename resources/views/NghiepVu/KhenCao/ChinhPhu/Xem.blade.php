@@ -21,7 +21,7 @@
         </tr>
         <tr>
             <td colspan="2" style="font-weight: bold;">
-                <h4> THÔNG TIN HỒ SƠ ĐỀ NGHỊ KHEN THƯỞNG </h4>
+                <h4> THÔNG TIN HỒ SƠ KHEN CAO CỦA CHÍNH PHỦ </h4>
             </td>
         </tr>
     </table>
@@ -29,7 +29,7 @@
     <table id="data_body" class="money" cellspacing="0" cellpadding="0" border="0"
         style="margin: 5px auto; border-collapse: collapse;font:normal 12px Times, serif;">
         <tr>
-            <td class="text-left" width="15%">Tên đơn vị: {{ $m_donvi->tendonvi }}</td>
+            <td class="text-left" width="15%">Tên đơn vị đề nghị: {{ $m_donvi->tendonvi }}</td>
         </tr>
         <tr>
             <td>Loại hình khen thưởng: {{ $a_loaihinhkt[$model->maloaihinhkt] ?? '' }}</td>
@@ -72,8 +72,7 @@
                     <th width="5%">STT</th>
                     <th>Tên tập thể</th>
                     <th>Phân loại tập thể</th>
-                    <th>Hình thức khen thưởng</th>
-                    <th>Danh hiệu thi đua</th>
+                    <th>Hình thức khen thưởng/</br>Danh hiệu thi đua</th>
                     <th>Kết quả<br>khen thưởng</th>
                 </tr>
             </thead>
@@ -83,8 +82,7 @@
                     <td class="text-center">{{ $i++ }}</td>
                     <td>{{ $tt->tentapthe }}</td>
                     <td>{{ $a_phanloaidt[$tt->maphanloaitapthe] ?? '' }}</td>
-                    <td>{{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
-                    <td>{{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td>
+                    <td>{{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}</td>
                     <td class="text-center">{{ $tt->ketqua =='1'? 'Có':'Không' }}</td>
                 </tr>
             @endforeach
@@ -101,8 +99,7 @@
                     <th>Tên đối tượng</th>
                     <th>Phân loại cán bộ</th>
                     <th>Thông tin công tác</th>
-                    <th>Hình thức khen thưởng</th>
-                    <th>Danh hiệu thi đua</th>
+                    <th>Hình thức khen thưởng/</br>Danh hiệu thi đua</th>
                     <th>Kết quả<br>khen thưởng</th>
                 </tr>
             </thead>
@@ -113,8 +110,7 @@
                     <td>{{ $tt->tendoituong }}</td>
                     <td>{{ $a_phanloaidt[$tt->maphanloaicanbo] ?? '' }}</td>
                     <td>{{ $tt->chucvu . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}</td>
-                    <td>{{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
-                    <td>{{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td>
+                    <td>{{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}</td>
                     <td class="text-center">{{ $tt->ketqua =='1'? 'Có':'Không' }}</td>
                 </tr>
             @endforeach

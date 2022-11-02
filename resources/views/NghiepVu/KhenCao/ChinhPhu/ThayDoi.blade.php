@@ -28,7 +28,7 @@
     <div class="card card-custom" style="min-height: 600px">
         <div class="card-header">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Thông tin hồ sơ đề nghị khen cao</h3>
+                <h3 class="card-label text-uppercase">Thông tin hồ sơ khen cao của chính phủ</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
@@ -49,15 +49,12 @@
         <div class="card-body">
             <h4 class="text-dark font-weight-bold mb-5">Thông tin chung</h4>
             <div class="form-group row">
-                <div class="col-lg-6">
-                    <label>Tên đơn vị</label>
+                <div class="col-12">
+                    <label>Tên đơn vị đề nghị khen thưởng</label>
                     {!! Form::text('tendonvi', null, ['class' => 'form-control', 'readonly' => 'true']) !!}
                 </div>
 
-                <div class="col-lg-6">
-                    <label>Loại hình khen thưởng</label>
-                    {!! Form::select('maloaihinhkt', $a_loaihinhkt, null, ['class' => 'form-control']) !!}
-                </div>
+
             </div>
 
             {{-- <div class="form-group row">
@@ -75,40 +72,38 @@
             </div> --}}
 
             <div class="form-group row">
-                <div class="col-lg-6">
+                <div class="col-6">
                     <label>Cấp độ khen thưởng</label>
                     {!! Form::select('capkhenthuong', getPhamViKhenCao(), null, ['class' => 'form-control']) !!}
                 </div>
-                <div class="col-lg-6">
-                    <label>Phân loại hồ sơ</label>
-                    {!! Form::select('phanloai', getPhanLoaiHoSoKhenCao(), null, ['class' => 'form-control']) !!}
+                <div class="col-6">
+                    <label>Loại hình khen thưởng</label>
+                    {!! Form::select('maloaihinhkt', $a_loaihinhkt, null, ['class' => 'form-control']) !!}
                 </div>
             </div>
 
             <div class="form-group row">
-                <div class="col-lg-6">
+                <div class="col-3">
                     <label>Số tờ trình</label>
                     {!! Form::text('sototrinh', null, ['class' => 'form-control']) !!}
                 </div>
-                <div class="col-lg-6">
+                <div class="col-3">
                     <label>Ngày tháng trình<span class="require">*</span></label>
                     {!! Form::input('date', 'ngayhoso', null, ['class' => 'form-control', 'required']) !!}
                 </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-lg-6">
+           
+                <div class="col-3">
                     <label>Chức vụ người ký tờ trình</label>
                     {!! Form::text('chucvunguoiky', null, ['class' => 'form-control']) !!}
                 </div>
-                <div class="col-lg-6">
+                <div class="col-3">
                     <label>Họ tên người ký tờ trình</label>
                     {!! Form::text('nguoikytotrinh', null, ['class' => 'form-control']) !!}
                 </div>
             </div>
 
             <div class="form-group row">
-                <div class="col-lg-12">
+                <div class="col-12">
                     <label>Mô tả hồ sơ</label>
                     {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows' => 2]) !!}
                 </div>

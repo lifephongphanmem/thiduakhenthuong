@@ -36,10 +36,10 @@
     <div class="card card-custom wave wave-animate-slow wave-info" style="min-height: 600px">
         <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Danh sách hồ sơ đề nghị khen cao</h3>
+                <h3 class="card-label text-uppercase">Danh sách hồ sơ khen cao của chính phủ</h3>
             </div>
             <div class="card-toolbar">
-                @if (chkPhanQuyen('dshosokhencao', 'thaydoi'))
+                @if (chkPhanQuyen('dshosokhencaochinhphu', 'thaydoi'))
                     <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
                 @endif
@@ -74,7 +74,7 @@
                 </div>
             </div>
 
-            <div class="form-group row">                
+            {{-- <div class="form-group row">                
                 <div class="col-md-6">
                     <label style="font-weight: bold">Cấp độ hồ sơ khen thưởng</label>
                     {!! Form::select('capkhenthuong', setArrayAll($a_phamvi), $inputs['capkhenthuong'], [
@@ -89,7 +89,7 @@
                         'class' => 'form-control select2basic',
                     ]) !!}
                 </div>
-            </div>
+            </div> --}}
 
             <div class="form-group row">
                 <div class="col-md-12">
@@ -98,7 +98,6 @@
                             <tr class="text-center">
                                 <th width="5%">STT</th>
                                 <th width="10%">Cấp độ khen thưởng</th>
-                                <th width="15%">Phân loại hồ sơ</th>
                                 <th width="15%">Hình thức khen thưởng</th>
                                 <th>Nội dung hồ sơ</th>
                                 <th width="8%">Trạng thái</th>
@@ -110,7 +109,6 @@
                             <tr>
                                 <td class="text-center">{{ $key + 1 }}</td>
                                 <td>{{ $a_phamvi[$tt->capkhenthuong] ?? $tt->capkhenthuong }}</td>
-                                <td>{{ $a_phanloaidt[$tt->phanloai] ?? $tt->phanloai }}</td>
                                 <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? $tt->maloaihinhkt }}</td>
                                 <td>{{ $tt->noidung }}</td>
                                 @include('includes.td.td_trangthai_hoso')
@@ -119,19 +117,19 @@
                                     <a title="Thông tin hồ sơ"
                                         href="{{ url($inputs['url'] . 'InHoSo?mahosotdkt=' . $tt->mahosotdkt) }}"
                                         class="btn btn-sm btn-clean btn-icon" target="_blank">
-                                        <i class="icon-lg la fa-eye text-dark icon-2x"></i>
+                                        <i class="icon-lg la fa-eye text-dark"></i>
                                     </a>
                                     <button title="Tài liệu đính kèm" type="button"
                                         onclick="get_attack('{{ $tt->mahosotdkt }}', '{{ $inputs['url'] . 'TaiLieuDinhKem' }}')"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
                                         data-toggle="modal">
-                                        <i class="icon-lg la la-file-download text-dark icon-2x"></i>
+                                        <i class="icon-lg la la-file-download text-dark"></i>
                                     </button>
                                     @if (in_array($tt->trangthai, ['DD', 'CC']))
                                         {{-- <a title="Thông tin hồ sơ"
                                             href="{{ url($inputs['url'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
                                             class="btn btn-sm btn-clean btn-icon">
-                                            <i class="icon-lg la flaticon-edit-1 text-success icon-2x"></i>
+                                            <i class="icon-lg la flaticon-edit-1 text-success"></i>
                                         </a>                                       --}}
 
                                         <a href="{{ url($inputs['url'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
@@ -143,30 +141,29 @@
                                             <span
                                                 class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->soluongkhenthuong }}</span>
                                         </a>
-                                        @if (chkPhanQuyen('dshosokhencao', 'hoanthanh'))
-                                            <button title="Cập nhật thông tin khen thưởng" type="button"
-                                                onclick="setPheDuyet('{{ $tt->mahosotdkt }}')"
-                                                class="btn btn-sm btn-clean btn-icon" data-target="#modal-PheDuyet"
-                                                data-toggle="modal">
-                                                <i class="icon-lg la flaticon-interface-10 text-success icon-2x"></i>
-                                            </button>
+                                        @if (chkPhanQuyen('dshosokhencaochinhphu', 'hoanthanh'))                                            
+                                            <a href="{{ url($inputs['url'] . 'PheDuyet?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                                class="btn btn-sm btn-clean btn-icon"
+                                                title="Cập nhật thông tin khen thưởng">
+                                                <i class="icon-lg la flaticon-interface-10 text-success"></i>
+                                            </a>
                                         @endif
 
                                         <button type="button"
                                             onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url'] . 'Xoa' }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
                                             data-toggle="modal">
-                                            <i class="icon-lg la fa-trash text-danger icon-2x"></i>
+                                            <i class="icon-lg la fa-trash text-danger"></i>
                                         </button>
                                     @endif
 
 
-                                    @if ($tt->trangthai == 'DKT' && chkPhanQuyen('dshosokhencao', 'hoanthanh'))
+                                    @if ($tt->trangthai == 'DKT' && chkPhanQuyen('dshosokhencaochinhphu', 'hoanthanh'))
                                         <button title="Hủy thông tin khen thưởng" type="button"
                                             onclick="setHuyPheDuyet('{{ $tt->mahosotdkt }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#modal-HuyPheDuyet"
                                             data-toggle="modal">
-                                            <i class="icon-lg la flaticon-interface-10 text-danger icon-2x"></i>
+                                            <i class="icon-lg la flaticon-interface-10 text-danger"></i>
                                         </button>
                                     @endif
                                 </td>
@@ -192,14 +189,18 @@
 
                 <div class="modal-body">
                     <div class="form-group row">
-                        <div class="col-lg-12">
+                        <div class="col-6">
+                            <label>Cấp độ khen thưởng</label>
+                            {!! Form::select('capkhenthuong', $a_phamvi, null, ['class' => 'form-control']) !!}
+                        </div>
+                        <div class="col-6">
                             <label>Ngày tạo hồ sơ</label>
                             {!! Form::input('date', 'ngayhoso', date('Y-m-d'), ['class' => 'form-control']) !!}
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <div class="col-lg-12">
+                        <div class="col-12">
                             <label>Nội dung hồ sơ</label>
                             {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows' => 3]) !!}
                         </div>

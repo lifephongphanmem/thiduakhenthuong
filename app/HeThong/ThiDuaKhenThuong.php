@@ -437,10 +437,7 @@ function getDonVi($capdo, $chucnang = null, $tenquyen = null)
         $m_donvi = App\Model\View\viewdiabandonvi::wherein('madonvi', function ($qr) use ($a_tk_pq) {
             $qr->select('madonvi')->from('dstaikhoan')->wherein('tendangnhap', $a_tk_pq)->distinct();
         })->get();
-    }
-    // if(count($m_donvi) == 0){
-    //     return redirect('/DangNhap');
-    // }
+    }    
     return $m_donvi;
 }
 

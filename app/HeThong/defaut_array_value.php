@@ -25,21 +25,42 @@ function getPhanLoaiHoSo()
     );
 }
 
-function getPhamViKhenCao()
+function getPhamViKhenCao($phamvi = 'T')
 {
-    return array(
-        'H' => 'Hồ sơ khen cao cấp Huyện',
-        'T' => 'Hồ sơ khen cao cấp Tỉnh',
-        'TW' => 'Hồ sơ khen cao cấp TW',
-    );
+    switch ($phamvi) {
+        case 'X': {
+                return array(
+                    'H' => 'Hồ sơ khen cấp Huyện',
+                );
+                break;
+            }
+        case 'H': {
+                return array(
+                    'T' => 'Hồ sơ khen cấp Tỉnh',
+                );
+                break;
+            }
+        default: {
+                return array(
+                    'TW' => 'Hồ sơ khen cấp TW',
+                );
+                break;
+            }
+    }
 }
 
-function getPhanLoaiHoSoKhenCao()
+function getPhanLoaiHoSoKhenCao($phanloai = 'ALL')
 {
-    return array(
-        'CHINHPHU' => 'Hồ sơ cao của Chính phủ, Thủ tướng chính phủ',
-        'CHUTICHNUOC' => 'Hồ sơ cao của Nhà nước, Chủ tịch nước',
+    $a_kq = array(
+        'CHINHPHU' => 'Hồ sơ khen của Thủ tướng chính phủ',
+        'CHUTICHNUOC' => 'Hồ sơ khen của Chủ tịch nước',
+        'KHANGCHIEN' => 'Hồ sơ khen kháng chiến',
     );
+    if ($phanloai == 'ALL') {
+        return $a_kq;
+    } else {
+        return [$phanloai => $a_kq[$phanloai]];
+    }
 }
 
 function getTaoQuyetDinhKT(&$model)
@@ -67,7 +88,7 @@ function getTaoDuThaoKT(&$model, $maduthao = null)
         else
             $thongtinquyetdinh = App\Model\DanhMuc\duthaoquyetdinh::where('maduthao', $maduthao)->first()->codehtml ?? '';
         $tendonvi = dsdonvi::where('madonvi', $model->madonvi)->first()->tendonvi ?? '';
-        
+
         //Gán thông tin
         $thongtinquyetdinh = str_replace('[noidung]', $model->noidung, $thongtinquyetdinh);
         $thongtinquyetdinh = str_replace('[donvidenghi]',  $tendonvi, $thongtinquyetdinh);
