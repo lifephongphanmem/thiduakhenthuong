@@ -18,25 +18,25 @@
                 </div>
 
                 @if ($inputs['trangthai'] != 'CC')
-                <div class="form-group row">
-                    <div id="donvixetduyet" class="col-6">
-                        <label>Đơn vị xét duyệt</label>
-                        {!! Form::select('madonvi_xd', setArrayAll($a_donviql, 'Chọn đơn vị', 'ALL'), 'ALL', [
-                        'onchange' => 'getDonViKhenThuong_ThemHS($(this))',
-                        'id' => 'madonvi_xd_themhs',
-                        'class' => 'form-control select2_modal',
-                        'required',
-                        ]) !!}
-                    </div>
+                    <div class="form-group row">
+                        <div id="donvixetduyet" class="col-6">
+                            <label>Đơn vị xét duyệt</label>
+                            {!! Form::select('madonvi_xd', setArrayAll($a_donviql, 'Chọn đơn vị', 'ALL'), 'ALL', [
+                                'onchange' => 'getDonViKhenThuong_ThemHS($(this))',
+                                'id' => 'madonvi_xd_themhs',
+                                'class' => 'form-control select2_modal',
+                                'required',
+                            ]) !!}
+                        </div>
 
-                    <div id="donvikhenthuong" class="col-6">
-                        <label>Đơn vị khen thưởng</label>
-                        {!! Form::select('madonvi_kt', ['ALL' => 'Chọn đơn vị'], null, [
-                        'id' => 'madonvi_kt_themhs',
-                        'class' => 'form-control select2_modal',
-                        ]) !!}
+                        <div id="donvikhenthuong" class="col-6">
+                            <label>Đơn vị khen thưởng</label>
+                            {!! Form::select('madonvi_kt', ['ALL' => 'Chọn đơn vị'], null, [
+                                'id' => 'madonvi_kt_themhs',
+                                'class' => 'form-control select2_modal',
+                            ]) !!}
+                        </div>
                     </div>
-                </div>
                 @endif
 
                 <div class="form-group row">
@@ -77,7 +77,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
-                <button type="submit" class="btn btn-primary">Đồng ý</button>
+                <button type="submit" onclick="chkThongTinHoSo()" class="btn btn-primary">Đồng ý</button>
             </div>
         </div>
     </div>
@@ -86,5 +86,48 @@
 <script>
     function confirmKhenThuong(maphongtraotd) {
         $('#frm_hoso').find("[name='maphongtraotd']").val(maphongtraotd).trigger('change');
+    }
+
+    function getDonViKhenThuong_ThemHS(e) {
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            url: "/DungChung/getDonViKhenThuong_ThemHS",
+            type: 'GET',
+            data: {
+                _token: CSRF_TOKEN,
+                madonvi: e.val(),
+            },
+            dataType: 'JSON',
+            success: function(data) {
+                if (data.status == 'success') {
+                    $('#donvikhenthuong').replaceWith(data.message);
+                }
+            }
+        });
+    }
+
+    function chkThongTinHoSo() {
+        var ok = true,
+            message = '';
+
+        if ($('#madonvi_xd_themhs')[0] && $('#madonvi_xd_themhs').val() == 'ALL') {
+            ok = false;
+            message += 'Đơn vị xét duyệt đề nghị không được bỏ trống. \n';
+        }
+
+        if ($('#madonvi_kt_themhs')[0] && $('#madonvi_kt_themhs').val() == 'ALL') {
+            ok = false;
+            message += 'Đơn vị phê duyệt đề nghị không được bỏ trống. \n';
+        }
+
+        //Kết quả
+        if (ok == false) {
+            toastr.error(message, "Lỗi!");
+            $("#frm_hoso").submit(function(e) {
+                e.preventDefault();
+            });
+        } else {
+            $("#frm_hoso").unbind('submit').submit();
+        }
     }
 </script>

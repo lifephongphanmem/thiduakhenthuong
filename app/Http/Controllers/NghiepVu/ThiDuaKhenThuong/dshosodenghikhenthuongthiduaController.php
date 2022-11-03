@@ -112,8 +112,13 @@ class dshosodenghikhenthuongthiduaController extends Controller
         }
         $inputs['trangthai'] = session('chucnang')['dshosodenghikhenthuongthidua']['trangthai'] ?? 'CC';
         $inputs['trangthai'] = $inputs['trangthai'] == 'ALL' ? 'CC' : $inputs['trangthai'];
-        $a_donviql = getDonViQuanLyDiaBan($donvi);
-        //dd($model);
+        if($inputs['trangthai'] == 'CC'){
+            $a_donviql = getDonViXetDuyetDiaBan($donvi);
+        }else{
+            $a_donviql = getDonViXetDuyetDiaBan($donvi);
+        }
+        //$a_donviql = getDonViXetDuyetDiaBan($donvi);
+        //dd($inputs);
         return view('NghiepVu.ThiDuaKhenThuong.XetDuyetHoSo.ThongTin')
             ->with('inputs', $inputs)
             ->with('model', $model->sortby('tungay'))
@@ -170,7 +175,8 @@ class dshosodenghikhenthuongthiduaController extends Controller
 
             $a_canhan = [];
             $a_tapthe = [];
-            $inputs['trangthai'] = 'DD';
+            $inputs['trangthai'] = session('chucnang')['dshosodenghikhenthuongthidua']['trangthai'] ?? 'DD';
+            setThongTinHoSo($inputs);
             $inputs['phanloai'] = 'KHENTHUONG';
             foreach ($m_hosokt as $hoso) {
                 //Khen thưởng cá nhân

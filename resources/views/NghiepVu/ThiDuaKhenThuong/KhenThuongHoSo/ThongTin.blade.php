@@ -124,12 +124,12 @@
 
                                     @if (chkPhanQuyen('qdhosodenghikhenthuongthidua', 'hoanthanh'))
                                         @if ($tt->trangthaikt == 'CXKT')
-                                            <button title="Phê duyệt hồ sơ khen thưởng" type="button"
+                                            {{-- <button title="Phê duyệt hồ sơ khen thưởng" type="button"
                                                 onclick="setPheDuyet('{{ $tt->mahosotdkt }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modal-PheDuyet"
                                                 data-toggle="modal">
                                                 <i class="icon-lg la flaticon-interface-10 text-success"></i>
-                                            </button>
+                                            </button> --}}
 
                                             <a title="Phê duyệt hồ sơ khen thưởng"
                                                 href="{{ url($inputs['url_qd'] . 'PheDuyet?mahosotdkt=' . $tt->mahosotdkt) }}"

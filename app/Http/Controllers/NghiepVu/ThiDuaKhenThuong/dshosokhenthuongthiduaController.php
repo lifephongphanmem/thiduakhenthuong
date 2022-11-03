@@ -342,7 +342,9 @@ class dshosokhenthuongthiduaController extends Controller
             die(json_encode($result));
         }
         $inputs = $request->all();
-        $model = dshosothiduakhenthuong::findorfail($inputs['id']);
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)->delete();
+        dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->delete();
         $model->delete();
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }

@@ -149,7 +149,7 @@
                                             </a>
 
                                             <button type="button"
-                                                onclick="confirmDelete('{{ $tt->mahosotdkt }}','{{ $inputs['url_hs'] . 'XoaHoSoKT' }}')"
+                                                onclick="confirmDelete('{{ $tt->mahosotdkt }}','{{ $inputs['url_hs'] . 'Xoa' }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
                                                 data-toggle="modal">
                                                 <i class="icon-lg flaticon-delete text-danger"></i>
