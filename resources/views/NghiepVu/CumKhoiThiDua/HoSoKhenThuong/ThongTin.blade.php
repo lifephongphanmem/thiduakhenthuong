@@ -16,7 +16,7 @@
         jQuery(document).ready(function() {
             TableManaged3.init();
             $('#madonvi').change(function() {
-                window.location.href = '/CumKhoiThiDua/HoSoKhenThuong/ThongTin?madonvi=' + $('#madonvi')
+                window.location.href ="{{$inputs['url_hs']}}" + 'ThongTin?madonvi=' + $('#madonvi')
                     .val();
             });
         });

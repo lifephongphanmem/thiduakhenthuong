@@ -13,7 +13,7 @@
 <div class="form-group row">
     <div class="col-6">
         <label>Số quyết định</label>
-        {!! Form::text('soqd', null, ['class' => 'form-control']) !!}
+        {!! Form::text('soqd', null, ['class' => 'form-control', 'required']) !!}
     </div>
 
     <div class="col-6">

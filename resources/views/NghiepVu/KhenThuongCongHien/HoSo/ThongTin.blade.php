@@ -17,7 +17,7 @@
             TableManaged3.init();
             $('#madonvi, #nam, #phanloai').change(function() {
                 window.location.href = "{{ $inputs['url_hs'] }}" + "ThongTin?madonvi=" + $(
-                    '#madonvi').val() + "&nam=" + $('#nam').val() + "&phanloai=" + $('#phanloai').val();
+                    '#madonvi').val() + "&nam=" + $('#nam').val();
             });
         });
     </script>
@@ -54,13 +54,13 @@
                     </select>
                 </div>
 
-                <div class="col-5">
+                {{-- <div class="col-5">
                     <label style="font-weight: bold">Phân loại hồ sơ</label>
                     {!! Form::select('phanloai', setArrayAll($a_phanloaihs, 'Tất cả', 'ALL'), $inputs['phanloai'], [
                         'id' => 'phanloai',
                         'class' => 'form-control select2basic',
                     ]) !!}
-                </div>
+                </div> --}}
 
                 <div class="col-2">
                     <label style="font-weight: bold">Năm</label>

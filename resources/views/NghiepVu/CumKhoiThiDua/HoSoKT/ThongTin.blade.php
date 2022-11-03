@@ -47,10 +47,10 @@
     <div class="card card-custom wave wave-animate-slow wave-info" style="min-height: 600px">
         <div class="card-header flex-wrap border-0 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Danh sách hồ sơ đề nghị khen thưởng từ đơn vị cấp dưới</h3>
+                <h3 class="card-label text-uppercase">Danh sách hồ sơ khen thưởng trong cụm, khối thi đua</h3>
             </div>
             <div class="card-toolbar">
-                @if (chkPhanQuyen('qdhosokhenthuongcumkhoi', 'thaydoi'))
+                @if (chkPhanQuyen('dshosokhenthuongcumkhoi', 'thaydoi'))
                     <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
                 @endif
@@ -103,19 +103,19 @@
                         <thead>
                             <tr class="text-center">
                                 <th width="2%">STT</th>
-                                <th width="15%">Tên đơn vị đề nghị</th>
+                                {{-- <th width="15%">Tên đơn vị đề nghị</th> --}}
                                 <th>Nội dung hồ sơ</th>
-                                <th width="15%">Loại hình khen thưởng</th>
+                                <th width="20%">Loại hình khen thưởng</th>
                                 {{-- <th width="8%">Ngày tạo</th> --}}
-                                <th width="8%">Trạng thái</th>
-                                <th width="10%">Thao tác</th>
+                                <th>Trạng thái</th>
+                                <th width="15%">Thao tác</th>
                             </tr>
                         </thead>
 
                         @foreach ($model as $key => $tt)
                             <tr>
                                 <td class="text-center">{{ $key + 1 }}</td>
-                                <td>{{ $a_donvi[$tt->madonvi] ?? '' }}</td>
+                                {{-- <td>{{ $a_donvi[$tt->madonvi] ?? '' }}</td> --}}
                                 <td>{{ $tt->noidung }}</td>
                                 <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
                                 {{-- <td class="text-center">{{ getDayVn($tt->ngayhoso) }}</td> --}}
@@ -138,7 +138,7 @@
                                     </button>
 
                                     @if ($tt->trangthai == 'CXKT')
-                                        @if (chkPhanQuyen('qdhosokhenthuongcumkhoi', 'thaydoi'))
+                                        @if (chkPhanQuyen('dshosokhenthuongcumkhoi', 'thaydoi'))
                                             
 
                                             <button title="Trả lại hồ sơ" type="button"
@@ -156,7 +156,7 @@
                                                 </button>
                                             @endif --}}
                                         @endif
-                                        @if (chkPhanQuyen('qdhosokhenthuongcumkhoi', 'hoanthanh'))
+                                        @if (chkPhanQuyen('dshosokhenthuongcumkhoi', 'hoanthanh'))
                                         {{-- <button title="Phê duyệt hồ sơ khen thưởng" type="button"
                                                 onclick="setPheDuyet('{{ $tt->mahosotdkt }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modal-PheDuyet"
@@ -190,63 +190,123 @@
     </div>
     <!--end::Card-->
 
-    <!--Modal Tạo hồ sơ-->
-    {!! Form::open(['url' => $inputs['url_qd'] . 'Them', 'id' => 'frm_hoso']) !!}
-    <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
-    <input type="hidden" name="macumkhoi" value="{{ $inputs['macumkhoi'] }}" />
-    <div id="taohoso-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header modal-header-primary">
-                    <h4 id="modal-header-primary-label" class="modal-title">Đồng ý tạo hồ sơ trình khen thưởng?</h4>
-                    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-                </div>
+<!--Modal Thêm mới hồ sơ-->
+{!! Form::open(['url' => $inputs['url_hs'] . 'Them', 'id' => 'frm_hoso']) !!}
+<input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
+<input type="hidden" name="macumkhoi" value="{{ $inputs['macumkhoi'] }}" />
+<div id="taohoso-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header modal-header-primary">
+                <h4 id="modal-header-primary-label" class="modal-title">Đồng ý tạo hồ sơ trình khen thưởng?</h4>
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+            </div>
 
-                <div class="modal-body">
-                    <div class="form-group row">
-                        <div class="col-lg-12">
-                            <label>Loại hình khen thưởng</label>
-                            {!! Form::select('maloaihinhkt', $a_loaihinhkt, $inputs['maloaihinhkt'], ['class' => 'form-control']) !!}
-                        </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="col-6">
+                        <label>Loại hình khen thưởng</label>
+                        {!! Form::select('maloaihinhkt', $a_loaihinhkt, $inputs['maloaihinhkt'], ['class' => 'form-control']) !!}
                     </div>
 
-                    <div class="form-group row">
-                        <div class="col-lg-6">
-                            <label>Số tờ trình</label>
-                            {!! Form::text('sototrinh', null, ['class' => 'form-control']) !!}
-                        </div>
-                        <div class="col-lg-6">
-                            <label>Ngày tạo hồ sơ</label>
-                            {!! Form::input('date', 'ngayhoso', date('Y-m-d'), ['class' => 'form-control']) !!}
-                        </div>
+                    <div class="col-6">
+                        <label>Trạng thái hồ sơ</label>
+                        {!! Form::select('trangthai', getTrangThaiChucNangHoSo($inputs['trangthai']), $inputs['trangthai'], [
+                            'class' => 'form-control',
+                        ]) !!}
                     </div>
+                </div>                
 
-                    <div class="form-group row">
-                        <div class="col-lg-6">
-                            <label>Chức vụ người ký tờ trình</label>
-                            {!! Form::text('chucvunguoiky', null, ['class' => 'form-control']) !!}
-                        </div>
-                        <div class="col-lg-6">
-                            <label>Họ tên người ký tờ trình</label>
-                            {!! Form::text('nguoikytotrinh', null, ['class' => 'form-control']) !!}
-                        </div>
+                <div class="form-group row">
+                    <div class="col-6">
+                        <label>Số tờ trình</label>
+                        {!! Form::text('sototrinh', null, ['class' => 'form-control']) !!}
                     </div>
-
-                    <div class="form-group row">
-                        <div class="col-lg-12">
-                            <label>Nội dung trình khen thưởng</label>
-                            {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows' => 3]) !!}
-                        </div>
+                    <div class="col-6">
+                        <label>Ngày tạo hồ sơ</label>
+                        {!! Form::input('date', 'ngayhoso', date('Y-m-d'), ['class' => 'form-control']) !!}
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
-                    <button type="submit" class="btn btn-primary">Đồng ý</button>
+
+                <div class="form-group row">
+                    <div class="col-6">
+                        <label>Chức vụ người ký tờ trình</label>
+                        {!! Form::text('chucvunguoiky', null, ['class' => 'form-control']) !!}
+                    </div>
+                    <div class="col-6">
+                        <label>Họ tên người ký tờ trình</label>
+                        {!! Form::text('nguoikytotrinh', null, ['class' => 'form-control']) !!}
+                    </div>
                 </div>
+
+                <div class="form-group row">
+                    <div class="col-12">
+                        <label>Nội dung trình khen thưởng</label>
+                        {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-12">
+                        <label>Tờ trình: </label>
+                        {!! Form::file('totrinh', null, ['id' => 'totrinh', 'class' => 'form-control']) !!}
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
+                <button type="submit" onclick="chkThongTinHoSo()" class="btn btn-primary">Đồng ý</button>
             </div>
         </div>
     </div>
-    {!! Form::close() !!}
+</div>
+{!! Form::close() !!}
+
+<script>
+    function getDonViKhenThuong_ThemHS(e) {
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            url: "/DungChung/getDonViKhenThuong_ThemHS",
+            type: 'GET',
+            data: {
+                _token: CSRF_TOKEN,
+                madonvi: e.val(),
+            },
+            dataType: 'JSON',
+            success: function(data) {
+                if (data.status == 'success') {
+                    $('#donvikhenthuong').replaceWith(data.message);
+                }
+            }
+        });
+    }
+
+    function chkThongTinHoSo() {
+        var ok = true,
+            message = '';
+
+        if ($('#madonvi_xd_themhs')[0] && $('#madonvi_xd_themhs').val() == 'ALL') {
+            ok = false;
+            message += 'Đơn vị xét duyệt đề nghị không được bỏ trống. \n';
+        }
+
+        if ($('#madonvi_kt_themhs')[0] && $('#madonvi_kt_themhs').val() == 'ALL') {
+            ok = false;
+            message += 'Đơn vị phê duyệt đề nghị không được bỏ trống. \n';
+        }
+
+        //Kết quả
+        if (ok == false) {
+            toastr.error(message, "Lỗi!");
+            $("#frm_hoso").submit(function(e) {
+                e.preventDefault();
+            });
+        } else {
+            $("#frm_hoso").unbind('submit').submit();
+        }
+    }
+</script>
 
     @include('NghiepVu._DungChung.InDuLieu')
     @include('NghiepVu._DungChung.modal_KhenThuong')

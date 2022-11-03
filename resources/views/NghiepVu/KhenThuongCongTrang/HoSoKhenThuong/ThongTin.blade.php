@@ -17,7 +17,7 @@
             TableManaged3.init();
             $('#madonvi, #nam, #phanloai').change(function() {
                 window.location.href = "{{ $inputs['url_hs'] }}" + "ThongTin?madonvi=" + $(
-                    '#madonvi').val() + "&nam=" + $('#nam').val() + "&phanloai=" + $('#phanloai').val();
+                    '#madonvi').val() + "&nam=" + $('#nam').val();
             });
         });
     </script>

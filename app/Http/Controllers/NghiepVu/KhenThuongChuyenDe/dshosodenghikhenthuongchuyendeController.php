@@ -55,7 +55,9 @@ class dshosodenghikhenthuongchuyendeController extends Controller
         $inputs['maloaihinhkt'] = session('chucnang')['dshosodenghikhenthuongchuyende']['maloaihinhkt'] ?? 'ALL';
         $inputs['trangthai'] = session('chucnang')['dshosodenghikhenthuongchuyende']['trangthai'] ?? 'CC';
         $model = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi'])
+            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH'])
             ->where('maloaihinhkt', $inputs['maloaihinhkt']);
+
         //->orderby('ngayhoso')->get();
 
         $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
@@ -125,7 +127,7 @@ class dshosodenghikhenthuongchuyendeController extends Controller
         $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
         $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
 
-        $model->tendonvi = $donvi->tendonvi;        
+        $model->tendonvi = $donvi->tendonvi;
         $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE', 'HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $inputs['mahinhthuckt'] = $model->mahinhthuckt;
@@ -135,7 +137,7 @@ class dshosodenghikhenthuongchuyendeController extends Controller
             ->with('model_tapthe', $model_tapthe)
             ->with('model_detai', $model_detai)
             ->with('a_dhkt_canhan', $a_dhkt_canhan)
-            ->with('a_dhkt_tapthe', $a_dhkt_tapthe)          
+            ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('a_canhan', $a_canhan)
             ->with('a_tapthe', $a_tapthe)
@@ -175,7 +177,7 @@ class dshosodenghikhenthuongchuyendeController extends Controller
             return view('errors.noperm')->with('machucnang', 'dshosodenghikhenthuongchuyende')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
-        $inputs['mahosotdkt'] = (string)getdate()[0];       
+        $inputs['mahosotdkt'] = (string)getdate()[0];
         $inputs['phanloai'] = 'KHENTHUONG';
         if (isset($inputs['totrinh'])) {
             $filedk = $request->file('totrinh');
@@ -194,7 +196,7 @@ class dshosodenghikhenthuongchuyendeController extends Controller
         $trangthai->mahoso = $inputs['mahosotdkt'];
         $trangthai->thoigian = $inputs['ngayhoso'];
         $trangthai->save();
-        
+
         return redirect(static::$url . 'Sua?mahosotdkt=' . $inputs['mahosotdkt']);
     }
 
@@ -845,7 +847,7 @@ class dshosodenghikhenthuongchuyendeController extends Controller
 
             $result['status'] = 'success';
         }
-    }    
+    }
 
     public function TaiLieuDinhKem(Request $request)
     {

@@ -123,6 +123,18 @@
                         <div class="menu-submenu">
                             <i class="menu-arrow"></i>
                             <ul class="menu-subnav">
+                                @if (chkPhanQuyen('dshosokhenthuongcumkhoi', 'phanquyen'))
+                                    <li class="menu-item" aria-haspopup="true">
+                                        <a href="{{ url('/CumKhoiThiDua/KTCumKhoi/HoSoKT/ThongTin') }}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span
+                                                class="menu-text font-weight-bold">{{ chkGiaoDien('dshosokhenthuongcumkhoi', 'tenchucnang') }}</span>
+                                        </a>
+                                    </li>
+                                @endif
+
                                 @if (chkPhanQuyen('dshosodenghikhenthuongcumkhoi', 'phanquyen'))
                                     <li class="menu-item" aria-haspopup="true">
                                         <a href="{{ url('/CumKhoiThiDua/KTCumKhoi/HoSo/ThongTin') }}"

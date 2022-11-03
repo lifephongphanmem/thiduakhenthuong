@@ -58,6 +58,7 @@ class dshosodenghikhenthuongdoingoaiController extends Controller
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         $inputs['maloaihinhkt'] = session('chucnang')['dshosodenghikhenthuongdoingoai']['maloaihinhkt'] ?? 'ALL';
         $model = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi'])
+        ->wherein('phanloai',['KHENTHUONG','KTNGANH'])
             ->where('maloaihinhkt', $inputs['maloaihinhkt']);
         //->orderby('ngayhoso')->get();
         $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
