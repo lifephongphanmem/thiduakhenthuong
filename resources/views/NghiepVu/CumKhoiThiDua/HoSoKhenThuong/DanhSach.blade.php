@@ -50,7 +50,7 @@
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
-                @if (chkPhanQuyen('dshosokhenthuongcumkhoi', 'thaydoi'))
+                @if (chkPhanQuyen('dshosodenghikhenthuongcumkhoi', 'thaydoi'))
                     <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
                 @endif

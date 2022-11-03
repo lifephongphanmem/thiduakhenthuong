@@ -24,11 +24,11 @@
     <div class="card card-custom wave wave-animate-slow wave-primary" style="min-height: 600px">
         <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Danh sách cụm, khối thi đua</h3>
+                <h3 class="card-label text-uppercase">Danh sách phân trưởng cụm, khối thi đua</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
-                @if (chkPhanQuyen('dscumkhoithidua', 'thaydoi'))
+                @if (chkPhanQuyen('dstruongcumkhoi', 'thaydoi'))
                     <a href="{{ url($inputs['url'] . 'Them') }}" class="btn btn-success btn-xs">
                         <i class="fa fa-plus"></i> Thêm mới</a>
                 @endif
@@ -43,34 +43,33 @@
                         <thead>
                             <tr class="text-center">
                                 <th width="5%">STT</th>
-                                <th>Tên cụm, khối thi đua</th>
-                                <th width="30%">Đơn vị quản lý</th>
-                                <th width="15%">Thao tác</th>
+                                <th>Mô tả</th>
+                                <th>Từ ngày</th>
+                                <th>Đến ngày</th>
+                                <th width="10%">Thao tác</th>
                             </tr>
                         </thead>
-                        <?php $i = 1; ?>
                         @foreach ($model as $key => $tt)
                             <tr>
-                                <td style="text-align: center">{{ $i++ }}</td>
-                                <td class="active">{{ $tt->tencumkhoi }}</td>
-                                <td>{{ $a_donvi[$tt->madonviql] ?? '' }}</td>
+                                <td style="text-align: center">{{ $key + 1 }}</td>
+                                <td class="active">{{ $tt->mota }}</td>
+
+                                <td class=" text-center">{{ getDayVn($tt->ngaytu) }}</td>
+                                <td class=" text-center">{{ getDayVn($tt->ngayden) }}</td>
+
                                 <td class=" text-center">
-                                    @if (chkPhanQuyen('dscumkhoithidua', 'thaydoi'))
+                                    @if (chkPhanQuyen('dstruongcumkhoi', 'thaydoi'))
                                         <a title="Chỉnh sửa"
-                                            href="{{ url($inputs['url'] . 'Sua?macumkhoi=' . $tt->macumkhoi) }}"
+                                            href="{{ url($inputs['url'] . 'Sua?madanhsach=' . $tt->madanhsach) }}"
                                             class="btn btn-sm btn-clean btn-icon"><i
-                                                class="icon-lg flaticon-edit-1 text-primary"></i>
+                                                class="icon-lg la fa-edit text-success"></i>
                                         </a>
 
-                                        <a href="{{ url($inputs['url'] . 'DanhSach/?macumkhoi=' . $tt->macumkhoi) }}"
-                                            class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
-                                            title="Danh sách đơn vị">
-                                            <span class="svg-icon svg-icon-xl">
-                                                <i class="icon-lg flaticon-list-2 text-dark"></i>
-                                            </span>
-                                            <span
-                                                class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->sodonvi }}</span>
-                                        </a>
+                                        <a title="Chi tiết danh sách"
+                                            href="{{ url($inputs['url'] . 'DanhSach/?madanhsach=' . $tt->madanhsach) }}"
+                                            class="btn btn-sm btn-clean btn-icon">
+                                            <i class="icon-lg flaticon-list-2 text-dark"></i>
+                                        </a>                                       
 
                                         <button title="Tài liệu đính kèm" type="button"
                                             onclick="get_attack('{{ $tt->macumkhoi }}','{{ $inputs['url'] . 'TaiLieuDinhKem' }}')"
@@ -79,11 +78,11 @@
                                             <i class="icon-lg flaticon-download text-dark"></i>
                                         </button>
 
-                                        <button title="Xóa cụm khối" type="button"
-                                            onclick="confirmDelete('{{ $tt->id }}',$inputs['url'].'Xoa')"
+                                        <button title="Xóa danh sách" type="button"
+                                            onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url'] . 'Xoa' }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
                                             data-toggle="modal">
-                                            <i class="icon-lg la flaticon-delete text-danger"></i>
+                                            <i class="icon-lg la fa-trash-alt text-danger"></i>
                                         </button>
                                     @endif
                                 </td>
@@ -95,7 +94,5 @@
         </div>
     </div>
     <!--end::Card-->
-    
-    @include('includes.modal.modal_attackfile')
     @include('includes.modal.modal-delete')
 @stop

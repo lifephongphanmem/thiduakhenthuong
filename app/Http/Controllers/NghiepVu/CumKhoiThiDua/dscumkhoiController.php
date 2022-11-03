@@ -76,6 +76,17 @@ class dscumkhoiController extends Controller
             return view('errors.noperm')->with('machucnang', 'dscumkhoithidua')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
+        if (isset($inputs['ipf1'])) {
+            $filedk = $request->file('ipf1');
+            $inputs['ipf1'] = $inputs['macumkhoi'] . '_qd.' . $filedk->getClientOriginalExtension();
+            $filedk->move(public_path() . '/data/qdkt/', $inputs['ipf1']);
+        }
+
+        if (isset($inputs['ipf2'])) {
+            $filedk = $request->file('ipf2');
+            $inputs['ipf2'] = $inputs['macumkhoi'] . '_tailieukhac.' . $filedk->getClientOriginalExtension();
+            $filedk->move(public_path() . '/data/tailieukhac/', $inputs['ipf2']);
+        }
         $model = dscumkhoi::where('macumkhoi', $inputs['macumkhoi'])->first();
         if ($model == null) {
             dscumkhoi::create($inputs);
@@ -145,5 +156,35 @@ class dscumkhoiController extends Controller
         $model = dscumkhoi_chitiet::findorfail($inputs['id']);
         $model->delete();
         return redirect(static::$url . 'DanhSach?macumkhoi=' . $model->macumkhoi);
+    }
+
+    public function TaiLieuDinhKem(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+
+        $inputs = $request->all();
+        $model = dscumkhoi::where('macumkhoi', $inputs['mahs'])->first();
+        $result['message'] = '<div class="modal-body" id = "dinh_kem" >';
+        
+        if ($model->ipf1 != '') {
+            $result['message'] .= '<div class="form-group row">';
+            $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Quyết định:</label>';
+            $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/quyetdinh/' . $model->ipf1) . '">' . $model->ipf1 . '</a ></div>';
+            $result['message'] .= '</div>';
+        }
+        
+        if ($model->ipf2 != '') {
+            $result['message'] .= '<div class="form-group row">';
+            $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Tài liệu khác</label>';
+            $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/tailieukhac/' . $model->ipf2) . '">' . $model->ipf2 . '</a ></div>';
+            $result['message'] .= '</div>';
+        }
+        $result['message'] .= '</div>';
+        $result['status'] = 'success';
+
+        die(json_encode($result));
     }
 }

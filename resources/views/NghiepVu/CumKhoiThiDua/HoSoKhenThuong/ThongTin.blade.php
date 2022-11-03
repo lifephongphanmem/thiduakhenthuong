@@ -75,7 +75,7 @@
                                 <td class=" text-center">{{ $tt->sohoso }}</td>
                                 <td>{{ $a_donvi[$tt->madonviql] ?? '' }}</td>
                                 <td class=" text-center">
-                                    @if (chkPhanQuyen('dshosokhenthuongcumkhoi', 'thaydoi'))
+                                    @if (chkPhanQuyen('dshosodenghikhenthuongcumkhoi', 'thaydoi'))
                                         <a href="{{ url($inputs['url_hs'] . 'DanhSach?macumkhoi=' . $tt->macumkhoi .'&madonvi='.$inputs['madonvi']) }}"
                                             class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
                                             title="Thông tin hồ sơ khen thưởng">
