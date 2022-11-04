@@ -116,18 +116,17 @@
                                         data-toggle="modal">
                                         <i class="icon-lg la la-file-download text-dark"></i>
                                     </button>
+                                    <a title="Danh sách chi tiết"
+                                        href="{{ url('/XetDuyetHoSoThiDua/DanhSach?maphongtraotd=' . $tt->maphongtraotd . '&madonvi=' . $inputs['madonvi'] . '&trangthai=false') }}"
+                                        class="btn btn-icon btn-clean btn-lg mb-1 position-relative">
+                                        <span class="svg-icon svg-icon-xl">
+                                            <i class="icon-lg la flaticon-folder-1 text-dark"></i>
+                                        </span>
+                                        <span
+                                            class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->sohoso }}</span>
+                                    </a>
 
                                     @if ($inputs['trangthai'] == 'CC')
-                                        <a title="Danh sách chi tiết"
-                                            href="{{ url('/XetDuyetHoSoThiDua/DanhSach?maphongtraotd=' . $tt->maphongtraotd . '&madonvi=' . $inputs['madonvi'] . '&trangthai=false') }}"
-                                            class="btn btn-icon btn-clean btn-lg mb-1 position-relative">
-                                            <span class="svg-icon svg-icon-xl">
-                                                <i class="icon-lg la flaticon-folder-1 text-dark"></i>
-                                            </span>
-                                            <span
-                                                class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->sohoso }}</span>
-                                        </a>
-
                                         @if ($tt->nhanhoso == 'KETTHUC' &&
                                             chkPhanQuyen('dshosodenghikhenthuongthidua', 'hoanthanh') &&
                                             in_array($tt->trangthaikt, ['DD', 'BTLXD', 'CXD']))
@@ -172,9 +171,9 @@
                                             @endif
                                         @endif
                                     @else
-                                    @if ($tt->nhanhoso == 'KETTHUC' &&
+                                        @if ($tt->nhanhoso == 'KETTHUC' &&
                                             chkPhanQuyen('dshosodenghikhenthuongthidua', 'hoanthanh') &&
-                                            in_array($tt->trangthaikt, ['DD', 'BTLXD', 'CXD','CXKT']))
+                                            in_array($tt->trangthaikt, ['DD', 'BTLXD', 'CXD', 'CXKT']))
                                             @if ($tt->mahosotdkt == '-1')
                                                 <button title="Tạo hồ sơ khen thưởng" type="button"
                                                     onclick="confirmKhenThuong('{{ $tt->maphongtraotd }}')"
@@ -198,7 +197,7 @@
                                                     class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
                                                     <i class="icon-lg la flaticon-edit-1 text-success"></i>
                                                 </a>
-                                                                                               
+
                                                 <button type="button"
                                                     onclick="confirmDelete('{{ $tt->mahosotdkt }}','/XetDuyetHoSoThiDua/XoaHoSoKT')"
                                                     class="btn btn-sm btn-clean btn-icon"
