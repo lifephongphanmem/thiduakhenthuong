@@ -457,7 +457,11 @@ Route::group(['prefix' => 'KhenThuongDotXuat'], function () {
         Route::post('KhenThuong', 'NghiepVu\KhenThuongDotXuat\qdhosodenghikhenthuongdotxuatController@KhenThuong');
         Route::get('DanhSach', 'NghiepVu\KhenThuongDotXuat\qdhosodenghikhenthuongdotxuatController@DanhSach');
         Route::post('DanhSach', 'NghiepVu\KhenThuongDotXuat\qdhosodenghikhenthuongdotxuatController@LuuHoSo');
-        Route::post('PheDuyet', 'NghiepVu\KhenThuongDotXuat\qdhosodenghikhenthuongdotxuatController@PheDuyet');
+        //Route::post('PheDuyet', 'NghiepVu\KhenThuongDotXuat\qdhosodenghikhenthuongdotxuatController@PheDuyet');
+
+        Route::get('PheDuyet', [dshosodenghikhenthuongdotxuatController::class, 'PheDuyet']);
+        Route::post('PheDuyet', [dshosodenghikhenthuongdotxuatController::class, 'LuuPheDuyet']);
+
         Route::post('HuyPheDuyet', 'NghiepVu\KhenThuongDotXuat\qdhosodenghikhenthuongdotxuatController@HuyPheDuyet');
         Route::post('HoSo', 'NghiepVu\KhenThuongDotXuat\qdhosodenghikhenthuongdotxuatController@HoSo');
         Route::post('KetQua', 'NghiepVu\KhenThuongDotXuat\qdhosodenghikhenthuongdotxuatController@KetQua');
@@ -699,7 +703,9 @@ Route::group(['prefix' => 'KhenThuongCongHien'], function () {
         Route::get('QuyetDinh', [qdhosodenghikhenthuongconghienController::class, 'QuyetDinh']);
         Route::get('TaoDuThao', [qdhosodenghikhenthuongconghienController::class, 'DuThaoQuyetDinh']);
         Route::post('QuyetDinh', [qdhosodenghikhenthuongconghienController::class, 'LuuQuyetDinh']);
-        Route::post('PheDuyet', [qdhosodenghikhenthuongconghienController::class, 'PheDuyet']);
+        //Route::post('PheDuyet', [qdhosodenghikhenthuongconghienController::class, 'PheDuyet']);
+        Route::get('PheDuyet', [qdhosodenghikhenthuongconghienController::class, 'PheDuyet']);
+        Route::post('PheDuyet', [qdhosodenghikhenthuongconghienController::class, 'LuuPheDuyet']);
         Route::post('GanKhenThuong', [qdhosodenghikhenthuongconghienController::class, 'GanKhenThuong']);
         Route::post('HuyPheDuyet', [qdhosodenghikhenthuongconghienController::class, 'HuyPheDuyet']);
         Route::post('TraLai', [qdhosodenghikhenthuongconghienController::class, 'TraLai']);

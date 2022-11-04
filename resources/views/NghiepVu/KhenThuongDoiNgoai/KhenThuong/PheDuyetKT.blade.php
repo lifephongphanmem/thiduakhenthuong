@@ -37,7 +37,7 @@
 
         {!! Form::model($model, [
             'method' => 'POST',
-            'url' => $inputs['url_hs'] . 'PheDuyet',
+            'url' => $inputs['url_qd'] . 'PheDuyet',
             'class' => 'form',
             'id' => 'frm_ThayDoi',
             'files' => true,
@@ -228,7 +228,7 @@
         <div class="card-footer">
             <div class="row text-center">
                 <div class="col-lg-12">
-                    <a href="{{ url($inputs['url_hs'] . 'ThongTin?madonvi=' . $model->madonvi) }}"
+                    <a href="{{ url($inputs['url_qd'] . 'ThongTin?madonvi=' . $model->madonvi_kt) }}"
                         class="btn btn-danger mr-5"><i class="fa fa-reply"></i>&nbsp;Quay lại</a>
                     <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i>Hoàn thành</button>
                 </div>

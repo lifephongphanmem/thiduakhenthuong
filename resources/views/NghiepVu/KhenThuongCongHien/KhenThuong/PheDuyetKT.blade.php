@@ -27,7 +27,7 @@
     <div class="card card-custom" style="min-height: 600px">
         <div class="card-header">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Thông tin phê duyệt khen thưởng đối ngoại</h3>
+                <h3 class="card-label text-uppercase">Thông tin phê duyệt khen thưởng cống hiến</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
@@ -37,7 +37,7 @@
 
         {!! Form::model($model, [
             'method' => 'POST',
-            'url' => $inputs['url_hs'] . 'PheDuyet',
+            'url' => $inputs['url_qd'] . 'PheDuyet',
             'class' => 'form',
             'id' => 'frm_ThayDoi',
             'files' => true,
@@ -228,7 +228,7 @@
         <div class="card-footer">
             <div class="row text-center">
                 <div class="col-lg-12">
-                    <a href="{{ url($inputs['url_hs'] . 'ThongTin?madonvi=' . $model->madonvi) }}"
+                    <a href="{{ url($inputs['url_qd'] . 'ThongTin?madonvi=' . $model->madonvi_kt) }}"
                         class="btn btn-danger mr-5"><i class="fa fa-reply"></i>&nbsp;Quay lại</a>
                     <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i>Hoàn thành</button>
                 </div>
