@@ -21,7 +21,7 @@
         </tr>
         <tr>
             <td colspan="2" style="font-weight: bold;">
-                <h4> THÔNG TIN HỒ SƠ KHEN THƯỞNG CÔNG TRẠNG VÀ THÀNH TÍCH </h4>
+                <h4> THÔNG TIN HỒ SƠ ĐỀ NGHỊ KHEN THƯỞNG CÔNG TRẠNG VÀ THÀNH TÍCH </h4>
             </td>
         </tr>
     </table>

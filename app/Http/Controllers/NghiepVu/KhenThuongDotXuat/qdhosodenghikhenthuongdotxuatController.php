@@ -502,7 +502,7 @@ class qdhosodenghikhenthuongdotxuatController extends Controller
         $a_dhkt = getDanhHieuKhenThuong('ALL');
 
 
-        return view('NghiepVu.KhenThuongDoiNgoai.KhenThuong.Xem')
+        return view('NghiepVu.KhenThuongDotXuat.QuyetDinh.Xem')
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)

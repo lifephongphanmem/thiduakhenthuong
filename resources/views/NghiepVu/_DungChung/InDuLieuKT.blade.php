@@ -25,7 +25,7 @@
                     <div class="col-lg-12">
                         <a onclick="setInDL($(this), '{{ $inputs['url_hs'] . 'InHoSo' }}')"
                             class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
-                            <i class="la flaticon2-print"></i>Thông tin hồ sơ đề nghị
+                            <i class="la flaticon2-print"></i>Thông tin hồ sơ khen thưởng
                         </a>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                         <div class="col-lg-12">
                             <a onclick="setInDL($(this), '{{ $inputs['url_hs'] . 'InHoSoKT' }}')"
                                 class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
-                                <i class="la flaticon2-print"></i>Thông tin hồ sơ khen thưởng
+                                <i class="la flaticon2-print"></i>Thông tin hồ sơ phê duyệt khen thưởng
                             </a>
                         </div>
                     </div>
