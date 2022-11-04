@@ -62,19 +62,20 @@ class qdhosodenghikhenthuongdotxuatController extends Controller
         $inputs['capdo'] = $m_donvi->where('madonvi', $inputs['madonvi'])->first()->capdo;
 
         $model = dshosothiduakhenthuong::where('madonvi_kt', $inputs['madonvi'])
+            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH'])
             ->wherein('trangthai', ['CXKT', 'DXKT', 'DKT']);
 
         if ($inputs['maloaihinhkt'] != 'ALL')
             $model = $model->where('maloaihinhkt', $inputs['maloaihinhkt']);
 
-            $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
-            if ($inputs['phanloai'] != 'ALL')
-                $model = $model->where('phanloai', $inputs['phanloai']);
-            $inputs['nam'] = $inputs['nam'] ?? 'ALL';
-            if ($inputs['nam'] != 'ALL')
-                $model = $model->whereyear('ngayhoso', $inputs['nam']);
-            //Lấy hồ sơ
-            $model = $model->orderby('ngayhoso')->get();
+        $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
+        if ($inputs['phanloai'] != 'ALL')
+            $model = $model->where('phanloai', $inputs['phanloai']);
+        $inputs['nam'] = $inputs['nam'] ?? 'ALL';
+        if ($inputs['nam'] != 'ALL')
+            $model = $model->whereyear('ngayhoso', $inputs['nam']);
+        //Lấy hồ sơ
+        $model = $model->orderby('ngayhoso')->get();
 
         foreach ($model as $hoso) {
             $hoso->chinhsua = $hoso->madonvi == $inputs['madonvi'] ? true : false;
@@ -191,7 +192,7 @@ class qdhosodenghikhenthuongdotxuatController extends Controller
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Thông tin hồ sơ khen thưởng');
     }
-    
+
 
     public function HoSo(Request $request)
     {
@@ -499,8 +500,8 @@ class qdhosodenghikhenthuongdotxuatController extends Controller
         $a_phanloaidt = array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai');
         $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
         $a_dhkt = getDanhHieuKhenThuong('ALL');
-		
-		
+
+
         return view('NghiepVu.KhenThuongDoiNgoai.KhenThuong.Xem')
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
@@ -527,7 +528,7 @@ class qdhosodenghikhenthuongdotxuatController extends Controller
         $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
         $a_dhkt = getDanhHieuKhenThuong('ALL');
         $model->tendonvi = $m_donvi->tendonvi;
-		
+
         return view('NghiepVu._DungChung.InPhoi')
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
@@ -608,7 +609,7 @@ class qdhosodenghikhenthuongdotxuatController extends Controller
     public function NoiDungKhenThuong(Request $request)
     {
         $inputs = $request->all();
-        
+
         if ($inputs['phanloai'] == 'CANHAN') {
             $model = dshosothiduakhenthuong_canhan::where('id', $inputs['id'])->first();
             $model->noidungkhenthuong = $inputs['noidungkhenthuong'];

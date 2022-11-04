@@ -49,7 +49,8 @@ class dshosodenghikhenthuongdotxuatController extends Controller
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         $inputs['maloaihinhkt'] = session('chucnang')['dshosodenghikhenthuongdotxuat']['maloaihinhkt'] ?? 'ALL';
-        $model = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi']);
+        $model = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi'])
+            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH']);
         if ($inputs['maloaihinhkt'] != 'ALL')
             $model = $model->where('maloaihinhkt', $inputs['maloaihinhkt']);
         $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
@@ -171,7 +172,7 @@ class dshosodenghikhenthuongdotxuatController extends Controller
             $inputs['totrinh'] = $inputs['mahosotdkt'] . '_totrinh.' . $filedk->getClientOriginalExtension();
             $filedk->move(public_path() . '/data/totrinh/', $inputs['totrinh']);
         }
-        
+
         //Kiểm tra trạng thái hồ sơ
         setThongTinHoSo($inputs);
         //Lưu nhật ký
@@ -602,7 +603,7 @@ class dshosodenghikhenthuongdotxuatController extends Controller
         }
     }
 
-    
+
     public function QuyetDinh(Request $request)
     {
         $inputs = $request->all();

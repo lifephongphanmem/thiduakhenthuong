@@ -107,7 +107,9 @@ class qdhosodenghikhenthuongthiduaController extends Controller
         //         ->orwhere('madonvi_nhan_t', $inputs['madonvi'])->get();
         // })->wherein('trangthai', ['CD', 'DD', 'CXKT'])->get();
 
-        $m_khenthuong = dshosothiduakhenthuong::where('madonvi_kt', $inputs['madonvi'])->wherein('trangthai', ['DD', 'CXKT', 'DKT'])->get();
+        $m_khenthuong = dshosothiduakhenthuong::where('madonvi_kt', $inputs['madonvi'])
+            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH'])
+            ->wherein('trangthai', ['DD', 'CXKT', 'DKT'])->get();
 
         //tính thiếu trường hợp phong trao cấp tỉnh... đơn vị nộp trên tỉnh
         //thống kê lại hồ sơ đăng ký

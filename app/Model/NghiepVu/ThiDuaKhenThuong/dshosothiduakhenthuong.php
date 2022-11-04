@@ -18,6 +18,7 @@ class dshosothiduakhenthuong extends Model
         'ghichu',
         'sototrinh',
         'nguoikytotrinh',
+        'chucvunguoiky',
         //File đính kèm
         'totrinh',
         'baocao', //báo cáo thành tích

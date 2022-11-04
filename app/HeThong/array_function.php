@@ -36,6 +36,20 @@ function a_unique($array)
     return $tmp;
 }
 
+//Hàm tạo mảng mới bằng cách gộp các mảng, không dùng array_merge do $key tự chuyển về số nên lỗi 
+function a_merge($array1, $array2)
+{
+    $tmp = array();
+
+    foreach ($array1 as $key => $val) {
+        $tmp[$key] = $val;
+    }
+    foreach ($array2 as $key => $val) {
+        $tmp[$key] = $val;
+    }
+    return $tmp;
+}
+
 //Hàm tạo mảng mới bằng cách lấy ra những dòng thỏa mãn điều kiện trong mảng cũ
 //$justvals = chỉ lấy phần tử đầu tiên tìm đc
 function a_getelement($array, $indexs, $justvals = false)

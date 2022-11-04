@@ -17,7 +17,7 @@
             TableManaged3.init();
             $('#madonvi, #nam, #phanloai').change(function() {
                 window.location.href = "{{ $inputs['url_hs'] }}" + "ThongTin?madonvi=" + $(
-                    '#madonvi').val() + "&nam=" + $('#nam').val();
+                    '#madonvi').val() + "&nam=" + $('#nam').val() + "&phanloai=" + $('#phanloai').val();
             });
         });
     </script>
@@ -28,12 +28,13 @@
     <div class="card card-custom wave wave-animate-slow wave-info" style="min-height: 600px">
         <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Danh sách hồ sơ trình khen thưởng theo công trạng và thành tích</h3>
+                <h3 class="card-label text-uppercase">Danh sách hồ sơ khen thưởng đột xuất</h3>
             </div>
             <div class="card-toolbar">
-                @if (chkPhanQuyen('dshosodenghikhenthuongcongtrang', 'thaydoi'))
+                @if (chkPhanQuyen('dshosokhenthuongdotxuat', 'thaydoi'))
                     <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
-                        <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
+                        <i class="fa fa-plus"></i>&nbsp;Thêm mới
+                    </button>
                 @endif
             </div>
         </div>
@@ -54,14 +55,6 @@
                     </select>
                 </div>
 
-                {{-- <div class="col-5">
-                    <label style="font-weight: bold">Phân loại hồ sơ</label>
-                    {!! Form::select('phanloai', setArrayAll($a_phanloaihs, 'Tất cả', 'ALL'), $inputs['phanloai'], [
-                        'id' => 'phanloai',
-                        'class' => 'form-control select2basic',
-                    ]) !!}
-                </div> --}}
-
                 <div class="col-2">
                     <label style="font-weight: bold">Năm</label>
                     {!! Form::select('nam', getNam(true), $inputs['nam'], ['id' => 'nam', 'class' => 'form-control select2basic']) !!}
@@ -74,24 +67,22 @@
                         <thead>
                             <tr class="text-center">
                                 <th width="2%">STT</th>
-                                {{-- <th>Phân loại hồ sơ</th> --}}
                                 <th>Nội dung hồ sơ</th>
                                 <th width="8%">Tờ trình</th>
                                 <th width="8%">Trạng thái</th>
-                                <th width="20%">Đơn vị tiếp nhận</th>
-                                <th width="10%">Thao tác</th>
+                                {{-- <th width="20%">Đơn vị tiếp nhận</th> --}}
+                                <th width="15%">Thao tác</th>
                             </tr>
                         </thead>
-
+                        <?php $i = 1; ?>
                         @foreach ($model as $key => $tt)
                             <tr>
-                                <td class="text-center">{{ $key + 1 }}</td>
-                                {{-- <td>{{$a_phanloaihs[$tt->phanloai] ?? $tt->phanloai }}</td> --}}
+                                <td class="text-center">{{ $i++ }}</td>
                                 <td>{{ $tt->noidung }}</td>
                                 <td class="text-center">{{ $tt->sototrinh }}<br>{{ getDayVn($tt->ngayhoso) }}
                                 </td>
                                 @include('includes.td.td_trangthai_hoso')
-                                <td>{{ $a_donvi[$tt->madonvi_nhan] ?? '' }}</td>
+                                {{-- <td>{{ $a_donvi[$tt->madonvi_nhan] ?? '' }}</td> --}}
 
                                 <td style="text-align: center">
                                     <button type="button" title="In dữ liệu"
@@ -109,7 +100,7 @@
                                     </button>
                                     @if ($inputs['trangthai'] == 'CC')
                                         {{-- Trường hợp cũ đầy đủ quy trình --}}
-                                        @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']) && chkPhanQuyen('dshosodenghikhenthuongcongtrang', 'thaydoi'))
+                                        @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']) && chkPhanQuyen('dshosokhenthuongdotxuat', 'thaydoi'))
                                             <a title="Thông tin hồ sơ"
                                                 href="{{ url($inputs['url_hs'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                 class="btn btn-sm btn-clean btn-icon">
@@ -126,8 +117,7 @@
                                                 onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url_hs'] . 'Xoa' }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
                                                 data-toggle="modal">
-                                                <i class="icon-lg la fa-trash text-danger"></i>
-                                            </button>
+                                                <i class="icon-lg la fa-trash text-danger"></i></button>
                                         @endif
 
                                         @if ($tt->trangthai == 'BTL')
@@ -135,13 +125,12 @@
                                                 onclick="viewLyDo('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}', '{{ $inputs['url_hs'] . 'LayLyDo' }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#tralai-modal"
                                                 data-toggle="modal">
-                                                <i class="icon-lg la fa-archive text-info"></i>
-                                            </button>
+                                                <i class="icon-lg la fa-archive text-info"></i></button>
                                         @endif
                                     @else
                                         {{-- Trường hợp gộp các quy trình vào làm một để chỉ theo dõi hồ sơ --}}
-                                        @if (in_array($tt->trangthai, ['CXKT', 'CC', 'BTL', 'CXD']))
-                                            @if (chkPhanQuyen('dshosodenghikhenthuongcongtrang', 'thaydoi'))
+                                        @if (in_array($tt->trangthai, ['CXKT']))
+                                            @if (chkPhanQuyen('dshosokhenthuongdotxuat', 'thaydoi'))
                                                 <a href="{{ url($inputs['url_hs'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                     class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
                                                     title="Thông tin hồ sơ khen thưởng">
@@ -157,8 +146,6 @@
                                                     class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
                                                     <i class="icon-lg la flaticon-edit-1 text-success"></i>
                                                 </a>
-
-
                                                 <button type="button"
                                                     onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url_hs'] . 'Xoa' }}')"
                                                     class="btn btn-sm btn-clean btn-icon"
@@ -166,24 +153,31 @@
                                                     <i class="icon-lg la fa-trash text-danger"></i>
                                                 </button>
                                             @endif
-
-                                            {{-- @if (chkPhanQuyen('dshosodenghikhenthuongcongtrang', 'hoanthanh'))
+                                            @if (chkPhanQuyen('dshosokhenthuongdotxuat', 'hoanthanh'))
                                                 <a title="Phê duyệt hồ sơ khen thưởng"
                                                     href="{{ url($inputs['url_hs'] . 'PheDuyet?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                     class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
                                                     <i class="icon-lg la flaticon-interface-10 text-success"></i>
                                                 </a>
-                                            @endif --}}
-                                        @endif
+                                            @endif
 
-                                        {{-- @if ($tt->trangthai == 'DKT' && chkPhanQuyen('dshosodenghikhenthuongcongtrang', 'hoanthanh'))
+                                            @if ($tt->trangthai == 'DKT' && chkPhanQuyen('dshosokhenthuongdotxuat', 'hoanthanh'))
+                                                <button title="Hủy phê duyệt hồ sơ khen thưởng" type="button"
+                                                    onclick="setHuyPheDuyet('{{ $tt->mahosotdkt }}')"
+                                                    class="btn btn-sm btn-clean btn-icon" data-target="#modal-HuyPheDuyet"
+                                                    data-toggle="modal">
+                                                    <i class="icon-lg la flaticon-interface-10 text-danger"></i>
+                                                </button>
+                                            @endif
+                                        @endif
+                                        @if ($tt->trangthai == 'DKT' && chkPhanQuyen('dshosokhenthuongdotxuat', 'hoanthanh'))
                                             <button title="Hủy phê duyệt hồ sơ khen thưởng" type="button"
                                                 onclick="setHuyPheDuyet('{{ $tt->mahosotdkt }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modal-HuyPheDuyet"
                                                 data-toggle="modal">
                                                 <i class="icon-lg la flaticon-interface-10 text-danger"></i>
                                             </button>
-                                        @endif --}}
+                                        @endif
                                     @endif
 
                                 </td>
@@ -197,8 +191,8 @@
     <!--end::Card-->
 
     @include('NghiepVu._DungChung.modal_PheDuyet')
-    @include('NghiepVu._DungChung.HoSo_TaoHoSo')
-    @include('NghiepVu._DungChung.InDuLieu')
+    @include('NghiepVu._DungChung.HoSo_TaoHoSoKT')
+    @include('NghiepVu._DungChung.InDuLieuKT')
     @include('includes.modal.modal-delete')
     @include('includes.modal.modal_chuyenhs')
     @include('includes.modal.modal_attackfile')

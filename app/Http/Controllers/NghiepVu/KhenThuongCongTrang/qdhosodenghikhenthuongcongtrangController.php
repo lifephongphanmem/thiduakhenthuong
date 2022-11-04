@@ -66,6 +66,7 @@ class qdhosodenghikhenthuongcongtrangController extends Controller
         // })->wherein('trangthai', ['CXKT', 'DXKT', 'DKT']);
 
         $model = dshosothiduakhenthuong::where('madonvi_kt', $inputs['madonvi'])
+            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH'])
             ->wherein('trangthai', ['CXKT', 'DXKT', 'DKT']);
 
         if ($inputs['maloaihinhkt'] != 'ALL')
@@ -646,7 +647,7 @@ class qdhosodenghikhenthuongcongtrangController extends Controller
 
         $result['status'] = 'success';
         return response()->json($result);
-    }   
+    }
 
     public function PheDuyet(Request $request)
     {
@@ -671,7 +672,7 @@ class qdhosodenghikhenthuongcongtrangController extends Controller
         $model->chucvunguoikyqd = $inputs['chucvunguoikyqd'];
         $model->hotennguoikyqd = $inputs['hotennguoikyqd'];
         //dd($model);
-        getTaoQuyetDinhKT($model);        
+        getTaoQuyetDinhKT($model);
         $model->save();
         trangthaihoso::create([
             'mahoso' => $inputs['mahosotdkt'],
@@ -976,9 +977,9 @@ class qdhosodenghikhenthuongcongtrangController extends Controller
         $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
         $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
         $a_dhkt = getDanhHieuKhenThuong('ALL');
-		$model->tendonvi = $m_donvi->tendonvi;
+        $model->tendonvi = $m_donvi->tendonvi;
         return view('NghiepVu._DungChung.InPhoi')
-		->with('a_dhkt', $a_dhkt)
+            ->with('a_dhkt', $a_dhkt)
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
@@ -1057,7 +1058,7 @@ class qdhosodenghikhenthuongcongtrangController extends Controller
     public function NoiDungKhenThuong(Request $request)
     {
         $inputs = $request->all();
-        
+
         if ($inputs['phanloai'] == 'CANHAN') {
             $model = dshosothiduakhenthuong_canhan::where('id', $inputs['id'])->first();
             $model->noidungkhenthuong = $inputs['noidungkhenthuong'];

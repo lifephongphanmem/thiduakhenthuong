@@ -65,6 +65,7 @@ class qdhosodenghikhenthuongconghienController extends Controller
         $inputs['maloaihinhkt'] = session('chucnang')['dshosodenghikhenthuongconghien']['maloaihinhkt'] ?? 'ALL';
 
         $model = dshosothiduakhenthuong::where('madonvi_kt', $inputs['madonvi'])
+            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH'])
             ->wherein('trangthai', ['CXKT', 'DXKT', 'DKT']);
 
         if ($inputs['maloaihinhkt'] != 'ALL')
@@ -335,9 +336,9 @@ class qdhosodenghikhenthuongconghienController extends Controller
         $a_phanloaidt = array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai');
         $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
         $a_dhkt = getDanhHieuKhenThuong('ALL');
-		
+
         return view('NghiepVu.KhenThuongCongHien.KhenThuong.Xem')
-		->with('a_dhkt', $a_dhkt)
+            ->with('a_dhkt', $a_dhkt)
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
@@ -873,7 +874,7 @@ class qdhosodenghikhenthuongconghienController extends Controller
     function htmlTapThe(&$result, $model)
     {
         if (isset($model)) {
-           $a_tapthe = array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai');
+            $a_tapthe = array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai');
             $a_dhkt = getDanhHieuKhenThuong('ALL');
 
             $result['message'] = '<div class="row" id="dskhenthuongtapthe">';
@@ -924,7 +925,7 @@ class qdhosodenghikhenthuongconghienController extends Controller
     {
         if (isset($model)) {
             $a_tapthe = array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai');
-            $a_dhkt = getDanhHieuKhenThuong('ALL');             
+            $a_dhkt = getDanhHieuKhenThuong('ALL');
 
             $result['message'] = '<div class="row" id="dskhenthuongcanhan">';
             $result['message'] .= '<div class="col-md-12">';
@@ -988,9 +989,9 @@ class qdhosodenghikhenthuongconghienController extends Controller
         $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
         $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
         $a_dhkt = getDanhHieuKhenThuong('ALL');
-		$model->tendonvi = $m_donvi->tendonvi;
+        $model->tendonvi = $m_donvi->tendonvi;
         return view('NghiepVu._DungChung.InPhoi')
-		->with('a_dhkt', $a_dhkt)
+            ->with('a_dhkt', $a_dhkt)
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
@@ -1069,7 +1070,7 @@ class qdhosodenghikhenthuongconghienController extends Controller
     public function NoiDungKhenThuong(Request $request)
     {
         $inputs = $request->all();
-        
+
         if ($inputs['phanloai'] == 'CANHAN') {
             $model = dshosothiduakhenthuong_canhan::where('id', $inputs['id'])->first();
             $model->noidungkhenthuong = $inputs['noidungkhenthuong'];

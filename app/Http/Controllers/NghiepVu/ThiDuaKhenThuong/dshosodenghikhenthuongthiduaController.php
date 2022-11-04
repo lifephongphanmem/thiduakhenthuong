@@ -89,7 +89,8 @@ class dshosodenghikhenthuongthiduaController extends Controller
         $ngayhientai = date('Y-m-d');
         $m_hoso = dshosothamgiaphongtraotd::wherein('trangthai', ['CD', 'DD', 'CXKT', 'DKT', 'DXKT'])->where('madonvi_nhan', $inputs['madonvi'])->get();
 
-        $m_khenthuong = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi'])->where('phanloai', 'KHENTHUONG')->get();
+        $m_khenthuong = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi'])
+            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH'])->get();
 
         //$m_trangthai_phongtrao = trangthaihoso::where('phanloai', 'dsphongtraothidua')->orderby('thoigian', 'desc')->get();
         //dd($ngayhientai);
@@ -112,9 +113,9 @@ class dshosodenghikhenthuongthiduaController extends Controller
         }
         $inputs['trangthai'] = session('chucnang')['dshosodenghikhenthuongthidua']['trangthai'] ?? 'CC';
         $inputs['trangthai'] = $inputs['trangthai'] == 'ALL' ? 'CC' : $inputs['trangthai'];
-        if($inputs['trangthai'] == 'CC'){
+        if ($inputs['trangthai'] == 'CC') {
             $a_donviql = getDonViXetDuyetDiaBan($donvi);
-        }else{
+        } else {
             $a_donviql = getDonViXetDuyetDiaBan($donvi);
         }
         //$a_donviql = getDonViXetDuyetDiaBan($donvi);
