@@ -24,7 +24,7 @@
         <div class="d-flex flex-column flex-lg-row flex-row-fluid text-center"
             >
             <!--begin:Aside-->
-            <div class="d-flex w-100 flex-center p-15 mt-30">
+            <div class="d-flex w-100 flex-center mt-15">
                 <div class="login-wrapper">
                     <!--begin:Aside Content-->
                     <div>

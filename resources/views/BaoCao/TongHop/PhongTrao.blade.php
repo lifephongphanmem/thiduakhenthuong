@@ -55,7 +55,7 @@
             <tr>
                 @if (count($a_hinhthuckt_xa) > 0)
                     @foreach ($a_hinhthuckt_xa as $item)
-                        <th style="width: 5%" class="text-center">{{ $a_hinhthuckt[$item] ?? $item }}</th>
+                        <th style="width: 5%" class="text-center">{{ $a_dhkt[$item] ?? $item }}</th>
                     @endforeach
                 @else
                     <th style="width: 5%"></th>
@@ -63,7 +63,7 @@
 
                 @if (count($a_hinhthuckt_huyen) > 0)
                     @foreach ($a_hinhthuckt_huyen as $item)
-                        <th style="width: 5%" class="text-center">{{ $a_hinhthuckt[$item] ?? $item }}</th>
+                        <th style="width: 5%" class="text-center">{{ $a_dhkt[$item] ?? $item }}</th>
                     @endforeach
                 @else
                     <th style="width: 5%"></th>
@@ -71,7 +71,7 @@
 
                 @if (count($a_hinhthuckt_tinh) > 0)
                     @foreach ($a_hinhthuckt_tinh as $item)
-                        <th style="width: 5%" class="text-center">{{ $a_hinhthuckt[$item] ?? $item }}</th>
+                        <th style="width: 5%" class="text-center">{{ $a_dhkt[$item] ?? $item }}</th>
                     @endforeach
                 @else
                     <th style="width: 5%"></th>
