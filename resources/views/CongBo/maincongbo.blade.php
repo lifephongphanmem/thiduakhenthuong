@@ -100,9 +100,9 @@
                             <!--begin::Header Menu-->
                             <div class="topbar-item">
                                 <!--begin::Header Nav-->
-                                <a href="/">
-                                    <h2 style="text-transform: uppercase;"><b style="color: #25aae2">THI ĐUA KHEN THƯỞNG
-                                            - QUẢNG BÌNH</b></h2>
+                                <a class="no-underline btn btn-sm font-weight-bold mr-2" href="/">                               
+                                    <h2 style="text-transform: uppercase;"><img src="{{url('assets/media/logos/TDKT.png')}}" class="max-h-35px"  />
+                                        <b style="color: #25aae2">THI ĐUA KHEN THƯỞNG - QUẢNG BÌNH</b></h2>
                                 </a>
                                 <!--end::Header Nav-->
                             </div>
@@ -112,8 +112,8 @@
                         <div class="topbar">
                             <!--begin::Header Menu-->
                             <div class="topbar-item">
-                                <a class="text-bold text-primary no-underline btn btn-sm btn-light font-weight-bold mr-2" href="/DangNhap">Đăng nhập</a>
-                                
+                                <a class="text-bold text-primary no-underline btn btn-sm btn-light font-weight-bold mr-2"
+                                    href="/DangNhap">Đăng nhập</a>
                             </div>
                             <!--end::Header Menu-->
                         </div>
@@ -138,20 +138,17 @@
                                         <!--begin::Header Nav-->
                                         <ul class="menu-nav">
                                             <li class="menu-item" aria-haspopup="true">
-                                                <a target="_blank"
-                                                    href="/CongBo/VanBan"
-                                                    class="menu-link">                                                    
+                                                <a href="/CongBo/VanBan" class="menu-link">
                                                     <span class="menu-text">Văn bản QLNN</span>
                                                 </a>
                                             </li>
+
                                             <li class="menu-item" aria-haspopup="true">
-                                                <a target="_blank"
-                                                    href="/CongBo/QuyetDinh"
-                                                    class="menu-link">                                                    
+                                                <a href="/CongBo/QuyetDinh" class="menu-link">
                                                     <span class="menu-text">Quyết định khen thưởng</span>
                                                 </a>
                                             </li>
-                                          
+
                                             <li class="menu-item menu-item-submenu menu-item-rel"
                                                 data-menu-toggle="click" aria-haspopup="true">
                                                 <a href="javascript:;" class="menu-link menu-toggle">
@@ -165,7 +162,7 @@
                                                             <a target="_blank"
                                                                 href="https://preview.keenthemes.com/metronic/demo2/builder.html"
                                                                 class="menu-link">
-                                                               
+
                                                                 <span class="menu-text">Danh sách tài khoản tập
                                                                     huấn</span>
                                                             </a>
@@ -174,7 +171,7 @@
                                                             <a target="_blank"
                                                                 href="https://preview.keenthemes.com/metronic/demo2/builder.html"
                                                                 class="menu-link">
-                                                                
+
                                                                 <span class="menu-text">Thông tin hỗ trợ</span>
                                                             </a>
                                                         </li>
@@ -230,7 +227,8 @@
                             <div class="col-4 footer-block" style="text-align: left">
                                 <p>Đơn vị phát triển: &nbsp;<b style="color: #25aae2">Công ty phát triển phần mềm Cuộc
                                         sống</b></p>
-                                <p>Địa chỉ: &nbsp;<b style="color: #25aae2">Khu Tái Định Cư X2A, Phường Yên Sở, Quận Hoàng Mai, TP Hà Nội</b></p>
+                                <p>Địa chỉ: &nbsp;<b style="color: #25aae2">Khu Tái Định Cư X2A, Phường Yên Sở, Quận
+                                        Hoàng Mai, TP Hà Nội</b></p>
                             </div>
                         </div>
 
@@ -358,7 +356,7 @@
         <!--begin::Page Scripts(used by this page)-->
         <script src="{{ url('assets/congbo/assets/js/pages/widgets.js') }}"></script>
         <!--end::Page Scripts-->
-        
+
         <script type="text/javascript">
             function display_ct6() {
                 var x = new Date()
