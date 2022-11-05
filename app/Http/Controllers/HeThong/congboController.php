@@ -23,6 +23,16 @@ class congboController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function TrangChu(Request $request)
+    {
+        $inputs = $request->all();
+        $inputs['url'] = '/QuanLyVanBan/VanBanPhapLy';
+        //$model = dsvanbanphaply::all();
+        return view('CongBo.TrangChu')
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'Thi đua khen thưởng');
+    }
+
     public function VanBan(Request $request)
     {
         $inputs = $request->all();
