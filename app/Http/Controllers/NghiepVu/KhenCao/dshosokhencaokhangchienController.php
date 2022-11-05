@@ -45,7 +45,7 @@ class dshosokhencaokhangchienController extends Controller
         }
 
         $inputs = $request->all();
-        $inputs['url'] = static::$url;
+        $inputs['url_hs'] = static::$url;
         $inputs['url_qd'] = static::$url;
         $inputs['tendvcqhienthi'] = '';
         $inputs['capdo'] = 'TW';
@@ -149,6 +149,40 @@ class dshosokhencaokhangchienController extends Controller
             ->with('pageTitle', 'Thông tin hồ sơ đề nghị khen thưởng');
     }
 
+    public function InHoSoKT(Request $request)
+    {
+        $inputs = $request->all();
+        $model = dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $model->tenphongtraotd = dsphongtraothidua::where('maphongtraotd', $model->maphongtraotd)->first()->noidung ?? '';
+        $model_canhan = dshosokhencao_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
+        $model_tapthe = dshosokhencao_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
+        $a_phanloaidt = array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai');
+        $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
+
+        return view('NghiepVu.KhenCao.KhangChien.InHoSoKT')
+            ->with('model', $model)
+            ->with('model_canhan', $model_canhan)
+            ->with('model_tapthe', $model_tapthe)
+            ->with('m_donvi', $m_donvi)
+            ->with('a_phanloaidt', $a_phanloaidt)
+            ->with('a_dhkt', getDanhHieuKhenThuong('ALL'))
+            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'Thông tin hồ sơ đề nghị khen thưởng');
+    }
+
+    public function InQuyetDinh(Request $request)
+    {
+        $inputs = $request->all();
+        $model = dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        getTaoQuyetDinhKT($model);
+        $model->thongtinquyetdinh = str_replace('<p>[sangtrangmoi]</p>', '<div class=&#34;sangtrangmoi&#34;></div>', $model->thongtinquyetdinh);
+        //dd($model);
+        return view('BaoCao.DonVi.XemQuyetDinh')
+            ->with('model', $model)
+            ->with('pageTitle', 'Quyết định khen thưởng');
+    }
+    
     public function Them(Request $request)
     {
         if (!chkPhanQuyen('dshosokhencaokhangchien', 'thaydoi')) {

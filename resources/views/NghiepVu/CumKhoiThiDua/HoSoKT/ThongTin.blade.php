@@ -125,8 +125,7 @@
                                     <button type="button" title="In quyết định khen thưởng"
                                         onclick="setInDuLieu('{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}','DKT',true)"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#indulieu-modal"
-                                        data-toggle="modal"
-                                        {{ $tt->thongtinquyetdinh == '' || $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}>
+                                        data-toggle="modal">
                                         <i class="icon-lg la flaticon2-print text-dark"></i>
                                     </button>
 

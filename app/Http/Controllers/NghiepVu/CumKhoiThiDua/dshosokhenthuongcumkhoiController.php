@@ -261,7 +261,6 @@ class dshosokhenthuongcumkhoiController extends Controller
         return response()->json($result);
     }
 
-
     function htmlCaNhan(&$result, $model)
     {
         if (isset($model)) {
@@ -574,6 +573,7 @@ class dshosokhenthuongcumkhoiController extends Controller
     {
         $inputs = $request->all();
         $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        getTaoQuyetDinhKTCumKhoi($model);
         $model->thongtinquyetdinh = str_replace('<p>[sangtrangmoi]</p>', '<div class=&#34;sangtrangmoi&#34;></div>', $model->thongtinquyetdinh);
         return view('BaoCao.DonVi.XemQuyetDinh')
             ->with('model', $model)

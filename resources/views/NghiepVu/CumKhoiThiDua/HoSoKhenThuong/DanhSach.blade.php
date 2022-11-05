@@ -179,23 +179,23 @@
                                                     <i class="icon-lg la fa-trash text-danger"></i>
                                                 </button>
                                             @endif
-                                            @if (chkPhanQuyen('dshosodenghikhenthuongcumkhoi', 'hoanthanh'))
+                                            {{-- @if (chkPhanQuyen('dshosodenghikhenthuongcumkhoi', 'hoanthanh'))
                                                 <a title="Phê duyệt hồ sơ khen thưởng"
                                                     href="{{ url($inputs['url_hs'] . 'PheDuyet?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                     class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
                                                     <i class="icon-lg la flaticon-interface-10 text-success"></i>
                                                 </a>
-                                            @endif
+                                            @endif --}}
                                         @endif
 
-                                        @if ($tt->trangthai == 'DKT' && chkPhanQuyen('dshosodenghikhenthuongcumkhoi', 'hoanthanh'))
+                                        {{-- @if ($tt->trangthai == 'DKT' && chkPhanQuyen('dshosodenghikhenthuongcumkhoi', 'hoanthanh'))
                                             <button title="Hủy phê duyệt hồ sơ khen thưởng" type="button"
                                                 onclick="setHuyPheDuyet('{{ $tt->mahosotdkt }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modal-HuyPheDuyet"
                                                 data-toggle="modal">
                                                 <i class="icon-lg la flaticon-interface-10 text-danger"></i>
                                             </button>
-                                        @endif
+                                        @endif --}}
                                     @endif
                                 </td>
                             </tr>

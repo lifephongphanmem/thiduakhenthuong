@@ -63,7 +63,7 @@ Route::group(['prefix' => 'CumKhoiThiDua'], function () {
             Route::post('Sua', [dshosokhenthuongcumkhoiController::class, 'LuuHoSo']);
             
             Route::get('InHoSo', [dshosokhenthuongcumkhoiController::class, 'InHoSo']);
-            Route::get('InHoSoKT', [dshosokhenthuongcumkhoiController::class, 'InHoSoKT']);
+            Route::get('InHoSoPD', [qdhosokhenthuongcumkhoiController::class, 'InHoSoPD']);
             Route::post('Xoa', [dshosokhenthuongcumkhoiController::class, 'XoaHoSo']);
     
             Route::post('ThemTapThe', [dshosokhenthuongcumkhoiController::class, 'ThemTapThe']);
@@ -107,6 +107,7 @@ Route::group(['prefix' => 'CumKhoiThiDua'], function () {
             Route::get('Sua', [dshosodenghikhenthuongcumkhoiController::class, 'ThayDoi']);
             Route::post('Sua', [dshosodenghikhenthuongcumkhoiController::class, 'LuuHoSo']);
             Route::get('InHoSo', [dshosodenghikhenthuongcumkhoiController::class, 'XemHoSo']);
+            Route::get('InHoSoPD', [qdhosokhenthuongcumkhoiController::class, 'InHoSo']);            
             Route::post('Xoa', [dshosodenghikhenthuongcumkhoiController::class, 'XoaHoSo']);
 
             Route::post('ThemTapThe', [dshosodenghikhenthuongcumkhoiController::class, 'ThemTapThe']);
@@ -197,7 +198,7 @@ Route::group(['prefix' => 'CumKhoiThiDua'], function () {
             Route::get('InQuyetDinh', [qdhosokhenthuongcumkhoiController::class, 'InQuyetDinh']);
             Route::post('InBangKhen', [qdhosokhenthuongcumkhoiController::class, 'InBangKhen']);
             Route::post('InGiayKhen', [qdhosokhenthuongcumkhoiController::class, 'InGiayKhen']);
-            Route::get('InHoSo', [qdhosokhenthuongcumkhoiController::class, 'InHoSo']);
+            Route::get('InHoSoPD', [qdhosokhenthuongcumkhoiController::class, 'InHoSo']);
 
             Route::get('InPhoi', [qdhosokhenthuongcumkhoiController::class, 'InPhoi']);
             Route::post('NoiDungKhenThuong', [qdhosokhenthuongcumkhoiController::class, 'NoiDungKhenThuong']);

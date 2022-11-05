@@ -16,15 +16,15 @@
         jQuery(document).ready(function() {
             TableManaged3.init();
             $('#madonvi').change(function() {
-                window.location.href = "{{ $inputs['url'] }}" + 'ThongTin?madonvi=' + $('#madonvi').val() +
+                window.location.href = "{{ $inputs['url_hs'] }}" + 'ThongTin?madonvi=' + $('#madonvi').val() +
                     '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
             });
             $('#nam').change(function() {
-                window.location.href = "{{ $inputs['url'] }}" + 'ThongTin?madonvi=' + $('#madonvi').val() +
+                window.location.href = "{{ $inputs['url_hs'] }}" + 'ThongTin?madonvi=' + $('#madonvi').val() +
                     '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
             });
             $('#maloaihinhkt').change(function() {
-                window.location.href = "{{ $inputs['url'] }}" + 'ThongTin?madonvi=' + $('#madonvi').val() +
+                window.location.href = "{{ $inputs['url_hs'] }}" + 'ThongTin?madonvi=' + $('#madonvi').val() +
                     '&nam=' + $('#nam').val() + '&maloaihinhkt=' + $('#maloaihinhkt').val();
             });
         });
@@ -114,13 +114,15 @@
                                 @include('includes.td.td_trangthai_hoso')
 
                                 <td style="text-align: center">
-                                    <a title="Thông tin hồ sơ"
-                                        href="{{ url($inputs['url'] . 'InHoSo?mahosotdkt=' . $tt->mahosotdkt) }}"
-                                        class="btn btn-sm btn-clean btn-icon" target="_blank">
-                                        <i class="icon-lg la fa-eye text-dark"></i>
-                                    </a>
+                                    <button type="button" title="In quyết định khen thưởng"
+                                        onclick="setInDuLieu('{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}','DKT',false)"
+                                        class="btn btn-sm btn-clean btn-icon" data-target="#indulieu-modal"
+                                        data-toggle="modal">
+                                        <i class="icon-lg la flaticon2-print text-dark"></i>
+                                    </button>
+                                    
                                     <button title="Tài liệu đính kèm" type="button"
-                                        onclick="get_attack('{{ $tt->mahosotdkt }}', '{{ $inputs['url'] . 'TaiLieuDinhKem' }}')"
+                                        onclick="get_attack('{{ $tt->mahosotdkt }}', '{{ $inputs['url_hs'] . 'TaiLieuDinhKem' }}')"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
                                         data-toggle="modal">
                                         <i class="icon-lg la la-file-download text-dark"></i>
@@ -132,7 +134,7 @@
                                             <i class="icon-lg la flaticon-edit-1 text-success"></i>
                                         </a>                                       --}}
 
-                                        <a href="{{ url($inputs['url'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                        <a href="{{ url($inputs['url_hs'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
                                             class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
                                             title="Thông tin hồ sơ khen thưởng">
                                             <span class="svg-icon svg-icon-xl">
@@ -141,8 +143,8 @@
                                             <span
                                                 class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->soluongkhenthuong }}</span>
                                         </a>
-                                        @if (chkPhanQuyen('dshosokhencaochinhphu', 'hoanthanh'))                                            
-                                            <a href="{{ url($inputs['url'] . 'PheDuyet?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                        @if (chkPhanQuyen('dshosokhencaochinhphu', 'hoanthanh'))
+                                            <a href="{{ url($inputs['url_hs'] . 'PheDuyet?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                 class="btn btn-sm btn-clean btn-icon"
                                                 title="Cập nhật thông tin khen thưởng">
                                                 <i class="icon-lg la flaticon-interface-10 text-success"></i>
@@ -150,7 +152,7 @@
                                         @endif
 
                                         <button type="button"
-                                            onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url'] . 'Xoa' }}')"
+                                            onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url_hs'] . 'Xoa' }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
                                             data-toggle="modal">
                                             <i class="icon-lg la fa-trash text-danger"></i>
@@ -177,7 +179,7 @@
     <!--end::Card-->
 
     <!--Modal Tạo hồ sơ-->
-    {!! Form::open(['url' => $inputs['url'] . 'Them', 'id' => 'frm_hoso']) !!}
+    {!! Form::open(['url' => $inputs['url_hs'] . 'Them', 'id' => 'frm_hoso']) !!}
     <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
     <div id="taohoso-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
         <div class="modal-dialog modal-lg">
@@ -215,6 +217,7 @@
     </div>
     {!! Form::close() !!}
 
+    @include('NghiepVu._DungChung.InDuLieuKT')
     @include('NghiepVu._DungChung.modal_KhenThuong')
     @include('includes.modal.modal-lydo')
     @include('includes.modal.modal-delete')

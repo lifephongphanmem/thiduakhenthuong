@@ -21,7 +21,7 @@
         </tr>
         <tr>
             <td colspan="2" style="font-weight: bold;">
-                <h4> THÔNG TIN HỒ SƠ KHEN THƯỞNG CỤM, KHỐI THI ĐUA </h4>
+                <h4> THÔNG TIN HỒ SƠ PHÊ DUYỆT KHEN THƯỞNG CỤM, KHỐI THI ĐUA </h4>
             </td>
         </tr>
     </table>

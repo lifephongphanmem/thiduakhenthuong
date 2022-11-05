@@ -90,6 +90,7 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
         $inputs['maloaihinhkt'] = $inputs['maloaihinhkt'] ?? 'ALL';
 
         $model = dshosotdktcumkhoi::where('macumkhoi', $inputs['macumkhoi'])
+            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH'])
             ->where('madonvi', $inputs['madonvi']);
         if ($inputs['nam'] != 'ALL') {
             $model = $model->whereyear('ngayhoso', $inputs['nam']);
@@ -889,7 +890,7 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
         $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model->thongtinquyetdinh = $inputs['thongtinquyetdinh'];
         $model->save();
-        return redirect(static::$url . 'DanhSach?madonvi=' . $model->madonvi.'&macumkhoi='.$model->macumkhoi);
+        return redirect(static::$url . 'DanhSach?madonvi=' . $model->madonvi . '&macumkhoi=' . $model->macumkhoi);
     }
 
     public function PheDuyet(Request $request)
@@ -963,11 +964,11 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
             'madonvi' => $inputs['madonvi'],
             'thongtin' => 'Phê duyệt đề nghị khen thưởng.',
         ]);
-        return redirect(static::$url . 'DanhSach?madonvi=' . $model->madonvi.'&macumkhoi='.$model->macumkhoi);
+        return redirect(static::$url . 'DanhSach?madonvi=' . $model->madonvi . '&macumkhoi=' . $model->macumkhoi);
     }
 
     public function HuyPheDuyet(Request $request)
-    {       
+    {
         $inputs = $request->all();
         $thoigian = date('Y-m-d H:i:s');
         $trangthai = 'CXKT';
@@ -994,6 +995,6 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
             'madonvi' => $inputs['madonvi'],
             'thongtin' => 'Hủy phê duyệt đề nghị khen thưởng.',
         ]);
-        return redirect(static::$url . 'DanhSach?madonvi=' . $model->madonvi.'&macumkhoi='.$model->macumkhoi);
+        return redirect(static::$url . 'DanhSach?madonvi=' . $model->madonvi . '&macumkhoi=' . $model->macumkhoi);
     }
 }

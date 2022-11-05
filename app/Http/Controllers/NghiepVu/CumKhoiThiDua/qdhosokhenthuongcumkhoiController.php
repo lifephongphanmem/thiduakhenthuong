@@ -65,6 +65,7 @@ class qdhosokhenthuongcumkhoiController extends Controller
         //dd($inputs);
         $model = dshosotdktcumkhoi::where('macumkhoi', $inputs['macumkhoi'])
             ->where('madonvi_kt', $inputs['madonvi'])
+            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH'])
             ->wherein('trangthai', ['CXKT', 'DXKT', 'DKT']);
         if ($inputs['nam'] != 'ALL') {
             $model = $model->whereyear('ngayhoso', $inputs['nam']);
@@ -79,6 +80,7 @@ class qdhosokhenthuongcumkhoiController extends Controller
                 + dshosotdktcumkhoi_tapthe::where('mahosotdkt', $hoso->mahosotdkt)->where('ketqua', '1')->count();
             $hoso->chinhsua = $hoso->madonvi == $inputs['madonvi'] ? true : false;
         }
+        $inputs['trangthai'] = session('chucnang')['qdhosokhenthuongcumkhoi']['trangthai'] ?? 'CC';
         //dd($inputs);
         return view('NghiepVu.CumKhoiThiDua.KhenThuongHoSoKhenThuong.ThongTin')
             ->with('inputs', $inputs)
@@ -213,7 +215,6 @@ class qdhosokhenthuongcumkhoiController extends Controller
 
         return response()->json($result);
     }
-
 
     function htmlCaNhan(&$result, $model)
     {
@@ -571,9 +572,7 @@ class qdhosokhenthuongcumkhoiController extends Controller
     {
         $inputs = $request->all();
         $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        // if ($model->thongtinquyetdinh == '') {
-        //     $model->thongtinquyetdinh = getQuyetDinhCKE('QUYETDINH');
-        // }
+        getTaoQuyetDinhKTCumKhoi($model);
         $model->thongtinquyetdinh = str_replace('<p>[sangtrangmoi]</p>', '<div class=&#34;sangtrangmoi&#34;></div>', $model->thongtinquyetdinh);
         //dd($model);
         return view('BaoCao.DonVi.XemQuyetDinh')
