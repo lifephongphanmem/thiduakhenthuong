@@ -61,7 +61,8 @@ class qdhosodenghikhenthuongdoingoaiController extends Controller
         $inputs['maloaihinhkt'] = session('chucnang')['qdhosodenghikhenthuongdoingoai']['maloaihinhkt'] ?? 'ALL';
 
         $model = dshosothiduakhenthuong::where('madonvi_kt', $inputs['madonvi'])
-        ->wherein('trangthai', ['CXKT', 'DXKT', 'DKT']);
+            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH'])
+            ->wherein('trangthai', ['CXKT', 'DXKT', 'DKT']);
 
         if ($inputs['maloaihinhkt'] != 'ALL')
             $model = $model->where('maloaihinhkt', $inputs['maloaihinhkt']);
@@ -238,7 +239,7 @@ class qdhosodenghikhenthuongdoingoaiController extends Controller
     {
         if (isset($model)) {
             $a_tapthe = array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai');
-            $a_dhkt = getDanhHieuKhenThuong('ALL');             
+            $a_dhkt = getDanhHieuKhenThuong('ALL');
 
             $result['message'] = '<div class="row" id="dskhenthuongtapthe">';
             $result['message'] .= '<div class="col-md-12">';
@@ -466,8 +467,8 @@ class qdhosodenghikhenthuongdoingoaiController extends Controller
 
         return redirect(static::$url . 'Sua?mahosotdkt=' . $inputs['mahosotdkt']);
     }
-   
-    
+
+
     public function LayDoiTuong(Request $request)
     {
         $result = array(
@@ -502,7 +503,7 @@ class qdhosodenghikhenthuongdoingoaiController extends Controller
 
         $result['status'] = 'success';
         return response()->json($result);
-    }   
+    }
 
     public function Them(Request $request)
     {
@@ -786,9 +787,9 @@ class qdhosodenghikhenthuongdoingoaiController extends Controller
         $a_phanloaidt = array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai');
         $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
         $a_dhkt = getDanhHieuKhenThuong('ALL');
-		
+
         return view('NghiepVu.KhenThuongDoiNgoai.KhenThuong.Xem')
-		->with('a_dhkt', $a_dhkt)
+            ->with('a_dhkt', $a_dhkt)
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
@@ -812,9 +813,9 @@ class qdhosodenghikhenthuongdoingoaiController extends Controller
         $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
         $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
         $a_dhkt = getDanhHieuKhenThuong('ALL');
-		$model->tendonvi = $m_donvi->tendonvi;
+        $model->tendonvi = $m_donvi->tendonvi;
         return view('NghiepVu._DungChung.InPhoi')
-		->with('a_dhkt', $a_dhkt)
+            ->with('a_dhkt', $a_dhkt)
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
@@ -893,7 +894,7 @@ class qdhosodenghikhenthuongdoingoaiController extends Controller
     public function NoiDungKhenThuong(Request $request)
     {
         $inputs = $request->all();
-        
+
         if ($inputs['phanloai'] == 'CANHAN') {
             $model = dshosothiduakhenthuong_canhan::where('id', $inputs['id'])->first();
             $model->noidungkhenthuong = $inputs['noidungkhenthuong'];
@@ -929,7 +930,7 @@ class qdhosodenghikhenthuongdoingoaiController extends Controller
         $model->capkhenthuong =  $donvi_kt->capdo;
         $model->donvikhenthuong =  $donvi_kt->tendvhienthi;
 
-        return view('NghiepVu.KhenThuongDoiNgoai.HoSo.PheDuyetKT')
+        return view('NghiepVu.KhenThuongDoiNgoai.KhenThuong.PheDuyetKT')
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
@@ -976,7 +977,7 @@ class qdhosodenghikhenthuongdoingoaiController extends Controller
             'madonvi' => $inputs['madonvi'],
             'thongtin' => 'Phê duyệt đề nghị khen thưởng.',
         ]);
-        return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
+        return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_kt);
     }
 
     public function HuyPheDuyet(Request $request)
@@ -1002,5 +1003,4 @@ class qdhosodenghikhenthuongdoingoaiController extends Controller
         $model->save();
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
     }
-
 }

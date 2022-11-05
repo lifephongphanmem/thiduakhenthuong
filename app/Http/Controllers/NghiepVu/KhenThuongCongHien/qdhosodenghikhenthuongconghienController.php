@@ -374,7 +374,7 @@ class qdhosodenghikhenthuongconghienController extends Controller
         $model->capkhenthuong =  $donvi_kt->capdo;
         $model->donvikhenthuong =  $donvi_kt->tendvhienthi;
 
-        return view('NghiepVu.KhenThuongCongHien.HoSo.PheDuyetKT')
+        return view('NghiepVu.KhenThuongCongHien.KhenThuong.PheDuyetKT')
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
@@ -421,7 +421,7 @@ class qdhosodenghikhenthuongconghienController extends Controller
             'madonvi' => $inputs['madonvi'],
             'thongtin' => 'Phê duyệt đề nghị khen thưởng.',
         ]);
-        return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
+        return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_kt);
     }
 
     public function HuyPheDuyet(Request $request)

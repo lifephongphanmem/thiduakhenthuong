@@ -654,7 +654,7 @@ class dshosodenghikhenthuongdotxuatController extends Controller
         $inputs['url_hs'] = '/KhenThuongDotXuat/HoSo/';
         $inputs['url_xd'] = '/KhenThuongDotXuat/HoSo/';
         $inputs['url_qd'] = '/KhenThuongDotXuat/HoSo/';
-        $inputs['mahinhthuckt'] = session('chucnang')['dshosodenghikhenthuongcongtrang']['mahinhthuckt'] ?? 'ALL';
+        //$inputs['mahinhthuckt'] = session('chucnang')['dshosodenghikhenthuongcongtrang']['mahinhthuckt'] ?? 'ALL';
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
         $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
