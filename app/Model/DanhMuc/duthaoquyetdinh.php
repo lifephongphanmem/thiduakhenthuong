@@ -15,5 +15,8 @@ class duthaoquyetdinh extends Model
         'codehtml',
         'ghichu',
         'madonvi',
+        'phanloai',
+        'theodoi',
+        'stt',
     ];
 }

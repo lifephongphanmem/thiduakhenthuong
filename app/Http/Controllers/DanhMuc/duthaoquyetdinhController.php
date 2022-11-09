@@ -29,9 +29,14 @@ class duthaoquyetdinhController extends Controller
         $inputs = $request->all();
         $inputs['url'] = static::$url;
         $model = duthaoquyetdinh::all();
+        $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
+        if($inputs['phanloai'] != 'ALL'){
+            $model = $model->where('phanloai',$inputs['phanloai']); 
+        }
         //dd($model);
         return view('DanhMuc.DuThaoQuyetDinh.ThongTin')
             ->with('model', $model)
+            ->with('a_phanloai', getPhanLoaiDMDuThao())
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh mục dự thảo quyết định');
     }
@@ -75,10 +80,11 @@ class duthaoquyetdinhController extends Controller
         $model = duthaoquyetdinh::where('maduthao', $inputs['maduthao'])->first();
         //$model->codehtml = getQuyetDinhCKE('QUYETDINH');
         //dd($model);
-        return view('DanhMuc.DuThaoQuyetDinh.DuThao')
+        //return view('DanhMuc.DuThaoQuyetDinh.DuThao')
+        return view('DanhMuc.DuThaoQuyetDinh.MauChung')
             ->with('model', $model)
             ->with('inputs', $inputs)
-            ->with('pageTitle', 'Quyết định khen thưởng');
+            ->with('pageTitle', 'Dự thảo quyết định, tờ trình');
     }
 
     public function LuuDuThao(Request $request)

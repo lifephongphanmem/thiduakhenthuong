@@ -1,10 +1,6 @@
 <?php
-
-use App\Http\Controllers\DanhMuc\dmphanloaiController;
-use App\Http\Controllers\DanhMuc\duthaoquyetdinhController;
 use App\Http\Controllers\HeThong\dschucnangController;
 use App\Http\Controllers\HeThong\dsdonviController;
-use App\Http\Controllers\HeThong\dsnhomtaikhoanController;
 use Illuminate\Support\Facades\Route;
 
 //Đăng nhập
@@ -25,6 +21,7 @@ Route::group(['prefix' => 'DiaBan'], function () {
     Route::post('Sua', 'HeThong\dsdiabanController@modify');
     Route::post('Xoa', 'HeThong\dsdiabanController@delete');
     Route::get('LayDonVi', 'HeThong\dsdiabanController@LayDonVi');
+    Route::post('NhanExcel', 'HeThong\dsdiabanController@NhanExcel');
 });
 
 Route::group(['prefix' => 'DonVi'], function () {
@@ -66,26 +63,3 @@ Route::group(['prefix' => 'ChucNang'], function () {
     Route::post('Xoa', 'HeThong\dschucnangController@XoaChucNang');
 });
 
-Route::group(['prefix' => 'DMPhanLoai'], function () {
-    Route::get('ThongTin', [dmphanloaiController::class, 'ThongTin']);
-    Route::post('Them', [dmphanloaiController::class, 'Them']);
-    Route::post('ThemNhom', [dmphanloaiController::class, 'ThemNhom']);
-    Route::post('Xoa', [dmphanloaiController::class, 'Xoa']);
-});
-
-Route::group(['prefix' => 'DuThaoQD'], function () {
-    Route::get('ThongTin', [duthaoquyetdinhController::class, 'ThongTin']);
-    Route::post('Them', [duthaoquyetdinhController::class, 'Them']);
-    Route::post('Xoa', [duthaoquyetdinhController::class, 'Xoa']);
-    Route::get('Xem', [duthaoquyetdinhController::class, 'XemDuThao']);
-    Route::post('Luu', [duthaoquyetdinhController::class, 'LuuDuThao']);
-});
-
-Route::group(['prefix' => 'NhomChucNang'], function () {
-    Route::get('ThongTin', [dsnhomtaikhoanController::class, 'ThongTin']);
-    Route::post('Sua', [dsnhomtaikhoanController::class, 'store']);
-    Route::post('Xoa', [dsnhomtaikhoanController::class, 'destroy']);
-
-    Route::get('PhanQuyen', [dsnhomtaikhoanController::class, 'PhanQuyen']);
-    Route::post('PhanQuyen', [dsnhomtaikhoanController::class, 'LuuPhanQuyen']);
-});

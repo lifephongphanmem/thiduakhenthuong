@@ -16,5 +16,6 @@ class dmloaihinhkhenthuong extends Model
         'ghichu',
         'ttnguoitao',
         'phamviapdung',
+        'theodoi'
     ];
 }

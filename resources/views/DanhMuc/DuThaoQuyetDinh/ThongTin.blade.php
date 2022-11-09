@@ -15,6 +15,10 @@
     <script>
         jQuery(document).ready(function() {
             TableManaged3.init();
+            $('#phanloai').change(function() {
+                window.location.href = "{{ $inputs['url'] }}" + 'ThongTin?phanloai=' + $('#phanloai')
+                    .val();
+            });
         });
 
         function add() {
@@ -25,11 +29,12 @@
             form.find("[name='stt']").val('{{ count($model) + 1 }}');
         }
 
-        function edit(maduthao, noidung, stt) {
+        function edit(maduthao, noidung, stt, phanloai) {
             var form = $('#frm_modify');
             form.find("[name='maduthao']").attr('readonly', false);
             form.find("[name='maduthao']").val(maduthao);
             form.find("[name='noidung']").val(noidung);
+            form.find("[name='phanloai']").val(phanloai).trigger('change');
             form.find("[name='stt']").val(stt);
         }
     </script>
@@ -40,7 +45,7 @@
     <div class="card card-custom wave wave-animate-slow wave-info" style="min-height: 600px">
         <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Danh mục dự thảo quyết định</h3>
+                <h3 class="card-label text-uppercase">Danh mục dự thảo quyết định, tờ trình</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
@@ -53,6 +58,15 @@
             </div>
         </div>
         <div class="card-body">
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label style="font-weight: bold">Phân loại dự thảo</label>
+                    {!! Form::select('phanloai', setArrayAll($a_phanloai, 'Tất cả', 'ALL'), $inputs['phanloai'], [
+                        'id' => 'phanloai',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
+                </div>
+            </div>
 
             <div class="form-group row">
                 <div class="col-lg-12">
@@ -60,8 +74,8 @@
                         <thead>
                             <tr class="text-center">
                                 <th width="5%">STT</th>
-                                <th width="10%">Mã số</th>
-                                <th>Nội dung</th>
+                                <th>Phân loại</th>
+                                <th>Tên dự thảo</th>
                                 <th width="15%">Thao tác</th>
                             </tr>
 
@@ -71,26 +85,29 @@
                             @foreach ($model as $ct)
                                 <tr>
                                     <td style="text-align: center">{{ $i++ }}</td>
-                                    <td>{{ $ct->maduthao }}</td>
+                                    <td>{{$a_phanloai[$ct->phanloai] ?? $ct->phanloai }}</td>
                                     <td>{{ $ct->noidung }}</td>
                                     <td style="text-align: center">
                                         @if (chkPhanQuyen('duthaoquyetdinh', 'thaydoi'))
                                             <button type="button" title="Chỉnh sửa"
-                                                onclick="edit('{{ $ct->maduthao }}','{{ $ct->noidung }}','{{ $ct->stt }}')"
+                                                onclick="edit('{{ $ct->maduthao }}','{{ $ct->noidung }}','{{ $ct->stt }}', '{{ $ct->phanloai }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                 data-toggle="modal">
-                                                <i class="icon-lg la fa-edit text-success icon-2x"></i></button>
+                                                <i class="icon-lg la fa-edit text-success"></i>
+                                            </button>
 
                                             <a title="Dự thảo quyết định khen thưởng"
                                                 href="{{ url($inputs['url'] . 'Xem?maduthao=' . $ct->maduthao) }}"
                                                 class="btn btn-sm btn-clean btn-icon">
-                                                <i class="icon-lg la fa-print text-success icon-2x"></i></a>
+                                                <i class="icon-lg la fa-print text-success"></i>
+                                            </a>
 
                                             <button title="Xóa thông tin" type="button"
                                                 onclick="confirmDelete('{{ $ct->id }}','{{ $inputs['url'] . 'Xoa' }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
                                                 data-toggle="modal">
-                                                <i class="icon-lg la fa-trash-alt text-danger icon-2x"></i></button>
+                                                <i class="icon-lg la fa-trash-alt text-danger"></i>
+                                            </button>
                                         @endif
                                     </td>
                                 </tr>
@@ -131,9 +148,23 @@
                         </div>
 
                         <div class="form-group row">
-                            <div class="col-md-12">
+                            <div class="col-12">
+                                <label class="control-label">Phân loại dự thảo</label>
+                                {!! Form::select('phanloai', $a_phanloai, null, ['class' => 'form-control']) !!}
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-6">
                                 <label class="control-label">Số thứ tự</label>
                                 {!! Form::text('stt', null, ['class' => 'form-control', 'required' => 'required']) !!}
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="control-label">Theo dõi</label>
+                                {!! Form::select('theodoi', getTrangThaiTheoDoi(), null, [
+                                    'class' => 'form-control',
+                                ]) !!}
                             </div>
                         </div>
                     </div>

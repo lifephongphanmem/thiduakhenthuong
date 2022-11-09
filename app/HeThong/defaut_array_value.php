@@ -9,6 +9,24 @@ use App\Model\DanhMuc\dsdonvi;
  * Time: 3:05 PM
  */
 
+function getPhanLoaiDMDuThao()
+{    
+    return array(
+        'QUYETDINH' => 'Dự thảo quyết định khen thưởng',
+        'TOTRINHHOSO' => 'Dự thảo tờ trình hồ sơ đề nghị khen thưởng',
+        'TOTRINHPHEDUYET' => 'Dự thảo tờ trình phê duyệt khen thưởng',
+        'KHAC' => 'Dự thảo khác',
+    );
+}
+
+function getTrangThaiTheoDoi()
+{    
+    return array(
+        '0' => 'Không theo dõi',
+        '1' => 'Có theo dõi',
+    );
+}
+
 function getPhanLoaiHoSoKT()
 {
     //30.10.22 Chia thêm nhóm để tách hồ sơ khen thưởng và hồ sơ đề nghị khen thưởng

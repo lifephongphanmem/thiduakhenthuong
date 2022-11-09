@@ -55,6 +55,11 @@
                 }
             });
         }
+
+        function setDiaBanExCel(madiaban) {
+            var form = $('#frm_NhanExcel');
+            form.find("[name='madiaban']").val(madiaban);
+        }
     </script>
 @stop
 
@@ -136,6 +141,12 @@
                                                 <span
                                                     class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $ct_t->sodonvi }}</span>
                                             </a>
+
+                                            <button title="Nhận từ file Excel" data-target="#modal-nhanexcel"
+                                                onclick="setDiaBanExCel('{{ $ct_t->madiaban }}')" data-toggle="modal"
+                                                type="button" class="btn btn-clean btn-icon btn-sm"><i
+                                                    class="fas fa-file-import text-dark"></i>
+                                            </button>
 
                                             <button title="Xóa thông tin" type="button"
                                                 onclick="confirmDelete('{{ $ct_t->id }}','/DiaBan/Xoa')"
@@ -244,6 +255,7 @@
         </div>
     </div>
     <!--end::Card-->
+
     <!--Modal thông tin chi tiết -->
     {!! Form::open(['url' => 'DiaBan/Sua', 'id' => 'frm_modify']) !!}
     <div id="modify-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
@@ -303,6 +315,123 @@
         </div>
     </div>
     {!! Form::close() !!}
+
+
+    {{-- Nhận file Excel --}}
+    <div class="modal fade bs-modal-lg" id="modal-nhanexcel" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Nhận dữ liệu địa bàn cấp dưới từ file</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                </div>
+                <div class="modal-body">
+                    <div class="card card-custom">
+                        <div class="card-header card-header-tabs-line">
+                            <div class="card-toolbar">
+                                <ul class="nav nav-tabs nav-bold nav-tabs-line">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#excel_tapthe">
+                                            <span class="nav-icon">
+                                                <i class="fas fa-users"></i>
+                                            </span>
+                                            <span class="nav-text">Thông tin nhận File</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="card-toolbar">
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="tab-pane fade active show" id="excel_tapthe" role="tabpanel"
+                                    aria-labelledby="excel_tapthe">
+
+                                    {!! Form::open([
+                                        'url' => $inputs['url'] . 'NhanExcel',
+                                        'method' => 'POST',
+                                        'id' => 'frm_NhanExcel',
+                                        'class' => 'form',
+                                        'files' => true,
+                                        'enctype' => 'multipart/form-data',
+                                    ]) !!}
+                                    <input type="hidden" name="madiaban" />
+
+                                    <div class="form-group row">
+                                        <div class="col-md-3">
+                                            <label class="control-label">Tên địa bàn</label>
+                                            {!! Form::text('tendiaban', 'B', ['class' => 'form-control']) !!}
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="form-control-label">Tài khoản đăng nhập</label>
+                                            {!! Form::text('tendangnhap', 'C', ['class' => 'form-control']) !!}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-md-3">
+                                            <label class="control-label">Sheet nhận dữ liệu<span
+                                                    class="require">*</span></label>
+                                            {!! Form::text('sheet', '0', ['class' => 'form-control']) !!}
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="control-label">Nhận từ dòng<span
+                                                    class="require">*</span></label>
+                                            {!! Form::text('tudong', '4', ['class' => 'form-control']) !!}
+                                            {{-- {!! Form::text('tudong', '4', ['class' => 'form-control', 'required', 'data-mask' => 'fdecimal']) !!} --}}
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="control-label">Nhận đến dòng</label>
+                                            {!! Form::text('dendong', '200', ['class' => 'form-control']) !!}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-lg-12">
+                                            <label>File danh sách: </label>
+                                            {!! Form::file('fexcel', null, ['class' => 'form-control', 'required']) !!}
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <h4>Tham số mặc định</h4>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <label class="control-label">Nhóm chức năng<span
+                                                    class="require">*</span></label>
+                                            {!! Form::select('manhomchucnang', $a_nhomchucnang, null, [
+                                                'class' => 'form-control',
+                                            ]) !!}
+                                        </div>
+
+                                    </div>
+                                    <hr>
+                                    <div class="row text-center">
+                                        <div class="col-lg-12">
+                                            <button type="submit" class="btn btn-primary"><i
+                                                    class="fa fa-check"></i>Hoàn thành</button>
+                                        </div>
+                                    </div>
+                                    {!! Form::close() !!}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+    </div>
+
 
     @include('includes.modal.modal-delete')
 @stop
