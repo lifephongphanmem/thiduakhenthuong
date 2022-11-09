@@ -39,7 +39,7 @@
 <!--begin::Body-->
 
 <body onload="display_ct6()" id="kt_body"
-    class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed footer-fixed page-loading">
+    class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed page-loading">
     <!--begin::Main-->
     <!--begin::Header Mobile-->
 
@@ -210,7 +210,7 @@
                                                     <ul class="menu-subnav">
                                                         <li class="menu-item" aria-haspopup="true">
                                                             <a target="_blank"
-                                                                href="https://preview.keenthemes.com/metronic/demo2/builder.html"
+                                                                href="{{url('/DanhSachTaiKhoan')}}"
                                                                 class="menu-link">
 
                                                                 <span class="menu-text">Danh sách tài khoản tập
@@ -219,7 +219,7 @@
                                                         </li>
                                                         <li class="menu-item" aria-haspopup="true">
                                                             <a target="_blank"
-                                                                href="https://preview.keenthemes.com/metronic/demo2/builder.html"
+                                                            href="{{url('/DanhSachHoTro')}}"
                                                                 class="menu-link">
 
                                                                 <span class="menu-text">Thông tin hỗ trợ</span>

@@ -10,6 +10,7 @@ use App\Model\DanhMuc\dstaikhoan;
 use App\Model\DanhMuc\dstaikhoan_phanquyen;
 use App\Model\HeThong\hethongchung;
 use App\Model\HeThong\hethongchung_chucnang;
+use App\Model\View\viewdiabandonvi;
 use Illuminate\Support\Facades\Session;
 
 class hethongchungController extends Controller
@@ -28,6 +29,7 @@ class hethongchungController extends Controller
     public function DangNhap(Request $request)
     {
         $inputs = $request->all();
+        //dd($inputs);
         return view('HeThong.dangnhap')
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Đăng nhập hệ thống');
@@ -93,7 +95,7 @@ class hethongchungController extends Controller
             $ttuser->chucvukythay = $m_donvi->chucvukythay;
             $ttuser->nguoiky = $m_donvi->nguoiky;
             $ttuser->diadanh = $m_donvi->diadanh;
-            
+
             //Lấy thông tin địa bàn
             $m_diaban = dsdiaban::where('madiaban', $ttuser->madiaban)->first();
 
@@ -195,5 +197,45 @@ class hethongchungController extends Controller
         $inputs = $request->all();
         hethongchung::first()->update($inputs);
         return redirect('/HeThongChung/ThongTin');
+    }
+
+    public function DanhSachTaiKhoan(Request $request)
+    {
+        $inputs = $request->all();
+        $m_diaban = dsdiaban::all();
+        $inputs['madiaban'] = $inputs['madiaban'] ??  $m_diaban->first()->madiaban;
+        $m_donvi = dsdonvi::where('madiaban', $inputs['madiaban'])->get();
+        
+        $a_donvi = array_column($m_donvi->toarray(),'tendonvi','madonvi');
+        $model = dstaikhoan::wherein('madonvi',array_column($m_donvi->toarray(),'madonvi'))->get();
+        foreach($model as $ct){
+            $ct->tendonvi = $a_donvi[$ct->madonvi] ?? $ct->madonvi;
+        }
+        //dd($inputs);
+        return view('CongBo.DanhSachTaiKhoan')
+            ->with('model', $model)
+            ->with('inputs', $inputs)
+            ->with('a_diaban', array_column(dsdiaban::all()->toArray(),'tendiaban','madiaban'))
+            ->with('pageTitle', 'Thông tin hỗ trợ');
+    }
+
+    public function DanhSachHoTro(Request $request)
+    {
+        $inputs = $request->all();
+        $m_diaban = dsdiaban::all();
+        $inputs['madiaban'] = $inputs['madiaban'] ??  $m_diaban->first()->madiaban;
+        $m_donvi = dsdonvi::where('madiaban', $inputs['madiaban'])->get();
+        
+        $a_donvi = array_column($m_donvi->toarray(),'tendonvi','madonvi');
+        $model = dstaikhoan::wherein('madonvi',array_column($m_donvi->toarray(),'madonvi'))->get();
+        foreach($model as $ct){
+            $ct->tendonvi = $a_donvi[$ct->madonvi] ?? $ct->madonvi;
+        }
+        //dd($inputs);
+        return view('HeThong.DanhSachHoTro')
+            ->with('model', $model)
+            ->with('inputs', $inputs)
+            ->with('a_diaban', array_column(dsdiaban::all()->toArray(),'tendiaban','madiaban'))
+            ->with('pageTitle', 'Thông tin hỗ trợ');
     }
 }

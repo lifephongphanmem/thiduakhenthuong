@@ -13,6 +13,7 @@ use App\Model\DanhMuc\dmloaihinhkhenthuong;
 use App\Model\DanhMuc\dmnhomphanloai_chitiet;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
+use App\Model\DanhMuc\duthaoquyetdinh;
 use App\Model\HeThong\trangthaihoso;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothamgiaphongtraotd;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothamgiaphongtraotd_canhan;
@@ -346,7 +347,7 @@ class dshosothiduaController extends Controller
         $inputs['trangthai'] = session('chucnang')['dshosothidua']['trangthai'] ?? 'CC';
         //Thiết lập lại do chỉ có 2 bước trong quy trình
         $inputs['trangthai'] = $inputs['trangthai'] != 'CC' ? 'DD' : $inputs['trangthai']; 
-
+        //dd($inputs['trangthai']);
         $model->trangthai = $inputs['trangthai'];
         $model->madonvi_nhan = $inputs['madonvi_nhan'];
         $model->thoigian = date('Y-m-d H:i:s');
@@ -912,5 +913,45 @@ class dshosothiduaController extends Controller
 
             $result['status'] = 'success';
         }
+    }
+
+    public function ToTrinhHoSo(Request $request)
+    {
+        $inputs = $request->all();
+        $inputs['url'] = static::$url;
+        $model = dshosothamgiaphongtraotd::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $inputs['madonvi'] = $model->madonvi;
+        $inputs['maduthao'] = $inputs['maduthao'] ?? 'ALL';
+        getTaoDuThaoToTrinhHoSo($model, $inputs['maduthao']);
+        $a_duthao = array_column(duthaoquyetdinh::wherein('phanloai', ['TOTRINHHOSO'])->get()->toArray(), 'noidung', 'maduthao');
+
+        $inputs['maduthao'] = $inputs['maduthao'] ?? array_key_first($a_duthao);
+        return view('BaoCao.DonVi.QuyetDinh.MauChungToTrinh')
+            ->with('model', $model)
+            ->with('a_duthao', $a_duthao)
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'Dự thảo tờ trình khen thưởng');
+    }
+
+    public function LuuToTrinhHoSo(Request $request)
+    {
+        $inputs = $request->all();
+        $model = dshosothamgiaphongtraotd::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $model->thongtintotrinhhoso = $inputs['thongtintotrinhhoso'];
+        $model->save();
+        return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
+    }
+
+    public function InToTrinhHoSo(Request $request)
+    {
+        $inputs = $request->all();
+        $model = dshosothamgiaphongtraotd::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        getTaoDuThaoToTrinhHoSo($model);
+        $model->thongtinquyetdinh = $model->thongtintotrinhhoso;
+        $model->thongtinquyetdinh = str_replace('<p>[sangtrangmoi]</p>', '<div class=&#34;sangtrangmoi&#34;></div>', $model->thongtinquyetdinh);
+        //dd($model);
+        return view('BaoCao.DonVi.XemQuyetDinh')
+            ->with('model', $model)
+            ->with('pageTitle', 'Tờ trình khen thưởng');
     }
 }

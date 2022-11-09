@@ -7,13 +7,19 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Model\DanhMuc\dscumkhoi;
+use App\Model\DanhMuc\dscumkhoi_chitiet;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
+use App\Model\DanhMuc\dsnhomtaikhoan;
 use App\Model\DanhMuc\dstaikhoan;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
 
 class dsdonviController extends Controller
 {
+    public static $url = '/DonVi/';
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
@@ -49,15 +55,21 @@ class dsdonviController extends Controller
             return view('errors.noperm')->with('machucnang', 'dsdonvi');
         }
         $inputs = $request->all();
-        $inputs['url'] = '/DonVi';
+        $inputs['url'] = static::$url;
         $inputs['tendiaban'] = dsdiaban::where('madiaban', $inputs['madiaban'])->first()->tendiaban ?? '';
+        $m_diaban = dsdiaban::where('madiaban', $inputs['madiaban'])->first();
         $model = dsdonvi::where('madiaban', $inputs['madiaban'])->get();
         $m_taikhoan = dstaikhoan::all();
         foreach ($model as $chitiet) {
             $chitiet->sotaikhoan = $m_taikhoan->where('madonvi', $chitiet->madonvi)->count();
         }
+        $a_nhomchucnang = array_column(dsnhomtaikhoan::all()->toArray(), 'tennhomchucnang', 'manhomchucnang');
+        $a_cumkhoi = array_column(dscumkhoi::all()->toArray(), 'tencumkhoi', 'macumkhoi');
         return view('HeThongChung.DonVi.DanhSach')
             ->with('model', $model)
+            ->with('m_diaban', $m_diaban)
+            ->with('a_nhomchucnang', $a_nhomchucnang)
+            ->with('a_cumkhoi', $a_cumkhoi)
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách đơn vị');
     }
@@ -185,7 +197,7 @@ class dsdonviController extends Controller
 
     public function LuuThongTinDonVi(Request $request)
     {
-        
+
         $inputs = $request->all();
         $model = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
         if ($model == null) {
@@ -198,4 +210,77 @@ class dsdonviController extends Controller
         return redirect('/');
     }
 
+    public function NhanExcel(Request $request)
+    {
+        $inputs = $request->all();
+        //dd($inputs);
+        if (!isset($inputs['manhomchucnang'])) {
+            return view('errors.403')
+                ->with('message', 'Bạn cần tạo nhóm chức năng trước khi nhận dữ liệu để phân quyền thuận tiện hơn.')
+                ->with('url', '/DiaBan/ThongTin');
+        }
+
+        if (!isset($inputs['fexcel'])) {
+            return view('errors.403')
+                ->with('message', 'File Excel không hợp lệ.')
+                ->with('url', '/DiaBan/ThongTin');
+        }
+        //$model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+
+        $filename = $inputs['madiaban'] . '_' . getdate()[0];
+        $model_diaban = dsdiaban::where('madiaban', $inputs['madiaban'])->first();
+
+        $request->file('fexcel')->move(public_path() . '/data/uploads/', $filename . '.xlsx');
+        $path = public_path() . '/data/uploads/' . $filename . '.xlsx';
+        $data = [];
+
+        Excel::load($path, function ($reader) use (&$data, $inputs, $path) {
+            $obj = $reader->getExcel();
+            $sheetCount = $obj->getSheetCount();
+            if ($sheetCount < chkDbl($inputs['sheet'])) {
+                File::Delete($path);
+                dd('File excel chỉ có tối đa ' . $sheetCount . ' sheet dữ liệu.');
+            }
+            $sheet = $obj->getSheet($inputs['sheet']);
+            $data = $sheet->toArray(null, true, true, true); // giữ lại tiêu đề A=>'val';
+        });
+        $a_dv = array();
+        $a_tk = array();
+        $a_ck = [];
+        $ma = getdate()[0];
+        for ($i = $inputs['tudong']; $i <= $inputs['dendong']; $i++) {
+            if (!isset($data[$i][$inputs['tendonvi']])) {
+                continue;
+            }
+            $a_dv[] = array(
+                'madiaban' => $inputs['madiaban'],
+                'tendonvi' => $data[$i][$inputs['tendonvi']] ?? '',
+                'madonvi' => $ma,
+            );
+
+            $a_tk[] = array(
+                'madonvi' => $ma,
+                'manhomchucnang' => $inputs['manhomchucnang'],
+                'tentaikhoan' => $data[$i][$inputs['tendonvi']] ?? '',
+                'matkhau' => '2d17247d02f162064940feff49988f8e',
+                'trangthai' => '1',
+                'tendangnhap' => $data[$i][$inputs['tendangnhap']] ?? '',
+            );
+            if ($inputs['macumkhoi'] != 'NULL') {
+                $a_ck[] = [
+                    'madonvi' => $ma,
+                    'macumkhoi' => $inputs['macumkhoi'],
+                    'phanloai' => 'THANHVIEN',
+                ];
+            }
+            $ma++;
+        }
+        
+        dsdonvi::insert($a_dv);
+        dstaikhoan::insert($a_tk);
+        dscumkhoi_chitiet::insert($a_ck);
+        File::Delete($path);
+
+        return redirect(static::$url . 'DanhSach?madiaban=' . $inputs['madiaban']);
+    }
 }

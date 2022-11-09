@@ -125,8 +125,7 @@
                                     <button type="button" title="In quyết định khen thưởng"
                                         onclick="setInDuLieu('{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}','DKT',true)"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#indulieu-modal"
-                                        data-toggle="modal"
-                                        {{ $tt->thongtinquyetdinh == '' || $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}>
+                                        data-toggle="modal">
                                         <i class="icon-lg la flaticon2-print text-dark"></i>
                                     </button>
 
@@ -165,11 +164,11 @@
                                         @endif
                                     @else
                                         @if ($tt->trangthai == 'CXKT' && chkPhanQuyen('qdhosokhenthuongcumkhoi', 'hoanthanh'))
-                                            <a title="Tạo dự thảo tờ trình"
+                                            {{-- <a title="Tạo dự thảo tờ trình"
                                                 href="{{ url($inputs['url_qd'] . 'ToTrinhPheDuyet?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                 class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
                                                 <i class="icon-lg la flaticon-edit-1 text-success"></i>
-                                            </a>
+                                            </a> --}}
                                             <a title="Phê duyệt hồ sơ khen thưởng"
                                                 href="{{ url($inputs['url_qd'] . 'PheDuyet?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                 class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">

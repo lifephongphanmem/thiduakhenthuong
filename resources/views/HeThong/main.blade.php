@@ -290,7 +290,7 @@
             <div class="row gutter-b">
                 <!--begin::Item-->
                 <div class="col-12">
-                    <a href="{{ url('/thongtinhotro') }}"
+                    <a href="{{ url('/DanhSachHoTro') }}"
                         class="btn btn-block btn-light btn-hover-primary text-dark-50 text-center py-5 px-5">                        
                         <span class="d-block font-weight-bold font-size-h6 mt-2">Văn phòng hỗ trợ</span>
                     </a>
@@ -299,7 +299,7 @@
             <!--end::Item-->
 
 
-            <div class="row gutter-b">
+            {{-- <div class="row gutter-b">
                 <!--begin::Item-->
                 <div class="col-12">
                     <a href="#"
@@ -308,9 +308,9 @@
                     </a>
                 </div>
                 <!--end::Item-->
-            </div>
+            </div> --}}
 
-            <div class="row">
+            {{-- <div class="row">
                 <!--begin::Item-->
                 <div class="col-12">
                     <a href="{{ url('/data/download/LichsuTDKT.docx') }}" target="_blank"
@@ -319,7 +319,7 @@
                     </a>
                 </div>
                 <!--end::Item-->
-            </div>
+            </div> --}}
         </div>
         <!--end::Content-->
     </div>
@@ -353,7 +353,7 @@
             <!--begin::Nav-->
             <div class="navi navi-spacer-x-0 p-0">
                 <!--begin::Item-->
-                <a href="custom/apps/user/profile-1/personal-information.html" class="navi-item">
+                <a href="/DoiMatKhau" class="navi-item">
                     <div class="navi-link">
                         <div class="symbol symbol-40 bg-light mr-3">
                             <div class="symbol-label">

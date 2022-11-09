@@ -1,14 +1,15 @@
 <?php
 
+use App\Http\Controllers\HeThong\hethongchungController;
 use App\Http\Controllers\NghiepVu\_DungChung\dungchung_nghiepvuController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('','HeThong\hethongchungController@index');
 
-Route::get('thongtinhotro',function(){
-    return view('thongtinhotro')
-        ->with('pageTitle','Thông tin hỗ trợ');
-});
+Route::get('DanhSachHoTro',[hethongchungController::class,'DanhSachHoTro']);
+
+Route::get('DanhSachTaiKhoan',[hethongchungController::class,'DanhSachTaiKhoan']);
+Route::get('DoiMatKhau',[hethongchungController::class,'DoiMatKhau']);
 
 Route::get('TrangChu','HeThong\congboController@TrangChu');
 //dùng chung cho nghiệp vụ

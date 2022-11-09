@@ -172,11 +172,11 @@
                                                 <i class="icon-lg la flaticon-edit-1 text-success"></i>
                                             </a>
                                             
-                                                <a title="Tạo dự thảo quyết định khen thưởng"
+                                                {{-- <a title="Tạo dự thảo quyết định khen thưởng"
                                                     href="{{ url($inputs['url_hs'] . 'QuyetDinh?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                     class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
                                                     <i class="icon-lg la flaticon-edit-1 text-success"></i>
-                                                </a>
+                                                </a> --}}
 
                                                 <button type="button"
                                                     onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url_hs'] . 'Xoa' }}')"

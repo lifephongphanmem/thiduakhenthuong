@@ -89,7 +89,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                 </div>
                                 <input class="form-control border-1 px-5 placeholder-dark-75" title="Tên tài khoản"
                                     type="text" placeholder="Tên tài khoản truy cập" id="tendangnhap"
-                                    name="tendangnhap" value="{{ $input['tentaikhoan'] ?? '' }}" required
+                                    name="tendangnhap" value="{{ $inputs['tendangnhap'] ?? ''}}" required
                                     autocomplete="off" />
                             </div>
 

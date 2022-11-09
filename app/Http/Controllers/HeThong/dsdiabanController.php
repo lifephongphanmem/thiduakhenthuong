@@ -137,58 +137,5 @@ class dsdiabanController extends Controller
         return response()->json($result);
     }
 
-    public function NhanExcel(Request $request)
-    {
-        $inputs = $request->all();
-        //dd($inputs);
-        if (!isset($inputs['manhomchucnang'])) {
-            return view('errors.403')
-                ->with('message', 'Bạn cần tạo nhóm chức năng trước khi nhận dữ liệu để phân quyền thuận tiện hơn.')
-                ->with('url', '/DiaBan/ThongTin');
-        }
-
-        if (!isset($inputs['fexcel'])) {
-            return view('errors.403')
-                ->with('message', 'File Excel không hợp lệ.')
-                ->with('url', '/DiaBan/ThongTin');
-        }
-        //$model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-
-        $filename = $inputs['madiaban'] . '_' . getdate()[0];
-        $model_diaban = dsdiaban::where('madiaban', $inputs['madiaban'])->first();
-
-        $request->file('fexcel')->move(public_path() . '/data/uploads/', $filename . '.xlsx');
-        $path = public_path() . '/data/uploads/' . $filename . '.xlsx';
-        $data = [];
-
-        Excel::load($path, function ($reader) use (&$data, $inputs, $path) {
-            $obj = $reader->getExcel();
-            $sheetCount = $obj->getSheetCount();
-            if ($sheetCount < chkDbl($inputs['sheet'])) {
-                File::Delete($path);
-                dd('File excel chỉ có tối đa ' . $sheetCount . ' sheet dữ liệu.');
-            }
-            $sheet = $obj->getSheet($inputs['sheet']);
-            $data = $sheet->toArray(null, true, true, true); // giữ lại tiêu đề A=>'val';
-        });
-        $a_dm = array();
-        $ma=getdate()[0];
-        for ($i = $inputs['tudong']; $i <= $inputs['dendong']; $i++) {
-            if (!isset($data[$i][$inputs['tendiaban']])) {
-                continue;
-            }
-            $a_dm[] = array(
-                'madiabanQL' => $inputs['madiaban'],
-                'tendiaban' => $data[$i][$inputs['tendiaban']] ?? '',
-                'tendangnhap' => $data[$i][$inputs['tendangnhap']] ?? '',
-                'madiabanQL' => $ma++,
-            );
-        }
-        File::Delete($path);
-        dd($a_dm);
-        //dsdiaban::insert($a_dm);
-        File::Delete($path);
-
-        return redirect(static::$url . 'Sua?mahosotdkt=' . $inputs['mahosotdkt']);
-    }
+    
 }

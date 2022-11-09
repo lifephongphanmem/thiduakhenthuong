@@ -28,4 +28,6 @@ class dungchung_nghiepvuController extends Controller
         $result['message'] .= '</select></div>';
         die(json_encode($result));
     }
+
+
 }

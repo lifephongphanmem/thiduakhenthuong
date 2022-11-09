@@ -20,7 +20,7 @@ class dstaikhoan extends Model
         'ttnguoitao',
         'lydo',
         'solandn',
-        //chia nhóm chức năng
+        
         'manhomchucnang',
         'nhaplieu',
         'tonghop',

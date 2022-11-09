@@ -21,7 +21,7 @@ Route::group(['prefix' => 'DiaBan'], function () {
     Route::post('Sua', 'HeThong\dsdiabanController@modify');
     Route::post('Xoa', 'HeThong\dsdiabanController@delete');
     Route::get('LayDonVi', 'HeThong\dsdiabanController@LayDonVi');
-    Route::post('NhanExcel', 'HeThong\dsdiabanController@NhanExcel');
+    
 });
 
 Route::group(['prefix' => 'DonVi'], function () {
@@ -34,6 +34,8 @@ Route::group(['prefix' => 'DonVi'], function () {
     Route::post('Xoa', 'HeThong\dsdonviController@destroy');
     //Route::get('QuanLy', 'HeThong\dsdonviController@QuanLy');
     Route::post('QuanLy', 'HeThong\dsdonviController@LuuQuanLy');
+
+    Route::post('NhanExcel', 'HeThong\dsdonviController@NhanExcel');
 });
 
 Route::group(['prefix' => 'TaiKhoan'], function () {
