@@ -66,7 +66,7 @@
                     {!! Form::select('nam', getNam(true), $inputs['nam'], ['id' => 'nam', 'class' => 'form-control select2basic']) !!}
                 </div>
             </div>
-            
+
             <div class="form-group row">
                 <div class="col-md-12">
                     <table class="table table-striped table-bordered table-hover" id="sample_3">
@@ -106,25 +106,65 @@
                                         <i class="icon-lg la la-file-download text-dark"></i>
                                     </button>
 
-                                    @if (chkPhanQuyen('xdhosodenghikhenthuongchuyende', 'thaydoi'))
-                                        @if (in_array($tt->trangthai_hoso, ['CD']))
-                                            <button title="Tiếp nhận hồ sơ" type="button"
-                                                onclick="confirmNhan('{{ $tt->mahosotdkt }}','{{ $inputs['url_xd'] . 'NhanHoSo' }}','{{ $inputs['madonvi'] }}')"
-                                                class="btn btn-sm btn-clean btn-icon" data-target="#nhan-modal-confirm"
-                                                data-toggle="modal">
-                                                <i class="icon-lg flaticon-interface-5 text-success"></i>
-                                            </button>
-                                        @endif
+                                    @if ($inputs['trangthai'] == 'CC')
+                                        @if (chkPhanQuyen('xdhosodenghikhenthuongchuyende', 'thaydoi'))
+                                            @if (in_array($tt->trangthai_hoso, ['CD']))
+                                                <button title="Tiếp nhận hồ sơ" type="button"
+                                                    onclick="confirmNhan('{{ $tt->mahosotdkt }}','{{ $inputs['url_xd'] . 'NhanHoSo' }}','{{ $inputs['madonvi'] }}')"
+                                                    class="btn btn-sm btn-clean btn-icon" data-target="#nhan-modal-confirm"
+                                                    data-toggle="modal">
+                                                    <i class="icon-lg flaticon-interface-5 text-success"></i>
+                                                </button>
+                                            @endif
 
-                                        @if (in_array($tt->trangthai_hoso, ['DD', 'BTLXD']))
-                                            <a href="{{ url($inputs['url_xd'] . 'XetKT?mahosotdkt=' . $tt->mahosotdkt . '&madonvi=' . $inputs['madonvi']) }}"
-                                                class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
-                                                title="Thông tin hồ sơ khen thưởng">
-                                                <span class="svg-icon svg-icon-xl">
-                                                    <i class="icon-lg la flaticon-list text-success"></i>
-                                                </span>
-                                                <span
-                                                    class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->soluongkhenthuong }}</span>
+                                            @if (in_array($tt->trangthai_hoso, ['DD', 'BTLXD']))
+                                                <a href="{{ url($inputs['url_xd'] . 'XetKT?mahosotdkt=' . $tt->mahosotdkt . '&madonvi=' . $inputs['madonvi']) }}"
+                                                    class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
+                                                    title="Thông tin hồ sơ khen thưởng">
+                                                    <span class="svg-icon svg-icon-xl">
+                                                        <i class="icon-lg la flaticon-list text-success"></i>
+                                                    </span>
+                                                    <span
+                                                        class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->soluongkhenthuong }}</span>
+                                                </a>
+
+                                                <a title="Tạo dự thảo quyết định khen thưởng"
+                                                    href="{{ url($inputs['url_xd'] . 'QuyetDinh?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                                    class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
+                                                    <i class="icon-lg la flaticon-edit-1 text-success"></i>
+                                                </a>
+
+                                                <button title="Chuyển phê duyệt khen thưởng" type="button"
+                                                    onclick="confirmNhanvaTKT('{{ $tt->mahosotdkt }}','{{ $inputs['url_xd'] . 'ChuyenHoSo' }}','{{ $inputs['madonvi'] }}')"
+                                                    class="btn btn-sm btn-clean btn-icon"
+                                                    {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}
+                                                    data-target="#nhanvatkt-modal" data-toggle="modal">
+                                                    <i class="icon-lg la fa-share-square text-success"></i>
+                                                </button>
+                                            @endif
+                                            @if ($tt->trangthai == 'BTLXD')
+                                                <button title="Lý do hồ sơ bị trả lại" type="button"
+                                                    onclick="viewLyDo('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}', '{{ $inputs['url_xd'] . 'LayLyDo' }}')"
+                                                    class="btn btn-sm btn-clean btn-icon" data-target="#tralai-modal"
+                                                    data-toggle="modal">
+                                                    <i class="icon-lg la fa-archive text-dark"></i>
+                                                </button>
+                                            @endif
+                                            @if (in_array($tt->trangthai_hoso, ['DD', 'CD', 'BTLXD']))
+                                                <button title="Trả lại hồ sơ" type="button"
+                                                    onclick="confirmTraLai('{{ $tt->mahosotdkt }}', '{{ $inputs['madonvi'] }}', '{{ $inputs['url_xd'] . 'TraLai' }}')"
+                                                    class="btn btn-sm btn-clean btn-icon" data-target="#modal-tralai"
+                                                    data-toggle="modal">
+                                                    <i class="icon-lg la la-reply text-danger"></i>
+                                                </button>
+                                            @endif
+                                        @endif
+                                    @else
+                                        @if (in_array($tt->trangthai, ['CXKT']))
+                                            <a title="Tạo dự thảo tờ trình"
+                                                href="{{ url($inputs['url_xd'] . 'ToTrinhPheDuyet?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                                class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
+                                                <i class="icon-lg la flaticon-edit-1 text-success"></i>
                                             </a>
 
                                             <a title="Tạo dự thảo quyết định khen thưởng"
@@ -132,30 +172,6 @@
                                                 class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
                                                 <i class="icon-lg la flaticon-edit-1 text-success"></i>
                                             </a>
-
-                                            <button title="Chuyển phê duyệt khen thưởng" type="button"
-                                                onclick="confirmNhanvaTKT('{{ $tt->mahosotdkt }}','{{ $inputs['url_xd'] . 'ChuyenHoSo' }}','{{ $inputs['madonvi'] }}')"
-                                                class="btn btn-sm btn-clean btn-icon"
-                                                {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}
-                                                data-target="#nhanvatkt-modal" data-toggle="modal">
-                                                <i class="icon-lg la fa-share-square text-success"></i>
-                                            </button>
-                                        @endif
-                                        @if ($tt->trangthai == 'BTLXD')
-                                            <button title="Lý do hồ sơ bị trả lại" type="button"
-                                                onclick="viewLyDo('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}', '{{ $inputs['url_xd'] . 'LayLyDo' }}')"
-                                                class="btn btn-sm btn-clean btn-icon" data-target="#tralai-modal"
-                                                data-toggle="modal">
-                                                <i class="icon-lg la fa-archive text-dark"></i>
-                                            </button>
-                                        @endif
-                                        @if (in_array($tt->trangthai_hoso, ['DD', 'CD', 'BTLXD']))
-                                            <button title="Trả lại hồ sơ" type="button"
-                                                onclick="confirmTraLai('{{ $tt->mahosotdkt }}', '{{ $inputs['madonvi'] }}', '{{ $inputs['url_xd'] . 'TraLai' }}')"
-                                                class="btn btn-sm btn-clean btn-icon" data-target="#modal-tralai"
-                                                data-toggle="modal">
-                                                <i class="icon-lg la la-reply text-danger"></i>
-                                            </button>
                                         @endif
                                     @endif
                                 </td>
@@ -167,7 +183,7 @@
         </div>
     </div>
     <!--end::Card-->
-    
+
     @include('includes.modal.modal_unapprove_hs')
     @include('includes.modal.modal_accept_hs')
     @include('includes.modal.modal_nhanvatrinhkt_hs')

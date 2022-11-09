@@ -1151,25 +1151,5 @@ class qdhosokhenthuongcumkhoiController extends Controller
             ->with('pageTitle', 'Dự thảo tờ trình khen thưởng');
     }
 
-    public function LuuToTrinhPheDuyet(Request $request)
-    {
-        $inputs = $request->all();
-        $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        $model->thongtintotrinhdenghi = $inputs['thongtintotrinhdenghi'];
-        $model->save();
-        return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_kt);
-    }
-
-    public function InToTrinhPheDuyet(Request $request)
-    {
-        $inputs = $request->all();
-        $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        getTaoDuThaoToTrinhPheDuyetCumKhoi($model);
-        $model->thongtinquyetdinh = $model->thongtintotrinhdenghi;
-        $model->thongtinquyetdinh = str_replace('<p>[sangtrangmoi]</p>', '<div class=&#34;sangtrangmoi&#34;></div>', $model->thongtinquyetdinh);
-        //dd($model);
-        return view('BaoCao.DonVi.XemQuyetDinh')
-            ->with('model', $model)
-            ->with('pageTitle', 'Tờ trình khen thưởng');
-    }
+   
 }

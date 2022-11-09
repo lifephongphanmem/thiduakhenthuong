@@ -118,6 +118,12 @@
                                                 <i class="icon-lg la flaticon-edit-1 text-success"></i>
                                             </a>
 
+                                            <a title="Tạo dự thảo tờ trình"
+                                                    href="{{ url($inputs['url_hs'] . 'ToTrinhHoSo?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                                    class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
+                                                    <i class="icon-lg la flaticon-edit-1 text-success"></i>
+                                                </a>
+
                                             <button title="Trình hồ sơ đăng ký" type="button"
                                                 onclick="confirmChuyen('{{ $tt->mahosotdkt }}','{{ $inputs['url_hs'] . 'ChuyenHoSo' }}', '{{ $tt->phanloai }}')"
                                                 class="btn btn-sm btn-clean btn-icon">
@@ -154,16 +160,16 @@
                                                 </a>
 
                                                 <a title="Tạo dự thảo tờ trình"
-                                                href="{{ url($inputs['url_hs'] . 'ToTrinhHoSo?mahosotdkt=' . $tt->mahosotdkt) }}"
-                                                class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
-                                                <i class="icon-lg la flaticon-edit-1 text-success"></i>
-                                            </a>
-                                            
-                                                <a title="Tạo dự thảo quyết định khen thưởng"
-                                                    href="{{ url($inputs['url_hs'] . 'QuyetDinh?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                                    href="{{ url($inputs['url_hs'] . 'ToTrinhHoSo?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                     class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
                                                     <i class="icon-lg la flaticon-edit-1 text-success"></i>
                                                 </a>
+
+                                                {{-- <a title="Tạo dự thảo quyết định khen thưởng"
+                                                    href="{{ url($inputs['url_hs'] . 'QuyetDinh?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                                    class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
+                                                    <i class="icon-lg la flaticon-edit-1 text-success"></i>
+                                                </a> --}}
 
                                                 <button type="button"
                                                     onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url_hs'] . 'Xoa' }}')"

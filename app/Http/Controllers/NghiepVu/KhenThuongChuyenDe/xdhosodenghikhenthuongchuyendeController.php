@@ -81,6 +81,8 @@ class xdhosodenghikhenthuongchuyendeController extends Controller
         }
         //dd($model);
         //dd($inputs);
+        $inputs['trangthai'] = session('chucnang')['xdhosodenghikhenthuongchuyende']['trangthai'] ?? 'CC';
+        $inputs['trangthai'] = $inputs['trangthai'] !='ALL' ? $inputs['trangthai'] : 'CC';
         return view('NghiepVu.KhenThuongChuyenDe.XetDuyet.ThongTin')
             ->with('model', $model)
             ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
@@ -622,4 +624,31 @@ class xdhosodenghikhenthuongchuyendeController extends Controller
         $model->lydo = $model->lydo_xd;
         die(json_encode($model));
     }
+
+    public function ToTrinhPheDuyet(Request $request)
+    {
+        $inputs = $request->all();
+        $inputs['url'] = static::$url;
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $inputs['madonvi'] = $model->madonvi;
+        $inputs['maduthao'] = $inputs['maduthao'] ?? 'ALL';
+        getTaoDuThaoToTrinhPheDuyet($model, $inputs['maduthao']);
+        $a_duthao = array_column(duthaoquyetdinh::wherein('phanloai', ['TOTRINHHOSO'])->get()->toArray(), 'noidung', 'maduthao');
+        
+        $inputs['maduthao'] = $inputs['maduthao'] ?? array_key_first($a_duthao);
+        return view('BaoCao.DonVi.QuyetDinh.MauChungToTrinhKT')
+            ->with('model', $model)
+            ->with('a_duthao', $a_duthao)
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'Dự thảo tờ trình khen thưởng');
+    }
+
+    public function LuuToTrinhPheDuyet(Request $request)
+    {
+        $inputs = $request->all();
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $model->thongtintotrinhdenghi = $inputs['thongtintotrinhdenghi'];
+        $model->save();
+        return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_xd);
+    }    
 }
