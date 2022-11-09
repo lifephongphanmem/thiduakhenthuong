@@ -124,6 +124,16 @@ $(function () {
     if (index > 0) {
         url = url.substring(0, index - 1) + '/ThongTin';
     }
+
+    var index = url.indexOf('ToTrinhPheDuyet');
+    if (index > 0) {
+        url = url.substring(0, index - 1) + '/ThongTin';
+    }
+    //
+    var index = url.indexOf('ToTrinhHoSo');
+    if (index > 0) {
+        url = url.substring(0, index - 1) + '/ThongTin';
+    }
     //
     chk = url.split('/');
     //alert(url);

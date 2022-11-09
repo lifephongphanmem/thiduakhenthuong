@@ -1033,4 +1033,46 @@ class dshosodenghikhenthuongdoingoaiController extends Controller
         ]);
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }
+
+    public function ToTrinhHoSo(Request $request)
+    {
+        $inputs = $request->all();
+        $inputs['url'] = static::$url;
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $inputs['madonvi'] = $model->madonvi;
+        $inputs['maduthao'] = $inputs['maduthao'] ?? 'ALL';
+        getTaoDuThaoToTrinhHoSo($model, $inputs['maduthao']);
+        $a_duthao = array_column(duthaoquyetdinh::wherein('phanloai', ['TOTRINHHOSO'])->get()->toArray(), 'noidung', 'maduthao');
+
+        $inputs['maduthao'] = $inputs['maduthao'] ?? array_key_first($a_duthao);
+        return view('BaoCao.DonVi.QuyetDinh.MauChungToTrinh')
+            ->with('model', $model)
+            ->with('a_duthao', $a_duthao)
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'Dự thảo tờ trình khen thưởng');
+    }
+
+    public function LuuToTrinhHoSo(Request $request)
+    {
+        $inputs = $request->all();
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $model->thongtintotrinhhoso = $inputs['thongtintotrinhhoso'];
+        $model->save();
+        return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
+    }
+
+    public function InToTrinhHoSo(Request $request)
+    {
+        $inputs = $request->all();
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        getTaoDuThaoToTrinhHoSo($model);
+        $model->thongtinquyetdinh = $model->thongtintotrinhhoso;
+        $model->thongtinquyetdinh = str_replace('<p>[sangtrangmoi]</p>', '<div class=&#34;sangtrangmoi&#34;></div>', $model->thongtinquyetdinh);
+        //dd($model);
+        return view('BaoCao.DonVi.XemQuyetDinh')
+            ->with('model', $model)
+            ->with('pageTitle', 'Tờ trình khen thưởng');
+    }
+
+    
 }

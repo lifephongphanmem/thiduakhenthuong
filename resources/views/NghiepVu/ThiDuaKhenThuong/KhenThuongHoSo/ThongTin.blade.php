@@ -76,7 +76,7 @@
                     <table class="table table-striped table-bordered table-hover" id="sample_3">
                         <thead>
                             <tr class="text-center">
-                                <th rowspan="2" width="2%">STT</th>                               
+                                <th rowspan="2" width="2%">STT</th>
                                 <th colspan="3">Phong trào thi đua</th>
                                 <th colspan="3">Hồ sơ đề nghị khen thưởng</th>
                                 <th rowspan="2" style="text-align: center" width="10%">Thao tác</th>
@@ -98,7 +98,7 @@
                                 <td style="text-align: center">{{ $key + 1 }}</td>
                                 {{-- <td>{{ $tt->tendonvi }}</td> --}}
                                 <td>{{ $a_phamvi[$tt->phamviapdung] ?? '' }}</td>
-                                <td>{{ $tt->noidung }}</td>                               
+                                <td>{{ $tt->noidung }}</td>
                                 {{-- <td class="text-center">Từ {{ getDayVn($tt->tungay) }}</br> đến
                                     {{ getDayVn($tt->denngay) }}</td> --}}
                                 @include('includes.td.td_trangthai_phongtrao')
@@ -130,6 +130,12 @@
                                                 data-toggle="modal">
                                                 <i class="icon-lg la flaticon-interface-10 text-success"></i>
                                             </button> --}}
+
+                                            <a title="Tạo dự thảo tờ trình"
+                                                href="{{ url($inputs['url_qd'] . 'ToTrinhPheDuyet?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                                class="btn btn-sm btn-clean btn-icon">
+                                                <i class="icon-lg la flaticon-edit-1 text-success"></i>
+                                            </a>
 
                                             <a title="Phê duyệt hồ sơ khen thưởng"
                                                 href="{{ url($inputs['url_qd'] . 'PheDuyet?mahosotdkt=' . $tt->mahosotdkt) }}"

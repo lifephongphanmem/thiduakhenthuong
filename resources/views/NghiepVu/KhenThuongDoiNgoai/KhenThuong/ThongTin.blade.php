@@ -150,6 +150,13 @@
                                     @else
                                         @if (chkPhanQuyen('qdhosodenghikhenthuongdoingoai', 'hoanthanh'))
                                             @if ($tt->trangthai == 'CXKT')
+                                                <a title="Tạo dự thảo tờ trình"
+                                                    href="{{ url($inputs['url_qd'] . 'ToTrinhPheDuyet?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                                    class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
+                                                    <i class="icon-lg la flaticon-edit-1 text-success"></i>
+                                                </a>
+
+
                                                 <a title="Phê duyệt hồ sơ khen thưởng"
                                                     href="{{ url($inputs['url_qd'] . 'PheDuyet?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                     class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">

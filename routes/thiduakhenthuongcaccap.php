@@ -56,6 +56,15 @@ Route::group(['prefix' => 'HoSoThiDua'], function () {
     Route::post('NhanExcelCaNhan', [dshosothiduaController::class, 'NhanExcelCaNhan']);
 
     Route::get('TaiLieuDinhKem', [dshosothiduaController::class, 'TaiLieuDinhKem']);
+
+    //09.11.2022
+    Route::get('ToTrinhHoSo', [dshosodenghikhenthuongthiduaController::class, 'ToTrinhHoSo']);
+    Route::post('ToTrinhHoSo', [dshosodenghikhenthuongthiduaController::class, 'LuuToTrinhHoSo']);
+    Route::get('InToTrinhHoSo', [dshosodenghikhenthuongthiduaController::class, 'InToTrinhHoSo']);
+
+    Route::get('ToTrinhPheDuyet', [dshosodenghikhenthuongthiduaController::class, 'ToTrinhPheDuyet']);
+    Route::post('ToTrinhPheDuyet', [dshosodenghikhenthuongthiduaController::class, 'LuuToTrinhPheDuyet']);
+    Route::get('InToTrinhPheDuyet', [dshosodenghikhenthuongthiduaController::class, 'InToTrinhPheDuyet']);
 });
 
 Route::group(['prefix' => 'XetDuyetHoSoThiDua'], function () {
@@ -89,6 +98,10 @@ Route::group(['prefix' => 'XetDuyetHoSoThiDua'], function () {
     Route::get('LayLyDo', [dshosodenghikhenthuongthiduaController::class, 'LayLyDo']);
 
     Route::post('GanKhenThuong', [dshosodenghikhenthuongthiduaController::class, 'GanKhenThuong']);
+    //09.11.2022
+    Route::get('ToTrinhHoSo', [dshosodenghikhenthuongthiduaController::class, 'ToTrinhHoSo']);
+    Route::post('ToTrinhHoSo', [dshosodenghikhenthuongthiduaController::class, 'LuuToTrinhHoSo']);
+    Route::get('InToTrinhHoSo', [dshosodenghikhenthuongthiduaController::class, 'InToTrinhHoSo']);
 });
 
 Route::group(['prefix' => 'KhenThuongHoSoThiDua'], function () {
@@ -137,6 +150,11 @@ Route::group(['prefix' => 'KhenThuongHoSoThiDua'], function () {
 
     //Route::post('PheDuyet', 'NghiepVu\ThiDuaKhenThuong\qdhosodenghikhenthuongthiduaController@PheDuyet');
     Route::post('HuyPheDuyet', 'NghiepVu\ThiDuaKhenThuong\qdhosodenghikhenthuongthiduaController@HuyPheDuyet');
+
+    //09.11.2022
+    Route::get('ToTrinhPheDuyet', [qdhosodenghikhenthuongthiduaController::class, 'ToTrinhPheDuyet']);
+    Route::post('ToTrinhPheDuyet', [qdhosodenghikhenthuongthiduaController::class, 'LuuToTrinhPheDuyet']);
+    Route::get('InToTrinhPheDuyet', [qdhosodenghikhenthuongthiduaController::class, 'InToTrinhPheDuyet']);
 });
 
 Route::group(['prefix' => 'HoSoThiDuaKT'], function () {
@@ -297,6 +315,10 @@ Route::group(['prefix' => 'KhenThuongCongTrang'], function () {
         Route::get('InBangKhenTapThe', [qdhosodenghikhenthuongcongtrangController::class, 'InBangKhenTapThe']);
         Route::get('InGiayKhenCaNhan', [qdhosodenghikhenthuongcongtrangController::class, 'InGiayKhenCaNhan']);
         Route::get('InGiayKhenTapThe', [qdhosodenghikhenthuongcongtrangController::class, 'InGiayKhenTapThe']);
+        //09.11.2022
+        Route::get('ToTrinhHoSo', [dshosodenghikhenthuongcongtrangController::class, 'ToTrinhHoSo']);
+        Route::post('ToTrinhHoSo', [dshosodenghikhenthuongcongtrangController::class, 'LuuToTrinhHoSo']);
+        Route::get('InToTrinhHoSo', [dshosodenghikhenthuongcongtrangController::class, 'InToTrinhHoSo']);
     });
 
     Route::group(['prefix' => 'XetDuyet'], function () {
@@ -356,6 +378,10 @@ Route::group(['prefix' => 'KhenThuongCongTrang'], function () {
         Route::get('InBangKhenTapThe', [qdhosodenghikhenthuongcongtrangController::class, 'InBangKhenTapThe']);
         Route::get('InGiayKhenCaNhan', [qdhosodenghikhenthuongcongtrangController::class, 'InGiayKhenCaNhan']);
         Route::get('InGiayKhenTapThe', [qdhosodenghikhenthuongcongtrangController::class, 'InGiayKhenTapThe']);
+        //09.11.2022
+        Route::get('ToTrinhPheDuyet', [qdhosodenghikhenthuongcongtrangController::class, 'ToTrinhPheDuyet']);
+        Route::post('ToTrinhPheDuyet', [qdhosodenghikhenthuongcongtrangController::class, 'LuuToTrinhPheDuyet']);
+        Route::get('InToTrinhPheDuyet', [qdhosodenghikhenthuongcongtrangController::class, 'InToTrinhPheDuyet']);
     });
 });
 
@@ -462,6 +488,15 @@ Route::group(['prefix' => 'KhenThuongDotXuat'], function () {
         Route::get('InBangKhenTapThe', [qdhosodenghikhenthuongdotxuatController::class, 'InBangKhenTapThe']);
         Route::get('InGiayKhenCaNhan', [qdhosodenghikhenthuongdotxuatController::class, 'InGiayKhenCaNhan']);
         Route::get('InGiayKhenTapThe', [qdhosodenghikhenthuongdotxuatController::class, 'InGiayKhenTapThe']);
+
+        //09.11.2022
+        Route::get('ToTrinhHoSo', [dshosodenghikhenthuongdotxuatController::class, 'ToTrinhHoSo']);
+        Route::post('ToTrinhHoSo', [dshosodenghikhenthuongdotxuatController::class, 'LuuToTrinhHoSo']);
+        Route::get('InToTrinhHoSo', [dshosodenghikhenthuongdotxuatController::class, 'InToTrinhHoSo']);
+
+        Route::get('ToTrinhPheDuyet', [dshosodenghikhenthuongdotxuatController::class, 'ToTrinhPheDuyet']);
+        Route::post('ToTrinhPheDuyet', [dshosodenghikhenthuongdotxuatController::class, 'LuuToTrinhPheDuyet']);
+        Route::get('InToTrinhPheDuyet', [dshosodenghikhenthuongdotxuatController::class, 'InToTrinhPheDuyet']);
     });
 
     Route::group(['prefix' => 'XetDuyet'], function () {
@@ -517,6 +552,11 @@ Route::group(['prefix' => 'KhenThuongDotXuat'], function () {
         Route::post('ThemTapThe', [xdhosodenghikhenthuongdotxuatController::class, 'ThemTapThe']);
         Route::post('ThemCaNhan', [xdhosodenghikhenthuongdotxuatController::class, 'ThemCaNhan']);
         Route::post('TraLai', 'NghiepVu\KhenThuongDotXuat\qdhosodenghikhenthuongdotxuatController@TraLai');
+
+        //09.11.2022
+        Route::get('ToTrinhPheDuyet', [qdhosodenghikhenthuongdotxuatController::class, 'ToTrinhPheDuyet']);
+        Route::post('ToTrinhPheDuyet', [qdhosodenghikhenthuongdotxuatController::class, 'LuuToTrinhPheDuyet']);
+        Route::get('InToTrinhPheDuyet', [qdhosodenghikhenthuongdotxuatController::class, 'InToTrinhPheDuyet']);
     });
 });
 //
@@ -705,6 +745,11 @@ Route::group(['prefix' => 'KhenThuongCongHien'], function () {
         Route::get('InBangKhenTapThe', [qdhosodenghikhenthuongconghienController::class, 'InBangKhenTapThe']);
         Route::get('InGiayKhenCaNhan', [qdhosodenghikhenthuongconghienController::class, 'InGiayKhenCaNhan']);
         Route::get('InGiayKhenTapThe', [qdhosodenghikhenthuongconghienController::class, 'InGiayKhenTapThe']);
+
+        //09.11.2022
+        Route::get('ToTrinhHoSo', [dshosodenghikhenthuongconghienController::class, 'ToTrinhHoSo']);
+        Route::post('ToTrinhHoSo', [dshosodenghikhenthuongconghienController::class, 'LuuToTrinhHoSo']);
+        Route::get('InToTrinhHoSo', [dshosodenghikhenthuongconghienController::class, 'InToTrinhHoSo']);
     });
 
     Route::group(['prefix' => 'XetDuyet'], function () {
@@ -763,6 +808,10 @@ Route::group(['prefix' => 'KhenThuongCongHien'], function () {
         Route::get('InBangKhenTapThe', [qdhosodenghikhenthuongconghienController::class, 'InBangKhenTapThe']);
         Route::get('InGiayKhenCaNhan', [qdhosodenghikhenthuongconghienController::class, 'InGiayKhenCaNhan']);
         Route::get('InGiayKhenTapThe', [qdhosodenghikhenthuongconghienController::class, 'InGiayKhenTapThe']);
+        //09.11.2022
+        Route::get('ToTrinhPheDuyet', [qdhosodenghikhenthuongconghienController::class, 'ToTrinhPheDuyet']);
+        Route::post('ToTrinhPheDuyet', [qdhosodenghikhenthuongconghienController::class, 'LuuToTrinhPheDuyet']);
+        Route::get('InToTrinhPheDuyet', [qdhosodenghikhenthuongconghienController::class, 'InToTrinhPheDuyet']);
     });
 });
 
@@ -872,6 +921,11 @@ Route::group(['prefix' => 'KhenThuongDoiNgoai'], function () {
         Route::get('InBangKhenTapThe', [qdhosodenghikhenthuongdoingoaiController::class, 'InBangKhenTapThe']);
         Route::get('InGiayKhenCaNhan', [qdhosodenghikhenthuongdoingoaiController::class, 'InGiayKhenCaNhan']);
         Route::get('InGiayKhenTapThe', [qdhosodenghikhenthuongdoingoaiController::class, 'InGiayKhenTapThe']);
+
+        //09.11.2022
+        Route::get('ToTrinhHoSo', [dshosodenghikhenthuongdoingoaiController::class, 'ToTrinhHoSo']);
+        Route::post('ToTrinhHoSo', [dshosodenghikhenthuongdoingoaiController::class, 'LuuToTrinhHoSo']);
+        Route::get('InToTrinhHoSo', [dshosodenghikhenthuongdoingoaiController::class, 'InToTrinhHoSo']);
     });
 
     Route::group(['prefix' => 'XetDuyet'], function () {
@@ -933,6 +987,10 @@ Route::group(['prefix' => 'KhenThuongDoiNgoai'], function () {
         Route::get('InBangKhenTapThe', [qdhosodenghikhenthuongdoingoaiController::class, 'InBangKhenTapThe']);
         Route::get('InGiayKhenCaNhan', [qdhosodenghikhenthuongdoingoaiController::class, 'InGiayKhenCaNhan']);
         Route::get('InGiayKhenTapThe', [qdhosodenghikhenthuongdoingoaiController::class, 'InGiayKhenTapThe']);
+        //09.11.2022
+        Route::get('ToTrinhPheDuyet', [qdhosodenghikhenthuongdoingoaiController::class, 'ToTrinhPheDuyet']);
+        Route::post('ToTrinhPheDuyet', [qdhosodenghikhenthuongdoingoaiController::class, 'LuuToTrinhPheDuyet']);
+        Route::get('InToTrinhPheDuyet', [qdhosodenghikhenthuongdoingoaiController::class, 'InToTrinhPheDuyet']);
     });
 });
 
@@ -1131,6 +1189,10 @@ Route::group(['prefix' => 'KhenThuongChuyenDe'], function () {
         Route::get('InBangKhenTapThe', [qdhosodenghikhenthuongchuyendeController::class, 'InBangKhenTapThe']);
         Route::get('InGiayKhenCaNhan', [qdhosodenghikhenthuongchuyendeController::class, 'InGiayKhenCaNhan']);
         Route::get('InGiayKhenTapThe', [qdhosodenghikhenthuongchuyendeController::class, 'InGiayKhenTapThe']);
+        //09.11.2022
+        Route::get('ToTrinhHoSo', [dshosodenghikhenthuongchuyendeController::class, 'ToTrinhHoSo']);
+        Route::post('ToTrinhHoSo', [dshosodenghikhenthuongchuyendeController::class, 'LuuToTrinhHoSo']);
+        Route::get('InToTrinhHoSo', [dshosodenghikhenthuongchuyendeController::class, 'InToTrinhHoSo']);
     });
 
     Route::group(['prefix' => 'XetDuyet'], function () {
@@ -1187,5 +1249,9 @@ Route::group(['prefix' => 'KhenThuongChuyenDe'], function () {
         Route::get('InBangKhenTapThe', [qdhosodenghikhenthuongchuyendeController::class, 'InBangKhenTapThe']);
         Route::get('InGiayKhenCaNhan', [qdhosodenghikhenthuongchuyendeController::class, 'InGiayKhenCaNhan']);
         Route::get('InGiayKhenTapThe', [qdhosodenghikhenthuongchuyendeController::class, 'InGiayKhenTapThe']);
+        //09.11.2022
+        Route::get('ToTrinhPheDuyet', [qdhosodenghikhenthuongchuyendeController::class, 'ToTrinhPheDuyet']);
+        Route::post('ToTrinhPheDuyet', [qdhosodenghikhenthuongchuyendeController::class, 'LuuToTrinhPheDuyet']);
+        Route::get('InToTrinhPheDuyet', [qdhosodenghikhenthuongchuyendeController::class, 'InToTrinhPheDuyet']);
     });
 });

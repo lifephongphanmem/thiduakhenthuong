@@ -997,4 +997,45 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
         ]);
         return redirect(static::$url . 'DanhSach?madonvi=' . $model->madonvi . '&macumkhoi=' . $model->macumkhoi);
     }
+
+    public function ToTrinhHoSo(Request $request)
+    {
+        $inputs = $request->all();
+        $inputs['url'] = static::$url;
+        $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $inputs['madonvi'] = $model->madonvi;
+        $inputs['maduthao'] = $inputs['maduthao'] ?? 'ALL';
+        getTaoDuThaoToTrinhHoSoCumKhoi($model, $inputs['maduthao']);
+        $a_duthao = array_column(duthaoquyetdinh::wherein('phanloai', ['TOTRINHHOSO'])->get()->toArray(), 'noidung', 'maduthao');
+
+        $inputs['maduthao'] = $inputs['maduthao'] ?? array_key_first($a_duthao);
+        return view('BaoCao.DonVi.QuyetDinh.MauChungToTrinh')
+            ->with('model', $model)
+            ->with('a_duthao', $a_duthao)
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'Dự thảo tờ trình khen thưởng');
+    }
+
+    public function LuuToTrinhHoSo(Request $request)
+    {
+        $inputs = $request->all();
+        $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $model->thongtintotrinhhoso = $inputs['thongtintotrinhhoso'];
+        $model->save();
+        return redirect(static::$url . 'DanhSach?madonvi=' . $model->madonvi . '&macumkhoi=' . $model->macumkhoi);
+    }
+
+    public function InToTrinhHoSo(Request $request)
+    {
+        $inputs = $request->all();
+        $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        getTaoDuThaoToTrinhHoSoCumKhoi($model);
+        $model->thongtinquyetdinh = $model->thongtintotrinhhoso;
+        $model->thongtinquyetdinh = str_replace('<p>[sangtrangmoi]</p>', '<div class=&#34;sangtrangmoi&#34;></div>', $model->thongtinquyetdinh);
+        //dd($model);
+        return view('BaoCao.DonVi.XemQuyetDinh')
+            ->with('model', $model)
+            ->with('pageTitle', 'Tờ trình khen thưởng');
+    }
+
 }

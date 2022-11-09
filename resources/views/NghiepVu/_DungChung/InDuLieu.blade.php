@@ -29,6 +29,15 @@
                         </a>
                     </div>
                 </div>
+                <div class="row">                    
+                    <div class="col-lg-12">
+                        <a onclick="setInDL($(this), '{{ $inputs['url_hs'] . 'InToTrinhHoSo' }}')"
+                            class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
+                            <i class="la flaticon2-print"></i>Tờ trình khen thưởng
+                        </a>
+                    </div>
+                </div>
+
 
                 <div id="div_inDuLieu">
                     <div class="row">
@@ -39,7 +48,14 @@
                             </a>
                         </div>
                     </div>
-
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <a onclick="setInDL($(this), '{{ $inputs['url_qd'] . 'InToTrinhPheDuyet' }}')"
+                                class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
+                                <i class="la flaticon2-print"></i>Tờ trình phê duyệt khen thưởng
+                            </a>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-lg-12">
                             <a id="btnInQD" onclick="setInDL($(this), '{{ $inputs['url_qd'] . 'InQuyetDinh' }}')"

@@ -64,7 +64,7 @@
                 <div id="div_inDuLieu">
                     <div class="row">                       
                         <div class="col-lg-12">
-                            <a onclick="setInDL($(this), '{{ $inputs['url_hs'] . 'InToTrinhPheDuyet' }}')"
+                            <a onclick="setInDL($(this), '{{ $inputs['url_qd'] . 'InToTrinhPheDuyet' }}')"
                                 class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
                                 <i class="la flaticon2-print"></i>Tờ trình khen thưởng
                             </a>

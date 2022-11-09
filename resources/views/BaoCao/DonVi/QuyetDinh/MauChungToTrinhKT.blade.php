@@ -44,7 +44,7 @@
             <hr>
             {!! Form::model($model, [
                 'method' => 'POST',
-                'url' => $inputs['url'] . 'ToTrinhHoSoKT',
+                'url' => $inputs['url'] . 'ToTrinhPheDuyet',
                 'class' => 'form',
                 'id' => 'frm_In',
                 'files' => true,
