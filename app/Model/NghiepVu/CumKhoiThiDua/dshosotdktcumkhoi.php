@@ -76,5 +76,11 @@ class dshosotdktcumkhoi extends Model
         'thongtin_kt',
         'trangthai_kt',
         'thoigian_kt',
+        //091122
+        'thongtintotrinhhoso',
+        'thongtintotrinhdenghi',
+        'noidungtotrinhdenghi',
+        'sototrinhdenghi',
+        'ngaythangtotrinhdenghi',
     ];
 }

@@ -13,7 +13,7 @@
 <script>
     jQuery(document).ready(function() {
         $('#maduthao').change(function() {
-            window.location.href = "{{$inputs['url']}}" +  "TaoDuThao?maduthao=" + $('#maduthao').val() + "&mahosotdkt=" + "{{$inputs['mahosotdkt']}}";
+            window.location.href = "{{$inputs['url']}}" +  "ToTrinhHoSo?maduthao=" + $('#maduthao').val() + "&mahosotdkt=" + "{{$inputs['mahosotdkt']}}";
         });       
     });
 </script>
@@ -27,7 +27,7 @@
     <div class="card card-custom" style="min-height: 600px">
         <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Thông tin dự thảo quyết định khen thưởng</h3>
+                <h3 class="card-label text-uppercase">Thông tin dự thảo tờ trình khen thưởng</h3>
             </div>
             <div class="card-toolbar">
 
@@ -37,25 +37,25 @@
         <div class="card-body">
             <div class="form-group row">
                 <div class="col-md-6">
-                    <label style="font-weight: bold">Mẫu dự thảo khen thưởng</label>
-                    {!! Form::select('maduthao', $a_duthao, $inputs['maduthao'], ['id' => 'maduthao', 'class' => 'form-control select2basic']) !!}
+                    <label style="font-weight: bold">Mẫu dự thảo tờ trình</label>
+                    {!! Form::select('maduthao', setArrayAll($a_duthao,'Tạo mới dự thảo','ALL'), $inputs['maduthao'], ['id' => 'maduthao', 'class' => 'form-control select2basic']) !!}
                 </div>
             </div>
             <hr>
             {!! Form::model($model, [
                 'method' => 'POST',
-                'url' => $inputs['url'] . 'QuyetDinh',
+                'url' => $inputs['url'] . 'ToTrinhHoSo',
                 'class' => 'form',
                 'id' => 'frm_In',
                 'files' => true,
                 'enctype' => 'multipart/form-data',
             ]) !!}
             {{ Form::hidden('mahosotdkt', null) }}
-            {{ Form::hidden('thongtinquyetdinh', null) }}
+            {{ Form::hidden('thongtintotrinhhoso', null) }}
 
             <div class="document-editor__toolbar"></div>
             <div class="form-control editor" style="height: auto; border: 1px solid #E4E6EF;">
-                {!! html_entity_decode($model->thongtinquyetdinh) !!}
+                {!! html_entity_decode($model->thongtintotrinhhoso) !!}
             </div>
             
             {{-- <div id="kt-ckeditor-1-toolbar"></div>
@@ -78,7 +78,7 @@
     {!! Form::close() !!}
     <script>
         function setGiaTri() {
-            $('#frm_In').find("[name='thongtinquyetdinh']").val(myEditor.getData());
+            $('#frm_In').find("[name='thongtintotrinhhoso']").val(myEditor.getData());
         }
     </script>
 @stop

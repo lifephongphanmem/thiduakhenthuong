@@ -31,12 +31,12 @@
         </div>
 
         <div class="card-body">
-            {{-- <div class="form-group row">
-                <div class="col-md-6">
-                    <label style="font-weight: bold">Mẫu dự thảo khen thưởng</label>
-                    {!! Form::select('maduthao', $a_duthao, $inputs['maduthao'], ['id' => 'maduthao', 'class' => 'form-control select2basic']) !!}
+            <div class="form-group row">
+                <div class="col-12">
+                    <label style="font-weight: bold">Tên dự thảo</label>
+                    {!! Form::text('tenduthao',  $model->noidung, ['id' => 'tenduthao', 'class' => 'form-control muted']) !!}
                 </div>
-            </div> --}}
+            </div>
             <hr>
             {!! Form::model($model, [
                 'method' => 'POST',
