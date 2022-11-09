@@ -92,7 +92,7 @@ class qdhosodenghikhenthuongcongtrangController extends Controller
         } else {
             $m_loaihinh = dmloaihinhkhenthuong::where('maloaihinhkt', $inputs['maloaihinhkt'])->get();
         }
-        $inputs['trangthai'] = session('chucnang')['qdhosodenghikhenthuongconghien']['trangthai'] ?? 'CC';
+        $inputs['trangthai'] = session('chucnang')['qdhosodenghikhenthuongcongtrang']['trangthai'] ?? 'CC';
         //dd($inputs);
         return view('NghiepVu.KhenThuongCongTrang.QuyetDinhKhenThuong.ThongTin')
             ->with('inputs', $inputs)
@@ -1108,32 +1108,7 @@ class qdhosodenghikhenthuongcongtrangController extends Controller
         return redirect(static::$url . 'InPhoi?mahosotdkt=' . $model->mahosotdkt);
     }
 
-    public function ToTrinhPheDuyet(Request $request)
-    {
-        $inputs = $request->all();
-        $inputs['url'] = static::$url;
-        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        $inputs['madonvi'] = $model->madonvi;
-        $inputs['maduthao'] = $inputs['maduthao'] ?? 'ALL';
-        getTaoDuThaoToTrinhPheDuyet($model, $inputs['maduthao']);
-        $a_duthao = array_column(duthaoquyetdinh::wherein('phanloai', ['TOTRINHHOSO'])->get()->toArray(), 'noidung', 'maduthao');
-        
-        $inputs['maduthao'] = $inputs['maduthao'] ?? array_key_first($a_duthao);
-        return view('BaoCao.DonVi.QuyetDinh.MauChungToTrinhKT')
-            ->with('model', $model)
-            ->with('a_duthao', $a_duthao)
-            ->with('inputs', $inputs)
-            ->with('pageTitle', 'Dự thảo tờ trình khen thưởng');
-    }
-
-    public function LuuToTrinhPheDuyet(Request $request)
-    {
-        $inputs = $request->all();
-        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        $model->thongtintotrinhdenghi = $inputs['thongtintotrinhdenghi'];
-        $model->save();
-        return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
-    }
+    
 
     public function InToTrinhPheDuyet(Request $request)
     {

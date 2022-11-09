@@ -87,7 +87,7 @@ class dshosodenghikhenthuongcongtrangController extends Controller
             $inputs['url_xd'] = '/KhenThuongCongTrang/HoSo/';
             $inputs['url_qd'] = '/KhenThuongCongTrang/HoSo/';
         }
-        //dd($model);
+        //dd($inputs);
         return view('NghiepVu.KhenThuongCongTrang.HoSoKhenThuong.ThongTin')
             ->with('model', $model)
             ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))

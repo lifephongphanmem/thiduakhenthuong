@@ -122,15 +122,15 @@
                                     <button type="button" title="In quyết định khen thưởng"
                                         onclick="setInDuLieu('{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}','DKT',true)"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#indulieu-modal"
-                                        data-toggle="modal"
-                                        {{ $tt->thongtinquyetdinh == '' || $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}>
+                                        data-toggle="modal">
                                         <i class="icon-lg la flaticon2-print text-dark"></i>
                                     </button>
                                     <button title="Tài liệu đính kèm" type="button"
                                         onclick="get_attack('{{ $tt->mahosotdkt }}', '{{ $inputs['url_hs'] . 'TaiLieuDinhKem' }}')"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
                                         data-toggle="modal">
-                                        <i class="icon-lg la la-file-download text-dark"></i></button>
+                                        <i class="icon-lg la la-file-download text-dark"></i>
+                                    </button>
                                     @if ($inputs['trangthai'] == 'CC')
                                         @if (chkPhanQuyen('qdhosodenghikhenthuongcongtrang', 'hoanthanh'))
                                             @if ($tt->trangthai == 'CXKT')
@@ -170,15 +170,15 @@
                                         @endif
                                     @else
                                         @if ($tt->trangthai == 'CXKT' && chkPhanQuyen('qdhosodenghikhenthuongcongtrang', 'hoanthanh'))
-                                            <a title="Tạo dự thảo tờ trình"
+                                            {{-- <a title="Tạo dự thảo tờ trình"
                                                 href="{{ url($inputs['url_qd'] . 'ToTrinhPheDuyet?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                 class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
                                                 <i class="icon-lg la flaticon-edit-1 text-success"></i>
-                                            </a>
+                                            </a> --}}
 
                                             <a title="Phê duyệt hồ sơ khen thưởng"
                                                 href="{{ url($inputs['url_qd'] . 'PheDuyet?mahosotdkt=' . $tt->mahosotdkt) }}"
-                                                class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
+                                                class="btn btn-sm btn-clean btn-icon">
                                                 <i class="icon-lg la flaticon-interface-10 text-success"></i>
                                             </a>
                                         @endif

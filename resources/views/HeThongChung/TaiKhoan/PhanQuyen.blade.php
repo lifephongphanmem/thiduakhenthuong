@@ -129,7 +129,8 @@
                                                 {{ $c1->danhsach }}, {{ $c1->thaydoi }}, {{ $c1->hoanthanh }}, {{ $c1->nhomchucnang }})"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                 title="Thay đổi thông tin" data-toggle="modal">
-                                                <i class="icon-lg la flaticon-edit-1 text-primary"></i></button>
+                                                <i class="icon-lg la flaticon-edit-1 text-primary"></i>
+                                            </button>
                                         @endif
 
                                     </td>
@@ -233,6 +234,13 @@
                                                         title="Thay đổi thông tin" data-toggle="modal">
                                                         <i class="icon-lg la flaticon-edit-1 text-primary"></i>
                                                     </button>
+
+                                                    <a href="getChucNang('{{ $c3->machucnang }}','{{ $c3->tenchucnang }}'"
+                                                        class="btn btn-sm btn-clean btn-icon"
+                                                        data-target="#modify-modal" title="Phạm vi lọc dữ liệu"
+                                                        data-toggle="modal">
+                                                        <i class="icon-lg la flaticon-list text-dark"></i>
+                                                    </a>
                                                 @endif
 
                                             </td>
@@ -283,8 +291,15 @@
                                                             class="btn btn-sm btn-clean btn-icon"
                                                             data-target="#modify-modal" title="Thay đổi thông tin"
                                                             data-toggle="modal">
-                                                            <i class="icon-lg la flaticon-edit-1 text-primary"></i>
+                                                            <i class="icon-lg la flaticon-list text-primary"></i>
                                                         </button>
+
+                                                        <a href="getChucNang('{{ $c4->machucnang }}','{{ $c4->tenchucnang }}'"
+                                                            class="btn btn-sm btn-clean btn-icon"
+                                                            data-target="#modify-modal" title="Phạm vi lọc dữ liệu"
+                                                            data-toggle="modal">
+                                                            <i class="icon-lg la flaticon-edit-1 text-primary"></i>
+                                                        </a>
                                                     @endif
 
                                                 </td>
@@ -301,8 +316,8 @@
         <div class="card-footer">
             <div class="row text-center">
                 <div class="col-lg-12">
-                    <a href="{{ url('/TaiKhoan/DanhSach?madonvi=' . $m_taikhoan->madonvi) }}" class="btn btn-danger mr-5"><i
-                            class="fa fa-reply"></i>&nbsp;Quay lại</a>
+                    <a href="{{ url('/TaiKhoan/DanhSach?madonvi=' . $m_taikhoan->madonvi) }}"
+                        class="btn btn-danger mr-5"><i class="fa fa-reply"></i>&nbsp;Quay lại</a>
                 </div>
             </div>
         </div>

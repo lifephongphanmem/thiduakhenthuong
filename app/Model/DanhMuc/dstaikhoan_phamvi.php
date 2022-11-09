@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Model\DanhMuc;
+
+use Illuminate\Database\Eloquent\Model;
+
+class dstaikhoan_phanquyen extends Model
+{
+    protected $table = 'dstaikhoan_phamvi';
+    protected $fillable = [
+        'id',
+        'tendangnhap',
+        'machucnang',
+        'phanloai', //Khen thưởng; Cụm khối
+        'madiabancumkhoi',
+        'ghichu',
+    ];
+}
