@@ -40,13 +40,13 @@ class dstaikhoanController extends Controller
         $inputs = $request->all();
 
         $m_diaban = getDiaBan(session('admin')->capdo);
-        $m_donvi = viewdiabandonvi::wherein('madiaban', array_column($m_diaban->toarray(),'madiaban'))->get();        
+        $m_donvi = viewdiabandonvi::wherein('madiaban', array_column($m_diaban->toarray(), 'madiaban'))->get();
         $inputs['capdo'] = $inputs['capdo'] ?? 'ALL';
         if ($inputs['capdo'] != 'ALL') {
             $m_donvi = $m_donvi->where('capdo', $inputs['capdo']);
             $m_diaban = $m_diaban->where('capdo', $inputs['capdo']);
         }
-        
+
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $model = dstaikhoan::all();
         foreach ($m_donvi as $donvi) {
@@ -125,7 +125,7 @@ class dstaikhoanController extends Controller
         $inputs['tendangnhap'] = chuanhoachuoi($inputs['tendangnhap']);
 
         $model = dstaikhoan::where('tendangnhap', $inputs['tendangnhap'])->first();
-        if ($model == null) {           
+        if ($model == null) {
             $inputs['matkhau'] = md5($inputs['matkhaumoi']);
             dstaikhoan::create($inputs);
         } else {
@@ -293,5 +293,29 @@ class dstaikhoanController extends Controller
         //Lưu phân uyền
         dstaikhoan_phanquyen::insert($a_phanquyen);
         return redirect('/TaiKhoan/DanhSach?madonvi=' . $m_taikhoan->madonvi);
+    }
+
+    public function DoiMatKhau(Request $request)
+    {
+        if (!chkPhanQuyen('dstaikhoan', 'thaydoi')) {
+            return view('errors.noperm')->with('machucnang', 'dstaikhoan');
+        }
+        //$inputs = $request->all();
+        $model = dstaikhoan::where('tendangnhap', session('admin')->tendangnhap)->first();
+        $m_donvi = dsdonvi::all();
+        return view('HeThongChung.TaiKhoan.DoiMatKhau')
+            ->with('model', $model)
+            ->with('a_donvi', array_column($m_donvi->toarray(), 'tendonvi', 'madonvi'))
+            ->with('pageTitle', 'Chỉnh sửa thông tin đơn vị');
+    }
+
+    public function LuuMatKhau(Request $request)
+    {
+        $inputs = $request->all();
+        $model = dstaikhoan::where('tendangnhap', $inputs['tendangnhap'])->first();
+
+        $inputs['matkhaumoi'] = md5($inputs['matkhaumoi']);
+        $model->update($inputs);
+        return redirect('/');
     }
 }
