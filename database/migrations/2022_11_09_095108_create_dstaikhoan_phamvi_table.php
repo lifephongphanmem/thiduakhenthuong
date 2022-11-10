@@ -17,8 +17,8 @@ class CreateDstaikhoanPhamviTable extends Migration
             $table->bigIncrements('id');
             $table->string('tendangnhap')->nullable();
             $table->string('machucnang',50)->nullable();
-            $table->boolean('phanloai')->nullable();//Khen thưởng; Cụm khối
-            $table->boolean('madiabancumkhoi')->nullable();           
+            $table->string('phanloai')->nullable();//Khen thưởng; Cụm khối
+            $table->string('madiabancumkhoi')->nullable();           
             $table->string('ghichu')->nullable();
             $table->timestamps();
         });

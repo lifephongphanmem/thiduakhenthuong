@@ -211,10 +211,12 @@ function getDonViXetDuyetDiaBan($donvi, $kieudulieu = 'ARRAY')
     $m_diaban = \App\Model\DanhMuc\dsdiaban::where('madiaban', $donvi->madiaban)->first();
     $a_donvi = [$m_diaban->madonviKT, $donvi->madonvi];
     $m_diabanQL = \App\Model\DanhMuc\dsdiaban::where('madiaban', $m_diaban->madiabanQL)->first();
+    
     if($m_diabanQL != null)
         $a_donvi = array_merge($a_donvi,[$m_diabanQL->madonviKT]);
-
+    
     $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', $a_donvi)->get();
+    //dd( $model);
     switch ($kieudulieu) {
         case 'MODEL': {
                 return $model;

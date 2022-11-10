@@ -298,7 +298,7 @@ class dstaikhoanController extends Controller
     }
 
     public function DoiMatKhau(Request $request)
-    {        
+    {
         //$inputs = $request->all();
         $model = dstaikhoan::where('tendangnhap', session('admin')->tendangnhap)->first();
         $m_donvi = dsdonvi::all();
@@ -331,17 +331,46 @@ class dstaikhoanController extends Controller
             ->where('machucnang', $inputs['machucnang'])->get();
 
         $m_donvi = getDonVi($model_donvi->capdo);
-        //dd($m_donvi);
-        $a_diaban = array_column( dsdiaban::wherein('capdo', ['T','H'])->get()->toarray(),'tendiaban', 'madiaban');
-        $a_cumkhoi = dscumkhoi::all();
+        //dd($model);
+        $a_diaban = array_column(dsdiaban::wherein('capdo', ['T', 'H'])->get()->toarray(), 'tendiaban', 'madiaban');
+        $a_cumkhoi = array_column(dscumkhoi::all()->toarray(), 'tencumkhoi', 'macumkhoi');
         return view('HeThongChung.TaiKhoan.PhamViDuLieu')
             ->with('model', $model)
             ->with('model_taikhoan', $model_taikhoan)
             ->with('m_donvi', $m_donvi)
-            ->with('a_diaban', $a_diaban)
+            ->with('a_diabancumkhoi', a_merge($a_diaban, $a_cumkhoi))
             //->with('a_nhomtk', [])
             //->with('a_capdo', getPhanLoaiDonVi_DiaBan())
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Thiết lập phạm vi lọc dữ liệu');
+    }
+
+    public function LuuPhamViDuLieu(Request $request)
+    {
+        $inputs = $request->all();
+        $inputs['url'] = '/TaiKhoan/PhamViDuLieu/';
+        
+        $model = dstaikhoan_phamvi::where('tendangnhap', $inputs['tendangnhap'])
+            ->where('machucnang', $inputs['machucnang'])
+            ->where('madiabancumkhoi', $inputs['madiabancumkhoi'])->first();
+
+        if ($model == null) {
+            $model = new dstaikhoan_phamvi();
+            $model->tendangnhap = $inputs['tendangnhap'];
+            $model->machucnang = $inputs['machucnang'];
+            $model->madiabancumkhoi = $inputs['madiabancumkhoi'];
+        }
+        //dd($inputs);
+        $model->save();
+
+        return redirect('/TaiKhoan/PhamViDuLieu?tendangnhap=' . $inputs['tendangnhap'] . '&machucnang=' . $inputs['machucnang']);
+    }
+
+    public function XoaPhamViDuLieu(Request $request)
+    {        
+        $id = $request->all()['id'];
+        $model = dstaikhoan_phamvi::findorFail($id);
+        $model->delete();
+        return redirect('/TaiKhoan/PhamViDuLieu?tendangnhap=' . $model->tendangnhap . '&machucnang=' . $model->machucnang);
     }
 }

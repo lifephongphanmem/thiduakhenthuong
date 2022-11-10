@@ -30,7 +30,7 @@
             $('#madiaban').attr('readonly', true);
         }
 
-        function setDiaBan(madiaban, tendiaban, capdo, madonviQL, madiabanQL) {
+        function setDiaBan(madiaban, tendiaban, capdo, madonviQL, madiabanQL, madonviKT) {
             var form = $('#frm_modify');
             form.find("[name='madiaban']").val(madiaban);
             form.find("[name='tendiaban']").val(tendiaban);
@@ -51,6 +51,7 @@
                     if (data.status == 'success') {
                         $('#donviql').replaceWith(data.message);
                         form.find("[name='madonviQL']").val(madonviQL).trigger('change');
+                        form.find("[name='madonviKT']").val(madonviKT).trigger('change');
                     }
                 }
             });
@@ -117,7 +118,7 @@
                                     <td style="text-align: center">
                                         @if (chkPhanQuyen('dsdonvi', 'thaydoi'))
                                             <button
-                                                onclick="setDiaBan('{{ $ct_t->madiaban }}','{{ $ct_t->tendiaban }}','{{ $ct_t->capdo }}','{{ $ct_t->madonviQL }}','{{ $ct_t->madiabanQL }}')"
+                                                onclick="setDiaBan('{{ $ct_t->madiaban }}','{{ $ct_t->tendiaban }}','{{ $ct_t->capdo }}','{{ $ct_t->madonviQL }}','{{ $ct_t->madiabanQL }}','{{ $ct_t->madonviKT }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                 title="Thay đổi thông tin địa bàn" data-toggle="modal">
                                                 <i class="icon-lg flaticon-edit-1 text-primary"></i>
@@ -164,7 +165,7 @@
                                         <td style="text-align: center">
                                             @if (chkPhanQuyen('dsdonvi', 'thaydoi'))
                                                 <button
-                                                    onclick="setDiaBan('{{ $ct_h->madiaban }}','{{ $ct_h->tendiaban }}','{{ $ct_h->capdo }}','{{ $ct_h->madonviQL }}','{{ $ct_h->madiabanQL }}')"
+                                                    onclick="setDiaBan('{{ $ct_h->madiaban }}','{{ $ct_h->tendiaban }}','{{ $ct_h->capdo }}','{{ $ct_h->madonviQL }}','{{ $ct_h->madiabanQL }}','{{ $ct_h->madonviKT }}')"
                                                     class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                     title="Thay đổi thông tin địa bàn" data-toggle="modal">
                                                     <i class="icon-lg flaticon-edit-1 text-primary"></i>
@@ -212,7 +213,7 @@
                                             <td style="text-align: center">
                                                 @if (chkPhanQuyen('dsdonvi', 'thaydoi'))
                                                     <button
-                                                        onclick="setDiaBan('{{ $ct_x->madiaban }}','{{ $ct_x->tendiaban }}','{{ $ct_x->capdo }}','{{ $ct_x->madonviQL }}','{{ $ct_x->madiabanQL }}')"
+                                                        onclick="setDiaBan('{{ $ct_x->madiaban }}','{{ $ct_x->tendiaban }}','{{ $ct_x->capdo }}','{{ $ct_x->madonviQL }}','{{ $ct_x->madiabanQL }}','{{ $ct_x->madonviKT }}')"
                                                         class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                         title="Thay đổi thông tin địa bàn" data-toggle="modal">
                                                         <i class="icon-lg flaticon-edit-1 text-primary"></i>

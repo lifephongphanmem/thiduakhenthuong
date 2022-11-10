@@ -117,7 +117,7 @@ class dshosothiduaController extends Controller
             $DangKy->mahosotdkt = $hoso->mahosotdkt ?? '-1';
         }
         $inputs['trangthai'] = session('chucnang')['dshosothidua']['trangthai'] ?? 'CC';
-        //dd($model);
+        //dd(getDonViQuanLyDiaBan($donvi));
         return view('NghiepVu.ThiDuaKhenThuong.HoSoThiDua.ThongTin')
             ->with('inputs', $inputs)
             ->with('model', $model->sortby('tungay'))

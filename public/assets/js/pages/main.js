@@ -135,6 +135,11 @@ $(function () {
         url = url.substring(0, index - 1) + '/ThongTin';
     }
     //
+    var index = url.indexOf('PhamViDuLieu');
+    if (index > 0) {
+        url = url.substring(0, index - 1) + '/ThongTin';
+    }
+    
     chk = url.split('/');
     //alert(url);
     if (chk.length > 3 && chk[3] != '') {
