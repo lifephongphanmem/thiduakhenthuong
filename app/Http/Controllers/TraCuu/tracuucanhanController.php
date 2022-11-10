@@ -55,14 +55,17 @@ class tracuucanhanController extends Controller
 
     public function KetQua(Request $request)
     {
-        $inputs = $request->all();        
+        $inputs = $request->all();
         //Chưa tính trường hợp đơn vị
         $model_khenthuong = view_tdkt_canhan::where('trangthai', 'DKT');
         $model_detai = view_tdkt_detai::query();
-        $this->TimKiem($model_khenthuong,$model_detai,$inputs);        
+        $this->TimKiem($model_khenthuong, $model_detai, $inputs);
+        $a_dhkt = getDanhHieuKhenThuong('ALL');
         return view('TraCuu.CaNhan.KetQua')
             ->with('model_khenthuong', $model_khenthuong)
             ->with('model_detai', $model_detai)
+            ->with('a_dhkt', $a_dhkt)
+            ->with('phamvi', getPhamViApDung()) 
             ->with('inputs', $inputs)
             ->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
             ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
@@ -73,22 +76,27 @@ class tracuucanhanController extends Controller
 
     public function InKetQua(Request $request)
     {
-        $inputs = $request->all();       
+        $inputs = $request->all();
         $model_khenthuong = view_tdkt_canhan::where('trangthai', 'DKT');
         $model_detai = view_tdkt_detai::query();
-        $this->TimKiem($model_khenthuong,$model_detai,$inputs);        
+        $this->TimKiem($model_khenthuong, $model_detai, $inputs);
+        $a_dhkt = getDanhHieuKhenThuong('ALL');
+
         return view('TraCuu.CaNhan.InKetQua')
             ->with('model_khenthuong', $model_khenthuong)
-            ->with('model_detai', $model_detai)            
+            ->with('model_detai', $model_detai)
+            ->with('a_dhkt', $a_dhkt)
+            ->with('phamvi', getPhamViApDung()) 
             ->with('inputs', $inputs)
-            ->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
-            ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
+            //->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
+            //->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
             ->with('a_canhan', array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai'))
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('pageTitle', 'Kết quả tìm kiếm');
     }
 
-    function TimKiem(&$model_khenthuong, &$model_detai, $inputs){
+    function TimKiem(&$model_khenthuong, &$model_detai, $inputs)
+    {
 
         if ($inputs['tendoituong'] != '') {
             $model_khenthuong = $model_khenthuong->where('tendoituong', 'Like', '%' . $inputs['tendoituong'] . '%');
@@ -117,7 +125,7 @@ class tracuucanhanController extends Controller
             $model_khenthuong = $model_khenthuong->where('maloaihinhkt', $inputs['maloaihinhkt']);
         //Lấy kết quả khen thưởng
         $model_khenthuong = $model_khenthuong->get();
-        
+
         //Đề tài
         $model_detai = $model_detai->wherein('mahosotdkt', array_unique(array_column($model_khenthuong->toarray(), 'mahosotdkt')));
         if ($inputs['tendoituong'] != null && $inputs['tendoituong'] != '')

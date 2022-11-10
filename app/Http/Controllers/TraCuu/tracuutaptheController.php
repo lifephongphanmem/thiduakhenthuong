@@ -51,29 +51,35 @@ class tracuutaptheController extends Controller
         //Chưa tính trường hợp đơn vị
         $model_khenthuong = view_tdkt_tapthe::where('trangthai', 'DKT');
         $this->TimKiem($model_khenthuong, $inputs);
+        $a_dhkt = getDanhHieuKhenThuong('ALL');
         return view('TraCuu.TapThe.KetQua')
             ->with('model_khenthuong', $model_khenthuong)
+            ->with('a_dhkt', $a_dhkt)
             ->with('inputs', $inputs)
+            ->with('phamvi', getPhamViApDung()) 
             ->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
             ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
             ->with('a_tapthe', array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai'))
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
-            ->with('pageTitle', 'Kết quả tìm kiếm');
+            ->with('pageTitle', 'Kết quả tìm kiếm tập thể');
     }
 
     public function InKetQua(Request $request)
     {
         $inputs = $request->all();       
         $model_khenthuong = view_tdkt_tapthe::where('trangthai', 'DKT');
-        $this->TimKiem($model_khenthuong,$inputs);        
+        $this->TimKiem($model_khenthuong,$inputs);  
+        $a_dhkt = getDanhHieuKhenThuong('ALL');      
         return view('TraCuu.TapThe.InKetQua')
             ->with('model_khenthuong', $model_khenthuong)  
+            ->with('a_dhkt', $a_dhkt)  
+            ->with('phamvi', getPhamViApDung())  
             ->with('inputs', $inputs)
             ->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
             ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
             ->with('a_tapthe', array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai'))
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
-            ->with('pageTitle', 'Kết quả tìm kiếm');
+            ->with('pageTitle', 'Kết quả tìm kiếm tập thể');
     }
 
     function TimKiem(&$model_khenthuong, $inputs){

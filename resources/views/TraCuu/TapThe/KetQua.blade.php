@@ -50,8 +50,7 @@
                                 <th rowspan="2">Tên cơ quan, tập thể</th>
                                 <th rowspan="2">Phân loại cơ quan, tập thể</th>
                                 <th rowspan="2">Loại hình khen thưởng</th>
-                                <th rowspan="2">Danh hiệu thi đua</th>
-                                <th rowspan="2">Hình thức khen thưởng</th>
+                                <th rowspan="2">Danh hiệu thi đua</br>/Hình thức khen thưởng</th>
 
                             </tr>
                             <tr class="text-center">
@@ -69,71 +68,70 @@
                                     <td class="text-center">{{ $i++ }}</td>
                                     <td class="text-center">{{ $tt->soqd }}</td>
                                     <td class="text-center">{{ getDayVn($tt->ngayqd) }}</td>
-                                    <td class="text-center">{{ $tt->capkhenthuong }}</td>
+                                    <td class="text-center">{{ $phamvi[$tt->capkhenthuong] ?? $tt->capkhenthuong }}</td>
                                     <td class="text-center">{{ $tt->sototrinh }}</td>
                                     <td class="text-center">{{ getDayVn($tt->ngayhoso) }}</td>
                                     <td>{{ $tt->tentapthe }}</td>
                                     <td>{{ $a_tapthe[$tt->maphanloaitapthe] ?? '' }}</td>
                                     <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
-                                    <td>{{ $a_danhhieu[$tt->madanhhieutd] ?? '' }}</td>
-                                    <td>{{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
+                                    <td>{{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
-            </div>            
-        <div class="card-footer">
-            <div class="row text-center">
-                <div class="col-lg-12">
-                    <a href="{{ url('/TraCuu/TapThe/ThongTin') }}" class="btn btn-danger mr-5"><i
-                            class="fa fa-reply"></i>&nbsp;Quay lại</a>
-
-                </div>
             </div>
-        </div>
-    </div>
-    <!--end::Card-->
+            <div class="card-footer">
+                <div class="row text-center">
+                    <div class="col-lg-12">
+                        <a href="{{ url('/TraCuu/TapThe/ThongTin') }}" class="btn btn-danger mr-5"><i
+                                class="fa fa-reply"></i>&nbsp;Quay lại</a>
 
-    {{-- In dữ liệu --}}
-    <div id="indulieu-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
-        {!! Form::open(['url' => '', 'id' => 'frm_InDuLieu', 'target' => '_blank']) !!}
-        <input type="hidden" name="tentapthe" value="{{ $inputs['tentapthe'] }}" />
-        <input type="hidden" name="ngaytu" value="{{ $inputs['ngaytu'] }}" />
-        <input type="hidden" name="ngayden" value="{{ $inputs['ngayden'] }}" />
-        <input type="hidden" name="maphanloaitapthe" value="{{ $inputs['maphanloaitapthe'] }}" />
-        <input type="hidden" name="maloaihinhkt" value="{{ $inputs['maloaihinhkt'] }}" /> 
-
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header modal-header-primary">
-                    <h4 id="modal-header-primary-label" class="modal-title">Thông tin in dữ liệu</h4>
-                    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-                </div>
-                <div class="modal-body">
-
-
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <button type="submit" onclick="setInDL('/TraCuu/TapThe/InKetQua')"
-                                class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
-                                <i class="la flaticon2-print"></i>Kết quả tìm kiếm
-                            </button>
-                        </div>
                     </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn btn-default">Đóng</button>
                 </div>
             </div>
         </div>
-        {!! Form::close() !!}
-    </div>
+        <!--end::Card-->
 
-    <script>
-        function setInDL(url) {
-            $('#frm_InDuLieu').attr('action', url);
-        }
-    </script>
-@stop
+        {{-- In dữ liệu --}}
+        <div id="indulieu-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
+            {!! Form::open(['url' => '', 'id' => 'frm_InDuLieu', 'target' => '_blank']) !!}
+            <input type="hidden" name="tentapthe" value="{{ $inputs['tentapthe'] }}" />
+            <input type="hidden" name="ngaytu" value="{{ $inputs['ngaytu'] }}" />
+            <input type="hidden" name="ngayden" value="{{ $inputs['ngayden'] }}" />
+            <input type="hidden" name="maphanloaitapthe" value="{{ $inputs['maphanloaitapthe'] }}" />
+            <input type="hidden" name="maloaihinhkt" value="{{ $inputs['maloaihinhkt'] }}" />
+
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header modal-header-primary">
+                        <h4 id="modal-header-primary-label" class="modal-title">Thông tin in dữ liệu</h4>
+                        <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+                    </div>
+                    <div class="modal-body">
+
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <button type="submit" onclick="setInDL('/TraCuu/TapThe/InKetQua')"
+                                    class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
+                                    <i class="la flaticon2-print"></i>Kết quả tìm kiếm
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" data-dismiss="modal" class="btn btn-default">Đóng</button>
+                    </div>
+                </div>
+            </div>
+            {!! Form::close() !!}
+        </div>
+
+        <script>
+            function setInDL(url) {
+                $('#frm_InDuLieu').attr('action', url);
+            }
+        </script>
+    @stop

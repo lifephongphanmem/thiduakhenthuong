@@ -51,8 +51,7 @@
                                 <th rowspan="2">Phân loại cán bộ</th>
                                 <th rowspan="2">Thông tin công tác</th>
                                 <th rowspan="2">Loại hình khen thưởng</th>
-                                <th rowspan="2">Danh hiệu thi đua</th>
-                                <th rowspan="2">Hình thức khen thưởng</th>
+                                <th rowspan="2">Danh hiệu thi đua</br>/Hình thức khen thưởng</th>
 
                             </tr>
                             <tr class="text-center">
@@ -70,15 +69,14 @@
                                     <td class="text-center">{{ $i++ }}</td>
                                     <td class="text-center">{{ $tt->soqd }}</td>
                                     <td class="text-center">{{ getDayVn($tt->ngayqd) }}</td>
-                                    <td class="text-center">{{ $tt->capkhenthuong }}</td>
+                                    <td class="text-center">{{ $phamvi[$tt->capkhenthuong] ?? $tt->capkhenthuong }}</td>
                                     <td class="text-center">{{ $tt->sototrinh }}</td>
                                     <td class="text-center">{{ getDayVn($tt->ngayhoso) }}</td>
                                     <td>{{ $tt->tendoituong }}</td>
                                     <td>{{ $a_canhan[$tt->maphanloaicanbo] ?? '' }}</td>
                                     <td>{{ $tt->chucvu . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}</td>
                                     <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
-                                    <td>{{ $a_danhhieu[$tt->madanhhieutd] ?? '' }}</td>
-                                    <td>{{ $a_hinhthuckt[$tt->mahinhthuckt] ?? '' }}</td>
+                                    <td>{{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
