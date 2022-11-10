@@ -55,7 +55,9 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
         $inputs['url_xd'] = '/CumKhoiThiDua/KTCumKhoi/XetDuyet/';
         $inputs['url_qd'] = '/CumKhoiThiDua/KTCumKhoi/KhenThuong/';
 
-        $m_donvi = getDonViCK(session('admin')->capdo, null, 'MODEL');
+        //$m_donvi = getDonViCK(session('admin')->capdo, null, 'MODEL');
+        $m_donvi = getDonVi(session('admin')->capdo, 'dshosodenghikhenthuongcumkhoi');
+        //dd($m_donvi);
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';

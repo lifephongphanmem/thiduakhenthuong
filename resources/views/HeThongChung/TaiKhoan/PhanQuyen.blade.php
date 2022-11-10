@@ -228,17 +228,15 @@
                                             <td style="text-align: center">
                                                 @if (chkPhanQuyen('dstaikhoan', 'thaydoi') && $c1->phanquyen && $c2->phanquyen)
                                                     <button
-                                                        onclick="getChucNang('{{ $c3->machucnang }}','{{ $c3->tenchucnang }}',{{ $c3->phanquyen }},
-                                                    {{ $c3->danhsach }}, {{ $c3->thaydoi }}, {{ $c3->hoanthanh }}, {{ $c3->nhomchucnang }})"
+                                                        onclick="getChucNang('{{ $c3->machucnang }}','{{ $c3->tenchucnang }}','{{ $c3->phanquyen }}',
+                                                    '{{ $c3->danhsach }}', '{{ $c3->thaydoi }}', '{{ $c3->hoanthanh }}', '{{ $c3->nhomchucnang }}')"
                                                         class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                         title="Thay đổi thông tin" data-toggle="modal">
                                                         <i class="icon-lg la flaticon-edit-1 text-primary"></i>
                                                     </button>
 
-                                                    <a href="getChucNang('{{ $c3->machucnang }}','{{ $c3->tenchucnang }}'"
-                                                        class="btn btn-sm btn-clean btn-icon"
-                                                        data-target="#modify-modal" title="Phạm vi lọc dữ liệu"
-                                                        data-toggle="modal">
+                                                    <a href="{{ url('/TaiKhoan/PhamViDuLieu?tendangnhap='.$m_taikhoan->tendangnhap.'&machucnang='.$c3->machucnang) }}"
+                                                        class="btn btn-sm btn-clean btn-icon">
                                                         <i class="icon-lg la flaticon-list text-dark"></i>
                                                     </a>
                                                 @endif
@@ -299,6 +297,11 @@
                                                             data-target="#modify-modal" title="Phạm vi lọc dữ liệu"
                                                             data-toggle="modal">
                                                             <i class="icon-lg la flaticon-edit-1 text-primary"></i>
+                                                        </a>
+
+                                                        <a href="{{ url('/TaiKhoan/PhamViDuLieu?tendangnhap='.$m_taikhoan->tendangnhap.'&machucnang='.$c4->machucnang) }}"
+                                                            class="btn btn-sm btn-clean btn-icon">
+                                                            <i class="icon-lg la flaticon-list text-dark"></i>
                                                         </a>
                                                     @endif
 

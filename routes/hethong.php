@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\HeThong\dschucnangController;
 use App\Http\Controllers\HeThong\dsdonviController;
+use App\Http\Controllers\HeThong\dstaikhoanController;
 use Illuminate\Support\Facades\Route;
 
 //Đăng nhập
@@ -50,7 +51,11 @@ Route::group(['prefix' => 'TaiKhoan'], function () {
     Route::get('Sua', 'HeThong\dstaikhoanController@edit');
     Route::post('Sua', 'HeThong\dstaikhoanController@store');
     Route::post('NhomChucNang', 'HeThong\dstaikhoanController@NhomChucNang');
+
     Route::post('Xoa', 'HeThong\dstaikhoanController@XoaTaiKhoan');
+
+    Route::get('PhamViDuLieu', [dstaikhoanController::class,'PhamViDuLieu']);
+
 });
 Route::group(['prefix' => 'HeThongAPI'], function () {
     Route::get('CaNhan', 'HeThong\HeThongAPIController@CaNhan');

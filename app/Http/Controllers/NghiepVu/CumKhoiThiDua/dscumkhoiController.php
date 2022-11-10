@@ -39,7 +39,7 @@ class dscumkhoiController extends Controller
             $ct->sodonvi = $m_chitiet->where('macumkhoi', $ct->macumkhoi)->count();
         }
         //dd($model);
-        $m_donvi = getDonVi(session('admin')->capdo);
+        $m_donvi = dsdonvi::all();
         return view('NghiepVu.CumKhoiThiDua.DanhSach.ThongTin')
             ->with('model', $model)
             ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))

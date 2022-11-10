@@ -13,6 +13,7 @@ use App\Model\DanhMuc\dsdonvi;
 use App\Model\DanhMuc\dsnhomtaikhoan;
 use App\Model\DanhMuc\dsnhomtaikhoan_phanquyen;
 use App\Model\DanhMuc\dstaikhoan;
+use App\Model\DanhMuc\dstaikhoan_phamvi;
 use App\Model\DanhMuc\dstaikhoan_phanquyen;
 use App\Model\HeThong\hethongchung_chucnang;
 use App\Model\View\viewdiabandonvi;
@@ -316,5 +317,30 @@ class dstaikhoanController extends Controller
         $inputs['matkhaumoi'] = md5($inputs['matkhaumoi']);
         $model->update($inputs);
         return redirect('/');
+    }
+
+    public function PhamViDuLieu(Request $request)
+    {
+        if (!chkPhanQuyen('dstaikhoan', 'danhsach')) {
+            return view('errors.noperm')->with('machucnang', 'dstaikhoan');
+        }
+
+        $inputs = $request->all();
+        $model_taikhoan = dstaikhoan::where('tendangnhap', $inputs['tendangnhap'])->first();
+        $model_donvi = viewdiabandonvi::where('madonvi', $model_taikhoan->madonvi)->first();
+        $model = dstaikhoan_phamvi::where('tendangnhap', $inputs['tendangnhap'])
+            ->where('machucnang', $inputs['machucnang'])->get();
+
+        $m_donvi = getDonVi($model_donvi->capdo);
+        //dd($m_donvi);
+        $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
+        return view('HeThongChung.TaiKhoan.PhamViDuLieu')
+            ->with('model', $model)
+            //->with('m_donvi', $m_donvi)
+            //->with('m_diaban', $m_diaban)
+            //->with('a_nhomtk', [])
+            //->with('a_capdo', getPhanLoaiDonVi_DiaBan())
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'Thiết lập phạm vi lọc dữ liệu');
     }
 }
