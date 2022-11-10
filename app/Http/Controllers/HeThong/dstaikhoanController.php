@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\DanhMuc\dmhinhthuckhenthuong;
+use App\Model\DanhMuc\dscumkhoi;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\DanhMuc\dsnhomtaikhoan;
@@ -297,10 +298,7 @@ class dstaikhoanController extends Controller
     }
 
     public function DoiMatKhau(Request $request)
-    {
-        if (!chkPhanQuyen('dstaikhoan', 'thaydoi')) {
-            return view('errors.noperm')->with('machucnang', 'dstaikhoan');
-        }
+    {        
         //$inputs = $request->all();
         $model = dstaikhoan::where('tendangnhap', session('admin')->tendangnhap)->first();
         $m_donvi = dsdonvi::all();
@@ -326,6 +324,7 @@ class dstaikhoanController extends Controller
         }
 
         $inputs = $request->all();
+        $inputs['url'] = '/TaiKhoan/PhamViDuLieu/';
         $model_taikhoan = dstaikhoan::where('tendangnhap', $inputs['tendangnhap'])->first();
         $model_donvi = viewdiabandonvi::where('madonvi', $model_taikhoan->madonvi)->first();
         $model = dstaikhoan_phamvi::where('tendangnhap', $inputs['tendangnhap'])
@@ -333,11 +332,13 @@ class dstaikhoanController extends Controller
 
         $m_donvi = getDonVi($model_donvi->capdo);
         //dd($m_donvi);
-        $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
+        $a_diaban = array_column( dsdiaban::wherein('capdo', ['T','H'])->get()->toarray(),'tendiaban', 'madiaban');
+        $a_cumkhoi = dscumkhoi::all();
         return view('HeThongChung.TaiKhoan.PhamViDuLieu')
             ->with('model', $model)
-            //->with('m_donvi', $m_donvi)
-            //->with('m_diaban', $m_diaban)
+            ->with('model_taikhoan', $model_taikhoan)
+            ->with('m_donvi', $m_donvi)
+            ->with('a_diaban', $a_diaban)
             //->with('a_nhomtk', [])
             //->with('a_capdo', getPhanLoaiDonVi_DiaBan())
             ->with('inputs', $inputs)
