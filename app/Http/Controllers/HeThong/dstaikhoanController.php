@@ -313,7 +313,6 @@ class dstaikhoanController extends Controller
     {
         $inputs = $request->all();
         $model = dstaikhoan::where('tendangnhap', $inputs['tendangnhap'])->first();
-
         $inputs['matkhaumoi'] = md5($inputs['matkhaumoi']);
         $model->update($inputs);
         return redirect('/');

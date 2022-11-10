@@ -195,6 +195,16 @@ class hethongchungController extends Controller
             return view('errors.noperm')->with('machucnang', 'hethongchung');
         }
         $inputs = $request->all();
+        if (isset($inputs['ipf1'])) {
+            $filedk = $request->file('ipf1');
+            $inputs['ipf1'] = '_HuongDanSuDung.' . $filedk->getClientOriginalExtension();
+            $filedk->move(public_path() . '/data/download/', $inputs['ipf1']);
+        }
+        if (isset($inputs['ipf2'])) {
+            $filedk = $request->file('ipf2');
+            $inputs['ipf2'] =  '_Zalo.' . $filedk->getClientOriginalExtension();
+            $filedk->move(public_path() . '/data/download/', $inputs['ipf2']);
+        }
         hethongchung::first()->update($inputs);
         return redirect('/HeThongChung/ThongTin');
     }
