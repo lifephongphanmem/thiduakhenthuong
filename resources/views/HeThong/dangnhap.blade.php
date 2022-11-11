@@ -52,7 +52,7 @@ License: You must have a valid license purchased only from themeforest(the above
                     <div class="login-wrapper">
                         <!--begin:Aside Content-->
                         <div class="text-dark-75">
-                            <a href="#">
+                            <a href="/">
                                 <img src="assets/media/logos/LoGo_TDKT.jpg" class="max-h-100px" alt="" />
                             </a>
                             <h3 class="mb-8 mt-15 font-weight-bold text-uppercase">Phần mềm thi đua khen thưởng</h3>
