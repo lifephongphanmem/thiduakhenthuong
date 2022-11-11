@@ -235,10 +235,10 @@
                                                         <i class="icon-lg la flaticon-edit-1 text-primary"></i>
                                                     </button>
 
-                                                    <a href="{{ url('/TaiKhoan/PhamViDuLieu?tendangnhap='.$m_taikhoan->tendangnhap.'&machucnang='.$c3->machucnang) }}"
+                                                    {{-- <a href="{{ url('/TaiKhoan/PhamViDuLieu?tendangnhap='.$m_taikhoan->tendangnhap.'&machucnang='.$c3->machucnang) }}"
                                                         class="btn btn-sm btn-clean btn-icon">
                                                         <i class="icon-lg la flaticon-list text-dark"></i>
-                                                    </a>
+                                                    </a> --}}
                                                 @endif
 
                                             </td>
@@ -299,10 +299,10 @@
                                                             <i class="icon-lg la flaticon-edit-1 text-primary"></i>
                                                         </a>
 
-                                                        <a href="{{ url('/TaiKhoan/PhamViDuLieu?tendangnhap='.$m_taikhoan->tendangnhap.'&machucnang='.$c4->machucnang) }}"
+                                                        {{-- <a href="{{ url('/TaiKhoan/PhamViDuLieu?tendangnhap='.$m_taikhoan->tendangnhap.'&machucnang='.$c4->machucnang) }}"
                                                             class="btn btn-sm btn-clean btn-icon">
                                                             <i class="icon-lg la flaticon-list text-dark"></i>
-                                                        </a>
+                                                        </a> --}}
                                                     @endif
 
                                                 </td>

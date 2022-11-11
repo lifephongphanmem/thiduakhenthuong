@@ -183,15 +183,17 @@ class dsdonviController extends Controller
     public function ThongTinDonVi(Request $request)
     {
         $inputs = $request->all();
-        $m_donvi = getDonVi(session('admin')->capdo, 'dsdonvi');
-        $a_diaban = array_column($m_donvi->toArray(), 'tendiaban', 'madiaban');
-        $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
+        //$m_donvi = getDonVi(session('admin')->mad, 'dsdonvi');
+        //dd();
+        //$a_diaban = array_column($m_donvi->toArray(), 'tendiaban', 'madiaban');
+        $inputs['madonvi'] = session('admin')->madonvi;
         $model = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
+        $m_donvi = dsdonvi::where('madiaban',$model->madiaban)->get();
         //dd($model);
         return view('HeThongChung.DonVi.ThongTinDonVi')
             ->with('model', $model)
             ->with('m_donvi', $m_donvi)
-            ->with('a_diaban', $a_diaban)
+            ->with('a_diaban',array_column(dsdiaban::where('madiaban',$model->madiaban)->get()->toArray(), 'tendiaban', 'madiaban'))
             ->with('pageTitle', 'Chỉnh sửa thông tin đơn vị');
     }
 

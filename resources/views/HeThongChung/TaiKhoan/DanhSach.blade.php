@@ -112,11 +112,18 @@
                                                     <i class="icon-lg la flaticon-network text-primary icon-2x"></i>
                                                 </button>                                               
 
+                                                <a href="{{ url('/TaiKhoan/PhamViDuLieu?tendangnhap='.$tt->tendangnhap) }}"
+                                                    class="btn btn-sm btn-clean btn-icon">
+                                                    <i class="icon-lg la flaticon-list text-dark"></i>
+                                                </a>
+
                                                 <button title="Xóa thông tin" type="button"
                                                     onclick="confirmDelete('{{ $tt->id }}','/TaiKhoan/Xoa')"
                                                     class="btn btn-sm btn-clean btn-icon"
                                                     data-target="#delete-modal-confirm" data-toggle="modal">
-                                                    <i class="icon-lg la fa-trash-alt text-danger icon-2x"></i></button>
+                                                    <i class="icon-lg la fa-trash-alt text-danger icon-2x"></i>
+                                                </button>
+
                                             @endif
                                         @endif
                                     </td>

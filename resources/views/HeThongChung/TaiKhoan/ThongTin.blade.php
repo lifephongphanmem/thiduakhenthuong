@@ -17,7 +17,7 @@
             TableManaged3.init();
 
             $('#madonvi, #capdo').change(function() {
-                window.location.href = '/TaiKhoan/ThongTin?madonvi=' + $('#madonvi').val() + '&capdo=' + $('#capdo').val();
+                window.location.href = '/TaiKhoan/ThongTin?capdo=' + $('#capdo').val();
             });
         });
     </script>
@@ -41,20 +41,7 @@
         </div>
         <div class="card-body">
             <div class="form-group row">
-                <div class="col-md-6">
-                    <label style="font-weight: bold">Đơn vị</label>
-                    <select class="form-control select2basic" name="madonvi" id="madonvi">
-                        @foreach ($m_diaban as $diaban)
-                            <optgroup label="{{ $diaban->tendiaban }}">
-                                <?php $donvi = $m_donvi->where('madiaban', $diaban->madiaban); ?>
-                                @foreach ($donvi as $ct)
-                                    <option {{ $ct->madonvi == $inputs['madonvi'] ? 'selected' : '' }}
-                                        value="{{ $ct->madonvi }}">{{ $ct->tendonvi }}</option>
-                                @endforeach
-                            </optgroup>
-                        @endforeach
-                    </select>
-                </div>
+                
                 <div class="col-md-6">
                     <label style="font-weight: bold">Cấp độ</label>
                     {!! Form::select('capdo', setArrayAll($a_capdo,'Tất cả', 'ALL'), $inputs['capdo'], ['id' => 'capdo', 'class' => 'form-control select2basic']) !!}                    
