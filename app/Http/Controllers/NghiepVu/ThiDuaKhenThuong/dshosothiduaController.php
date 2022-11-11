@@ -321,7 +321,7 @@ class dshosothiduaController extends Controller
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
     }
 
-    public function delete(Request $request)
+    public function XoaHoSo(Request $request)
     {
         if (!chkPhanQuyen('dshosothidua', 'thaydoi')) {
             return view('errors.noperm')->with('machucnang', 'dshosothidua')->with('tenphanquyen', 'thaydoi');
