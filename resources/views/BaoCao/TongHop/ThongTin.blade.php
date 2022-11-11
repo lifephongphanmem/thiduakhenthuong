@@ -73,15 +73,20 @@
                                 cáo hình thức khen thưởng trên địa bàn (Mẫu 02)</button>
                         </li>
                         <li>
-                            <button class="btn btn-clean text-dark" onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenThuong_m3')" data-target="#modal-khenthuong" data-toggle="modal">Báo
-                                cáo hình thức khen thưởng (Khen cao)</button>
+                            <button class="btn btn-clean text-dark" onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenCao_m1')" data-target="#modal-khenthuong" data-toggle="modal">Báo
+                                cáo hình thức khen thưởng (Khen cao - Mẫu 01)</button>
+                        </li>
+
+                        <li>
+                            <button class="btn btn-clean text-dark" onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenCao_m2')" data-target="#modal-khenthuong" data-toggle="modal">Báo
+                                cáo hình thức khen thưởng (Khen cao - Mẫu 02)</button>
                         </li>
                         <li>
                             <button type="button" onclick="setBaoCaoKT('frm_thongtu03','/BaoCao/TongHop/Mau0701')"
                                 class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
                                 phong trào thi đua (mẫu 0701.N/BNV-TĐKT)</button>
                         </li>
-                        <li>
+                        {{-- <li>
                             <button type="button" onclick="setBaoCaoKT('frm_thongtu03','/BaoCao/TongHop/Mau0702')"
                                 class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
                                 lượng khen thưởng cấp nhà nước (mẫu 0702.N/BNV-TĐKT)</button>
@@ -90,7 +95,7 @@
                             <button type="button" onclick="setBaoCaoKT('frm_thongtu03','/BaoCao/TongHop/Mau0703')"
                                 class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
                                 lượng khen thưởng cấp ban ngành đoàn thể trung ương (mẫu 0703.N/BNV-TĐKT)</button>
-                        </li>
+                        </li> --}}
                     </ol>
                 </div>
             </div>

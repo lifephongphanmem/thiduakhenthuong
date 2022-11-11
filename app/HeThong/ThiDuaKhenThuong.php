@@ -520,7 +520,7 @@ function getDSPhongTrao($donvi)
 //Làm sẵn hàm sau lọc theo truonq theodoi = 1
 function getLoaiHinhKhenThuong()
 {
-    return App\Model\DanhMuc\dmloaihinhkhenthuong::all();
+    return App\Model\DanhMuc\dmloaihinhkhenthuong::where('theodoi','1')->get();
 }
 
 function setArrayAll($array, $noidung = 'Tất cả', $giatri = 'ALL')
