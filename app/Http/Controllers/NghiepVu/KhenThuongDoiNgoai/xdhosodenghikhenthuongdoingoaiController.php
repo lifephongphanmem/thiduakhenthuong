@@ -71,7 +71,9 @@ class xdhosodenghikhenthuongdoingoaiController extends Controller
         } else {
             $m_loaihinh = dmloaihinhkhenthuong::where('maloaihinhkt', $inputs['maloaihinhkt'])->get();
         }
-        foreach ($model as $hoso) {
+        $a_diabancumkhoi = getDiaBanCumKhoi(session('admin')->tendangnhap);
+        $a_donvidiaban = array_column(viewdiabandonvi::all()->toArray(), 'madiaban', 'madonvi');
+        foreach ($model as $key => $hoso) {
             $hoso->soluongkhenthuong = dshosothiduakhenthuong_canhan::where('mahosotdkt', $hoso->mahosotdkt)->where('ketqua', '1')->count()
                 + dshosothiduakhenthuong_tapthe::where('mahosotdkt', $hoso->mahosotdkt)->where('ketqua', '1')->count();
             //Gán lại trạng thái hồ sơ
@@ -80,6 +82,12 @@ class xdhosodenghikhenthuongdoingoaiController extends Controller
             $hoso->thoigian_hoso = $hoso->thoigian_xd;
             $hoso->lydo_hoso = $hoso->lydo_xd;
             $hoso->madonvi_nhan_hoso = $hoso->madonvi_nhan_xd;
+            if (count($a_diabancumkhoi) > 0) {
+                //đơn vị => đia bàn => lọc điều kiện
+                $madiaban = $a_donvidiaban[$hoso->madonvi];
+                if (!in_array($madiaban, $a_diabancumkhoi))
+                    $model->forget($key);
+            }
         }
         $inputs['trangthai'] = session('chucnang')['xdhosodenghikhenthuongdoingoai']['trangthai'] ?? 'CC';
         $inputs['trangthai'] = $inputs['trangthai'] !='ALL' ? $inputs['trangthai'] : 'CC';

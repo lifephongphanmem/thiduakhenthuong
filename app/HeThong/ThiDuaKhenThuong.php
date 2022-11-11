@@ -1,5 +1,6 @@
 <?php
 
+use App\Model\DanhMuc\dstaikhoan_phamvi;
 use Illuminate\Database\Eloquent\Collection;
 
 // function getQuyetDinhCKE($maso)
@@ -190,9 +191,9 @@ function getDonViQuanLyDiaBan($donvi, $kieudulieu = 'ARRAY')
     $m_diaban = \App\Model\DanhMuc\dsdiaban::where('madiaban', $donvi->madiaban)->first();
     $a_donvi = [$m_diaban->madonviQL, $donvi->madonvi];
     $m_diabanQL = \App\Model\DanhMuc\dsdiaban::where('madiaban', $m_diaban->madiabanQL)->first();
-    if($m_diabanQL != null)
-        $a_donvi = array_merge($a_donvi,[$m_diabanQL->madonviQL]);
-    
+    if ($m_diabanQL != null)
+        $a_donvi = array_merge($a_donvi, [$m_diabanQL->madonviQL]);
+
     $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', $a_donvi)->get();
     switch ($kieudulieu) {
         case 'MODEL': {
@@ -204,6 +205,17 @@ function getDonViQuanLyDiaBan($donvi, $kieudulieu = 'ARRAY')
     }
 }
 
+//Lấy địa bàn, cụm khối để lọc dữ liệu
+function getDiaBanCumKhoi($tendangnhap)
+{
+    if (session('admin')->capdo == 'SSA') {
+        return [];
+    }
+    //Lấy đơn vị quản lý địa bàn và đơn vi
+    $model = dstaikhoan_phamvi::where('tendangnhap', $tendangnhap)->get();
+    return array_column($model->toarray(), 'madiabancumkhoi');
+}
+
 //Hàm lấy danh sách đơn vị xét duyệt trên địa bàn cùng cấp và cấp trên
 function getDonViXetDuyetDiaBan($donvi, $kieudulieu = 'ARRAY')
 {
@@ -211,10 +223,10 @@ function getDonViXetDuyetDiaBan($donvi, $kieudulieu = 'ARRAY')
     $m_diaban = \App\Model\DanhMuc\dsdiaban::where('madiaban', $donvi->madiaban)->first();
     $a_donvi = [$m_diaban->madonviKT, $donvi->madonvi];
     $m_diabanQL = \App\Model\DanhMuc\dsdiaban::where('madiaban', $m_diaban->madiabanQL)->first();
-    
-    if($m_diabanQL != null)
-        $a_donvi = array_merge($a_donvi,[$m_diabanQL->madonviKT]);
-    
+
+    if ($m_diabanQL != null)
+        $a_donvi = array_merge($a_donvi, [$m_diabanQL->madonviKT]);
+
     $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', $a_donvi)->get();
     //dd( $model);
     switch ($kieudulieu) {
@@ -439,7 +451,7 @@ function getDonVi($capdo, $chucnang = null, $tenquyen = null)
         $m_donvi = App\Model\View\viewdiabandonvi::wherein('madonvi', function ($qr) use ($a_tk_pq) {
             $qr->select('madonvi')->from('dstaikhoan')->wherein('tendangnhap', $a_tk_pq)->distinct();
         })->get();
-    }    
+    }
     return $m_donvi;
 }
 

@@ -75,6 +75,7 @@ class dshosodenghikhenthuongcongtrangController extends Controller
             $hoso->soluongkhenthuong = $model_canhan->where('mahosotdkt', $hoso->mahosotdkt)->count()
                 + $model_tapthe->where('mahosotdkt', $hoso->mahosotdkt)->count();
         }
+        
         //Gán đường dẫn
         if ($inputs['trangthai'] == 'CC') {
             //Đi theo quy trình bình thường

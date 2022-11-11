@@ -327,8 +327,7 @@ class dstaikhoanController extends Controller
         $inputs['url'] = '/TaiKhoan/PhamViDuLieu/';
         $model_taikhoan = dstaikhoan::where('tendangnhap', $inputs['tendangnhap'])->first();
         $model_donvi = viewdiabandonvi::where('madonvi', $model_taikhoan->madonvi)->first();
-        $model = dstaikhoan_phamvi::where('tendangnhap', $inputs['tendangnhap'])
-            ->where('machucnang', $inputs['machucnang'])->get();
+        $model = dstaikhoan_phamvi::where('tendangnhap', $inputs['tendangnhap'])->get();
 
         $m_donvi = getDonVi($model_donvi->capdo);
         //dd($model);
@@ -350,20 +349,18 @@ class dstaikhoanController extends Controller
         $inputs = $request->all();
         $inputs['url'] = '/TaiKhoan/PhamViDuLieu/';
         
-        $model = dstaikhoan_phamvi::where('tendangnhap', $inputs['tendangnhap'])
-            ->where('machucnang', $inputs['machucnang'])
+        $model = dstaikhoan_phamvi::where('tendangnhap', $inputs['tendangnhap'])            
             ->where('madiabancumkhoi', $inputs['madiabancumkhoi'])->first();
 
         if ($model == null) {
             $model = new dstaikhoan_phamvi();
             $model->tendangnhap = $inputs['tendangnhap'];
-            $model->machucnang = $inputs['machucnang'];
             $model->madiabancumkhoi = $inputs['madiabancumkhoi'];
         }
         //dd($inputs);
         $model->save();
 
-        return redirect('/TaiKhoan/PhamViDuLieu?tendangnhap=' . $inputs['tendangnhap'] . '&machucnang=' . $inputs['machucnang']);
+        return redirect('/TaiKhoan/PhamViDuLieu?tendangnhap=' . $inputs['tendangnhap'] );
     }
 
     public function XoaPhamViDuLieu(Request $request)

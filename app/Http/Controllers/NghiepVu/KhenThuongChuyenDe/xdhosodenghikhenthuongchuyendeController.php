@@ -69,7 +69,16 @@ class xdhosodenghikhenthuongchuyendeController extends Controller
         } else {
             $m_loaihinh = dmloaihinhkhenthuong::where('maloaihinhkt', $inputs['maloaihinhkt'])->get();
         }
-        foreach ($model as $hoso) {
+        $a_diabancumkhoi = getDiaBanCumKhoi(session('admin')->tendangnhap);
+        $a_donvidiaban = array_column(viewdiabandonvi::all()->toArray(), 'madiaban', 'madonvi');
+        foreach ($model as $key => $hoso) {
+
+            if (count($a_diabancumkhoi) > 0) {
+                //đơn vị => đia bàn => lọc điều kiện
+                $madiaban = $a_donvidiaban[$hoso->madonvi];
+                if (!in_array($madiaban, $a_diabancumkhoi))
+                    $model->forget($key);
+            }
             $hoso->soluongkhenthuong = dshosothiduakhenthuong_canhan::where('mahosotdkt', $hoso->mahosotdkt)->where('ketqua', '1')->count()
                 + dshosothiduakhenthuong_tapthe::where('mahosotdkt', $hoso->mahosotdkt)->where('ketqua', '1')->count();
             //Gán lại trạng thái hồ sơ
@@ -82,7 +91,7 @@ class xdhosodenghikhenthuongchuyendeController extends Controller
         //dd($model);
         //dd($inputs);
         $inputs['trangthai'] = session('chucnang')['xdhosodenghikhenthuongchuyende']['trangthai'] ?? 'CC';
-        $inputs['trangthai'] = $inputs['trangthai'] !='ALL' ? $inputs['trangthai'] : 'CC';
+        $inputs['trangthai'] = $inputs['trangthai'] != 'ALL' ? $inputs['trangthai'] : 'CC';
         return view('NghiepVu.KhenThuongChuyenDe.XetDuyet.ThongTin')
             ->with('model', $model)
             ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
@@ -104,13 +113,13 @@ class xdhosodenghikhenthuongchuyendeController extends Controller
         $inputs = $request->all();
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
         //gán trạng thái hồ sơ để theo dõi
-        $model->trangthai = 'BTL';         
-        $model->thoigian = date('Y-m-d H:i:s');    
+        $model->trangthai = 'BTL';
+        $model->thoigian = date('Y-m-d H:i:s');
         $model->lydo = $inputs['lydo'];
-        $model->madonvi_nhan = null;         
+        $model->madonvi_nhan = null;
         //dd($model);
         $model->trangthai_xd = null;
-        $model->thoigian_xd = null;       
+        $model->thoigian_xd = null;
         $model->madonvi_nhan_xd = null;
         $model->madonvi_xd = null;
 
@@ -183,7 +192,7 @@ class xdhosodenghikhenthuongchuyendeController extends Controller
         ]);
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_xd);
     }
-    
+
     public function XetKT(Request $request)
     {
         if (!chkPhanQuyen('xdhosodenghikhenthuongchuyende', 'thaydoi')) {
@@ -192,7 +201,7 @@ class xdhosodenghikhenthuongchuyendeController extends Controller
                 ->with('tenphanquyen', 'thaydoi');
         }
 
-        $inputs = $request->all();      
+        $inputs = $request->all();
         $inputs['url_hs'] = '/KhenThuongChuyenDe/HoSo/';
         $inputs['url_xd'] = '/KhenThuongChuyenDe/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongChuyenDe/KhenThuong/';
@@ -200,19 +209,19 @@ class xdhosodenghikhenthuongchuyendeController extends Controller
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
         $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
-        
+
         $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
         $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
         $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
         $model->tendonvi = $donvi->tendonvi;
-        
+
         $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE', 'HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
-       
+
         return view('NghiepVu.KhenThuongChuyenDe.XetDuyet.XetKT')
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
-            ->with('model_tapthe', $model_tapthe)            
+            ->with('model_tapthe', $model_tapthe)
             ->with('a_dhkt_canhan', $a_dhkt_canhan)
             ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
             //->with('m_canhan', $m_canhan)
@@ -634,7 +643,7 @@ class xdhosodenghikhenthuongchuyendeController extends Controller
         $inputs['maduthao'] = $inputs['maduthao'] ?? 'ALL';
         getTaoDuThaoToTrinhPheDuyet($model, $inputs['maduthao']);
         $a_duthao = array_column(duthaoquyetdinh::wherein('phanloai', ['TOTRINHHOSO'])->get()->toArray(), 'noidung', 'maduthao');
-        
+
         $inputs['maduthao'] = $inputs['maduthao'] ?? array_key_first($a_duthao);
         return view('BaoCao.DonVi.QuyetDinh.MauChungToTrinhKT')
             ->with('model', $model)
@@ -650,5 +659,5 @@ class xdhosodenghikhenthuongchuyendeController extends Controller
         $model->thongtintotrinhdenghi = $inputs['thongtintotrinhdenghi'];
         $model->save();
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_xd);
-    }    
+    }
 }
