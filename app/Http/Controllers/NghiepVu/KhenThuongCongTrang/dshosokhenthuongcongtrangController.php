@@ -960,12 +960,7 @@ class dshosokhenthuongcongtrangController extends Controller
     }
 
     public function HuyPheDuyet(Request $request)
-    {
-        if (!chkPhanQuyen('qdhosodenghikhenthuongcongtrang', 'hoanthanh')) {
-            return view('errors.noperm')
-                ->with('machucnang', 'qdhosodenghikhenthuongcongtrang')
-                ->with('tenphanquyen', 'hoanthanh');
-        }
+    {        
         $inputs = $request->all();
         $thoigian = date('Y-m-d H:i:s');
         $trangthai = 'CXKT';

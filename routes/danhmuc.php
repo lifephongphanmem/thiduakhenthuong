@@ -50,6 +50,8 @@ Route::group(['prefix' => 'NhomChucNang'], function () {
 
     Route::get('PhanQuyen', [dsnhomtaikhoanController::class, 'PhanQuyen']);
     Route::post('PhanQuyen', [dsnhomtaikhoanController::class, 'LuuPhanQuyen']);
+
+    Route::get('DanhSach', [dsnhomtaikhoanController::class, 'DanhSach']);
 });
 
 

@@ -7,8 +7,10 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Model\DanhMuc\dsdonvi;
 use App\Model\DanhMuc\dsnhomtaikhoan;
 use App\Model\DanhMuc\dsnhomtaikhoan_phanquyen;
+use App\Model\DanhMuc\dstaikhoan;
 use App\Model\HeThong\hethongchung_chucnang;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Session;
@@ -163,4 +165,20 @@ class dsnhomtaikhoanController extends Controller
             }
         }
     }
+
+    public function DanhSach(Request $request)
+    {
+        if (!chkPhanQuyen('dsnhomtaikhoan', 'danhsach')) {
+            return view('errors.noperm')->with('machucnang', 'dsnhomtaikhoan');
+        }
+
+        $inputs = $request->all();        
+        $m_nhom = dsnhomtaikhoan::where('manhomchucnang', $inputs['manhomchucnang'])->first();
+        $model = dstaikhoan::where('manhomchucnang', $inputs['manhomchucnang'])->get();
+        return view('HeThongChung.NhomTaiKhoan.DanhSach')
+            ->with('model', $model)           
+            ->with('m_nhom', $m_nhom)           
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'Danh sách tài khoản trong nhóm');
+    }    
 }
