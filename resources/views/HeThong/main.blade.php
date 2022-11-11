@@ -40,7 +40,7 @@
     <div id="kt_header_mobile" class="header-mobile">
         <!--begin::Logo-->
         <a href="/">
-            <img alt="Logo" src="{{ url('assets/media/logos/LoGo_TDKT.jpg') }}" class="logo-default max-h-30px" />
+            <img alt="Logo" src="{{ url('assets/media/logos/TDKT.png') }}" class="logo-default max-h-30px" />
         </a>
         <!--end::Logo-->
         <!--begin::Toolbar-->
@@ -63,7 +63,7 @@
                     <div class="aside-brand d-flex flex-column align-items-center flex-column-auto py-5 py-lg-12">
                         <!--begin::Logo-->
                         <a href="/">
-                            <img alt="Logo" src="{{ url('assets/media/logos/LoGo_TDKT.jpg') }}"
+                            <img alt="Logo" src="{{ url('assets/media/logos/TDKT.png') }}"
                                 class="max-h-35px" />
                         </a>
                         <!--end::Logo-->
