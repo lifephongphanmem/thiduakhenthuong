@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="card-body">
-            <div class="form-group row">
+            {{-- <div class="form-group row">
                 <div class="col-lg-6">
                     <label>Địa bàn</label>
                     {!! Form::select('madiaban', $a_diaban, $inputs['madiaban'], [
@@ -45,7 +45,7 @@
                         'onchange' => 'genderChanged(this)',
                     ]) !!}
                 </div>
-            </div>
+            </div> --}}
 
             <div class="row">
                 <div class="col-md-12">
@@ -68,9 +68,8 @@
                                     <td class="success">{{ $tt->tentaikhoan }}</td>
                                     <td>{{ $tt->tendangnhap }}</td>
                                     <td>
-                                        <a title="Tải tệp" href="{{ url('/DangNhap?tendangnhap=' . $tt->tendangnhap) }}"
-                                            class="btn btn-sm btn-clean btn-icon"><i
-                                                class="icon-lg la flaticon-download text-dark"></i>
+                                        <a title="Đăng nhập" href="{{ url('/DangNhap?tendangnhap=' . $tt->tendangnhap) }}"
+                                            class="btn btn-sm btn-primary">Đăng nhập
                                         </a>
                                     </td>
                                 </tr>

@@ -214,12 +214,14 @@ class hethongchungController extends Controller
         $inputs = $request->all();
         $m_diaban = dsdiaban::all();
         $inputs['madiaban'] = $inputs['madiaban'] ??  $m_diaban->first()->madiaban;
-        $m_donvi = dsdonvi::where('madiaban', $inputs['madiaban'])->get();
+        $m_donvi = dsdonvi::all();
         
         $a_donvi = array_column($m_donvi->toarray(),'tendonvi','madonvi');
-        $model = dstaikhoan::wherein('madonvi',array_column($m_donvi->toarray(),'madonvi'))->get();
+        //$model = dstaikhoan::wherein('madonvi',array_column($m_donvi->toarray(),'madonvi'))->get();
+        $model = dstaikhoan::where('tendangnhap','<>','SSA')->get();
         foreach($model as $ct){
-            $ct->tendonvi = $a_donvi[$ct->madonvi] ?? $ct->madonvi;
+
+            $ct->tendonvi = $a_donvi[$ct->madonvi] ?? '';
         }
         //dd($inputs);
         return view('CongBo.DanhSachTaiKhoan')
