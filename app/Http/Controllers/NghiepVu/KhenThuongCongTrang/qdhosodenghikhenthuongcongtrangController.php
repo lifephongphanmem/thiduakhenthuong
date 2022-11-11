@@ -80,7 +80,16 @@ class qdhosodenghikhenthuongcongtrangController extends Controller
         //Lấy hồ sơ
         $model = $model->orderby('ngayhoso')->get();
         // $m_khenthuong = dshosokhenthuong::wherein('mahosotdkt', array_column($model->toarray(), 'mahosotdkt'))->where('trangthai', 'DKT')->get();
-        foreach ($model as $hoso) {
+        $a_diabancumkhoi = getDiaBanCumKhoi(session('admin')->tendangnhap);
+        $a_donvidiaban = array_column(viewdiabandonvi::all()->toArray(), 'madiaban', 'madonvi');
+        foreach ($model as $key => $hoso) {
+
+            if (count($a_diabancumkhoi) > 0) {
+                //đơn vị => đia bàn => lọc điều kiện
+                $madiaban = $a_donvidiaban[$hoso->madonvi];
+                if (!in_array($madiaban, $a_diabancumkhoi))
+                    $model->forget($key);
+            }
             //nếu hồ sơ của đơn vị thì để chỉnh sửa (cho trường hợp tự nhập quyết định khen thưởng)
             $hoso->chinhsua = $hoso->madonvi == $inputs['madonvi'] ? true : false;
             $hoso->soluongkhenthuong = dshosothiduakhenthuong_canhan::where('mahosotdkt', $hoso->mahosotdkt)->where('ketqua', '1')->count()
@@ -1108,7 +1117,7 @@ class qdhosodenghikhenthuongcongtrangController extends Controller
         return redirect(static::$url . 'InPhoi?mahosotdkt=' . $model->mahosotdkt);
     }
 
-    
+
 
     public function InToTrinhPheDuyet(Request $request)
     {
