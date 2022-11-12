@@ -75,7 +75,7 @@
     </div>
     <!--end::Card-->
 
-    {!! Form::open(['url' => 'NhomChucNang/Sua', 'id' => 'frm_modify']) !!}
+    {!! Form::open(['url' => '/NhomChucNang/ThietLapLai', 'id' => 'frm_modify']) !!}
     <div id="modify-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -86,7 +86,7 @@
                 <div class="modal-body">
                     <div class="form-horizontal">
                         <div class="form-group row">
-                            <h3 class="text-primary">Các phân quyền của tài khoản sẽ được thay thế bằng phân quyền</h3>
+                            <h3 class="text-warning">Các phân quyền của tài khoản sẽ được thay thế bằng phân quyền theo nhóm. Bạn có chắc chắn muốn thay đổi ?</h3>
                         </div>
                     </div>
                 </div>

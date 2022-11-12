@@ -27,17 +27,21 @@
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
-                
+
                 <!--end::Button-->
             </div>
         </div>
         <div class="card-body">
-            {{-- <div class="form-group row">
+            <div class="form-group row">
                 <div class="col-lg-6">
-                    <label>Địa bàn</label>
-                    {!! Form::select('madiaban', getDiaBan_All(), null, ['id' => 'madiaban', 'class' => 'form-control select2basic']) !!}
+                    <label><b>Cấp độ khen thưởng</b></label>
+                    {!! Form::select('capkhenthuong', setArrayAll($a_phamvi, 'Tất cả', 'ALL'), $inputs['capkhenthuong'], [
+                        'id' => 'capkhenthuong',
+                        'class' => 'form-control select2basic',
+                        'onchange' => 'genderChanged(this)',
+                    ]) !!}
                 </div>
-            </div> --}}
+            </div>
 
             <div class="row">
                 <div class="col-md-12">
@@ -62,11 +66,11 @@
                                     <td style="text-align: center">
                                         {{ $a_phamvi[$tt->capkhenthuong] ?? '' }}</td>
                                     <td>
-                                       
+
                                         <button type="button" title="Tải tệp"
                                             onclick="get_attack('{{ $tt->maquyetdinh }}', '{{ $tt->phanloaikhenthuong }}')"
-                                            class="btn btn-sm btn-clean btn-icon"
-                                            data-target="#dinhkem-modal-confirm" data-toggle="modal"><i class="icon-lg la flaticon-download text-dark"></i>
+                                            class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
+                                            data-toggle="modal"><i class="icon-lg la flaticon-download text-dark"></i>
                                         </button>
                                     </td>
                                 </tr>
@@ -119,6 +123,12 @@
                     toastr.error(message, 'Lỗi!');
                 }
             });
+        }
+    </script>
+
+    <script>
+        function genderChanged(obj) {
+            window.location.href = '/CongBo/QuyetDinh?capkhenthuong=' + obj.value;
         }
     </script>
 @stop

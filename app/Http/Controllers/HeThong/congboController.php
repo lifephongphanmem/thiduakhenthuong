@@ -48,20 +48,28 @@ class congboController extends Controller
     {
         $inputs = $request->all();
         $inputs['url'] = '/QuanLyVanBan/VanBanPhapLy';
-        $a_donvi = array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi');
+        //$a_donvi = array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi');
         $model = dsquyetdinhkhenthuong::all();
+        $inputs['capkhenthuong'] = $inputs['capkhenthuong'] ?? 'ALL';
+        //dd($model);
         //Hô sơ khen thưởng
-        foreach (dshosothiduakhenthuong::where('trangthai', 'DKT')->get() as $hoso) {
+        $dshosothiduakhenthuong = dshosothiduakhenthuong::where('trangthai', 'DKT')->get();
+        foreach ($dshosothiduakhenthuong as $hoso) {
             $hoso->tieude = $hoso->noidung;
             $hoso->maquyetdinh = $hoso->mahosotdkt;
             $hoso->phanloaikhenthuong = 'dshosothiduakhenthuong';
             $model->add($hoso);
         }
-        foreach (dshosotdktcumkhoi::where('trangthai', 'DKT')->get() as $hoso) {
+        $dshosotdktcumkhoi = dshosotdktcumkhoi::where('trangthai', 'DKT')->get();
+        foreach ($dshosotdktcumkhoi as $hoso) {
             $hoso->tieude = $hoso->noidung;
             $hoso->phanloaikhenthuong = 'dshosotdktcumkhoi';
             $hoso->maquyetdinh = $hoso->mahosotdkt;
             $model->add($hoso);
+        }
+        $inputs['capkhenthuong'] = $inputs['capkhenthuong'] ?? 'ALL';
+        if ($inputs['capkhenthuong'] != 'ALL') {
+            $model = $model->where('capkhenthuong', $inputs['capkhenthuong']);
         }
         //dd($model);
         return view('CongBo.QuyetDinh')
@@ -78,21 +86,21 @@ class congboController extends Controller
             'message' => 'error',
         );
 
-        $inputs = $request->all();       
+        $inputs = $request->all();
         $inputs['phanloai'] = $inputs['phanloai'] == null ? 'dsquyetdinhkhenthuong' : $inputs['phanloai'];
-        switch($inputs['phanloai']){
-            case 'dshosothiduakhenthuong':{
-                $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['maqd'])->first();
-                break;
-            }
-            case 'dshosotdktcumkhoi':{
-                $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['maqd'])->first();
-                break;
-            }
-            default:{
-                $model = dsquyetdinhkhenthuong::where('maquyetdinh', $inputs['maqd'])->first();
-                $model->qdkt = $model->ipf1;
-            }
+        switch ($inputs['phanloai']) {
+            case 'dshosothiduakhenthuong': {
+                    $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['maqd'])->first();
+                    break;
+                }
+            case 'dshosotdktcumkhoi': {
+                    $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['maqd'])->first();
+                    break;
+                }
+            default: {
+                    $model = dsquyetdinhkhenthuong::where('maquyetdinh', $inputs['maqd'])->first();
+                    $model->qdkt = $model->ipf1;
+                }
         }
 
         $result['message'] = '<div class="modal-body" id = "dinh_kem" >';
