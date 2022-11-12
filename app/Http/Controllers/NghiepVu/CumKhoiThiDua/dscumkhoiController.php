@@ -102,7 +102,7 @@ class dscumkhoiController extends Controller
             return view('errors.noperm')->with('machucnang', 'dscumkhoithidua')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
-        dscumkhoi::findorfail($inputs['iddelete'])->delete();
+        dscumkhoi::findorfail($inputs['id'])->delete();
         return redirect(static::$url . 'ThongTin');
     }
 
