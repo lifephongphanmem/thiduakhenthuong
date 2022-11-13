@@ -173,98 +173,7 @@ class dsphongtraothiduaController extends Controller
         $model->delete();
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }
-
-    public function ThemKhenThuong(Request $request)
-    {
-        $result = array(
-            'status' => 'fail',
-            'message' => 'error',
-        );
-        if (!Session::has('admin')) {
-            $result = array(
-                'status' => 'fail',
-                'message' => 'permission denied',
-            );
-            die(json_encode($result));
-        }
-        //dd($request);
-        $inputs = $request->all();
-        $m_danhhieu = dmdanhhieuthidua::where('madanhhieutd', $inputs['madanhhieutd'])->first();
-        $model = dsphongtraothidua_khenthuong::where('madanhhieutd', $inputs['madanhhieutd'])
-            ->where('maphongtraotd', $inputs['maphongtraotd'])->first();
-        if ($model == null) {
-            $model = new dsphongtraothidua_khenthuong();
-            $model->madanhhieutd = $m_danhhieu->madanhhieutd;
-            $model->mahinhthuckt = $inputs['mahinhthuckt'];
-            $model->maphongtraotd = $inputs['maphongtraotd'];
-            $model->soluong = $inputs['soluong'];
-            $model->tendanhhieutd = $m_danhhieu->tendanhhieutd;
-            $model->phanloai = $m_danhhieu->phanloai;
-            $model->save();
-            $m_tieuchuan = dmdanhhieuthidua_tieuchuan::where('madanhhieutd', $inputs['madanhhieutd'])->get();
-            foreach ($m_tieuchuan as $tieuchuan) {
-                $model = new dsphongtraothidua_tieuchuan();
-                $model->maphongtraotd = $inputs['maphongtraotd'];
-                $model->madanhhieutd = $tieuchuan->madanhhieutd;
-                $model->matieuchuandhtd = $tieuchuan->matieuchuandhtd;
-                $model->tentieuchuandhtd = $tieuchuan->tentieuchuandhtd;
-                $model->cancu = $tieuchuan->cancu;
-                $model->batbuoc = 1;
-                $model->save();
-            }
-        } else {
-            $model->soluong = $inputs['soluong'];
-            $model->mahinhthuckt = $inputs['mahinhthuckt'];
-            $model->tendanhhieutd = $m_danhhieu->tendanhhieutd;
-            $model->phanloai = $m_danhhieu->phanloai;
-            $model->save();
-        }
-
-        $modelct = dsphongtraothidua_khenthuong::where('maphongtraotd', $inputs['maphongtraotd'])->get();
-        $a_hinhthuckt = array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt');
-        if (isset($modelct)) {
-
-            $result['message'] = '<div class="row" id="dskhenthuong">';
-
-            $result['message'] .= '<div class="col-md-12">';
-            $result['message'] .= '<table id="sample_3" class="table table-striped table-bordered table-hover" >';
-            $result['message'] .= '<thead>';
-            $result['message'] .= '<tr>';
-            $result['message'] .= '<th width="2%" style="text-align: center">STT</th>';
-            $result['message'] .= '<th style="text-align: center" width="25%">Phân loại</th>';
-            $result['message'] .= '<th style="text-align: center">Danh hiệu thi đua</th>';
-            $result['message'] .= '<th style="text-align: center">Hình thức khen thưởng</th>';
-            $result['message'] .= '<th style="text-align: center" width="8%">Số lượng</th>';
-            $result['message'] .= '<th style="text-align: center" width="10%">Thao tác</th>';
-            $result['message'] .= '</tr>';
-            $result['message'] .= '</thead>';
-
-            $result['message'] .= '<tbody>';
-            $key = 1;
-            foreach ($modelct as $ct) {
-
-                $result['message'] .= '<tr>';
-                $result['message'] .= '<td style="text-align: center">' . $key++ . '</td>';
-                $result['message'] .= '<td>' . $ct->phanloai . '</td>';
-                $result['message'] .= '<td class="active">' . $ct->tendanhhieutd . '</td>';
-                $result['message'] .= '<td>' . ($a_hinhthuckt[$ct->mahinhthuckt] ?? '') . '</td>';
-                $result['message'] .= '<td style="text-align: center">' . $ct->soluong . '</td>';
-                $result['message'] .= '<td>' .
-                    '<button title="Tiêu chuẩn" type="button" onclick="getTieuChuan(' . $ct->madanhhieutd . ')" class="btn btn-sm btn-clean btn-icon" data-target="#modal-tieuchuan" data-toggle="modal"> <i class="icon-lg la fa-list text-dark"></i></button>' .
-                    '<button title="Xóa" type="button" onclick="getId(' . $ct->id . ')"  class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal" data-toggle="modal">  <i class="icon-lg la fa-trash-alt text-danger"></i></button>' .
-                    '</td>';
-
-                $result['message'] .= '</tr>';
-            }
-            $result['message'] .= '</tbody>';
-            $result['message'] .= '</table>';
-            $result['message'] .= '</div>';
-            $result['message'] .= '</div>';
-            $result['status'] = 'success';
-        }
-        die(json_encode($result));
-    }
-
+    
     public function ThemTieuChuan(Request $request)
     {
         $result = array(
@@ -287,12 +196,14 @@ class dsphongtraothiduaController extends Controller
             $model->tentieuchuandhtd = $inputs['tentieuchuandhtd'];
             $model->phanloaidoituong = $inputs['phanloaidoituong'];
             $model->matieuchuandhtd = getdate()[0];
-            $model->batbuoc = $inputs['batbuoc'];
+            //$model->batbuoc = $inputs['batbuoc'];
+            $model->ghichu = $inputs['ghichu'];
             $model->save();
         } else {
-            $model->batbuoc = $inputs['batbuoc'];
+            //$model->batbuoc = $inputs['batbuoc'];
             $model->tentieuchuandhtd = $inputs['tentieuchuandhtd'];
             $model->phanloaidoituong = $inputs['phanloaidoituong'];
+            $model->ghichu = $inputs['ghichu'];
             $model->save();
         }
 
@@ -308,7 +219,7 @@ class dsphongtraothiduaController extends Controller
             $result['message'] .= '<th width="5%" style="text-align: center">STT</th>';
             $result['message'] .= '<th style="text-align: center">Đối tượng áp dụng</th>';
             $result['message'] .= '<th style="text-align: center">Tên tiêu chuẩn xét khen thưởng</th>';
-            $result['message'] .= '<th style="text-align: center" width="10%">Tiêu chuẩn</br>Bắt buộcc</th>';
+            $result['message'] .= '<th style="text-align: center" width="25%">Ghi chú</th>';
             $result['message'] .= '<th style="text-align: center" width="10%">Thao tác</th>';
             $result['message'] .= '</tr>';
             $result['message'] .= '</thead>';
@@ -321,17 +232,11 @@ class dsphongtraothiduaController extends Controller
                 $result['message'] .= '<td style="text-align: center">' . $key++ . '</td>';
                 $result['message'] .= '<td>' . ($a_phanloaidt[$ct->phanloaidoituong] ?? $ct->phanloaidoituong) . '</td>';
                 $result['message'] .= '<td class="active">' . $ct->tentieuchuandhtd . '</td>';
-
-                if ($ct->batbuoc == 0) {
-                    $result['message'] .= '<td style="text-align: center"></td>';
-                } else {
-                    $result['message'] .= '<td class="text-center"><button class="btn btn-sm btn-clean btn-icon">'
-                        . '<i class="icon-lg la fa-check text-success"></i></button></td>';
-                }
+                $result['message'] .= '<td>' . $ct->ghichu . '</td>';                
 
                 $result['message'] .= '<td>' .
                     '<button type="button" data-target="#modal-tieuchuan" data-toggle="modal" class="btn btn-sm btn-clean btn-icon" onclick="getTieuChuan(' . $ct->id . ')" ><i class="icon-lg la fa-edit text-dark"></i></button>' .
-                    '<button type="button" data-target="#delete-modal" data-toggle="modal" class="btn btn-sm btn-clean btn-icon" onclick="editDanhHieu(' . $ct->id . ')"><i class="icon-lg la fa-trash-alt text-dangert"></i></button>'
+                    '<button type="button" data-target="#delete-modal" data-toggle="modal" class="btn btn-sm btn-clean btn-icon" onclick="editDanhHieu(' . $ct->id . ')"><i class="icon-lg la fa-trash-alt text-danger"></i></button>'
                     . '</td>';
 
                 $result['message'] .= '</tr>';

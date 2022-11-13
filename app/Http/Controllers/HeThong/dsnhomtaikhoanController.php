@@ -33,14 +33,14 @@ class dsnhomtaikhoanController extends Controller
             return view('errors.noperm')->with('machucnang', 'dsnhomtaikhoan');
         }
 
-        $inputs = $request->all();        
+        $inputs = $request->all();
         $model = dsnhomtaikhoan::all();
-        
+
         return view('HeThongChung.NhomTaiKhoan.ThongTin')
-            ->with('model', $model)           
+            ->with('model', $model)
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách nhóm tài khoản');
-    }    
+    }
 
 
     /**
@@ -55,14 +55,14 @@ class dsnhomtaikhoanController extends Controller
             return view('errors.noperm')->with('machucnang', 'dsnhomtaikhoan');
         }
         $inputs = $request->all();
-       
+
 
         $model = dsnhomtaikhoan::where('manhomchucnang', $inputs['manhomchucnang'])->first();
         if ($model == null) {
             $inputs['manhomchucnang'] = getdate()[0];
             dsnhomtaikhoan::create($inputs);
         } else {
-           
+
             $model->update($inputs);
         }
 
@@ -81,7 +81,7 @@ class dsnhomtaikhoanController extends Controller
             return view('errors.noperm')->with('machucnang', 'dsnhomtaikhoan');
         }
         $id = $request->all()['id'];
-        $model = dsnhomtaikhoan::findorFail($id);        
+        $model = dsnhomtaikhoan::findorFail($id);
         $model->delete();
         return redirect('/NhomChucNang/ThongTin');
     }
@@ -121,7 +121,7 @@ class dsnhomtaikhoanController extends Controller
         if (!chkPhanQuyen('dsnhomtaikhoan', 'thaydoi')) {
             return view('errors.noperm')->with('machucnang', 'dstaikhoan');
         }
-        
+
         $inputs = $request->all();
         $inputs['phanquyen'] = isset($inputs['phanquyen']) ? 1 : 0;
         $inputs['danhsach'] = isset($inputs['danhsach']) ? 1 : 0;
@@ -172,13 +172,25 @@ class dsnhomtaikhoanController extends Controller
             return view('errors.noperm')->with('machucnang', 'dsnhomtaikhoan');
         }
 
-        $inputs = $request->all();        
+        $inputs = $request->all();
         $m_nhom = dsnhomtaikhoan::where('manhomchucnang', $inputs['manhomchucnang'])->first();
         $model = dstaikhoan::where('manhomchucnang', $inputs['manhomchucnang'])->get();
+        //dd($inputs);
         return view('HeThongChung.NhomTaiKhoan.DanhSach')
-            ->with('model', $model)           
-            ->with('m_nhom', $m_nhom)           
+            ->with('model', $model)
+            ->with('m_nhom', $m_nhom)
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách tài khoản trong nhóm');
-    }    
+    }
+
+    public function ThietLapLai(Request $request)
+    {
+        if (!chkPhanQuyen('dsnhomtaikhoan', 'danhsach')) {
+            return view('errors.noperm')->with('machucnang', 'dsnhomtaikhoan');
+        }
+
+        $inputs = $request->all();
+        dd($inputs);
+        return '/NhomChucNang/DanhSach?manhomchucnang=' . $inputs['manhomchucnang'];
+    }
 }

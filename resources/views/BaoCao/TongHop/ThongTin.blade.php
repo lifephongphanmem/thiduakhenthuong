@@ -182,7 +182,7 @@
                 <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Địa bàn</label>
-                        {!! Form::select('madiaban', setArrayAll($a_diaban), null, ['class' => 'form-control']) !!}
+                        {!! Form::select('madiaban', setArrayAll($a_diaban), null, ['class' => 'form-control select2_modal']) !!}
                     </div>
                 </div>
 
@@ -241,7 +241,7 @@
                 <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Địa bàn</label>
-                        {!! Form::select('madiaban', setArrayAll($a_diaban), null, ['madiaban' => 'madt', 'class' => 'form-control']) !!}
+                        {!! Form::select('madiaban', setArrayAll($a_diaban), null, ['madiaban' => 'madt', 'class' => 'form-control select2_modal']) !!}
                     </div>
                 </div>
 
@@ -302,7 +302,7 @@
                 <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Địa bàn</label>
-                        {!! Form::select('madiaban', setArrayAll($a_diaban), null, ['madiaban' => 'madt', 'class' => 'form-control']) !!}
+                        {!! Form::select('madiaban', setArrayAll($a_diaban), null, ['madiaban' => 'madt', 'class' => 'form-control select2_modal']) !!}
                     </div>
                 </div>
 
@@ -370,7 +370,7 @@
                 <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Địa bàn</label>
-                        {!! Form::select('madiaban', setArrayAll($a_diaban), null, ['madiaban' => 'madt', 'class' => 'form-control']) !!}
+                        {!! Form::select('madiaban', setArrayAll($a_diaban), null, ['madiaban' => 'madt', 'class' => 'form-control select2_modal']) !!}
                     </div>
                 </div>
 

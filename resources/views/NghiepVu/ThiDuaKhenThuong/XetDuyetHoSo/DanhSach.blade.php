@@ -82,6 +82,7 @@
                                         class="btn btn-sm btn-clean btn-icon" target="_blank">
                                         <i class="icon-lg la fa-eye text-dark"></i>
                                     </a>
+                                    
                                     @if ($tt->nhanhoso == 'DANGNHAN')
                                         @if (in_array($tt->trangthai_hoso, ['CD', 'CNXKT']))
                                             <button title="Nhận hồ sơ đăng ký" type="button"

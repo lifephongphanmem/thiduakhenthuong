@@ -47,16 +47,17 @@
 
         function ThemTieuChuan() {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            var batbuoc = $("#batbuoc").is(":checked");
+            //var batbuoc = $("#batbuoc").is(":checked");
             $.ajax({
                 url: '/PhongTraoThiDua/ThemTieuChuan',
                 type: 'GET',
                 data: {
                     _token: CSRF_TOKEN,
-                    batbuoc: batbuoc,
+                    //batbuoc: batbuoc,
                     matieuchuandhtd: $('#frmThemTieuChuan').find("[name='matieuchuandhtd']").val(),
                     tentieuchuandhtd: $('#frmThemTieuChuan').find("[name='tentieuchuandhtd']").val(),
                     phanloaidoituong: $('#frmThemTieuChuan').find("[name='phanloaidoituong']").val(),
+                    ghichu: $('#frmThemTieuChuan').find("[name='ghichu']").val(),
                     maphongtraotd: $('#frm_ThayDoi').find("[name='maphongtraotd']").val()
                 },
                 dataType: 'JSON',
@@ -96,10 +97,7 @@
                     $('#frmThemTieuChuan').find("[name='matieuchuandhtd']").val(data.matieuchuandhtd)
                     $('#frmThemTieuChuan').find("[name='phanloaidoituong']").val(data.phanloaidoituong).trigger(
                         'change');
-                    if (data.batbuoc == 1) {
-                        $('#frmThemTieuChuan').find("[name='batbuoc']").prop('checked', true);
-                    } else
-                        $('#frmThemTieuChuan').find("[name='batbuoc']").prop('checked', false);
+                        $('#frmThemTieuChuan').find("[name='ghichu']").val(data.ghichu);
                 }
             })
         }
@@ -175,19 +173,19 @@
                     {!! Form::select('maloaihinhkt', $a_loaihinhkt, null, ['class' => 'form-control select2basic']) !!}
                 </div>
 
-                <div class="col-lg-4">
+                {{-- <div class="col-lg-4">
                     <label>Hình thức tổ chức</label>
                     {!! Form::select('phanloai', getPhanLoaiPhongTraoThiDua(), null, ['class' => 'form-control select2basic']) !!}
-                </div>
+                </div> --}}
             </div>
 
             <div class="form-group row">
                 <div class="col-lg-3">
-                    <label>Số quyết định<span class="require">*</span></label>
+                    <label>Số văn bản<span class="require">*</span></label>
                     {!! Form::text('soqd', null, ['class' => 'form-control', 'required']) !!}
                 </div>
                 <div class="col-lg-3">
-                    <label>Ngày ra quyết định<span class="require">*</span></label>
+                    <label>Ngày ban hành<span class="require">*</span></label>
                     {!! Form::input('date', 'ngayqd', null, ['class' => 'form-control', 'required']) !!}
                 </div>
 
@@ -204,7 +202,7 @@
 
             <div class="form-group row">
                 <div class="col-lg-12">
-                    <label>Nội dung phong trào</label>
+                    <label>Tên phong trào</label>
                     {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows' => 2]) !!}
                 </div>
             </div>
@@ -254,11 +252,11 @@
                     <table id="sample_3" class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th style="text-align: center" width="10%">STT</th>
+                                <th style="text-align: center" width="5%">STT</th>
                                 <th style="text-align: center">Đối tượng áp dụng</th>
                                 <th style="text-align: center">Tên tiêu chuẩn xét khen thưởng</th>
-                                <th style="text-align: center" width="10%">Tiêu chuẩn</br>Bắt buộc</th>
-                                <th style="text-align: center" width="12%">Thao tác</th>
+                                <th style="text-align: center" width="25%">Ghi chú</th>
+                                <th style="text-align: center" width="10%">Thao tác</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -268,14 +266,8 @@
                                     <td style="text-align: center">{{ $i++ }}</td>
                                     <td>{{ $a_phanloaidt[$tt->phanloaidoituong] ?? $tt->phanloaidoituong }}</td>
                                     <td>{{ $tt->tentieuchuandhtd }}</td>
-                                    @if ($tt->batbuoc == 0)
-                                        <td class="text-center"></td>
-                                    @else
-                                        <td class="text-center">
-                                            <button class="btn btn-sm btn-clean btn-icon">
-                                                <i class="icon-lg la fa-check text-success"></i></button>
-                                        </td>
-                                    @endif
+                                    <td>{{ $tt->ghichu }}</td>
+                                    
                                     <td class="text-center">
                                         <button title="Tiêu chuẩn" type="button"
                                             onclick="getTieuChuan('{{ $tt->id }}')"
@@ -318,7 +310,7 @@
                 <div class="modal-body">
                     <div class="form-group row">
                         <div class="col-lg-12">
-                            <label class="control-label">Mô tả tiêu chuẩn</label>
+                            <label class="control-label">Đối tượng áp dụng</label>
                             {!! Form::select('phanloaidoituong', $a_phanloaidt, null, [
                                 'id' => 'phanloaidoituong',
                                 'class' => 'form-control',
@@ -337,13 +329,11 @@
                     </div>
 
                     <div class="form-group row">
-                        <div class="col-lg-offset-4 col-lg-3">
-                            <div class="md-checkbox">
-                                <input type="checkbox" id="batbuoc" name="batbuoc" class="md-check">
-                                <label for="batbuoc">
-                                    <span></span><span class="check"></span><span class="box"></span>Tiêu chuẩn bắt
-                                    buộc</label>
-                            </div>
+                        <div class="col-lg-12">
+                            <label class="control-label">Ghi chú </label>
+                            {!! Form::textarea('ghichu', null, ['class' => 'form-control',
+                                'rows' => 3,
+                            ]) !!}
                         </div>
                     </div>
                 </div>

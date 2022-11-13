@@ -24,6 +24,7 @@ Route::group(['prefix' => 'DungChung'], function () {
 //Hệ thống
 include('hethong.php');
 include('danhmuc.php');
+include('phongtraothidua.php');
 include('thiduakhenthuongcaccap.php');
 include('cumkhoi.php');
 include('tracuu.php');

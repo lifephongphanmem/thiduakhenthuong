@@ -86,8 +86,8 @@
                     form.find("[name='tenphongban']").val(data.tenphongban);
                     form.find("[name='tencoquan']").val(data.tencoquan);
                     form.find("[name='maphanloaicanbo']").val(data.maphanloaicanbo).trigger('change');
-                    form.find("[name='madanhhieukhenthuong']").val(data.madanhhieukhenthuong).trigger('change');
-                    //form.find("[name='madanhhieutd']").val(data.madanhhieutd).trigger('change');
+                    form.find("[name='mahinhthuckt']").val(data.mahinhthuckt).trigger('change');
+                    form.find("[name='madanhhieutd']").val(data.madanhhieutd).trigger('change');
                 }
             })
         }
@@ -106,8 +106,8 @@
                 success: function(data) {
                     var form = $('#frm_ThemTapThe');
                     form.find("[name='id']").val(data.id);
-                    form.find("[name='madanhhieukhenthuong']").val(data.madanhhieukhenthuong).trigger('change');
-                    //form.find("[name='mahinhthuckt']").val(data.mahinhthuckt).trigger('change');
+                    form.find("[name='madanhhieutd']").val(data.madanhhieutd).trigger('change');
+                    form.find("[name='mahinhthuckt']").val(data.mahinhthuckt).trigger('change');
                     form.find("[name='maphanloaitapthe']").val(data.maphanloaitapthe).trigger('change');
                     form.find("[name='tentapthe']").val(data.tentapthe);
                     //filedk: form.find("[name='filedk']").val(data.madoituong),
@@ -260,7 +260,8 @@
                                                             <td class="text-center">{{ $i++ }}</td>
                                                             <td>{{ $tt->tentapthe }}</td>
                                                             <td>{{ $a_tapthe[$tt->maphanloaitapthe] ?? '' }}</td>
-                                                            <td class="text-center">{{ $a_dhkt_tapthe[$tt->madanhhieukhenthuong] ?? '' }}</td>
+                                                            <td class="text-center">
+                                                                {{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td>
                                                             <td class="text-center">
                                                                 <button title="Sửa thông tin" type="button"
                                                                     onclick="getTapThe('{{ $tt->id }}')"
@@ -333,7 +334,8 @@
                                                                 {{ $tt->chucvu . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}
                                                             </td>
 
-                                                            <td class="text-center">{{ $a_dhkt_canhan[$tt->madanhhieukhenthuong] ?? '' }}</td>
+                                                            <td class="text-center">
+                                                                {{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td>
                                                             <td class="text-center">
                                                                 <button title="Sửa thông tin" type="button"
                                                                     onclick="getCaNhan('{{ $tt->id }}')"
@@ -404,12 +406,12 @@
                             <label class="form-control-label">Tên đối tượng</label>
                             {!! Form::text('tendoituong', null, ['class' => 'form-control']) !!}
                         </div>
-                        {{-- <div class="col-lg-1">
+                        <div class="col-lg-1">
                             <label class="text-center">Chọn</label>
                             <button type="button" class="btn btn-default btn-icon" data-target="#modal-doituong"
                                 data-toggle="modal">
                                 <i class="fa fa-plus"></i></button>
-                        </div> --}}
+                        </div>
                         <div class="col-md-3">
                             <label class="form-control-label">Ngày sinh</label>
                             {!! Form::input('date', 'ngaysinh', null, ['class' => 'form-control']) !!}
@@ -455,7 +457,7 @@
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label class="control-label">Danh hiệu thi đua</label>
-                            {!! Form::select('madanhhieukhenthuong', $a_dhkt_canhan, null, [
+                            {!! Form::select('madanhhieutd', setArrayAll($a_danhhieutd, 'Không đăng ký', 'null'), null, [
                                 'class' => 'form-control',
                             ]) !!}
                         </div>
@@ -497,12 +499,12 @@
                             <label class="form-control-label">Tên tập thể</label>
                             {!! Form::text('tentapthe', null, ['class' => 'form-control']) !!}
                         </div>
-                        {{-- <div class="col-lg-1">
+                        <div class="col-lg-1">
                             <label class="text-center">Chọn</label>
                             <button type="button" class="btn btn-default btn-icon" data-target="#modal-tapthe"
                                 data-toggle="modal">
                                 <i class="fa fa-plus"></i></button>
-                        </div> --}}
+                        </div>
                     </div>
 
                     <div class="form-group row">
@@ -517,7 +519,7 @@
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label class="control-label">Danh hiệu thi đua</label>
-                            {!! Form::select('madanhhieukhenthuong', $a_dhkt_tapthe, null, [
+                            {!! Form::select('madanhhieutd', setArrayAll($a_danhhieutd, 'Không đăng ký', 'null'), null, [
                                 'class' => 'form-control',
                             ]) !!}
                         </div>

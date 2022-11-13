@@ -16,14 +16,6 @@
         jQuery(document).ready(function() {
             TableManaged3.init();
         });
-
-        function setNhomTK(manhomchucnang, tennhomchucnang, stt) {
-            var form = $('#frm_modify');
-            form.find("[name='manhomchucnang']").val(manhomchucnang);
-            form.find("[name='tennhomchucnang']").val(tennhomchucnang);
-            form.find("[name='stt']").val(stt);
-
-        }
     </script>
 @stop
 
@@ -32,12 +24,13 @@
     <div class="card card-custom wave wave-animate-slow wave-primary" style="min-height: 600px">
         <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Danh sách tài khoản trong nhóm chức năng: {{$m_nhom->tennhomchucnang}}</h3>
+                <h3 class="card-label text-uppercase">Danh sách tài khoản trong nhóm chức năng:
+                    {{ $m_nhom->tennhomchucnang }}</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
                 @if (chkPhanQuyen('dsnhomtaikhoan', 'thaydoi'))
-                    <button type="button" onclick="setNhomTK('','', '{{ count($model) }}')" class="btn btn-success btn-xs"
+                    <button type="button" class="btn btn-success btn-xs"
                         data-target="#modify-modal" data-toggle="modal">
                         <i class="icon-lg flaticon-refresh"></i>&nbsp;Thiết lập lại quyền</button>
                 @endif
@@ -64,7 +57,7 @@
                                 <tr>
                                     <td class="text-center">{{ $i++ }}</td>
                                     <td>{{ $tt->tendonvi }}</td>
-                                    <td>{{ $tt->tentaikhoan }}</td>                                    
+                                    <td>{{ $tt->tentaikhoan }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -76,6 +69,7 @@
     <!--end::Card-->
 
     {!! Form::open(['url' => '/NhomChucNang/ThietLapLai', 'id' => 'frm_modify']) !!}
+    <input type="hidden" name="manhomchucnang" value="{{ $inputs['manhomchucnang'] }}" />
     <div id="modify-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -86,7 +80,8 @@
                 <div class="modal-body">
                     <div class="form-horizontal">
                         <div class="form-group row">
-                            <h3 class="text-warning">Các phân quyền của tài khoản sẽ được thay thế bằng phân quyền theo nhóm. Bạn có chắc chắn muốn thay đổi ?</h3>
+                            <h3 class="text-warning">Các phân quyền của tài khoản sẽ được thay thế bằng phân quyền theo
+                                nhóm. Bạn có chắc chắn muốn thay đổi ?</h3>
                         </div>
                     </div>
                 </div>

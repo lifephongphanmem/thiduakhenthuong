@@ -86,6 +86,14 @@ class dshosodangkyphongtraothiduaController extends Controller
         $inputs = $request->all();
         $inputs['url'] = 'DangKyDanhHieu/HoSo/';
         $model = dshosodangkyphongtraothidua::where('mahosodk', $inputs['mahosodk'])->first();
+        $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
+        $model->tendonvi = $donvi->tendonvi;
+               $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
+               $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
+       
+       
+       
+
         $model_canhan = dshosodangkyphongtraothidua_canhan::where('mahosodk', $inputs['mahosodk'])->get();
         $model_tapthe = dshosodangkyphongtraothidua_tapthe::where('mahosodk', $inputs['mahosodk'])->get();
         $model->tendonvi = getThongTinDonVi($model->madonvi, 'tendonvi');
@@ -98,9 +106,11 @@ class dshosodangkyphongtraothiduaController extends Controller
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
-            ->with('m_donvi', $m_donvi)
-            ->with('m_diaban', $m_diaban)
-            ->with('m_danhhieu', $m_danhhieu)
+            //->with('m_donvi', $m_donvi)
+            //->with('m_diaban', $m_diaban)
+            //->with('m_danhhieu', $m_danhhieu)
+            ->with('a_dhkt_canhan', $a_dhkt_canhan)
+                   ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
             ->with('a_danhhieutd', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
             ->with('a_tapthe', $a_tapthe)
             ->with('a_canhan', $a_canhan)
@@ -117,12 +127,14 @@ class dshosodangkyphongtraothiduaController extends Controller
         $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
         $m_danhhieu = dmdanhhieuthidua::all();
         $a_phanloaidt = array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai');
+        $a_dhkt = getDanhHieuKhenThuong('ALL');
         return view('NghiepVu.DangKyDanhHieu.HoSo.Xem')
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
             ->with('m_donvi', $m_donvi)
             ->with('a_danhhieutd', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
+            ->with('a_dhkt', $a_dhkt)
             ->with('a_phanloaidt', $a_phanloaidt)
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Thông tin hồ sơ đề nghị khen thưởng');

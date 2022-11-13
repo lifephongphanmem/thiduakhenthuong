@@ -57,7 +57,7 @@
                     <td class="text-center">{{ $i++ }}</td>
                     <td>{{ $tt->tentapthe }}</td>
                     <td>{{ $a_phanloaidt[$tt->maphanloaitapthe] ?? '' }}</td>
-                    <td>{{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td>
+                    <td class="text-center">{{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}</td>
                 </tr>
             @endforeach
         </table>
@@ -83,7 +83,7 @@
                     <td>{{ $tt->tendoituong }}</td>
                     <td>{{ $a_phanloaidt[$tt->maphanloaicanbo] ?? '' }}</td>
                     <td>{{ $tt->chucvu . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}</td>
-                    <td>{{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td>
+                    <td class="text-center">{{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}</td>
                 </tr>
             @endforeach
         </table>
