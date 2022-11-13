@@ -77,13 +77,16 @@
                                             class="btn btn-sm btn-clean btn-icon">
                                             <i class="icon-lg flaticon2-user-1 text-primary"></i>
                                         </a>
-
-                                        <a title="Danh sách đơn vị trong nhóm"
-                                            href="{{ url('/NhomChucNang/DanhSach?manhomchucnang=' . $tt->manhomchucnang) }}"
-                                            class="btn btn-sm btn-clean btn-icon">
-                                            <i class="icon-lg flaticon-list-2 text-dark"></i>
+                                       
+                                        <a href="{{ url('/NhomChucNang/DanhSach?manhomchucnang=' . $tt->manhomchucnang) }}"
+                                            class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
+                                            title="Danh sách đơn vị trong nhóm">
+                                            <span class="svg-icon svg-icon-xl">
+                                                <i class="icon-lg la flaticon-list-2 text-dark"></i>
+                                            </span>
+                                            <span
+                                                class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->soluong }}</span>
                                         </a>
-
                                         <button title="Xóa thông tin" type="button"
                                             onclick="confirmDelete('{{ $tt->id }}','/NhomChucNang/Xoa')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"

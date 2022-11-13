@@ -11,6 +11,7 @@ use App\Model\DanhMuc\dsdonvi;
 use App\Model\DanhMuc\dsnhomtaikhoan;
 use App\Model\DanhMuc\dsnhomtaikhoan_phanquyen;
 use App\Model\DanhMuc\dstaikhoan;
+use App\Model\DanhMuc\dstaikhoan_phanquyen;
 use App\Model\HeThong\hethongchung_chucnang;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Session;
@@ -34,8 +35,11 @@ class dsnhomtaikhoanController extends Controller
         }
 
         $inputs = $request->all();
-        $model = dsnhomtaikhoan::all();
-
+        $model = dsnhomtaikhoan::all();        
+        $m_taikhoan = dstaikhoan::all();
+        foreach ($model as $ct){
+            $ct->soluong = $m_taikhoan->where('manhomchucnang', $ct->manhomchucnang)->count();
+        }
         return view('HeThongChung.NhomTaiKhoan.ThongTin')
             ->with('model', $model)
             ->with('inputs', $inputs)
@@ -190,7 +194,31 @@ class dsnhomtaikhoanController extends Controller
         }
 
         $inputs = $request->all();
-        dd($inputs);
-        return '/NhomChucNang/DanhSach?manhomchucnang=' . $inputs['manhomchucnang'];
+
+        $model = dstaikhoan::where('manhomchucnang', $inputs['manhomchucnang'])->get();
+        $model_phanquyen = dsnhomtaikhoan_phanquyen::where('manhomchucnang', $inputs['manhomchucnang'])->get();
+
+
+        $a_phanquyen = [];
+        foreach ($model as $taikhoan) {
+            foreach ($model_phanquyen as $phanquyen) {
+                $a_phanquyen[] = [
+                    'tendangnhap' => $taikhoan->tendangnhap,
+                    'machucnang' => $phanquyen->machucnang,
+                    'phanquyen' => $phanquyen->phanquyen,
+                    'danhsach' => $phanquyen->danhsach,
+                    'thaydoi' => $phanquyen->thaydoi,
+                    'hoanthanh' => $phanquyen->hoanthanh,
+                ];
+            }
+        }
+        
+        foreach (array_chunk(array_column($model->toarray(), 'tendangnhap'), 100) as $data) {
+            dstaikhoan_phanquyen::wherein('tendangnhap', $data)->delete();
+        }
+        foreach (array_chunk($a_phanquyen, 200) as $data) {
+            dstaikhoan_phanquyen::insert($data);
+        }
+        return redirect('/NhomChucNang/DanhSach?manhomchucnang=' . $inputs['manhomchucnang']);
     }
 }

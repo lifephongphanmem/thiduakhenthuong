@@ -25,7 +25,7 @@
 <div class="form-group row">
     <div class="col-6">
         <label>Chức vụ người ký</label>
-        {!! Form::text('chucvunguoikyqd', null, ['class' => 'form-control']) !!}
+        {!! Form::select('chucvunguoikyqd', getChucVuKhenThuong(), null, ['class' => 'form-control']) !!}
     </div>
     <div class="col-6">
         <label>Họ tên người ký</label>

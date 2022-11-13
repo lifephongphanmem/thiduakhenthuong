@@ -125,7 +125,7 @@ class tracuucanhanController extends Controller
             $model_khenthuong = $model_khenthuong->where('maloaihinhkt', $inputs['maloaihinhkt']);
         //Lấy kết quả khen thưởng
         $model_khenthuong = $model_khenthuong->get();
-
+        //dd($model_khenthuong);
         //Đề tài
         $model_detai = $model_detai->wherein('mahosotdkt', array_unique(array_column($model_khenthuong->toarray(), 'mahosotdkt')));
         if ($inputs['tendoituong'] != null && $inputs['tendoituong'] != '')
