@@ -436,6 +436,7 @@ class dshosokhenthuongcongtrangController extends Controller
                 'chucvu' => $data[$i][$inputs['chucvu']] ?? '',
                 'tenphongban' => $data[$i][$inputs['tenphongban']] ?? '',
                 'tencoquan' => $data[$i][$inputs['tencoquan']] ?? '',
+                'ketqua'=>'1',
             );
         }
 
@@ -540,6 +541,7 @@ class dshosokhenthuongcongtrangController extends Controller
             $a_dm[] = array(
                 'mahosotdkt' => $inputs['mahosotdkt'],
                 'tentapthe' => $data[$i][$inputs['tentapthe']] ?? '',
+                'ketqua'=>'1',
                 'madanhhieukhenthuong' => $data[$i][$inputs['madanhhieukhenthuong']] ?? $inputs['madanhhieukhenthuong_md'],
                 'maphanloaitapthe' => $data[$i][$inputs['maphanloaitapthe']] ?? $inputs['maphanloaitapthe_md'],
                 // 'madanhhieutd' => $data[$i][$inputs['madanhhieutd']] ?? $inputs['madanhhieutd_md'],
