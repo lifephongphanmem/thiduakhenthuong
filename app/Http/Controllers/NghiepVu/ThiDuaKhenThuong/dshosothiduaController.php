@@ -341,10 +341,10 @@ class dshosothiduaController extends Controller
         $inputs = $request->all();
         $model = dshosothamgiaphongtraotd::where('mahosothamgiapt', $inputs['mahoso'])->first();
         $m_donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi_nhan'])->first();
-        
+
         $inputs['trangthai'] = session('chucnang')['dshosothidua']['trangthai'] ?? 'CC';
         //Thiết lập lại do chỉ có 2 bước trong quy trình
-        $inputs['trangthai'] = $inputs['trangthai'] != 'CC' ? 'DD' : $inputs['trangthai']; 
+        $inputs['trangthai'] = $inputs['trangthai'] != 'CC' ? 'DD' : $inputs['trangthai'];
         //dd($inputs['trangthai']);
         $model->trangthai = $inputs['trangthai'];
         $model->madonvi_nhan = $inputs['madonvi_nhan'];
@@ -700,7 +700,8 @@ class dshosothiduaController extends Controller
         dshosothamgiaphongtraotd_canhan::insert($a_dm);
         File::Delete($path);
 
-        return redirect(static::$url .  'Sua?mahosothamgiapt=' . $inputs['mahosothamgiapt']);
+        $model = dshosothamgiaphongtraotd::where('mahosothamgiapt', $inputs['mahosothamgiapt'])->first();
+        return redirect(static::$url . 'Them?maphongtraotd=' . $model->maphongtraotd . '&madonvi=' . $model->madonvi);
     }
 
 
@@ -777,7 +778,7 @@ class dshosothiduaController extends Controller
     public function NhanExcelTapThe(Request $request)
     {
         $inputs = $request->all();
-        dd($inputs);
+        //dd($inputs);
         //$model = dshosothiduakhenthuong::where('mahosothamgiapt', $inputs['mahosothamgiapt'])->first();
         $filename = $inputs['mahosothamgiapt'] . '_' . getdate()[0];
         $request->file('fexcel')->move(public_path() . '/data/uploads/', $filename . '.xlsx');
@@ -805,8 +806,8 @@ class dshosothiduaController extends Controller
         }
         dshosothamgiaphongtraotd_tapthe::insert($a_dm);
         File::Delete($path);
-
-        return redirect(static::$url . 'Sua?mahosothamgiapt=' . $inputs['mahosothamgiapt']);
+        $model = dshosothamgiaphongtraotd::where('mahosothamgiapt', $inputs['mahosothamgiapt'])->first();
+        return redirect(static::$url . 'Them?maphongtraotd=' . $model->maphongtraotd . '&madonvi=' . $model->madonvi);
     }
 
 
