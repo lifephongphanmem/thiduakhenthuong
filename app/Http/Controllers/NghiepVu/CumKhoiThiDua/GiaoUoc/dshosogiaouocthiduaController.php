@@ -307,7 +307,7 @@ class dshosogiaouocthiduaController extends Controller
         $inputs = $request->all();
         //dd($inputs);
         //$model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        $filename = $inputs['mahosotdkt'] . '_' . getdate()[0];
+        $filename = $inputs['mahosodk'] . '_' . getdate()[0];
         $request->file('fexcel')->move(public_path() . '/data/uploads/', $filename . '.xlsx');
         $path = public_path() . '/data/uploads/' . $filename . '.xlsx';
         $data = [];
@@ -324,11 +324,11 @@ class dshosogiaouocthiduaController extends Controller
                 continue;
             }
             $a_dm[] = array(
-                'mahosotdkt' => $inputs['mahosotdkt'],
+                'mahosodk' => $inputs['mahosodk'],
                 'tentapthe' => $data[$i][$inputs['tentapthe']] ?? '',
-                'mahinhthuckt' => $data[$i][$inputs['mahinhthuckt']] ?? $inputs['mahinhthuckt_md'],
+                'madanhhieukhenthuong' => $data[$i][$inputs['madanhhieukhenthuong']] ?? $inputs['madanhhieukhenthuong_md'],
                 'maphanloaitapthe' => $data[$i][$inputs['maphanloaitapthe']] ?? $inputs['maphanloaitapthe_md'],
-                'madanhhieutd' => $data[$i][$inputs['madanhhieutd']] ?? $inputs['madanhhieutd_md'],
+                // 'madanhhieutd' => $data[$i][$inputs['madanhhieutd']] ?? $inputs['madanhhieutd_md'],
             );
         }
         dshosogiaouocthidua_tapthe::insert($a_dm);
@@ -341,8 +341,8 @@ class dshosogiaouocthiduaController extends Controller
     {
         $inputs = $request->all();
         //dd($inputs);
-        //$model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        $filename = $inputs['mahosotdkt'] . '_' . getdate()[0];
+        //$model = dshosothiduakhenthuong::where('mahosodk', $inputs['mahosodk'])->first();
+        $filename = $inputs['mahosodk'] . '_' . getdate()[0];
         $request->file('fexcel')->move(public_path() . '/data/uploads/', $filename . '.xlsx');
         $path = public_path() . '/data/uploads/' . $filename . '.xlsx';
         $data = [];
@@ -359,11 +359,11 @@ class dshosogiaouocthiduaController extends Controller
                 continue;
             }
             $a_dm[] = array(
-                'mahosotdkt' => $inputs['mahosotdkt'],
+                'mahosodk' => $inputs['mahosodk'],
                 'tendoituong' => $data[$i][$inputs['tendoituong']] ?? '',
                 'maphanloaicanbo' => $data[$i][$inputs['maphanloaicanbo']] ?? $inputs['maphanloaicanbo_md'],
-                'madanhhieutd' => $data[$i][$inputs['madanhhieutd']] ?? $inputs['madanhhieutd_md'],
-                "gioitinh" => $data[$i][$inputs['madanhhieutd']] ?? 'NAM',
+                'madanhhieukhenthuong' => $data[$i][$inputs['madanhhieukhenthuong']] ?? $inputs['madanhhieukhenthuong_md'],
+                'gioitinh' => $data[$i][$inputs['gioitinh']] ?? 'NAM',
                 'ngaysinh' => $data[$i][$inputs['ngaysinh']] ?? null,
                 'chucvu' => $data[$i][$inputs['chucvu']] ?? '',
                 'tenphongban' => $data[$i][$inputs['tenphongban']] ?? '',

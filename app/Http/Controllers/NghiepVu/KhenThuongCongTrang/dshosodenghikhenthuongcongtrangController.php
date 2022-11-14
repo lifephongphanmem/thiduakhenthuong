@@ -426,10 +426,10 @@ class dshosodenghikhenthuongcongtrangController extends Controller
             $a_dm[] = array(
                 'mahosotdkt' => $inputs['mahosotdkt'],
                 'tendoituong' => $data[$i][$inputs['tendoituong']] ?? '',
-                'mahinhthuckt' => $data[$i][$inputs['mahinhthuckt']] ?? $inputs['mahinhthuckt_md'],
+                'madanhhieukhenthuong' => $data[$i][$inputs['madanhhieukhenthuong']] ?? $inputs['madanhhieukhenthuong_md'],
                 'maphanloaicanbo' => $data[$i][$inputs['maphanloaicanbo']] ?? $inputs['maphanloaicanbo_md'],
-                'madanhhieutd' => $data[$i][$inputs['madanhhieutd']] ?? $inputs['madanhhieutd_md'],
-                "gioitinh" => $data[$i][$inputs['madanhhieutd']] ?? 'NAM',
+                // 'madanhhieutd' => $data[$i][$inputs['madanhhieutd']] ?? $inputs['madanhhieutd_md'],
+                'gioitinh' => $data[$i][$inputs['gioitinh']] ?? 'NAM',
                 'ngaysinh' => $data[$i][$inputs['ngaysinh']] ?? null,
                 'chucvu' => $data[$i][$inputs['chucvu']] ?? '',
                 'tenphongban' => $data[$i][$inputs['tenphongban']] ?? '',
@@ -538,9 +538,9 @@ class dshosodenghikhenthuongcongtrangController extends Controller
             $a_dm[] = array(
                 'mahosotdkt' => $inputs['mahosotdkt'],
                 'tentapthe' => $data[$i][$inputs['tentapthe']] ?? '',
-                'mahinhthuckt' => $data[$i][$inputs['mahinhthuckt']] ?? $inputs['mahinhthuckt_md'],
+                // 'mahinhthuckt' => $data[$i][$inputs['mahinhthuckt']] ?? $inputs['mahinhthuckt_md'],
                 'maphanloaitapthe' => $data[$i][$inputs['maphanloaitapthe']] ?? $inputs['maphanloaitapthe_md'],
-                'madanhhieutd' => $data[$i][$inputs['madanhhieutd']] ?? $inputs['madanhhieutd_md'],
+                'madanhhieukhenthuong' => $data[$i][$inputs['madanhhieukhenthuong']] ?? $inputs['madanhhieukhenthuong_md'],
             );
         }
         dshosothiduakhenthuong_tapthe::insert($a_dm);

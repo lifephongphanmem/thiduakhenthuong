@@ -686,10 +686,10 @@ class dshosothiduaController extends Controller
             $a_dm[] = array(
                 'mahosothamgiapt' => $inputs['mahosothamgiapt'],
                 'tendoituong' => $data[$i][$inputs['tendoituong']] ?? '',
-                'mahinhthuckt' => $data[$i][$inputs['mahinhthuckt']] ?? $inputs['mahinhthuckt_md'],
+                'madanhhieukhenthuong' => $data[$i][$inputs['madanhhieukhenthuong']] ?? $inputs['madanhhieukhenthuong_md'],
                 'maphanloaicanbo' => $data[$i][$inputs['maphanloaicanbo']] ?? $inputs['maphanloaicanbo_md'],
-                'madanhhieutd' => $data[$i][$inputs['madanhhieutd']] ?? $inputs['madanhhieutd_md'],
-                "gioitinh" => $data[$i][$inputs['madanhhieutd']] ?? 'NAM',
+                // 'madanhhieutd' => $data[$i][$inputs['madanhhieutd']] ?? $inputs['madanhhieutd_md'],
+                'gioitinh' => $data[$i][$inputs['gioitinh']] ?? 'NAM',
                 'ngaysinh' => $data[$i][$inputs['ngaysinh']] ?? null,
                 'chucvu' => $data[$i][$inputs['chucvu']] ?? '',
                 'tenphongban' => $data[$i][$inputs['tenphongban']] ?? '',
@@ -777,7 +777,7 @@ class dshosothiduaController extends Controller
     public function NhanExcelTapThe(Request $request)
     {
         $inputs = $request->all();
-        //dd($inputs);
+        dd($inputs);
         //$model = dshosothiduakhenthuong::where('mahosothamgiapt', $inputs['mahosothamgiapt'])->first();
         $filename = $inputs['mahosothamgiapt'] . '_' . getdate()[0];
         $request->file('fexcel')->move(public_path() . '/data/uploads/', $filename . '.xlsx');
@@ -798,9 +798,9 @@ class dshosothiduaController extends Controller
             $a_dm[] = array(
                 'mahosothamgiapt' => $inputs['mahosothamgiapt'],
                 'tentapthe' => $data[$i][$inputs['tentapthe']] ?? '',
-                'mahinhthuckt' => $data[$i][$inputs['mahinhthuckt']] ?? $inputs['mahinhthuckt_md'],
+                'madanhhieukhenthuong' => $data[$i][$inputs['madanhhieukhenthuong']] ?? $inputs['madanhhieukhenthuong_md'],
                 'maphanloaitapthe' => $data[$i][$inputs['maphanloaitapthe']] ?? $inputs['maphanloaitapthe_md'],
-                'madanhhieutd' => $data[$i][$inputs['madanhhieutd']] ?? $inputs['madanhhieutd_md'],
+                // 'madanhhieutd' => $data[$i][$inputs['madanhhieutd']] ?? $inputs['madanhhieutd_md'],
             );
         }
         dshosothamgiaphongtraotd_tapthe::insert($a_dm);

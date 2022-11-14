@@ -483,50 +483,6 @@ class dshosodenghikhenthuongdoingoaiController extends Controller
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }
 
-    //bỏ
-    public function NhanExcel(Request $request)
-    {
-
-        $inputs = $request->all();
-        //dd($inputs);
-        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        $filename = $inputs['mahosotdkt'] . '_' . getdate()[0];
-        $request->file('fexcel')->move(public_path() . '/data/uploads/', $filename . '.xlsx');
-        $path = public_path() . '/data/uploads/' . $filename . '.xlsx';
-        $data = [];
-
-        Excel::load($path, function ($reader) use (&$data, $inputs) {
-            $obj = $reader->getExcel();
-            $sheet = $obj->getSheet(0);
-            $data = $sheet->toArray(null, true, true, true); // giữ lại tiêu đề A=>'val';
-        });
-        //dd($data);
-        $maso = getdate()[0];
-        $a_dm = array();
-
-        for ($i = $inputs['tudong']; $i <= $inputs['dendong']; $i++) {
-            if (!isset($data[$i][$inputs['tendoituong']])) {
-                continue;
-            }
-            $a_dm[] = array(
-                'mahosotdkt' => $inputs['mahosotdkt'],
-                'madoituong' => $inputs['mahosotdkt'] . '_' . ($maso + $i),
-                'phanloai' => 'CANHAN',
-                'tendoituong' => $data[$i][$inputs['tendoituong']] ?? '',
-                'gioitinh' => $data[$i][$inputs['gioitinh']] ?? '',
-                'ngaysinh' => $data[$i][$inputs['ngaysinh']] ?? '',
-                'lanhdao' => $data[$i][$inputs['lanhdao']] ?? '',
-                'chucvu' => $data[$i][$inputs['chucvu']] ?? '',
-                'mahinhthuckt' => $data[$i][$inputs['mahinhthuckt']] ?? '',
-            );
-        }
-        dshosothiduakhenthuong_khenthuong::insert($a_dm);
-        File::Delete($path);
-
-        return redirect(static::$url . 'Sua?mahosotdkt=' . $model->mahosotdkt);
-    }
-
-
     public function ThemCaNhan(Request $request)
     {
         $result = array(
@@ -624,10 +580,10 @@ class dshosodenghikhenthuongdoingoaiController extends Controller
             $a_dm[] = array(
                 'mahosotdkt' => $inputs['mahosotdkt'],
                 'tendoituong' => $data[$i][$inputs['tendoituong']] ?? '',
-                'mahinhthuckt' => $data[$i][$inputs['mahinhthuckt']] ?? $inputs['mahinhthuckt_md'],
+                'madanhhieukhenthuong' => $data[$i][$inputs['madanhhieukhenthuong']] ?? $inputs['madanhhieukhenthuong_md'],
                 'maphanloaicanbo' => $data[$i][$inputs['maphanloaicanbo']] ?? $inputs['maphanloaicanbo_md'],
-                'madanhhieutd' => $data[$i][$inputs['madanhhieutd']] ?? $inputs['madanhhieutd_md'],
-                "gioitinh" => $data[$i][$inputs['madanhhieutd']] ?? 'NAM',
+                // 'madanhhieutd' => $data[$i][$inputs['madanhhieutd']] ?? $inputs['madanhhieutd_md'],
+                'gioitinh' => $data[$i][$inputs['gioitinh']] ?? 'NAM',
                 'ngaysinh' => $data[$i][$inputs['ngaysinh']] ?? null,
                 'chucvu' => $data[$i][$inputs['chucvu']] ?? '',
                 'tenphongban' => $data[$i][$inputs['tenphongban']] ?? '',
@@ -737,9 +693,9 @@ class dshosodenghikhenthuongdoingoaiController extends Controller
             $a_dm[] = array(
                 'mahosotdkt' => $inputs['mahosotdkt'],
                 'tentapthe' => $data[$i][$inputs['tentapthe']] ?? '',
-                'mahinhthuckt' => $data[$i][$inputs['mahinhthuckt']] ?? $inputs['mahinhthuckt_md'],
+                'madanhhieukhenthuong' => $data[$i][$inputs['madanhhieukhenthuong']] ?? $inputs['madanhhieukhenthuong_md'],
                 'maphanloaitapthe' => $data[$i][$inputs['maphanloaitapthe']] ?? $inputs['maphanloaitapthe_md'],
-                'madanhhieutd' => $data[$i][$inputs['madanhhieutd']] ?? $inputs['madanhhieutd_md'],
+                // 'madanhhieutd' => $data[$i][$inputs['madanhhieutd']] ?? $inputs['madanhhieutd_md'],
             );
         }
         dshosothiduakhenthuong_tapthe::insert($a_dm);

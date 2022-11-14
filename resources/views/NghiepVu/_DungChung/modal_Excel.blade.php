@@ -68,13 +68,13 @@
 
                                         <div class="col-md-3">
                                             <label class="form-control-label">Hình thức khen thưởng</label>
-                                            {!! Form::text('mahinhthuckt', 'D', ['class' => 'form-control']) !!}
+                                            {!! Form::text('madanhhieukhenthuong', 'D', ['class' => 'form-control']) !!}
                                         </div>
 
-                                        <div class="col-md-3">
+                                        {{-- <div class="col-md-3">
                                             <label class="form-control-label">Danh hiệu thi đua</label>
                                             {!! Form::text('madanhhieutd', 'E', ['class' => 'form-control']) !!}
-                                        </div>
+                                        </div> --}}
                                     </div>
 
                                     <div class="form-group row">
@@ -188,13 +188,13 @@
 
                                         <div class="col-md-3">
                                             <label class="control-label">Hình thức khen thưởng</label>
-                                            {!! Form::text('mahinhthuckt', 'J', ['id' => 'lanhdao', 'class' => 'form-control']) !!}
+                                            {!! Form::text('madanhhieukhenthuong', 'J', ['class' => 'form-control']) !!}
                                         </div>
 
-                                        <div class="col-md-3">
+                                        {{-- <div class="col-md-3">
                                             <label class="control-label">Danh hiệu thi đua</label>
                                             {!! Form::text('madanhhieutd', 'K', ['id' => 'lanhdao', 'class' => 'form-control']) !!}
-                                        </div>
+                                        </div> --}}
                                     </div>
 
                                     <div class="form-group row">
@@ -231,7 +231,7 @@
 
                                         <div class="col-md-4">
                                             <label class="control-label">Hình thức khen thưởng(Danh hiệu thi đua) </label>
-                                            {!! Form::select('madanhhieukhenthuong_md', $a_dhkt_tapthe, $inputs['mahinhthuckt'], ['class' => 'form-control']) !!}
+                                            {!! Form::select('madanhhieukhenthuong_md', $a_dhkt_canhan, $inputs['mahinhthuckt'], ['class' => 'form-control']) !!}
                                         </div>
 
                                         {{-- <div class="col-md-4">

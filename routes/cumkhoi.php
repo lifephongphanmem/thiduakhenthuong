@@ -303,6 +303,9 @@ Route::group(['prefix' => 'GiaoUocThiDua'], function () {
         Route::post('ChuyenHoSo', [dshosogiaouocthiduaController::class, 'ChuyenHoSo']);
         Route::get('LayLyDo', [dshosogiaouocthiduaController::class, 'LayLyDo']);
         Route::post('XoaDoiTuong', [dshosogiaouocthiduaController::class, 'XoaHoSo']);
+
+            Route::post('NhanExcelTapThe', [dshosogiaouocthiduaController::class, 'NhanExcelTapThe']);          
+            Route::post('NhanExcelCaNhan', [dshosogiaouocthiduaController::class, 'NhanExcelCaNhan']);
     });
     Route::group(['prefix' => 'XetDuyet'], function () {
         Route::get('ThongTin', [xdhosogiaouocthiduaController::class, 'ThongTin']);

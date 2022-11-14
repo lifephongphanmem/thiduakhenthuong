@@ -1,4 +1,3 @@
-
     {{-- Nhận file Excel --}}
     <div class="modal fade bs-modal-lg" id="modal-nhanexcel" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-xl">
@@ -48,15 +47,14 @@
                                     aria-labelledby="excel_tapthe">
 
                                     {!! Form::open([
-                                        'url' => $inputs['url_qd'] . 'NhanExcelTapThe',
+                                        'url' => $inputs['url_hs'] . 'NhanExcelTapThe',
                                         'method' => 'POST',
                                         'id' => 'frm_NhanExcel',
                                         'class' => 'form',
                                         'files' => true,
                                         'enctype' => 'multipart/form-data',
                                     ]) !!}
-                                    <input type="hidden" name="mahosotdkt" value="{{ $model->mahosotdkt }}" />
-
+                                    <input type="hidden" name="mahosothamgiapt" value="{{ $model->mahosothamgiapt }}" />
                                     <div class="form-group row">
                                         <div class="col-md-3">
                                             <label class="control-label">Tên đơn vị / tập thể</label>
@@ -111,16 +109,11 @@
                                         </div>
 
                                         <div class="col-md-4">
-                                            <label class="control-label">Hình thức khen thưởng/Danh hiệu thi đua</label>
+                                            <label class="control-label">Hình thức khen thưởng(Danh hiệu thi đua) </label>
                                             {!! Form::select('madanhhieukhenthuong_md', $a_dhkt_tapthe, $inputs['mahinhthuckt'], ['class' => 'form-control']) !!}
                                         </div>
 
                                         {{-- <div class="col-md-4">
-                                            <label class="control-label">Hình thức khen thưởng</label>
-                                            {!! Form::select('mahinhthuckt_md', $a_hinhthuckt, $inputs['mahinhthuckt'], ['class' => 'form-control']) !!}
-                                        </div>
-
-                                        <div class="col-md-4">
                                             <label class="control-label">Danh hiệu thi đua</label>
                                             {!! Form::select('madanhhieutd_md', setArrayAll($a_danhhieutd, 'Không đăng ký', 'null'), null, [
                                                 'class' => 'form-control',
@@ -141,14 +134,14 @@
                                 <div class="tab-pane fade" id="excel_canhan" role="tabpanel"
                                     aria-labelledby="excel_canhan">
                                     {!! Form::open([
-                                        'url' => $inputs['url_qd'] . 'NhanExcelCaNhan',
+                                        'url' => $inputs['url_hs'] . 'NhanExcelCaNhan',
                                         'id' => 'frm_NhanExcel',
                                         'method' => 'POST',
                                         'class' => 'form',
                                         'files' => true,
                                         'enctype' => 'multipart/form-data',
                                     ]) !!}
-                                    <input type="hidden" name="mahosotdkt" value="{{ $model->mahosotdkt }}" />
+                                    <input type="hidden" name="mahosothamgiapt" value="{{ $model->mahosothamgiapt }}" />
                                     <div class="form-group row">
                                         <div class="col-md-3">
                                             <label class="control-label">Tên đối tượng</label>
@@ -237,16 +230,11 @@
                                         </div>
 
                                         <div class="col-md-4">
-                                            <label class="control-label">Hình thức khen thưởng/Danh hiệu thi đua</label>
+                                            <label class="control-label">Hình thức khen thưởng(Danh hiệu thi đua) </label>
                                             {!! Form::select('madanhhieukhenthuong_md', $a_dhkt_canhan, $inputs['mahinhthuckt'], ['class' => 'form-control']) !!}
                                         </div>
-                                        
-                                        {{-- <div class="col-md-4">
-                                            <label class="control-label">Hình thức khen thưởng</label>
-                                            {!! Form::select('mahinhthuckt_md', $a_hinhthuckt, $inputs['mahinhthuckt'], ['class' => 'form-control']) !!}
-                                        </div>
 
-                                        <div class="col-md-4">
+                                        {{-- <div class="col-md-4">
                                             <label class="control-label">Danh hiệu thi đua</label>
                                             {!! Form::select('madanhhieutd_md', setArrayAll($a_danhhieutd, 'Không đăng ký', 'null'), null, [
                                                 'class' => 'form-control',
@@ -262,10 +250,11 @@
                                     </div>
                                     {!! Form::close() !!}
                                 </div>
+
                                 <div class="tab-pane fade" id="excel_detai" role="tabpanel"
                                     aria-labelledby="excel_canhan">
                                     {!! Form::open([
-                                        'url' => $inputs['url_qd'] . 'NhanExcelDeTai',
+                                        'url' => $inputs['url_hs'] . 'NhanExcelDeTai',
                                         'id' => 'frm_NhanExcel',
                                         'method' => 'POST',
                                         'class' => 'form',
