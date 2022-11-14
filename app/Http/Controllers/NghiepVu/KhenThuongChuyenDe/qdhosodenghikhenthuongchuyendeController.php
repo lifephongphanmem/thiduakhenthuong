@@ -80,8 +80,8 @@ class qdhosodenghikhenthuongchuyendeController extends Controller
         $a_diabancumkhoi = getDiaBanCumKhoi(session('admin')->tendangnhap);
         $a_donvidiaban = array_column(viewdiabandonvi::all()->toArray(), 'madiaban', 'madonvi');
         foreach ($model as $key => $hoso) {
-		
-		if (count($a_diabancumkhoi) > 0) {
+
+            if (count($a_diabancumkhoi) > 0) {
                 //đơn vị => đia bàn => lọc điều kiện
                 $madiaban = $a_donvidiaban[$hoso->madonvi];
                 if (!in_array($madiaban, $a_diabancumkhoi))
@@ -654,12 +654,14 @@ class qdhosodenghikhenthuongchuyendeController extends Controller
         $donvi_kt = viewdiabandonvi::where('madonvi', $model->madonvi_kt)->first();
 
         $model->capkhenthuong =  $donvi_kt->capdo;
-        $model->donvikhenthuong =  $donvi_kt->tendvhienthi;
+        $model->donvikhenthuong =  $donvi_kt->tendonvi;
+        $a_donvikt = array_unique(array_merge([$model->donvikhenthuong], getDonViKhenThuong()));
 
         return view('NghiepVu.KhenThuongChuyenDe.KhenThuong.PheDuyetKT')
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
+            ->with('a_donvikt', $a_donvikt)
             ->with('a_dhkt_canhan', $a_dhkt_canhan)
             ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
@@ -1089,7 +1091,7 @@ class qdhosodenghikhenthuongchuyendeController extends Controller
         $inputs['maduthao'] = $inputs['maduthao'] ?? 'ALL';
         getTaoDuThaoToTrinhPheDuyet($model, $inputs['maduthao']);
         $a_duthao = array_column(duthaoquyetdinh::wherein('phanloai', ['TOTRINHHOSO'])->get()->toArray(), 'noidung', 'maduthao');
-        
+
         $inputs['maduthao'] = $inputs['maduthao'] ?? array_key_first($a_duthao);
         return view('BaoCao.DonVi.QuyetDinh.MauChungToTrinhKT')
             ->with('model', $model)

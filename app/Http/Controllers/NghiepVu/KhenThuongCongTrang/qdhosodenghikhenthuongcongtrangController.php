@@ -679,12 +679,14 @@ class qdhosodenghikhenthuongcongtrangController extends Controller
         $donvi_kt = viewdiabandonvi::where('madonvi', $model->madonvi_kt)->first();
 
         $model->capkhenthuong =  $donvi_kt->capdo;
-        $model->donvikhenthuong =  $donvi_kt->tendvhienthi;
+        $model->donvikhenthuong =  $donvi_kt->tendonvi;
+        $a_donvikt = array_unique(array_merge([$model->donvikhenthuong], getDonViKhenThuong()));
 
         return view('NghiepVu.KhenThuongCongTrang.QuyetDinhKhenThuong.PheDuyetKT')
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
+            ->with('a_donvikt', $a_donvikt)
             ->with('a_dhkt_canhan', $a_dhkt_canhan)
             ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))

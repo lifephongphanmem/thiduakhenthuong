@@ -2,7 +2,7 @@
 <div class="form-group row">
     <div class="col-6">
         <label>Tên đơn vị quyết định khen thưởng</label>
-        {!! Form::text('donvikhenthuong', null, ['class' => 'form-control']) !!}
+        {!! Form::select('donvikhenthuong',$a_donvikt ,null, ['class' => 'form-control select2basic']) !!}
     </div>
     <div class="col-6">
         <label>Cấp độ khen thưởng</label>
