@@ -254,6 +254,54 @@ class xdhosodenghikhenthuongcongtrangController extends Controller
             ->with('pageTitle', 'Thông tin hồ sơ đề nghị khen thưởng');
     }
 
+    public function TrinhKetQua(Request $request)
+    {       
+        $inputs = $request->all();
+        $inputs['url_hs'] = '/KhenThuongCongTrang/HoSo/';
+        $inputs['url_xd'] = '/KhenThuongCongTrang/XetDuyet/';
+        $inputs['url'] = '/KhenThuongCongTrang/XetDuyet/';
+        $inputs['url_qd'] = '/KhenThuongCongTrang/KhenThuong/';
+        $inputs['mahinhthuckt'] = session('chucnang')['xdhosodenghikhenthuongcongtrang']['mahinhthuckt'] ?? 'ALL';
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+        $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+        $model_detai = dshosothiduakhenthuong_detai::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+        $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
+
+        $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
+        $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
+        $model->tendonvi = $donvi->tendonvi;
+        //$m_donvi = getDonVi(session('admin')->capdo);
+        //$m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
+        //$m_danhhieu = dmdanhhieuthidua::all();
+        // $m_canhan = getDoiTuongKhenThuong($model->madonvi);
+        // $m_tapthe = getTapTheKhenThuong($model->madonvi);
+        $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE', 'HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
+        $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
+        //$m_phongtrao = dsphongtraothidua::all();
+
+        return view('NghiepVu.KhenThuongCongTrang.XetDuyetHoSo.TrinhKetQua')
+            ->with('model', $model)
+            ->with('model_canhan', $model_canhan)
+            ->with('model_tapthe', $model_tapthe)
+            ->with('model_detai', $model_detai)
+            // ->with('m_donvi', $m_donvi)
+            // ->with('m_diaban', $m_diaban)
+            // ->with('m_canhan', $m_canhan)
+            // ->with('m_tapthe', $m_tapthe)
+            //->with('m_phongtraotd', $m_phongtrao)
+            //->with('a_phongtraotd', array_column($m_phongtrao->toArray(), 'noidung', 'maphongtraotd'))
+            ->with('a_dhkt_canhan', $a_dhkt_canhan)
+            ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
+            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+            // ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
+            // ->with('a_danhhieutd', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
+            ->with('a_tapthe', $a_tapthe)
+            ->with('a_canhan', $a_canhan)
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'Thông tin hồ sơ đề nghị khen thưởng');
+    }
+
     public function ThemTapThe(Request $request)
     {
         $result = array(
@@ -636,5 +684,22 @@ class xdhosodenghikhenthuongcongtrangController extends Controller
         $model->thongtintotrinhdenghi = $inputs['thongtintotrinhdenghi'];
         $model->save();
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_xd);
+    }
+
+    public function LuuTrinhKetQua(Request $request)
+    {
+       
+        $inputs = $request->all();
+        //dd($inputs );
+        if (isset($inputs['totrinhdenghi'])) {
+            $filedk = $request->file('totrinhdenghi');
+            $inputs['totrinhdenghi'] = $inputs['mahosotdkt'] . 'totrinhdenghi.' . $filedk->getClientOriginalExtension();
+            $filedk->move(public_path() . '/data/totrinh/', $inputs['totrinhdenghi']);
+        }
+        
+        //dd($inputs);
+        dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first()->update($inputs);
+
+        return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
     }
 }

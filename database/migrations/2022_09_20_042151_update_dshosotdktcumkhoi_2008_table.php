@@ -21,6 +21,9 @@ class UpdateDshosotdktcumkhoi2008Table extends Migration
             $table->string('chucvunguoikyqd')->nullable();
             $table->string('hotennguoikyqd')->nullable();
             $table->string('thongtinquyetdinh')->nullable();
+            $table->string('nguoikytotrinhdenghi')->nullable();
+            $table->string('chucvutotrinhdenghi')->nullable();
+            $table->string('totrinhdenghi')->nullable();
         });
     }
 
@@ -39,6 +42,9 @@ class UpdateDshosotdktcumkhoi2008Table extends Migration
             $table->dropColumn('chucvunguoikyqd');
             $table->dropColumn('hotennguoikyqd');
             $table->dropColumn('thongtinquyetdinh');
+            $table->dropColumn('nguoikytotrinhdenghi');
+            $table->dropColumn('chucvutotrinhdenghi');
+            $table->dropColumn('totrinhdenghi');
         });
     }
 }

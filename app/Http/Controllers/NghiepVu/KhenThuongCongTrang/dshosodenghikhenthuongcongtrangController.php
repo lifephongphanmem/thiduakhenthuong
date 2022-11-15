@@ -7,6 +7,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\NghiepVu\_DungChung\dungchung_nghiepvuController;
+use App\Http\Controllers\NghiepVu\_DungChung\dungchung_nhanexcelController;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
 use App\Model\DanhMuc\dmnhomphanloai_chitiet;
 use App\Model\DanhMuc\dsdiaban;
@@ -16,6 +18,7 @@ use App\Model\HeThong\trangthaihoso;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_canhan;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_detai;
+use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_hogiadinh;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_khenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tapthe;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tieuchuan;
@@ -75,7 +78,7 @@ class dshosodenghikhenthuongcongtrangController extends Controller
             $hoso->soluongkhenthuong = $model_canhan->where('mahosotdkt', $hoso->mahosotdkt)->count()
                 + $model_tapthe->where('mahosotdkt', $hoso->mahosotdkt)->count();
         }
-        
+
         //Gán đường dẫn
         if ($inputs['trangthai'] == 'CC') {
             //Đi theo quy trình bình thường
@@ -118,10 +121,12 @@ class dshosodenghikhenthuongcongtrangController extends Controller
         $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_detai = dshosothiduakhenthuong_detai::where('mahosotdkt', $model->mahosotdkt)->get();
+        $model_hogiadinh = dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)->get();
         $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
 
         $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
         $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
+        $a_dhkt_hogiadinh = getDanhHieuKhenThuong($donvi->capdo, 'HOGIADINH');
 
         $model->tendonvi = $donvi->tendonvi;
         $m_donvi = getDonVi(session('admin')->capdo);
@@ -130,17 +135,21 @@ class dshosodenghikhenthuongcongtrangController extends Controller
         $m_phongtrao = dsphongtraothidua::all();
         //$m_canhan = getDoiTuongKhenThuong($model->madonvi);
         //$m_tapthe = getTapTheKhenThuong($model->madonvi);
-        $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE', 'HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
+        $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE'])->get()->toarray(), 'tenphanloai', 'maphanloai');
+        $a_hogiadinh = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
+
         $inputs['mahinhthuckt'] = $model->mahinhthuckt;
         //dd($model);
         return view('NghiepVu.KhenThuongCongTrang.HoSoKhenThuong.ThayDoi')
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
+            ->with('model_hogiadinh', $model_hogiadinh)
             ->with('model_detai', $model_detai)
             ->with('a_dhkt_canhan', $a_dhkt_canhan)
             ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
+            ->with('a_dhkt_hogiadinh', $a_dhkt_hogiadinh)
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
             //->with('m_danhhieu', $m_danhhieu)
@@ -153,6 +162,7 @@ class dshosodenghikhenthuongcongtrangController extends Controller
             //->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
             ->with('a_canhan', $a_canhan)
             ->with('a_tapthe', $a_tapthe)
+            ->with('a_hogiadinh', $a_hogiadinh)
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Thông tin hồ sơ đề nghị khen thưởng');
     }
@@ -214,18 +224,18 @@ class dshosodenghikhenthuongcongtrangController extends Controller
 
     public function LuuHoSo(Request $request)
     {
-       
+
         if (!chkPhanQuyen('dshosodenghikhenthuongcongtrang', 'thaydoi')) {
             return view('errors.noperm')->with('machucnang', 'dshosodenghikhenthuongcongtrang')->with('tenphanquyen', 'thaydoi');
         }
-        $inputs = $request->all();        
+        $inputs = $request->all();
         if (isset($inputs['totrinh'])) {
             $filedk = $request->file('totrinh');
             $inputs['totrinh'] = $inputs['mahosotdkt'] . '_totrinh.' . $filedk->getClientOriginalExtension();
             $filedk->move(public_path() . '/data/totrinh/', $inputs['totrinh']);
         }
         if (isset($inputs['baocao'])) {
-            $filedk = $request->file('baocao');            
+            $filedk = $request->file('baocao');
             $inputs['baocao'] = $inputs['mahosotdkt'] . '_baocao.' . $filedk->getClientOriginalExtension();
             $filedk->move(public_path() . '/data/baocao/', $inputs['baocao']);
         }
@@ -291,25 +301,6 @@ class dshosodenghikhenthuongcongtrangController extends Controller
         $trangthai->save();
 
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
-    }
-
-    public function LayDoiTuong(Request $request)
-    {
-        $result = array(
-            'status' => 'fail',
-            'message' => 'error',
-        );
-        if (!Session::has('admin')) {
-            $result = array(
-                'status' => 'fail',
-                'message' => 'permission denied',
-            );
-            die(json_encode($result));
-        }
-        //dd($request);
-        $inputs = $request->all();
-        $model = dshosothiduakhenthuong_khenthuong::findorfail($inputs['id']);
-        die(json_encode($model));
     }
 
     public function XoaHoSo(Request $request)
@@ -399,8 +390,9 @@ class dshosodenghikhenthuongcongtrangController extends Controller
         $model = dshosothiduakhenthuong_canhan::findorfail($inputs['id']);
         $model->delete();
 
-        $m_tapthe = dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
-        $this->htmlCaNhan($result, $m_tapthe);
+        $danhsach = dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
+        $dungchung = new dungchung_nghiepvuController();
+        $dungchung->htmlTapThe($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
         return response()->json($result);
     }
 
@@ -436,7 +428,7 @@ class dshosodenghikhenthuongcongtrangController extends Controller
                 'chucvu' => $data[$i][$inputs['chucvu']] ?? '',
                 'tenphongban' => $data[$i][$inputs['tenphongban']] ?? '',
                 'tencoquan' => $data[$i][$inputs['tencoquan']] ?? '',
-                'ketqua'=>'1',
+                'ketqua' => '1',
             );
         }
 
@@ -444,6 +436,36 @@ class dshosodenghikhenthuongcongtrangController extends Controller
         File::Delete($path);
 
         return redirect(static::$url .  'Sua?mahosotdkt=' . $inputs['mahosotdkt']);
+    }
+
+    public function ThemHoGiaDinh(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
+        }
+
+        $inputs = $request->all();
+        //$id =  $inputs['id'];       
+        $model = dshosothiduakhenthuong_hogiadinh::where('id', $inputs['id'])->first();
+        unset($inputs['id']);
+        if ($model == null) {
+            $inputs['ketqua'] = 1;
+            dshosothiduakhenthuong_hogiadinh::create($inputs);
+        } else
+            $model->update($inputs);
+
+        $danhsach = dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+        $dungchung = new dungchung_nghiepvuController();
+        $dungchung->htmlHoGiaDinh($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
+        return response()->json($result);
     }
 
     public function ThemTapThe(Request $request)
@@ -470,9 +492,10 @@ class dshosodenghikhenthuongcongtrangController extends Controller
         } else
             $model->update($inputs);
 
-        $model = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
-
-        $this->htmlTapThe($result, $model);
+        $danhsach = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+        $dungchung = new dungchung_nghiepvuController();
+        $dungchung->htmlTapThe($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
+        //$this->htmlTapThe($result, $model);
         return response()->json($result);
     }
 
@@ -493,6 +516,48 @@ class dshosodenghikhenthuongcongtrangController extends Controller
         $inputs = $request->all();
         $model = dshosothiduakhenthuong_tapthe::findorfail($inputs['id']);
         die(json_encode($model));
+    }
+
+    public function LayHoGiaDinh(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
+        }
+
+        $inputs = $request->all();
+        $model = dshosothiduakhenthuong_hogiadinh::findorfail($inputs['id']);
+        die(json_encode($model));
+    }
+
+    public function XoaHoGiaDinh(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
+        }
+        $inputs = $request->all();
+        $model = dshosothiduakhenthuong_hogiadinh::findorfail($inputs['id']);
+        $model->delete();
+
+        $danhsach = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
+        $dungchung = new dungchung_nghiepvuController();
+        $dungchung->htmlHoGiaDinh($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
+        return response()->json($result);
     }
 
     public function XoaTapThe(Request $request)
@@ -541,7 +606,7 @@ class dshosodenghikhenthuongcongtrangController extends Controller
             $a_dm[] = array(
                 'mahosotdkt' => $inputs['mahosotdkt'],
                 'tentapthe' => $data[$i][$inputs['tentapthe']] ?? '',
-                'ketqua'=>'1',
+                'ketqua' => '1',
                 // 'mahinhthuckt' => $data[$i][$inputs['mahinhthuckt']] ?? $inputs['mahinhthuckt_md'],
                 'maphanloaitapthe' => $data[$i][$inputs['maphanloaitapthe']] ?? $inputs['maphanloaitapthe_md'],
                 'madanhhieukhenthuong' => $data[$i][$inputs['madanhhieukhenthuong']] ?? $inputs['madanhhieukhenthuong_md'],
@@ -1045,5 +1110,10 @@ class dshosodenghikhenthuongcongtrangController extends Controller
             ->with('pageTitle', 'Tờ trình khen thưởng');
     }
 
-    
+    public function NhanExcel(Request $request)
+    {
+        $dungchung = new dungchung_nhanexcelController();
+        $dungchung->NhanExcelKhenThuong($request);
+        return redirect(static::$url . 'Sua?mahosotdkt=' . $request->all()['mahoso']);
+    }
 }

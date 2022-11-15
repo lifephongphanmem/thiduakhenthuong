@@ -1,0 +1,9 @@
+DB_CONNECTION=sqlsrv
+DB_HOST=172.16.30.108
+DB_PORT=
+DB_DATABASE=csdlgia_haugiang
+DB_USERNAME=u_csdlgia
+DB_PASSWORD=Abc@123!
+
+
+

@@ -5,7 +5,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header modal-header-primary">
-                    <h4 id="modal-header-primary-label" class="modal-title">Đồng ý tạo hồ sơ trình khen thưởng?</h4>
+                    <h4 id="modal-header-primary-label" class="modal-title">Đồng ý tạo hồ sơ trình khen thưởng ?</h4>
                     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
                 </div>
 
@@ -16,35 +16,35 @@
                             {!! Form::select('maloaihinhkt', $a_loaihinhkt, $inputs['maloaihinhkt'], ['class' => 'form-control']) !!}
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-3">
                             <label>Trạng thái hồ sơ</label>
                             {!! Form::select('trangthai', getTrangThaiChucNangHoSo($inputs['trangthai']), $inputs['trangthai'], [
                                 'class' => 'form-control',
                             ]) !!}
                         </div>
-                    </div>
 
-                    <div class="form-group row">
-                        <div class="col-6">
-                            <label>Số tờ trình</label>
-                            {!! Form::text('sototrinh', null, ['class' => 'form-control']) !!}
-                        </div>
-                        <div class="col-6">
+                        <div class="col-3">
                             <label>Ngày tạo hồ sơ</label>
                             {!! Form::input('date', 'ngayhoso', date('Y-m-d'), ['class' => 'form-control']) !!}
                         </div>
                     </div>
+                    @if ($inputs['taototrinh'])
+                        <div class="form-group row">
+                            <div class="col-4">
+                                <label>Số tờ trình</label>
+                                {!! Form::text('sototrinh', null, ['class' => 'form-control']) !!}
+                            </div>
 
-                    <div class="form-group row">
-                        <div class="col-6">
-                            <label>Chức vụ người ký tờ trình</label>
-                            {!! Form::text('chucvunguoiky', null, ['class' => 'form-control']) !!}
+                            <div class="col-4">
+                                <label>Chức vụ người ký tờ trình</label>
+                                {!! Form::text('chucvunguoiky', null, ['class' => 'form-control']) !!}
+                            </div>
+                            <div class="col-4">
+                                <label>Họ tên người ký tờ trình</label>
+                                {!! Form::text('nguoikytotrinh', null, ['class' => 'form-control']) !!}
+                            </div>
                         </div>
-                        <div class="col-6">
-                            <label>Họ tên người ký tờ trình</label>
-                            {!! Form::text('nguoikytotrinh', null, ['class' => 'form-control']) !!}
-                        </div>
-                    </div>
+                    @endif
 
                     <div class="form-group row">
                         <div class="col-12">

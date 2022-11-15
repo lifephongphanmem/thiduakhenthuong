@@ -342,6 +342,13 @@ class dungchung_nghiepvuController extends Controller
                 $result['message'] .= '</div>';
             }
 
+            if (isset($model->totrinhdenghi)) {
+                $result['message'] .= '<div class="form-group row">';
+                $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Tờ trình kết quả khen thưởng:</label>';
+                $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/totrinh/' . $model->totrinhdenghi) . '">' . $model->totrinhdenghi . '</a ></div>';
+                $result['message'] .= '</div>';
+            }
+
             if (isset($model->quyetdinh)) {
                 $result['message'] .= '<div class="form-group row">';
                 $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Quyết định khen thưởng:</label>';

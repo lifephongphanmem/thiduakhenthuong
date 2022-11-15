@@ -22,6 +22,11 @@ class UpdateDshosothiduakhenthuong2008Table extends Migration
             $table->string('hotennguoikyqd')->nullable();
             $table->string('thongtinquyetdinh')->nullable();
             $table->string('quyetdinh')->nullable();//đính kèm quyết định khen thưởng
+
+            $table->string('nguoikytotrinhdenghi')->nullable();
+            $table->string('chucvutotrinhdenghi')->nullable();
+            $table->string('totrinhdenghi')->nullable();
+
         });
     }
 
@@ -41,6 +46,9 @@ class UpdateDshosothiduakhenthuong2008Table extends Migration
             $table->dropColumn('hotennguoikyqd');
             $table->dropColumn('thongtinquyetdinh');
             $table->dropColumn('quyetdinh');
+            $table->dropColumn('nguoikytotrinhdenghi');
+            $table->dropColumn('chucvutotrinhdenghi');
+            $table->dropColumn('totrinhdenghi');
         });
     }
 }

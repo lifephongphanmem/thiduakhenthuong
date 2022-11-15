@@ -81,5 +81,8 @@ class dshosothiduakhenthuong extends Model
         'noidungtotrinhdenghi',
         'sototrinhdenghi',
         'ngaythangtotrinhdenghi',
+        'nguoikytotrinhdenghi',
+        'chucvutotrinhdenghi',
+        'totrinhdenghi',
     ];
 }

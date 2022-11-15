@@ -82,5 +82,8 @@ class dshosotdktcumkhoi extends Model
         'noidungtotrinhdenghi',
         'sototrinhdenghi',
         'ngaythangtotrinhdenghi',
+        'nguoikytotrinhdenghi',
+        'chucvutotrinhdenghi',
+        'totrinhdenghi',
     ];
 }
