@@ -719,7 +719,7 @@ class dshosokhenthuongthiduaController extends Controller
             ->with('a_dhkt_canhan', $a_dhkt_canhan)
             ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
-            ->with('a_donvi_kt', [$donvi_kt->madonvi => $donvi_kt->tendonvi])
+            ->with('a_donvikt', [$donvi_kt->madonvi => $donvi_kt->tendonvi])
             ->with('a_tapthe', $a_tapthe)
             ->with('a_canhan', $a_canhan)
             ->with('inputs', $inputs)
