@@ -144,34 +144,6 @@ function DHKT_BaoCao()
     return $ketqua;
 }
 
-function getDoiTuongKhenCao()
-{
-    $m_hoso = \App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong::all('mahosotdkt');
-    $model = \App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_khenthuong::wherein('mahosotdkt', $m_hoso->toarray())->where('phanloai', 'CANHAN')->get();
-    return $model;
-}
-
-function getTapTheKhenCao()
-{
-    $m_hoso = \App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong::all('mahosotdkt');
-    $model = \App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_khenthuong::wherein('mahosotdkt', $m_hoso->toarray())->where('phanloai', 'TAPTHE')->get();
-    return $model;
-}
-
-function getDoiTuongKhenThuong($madonvi)
-{
-    $m_hoso = \App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong::where('madonvi', $madonvi)->get('mahosotdkt');
-    $model = \App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_khenthuong::wherein('mahosotdkt', $m_hoso->toarray())->where('phanloai', 'CANHAN')->get();
-    return $model;
-}
-
-function getTapTheKhenThuong($madonvi)
-{
-    $m_hoso = \App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong::where('madonvi', $madonvi)->get('mahosotdkt');
-    $model = \App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_khenthuong::wherein('mahosotdkt', $m_hoso->toarray())->where('phanloai', 'TAPTHE')->get();
-    return $model;
-}
-
 function getDiaBan_All($all = false)
 {
     $a_diaban = array_column(\App\Model\DanhMuc\dsdiaban::all()->toarray(), 'tendiaban', 'madiaban');

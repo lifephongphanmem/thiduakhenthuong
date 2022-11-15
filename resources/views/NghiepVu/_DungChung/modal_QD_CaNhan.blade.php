@@ -159,7 +159,7 @@
             var formData = new FormData($('#frm_ThemCaNhan')[0]);
 
             $.ajax({
-                url: "{{ $inputs['url_qd'] }}" + "ThemCaNhan",
+                url: "{{ $inputs['url'] }}" + "ThemCaNhan",
                 method: "POST",
                 cache: false,
                 dataType: false,
