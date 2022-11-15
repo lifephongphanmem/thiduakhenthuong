@@ -2,11 +2,11 @@
 <div class="form-group row">
     <div class="col-6">
         <label>Tên đơn vị quyết định khen thưởng</label>
-        {!! Form::select('donvikhenthuong',$a_donvikt ,null, ['class' => 'form-control select2basic']) !!}
+        {!! Form::select('donvikhenthuong', $a_donvikt, null, ['class' => 'form-control select2basic']) !!}
     </div>
     <div class="col-6">
         <label>Cấp độ khen thưởng</label>
-        {!! Form::select('capkhenthuong', getPhamViApDung(), null, ['class' => 'form-control']) !!}
+        {!! Form::select('capkhenthuong', getPhamViKhenThuong(), null, ['class' => 'form-control']) !!}
     </div>
 </div>
 
@@ -23,9 +23,19 @@
 </div>
 
 <div class="form-group row">
-    <div class="col-6">
+    <div class="col-5">
         <label>Chức vụ người ký</label>
-        {!! Form::select('chucvunguoikyqd', getChucVuKhenThuong(), null, ['class' => 'form-control']) !!}
+        {!! Form::select(
+            'chucvunguoikyqd',
+            array_unique(array_merge([$model->chucvunguoikyqd => $model->chucvunguoikyqd], getChucVuKhenThuong())),
+            null,
+            ['class' => 'form-control', 'id' => 'chucvunguoikyqd'],
+        ) !!}
+    </div>
+    <div class="col-1">
+        <label>Thêm</label>
+        <button type="button" data-target="#modal-chucvu" data-toggle="modal" class="btn btn-light-dark btn-icon">
+            <i class="fa fa-plus"></i></button>
     </div>
     <div class="col-6">
         <label>Họ tên người ký</label>

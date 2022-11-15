@@ -12,13 +12,13 @@ use App\Model\DanhMuc\dsdonvi;
 function getChucVuKhenThuong($capdo = 'T')
 {
     return array(
-        'Chủ tịch UBND Xã',
-        'Chủ tịch UBND Huyện',
-        'Chủ tịch UBND Tỉnh',
-        'Thủ tướng chính phủ',
-        'Chủ tịch nước',
-        'Tổng giám đốc',
-        'Giám đốc',
+        'Chủ tịch UBND Xã' => 'Chủ tịch UBND Xã',
+        'Chủ tịch UBND Huyện' => 'Chủ tịch UBND Huyện',
+        'Chủ tịch UBND Tỉnh' => 'Chủ tịch UBND Tỉnh',
+        'Thủ tướng chính phủ' => 'Thủ tướng chính phủ',
+        'Chủ tịch nước' => 'Chủ tịch nước',
+        'Tổng giám đốc' => 'Tổng giám đốc',
+        'Giám đốc' => 'Giám đốc',
     );
 }
 
@@ -838,6 +838,15 @@ function getPhamViApDung()
         'T' => 'Cấp Tỉnh',
         'H' => 'Cấp Thành phố, Thị xã, Huyện',
         'X' => 'Cấp Xã, Phường, Thị trấn',
+    );
+}
+
+function getPhamViKhenThuong()
+{
+    return array(
+        'T' => 'Cấp Tỉnh',
+        'H' => 'Cấp Huyện',
+        'X' => 'Cấp Xã',
     );
 }
 

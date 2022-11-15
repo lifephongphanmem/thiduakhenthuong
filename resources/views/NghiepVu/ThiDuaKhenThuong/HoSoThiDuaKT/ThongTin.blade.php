@@ -126,7 +126,7 @@
                                                 <i class="icon-lg la flaticon-edit-1 text-success"></i>
                                             </button>
                                         @elseif(in_array($tt->trangthaikt, ['CXKT']))
-                                            <a href="{{ url($inputs['url_hs'].'Sua?mahosotdkt=' . $tt->mahosotdkt . '&madonvi=' . $inputs['madonvi']) }}"
+                                            <a href="{{ url($inputs['url_hs'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt . '&madonvi=' . $inputs['madonvi']) }}"
                                                 class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
                                                 title="Thông tin hồ sơ khen thưởng">
                                                 <span class="svg-icon svg-icon-xl">
@@ -137,11 +137,11 @@
                                             </a>
 
                                             <a title="Tạo dự thảo tờ trình"
-                                            href="{{ url($inputs['url_hs'] . 'ToTrinhHoSo?mahosotdkt=' . $tt->mahosotdkt) }}"
-                                            class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
-                                            <i class="icon-lg la flaticon-edit-1 text-success"></i>
-                                        </a>
-                                        
+                                                href="{{ url($inputs['url_hs'] . 'ToTrinhHoSo?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                                class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
+                                                <i class="icon-lg la flaticon-edit-1 text-success"></i>
+                                            </a>
+
                                             <a title="Tạo dự thảo quyết định khen thưởng"
                                                 href="{{ url($inputs['url_hs'] . 'QuyetDinh?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                 class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
@@ -210,26 +210,30 @@
                             ]) !!}
                         </div>
 
-                        <div class="col-3">
-                            <label>Số tờ trình</label>
-                            {!! Form::text('sototrinh', null, ['class' => 'form-control']) !!}
-                        </div>
-                        <div class="col-3">
+
+                        <div class="col-6">
                             <label>Ngày tạo hồ sơ</label>
                             {!! Form::input('date', 'ngayhoso', date('Y-m-d'), ['class' => 'form-control']) !!}
                         </div>
                     </div>
+                    
+                    @if ($inputs['taototrinh'])
+                        <div class="form-group row">
+                            <div class="col-4">
+                                <label>Số tờ trình</label>
+                                {!! Form::text('sototrinh', null, ['class' => 'form-control']) !!}
+                            </div>
 
-                    <div class="form-group row">
-                        <div class="col-lg-6">
-                            <label>Chức vụ người ký tờ trình</label>
-                            {!! Form::text('chucvunguoiky', null, ['class' => 'form-control']) !!}
+                            <div class="col-lg-4">
+                                <label>Chức vụ người ký tờ trình</label>
+                                {!! Form::text('chucvunguoiky', null, ['class' => 'form-control']) !!}
+                            </div>
+                            <div class="col-lg-4">
+                                <label>Họ tên người ký tờ trình</label>
+                                {!! Form::text('nguoikytotrinh', null, ['class' => 'form-control']) !!}
+                            </div>
                         </div>
-                        <div class="col-lg-6">
-                            <label>Họ tên người ký tờ trình</label>
-                            {!! Form::text('nguoikytotrinh', null, ['class' => 'form-control']) !!}
-                        </div>
-                    </div>
+                    @endif
 
                     <div class="form-group row">
                         <div class="col-lg-12">
@@ -238,12 +242,12 @@
                         </div>
                     </div>
 
-                    <div class="form-group row">
+                    {{-- <div class="form-group row">
                         <div class="col-12">
                             <label>Tờ trình: </label>
                             {!! Form::file('totrinh', null, ['id' => 'totrinh', 'class' => 'form-control']) !!}
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>

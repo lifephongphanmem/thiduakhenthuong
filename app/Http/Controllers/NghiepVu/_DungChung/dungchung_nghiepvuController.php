@@ -198,6 +198,45 @@ class dungchung_nghiepvuController extends Controller
         }
     }
 
+    function htmlDeTai(&$result, $model, $url, $bXoa = true)
+    {
+        if (isset($model)) {
+            $result['message'] = '<div class="row" id="dsdetai">';
+            $result['message'] .= '<div class="col-md-12">';
+            $result['message'] .= '<table id="sample_5" class="table table-striped table-bordered table-hover">';
+            $result['message'] .= '<thead>';
+            $result['message'] .= '<tr class="text-center">';
+            $result['message'] .= '<th width="5%">STT</th>';
+            $result['message'] .= '<th>Tên đề tài, sáng kiến</th>';
+            $result['message'] .= '<th>Thông tin tác giả</th>';
+            $result['message'] .= '<th width="10%">Thao tác</th>';
+            $result['message'] .= '</tr>';
+            $result['message'] .= '</thead>';
+            $result['message'] .= '<tbody>';
+            $i = 1;
+            foreach ($model as $tt) {
+                $result['message'] .= '<tr class="odd gradeX">';
+                $result['message'] .= '<td class="text-center">' . $i++ . '</td>';
+                $result['message'] .= '<td>' . $tt->tensangkien . '</td>';
+                $result['message'] .= '<td class="text-center">' . $tt->tendoituong . ',' . $tt->tenphongban . ',' . $tt->tencoquan . '</td>';
+
+                $result['message'] .= '<td class="text-center"><button title="Sửa thông tin" type="button" onclick="getDeTai(' . $tt->id . ')"  class="btn btn-sm btn-clean btn-icon"
+                                                                    data-target="#modal-detai" data-toggle="modal"><i class="icon-lg la fa-edit text-primary"></i></button>';
+                $result['message'] .= '<button title="Xóa" type="button" onclick="delDeTai(' . $tt->id . ', &#39;' . $url . 'XoaDeTai&#39;)" class="btn btn-sm btn-clean btn-icon" data-target="#modal-delete-detai" data-toggle="modal">
+                                                                    <i class="icon-lg la fa-trash text-danger"></i></button>';
+
+                $result['message'] .= '</td>';
+                $result['message'] .= '</tr>';
+            }
+            $result['message'] .= '</tbody>';
+            $result['message'] .= '</table>';
+            $result['message'] .= '</div>';
+            $result['message'] .= '</div>';
+
+
+            $result['status'] = 'success';
+        }
+    }
     public function DinhKemHoSoThamGia(Request $request)
     {
         $result = array(
@@ -264,4 +303,7 @@ class dungchung_nghiepvuController extends Controller
 
         die(json_encode($result));
     }
+
+    
+
 }

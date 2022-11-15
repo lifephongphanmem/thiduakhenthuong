@@ -4,9 +4,9 @@ namespace App\Model\NghiepVu\ThiDuaKhenThuong;
 
 use Illuminate\Database\Eloquent\Model;
 
-class dshosothiduakhenthuong_tapthe extends Model
+class dshosothiduakhenthuong_hogiadinh extends Model
 {
-    protected $table = 'dshosothiduakhenthuong_tapthe';
+    protected $table = 'dshosothiduakhenthuong_hogiadinh';
     protected $fillable = [
         'id',
         'stt',

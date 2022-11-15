@@ -8,6 +8,7 @@
     ]) !!}
     <input type="hidden" name="id" />
     <input type="hidden" name="mahosotdkt" value="{{ $model->mahosotdkt }}" />
+    <input type="hidden" name="maloaihinhkt" value="{{ $model->maloaihinhkt }}" />
     <div class="modal fade bs-modal-lg" id="modal-create" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
@@ -138,7 +139,7 @@
             var formData = new FormData($('#frm_ThemCaNhan')[0]);            
 
             $.ajax({
-                url: "{{ $inputs['url_hs'] }}" + "ThemCaNhan",
+                url: "{{ $inputs['url'] }}" + "ThemCaNhan",
                 method: "POST",
                 cache: false,
                 dataType: false,
@@ -146,7 +147,7 @@
                 contentType: false,
                 data: formData,
                 success: function(data) {
-                    //console.log(data);               
+                    console.log(data);               
                     if (data.status == 'success') {
                         $('#dskhenthuongcanhan').replaceWith(data.message);
                         TableManaged3.init();
