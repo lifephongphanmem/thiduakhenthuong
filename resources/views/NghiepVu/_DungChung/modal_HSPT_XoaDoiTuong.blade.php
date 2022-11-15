@@ -44,7 +44,8 @@
                     type: 'GET',
                     data: {
                         _token: CSRF_TOKEN,
-                        id: id
+                        id: id,
+                        maloaihinhkt:"{{$model->maloaihinhkt}}",
                     },
                     dataType: 'JSON',
                     success: function(data) {
@@ -63,7 +64,8 @@
                     type: 'GET',
                     data: {
                         _token: CSRF_TOKEN,
-                        id: id
+                        id: id,
+                        maloaihinhkt:"{{$model->maloaihinhkt}}",
                     },
                     dataType: 'JSON',
                     success: function(data) {
@@ -83,6 +85,7 @@
                     data: {
                         _token: CSRF_TOKEN,
                         id: id,
+                        maloaihinhkt:"{{$model->maloaihinhkt}}",
                     },
                     dataType: 'JSON',
                     success: function(data) {

@@ -8,6 +8,7 @@
     ]) !!}
     <input type="hidden" name="id" />
     <input type="hidden" name="mahosothamgiapt" value="{{ $model->mahosothamgiapt }}" />
+    <input type="hidden" name="maloaihinhkt" value="{{ $model->maloaihinhkt }}" />
     <div class="modal fade bs-modal-lg kt_select2_modal" id="modal-create" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">

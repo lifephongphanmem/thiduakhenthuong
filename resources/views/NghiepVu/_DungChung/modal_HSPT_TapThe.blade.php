@@ -7,6 +7,7 @@
         'enctype' => 'multipart/form-data',
     ]) !!}
     <input type="hidden" name="mahosothamgiapt" value="{{ $model->mahosothamgiapt }}" />
+    <input type="hidden" name="maloaihinhkt" value="{{ $model->maloaihinhkt }}" />
     <input type="hidden" name="id" />
     <div class="modal fade bs-modal-lg kt_select2_modal" id="modal-create-tapthe" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -48,7 +49,7 @@
                     <div class="form-group row">
                         <div class="col-md-12">
                             <label class="control-label">Danh hiệu thi đua/Hình thức khen thưởng</label>
-                            {!! Form::select('madanhhieukhenthuong', $a_dhkt_hogiadinh, null, [
+                            {!! Form::select('madanhhieukhenthuong', $a_dhkt_tapthe, null, [
                                 'class' => 'form-control select2_modal',
                             ]) !!}
                         </div>

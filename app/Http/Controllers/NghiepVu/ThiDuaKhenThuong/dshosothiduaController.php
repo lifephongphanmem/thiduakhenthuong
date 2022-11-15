@@ -148,6 +148,7 @@ class dshosothiduaController extends Controller
         //$a_danhhieu = getDanhHieuKhenThuong('ALL');
         $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
         $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
+        $a_dhkt_hogiadinh = getDanhHieuKhenThuong($donvi->capdo, 'HOGIADINH');
 
         $model = new dshosothamgiaphongtraotd();
         $model->madonvi = $inputs['madonvi'];
@@ -180,6 +181,7 @@ class dshosothiduaController extends Controller
             ->with('a_canhan', $a_canhan)
             ->with('a_dhkt_canhan', $a_dhkt_canhan)
             ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
+            ->with('a_dhkt_hogiadinh', $a_dhkt_hogiadinh)
             //->with('a_tieuchuan', array_column($m_tieuchuan->toArray(), 'tentieuchuandhtd', 'matieuchuandhtd'))
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('a_phongtraotd', array_column($m_phongtrao->toArray(), 'tenphongtraotd', 'maphongtraotd'))
@@ -631,7 +633,7 @@ class dshosothiduaController extends Controller
         $model = dshosothamgiaphongtraotd_canhan::where('mahosothamgiapt', $inputs['mahosothamgiapt'])->get();
 
         $dungchung = new dungchung_nghiepvuController();
-        $dungchung->htmlCaNhan($result, $model, static::$url, true, dshosothamgiaphongtraotd::where('mahosothamgiapt', $inputs['mahosothamgiapt'])->first()->maloaihinhkt);
+        $dungchung->htmlCaNhan($result, $model, static::$url, true, $inputs['maloaihinhkt']);
 
         return response()->json($result);
     }
@@ -672,9 +674,9 @@ class dshosothiduaController extends Controller
         $model = dshosothamgiaphongtraotd_canhan::findorfail($inputs['id']);
         $model->delete();
 
-        $model = dshosothamgiaphongtraotd_canhan::where('mahosothamgiapt', $model->mahosothamgiapt)->get();
+        $danhsach = dshosothamgiaphongtraotd_canhan::where('mahosothamgiapt', $model->mahosothamgiapt)->get();
         $dungchung = new dungchung_nghiepvuController();
-        $dungchung->htmlCaNhan($result, $model, static::$url, true, dshosothamgiaphongtraotd::where('mahosothamgiapt', $inputs['mahosothamgiapt'])->first()->maloaihinhkt);
+        $dungchung->htmlCaNhan($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
 
         return response()->json($result);
     }
@@ -747,7 +749,7 @@ class dshosothiduaController extends Controller
 
         $model = dshosothamgiaphongtraotd_tapthe::where('mahosothamgiapt', $inputs['mahosothamgiapt'])->get();
         $dungchung = new dungchung_nghiepvuController();
-        $dungchung->htmlTapThe($result, $model, static::$url, true, dshosothamgiaphongtraotd::where('mahosothamgiapt', $inputs['mahosothamgiapt'])->first()->maloaihinhkt);
+        $dungchung->htmlTapThe($result, $model, static::$url, true, $inputs['maloaihinhkt']);
 
         return response()->json($result);
     }
@@ -785,12 +787,15 @@ class dshosothiduaController extends Controller
             die(json_encode($result));
         }
         $inputs = $request->all();
-        $model = dshosothamgiaphongtraotd_tapthe::findorfail($inputs['id']);
-        $model->delete();
 
-        $model = dshosothamgiaphongtraotd_tapthe::where('mahosothamgiapt', $model->mahosothamgiapt)->get();
+        $model = dshosothamgiaphongtraotd_tapthe::where('id', $inputs['id'])->first();
+        $model->delete();
+        //$m_hoso = dshosothamgiaphongtraotd::where('mahosothamgiapt', $model->mahosothamgiapt)->first();
+        //dd($model);
+        
+        $danhsach = dshosothamgiaphongtraotd_tapthe::where('mahosothamgiapt', $model->mahosothamgiapt)->get();
         $dungchung = new dungchung_nghiepvuController();
-        $dungchung->htmlTapThe($result, $model, static::$url, true, dshosothamgiaphongtraotd::where('mahosothamgiapt', $inputs['mahosothamgiapt'])->first()->maloaihinhkt);
+        $dungchung->htmlTapThe($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
 
         return response()->json($result);
     }
@@ -857,7 +862,7 @@ class dshosothiduaController extends Controller
         $model = dshosothamgiaphongtraotd_hogiadinh::where('mahosothamgiapt', $inputs['mahosothamgiapt'])->get();
 
         $dungchung = new dungchung_nghiepvuController();
-        $dungchung->htmlHoGiaDinh($result, $model, static::$url, true, dshosothamgiaphongtraotd::where('mahosothamgiapt', $inputs['mahosothamgiapt'])->first()->maloaihinhkt);
+        $dungchung->htmlHoGiaDinh($result, $model, static::$url, true, $inputs['maloaihinhkt']);
 
         return response()->json($result);
     }
@@ -898,9 +903,9 @@ class dshosothiduaController extends Controller
         $model = dshosothamgiaphongtraotd_hogiadinh::findorfail($inputs['id']);
         $model->delete();
 
-        $model = dshosothamgiaphongtraotd_hogiadinh::where('mahosothamgiapt', $model->mahosothamgiapt)->get();
+        $danhsach = dshosothamgiaphongtraotd_hogiadinh::where('mahosothamgiapt', $model->mahosothamgiapt)->get();
         $dungchung = new dungchung_nghiepvuController();
-        $dungchung->htmlCaNhan($result, $model, static::$url, true, dshosothamgiaphongtraotd::where('mahosothamgiapt', $inputs['mahosothamgiapt'])->first()->maloaihinhkt);
+        $dungchung->htmlHoGiaDinh($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
 
         return response()->json($result);
     }
