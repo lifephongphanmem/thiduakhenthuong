@@ -68,12 +68,12 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                {{-- <div class="form-group row">
                     <div class="col-12">
                         <label>Tờ trình: </label>
                         {!! Form::file('totrinh', null, ['id' => 'totrinh', 'class' => 'form-control']) !!}
                     </div>
-                </div>
+                </div> --}}
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>

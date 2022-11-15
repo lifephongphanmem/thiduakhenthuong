@@ -43,12 +43,13 @@
                                     <button type="button" onclick="setTapThe()" data-target="#modal-create-tapthe"
                                         data-toggle="modal" class="btn btn-light-dark btn-icon btn-sm">
                                         <i class="fa fa-plus"></i></button>
-                                    <button title="Nhận từ file Excel" data-target="#modal-nhanexcel"
-                                        data-toggle="modal" type="button" class="btn btn-info btn-icon btn-sm"><i
+                                    <button onclick="setNhanExcel('{{ $model->mahosotdkt }}')"
+                                        title="Nhận từ file Excel" data-target="#modal-nhanexcel" data-toggle="modal"
+                                        type="button" class="btn btn-info btn-icon btn-sm"><i
                                             class="fas fa-file-import"></i></button>
-                                    <a target="_blank" title="Tải file mẫu" href="/data/download/TapThe.xlsx"
-                                        class="btn btn-primary btn-icon btn-sm"><i
-                                            class="fa flaticon-download"></i></button></a>
+                                    <a target="_blank" title="Tải file mẫu" href="/data/download/NHANDULIEU.xlsx"
+                                        class="btn btn-primary btn-icon btn-sm"><i class="fa flaticon-download"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -112,15 +113,16 @@
                         <div class="form-group row">
                             <div class="col-lg-12 text-right">
                                 <div class="btn-group" role="group">
-                                    <button type="button" onclick="setHoGiaDinh()" data-target="#modal-create-hogiadinh"
-                                        data-toggle="modal" class="btn btn-light-dark btn-icon btn-sm">
+                                    <button type="button" onclick="setHoGiaDinh()"
+                                        data-target="#modal-create-hogiadinh" data-toggle="modal"
+                                        class="btn btn-light-dark btn-icon btn-sm">
                                         <i class="fa fa-plus"></i></button>
                                     <button title="Nhận từ file Excel" data-target="#modal-nhanexcel"
                                         data-toggle="modal" type="button" class="btn btn-info btn-icon btn-sm"><i
                                             class="fas fa-file-import"></i></button>
-                                    <a target="_blank" title="Tải file mẫu" href="/data/download/TapThe.xlsx"
-                                        class="btn btn-primary btn-icon btn-sm"><i
-                                            class="fa flaticon-download"></i></button></a>
+                                    <a target="_blank" title="Tải file mẫu" href="/data/download/NHANDULIEU.xlsx"
+                                        class="btn btn-primary btn-icon btn-sm"><i class="fa flaticon-download"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -190,13 +192,12 @@
                                         <i class="fa fa-plus"></i></button>
 
                                     <button title="Nhận từ file Excel" data-target="#modal-nhanexcel"
-                                        data-toggle="modal" type="button"
-                                        class="btn btn-info btn-icon btn-sm"><i
+                                        data-toggle="modal" type="button" class="btn btn-info btn-icon btn-sm"><i
                                             class="fas fa-file-import"></i></button>
 
-                                    <a target="_blank" title="Tải file mẫu" href="/data/download/CANHAN.xlsx"
-                                        class="btn btn-primary btn-icon btn-sm"><i
-                                            class="fa flaticon-download"></i></button></a>
+                                    <a target="_blank" title="Tải file mẫu" href="/data/download/NHANDULIEU.xlsx"
+                                        class="btn btn-primary btn-icon btn-sm"><i class="fa flaticon-download"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
