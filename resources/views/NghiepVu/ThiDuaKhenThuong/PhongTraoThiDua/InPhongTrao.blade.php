@@ -31,26 +31,29 @@
         <tr>
             <td class="text-left" width="15%">Tên đơn vị: {{ $m_donvi->tendonvi }}</td>
         </tr>
-        <tr>
+        {{-- <tr>
             <td>Hình thức tổ chức: {{ $a_phanloai[$model->phanloai] ?? '' }}</td>
-        </tr>
+        </tr> --}}
         <tr>
             <td>Phạm vi phát động: {{ $a_phamvi[$model->phamviapdung] ?? '' }}</td>
         </tr>
         <tr>
-            <td>Số quyết định: {{ $model->soqd }} ngày: {{ getDayVn($model->ngayqd) }} </td>
+            <td>Số văn bản: {{ $model->soqd }} </td>
         </tr>
         <tr>
-            <td>Ngày bắt đầu: {{ getDayVn($model->tungay) }}</td>
+            <td>Ngày ban hành: {{ getDayVn($model->ngayqd) }} </td>
         </tr>
         <tr>
-            <td>Ngày kết thúc: {{ getDayVn($model->denngay) }}</td>
+            <td>Ngày bắt đầu nhận hồ sơ tham gia: {{ getDayVn($model->tungay) }}</td>
         </tr>
         <tr>
-            <td>Nội dung phong trào: {{ $model->noidung }}</td>
+            <td>Ngày kết thúc nhận hồ sơ tham gia: {{ getDayVn($model->denngay) }}</td>
         </tr>
         <tr>
-            <td>Khẩu hiệu phong trào: {{ $model->khauhieu }}</td>
+            <td>Tên phong trào: {{ $model->noidung }}</td>
+        </tr>
+        <tr>
+            <td>Nội dung phong trào: {{ $model->khauhieu }}</td>
         </tr>
     </table>
 
@@ -60,10 +63,10 @@
             style="margin: 5px auto; border-collapse: collapse;font:normal 12px Times, serif;">
             <thead>
                 <tr class="text-center">
-                    <th width="10%">STT</th>
+                    <th width="5%">STT</th>
                     <th>Đối tượng áp dụng</th>
                     <th>Tên tiêu chuẩn xét khen thưởng</th>
-                    <th>Điều kiện bắt buộc</th>
+                    <th width="25%">Ghi chú</th>
                 </tr>
             </thead>
             <?php $i = 1; ?>
@@ -72,7 +75,7 @@
                     <td class="text-center">{{ $i++ }}</td>
                     <td>{{$a_phanloaidt[$tt->phanloaidoituong] ?? $tt->phanloaidoituong}}</td>
                     <td>{{ $tt->tentieuchuandhtd }}</td>
-                    <td class="text-center">{{ $tt->batbuoc == '1' ? 'Có' : 'Không' }}</td>
+                    <td>{{ $tt->ghichu }}</td>
                 </tr>
             @endforeach
         </table>

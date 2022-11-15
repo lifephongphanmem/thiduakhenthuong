@@ -131,7 +131,7 @@
                                     </button>
 
                                     <button title="Tài liệu đính kèm" type="button"
-                                        onclick="get_attack('{{ $tt->mahosothamgiapt }}', '/HoSoThiDua/TaiLieuDinhKem')"
+                                        onclick="get_attack('{{ $tt->mahosothamgiapt }}', '/DungChung/DinhKemHoSoThamGia')"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
                                         data-toggle="modal">
                                         <i class="icon-lg la la-file-download text-dark"></i>

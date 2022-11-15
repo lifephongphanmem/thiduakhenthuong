@@ -18,5 +18,10 @@ class dsphongtraothidua_tieuchuan extends Model
         'cancu',
         'ghichu',
         'batbuoc',
+        'ipf1',
+        'ipf2',
+        'ipf3',
+        'ipf4',
+        'ipf5',
     ];
 }

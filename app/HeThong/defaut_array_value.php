@@ -9,7 +9,7 @@ use App\Model\DanhMuc\dsdonvi;
  * Time: 3:05 PM
  */
 
-function getChucVuKhenThuong($capdo ='T')
+function getChucVuKhenThuong($capdo = 'T')
 {
     return array(
         'Chủ tịch UBND Xã',
@@ -19,6 +19,14 @@ function getChucVuKhenThuong($capdo ='T')
         'Chủ tịch nước',
         'Tổng giám đốc',
         'Giám đốc',
+    );
+}
+
+function getLinhVucHoatDong()
+{
+    return array(
+        '0001' => 'An ninh - Quốc phòng',
+        '0009' => 'Báo chí - Thông tin - Truyền thông',
     );
 }
 
@@ -901,11 +909,11 @@ function getPhamViPhatDongPhongTrao($capdo = 'T')
         //'X' => 'Phong trào thi đua cấp Xã',
         //'H' => 'Phong trào thi đua cấp Huyện',
         'T' => 'Phong trào thi đua cấp Tỉnh',
-        'SBN' => 'Phong trào cho Sở, ban, ngành',
-        'TW' => 'Phong trào thi đua cấp Nhà nước',
+        'TW' => 'Phong trào thi đua cấp Trung Ương',
     );
     $a_kq['H'] =  array(
         //'X' => 'Phong trào thi đua cấp Xã',
+        'SBN' => 'Phong trào cho Sở, ban, ngành',
         'H' => 'Phong trào thi đua cấp Huyện',
     );
     $a_kq['X'] =  array(
@@ -916,8 +924,8 @@ function getPhamViPhatDongPhongTrao($capdo = 'T')
 
 function getPhamViApDungPhongTrao($capdo = 'T')
 {
-    $a_kq['T'] =  array('T', 'TW', 'SBN');
-    $a_kq['H'] =  array('H', 'T', 'TW',);
+    $a_kq['T'] =  array('T', 'TW',);
+    $a_kq['H'] =  array('H', 'SBN', 'T', 'TW',);
     $a_kq['X'] =  array('X', 'H', 'T', 'TW',);
     return $a_kq[$capdo];
 }

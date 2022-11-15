@@ -45,7 +45,7 @@
             })
         }
 
-        function ThemTieuChuan() {
+        function ThemTieuChuan_cu() {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             //var batbuoc = $("#batbuoc").is(":checked");
             $.ajax({
@@ -76,6 +76,32 @@
             $('#modal-tieuchuan').modal("hide");
         }
 
+        function ThemTieuChuan() {
+            var formData = new FormData($('#frmThemTieuChuan')[0]);
+
+            $.ajax({
+                url: "/PhongTraoThiDua/ThemTieuChuan",
+                method: "POST",
+                cache: false,
+                dataType: false,
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function(data) {
+                    console.log(data);
+                    //if (data.status == 'success') {
+                    toastr.success("Bổ xung thông tin thành công!");
+                    $('#dstieuchuan').replaceWith(data.message);
+                    jQuery(document).ready(function() {
+                        TableManaged4.init();
+                    });
+                    //}
+                }
+            });
+            $('#modal-tieuchuan').modal("hide");
+        }
+
+
         function setTieuChuan() {
             $('#frmThemTieuChuan').find("[name='matieuchuandhtd']").val(null);
         }
@@ -97,7 +123,7 @@
                     $('#frmThemTieuChuan').find("[name='matieuchuandhtd']").val(data.matieuchuandhtd)
                     $('#frmThemTieuChuan').find("[name='phanloaidoituong']").val(data.phanloaidoituong).trigger(
                         'change');
-                        $('#frmThemTieuChuan').find("[name='ghichu']").val(data.ghichu);
+                    $('#frmThemTieuChuan').find("[name='ghichu']").val(data.ghichu);
                 }
             })
         }
@@ -209,14 +235,14 @@
 
             <div class="form-group row">
                 <div class="col-lg-12">
-                    <label>Khẩu hiệu phong trào</label>
+                    <label>Nội dung phong trào</label>
                     {!! Form::textarea('khauhieu', null, ['class' => 'form-control', 'rows' => 2]) !!}
                 </div>
             </div>
 
             <div class="form-group row">
                 <div class="col-lg-6">
-                    <label>Quyết định: </label>
+                    <label>Văn bản: </label>
                     {!! Form::file('qdkt', null, ['id' => 'qdkt', 'class' => 'form-control']) !!}
                     @if ($model->qdkt != '')
                         <span class="form-control" style="border-style: none">
@@ -267,17 +293,26 @@
                                     <td>{{ $a_phanloaidt[$tt->phanloaidoituong] ?? $tt->phanloaidoituong }}</td>
                                     <td>{{ $tt->tentieuchuandhtd }}</td>
                                     <td>{{ $tt->ghichu }}</td>
-                                    
                                     <td class="text-center">
                                         <button title="Tiêu chuẩn" type="button"
                                             onclick="getTieuChuan('{{ $tt->id }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#modal-tieuchuan"
                                             data-toggle="modal">
-                                            <i class="icon-lg la fa-edit text-dark"></i></button>
+                                            <i class="icon-lg la fa-edit text-dark"></i>
+                                        </button>
+
+                                        <button title="Tài liệu đính kèm" type="button"
+                                            onclick="get_attack('{{$tt->id}}', '/PhongTraoThiDua/DinhKemTieuChuan')"
+                                            class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
+                                            data-toggle="modal">
+                                            <i class="icon-lg la la-file-download text-dark"></i>
+                                        </button>
+
                                         <button title="Xóa" type="button" onclick="getId('{{ $tt->id }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal"
                                             data-toggle="modal">
-                                            <i class="icon-lg la fa-trash-alt text-danger"></i></button>
+                                            <i class="icon-lg la fa-trash-alt text-danger"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -300,6 +335,7 @@
 
     {!! Form::open(['url' => '', 'files' => true, 'id' => 'frmThemTieuChuan', 'class' => 'horizontal-form']) !!}
     {{ Form::hidden('matieuchuandhtd', null) }}
+    {{ Form::hidden('maphongtraotd', $model->maphongtraotd) }}
     <div class="modal fade bs-modal-lg" id="modal-tieuchuan" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -331,9 +367,14 @@
                     <div class="form-group row">
                         <div class="col-lg-12">
                             <label class="control-label">Ghi chú </label>
-                            {!! Form::textarea('ghichu', null, ['class' => 'form-control',
-                                'rows' => 3,
-                            ]) !!}
+                            {!! Form::textarea('ghichu', null, ['class' => 'form-control', 'rows' => 3]) !!}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label>Tài liệu đính kèm: </label>
+                            {!! Form::file('ipf1', null, ['id' => 'ipf1', 'class' => 'form-control']) !!}
                         </div>
                     </div>
                 </div>
@@ -376,4 +417,7 @@
         }
     </script>
     <!--end::Card-->
+
+
+    @include('includes.modal.modal_attackfile')
 @stop

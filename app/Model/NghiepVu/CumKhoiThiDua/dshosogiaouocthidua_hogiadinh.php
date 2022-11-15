@@ -1,28 +1,24 @@
 <?php
 
-namespace App\Model\NghiepVu\KhenCao;
+namespace App\Model\NghiepVu\CumKhoiThiDua;
 
 use Illuminate\Database\Eloquent\Model;
 
-class dshosokhencao_tapthe extends Model
+class dshosogiaouocthidua_hogiadinh extends Model
 {
-    protected $table = 'dshosokhencao_tapthe';
+    protected $table = 'dshosogiaouocthidua_hogiadinh';
     protected $fillable = [
         'id',
         'stt',
-        'mahosotdkt',
+        'mahosodk',
         'linhvuchoatdong',
         'maphanloaitapthe', //Tập thể nhà nước; Doanh nghiệp; Hộ gia đình
         //Thông tin tập thể            
         'tentapthe',
-        'ghichu', //
-        //Kết quả đánh giá
-        'ketqua',
+        'ghichu',           
         'madanhhieutd',//bỏ
         'mahinhthuckt',//bỏ
         'madanhhieukhenthuong',//gộp danh hiệu & khen thưởng
-        'lydo',
-        'noidungkhenthuong', //in trên phôi bằng khen
-        'madonvi', //phục vụ lấy dữ liệu
+        'madonvi',
     ];
 }

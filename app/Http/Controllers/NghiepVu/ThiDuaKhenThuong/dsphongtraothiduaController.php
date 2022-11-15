@@ -189,6 +189,12 @@ class dsphongtraothiduaController extends Controller
         }
         //dd($request);
         $inputs = $request->all();
+        if (isset($inputs['ipf1'])) {
+            $filedk = $request->file('ipf1');
+            $inputs['ipf1'] = getdate()[0] . '_tailieukhac.' . $filedk->getClientOriginalExtension();
+            $filedk->move(public_path() . '/data/tailieukhac/', $inputs['ipf1']);
+        }
+        //return response()->json($inputs);
         $model = dsphongtraothidua_tieuchuan::where('maphongtraotd', $inputs['maphongtraotd'])->where('matieuchuandhtd', $inputs['matieuchuandhtd'])->first();
         if ($model == null) {
             $model = new dsphongtraothidua_tieuchuan();
@@ -198,12 +204,14 @@ class dsphongtraothiduaController extends Controller
             $model->matieuchuandhtd = getdate()[0];
             //$model->batbuoc = $inputs['batbuoc'];
             $model->ghichu = $inputs['ghichu'];
+            $model->ipf1 = $inputs['ipf1'] ?? null;
             $model->save();
         } else {
             //$model->batbuoc = $inputs['batbuoc'];
             $model->tentieuchuandhtd = $inputs['tentieuchuandhtd'];
             $model->phanloaidoituong = $inputs['phanloaidoituong'];
             $model->ghichu = $inputs['ghichu'];
+            $model->ipf1 = $inputs['ipf1'] ?? null;
             $model->save();
         }
 
@@ -247,7 +255,19 @@ class dsphongtraothiduaController extends Controller
             $result['message'] .= '</div>';
             $result['status'] = 'success';
         }
-        die(json_encode($result));
+        return response()->json($result);
+    }
+
+    public function XoaTieuChuan(Request $request)
+    {
+        if (!chkPhanQuyen('dsphongtraothidua', 'thaydoi')) {
+            return view('errors.noperm')->with('machucnang', 'dsphongtraothidua');
+        }
+        $inputs = $request->all();
+        $model = dsphongtraothidua_tieuchuan::findorfail($inputs['id']);
+       
+        $model->delete();
+        return redirect(static::$url . 'Sua?maphongtraotd=' . $model->maphongtraotd);
     }
 
     public function LayTieuChuan(Request $request)
@@ -327,5 +347,29 @@ class dsphongtraothiduaController extends Controller
         $model->save();
 
         return redirect('/PhongTraoThiDua/ThongTin?madonvi=' . $model->madonvi);
+    }
+
+    public function DinhKemTieuChuan(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+
+        $inputs = $request->all();
+        $model = dsphongtraothidua_tieuchuan::where('id', $inputs['mahs'])->first();
+        $result['message'] = '<div class="modal-body" id = "dinh_kem" >';
+
+        if (isset($model->ipf1)) {
+            $result['message'] .= '<div class="form-group row">';
+            $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Tài liệu đính kèm:</label>';
+            $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/tailieukhac/' . $model->ipf1) . '">' . $model->ipf1 . '</a ></div>';
+            $result['message'] .= '</div>';
+        }
+       
+        $result['message'] .= '</div>';
+        $result['status'] = 'success';
+
+        die(json_encode($result));
     }
 }

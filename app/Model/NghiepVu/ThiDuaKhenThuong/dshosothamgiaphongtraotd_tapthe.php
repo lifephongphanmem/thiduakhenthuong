@@ -11,6 +11,7 @@ class dshosothamgiaphongtraotd_tapthe extends Model
         'id',
         'stt',
         'mahosothamgiapt',
+        'linhvuchoatdong',
         'maphanloaitapthe', //Tập thể nhà nước; Doanh nghiệp; Hộ gia đình
         //Thông tin tập thể            
         'tentapthe',

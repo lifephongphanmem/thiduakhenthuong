@@ -11,6 +11,7 @@ class dshosotdktcumkhoi_tapthe extends Model
         'id',
         'mahosotdkt',
         'stt',
+        'linhvuchoatdong',
         'maphanloaitapthe', //Tập thể nhà nước; Doanh nghiệp; Hộ gia đình
         //Thông tin tập thể            
         'tentapthe',

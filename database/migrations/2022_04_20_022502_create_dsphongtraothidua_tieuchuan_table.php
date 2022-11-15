@@ -23,6 +23,11 @@ class CreateDsphongtraothiduaTieuchuanTable extends Migration
             $table->string('phanloaidoituong')->nullable();
             $table->string('cancu')->nullable();
             $table->string('ghichu')->nullable();
+            $table->string('ipf1')->nullable();
+            $table->string('ipf2')->nullable();
+            $table->string('ipf3')->nullable();
+            $table->string('ipf4')->nullable();
+            $table->string('ipf5')->nullable();            
             $table->boolean('batbuoc')->default(1);
             $table->timestamps();
         });

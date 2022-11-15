@@ -38,7 +38,7 @@
             var phanloai = form.find("[name='phanloaixoa']").val();
             var id = form.find("[name='iddelete']").val();
 
-            if (phanloai == 'TAPTHE')                
+            if (phanloai == 'TAPTHE') {
                 $.ajax({
                     url: form.attr('action'),
                     type: 'GET',
@@ -54,7 +54,25 @@
                             TableManaged4.init();
                         });
                     }
-                })
+                });
+            } else if (phanloai == 'HOGIADINH')
+                $.ajax({
+                    url: form.attr('action'),
+                    type: 'GET',
+                    data: {
+                        _token: CSRF_TOKEN,
+                        id: id
+                    },
+                    dataType: 'JSON',
+                    success: function(data) {
+                        toastr.success("Bạn đã xóa thông tin đối tượng thành công!", "Thành công!");
+                        $('#dskhenthuonghogiadinh').replaceWith(data.message);
+                        jQuery(document).ready(function() {
+                            TableManaged5.init();
+                        });
+                    }
+                });
+
             else
                 $.ajax({
                     url: form.attr('action'),

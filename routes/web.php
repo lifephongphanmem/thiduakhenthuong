@@ -18,6 +18,11 @@ Route::get('TrangChu','HeThong\congboController@TrangChu');
 Route::group(['prefix' => 'DungChung'], function () {
     Route::get('getDonViKhenThuong_ThemHS', [dungchung_nghiepvuController::class, 'getDonViKhenThuong_ThemHS']);
     Route::get('lichsucapnhat', [dungchung_nghiepvuController::class, 'getDonViKhenThuong_ThemHS']);
+    //
+    Route::get('DinhKemHoSoKhenThuong', [dungchung_nghiepvuController::class, 'DinhKemHoSoKhenThuong']);
+    Route::get('DinhKemHoSoKhenCao', [dungchung_nghiepvuController::class, 'DinhKemHoSoKhenCao']);
+    Route::get('DinhKemHoSoCumKhoi', [dungchung_nghiepvuController::class, 'DinhKemHoSoCumKhoi']);
+    Route::get('DinhKemHoSoThamGia', [dungchung_nghiepvuController::class, 'DinhKemHoSoThamGia']);
     
 });
 
@@ -26,6 +31,7 @@ include('hethong.php');
 include('danhmuc.php');
 include('phongtraothidua.php');
 include('thiduakhenthuongcaccap.php');
+include('khenthuongcongtrang.php');
 include('cumkhoi.php');
 include('tracuu.php');
 include('dangkydanhhieu.php');

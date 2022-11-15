@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Model\NghiepVu\KhenCao;
+namespace App\Model\NghiepVu\CumKhoiThiDua;
 
 use Illuminate\Database\Eloquent\Model;
 
-class dshosokhencao_tapthe extends Model
+class dshosotdktcumkhoi_hogiadinh extends Model
 {
-    protected $table = 'dshosokhencao_tapthe';
+    protected $table = 'dshosotdktcumkhoi_hogiadinh';
     protected $fillable = [
         'id',
-        'stt',
         'mahosotdkt',
+        'stt',
         'linhvuchoatdong',
         'maphanloaitapthe', //Tập thể nhà nước; Doanh nghiệp; Hộ gia đình
         //Thông tin tập thể            

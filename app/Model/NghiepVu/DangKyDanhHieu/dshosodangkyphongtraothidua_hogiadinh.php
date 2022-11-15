@@ -1,21 +1,20 @@
 <?php
 
-namespace App\Model\NghiepVu\CumKhoiThiDua;
+namespace App\Model\NghiepVu\DangKyDanhHieu;
 
 use Illuminate\Database\Eloquent\Model;
 
-class dshosogiaouocthidua_tapthe extends Model
+class dshosodangkyphongtraothidua_hogiadinh extends Model
 {
-    protected $table = 'dshosogiaouocthidua_tapthe';
+    protected $table = 'dshosodangkyphongtraothidua_hogiadinh';
     protected $fillable = [
         'id',
         'stt',
         'mahosodk',
         'linhvuchoatdong',
-        'maphanloaitapthe', //Tập thể nhà nước; Doanh nghiệp; Hộ gia đình
-        //Thông tin tập thể            
+        'maphanloaitapthe', //Tập thể nhà nước; Doanh nghiệp; Hộ gia đình                   
         'tentapthe',
-        'ghichu',           
+        'ghichu',
         'madanhhieutd',//bỏ
         'mahinhthuckt',//bỏ
         'madanhhieukhenthuong',//gộp danh hiệu & khen thưởng

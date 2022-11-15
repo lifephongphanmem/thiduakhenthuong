@@ -101,6 +101,7 @@ return array(
     'App\\Model\\DanhMuc\\dsnhomtaikhoan' => $baseDir . '/app/Model/DanhMuc/dsnhomtaikhoan.php',
     'App\\Model\\DanhMuc\\dsnhomtaikhoan_phanquyen' => $baseDir . '/app/Model/DanhMuc/dsnhomtaikhoan_phanquyen.php',
     'App\\Model\\DanhMuc\\dstaikhoan' => $baseDir . '/app/Model/DanhMuc/dstaikhoan.php',
+    'App\\Model\\DanhMuc\\dstaikhoan_phamvi' => $baseDir . '/app/Model/DanhMuc/dstaikhoan_phamvi.php',
     'App\\Model\\DanhMuc\\dstaikhoan_phanquyen' => $baseDir . '/app/Model/DanhMuc/dstaikhoan_phanquyen.php',
     'App\\Model\\DanhMuc\\dstruongcumkhoi' => $baseDir . '/app/Model/DanhMuc/dstruongcumkhoi.php',
     'App\\Model\\DanhMuc\\dstruongcumkhoi_chitiet' => $baseDir . '/app/Model/DanhMuc/dstruongcumkhoi_chitiet.php',

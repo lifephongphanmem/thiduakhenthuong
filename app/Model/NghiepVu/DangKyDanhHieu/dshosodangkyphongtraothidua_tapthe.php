@@ -11,6 +11,7 @@ class dshosodangkyphongtraothidua_tapthe extends Model
         'id',
         'stt',
         'mahosodk',
+        'linhvuchoatdong',
         'maphanloaitapthe', //Tập thể nhà nước; Doanh nghiệp; Hộ gia đình                   
         'tentapthe',
         'ghichu',
