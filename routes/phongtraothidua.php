@@ -59,6 +59,7 @@ Route::group(['prefix' => 'HoSoThiDua'], function () {
     Route::get('XoaHoGiaDinh', [dshosothiduaController::class, 'XoaHoGiaDinh']);
     Route::get('LayHoGiaDinh', [dshosothiduaController::class, 'LayHoGiaDinh']);
 
+    Route::post('NhanExcel', [dshosothiduaController::class, 'NhanExcel']);
     Route::post('NhanExcelTapThe', [dshosothiduaController::class, 'NhanExcelTapThe']);
     Route::post('NhanExcelCaNhan', [dshosothiduaController::class, 'NhanExcelCaNhan']);
 

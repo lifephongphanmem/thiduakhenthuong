@@ -102,11 +102,12 @@ function getDanhHieuKhenThuong($capdo, $phanloai = 'CANHAN')
     if ($capdo == 'ALL')
         $m_danhhieu = App\Model\DanhMuc\dmdanhhieuthidua::all();
     else {
-        if ($phanloai == 'CANHAN')
-            $m_danhhieu = App\Model\DanhMuc\dmdanhhieuthidua::where('phanloai', $phanloai)->get();
-        else {
-            $m_danhhieu = App\Model\DanhMuc\dmdanhhieuthidua::where('phanloai', '<>', 'CANHAN')->get();
-        }
+        $m_danhhieu = App\Model\DanhMuc\dmdanhhieuthidua::where('phanloai', $phanloai)->get();
+        // if ($phanloai == 'CANHAN')
+        //     $m_danhhieu = App\Model\DanhMuc\dmdanhhieuthidua::where('phanloai', $phanloai)->get();
+        // else {
+        //     $m_danhhieu = App\Model\DanhMuc\dmdanhhieuthidua::where('phanloai', '<>', 'CANHAN')->get();
+        // }
     }
     foreach ($m_danhhieu as $danhhieu) {
         if ($capdo == 'ALL')

@@ -56,8 +56,8 @@
                 <tr class="text-center">
                     <th width="5%">STT</th>
                     <th>Tên tập thể</th>
-                    <th>Phân loại tập thể</th>
-                    <th>Hình thức khen thưởng/<br>Danh hiệu thi đua</th>
+                    <th>Phân loại đối tượng</th>
+                    <th>Danh hiệu thi đua/<br>Hình thức khen thưởng</th>
                     {{-- <th>Danh hiệu thi đua</th> --}}
                 </tr>
             </thead>
@@ -85,7 +85,7 @@
                     <th>Tên đối tượng</th>
                     <th>Phân loại cán bộ</th>
                     <th>Thông tin công tác</th>
-                    <th>Hình thức khen thưởng/<br>Danh hiệu thi đua</th>
+                    <th>Danh hiệu thi đua/<br>Hình thức khen thưởng</th>
                 </tr>
             </thead>
             <?php $i = 1; ?>

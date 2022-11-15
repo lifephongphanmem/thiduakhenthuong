@@ -74,7 +74,7 @@ class dsphongtraothiduaController extends Controller
         $model = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
         $inputs['madonvi'] = $inputs['madonvi'] ?? $model->madonvi;
         $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
-        $inputs['maloaihinhkt'] =session('chucnang')['dsphongtraothidua']['maloaihinhkt'] ?? '';
+        $inputs['maloaihinhkt'] = session('chucnang')['dsphongtraothidua']['maloaihinhkt'] ?? '';
         if ($model == null) {
             $model = new dsphongtraothidua();
             $model->madonvi = $inputs['madonvi'];
@@ -87,20 +87,27 @@ class dsphongtraothiduaController extends Controller
         }
         $model->tendonvi = getThongTinDonVi($model->madonvi, 'tendonvi');
         $model_tieuchuan = dsphongtraothidua_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->orderby('phanloaidoituong')->get();
-        
+
         if (in_array($inputs['maloaihinhkt'], ['', 'ALL', 'all'])) {
             $m_loaihinh = dmloaihinhkhenthuong::all();
         } else {
             $m_loaihinh = dmloaihinhkhenthuong::where('maloaihinhkt', $inputs['maloaihinhkt'])->get();
         }
-
+        $capdo = $donvi->capdo;
+        //Đơn vị cấp tỉnh
+        if ($donvi->capdo == 'T') {
+            $a_donvi_ql = array_column(dsdiaban::wherein('capdo', ['T'])->get()->toarray(), 'madonviQL');
+            if (!in_array($inputs['madonvi'], $a_donvi_ql))
+                $capdo = 'H';
+        }
+        $a_phamvi = getPhamViPhatDongPhongTrao($capdo);
         return view('NghiepVu.ThiDuaKhenThuong.PhongTraoThiDua.ThayDoi')
             ->with('model', $model)
             ->with('model_tieuchuan', $model_tieuchuan)
             ->with('a_tieuchuan', array_column(dmdanhhieuthidua_tieuchuan::all()->toArray(), 'tentieuchuandhtd', 'matieuchuandhtd'))
             ->with('a_loaihinhkt', array_column($m_loaihinh->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
-            ->with('a_phamvi', getPhamViPhatDongPhongTrao($donvi->capdo))
+            ->with('a_phamvi', $a_phamvi)
             ->with('a_phanloaidt', getPhanLoaiTDKT())
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách phong trào thi đua');
@@ -173,7 +180,7 @@ class dsphongtraothiduaController extends Controller
         $model->delete();
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }
-    
+
     public function ThemTieuChuan(Request $request)
     {
         $result = array(
@@ -240,7 +247,7 @@ class dsphongtraothiduaController extends Controller
                 $result['message'] .= '<td style="text-align: center">' . $key++ . '</td>';
                 $result['message'] .= '<td>' . ($a_phanloaidt[$ct->phanloaidoituong] ?? $ct->phanloaidoituong) . '</td>';
                 $result['message'] .= '<td class="active">' . $ct->tentieuchuandhtd . '</td>';
-                $result['message'] .= '<td>' . $ct->ghichu . '</td>';                
+                $result['message'] .= '<td>' . $ct->ghichu . '</td>';
 
                 $result['message'] .= '<td>' .
                     '<button type="button" data-target="#modal-tieuchuan" data-toggle="modal" class="btn btn-sm btn-clean btn-icon" onclick="getTieuChuan(' . $ct->id . ')" ><i class="icon-lg la fa-edit text-dark"></i></button>' .
@@ -265,7 +272,7 @@ class dsphongtraothiduaController extends Controller
         }
         $inputs = $request->all();
         $model = dsphongtraothidua_tieuchuan::findorfail($inputs['id']);
-       
+
         $model->delete();
         return redirect(static::$url . 'Sua?maphongtraotd=' . $model->maphongtraotd);
     }
@@ -366,7 +373,7 @@ class dsphongtraothiduaController extends Controller
             $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/tailieukhac/' . $model->ipf1) . '">' . $model->ipf1 . '</a ></div>';
             $result['message'] .= '</div>';
         }
-       
+
         $result['message'] .= '</div>';
         $result['status'] = 'success';
 

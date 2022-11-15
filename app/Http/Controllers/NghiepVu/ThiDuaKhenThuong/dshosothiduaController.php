@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\NghiepVu\_DungChung\dungchung_nghiepvuController;
+use App\Http\Controllers\NghiepVu\_DungChung\dungchung_nhanexcelController;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
 use App\Model\DanhMuc\dmnhomphanloai_chitiet;
 use App\Model\DanhMuc\dsdiaban;
@@ -143,50 +144,24 @@ class dshosothiduaController extends Controller
         $inputs['maloaihinhkt'] = session('chucnang')['dshosothidua']['maloaihinhkt'] ?? 'ALL';
         $inputs['mahinhthuckt'] = session('chucnang')['dshosothidua']['mahinhthuckt'] ?? 'ALL';
         $m_phongtrao = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
-        $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
+        // $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
 
-        //$a_danhhieu = getDanhHieuKhenThuong('ALL');
-        $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
-        $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
-        $a_dhkt_hogiadinh = getDanhHieuKhenThuong($donvi->capdo, 'HOGIADINH');
+        // //$a_danhhieu = getDanhHieuKhenThuong('ALL');
+        // $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
+        // $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
+        // $a_dhkt_hogiadinh = getDanhHieuKhenThuong($donvi->capdo, 'HOGIADINH');
 
         $model = new dshosothamgiaphongtraotd();
-        $model->madonvi = $inputs['madonvi'];
-        $model->tendonvi = getThongTinDonVi($inputs['madonvi'], 'tendonvi');
+        $model->madonvi = $inputs['madonvi'];        
         $model->mahosothamgiapt = (string)getdate()[0];
         $model->maloaihinhkt = $m_phongtrao->maloaihinhkt;
-        $model->tenphongtrao = $m_phongtrao->noidung;
         $model->maphongtraotd = $inputs['maphongtraotd'];
-
-        $model_canhan = dshosothamgiaphongtraotd_canhan::where('mahosothamgiapt', $model->mahosothamgiapt)->get();
-        $model_tapthe = dshosothamgiaphongtraotd_tapthe::where('mahosothamgiapt', $model->mahosothamgiapt)->get();
-        $model_hogiadinh = dshosothamgiaphongtraotd_hogiadinh::where('mahosothamgiapt', $model->mahosothamgiapt)->get();
-        //$model_tieuchuan = dsphongtraothidua_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->get();
-
-        //$m_tieuchuan = dsphongtraothidua_tieuchuan::where('maphongtraotd', $inputs['maphongtraotd'])->get();
-        //dd( $model);
-
-        $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE'])->get()->toarray(), 'tenphanloai', 'maphanloai');
-        $a_hogiadinh = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
-        $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
-        return view('NghiepVu.ThiDuaKhenThuong.HoSoThiDua.ThayDoi')
-            ->with('model', $model)
-            ->with('model_canhan', $model_canhan)
-            ->with('model_tapthe', $model_tapthe)
-            ->with('model_hogiadinh', $model_hogiadinh)
-            //->with('model_tieuchuan', $model_tieuchuan)
-            //->with('m_tieuchuan', $m_tieuchuan)
-            ->with('a_tapthe', $a_tapthe)
-            ->with('a_hogiadinh', $a_hogiadinh)
-            ->with('a_canhan', $a_canhan)
-            ->with('a_dhkt_canhan', $a_dhkt_canhan)
-            ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
-            ->with('a_dhkt_hogiadinh', $a_dhkt_hogiadinh)
-            //->with('a_tieuchuan', array_column($m_tieuchuan->toArray(), 'tentieuchuandhtd', 'matieuchuandhtd'))
-            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
-            ->with('a_phongtraotd', array_column($m_phongtrao->toArray(), 'tenphongtraotd', 'maphongtraotd'))
-            ->with('inputs', $inputs)
-            ->with('pageTitle', 'Hồ sơ thi đua');
+        $model->ngayhoso = date('Y-m-d');
+        $model->phanloai = 'THIDUA';
+        $model->trangthai = 'CC';
+        //dd($model);
+        $model->save();
+        return redirect(static::$url . 'Sua?mahosothamgiapt=' . $model->mahosothamgiapt);
     }
 
     public function ThayDoi(Request $request)
@@ -208,7 +183,7 @@ class dshosothiduaController extends Controller
         $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
         $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
         $a_dhkt_hogiadinh = getDanhHieuKhenThuong($donvi->capdo, 'HOGIADINH');
-
+        //dd($a_dhkt_hogiadinh);
         $m_phongtrao = dsphongtraothidua::where('maphongtraotd', $model->maphongtraotd)->first();
         $model->tendonvi = getThongTinDonVi($model->madonvi, 'tendonvi');
         $model->tenphongtrao = $m_phongtrao->noidung;
@@ -264,6 +239,7 @@ class dshosothiduaController extends Controller
         $model->tenphongtrao = $m_phongtrao->noidung;
         $model_canhan = dshosothamgiaphongtraotd_canhan::where('mahosothamgiapt', $model->mahosothamgiapt)->get();
         $model_tapthe = dshosothamgiaphongtraotd_tapthe::where('mahosothamgiapt', $model->mahosothamgiapt)->get();
+        $model_hogiadinh = dshosothamgiaphongtraotd_hogiadinh::where('mahosothamgiapt', $model->mahosothamgiapt)->get();
         //$m_danhhieu = dmdanhhieuthidua::all();
         $m_tieuchuan = dsphongtraothidua_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->get();
         $a_phanloaidt = array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai');
@@ -274,6 +250,7 @@ class dshosothiduaController extends Controller
             ->with('m_donvi', $m_donvi)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
+            ->with('model_hogiadinh', $model_hogiadinh)
             ->with('a_phanloaidt', $a_phanloaidt)
             ->with('a_dhkt', getDanhHieuKhenThuong('ALL'))
             //->with('a_danhhieutd', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
@@ -792,7 +769,7 @@ class dshosothiduaController extends Controller
         $model->delete();
         //$m_hoso = dshosothamgiaphongtraotd::where('mahosothamgiapt', $model->mahosothamgiapt)->first();
         //dd($model);
-        
+
         $danhsach = dshosothamgiaphongtraotd_tapthe::where('mahosothamgiapt', $model->mahosothamgiapt)->get();
         $dungchung = new dungchung_nghiepvuController();
         $dungchung->htmlTapThe($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
@@ -948,5 +925,12 @@ class dshosothiduaController extends Controller
         return view('BaoCao.DonVi.XemQuyetDinh')
             ->with('model', $model)
             ->with('pageTitle', 'Tờ trình khen thưởng');
+    }
+
+    public function NhanExcel(Request $request)
+    {
+        $dungchung = new dungchung_nhanexcelController();
+        $dungchung->NhanExcelThamGia($request);
+        return redirect(static::$url . 'Sua?mahosothamgiapt=' . $request->all()['mahoso']);
     }
 }

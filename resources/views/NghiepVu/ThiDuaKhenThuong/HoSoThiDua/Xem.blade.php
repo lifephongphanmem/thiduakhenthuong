@@ -51,7 +51,7 @@
                     <th width="5%">STT</th>
                     <th>Tên tập thể</th>
                     <th>Phân loại tập thể</th>
-                    <th>Hình thức khen thưởng /<br>Danh hiệu thi đua</th>                    
+                    <th>Danh hiệu thi đua/<br>Hình thức khen thưởng</th>                    
                 </tr>
             </thead>
             <?php $i = 1; ?>
@@ -60,6 +60,28 @@
                     <td class="text-center">{{ $i++ }}</td>
                     <td>{{ $tt->tentapthe }}</td>
                     <td>{{ $a_phanloaidt[$tt->maphanloaitapthe] ?? '' }}</td>
+                    <td>{{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}</td>
+                </tr>
+            @endforeach
+        </table>
+    @endif
+
+    @if (count($model_hogiadinh) > 0)
+        <p style="text-left: center; font-size: 18px;">Thông tin khen thưởng hộ gia đình</p>
+        <table id="data_body1" class="money" cellspacing="0" cellpadding="0" border="1"
+            style="margin: 5px auto; border-collapse: collapse;font:normal 12px Times, serif;">
+            <thead>
+                <tr class="text-center">
+                    <th width="5%">STT</th>
+                    <th>Tên hộ gia đình</th>
+                    <th>Danh hiệu thi đua/<br>Hình thức khen thưởng</th>                    
+                </tr>
+            </thead>
+            <?php $i = 1; ?>
+            @foreach ($model_tapthe as $key => $tt)
+                <tr class="odd gradeX">
+                    <td class="text-center">{{ $i++ }}</td>
+                    <td>{{ $tt->tentapthe }}</td>
                     <td>{{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}</td>
                 </tr>
             @endforeach
@@ -76,7 +98,7 @@
                     <th>Tên đối tượng</th>
                     <th>Phân loại cán bộ</th>
                     <th>Thông tin công tác</th>
-                    <th>Hình thức khen thưởng /<br>Danh hiệu thi đua</th>
+                    <th>Danh hiệu thi đua/<br>Hình thức khen thưởng</th>
                 </tr>
             </thead>
             <?php $i = 1; ?>
@@ -92,6 +114,7 @@
         </table>
     @endif    
 
+    
     <table id="data_footer" class="header" width="96%" border="0" cellspacing="0" cellpadding="8"
         style="margin:20px auto; text-align: center;">
         <tr>

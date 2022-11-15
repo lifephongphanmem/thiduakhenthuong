@@ -167,7 +167,7 @@
     @include('NghiepVu._DungChung.modal_HSPT_TieuChuan')
 
     @include('NghiepVu._DungChung.modal_HSPT_XoaDoiTuong')
-    @include('NghiepVu._DungChung.modal_PT_Excel')
+    @include('NghiepVu._DungChung.modal_Excel')
     {{-- @include('NghiepVu._DungChung.modal_DoiTuong') --}}
 
 @stop
