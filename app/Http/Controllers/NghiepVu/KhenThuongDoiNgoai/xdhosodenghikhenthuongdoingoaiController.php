@@ -623,5 +623,35 @@ class xdhosodenghikhenthuongdoingoaiController extends Controller
         $model->thongtintotrinhdenghi = $inputs['thongtintotrinhdenghi'];
         $model->save();
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_xd);
-    }    
+    }  
+     
+    public function TrinhKetQua(Request $request)
+    {
+        $inputs = $request->all();
+        $inputs['url_hs'] = '/KhenThuongCongHien/HoSo/';
+        $inputs['url_xd'] = '/KhenThuongCongHien/XetDuyet/';
+        $inputs['url'] = '/KhenThuongCongHien/XetDuyet/';
+        $inputs['url_qd'] = '/KhenThuongCongHien/KhenThuong/';
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        return view('NghiepVu.KhenThuongCongHien.XetDuyet.TrinhKetQua')
+            ->with('model', $model)
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'Thông tin hồ sơ đề nghị khen thưởng');
+    }
+
+    public function LuuTrinhKetQua(Request $request)
+    {
+
+        $inputs = $request->all();
+        //dd($inputs );
+        if (isset($inputs['totrinhdenghi'])) {
+            $filedk = $request->file('totrinhdenghi');
+            $inputs['totrinhdenghi'] = $inputs['mahosotdkt'] . '_totrinhdenghi.' . $filedk->getClientOriginalExtension();
+            $filedk->move(public_path() . '/data/totrinh/', $inputs['totrinhdenghi']);
+        }
+
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $model->update($inputs);
+        return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_xd);
+    } 
 }
