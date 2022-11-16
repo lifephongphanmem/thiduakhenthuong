@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\NghiepVu\_DungChung\dungchung_nghiepvuController;
 use App\Model\DanhMuc\dmdanhhieuthidua;
 use App\Model\DanhMuc\dmdanhhieuthidua_tieuchuan;
 use App\Model\DanhMuc\dmhinhthuckhenthuong;
@@ -127,12 +128,14 @@ class qdhosokhenthuongcumkhoiController extends Controller
         //dd($inputs);
         if ($inputs['phanloai'] == 'TAPTHE') {
             dshosotdktcumkhoi_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->update(['ketqua' => $inputs['ketqua'], 'noidungkhenthuong' => $inputs['noidungkhenthuong']]);
-            $model = dshosotdktcumkhoi_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
-            $this->htmlTapThe($result, $model);
+            $danhsach = dshosotdktcumkhoi_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+            $dungchung = new dungchung_nghiepvuController();
+            $dungchung->htmlPheDuyetTapThe($result, $danhsach);
         } else {
             dshosotdktcumkhoi_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->update(['ketqua' => $inputs['ketqua'], 'noidungkhenthuong' => $inputs['noidungkhenthuong']]);
-            $model = dshosotdktcumkhoi_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
-            $this->htmlCaNhan($result, $model);
+            $danhsach = dshosotdktcumkhoi_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+            $dungchung = new dungchung_nghiepvuController();
+            $dungchung->htmlPheDuyetCaNhan($result, $danhsach);
         }
 
         return response()->json($result);
@@ -275,9 +278,10 @@ class qdhosokhenthuongcumkhoiController extends Controller
             $model->update($inputs);
         // return response()->json($inputs['id']);
 
-        $model = dshosotdktcumkhoi_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+        $danhsach = dshosotdktcumkhoi_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
 
-        $this->htmlCaNhan($result, $model);
+        $dungchung = new dungchung_nghiepvuController();
+            $dungchung->htmlPheDuyetCaNhan($result, $danhsach);
         return response()->json($result);
     }
 
@@ -369,9 +373,9 @@ class qdhosokhenthuongcumkhoiController extends Controller
             $model->update($inputs);
         // return response()->json($inputs['id']);
 
-        $model = dshosotdktcumkhoi_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
-
-        $this->htmlTapThe($result, $model);
+        $danhsach = dshosotdktcumkhoi_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+        $dungchung = new dungchung_nghiepvuController();
+        $dungchung->htmlPheDuyetTapThe($result, $danhsach);
         return response()->json($result);
         //return die(json_encode($result));
     }
@@ -666,6 +670,7 @@ class qdhosokhenthuongcumkhoiController extends Controller
         $inputs['url_hs'] = '/CumKhoiThiDua/KTCumKhoi/HoSo/';
         $inputs['url_xd'] = '/CumKhoiThiDua/KTCumKhoi/XetDuyet/';
         $inputs['url_qd'] = '/CumKhoiThiDua/KTCumKhoi/KhenThuong/';
+        $inputs['url'] = '/CumKhoiThiDua/KTCumKhoi/KhenThuong/';
         $inputs['mahinhthuckt'] = session('chucnang')['dshosodenghikhenthuongcongtrang']['mahinhthuckt'] ?? 'ALL';
         $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model_canhan = dshosotdktcumkhoi_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
@@ -703,11 +708,7 @@ class qdhosokhenthuongcumkhoiController extends Controller
     public function LuuPheDuyet(Request $request)
     {
         $inputs = $request->all();
-        if (isset($inputs['quyetdinh'])) {
-            $filedk = $request->file('quyetdinh');
-            $inputs['quyetdinh'] = $inputs['mahosotdkt'] . '_quyetdinh.' . $filedk->getClientOriginalExtension();
-            $filedk->move(public_path() . '/data/quyetdinh/', $inputs['quyetdinh']);
-        }
+       
         $thoigian = date('Y-m-d H:i:s');
         $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model->trangthai = 'DKT';
@@ -724,6 +725,12 @@ class qdhosokhenthuongcumkhoiController extends Controller
         $model->hotennguoikyqd = $inputs['hotennguoikyqd'];
         //dd($model);
         getTaoQuyetDinhKTCumKhoi($model);
+        if (isset($inputs['quyetdinh'])) {
+            $filedk = $request->file('quyetdinh');
+            $inputs['quyetdinh'] = $inputs['mahosotdkt'] . '_quyetdinh.' . $filedk->getClientOriginalExtension();
+            $filedk->move(public_path() . '/data/quyetdinh/', $inputs['quyetdinh']);
+            $model->quyetdinh = $inputs['quyetdinh'];
+        }
         $model->save();
         trangthaihoso::create([
             'mahoso' => $inputs['mahosotdkt'],
@@ -733,7 +740,7 @@ class qdhosokhenthuongcumkhoiController extends Controller
             'madonvi' => $inputs['madonvi'],
             'thongtin' => 'Phê duyệt đề nghị khen thưởng.',
         ]);
-        return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi . '&macumkhoi=' . $model->macumkhoi);
+        return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_kt . '&macumkhoi=' . $model->macumkhoi);
     }
 
     public function HuyPheDuyet(Request $request)

@@ -50,7 +50,7 @@
                 <h3 class="card-label text-uppercase">Danh sách hồ sơ khen thưởng trong cụm, khối thi đua</h3>
             </div>
             <div class="card-toolbar">
-                @if (chkPhanQuyen('dshosokhenthuongcumkhoi', 'thaydoi'))
+                @if (chkPhanQuyen('dshosokhenthuongcumkhoi', 'thaydoi') && $inputs['truongcumkhoi'])
                     <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
                 @endif
@@ -130,7 +130,7 @@
                                     </button>
 
                                     <button title="Tài liệu đính kèm" type="button"
-                                        onclick="get_attack('{{ $tt->mahosotdkt }}', '{{ $inputs['url_hs'] . 'TaiLieuDinhKem' }}')"
+                                        onclick="get_attack('{{ $tt->mahosotdkt }}', '/DungChung/DinhKemHoSoKhenCao')"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
                                         data-toggle="modal">
                                         <i class="icon-lg la la-file-download text-dark icon-2x"></i>
@@ -213,31 +213,29 @@
                             {!! Form::select('maloaihinhkt', $a_loaihinhkt, $inputs['maloaihinhkt'], ['class' => 'form-control']) !!}
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-3">
                             <label>Trạng thái hồ sơ</label>
                             {!! Form::select('trangthai', getTrangThaiChucNangHoSo($inputs['trangthai']), $inputs['trangthai'], [
                                 'class' => 'form-control',
                             ]) !!}
                         </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-6">
-                            <label>Số tờ trình</label>
-                            {!! Form::text('sototrinh', null, ['class' => 'form-control']) !!}
-                        </div>
-                        <div class="col-6">
+                        <div class="col-3">
                             <label>Ngày tạo hồ sơ</label>
                             {!! Form::input('date', 'ngayhoso', date('Y-m-d'), ['class' => 'form-control']) !!}
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <div class="col-6">
+                        <div class="col-4">
+                            <label>Số tờ trình</label>
+                            {!! Form::text('sototrinh', null, ['class' => 'form-control']) !!}
+                        </div>                        
+                    
+                        <div class="col-4">
                             <label>Chức vụ người ký tờ trình</label>
                             {!! Form::text('chucvunguoiky', null, ['class' => 'form-control']) !!}
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
                             <label>Họ tên người ký tờ trình</label>
                             {!! Form::text('nguoikytotrinh', null, ['class' => 'form-control']) !!}
                         </div>
@@ -250,13 +248,13 @@
                         </div>
                     </div>
 
-                    <div class="form-group row">
+                    {{-- <div class="form-group row">
                         <div class="col-12">
                             <label>Tờ trình: </label>
                             {!! Form::file('totrinh', null, ['id' => 'totrinh', 'class' => 'form-control']) !!}
                         </div>
 
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>

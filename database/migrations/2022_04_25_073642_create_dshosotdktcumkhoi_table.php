@@ -31,6 +31,7 @@ class CreateDshosotdktcumkhoiTable extends Migration
             $table->string('baocao')->nullable();//báo cáo thành tích
             $table->string('bienban')->nullable();//biên bản cuộc họp
             $table->string('tailieukhac')->nullable();//tài liệu khác
+            $table->string('quyetdinh')->nullable();//qd khen thuong
             //Kết quả khen thưởng
             $table->string('mahosokt')->nullable();
             //Trạng thái đơn vị

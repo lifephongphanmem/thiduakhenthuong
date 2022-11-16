@@ -7,6 +7,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\NghiepVu\_DungChung\dungchung_nghiepvuController;
+use App\Http\Controllers\NghiepVu\_DungChung\dungchung_nhanexcelController;
 use App\Model\DanhMuc\dmdanhhieuthidua;
 use App\Model\DanhMuc\dmdanhhieuthidua_tieuchuan;
 use App\Model\DanhMuc\dmhinhthuckhenthuong;
@@ -21,9 +23,7 @@ use App\Model\HeThong\trangthaihoso;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_canhan;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_detai;
-use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_khenthuong;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_tapthe;
-use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_tieuchuan;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua;
 use App\Model\View\view_dscumkhoi;
 use App\Model\View\viewdiabandonvi;
@@ -162,6 +162,7 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
             return view('errors.noperm')->with('machucnang', 'dshosodenghikhenthuongcumkhoi')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
+        $inputs['url'] = '/CumKhoiThiDua/KTCumKhoi/HoSo/';
         $inputs['url_hs'] = '/CumKhoiThiDua/KTCumKhoi/HoSo/';
         $inputs['url_xd'] = '/CumKhoiThiDua/KTCumKhoi/XetDuyet/';
         $inputs['url_qd'] = '/CumKhoiThiDua/KTCumKhoi/KhenThuong/';
@@ -176,24 +177,30 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
         $model_canhan = dshosotdktcumkhoi_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_tapthe = dshosotdktcumkhoi_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_detai = dshosotdktcumkhoi_detai::where('mahosotdkt', $model->mahosotdkt)->get();
-        $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE', 'HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
+        $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE'])->get()->toarray(), 'tenphanloai', 'maphanloai');
+        $a_hogiadinh = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
+
+        $a_dhkt_hogiadinh = getDanhHieuKhenThuong($donvi->capdo, 'HOGIADINH');
+
 
         return view('NghiepVu.CumKhoiThiDua.HoSoKhenThuong.ThayDoi')
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
             ->with('model_detai', $model_detai)
-            ->with('m_canhan', getDoiTuongKhenThuong($model->madonvi))
-            ->with('m_tapthe', getTapTheKhenThuong($model->madonvi))
+            //->with('m_canhan', getDoiTuongKhenThuong($model->madonvi))
+            //->with('m_tapthe', getTapTheKhenThuong($model->madonvi))
             ->with('a_dhkt_canhan', $a_dhkt_canhan)
             ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
+            ->with('a_dhkt_hogiadinh', $a_dhkt_hogiadinh)
             //->with('a_danhhieutd', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             //->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
             ->with('a_phongtraotd', array_column(dsphongtraothidua::all()->toArray(), 'noidung', 'maphongtraotd'))
             ->with('a_tapthe', $a_tapthe)
             ->with('a_canhan', $a_canhan)
+            ->with('a_hogiadinh', $a_hogiadinh)
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Hồ sơ khen thưởng');
     }
@@ -253,6 +260,11 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
             $inputs['tailieukhac'] = $inputs['mahosotdkt'] . 'tailieukhac.' . $filedk->getClientOriginalExtension();
             $filedk->move(public_path() . '/data/tailieukhac/', $inputs['tailieukhac']);
         }
+        if (isset($inputs['quyetdinh'])) {
+            $filedk = $request->file('quyetdinh');
+            $inputs['quyetdinh'] = $inputs['mahosotdkt'] . 'quyetdinh.' . $filedk->getClientOriginalExtension();
+            $filedk->move(public_path() . '/data/quyetdinh/', $inputs['quyetdinh']);
+        }
         $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model->update($inputs);
 
@@ -306,25 +318,6 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
         return redirect(static::$url . 'DanhSach?madonvi=' . $model->madonvi . '&macumkhoi=' . $model->macumkhoi);
     }
 
-    public function LayDoiTuong(Request $request)
-    {
-        $result = array(
-            'status' => 'fail',
-            'message' => 'error',
-        );
-        if (!Session::has('admin')) {
-            $result = array(
-                'status' => 'fail',
-                'message' => 'permission denied',
-            );
-            die(json_encode($result));
-        }
-        //dd($request);
-        $inputs = $request->all();
-        $model = dshosotdktcumkhoi_khenthuong::findorfail($inputs['id']);
-        die(json_encode($model));
-    }
-
     public function XoaHoSo(Request $request)
     {
         $result = array(
@@ -369,10 +362,11 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
             $model->update($inputs);
         // return response()->json($inputs['id']);
 
-        $model = dshosotdktcumkhoi_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+        $danhsach = dshosotdktcumkhoi_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
 
-
-        $this->htmlCaNhan($result, $model);
+        $dungchung = new dungchung_nghiepvuController();
+        $dungchung->htmlCaNhan($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
+        
         return response()->json($result);
     }
 
@@ -412,8 +406,11 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
         $model = dshosotdktcumkhoi_canhan::findorfail($inputs['id']);
         $model->delete();
 
-        $m_tapthe = dshosotdktcumkhoi_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
-        $this->htmlCaNhan($result, $m_tapthe);
+        $danhsach = dshosotdktcumkhoi_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
+        $dungchung = new dungchung_nghiepvuController();
+        $dungchung->htmlCaNhan($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
+        
+        
         return response()->json($result);
     }
 
@@ -483,9 +480,9 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
         } else
             $model->update($inputs);
 
-        $model = dshosotdktcumkhoi_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
-
-        $this->htmlTapThe($result, $model);
+        $danhsach = dshosotdktcumkhoi_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+        $dungchung = new dungchung_nghiepvuController();
+        $dungchung->htmlTapThe($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
         return response()->json($result);
     }
 
@@ -525,8 +522,10 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
         $model = dshosotdktcumkhoi_tapthe::findorfail($inputs['id']);
         $model->delete();
 
-        $m_tapthe = dshosotdktcumkhoi_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
-        $this->htmlTapThe($result, $m_tapthe);
+        $danhsach = dshosotdktcumkhoi_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
+        $dungchung = new dungchung_nghiepvuController();
+        $dungchung->htmlTapThe($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
+        
         return response()->json($result);
     }
 
@@ -1040,4 +1039,10 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
             ->with('pageTitle', 'Tờ trình khen thưởng');
     }
 
+    public function NhanExcel(Request $request)
+    {
+        $dungchung = new dungchung_nhanexcelController();
+        $dungchung->NhanExcelCumKhoi($request);
+        return redirect(static::$url . 'Sua?mahosotdkt=' . $request->all()['mahoso']);
+    }
 }

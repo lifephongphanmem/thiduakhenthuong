@@ -88,6 +88,8 @@ Route::group(['prefix' => 'CumKhoiThiDua'], function () {
             Route::get('XoaDeTai', [dshosokhenthuongcumkhoiController::class, 'XoaDeTai']);
             Route::get('LayDeTai', [dshosokhenthuongcumkhoiController::class, 'LayDeTai']);
             Route::post('NhanExcelDeTai', [dshosokhenthuongcumkhoiController::class, 'NhanExcelDeTai']);
+            
+            Route::post('NhanExcel', [dshosokhenthuongcumkhoiController::class, 'NhanExcel']);
 
             Route::get('TaiLieuDinhKem', [dshosokhenthuongcumkhoiController::class, 'TaiLieuDinhKem']);
             Route::post('GanKhenThuong', [dshosokhenthuongcumkhoiController::class, 'GanKhenThuong']);
@@ -168,6 +170,8 @@ Route::group(['prefix' => 'CumKhoiThiDua'], function () {
             Route::get('ToTrinhHoSo', [dshosodenghikhenthuongcumkhoiController::class, 'ToTrinhHoSo']);
             Route::post('ToTrinhHoSo', [dshosodenghikhenthuongcumkhoiController::class, 'LuuToTrinhHoSo']);
             Route::get('InToTrinhHoSo', [dshosodenghikhenthuongcumkhoiController::class, 'InToTrinhHoSo']);
+
+            Route::post('NhanExcel', [dshosodenghikhenthuongcumkhoiController::class, 'NhanExcel']);
         });
 
         Route::group(['prefix' => 'XetDuyet'], function () {
@@ -188,6 +192,9 @@ Route::group(['prefix' => 'CumKhoiThiDua'], function () {
 
             Route::get('ToTrinhPheDuyet', [xetduyethosokhenthuongcumkhoiController::class, 'ToTrinhPheDuyet']);
             Route::post('ToTrinhPheDuyet', [xetduyethosokhenthuongcumkhoiController::class, 'LuuToTrinhPheDuyet']);
+
+            Route::get('TrinhKetQua', [xetduyethosokhenthuongcumkhoiController::class, 'TrinhKetQua']);
+        Route::post('TrinhKetQua', [xetduyethosokhenthuongcumkhoiController::class, 'LuuTrinhKetQua']);
         });
 
         Route::group(['prefix' => 'KhenThuong'], function () {

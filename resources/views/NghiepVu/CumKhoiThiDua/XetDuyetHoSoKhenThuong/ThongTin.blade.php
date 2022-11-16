@@ -113,7 +113,7 @@
                                     </button>
 
                                     <button title="Tài liệu đính kèm" type="button"
-                                        onclick="get_attack('{{ $tt->mahosotdkt }}', '{{ $inputs['url_hs'] . 'TaiLieuDinhKem' }}')"
+                                        onclick="get_attack('{{ $tt->mahosotdkt }}', '/DungChung/DinhKemHoSoKhenCao')"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
                                         data-toggle="modal">
                                         <i class="icon-lg la la-file-download text-dark"></i>
@@ -185,6 +185,12 @@
                                                 class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
                                                 <i class="icon-lg la flaticon-edit-1 text-success"></i>
                                             </a>
+
+                                            <a title="Trình kết quả khen thưởng"
+                                            href="{{ url($inputs['url_xd'] . 'TrinhKetQua?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                            class="btn btn-sm btn-clean btn-icon">
+                                            <i class="icon-lg la flaticon-internet text-success"></i>
+                                        </a>
                                         @endif
                                     @endif
                                 </td>
