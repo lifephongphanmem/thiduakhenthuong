@@ -361,6 +361,7 @@ function getTaoDuThaoToTrinhHoSo(&$model, $maduthao = null)
         $thongtintotrinhhoso = str_replace('[sototrinh]',  $model->sototrinh, $thongtintotrinhhoso);
         $thongtintotrinhhoso = str_replace('[ngayhoso]',  Date2Str($model->ngayhoso), $thongtintotrinhhoso);
         //Thông tin đơn vị
+        $thongtintotrinhhoso = str_replace('[tendvcqhienthi]',  $donvi->tendvcqhienthi, $thongtintotrinhhoso);
         $thongtintotrinhhoso = str_replace('[diadanh]',  $donvi->diadanh, $thongtintotrinhhoso);
         $thongtintotrinhhoso = str_replace('[chucvunguoiky]',  $model->chucvunguoiky, $thongtintotrinhhoso);
         $thongtintotrinhhoso = str_replace('[nguoikytotrinh]',  $donvi->nguoikytotrinh, $thongtintotrinhhoso);
@@ -474,6 +475,7 @@ function getTaoDuThaoToTrinhPheDuyet(&$model, $maduthao = null)
         $thongtintotrinhdenghi = str_replace('[chucvunguoikyxetduyet]',  $donvi_xd->cdlanhdao ?? '', $thongtintotrinhdenghi);
         $thongtintotrinhdenghi = str_replace('[nguoikytotrinhxetduyet]',  $donvi_xd->lanhdao ?? '', $thongtintotrinhdenghi);
 
+        $thongtintotrinhdenghi = str_replace('[donvikhenthuong]',  $donvi_kt->tendonvi ?? '', $thongtintotrinhdenghi);
         $thongtintotrinhdenghi = str_replace('[chucvunguoikykhenthuong]',  $donvi_kt->lanhdao ?? '', $thongtintotrinhdenghi);
         $thongtintotrinhdenghi = str_replace('[hinhthuckhenthuong]',  'Bằng khen', $thongtintotrinhdenghi);
 

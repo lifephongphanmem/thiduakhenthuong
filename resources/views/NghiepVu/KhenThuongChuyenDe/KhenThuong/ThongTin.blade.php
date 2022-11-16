@@ -99,13 +99,12 @@
                                     <button type="button" title="In quyết định khen thưởng"
                                         onclick="setInDuLieu('{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}','DKT',true)"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#indulieu-modal"
-                                        data-toggle="modal"
-                                        {{ $tt->thongtinquyetdinh == '' || $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}>
+                                        data-toggle="modal">
                                         <i class="icon-lg la flaticon2-print text-dark"></i>
                                     </button>
 
                                     <button title="Tài liệu đính kèm" type="button"
-                                        onclick="get_attack('{{ $tt->mahosotdkt }}', '{{ $inputs['url_hs'] . 'TaiLieuDinhKem' }}')"
+                                        onclick="get_attack('{{ $tt->mahosotdkt }}', '/DungChung/DinhKemHoSoKhenThuong')"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
                                         data-toggle="modal">
                                         <i class="icon-lg la la-file-download text-dark icon-2x"></i>

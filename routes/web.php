@@ -32,6 +32,7 @@ include('danhmuc.php');
 include('phongtraothidua.php');
 include('thiduakhenthuongcaccap.php');
 include('khenthuongcongtrang.php');
+include('khenthuongchuyende.php');
 include('cumkhoi.php');
 include('tracuu.php');
 include('dangkydanhhieu.php');
