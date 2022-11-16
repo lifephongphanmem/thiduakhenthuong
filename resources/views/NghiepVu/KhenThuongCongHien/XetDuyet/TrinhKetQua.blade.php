@@ -27,7 +27,7 @@
     <div class="card card-custom" style="min-height: 600px">
         <div class="card-header">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Thông tin tờ trình kết quả khen thưởng đột xuất</h3>
+                <h3 class="card-label text-uppercase">Thông tin tờ trình kết quả khen thưởng cống hiến</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->

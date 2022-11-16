@@ -55,7 +55,8 @@ class xdhosodenghikhenthuongconghienController extends Controller
         //$inputs['maloaihinhkt'] = $inputs['maloaihinhkt'] ?? 'ALL';
         $inputs['maloaihinhkt'] = session('chucnang')['dshosodenghikhenthuongconghien']['maloaihinhkt'] ?? 'ALL';
 
-        $model = dshosothiduakhenthuong::where('madonvi_xd', $inputs['madonvi']);
+        $model = dshosothiduakhenthuong::where('madonvi_xd', $inputs['madonvi'])
+            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH']);
 
         if ($inputs['maloaihinhkt'] != 'ALL')
             $model = $model->where('maloaihinhkt', $inputs['maloaihinhkt']);
