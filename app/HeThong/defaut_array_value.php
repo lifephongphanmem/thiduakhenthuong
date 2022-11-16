@@ -26,7 +26,12 @@ function getLinhVucHoatDong()
 {
     return array(
         '0001' => 'An ninh - Quốc phòng',
+        '0003' => 'Giáo dục - Đào tạo',
         '0009' => 'Báo chí - Thông tin - Truyền thông',
+        '0013' => 'Quản lý Nhà nước',
+        '0018' => 'Tài nguyên - Môi trường'
+
+
     );
 }
 

@@ -163,7 +163,7 @@ function getDonViKhenThuong($donvi = null)
     $m_diaban = \App\Model\DanhMuc\dsdiaban::all();
     $a_donvi = array_column($m_diaban->toarray(), 'madonviQL');
     $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', $a_donvi)->get();
-    return array_column($model->toarray(), 'tendonvi');
+    return array_column($model->toarray(),'tendonvi', 'tendonvi');
 }
 
 //Hàm lấy danh sách đơn vị quản lý địa bàn cùng cấp và cấp trên

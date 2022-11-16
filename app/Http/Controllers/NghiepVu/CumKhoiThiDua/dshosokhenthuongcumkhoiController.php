@@ -140,7 +140,11 @@ class dshosokhenthuongcumkhoiController extends Controller
         $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
                 
         $inputs['mahinhthuckt'] = $model->mahinhthuckt;
-        $a_donvikt = array_unique(array_merge([$model->donvikhenthuong], getDonViKhenThuong()));
+        $khenthuong = dsdonvi::where('madonvi',$model->madonvi)->first();
+        if($model->donvikhenthuong == ''){
+            $model->donvikhenthuong = $khenthuong->tendonvi;  
+        }
+        $a_donvikt = array_unique(array_merge([$model->donvikhenthuong=>$model->donvikhenthuong], getDonViKhenThuong()));
         return view('NghiepVu.CumKhoiThiDua.HoSoKT.ThayDoi')
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)

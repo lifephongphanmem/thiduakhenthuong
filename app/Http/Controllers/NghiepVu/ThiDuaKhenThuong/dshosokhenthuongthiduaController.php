@@ -172,7 +172,11 @@ class dshosokhenthuongthiduaController extends Controller
         $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
 
         $inputs['mahinhthuckt'] = $model->mahinhthuckt;
-        $a_donvikt = array_unique(array_merge([$model->donvikhenthuong], getDonViKhenThuong()));
+        $khenthuong = dsdonvi::where('madonvi',$model->madonvi)->first();
+        if($model->donvikhenthuong == ''){
+            $model->donvikhenthuong = $khenthuong->tendonvi;  
+        }
+        $a_donvikt = array_unique(array_merge([$model->donvikhenthuong=>$model->donvikhenthuong], getDonViKhenThuong()));
         return view('NghiepVu.ThiDuaKhenThuong.HoSoThiDuaKT.ThayDoi')
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
@@ -694,6 +698,7 @@ class dshosokhenthuongthiduaController extends Controller
         $inputs['url_hs'] = '/HoSoThiDuaKT/';
         $inputs['url_xd'] = '/KhenThuongDoiNgoai/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongDoiNgoai/KhenThuong/';
+        $inputs['url'] = '/KhenThuongDoiNgoai/KhenThuong/';
         $inputs['mahinhthuckt'] = session('chucnang')['dshosokhenthuongthidua']['mahinhthuckt'] ?? 'ALL';
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
@@ -711,7 +716,7 @@ class dshosokhenthuongthiduaController extends Controller
         $model->capkhenthuong =  $donvi_kt->capdo;
         $model->donvikhenthuong =  $donvi_kt->tendvhienthi;
 
-        return view('NghiepVu.KhenThuongDoiNgoai.HoSoKT.PheDuyetKT')
+        return view('NghiepVu.ThiDuaKhenThuong.HoSoThiDuaKT.PheDuyetKT')
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)

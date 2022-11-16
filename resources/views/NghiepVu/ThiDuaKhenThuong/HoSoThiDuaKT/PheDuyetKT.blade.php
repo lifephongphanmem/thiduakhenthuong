@@ -27,7 +27,7 @@
     <div class="card card-custom" style="min-height: 600px">
         <div class="card-header">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Thông tin phê duyệt khen thưởng đối ngoại</h3>
+                <h3 class="card-label text-uppercase">Thông tin phê duyệt khen thưởng phong trào thi đua</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
