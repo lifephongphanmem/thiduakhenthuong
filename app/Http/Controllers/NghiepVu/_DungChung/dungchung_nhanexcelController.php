@@ -45,7 +45,7 @@ class dungchung_nhanexcelController extends Controller
         $a_dm_canhan = array();
         $a_dm_tapthe = array();
         $a_dm_hogiadinh = array();
-
+        
         for ($i = $inputs['tudong']; $i <= $inputs['dendong']; $i++) {
             if (!isset($data[$i][$inputs['phanloaikhenthuong']])) {
                 continue;
@@ -85,6 +85,8 @@ class dungchung_nhanexcelController extends Controller
             }
             
         }
+        // File::Delete($path);
+        // dd($a_dm_canhan);
         dshosothiduakhenthuong_canhan::insert($a_dm_canhan);
         dshosothiduakhenthuong_tapthe::insert($a_dm_tapthe);
         dshosothiduakhenthuong_hogiadinh::insert($a_dm_hogiadinh);

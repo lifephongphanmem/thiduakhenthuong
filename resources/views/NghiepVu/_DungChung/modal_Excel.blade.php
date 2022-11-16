@@ -39,7 +39,7 @@
 
                         <div class="col-md-3">
                             <label class="form-control-label">Danh hiệu thi đua/Hình thức khen thưởng</label>
-                            {!! Form::text('madanhhieukhenthuong', 'H', ['class' => 'form-control']) !!}
+                            {!! Form::text('madanhhieukhenthuong', 'G', ['class' => 'form-control']) !!}
                         </div>
 
                         <div class="col-md-3">
@@ -48,17 +48,15 @@
                         </div>
 
                         <div class="col-md-3">
-                            <label class="control-label">Lĩnh vực hoạt động đơn vị </label>
-                            {!! Form::text('linhvuchoatdong', 'L', null, [
-                                'class' => 'form-control',
-                            ]) !!}
+                            <label class="form-control-label">Lĩnh vực hoạt động đơn vị </label>
+                            {!! Form::text('linhvuchoatdong', 'L', ['class' => 'form-control',]) !!}
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <div class="col-md-3">
                             <label class="control-label">Nhận từ dòng<span class="require">*</span></label>
-                            {!! Form::text('tudong', '4', ['class' => 'form-control']) !!}
+                            {!! Form::text('tudong', '2', ['class' => 'form-control']) !!}
                             {{-- {!! Form::text('tudong', '4', ['class' => 'form-control', 'required', 'data-mask' => 'fdecimal']) !!} --}}
                         </div>
 
