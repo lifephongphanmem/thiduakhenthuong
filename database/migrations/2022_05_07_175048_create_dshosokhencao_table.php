@@ -29,6 +29,7 @@ class CreateDshosokhencaoTable extends Migration
             //File đính kèm
             $table->string('totrinh')->nullable(); // Tờ trình
             $table->string('qdkt')->nullable(); // Quyết định
+            $table->string('baocao')->nullable(); // Quyết định
             $table->string('bienban')->nullable();//biên bản cuộc họp
             $table->string('tailieukhac')->nullable();//tài liệu khác
             $table->string('quyetdinh')->nullable();//đính kèm quyết định khen thưởng

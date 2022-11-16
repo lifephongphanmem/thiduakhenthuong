@@ -100,6 +100,7 @@ class dshosokhencaonhanuocController extends Controller
         $inputs['url_hs'] = static::$url;
         $inputs['url_xd'] = static::$url;
         $inputs['url_qd'] = static::$url;
+        $inputs['url'] = static::$url;
         $inputs['mahinhthuckt'] = session('chucnang')['dshosokhencaonhanuoc']['mahinhthuckt'] ?? 'ALL';
         $model = dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
@@ -235,7 +236,7 @@ class dshosokhencaonhanuocController extends Controller
             $filedk = $request->file('tailieukhac');
             $inputs['tailieukhac'] = $inputs['mahosotdkt'] . 'tailieukhac.' . $filedk->getClientOriginalExtension();
             $filedk->move(public_path() . '/data/tailieukhac/', $inputs['tailieukhac']);
-        }
+        }        
         dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first()->update($inputs);
 
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
@@ -601,6 +602,13 @@ class dshosokhencaonhanuocController extends Controller
             $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/tailieukhac/' . $model->tailieukhac) . '">' . $model->tailieukhac . '</a ></div>';
             $result['message'] .= '</div>';
         }
+
+        if ($model->quyetdinh != '') {
+            $result['message'] .= '<div class="form-group row">';
+            $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Quyết định khen thưởng:</label>';
+            $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/quyetdinh/' . $model->quyetdinh) . '">' . $model->quyetdinh . '</a ></div>';
+            $result['message'] .= '</div>';
+        }
         $result['message'] .= '</div>';
         $result['status'] = 'success';
 
@@ -610,6 +618,7 @@ class dshosokhencaonhanuocController extends Controller
     public function PheDuyet(Request $request)
     {
         $inputs = $request->all();
+        $inputs['url'] = '/KhenCao/ChinhPhu/';
         $inputs['url_hs'] = '/KhenCao/ChinhPhu/';
         $inputs['url_xd'] = '/KhenCao/ChinhPhu/';
         $inputs['url_qd'] = '/KhenCao/ChinhPhu/';
@@ -623,13 +632,15 @@ class dshosokhencaonhanuocController extends Controller
         $model->tendonvi = $donvi->tendonvi;
         $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE', 'HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
-
+        $model->donvikhenthuong = 'Nhà nước';
+        $model->chucvunguoikyqd = 'Chủ tịch nước';
         return view('NghiepVu.KhenCao.NhaNuoc.PheDuyetKT')
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
             ->with('a_dhkt_canhan', $a_dhkt_canhan)
             ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
+            ->with('a_donvikt', [$model->donvikhenthuong => $model->donvikhenthuong])
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             //->with('a_donvi_kt', [$donvi_kt->madonvi => $donvi_kt->tendonvi])
             ->with('a_tapthe', $a_tapthe)
@@ -661,6 +672,7 @@ class dshosokhencaonhanuocController extends Controller
             $filedk = $request->file('quyetdinh');
             $inputs['quyetdinh'] = $inputs['mahosotdkt'] . '_quyetdinh.' . $filedk->getClientOriginalExtension();
             $filedk->move(public_path() . '/data/quyetdinh/', $inputs['quyetdinh']);
+            $model->quyetdinh = $inputs['quyetdinh'];
         }
         //dd($model);
         $model->save();
@@ -681,7 +693,7 @@ class dshosokhencaonhanuocController extends Controller
         setTrangThaiHoSo($inputs['madonvi'], $model, ['thoigian' => $thoigian, 'trangthai' => $trangthai]);
         $model->trangthai = $trangthai; //gán trạng thái hồ sơ để theo dõi
         $model->donvikhenthuong = null;
-        
+
         $model->soqd = null;
         $model->ngayqd = null;
         $model->chucvunguoikyqd = null;

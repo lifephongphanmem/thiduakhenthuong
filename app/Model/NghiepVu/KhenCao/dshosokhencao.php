@@ -23,6 +23,7 @@ class dshosokhencao extends Model
         //File đính kèm
         'totrinh', // Tờ trình
         'qdkt', // Quyết định
+        'baocao', // Quyết định
         'bienban', //biên bản cuộc họp
         'tailieukhac', //tài liệu khác
         'quyetdinh',//đính kèm quyết định khen thưởng

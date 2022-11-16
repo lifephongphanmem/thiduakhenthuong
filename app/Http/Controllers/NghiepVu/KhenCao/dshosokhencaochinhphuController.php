@@ -98,6 +98,7 @@ class dshosokhencaochinhphuController extends Controller
         }
         $inputs = $request->all();
         $inputs['url_hs'] = static::$url;
+        $inputs['url'] = static::$url;
         $inputs['url_xd'] = static::$url;
         $inputs['url_qd'] = static::$url;
         $inputs['mahinhthuckt'] = session('chucnang')['dshosokhencaochinhphu']['mahinhthuckt'] ?? 'ALL';
@@ -583,10 +584,10 @@ class dshosokhencaochinhphuController extends Controller
             $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/totrinh/' . $model->totrinh) . '">' . $model->totrinh . '</a ></div>';
             $result['message'] .= '</div>';
         }
-        if ($model->qdkt != '') {
+        if ($model->baocao != '') {
             $result['message'] .= '<div class="form-group row">';
-            $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Quyết định khen thưởng:</label>';
-            $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/qdkt/' . $model->qdkt) . '">' . $model->qdkt . '</a ></div>';
+            $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Báo cáo thành tích:</label>';
+            $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/baocao/' . $model->baocao) . '">' . $model->baocao . '</a ></div>';
             $result['message'] .= '</div>';
         }
         if ($model->bienban != '') {
@@ -601,6 +602,13 @@ class dshosokhencaochinhphuController extends Controller
             $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/tailieukhac/' . $model->tailieukhac) . '">' . $model->tailieukhac . '</a ></div>';
             $result['message'] .= '</div>';
         }
+
+        if ($model->quyetdinh != '') {
+            $result['message'] .= '<div class="form-group row">';
+            $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Quyết định khen thưởng:</label>';
+            $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/quyetdinh/' . $model->quyetdinh) . '">' . $model->quyetdinh . '</a ></div>';
+            $result['message'] .= '</div>';
+        }
         $result['message'] .= '</div>';
         $result['status'] = 'success';
 
@@ -610,6 +618,7 @@ class dshosokhencaochinhphuController extends Controller
     public function PheDuyet(Request $request)
     {
         $inputs = $request->all();
+        $inputs['url'] = '/KhenCao/ChinhPhu/';
         $inputs['url_hs'] = '/KhenCao/ChinhPhu/';
         $inputs['url_xd'] = '/KhenCao/ChinhPhu/';
         $inputs['url_qd'] = '/KhenCao/ChinhPhu/';
@@ -623,7 +632,8 @@ class dshosokhencaochinhphuController extends Controller
         $model->tendonvi = $donvi->tendonvi;
         $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE', 'HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
-
+        $model->donvikhenthuong = 'Chính phủ';
+        $model->chucvunguoikyqd = 'Thủ tướng chính phủ';
         return view('NghiepVu.KhenCao.ChinhPhu.PheDuyetKT')
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
@@ -631,7 +641,7 @@ class dshosokhencaochinhphuController extends Controller
             ->with('a_dhkt_canhan', $a_dhkt_canhan)
             ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
-            //->with('a_donvi_kt', [$donvi_kt->madonvi => $donvi_kt->tendonvi])
+            ->with('a_donvikt' , [$model->donvikhenthuong=>$model->donvikhenthuong])
             ->with('a_tapthe', $a_tapthe)
             ->with('a_canhan', $a_canhan)
             ->with('inputs', $inputs)
@@ -661,6 +671,7 @@ class dshosokhencaochinhphuController extends Controller
             $filedk = $request->file('quyetdinh');
             $inputs['quyetdinh'] = $inputs['mahosotdkt'] . '_quyetdinh.' . $filedk->getClientOriginalExtension();
             $filedk->move(public_path() . '/data/quyetdinh/', $inputs['quyetdinh']);
+            $model->quyetdinh = $inputs['quyetdinh'];
         }
         //dd($model);
         $model->save();

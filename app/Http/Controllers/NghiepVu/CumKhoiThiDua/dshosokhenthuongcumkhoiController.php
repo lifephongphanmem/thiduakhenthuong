@@ -85,6 +85,10 @@ class dshosokhenthuongcumkhoiController extends Controller
                 + dshosotdktcumkhoi_tapthe::where('mahosotdkt', $hoso->mahosotdkt)->where('ketqua', '1')->count();
             $hoso->chinhsua = $hoso->madonvi == $inputs['madonvi'] ? true : false;
         }
+        //Các đơn vi xét duyệt cấp H, T => có tờ trình
+        $a_donvi_xd = array_column(dsdiaban::wherein('capdo', ['H', 'T'])->get()->toarray(), 'madonviKT');
+        $inputs['taototrinh'] = in_array($inputs['madonvi'], $a_donvi_xd);
+
         $inputs['trangthai'] = session('chucnang')['dshosokhenthuongcumkhoi']['trangthai'] ?? 'CC';
         //dd($inputs);
         return view('NghiepVu.CumKhoiThiDua.HoSoKT.ThongTin')
@@ -146,100 +150,7 @@ class dshosokhenthuongcumkhoiController extends Controller
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Thông tin hồ sơ khen thưởng');
     }
-
-    public function Sua(Request $request)
-    {
-        if (!chkPhanQuyen('dshosokhenthuongcumkhoi', 'thaydoi')) {
-            return view('errors.noperm')
-                ->with('machucnang', 'dshosokhenthuongcumkhoi')
-                ->with('tenphanquyen', 'thaydoi');
-        }
-
-        $inputs = $request->all();
-        $inputs['url_hs'] = '/CumKhoiThiDua/KTCumKhoi/HoSoKT/';
-        $inputs['url_xd'] = '/CumKhoiThiDua/KTCumKhoi/HoSoKT/';
-        $inputs['url_qd'] = '/CumKhoiThiDua/KTCumKhoi/HoSoKT/';
-
-        $inputs['mahinhthuckt'] = session('chucnang')['dshosokhenthuongcumkhoi']['mahinhthuckt'] ?? 'ALL';
-        $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        $model_canhan = dshosotdktcumkhoi_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
-        $model_tapthe = dshosotdktcumkhoi_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
-        $model_detai = dshosotdktcumkhoi_detai::where('mahosotdkt', $inputs['mahosotdkt'])->get();
-        $model->tendonvi = getThongTinDonVi($model->madonvi, 'tendonvi');
-        $m_donvi = getDonVi(session('admin')->capdo);
-        $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
-        //$m_danhhieu = dmdanhhieuthidua::all();
-        $m_canhan = getDoiTuongKhenThuong($model->madonvi);
-        $m_tapthe = getTapTheKhenThuong($model->madonvi);
-        $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE', 'HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
-        $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
-        return view('NghiepVu.CumKhoiThiDua.KhenThuongHoSoKhenThuong.Sua')
-            ->with('model', $model)
-            ->with('model_canhan', $model_canhan)
-            ->with('model_tapthe', $model_tapthe)
-            ->with('model_detai', $model_detai)
-            ->with('m_donvi', $m_donvi)
-            ->with('m_diaban', $m_diaban)
-            ->with('m_canhan', $m_canhan)
-            ->with('m_tapthe', $m_tapthe)
-            ->with('a_tapthe', $a_tapthe)
-            ->with('a_canhan', $a_canhan)
-            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
-            ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
-            ->with('a_danhhieutd', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
-            ->with('a_phongtraotd', array_column(dsphongtraothidua::all()->toArray(), 'noidung', 'maphongtraotd'))
-            ->with('inputs', $inputs)
-            ->with('pageTitle', 'Thông tin hồ sơ đề nghị khen thưởng');
-    }
-
-    public function XetKT(Request $request)
-    {
-        if (!chkPhanQuyen('dshosokhenthuongcumkhoi', 'thaydoi')) {
-            return view('errors.noperm')
-                ->with('machucnang', 'dshosokhenthuongcumkhoi')
-                ->with('tenphanquyen', 'thaydoi');
-        }
-
-        $inputs = $request->all();
-        $inputs['url_hs'] = '/CumKhoiThiDua/KTCumKhoi/HoSo/';
-        $inputs['url_xd'] = '/CumKhoiThiDua/KTCumKhoi/HoSoKT/';
-        $inputs['url_qd'] = '/CumKhoiThiDua/KTCumKhoi/HoSoKT/';
-
-        $inputs['mahinhthuckt'] = session('chucnang')['dshosokhenthuongcumkhoi']['mahinhthuckt'] ?? 'ALL';
-        $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        $model_canhan = dshosotdktcumkhoi_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
-        $model_tapthe = dshosotdktcumkhoi_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
-        $model_detai = dshosotdktcumkhoi_detai::where('mahosotdkt', $inputs['mahosotdkt'])->get();
-        $model->tendonvi = getThongTinDonVi($model->madonvi, 'tendonvi');
-        $m_donvi = getDonVi(session('admin')->capdo);
-        $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
-        $m_danhhieu = dmdanhhieuthidua::all();
-        $m_canhan = getDoiTuongKhenThuong($model->madonvi);
-        $m_tapthe = getTapTheKhenThuong($model->madonvi);
-        $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE', 'HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
-        $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
-        $m_phongtrao = dsphongtraothidua::all();
-        return view('NghiepVu.CumKhoiThiDua.KhenThuongHoSoKhenThuong.XetKT')
-            ->with('model', $model)
-            ->with('model_canhan', $model_canhan)
-            ->with('model_tapthe', $model_tapthe)
-            ->with('model_detai', $model_detai)
-            ->with('m_donvi', $m_donvi)
-            ->with('m_diaban', $m_diaban)
-            ->with('m_canhan', $m_canhan)
-            ->with('m_tapthe', $m_tapthe)
-            ->with('m_phongtraotd', $m_phongtrao)
-            ->with('a_phongtraotd', array_column($m_phongtrao->toArray(), 'noidung', 'maphongtraotd'))
-            ->with('a_danhhieu', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
-            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
-            ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
-            ->with('a_danhhieutd', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
-            ->with('a_tapthe', $a_tapthe)
-            ->with('a_canhan', $a_canhan)
-            ->with('inputs', $inputs)
-            ->with('pageTitle', 'Thông tin hồ sơ đề nghị khen thưởng');
-    }
-
+   
     public function GanKhenThuong(Request $request)
     {
         $result = array(

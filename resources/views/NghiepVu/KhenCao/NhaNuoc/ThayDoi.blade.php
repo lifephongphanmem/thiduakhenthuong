@@ -113,7 +113,7 @@
                 <div class="col-lg-6">
                     <label>Tờ trình: </label>
                     {!! Form::file('totrinh', null, ['id' => 'totrinh', 'class' => 'form-control']) !!}
-                    @if ($model->baocao != '')
+                    @if ($model->totrinh != '')
                         <span class="form-control" style="border-style: none">
                             <a href="{{ url('/data/totrinh/' . $model->totrinh) }}"
                                 target="_blank">{{ $model->totrinh }}</a>

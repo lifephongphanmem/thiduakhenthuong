@@ -27,7 +27,7 @@
     <div class="card card-custom" style="min-height: 600px">
         <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Danh sách tài liệu, văn bản pháp lý</h3>
+                <h3 class="card-label text-uppercase">Danh sách tài liệu, văn bản ban hành trong cụm, khối thi đua</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="card-body">
-            <div class="form-group row">
+            {{-- <div class="form-group row">
                 <div class="col-lg-6">
                     <label>Loại văn bản</label>
                     {!! Form::select('loaivb', setArrayAll(getLoaiVanBan()), $inputs['loaivb'], [
@@ -48,7 +48,7 @@
                         'class' => 'form-control select2basic',
                     ]) !!}
                 </div>
-            </div>
+            </div> --}}
 
             <div class="form-group row">
                 <div class="col-lg-12">
@@ -84,7 +84,7 @@
                                             <i class="icon-lg la flaticon-download text-dark"></i>
                                         </button>
 
-                                        @if (chkPhanQuyen('vanbanphaply', 'thaydoi'))
+                                        @if (chkPhanQuyen('dsvanbancumkhoi', 'thaydoi'))
                                             <a href="{{ url($inputs['url'] . 'Sua?mavanban=' . $tt->mavanban) }}"
                                                 class="btn btn-sm btn-clean btn-icon" title="Sửa thông tin">
                                                 <i class="icon-lg la flaticon-edit-1 text-success"></i>

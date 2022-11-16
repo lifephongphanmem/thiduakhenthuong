@@ -100,6 +100,7 @@ class dshosokhencaokhangchienController extends Controller
         $inputs['url_hs'] = static::$url;
         $inputs['url_xd'] = static::$url;
         $inputs['url_qd'] = static::$url;
+        $inputs['url'] = static::$url;
         $inputs['mahinhthuckt'] = session('chucnang')['dshosokhencaokhangchien']['mahinhthuckt'] ?? 'ALL';
         $model = dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
@@ -601,6 +602,13 @@ class dshosokhencaokhangchienController extends Controller
             $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/tailieukhac/' . $model->tailieukhac) . '">' . $model->tailieukhac . '</a ></div>';
             $result['message'] .= '</div>';
         }
+
+        if ($model->quyetdinh != '') {
+            $result['message'] .= '<div class="form-group row">';
+            $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Quyết định khen thưởng:</label>';
+            $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/quyetdinh/' . $model->quyetdinh) . '">' . $model->quyetdinh . '</a ></div>';
+            $result['message'] .= '</div>';
+        }
         $result['message'] .= '</div>';
         $result['status'] = 'success';
 
@@ -610,6 +618,7 @@ class dshosokhencaokhangchienController extends Controller
     public function PheDuyet(Request $request)
     {
         $inputs = $request->all();
+        $inputs['url'] = '/KhenCao/ChinhPhu/';
         $inputs['url_hs'] = '/KhenCao/ChinhPhu/';
         $inputs['url_xd'] = '/KhenCao/ChinhPhu/';
         $inputs['url_qd'] = '/KhenCao/ChinhPhu/';
@@ -631,7 +640,7 @@ class dshosokhencaokhangchienController extends Controller
             ->with('a_dhkt_canhan', $a_dhkt_canhan)
             ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
-            //->with('a_donvi_kt', [$donvi_kt->madonvi => $donvi_kt->tendonvi])
+            ->with('a_donvikt' , array_unique(array_merge([$model->donvikhenthuong], getDonViKhenThuong())))
             ->with('a_tapthe', $a_tapthe)
             ->with('a_canhan', $a_canhan)
             ->with('inputs', $inputs)
@@ -661,6 +670,7 @@ class dshosokhencaokhangchienController extends Controller
             $filedk = $request->file('quyetdinh');
             $inputs['quyetdinh'] = $inputs['mahosotdkt'] . '_quyetdinh.' . $filedk->getClientOriginalExtension();
             $filedk->move(public_path() . '/data/quyetdinh/', $inputs['quyetdinh']);
+            $model->quyetdinh = $inputs['quyetdinh'];
         }
         //dd($model);
         $model->save();

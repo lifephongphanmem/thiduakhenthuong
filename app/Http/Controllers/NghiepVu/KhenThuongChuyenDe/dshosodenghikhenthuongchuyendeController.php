@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Model\DanhMuc\dmdanhhieuthidua_tieuchuan;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
 use App\Model\DanhMuc\dmnhomphanloai_chitiet;
+use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\DanhMuc\duthaoquyetdinh;
 use App\Model\HeThong\trangthaihoso;
@@ -54,6 +55,8 @@ class dshosodenghikhenthuongchuyendeController extends Controller
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         $inputs['maloaihinhkt'] = session('chucnang')['dshosodenghikhenthuongchuyende']['maloaihinhkt'] ?? 'ALL';
         $inputs['trangthai'] = session('chucnang')['dshosodenghikhenthuongchuyende']['trangthai'] ?? 'CC';
+
+
         $model = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi'])
             ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH'])
             ->where('maloaihinhkt', $inputs['maloaihinhkt']);
@@ -397,25 +400,7 @@ class dshosodenghikhenthuongchuyendeController extends Controller
         die(json_encode($model));
     }
 
-    public function XoaDoiTuong(Request $request)
-    {
-        $result = array(
-            'status' => 'fail',
-            'message' => 'error',
-        );
-        if (!Session::has('admin')) {
-            $result = array(
-                'status' => 'fail',
-                'message' => 'permission denied',
-            );
-            die(json_encode($result));
-        }
-        //dd($request);
-        $inputs = $request->all();
-        $model = dshosothiduakhenthuong_khenthuong::findorfail($inputs['iddelete']);
-        $model->delete();
-        return redirect(static::$url . 'Sua?mahosotdkt=' . $model->mahosotdkt);
-    }
+
 
     public function ChuyenHoSo(Request $request)
     {
@@ -444,24 +429,7 @@ class dshosodenghikhenthuongchuyendeController extends Controller
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }
 
-    public function LayDoiTuong(Request $request)
-    {
-        $result = array(
-            'status' => 'fail',
-            'message' => 'error',
-        );
-        if (!Session::has('admin')) {
-            $result = array(
-                'status' => 'fail',
-                'message' => 'permission denied',
-            );
-            die(json_encode($result));
-        }
-        //dd($request);
-        $inputs = $request->all();
-        $model = dshosothiduakhenthuong_khenthuong::findorfail($inputs['id']);
-        die(json_encode($model));
-    }
+
 
     public function XoaHoSo(Request $request)
     {
@@ -1036,6 +1004,4 @@ class dshosodenghikhenthuongchuyendeController extends Controller
             ->with('model', $model)
             ->with('pageTitle', 'Tờ trình khen thưởng');
     }
-
-   
 }

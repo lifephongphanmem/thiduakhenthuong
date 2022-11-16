@@ -54,6 +54,10 @@ class dshosokhenthuongdotxuatController extends Controller
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         $inputs['maloaihinhkt'] = session('chucnang')['dshosokhenthuongdotxuat']['maloaihinhkt'] ?? 'ALL';
         $inputs['trangthai'] = session('chucnang')['dshosokhenthuongdotxuat']['trangthai'] ?? 'CC';
+        		//Các đơn vi xét duyệt cấp H, T => có tờ trình
+                $a_donvi_xd = array_column(dsdiaban::wherein('capdo', ['H', 'T'])->get()->toarray(), 'madonviKT');
+                $inputs['taototrinh'] = in_array($inputs['madonvi'], $a_donvi_xd);
+            
         $model = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi'])
             ->where('phanloai', 'KTDONVI')
             ->where('maloaihinhkt', $inputs['maloaihinhkt']);
@@ -292,26 +296,7 @@ class dshosokhenthuongdotxuatController extends Controller
 
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }
-
-    public function LayDoiTuong(Request $request)
-    {
-        $result = array(
-            'status' => 'fail',
-            'message' => 'error',
-        );
-        if (!Session::has('admin')) {
-            $result = array(
-                'status' => 'fail',
-                'message' => 'permission denied',
-            );
-            die(json_encode($result));
-        }
-        //dd($request);
-        $inputs = $request->all();
-        $model = dshosothiduakhenthuong_khenthuong::findorfail($inputs['id']);
-        die(json_encode($model));
-    }
-
+    
     public function XoaHoSo(Request $request)
     {
         $result = array(
