@@ -280,6 +280,38 @@ class qdhosodenghikhenthuongchuyendeController extends Controller
         //return die(json_encode($result));
     }
 
+    public function ThemHoGiaDinh(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
+        }
+
+        $inputs = $request->all();
+        //$id =  $inputs['id'];       
+        $model = dshosothiduakhenthuong_hogiadinh::where('id', $inputs['id'])->first();
+        unset($inputs['id']);
+        if ($model == null) {
+            dshosothiduakhenthuong_hogiadinh::create($inputs);
+        } else
+            $model->update($inputs);
+        // return response()->json($inputs['id']);
+
+        $danhsach = dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+
+        $dungchung = new dungchung_nghiepvuController();
+        $dungchung->htmlPheDuyetHoGiaDinh($result, $danhsach);
+        return response()->json($result);
+        //return die(json_encode($result));
+    }
+
     public function XoaTapThe(Request $request)
     {
         $result = array(
