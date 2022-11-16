@@ -48,7 +48,7 @@
                                         type="button" class="btn btn-info btn-icon btn-sm"><i
                                             class="fas fa-file-import"></i>
                                     </button>
-                                    <a target="_blank" title="Tải file mẫu" href="/data/download/NHANDULIEU.xlsx"
+                                    <a target="_blank" title="Tải file mẫu" href="/data/download/MauTDKT.xlsx"
                                         class="btn btn-primary btn-icon btn-sm"><i class="fa flaticon-download"></i>
                                     </a>
                                 </div>
@@ -123,7 +123,7 @@
                                         type="button" class="btn btn-info btn-icon btn-sm"><i
                                             class="fas fa-file-import"></i>
                                     </button>
-                                    <a target="_blank" title="Tải file mẫu" href="/data/download/NHANDULIEU.xlsx"
+                                    <a target="_blank" title="Tải file mẫu" href="/data/download/MauTDKT.xlsx"
                                         class="btn btn-primary btn-icon btn-sm"><i class="fa flaticon-download"></i>
                                     </a>
                                 </div>
@@ -200,7 +200,7 @@
                                                 class="fas fa-file-import"></i>
                                         </button>
 
-                                    <a target="_blank" title="Tải file mẫu" href="/data/download/NHANDULIEU.xlsx"
+                                    <a target="_blank" title="Tải file mẫu" href="/data/download/MauTDKT.xlsx"
                                         class="btn btn-primary btn-icon btn-sm"><i class="fa flaticon-download"></i>
                                     </a>
                                 </div>

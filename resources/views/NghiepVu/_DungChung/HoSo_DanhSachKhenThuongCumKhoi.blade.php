@@ -40,7 +40,7 @@
                                         title="Nhận từ file Excel" data-target="#modal-nhanexcel" data-toggle="modal"
                                         type="button" class="btn btn-info btn-icon btn-sm"><i
                                             class="fas fa-file-import"></i></button>
-                                    <a target="_blank" title="Tải file mẫu" href="/data/download/NHANDULIEU.xlsx"
+                                    <a target="_blank" title="Tải file mẫu" href="/data/download/MauTDKT.xlsx"
                                         class="btn btn-primary btn-icon btn-sm"><i class="fa flaticon-download"></i>
                                     </a>
                                 </div>
@@ -115,7 +115,7 @@
                                         data-toggle="modal" type="button" class="btn btn-info btn-icon btn-sm"><i
                                             class="fas fa-file-import"></i></button>
 
-                                    <a target="_blank" title="Tải file mẫu" href="/data/download/NHANDULIEU.xlsx"
+                                    <a target="_blank" title="Tải file mẫu" href="/data/download/MauTDKT.xlsx"
                                         class="btn btn-primary btn-icon btn-sm"><i class="fa flaticon-download"></i>
                                     </a>
                                 </div>

@@ -34,6 +34,7 @@ include('thiduakhenthuongcaccap.php');
 include('khenthuongcongtrang.php');
 include('khenthuongchuyende.php');
 include('khenthuongdotxuat.php');
+include('khenthuongconghien.php');
 include('cumkhoi.php');
 include('tracuu.php');
 include('dangkydanhhieu.php');

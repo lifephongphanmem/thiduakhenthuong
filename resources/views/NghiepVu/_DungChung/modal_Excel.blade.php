@@ -19,37 +19,37 @@
                     <div class="form-group row">
                         <div class="col-md-3">
                             <label class="control-label">Phân loại khen thưởng</label>
-                            {!! Form::text('phanloaikhenthuong', 'B', ['class' => 'form-control']) !!}
+                            {!! Form::text('phanloaikhenthuong', 'C', ['class' => 'form-control']) !!}
                         </div>
 
                         <div class="col-md-3">
                             <label class="control-label">Tên đối tượng</label>
-                            {!! Form::text('tendoituong', 'C', ['class' => 'form-control']) !!}
+                            {!! Form::text('tendoituong', 'D', ['class' => 'form-control']) !!}
                         </div>
 
                         <div class="col-md-3">
                             <label class="form-control-label">Chức vụ</label>
-                            {!! Form::text('chucvu', 'D', ['class' => 'form-control']) !!}
+                            {!! Form::text('chucvu', 'E', ['class' => 'form-control']) !!}
                         </div>
 
                         <div class="col-md-3">
                             <label class="form-control-label">Đơn vị công tác</label>
-                            {!! Form::text('tencoquan', 'E', ['class' => 'form-control']) !!}
+                            {!! Form::text('tencoquan', 'F', ['class' => 'form-control']) !!}
                         </div>
 
                         <div class="col-md-3">
                             <label class="form-control-label">Danh hiệu thi đua/Hình thức khen thưởng</label>
-                            {!! Form::text('madanhhieukhenthuong', 'F', ['class' => 'form-control']) !!}
+                            {!! Form::text('madanhhieukhenthuong', 'H', ['class' => 'form-control']) !!}
                         </div>
 
                         <div class="col-md-3">
                             <label class="form-control-label">Phân loại đối tượng</label>
-                            {!! Form::text('maphanloaidoituong', 'G', ['class' => 'form-control']) !!}
+                            {!! Form::text('maphanloaidoituong', 'I', ['class' => 'form-control']) !!}
                         </div>
 
                         <div class="col-md-3">
                             <label class="control-label">Lĩnh vực hoạt động đơn vị </label>
-                            {!! Form::text('linhvuchoatdong', 'H', null, [
+                            {!! Form::text('linhvuchoatdong', 'L', null, [
                                 'class' => 'form-control',
                             ]) !!}
                         </div>
