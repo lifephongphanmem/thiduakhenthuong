@@ -26,12 +26,29 @@ function getLinhVucHoatDong()
 {
     return array(
         '0001' => 'An ninh - Quốc phòng',
-        '0003' => 'Giáo dục - Đào tạo',
         '0009' => 'Báo chí - Thông tin - Truyền thông',
+        '0021' => 'Bảo hiểm xã hội',
+        '0022' => 'Các cơ quan, tổ chức Đảng',
+        '0020' => 'Các tổ chức Hội và Đoàn thể',
+        '0002' => 'Công nghiệp - Thương mại',
+        '0023' => 'Cơ quan lập pháp',
+        '0003' => 'Giáo dục - Đào tạo',
+        '0004' => 'Giao thông vận tải',
+        '0024' => 'Kế hoạch - Đầu tư',
+        '0014' => 'Kinh tế - Xã hội',
+        '0006' => 'Khoa học - Công nghệ',
+        '0019' => 'Lao động, Thương Binh và Xã hội',
+        '0005' => 'N/A',
+        '0007' => 'Nông nghiệp - Nông thôn',
+        '0015' => 'Ngoại giao',
         '0013' => 'Quản lý Nhà nước',
-        '0018' => 'Tài nguyên - Môi trường'
-
-
+        '0008' => 'Tài chính - Ngân hàng',
+        '0018' => 'Tài nguyên - Môi trường',
+        '0016' => 'Tôn giáo - Tín ngưỡng',
+        '0017' => 'Tư pháp - Thanh tra - Tòa án - Kiểm sát',
+        '0010' => 'Văn hóa - Thể Thao - Du lịch',
+        '0011' => 'Xây dựng',
+        '0012' => 'Y tế',
     );
 }
 
@@ -667,6 +684,7 @@ function getTaoQuyetDinhKTCumKhoi(&$model)
         getTaoDuThaoKTCumKhoi($model);
     }
     $tendonvi = dsdonvi::where('madonvi', $model->madonvi)->first()->tendonvi ?? '';
+    $donvi_xd = dsdonvi::where('madonvi', $model->madonvi_xd)->first();
     $model->thongtinquyetdinh = str_replace('[chucvunguoiky]', $model->chucvunguoikyqd, $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[hotennguoiky]',  $model->hotennguoikyqd, $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[soqd]',  $model->soqd, $model->thongtinquyetdinh);
@@ -676,6 +694,7 @@ function getTaoQuyetDinhKTCumKhoi(&$model)
     $model->thongtinquyetdinh = str_replace('[ngayhoso]',  Date2Str($model->ngayhoso), $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[donvidenghi]',  $tendonvi, $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[donvikhenthuong]',  $model->donvikhenthuong, $model->thongtinquyetdinh);
+    $model->thongtinquyetdinh = str_replace('[donvixetduyet]',  $donvi_xd->tendonvi ?? '', $model->thongtinquyetdinh);
 }
 
 function getTaoDuThaoKTCumKhoi(&$model, $maduthao = null)
@@ -692,6 +711,7 @@ function getTaoDuThaoKTCumKhoi(&$model, $maduthao = null)
         $thongtinquyetdinh = str_replace('[donvidenghi]',  $tendonvi, $thongtinquyetdinh);
         $thongtinquyetdinh = str_replace('[sototrinh]',  $model->sototrinh, $thongtinquyetdinh);
         $thongtinquyetdinh = str_replace('[ngayhoso]',  Date2Str($model->ngayhoso), $thongtinquyetdinh);
+        $thongtinquyetdinh = str_replace('[hinhthuckhenthuong]',  'Bằng khen', $thongtinquyetdinh);
 
         $m_canhan = App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_canhan::where('mahosotdkt', $model->mahosotdkt)
             ->where('ketqua', '1')->orderby('stt')->get();
@@ -702,14 +722,15 @@ function getTaoDuThaoKTCumKhoi(&$model, $maduthao = null)
             foreach ($m_canhan as $canhan) {
                 $s_canhan .= '<p style=&#34;margin-left:40px;&#34;>' .
                     ($i++) . '. ' . $canhan->tendoituong .
-                    ($canhan->chucvu == '' ? '' : ('; ' . $canhan->chucvu)) .
-                    ($canhan->tencoquan == '' ? '' : ('; ' . $canhan->tencoquan)) .
+                    ($canhan->chucvu == '' ? '' : (', ' . $canhan->chucvu)) .
+                    ($canhan->tencoquan == '' ? '' : (' ' . $canhan->tencoquan)) .
                     '</p>';
                 //dd($s_canhan);
             }
             //dd($s_canhan);
             // $thongtinquyetdinh = str_replace('<p style=&#34;margin-left:25px;&#34;>[khenthuongcanhan]</p>',  $s_canhan, $thongtinquyetdinh);
             $thongtinquyetdinh = str_replace('[khenthuongcanhan]',  $s_canhan, $thongtinquyetdinh);
+            $thongtinquyetdinh = str_replace('[soluongcanhan]', $m_canhan->count() . ' cá nhân', $thongtinquyetdinh);
         }
 
         //Tập thể
@@ -724,6 +745,7 @@ function getTaoDuThaoKTCumKhoi(&$model, $maduthao = null)
                     '</p>';
             }
             $thongtinquyetdinh = str_replace('[khenthuongtapthe]',  $s_tapthe, $thongtinquyetdinh);
+            $thongtinquyetdinh = str_replace('[soluongtapthe]', $m_tapthe->count() . ' tập thể', $thongtinquyetdinh);
         }
         $model->thongtinquyetdinh = $thongtinquyetdinh;
     }
