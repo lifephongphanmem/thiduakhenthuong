@@ -26,6 +26,9 @@ Route::group(['prefix' => 'KhenThuongCongTrang'], function () {
         Route::get('XoaCaNhan', [dshosokhenthuongcongtrangController::class, 'XoaCaNhan']);
         Route::get('LayCaNhan', [dshosokhenthuongcongtrangController::class, 'LayCaNhan']);
         
+        Route::post('ThemHoGiaDinh', [dshosokhenthuongcongtrangController::class, 'ThemHoGiaDinh']);
+        Route::get('XoaHoGiaDinh', [dshosokhenthuongcongtrangController::class, 'XoaHoGiaDinh']);
+        Route::get('LayHoGiaDinh', [dshosokhenthuongcongtrangController::class, 'LayHoGiaDinh']);
 
         Route::post('ThemDeTai', [dshosokhenthuongcongtrangController::class, 'ThemDeTai']);
         Route::get('XoaDeTai', [dshosokhenthuongcongtrangController::class, 'XoaDeTai']);
