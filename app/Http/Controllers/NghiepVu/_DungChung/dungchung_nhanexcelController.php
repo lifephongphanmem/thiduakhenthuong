@@ -86,7 +86,7 @@ class dungchung_nhanexcelController extends Controller
             
         }
         // File::Delete($path);
-        // dd($a_dm_canhan);
+        // dd($a_dm_tapthe);
         dshosothiduakhenthuong_canhan::insert($a_dm_canhan);
         dshosothiduakhenthuong_tapthe::insert($a_dm_tapthe);
         dshosothiduakhenthuong_hogiadinh::insert($a_dm_hogiadinh);
