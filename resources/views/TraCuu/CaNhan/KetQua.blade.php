@@ -38,7 +38,7 @@
         </div>
 
         <div class="card-body">
-            <h4 class="text-dark font-weight-bold mb-10">Danh sách khen thưởng</h4>
+            <h4 class="text-dark font-weight-bold mb-10">Danh sách khen thưởng của cá nhân</h4>
             <div class="row" id="dskhenthuong">
                 <div class="col-md-12">
                     <table class="table table-striped table-bordered table-hover dulieubang">

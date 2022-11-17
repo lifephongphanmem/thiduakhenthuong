@@ -5,11 +5,10 @@
         style="margin:0 auto 25px; text-align: center;">
         <tr>
             <td colspan="2" style="font-weight: bold;">
-                <h4> THÔNG TIN KẾT QUẢ TÌM KIẾM KẾT QUẢ KHEN THƯỞNG CHO TẬP THỂ</h4>
+                <h4> THÔNG TIN KẾT QUẢ TÌM KIẾM KHEN THƯỞNG CHO HỘ GIA ĐÌNH</h4>
             </td>
         </tr>
     </table>
-
 
 
     @if (count($model_khenthuong) > 0)
@@ -23,7 +22,6 @@
                     <th colspan="2">Quyết định</th>
                     <th rowspan="2" width="15%">Tên tập thể</th>
                     <th rowspan="2">Phân loại đối tượng</th>
-                    <th rowspan="2">Lĩnh vực hoạt động</th>
                     <th rowspan="2">Danh hiệu thi đua</br>/Hình thức khen thưởng</th>
                     <th rowspan="2">Loại hình khen thưởng</th>
 
@@ -45,7 +43,6 @@
                         <td class="text-center">{{ $phamvi[$tt->capkhenthuong] ?? $tt->capkhenthuong }}</td>
                         <td>{{ $tt->tentapthe }}</td>
                         <td>{{ $a_tapthe[$tt->maphanloaitapthe] ?? '' }}</td>
-                        <td>{{ $a_linhvuc[$tt->linhvuchoatdong] ?? $tt->linhvuchoatdong }}</td>
                         <td>{{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}</td>
                         <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
                     </tr>

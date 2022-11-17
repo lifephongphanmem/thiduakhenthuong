@@ -25,7 +25,7 @@
     <div class="card card-custom" style="min-height: 600px">
         <div class="card-header">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Thông tin kết quả tìm kiếm kết quả khen thưởng cho tập thể</h3>
+                <h3 class="card-label text-uppercase">Thông tin kết quả tìm kiếm khen thưởng cho hộ gia đình</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
