@@ -37,13 +37,11 @@
         
         <div class="card-body">
             <div class="form-group row">                
-                <div class="col-lg-12">
+                <div class="col-6">
                     <label>Tên đơn vị</label>
                     {!! Form::text('tentapthe', null, ['id'=>'tentapthe','class' => 'form-control']) !!}
                 </div>
-            </div>
-
-            <div class="form-group row">
+            
                 <div class="col-lg-3">
                     <label>Khen thưởng - Từ</label>
                     {!! Form::input('date', 'ngaytu', null, ['class' => 'form-control', 'title'=>'Căn cứ ngày quyết định khen thưởng']) !!}
@@ -55,16 +53,23 @@
             </div>
 
             <div class="form-group row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label class="form-control-label">Phân loại tập thể</label>
                     {!! Form::select('maphanloaitapthe', setArrayAll($a_tapthe, 'Tất cả', 'ALL'), null, [
                         'class' => 'form-control select2basic',
                     ]) !!}
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label class="form-control-label">Loại hình khen thưởng</label>
                     {!! Form::select('maloaihinhkt', setArrayAll($a_loaihinhkt, 'Tất cả', 'ALL'), null, [
+                        'class' => 'form-control select2basic',
+                    ]) !!}
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-control-label">Lĩnh vực hoạt động</label>
+                    {!! Form::select('linhvuchoatdong', setArrayAll(getLinhVucHoatDong(), 'Tất cả', 'ALL'), null, [
                         'class' => 'form-control select2basic',
                     ]) !!}
                 </div>

@@ -56,9 +56,10 @@ class tracuutaptheController extends Controller
             ->with('model_khenthuong', $model_khenthuong)
             ->with('a_dhkt', $a_dhkt)
             ->with('inputs', $inputs)
-            ->with('phamvi', getPhamViApDung()) 
-            ->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
-            ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
+            ->with('phamvi', getPhamViApDung())
+            ->with('a_linhvuc', getLinhVucHoatDong())
+            //->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
+            //->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
             ->with('a_tapthe', array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai'))
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('pageTitle', 'Kết quả tìm kiếm tập thể');
@@ -66,14 +67,14 @@ class tracuutaptheController extends Controller
 
     public function InKetQua(Request $request)
     {
-        $inputs = $request->all();       
+        $inputs = $request->all();
         $model_khenthuong = view_tdkt_tapthe::where('trangthai', 'DKT');
-        $this->TimKiem($model_khenthuong,$inputs);  
-        $a_dhkt = getDanhHieuKhenThuong('ALL');      
+        $this->TimKiem($model_khenthuong, $inputs);
+        $a_dhkt = getDanhHieuKhenThuong('ALL');
         return view('TraCuu.TapThe.InKetQua')
-            ->with('model_khenthuong', $model_khenthuong)  
-            ->with('a_dhkt', $a_dhkt)  
-            ->with('phamvi', getPhamViApDung())  
+            ->with('model_khenthuong', $model_khenthuong)
+            ->with('a_dhkt', $a_dhkt)
+            ->with('phamvi', getPhamViApDung())
             ->with('inputs', $inputs)
             ->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
             ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
@@ -82,20 +83,24 @@ class tracuutaptheController extends Controller
             ->with('pageTitle', 'Kết quả tìm kiếm tập thể');
     }
 
-    function TimKiem(&$model_khenthuong, $inputs){
+    function TimKiem(&$model_khenthuong, $inputs)
+    {
 
         if ($inputs['tentapthe'] != '') {
             $model_khenthuong = $model_khenthuong->where('tentapthe', 'Like', '%' . $inputs['tentapthe'] . '%');
         }
-       
+
         if ($inputs['ngaytu'] != null)
             $model_khenthuong = $model_khenthuong->where('ngayqd', '>=', $inputs['ngaytu']);
 
         if ($inputs['ngayden'] != null)
             $model_khenthuong = $model_khenthuong->where('ngayqd', '<=', $inputs['ngayden']);
-      
+
         if ($inputs['maphanloaitapthe'] != 'ALL')
             $model_khenthuong = $model_khenthuong->where('maphanloaitapthe', $inputs['maphanloaitapthe']);
+
+        if ($inputs['linhvuchoatdong'] != 'ALL')
+            $model_khenthuong = $model_khenthuong->where('linhvuchoatdong', $inputs['linhvuchoatdong']);
 
         if ($inputs['maloaihinhkt'] != 'ALL')
             $model_khenthuong = $model_khenthuong->where('maloaihinhkt', $inputs['maloaihinhkt']);

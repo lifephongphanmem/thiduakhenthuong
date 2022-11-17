@@ -5,7 +5,7 @@
         style="margin:0 auto 25px; text-align: center;">
         <tr>
             <td colspan="2" style="font-weight: bold;">
-                <h4> THÔNG TIN KẾT QUẢ TÌM KIẾM</h4>
+                <h4> THÔNG TIN KẾT QUẢ TÌM KIẾM KHEN THƯỞNG CÁ NHÂN</h4>
             </td>
         </tr>
     </table>
@@ -17,40 +17,39 @@
         <table id="data_body1" class="money" cellspacing="0" cellpadding="0" border="1"
             style="margin: 5px auto; border-collapse: collapse;font:normal 12px Times, serif;">
             <thead>
-                <tr class="text-center">
-                    <th rowspan="2" width="5%">STT</th>
-                    <th colspan="3">Quyết định</th>
-                    <th colspan="2">Tờ trình</th>
-                    <th rowspan="2">Họ tên cán bộ</th>
-                    <th rowspan="2">Phân loại cán bộ</th>
-                    <th rowspan="2">Thông tin công tác</th>
-                    <th rowspan="2">Loại hình khen thưởng</th>
-                    <th rowspan="2">Danh hiệu thi đua</br>/Hình thức khen thưởng</th>
+                <thead>
+                    <tr class="text-center">
+                        <th rowspan="2" width="5%">STT</th>
+                        <th rowspan="2" width="10%">Tờ trình</th>
+                        <th colspan="2">Quyết định</th>
+                        <th rowspan="2">Tên cá nhân</th>
+                        <th rowspan="2">Phân loại cán bộ</th>
+                        <th rowspan="2">Thông tin công tác</th>
+                        <th rowspan="2">Danh hiệu thi đua</br>/Hình thức khen thưởng</th>
+                        <th rowspan="2">Loại hình khen thưởng</th>
 
-                </tr>
-                <tr class="text-center">
-                    <th>Số QĐ</th>
-                    <th>Ngày tháng</th>
-                    <th>Cấp độ</th>
-                    <th>Số TT</th>
-                    <th>Ngày tháng</th>
-                </tr>
+                    </tr>
+                    <tr class="text-center">
+                        <th width="10%">Số quyết định</th>
+                        <th width="10%">Cấp độ khen thưởng</th>
+                    </tr>
+                </thead>
             </thead>
             <?php $i = 1; ?>
             @foreach ($model_khenthuong as $key => $tt)
-                <tr class="odd gradeX">
-                    <td class="text-center">{{ $i++ }}</td>
-                    <td class="text-center">{{ $tt->soqd }}</td>
-                    <td class="text-center">{{ getDayVn($tt->ngayqd) }}</td>
-                    <td class="text-center">{{ $phamvi[$tt->capkhenthuong] ?? $tt->capkhenthuong }}</td>
-                    <td class="text-center">{{ $tt->sototrinh }}</td>
-                    <td class="text-center">{{ getDayVn($tt->ngayhoso) }}</td>
-                    <td>{{ $tt->tendoituong }}</td>
-                    <td>{{ $a_canhan[$tt->maphanloaicanbo] ?? '' }}</td>
-                    <td>{{ $tt->chucvu . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}</td>
-                    <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
-                    <td>{{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}</td>
-                </tr>
+            <tr class="odd gradeX">
+                <td class="text-center">{{ $i++ }}</td>
+                <td class="text-center">Số: {{ $tt->sototrinh }}</br> ngày {{ getDayVn($tt->ngayhoso) }}
+                </td>
+                <td class="text-center">Số: {{ $tt->soqd }} </br> ngày {{ getDayVn($tt->ngayqd) }}
+                </td>
+                <td class="text-center">{{ $phamvi[$tt->capkhenthuong] ?? $tt->capkhenthuong }}</td>
+                <td>{{ $tt->tendoituong }}</td>
+                <td>{{ $a_canhan[$tt->maphanloaicanbo] ?? '' }}</td>
+                <td>{{ $tt->chucvu . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}</td>
+                <td>{{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}</td>
+                <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
+            </tr>
             @endforeach
         </table>
     @endif

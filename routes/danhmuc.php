@@ -7,10 +7,10 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix'=>'DanhHieuThiDua'], function(){
     Route::get('ThongTin','DanhMuc\dmdanhhieuthiduaController@ThongTin');
     Route::post('Them','DanhMuc\dmdanhhieuthiduaController@store');
-    Route::post('Xoa','HeThong\dmdanhhieuthiduaController@delete');
+    Route::post('Xoa','DanhMuc\dmdanhhieuthiduaController@delete');
     Route::get('TieuChuan','DanhMuc\dmdanhhieuthiduaController@TieuChuan');
     Route::post('TieuChuan','DanhMuc\dmdanhhieuthiduaController@ThemTieuChuan');
-    Route::post('XoaTieuChuan','HeThong\dmdanhhieuthiduaController@delete_TieuChuan');
+    Route::post('XoaTieuChuan','DanhMuc\dmdanhhieuthiduaController@delete_TieuChuan');
     //Route::get('Sua','system\DSTaiKhoanController@edit');
 });
 
@@ -23,7 +23,7 @@ Route::group(['prefix'=>'LoaiHinhKhenThuong'], function(){
 Route::group(['prefix'=>'HinhThucKhenThuong'], function(){
     Route::get('ThongTin','DanhMuc\dmhinhthuckhenthuongController@ThongTin');
     Route::post('Them','DanhMuc\dmhinhthuckhenthuongController@store');
-    Route::post('Xoa','HeThong\dmhinhthuckhenthuongController@delete');
+    Route::post('Xoa','DanhMuc\dmhinhthuckhenthuongController@delete');
 });
 
 

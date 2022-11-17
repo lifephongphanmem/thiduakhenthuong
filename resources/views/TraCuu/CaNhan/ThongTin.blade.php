@@ -32,7 +32,7 @@
     <div class="card card-custom wave wave-animate-slow wave-info">
         <div class="card-header">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Thông tin tìm kiếm theo cá nhân</h3>
+                <h3 class="card-label text-uppercase">Thông tin tìm kiếm kết quả khen thưởng theo cá nhân</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->

@@ -45,21 +45,18 @@
                         <thead>
                             <tr class="text-center">
                                 <th rowspan="2" width="5%">STT</th>
-                                <th colspan="3">Quyết định</th>
-                                <th colspan="2">Tờ trình</th>
-                                <th rowspan="2">Họ tên cán bộ</th>
+                                <th rowspan="2" width="10%">Tờ trình</th>
+                                <th colspan="2">Quyết định</th>
+                                <th rowspan="2" width="15%">Tên cá nhân</th>
                                 <th rowspan="2">Phân loại cán bộ</th>
                                 <th rowspan="2">Thông tin công tác</th>
-                                <th rowspan="2">Loại hình khen thưởng</th>
                                 <th rowspan="2">Danh hiệu thi đua</br>/Hình thức khen thưởng</th>
+                                <th rowspan="2">Loại hình khen thưởng</th>
 
                             </tr>
                             <tr class="text-center">
-                                <th>Số QĐ</th>
-                                <th>Ngày tháng</th>
-                                <th>Cấp độ</th>
-                                <th>Số TT</th>
-                                <th>Ngày tháng</th>
+                                <th width="10%">Số quyết định</th>
+                                <th width="10%">Cấp độ khen thưởng</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -67,16 +64,16 @@
                             @foreach ($model_khenthuong as $key => $tt)
                                 <tr class="odd gradeX">
                                     <td class="text-center">{{ $i++ }}</td>
-                                    <td class="text-center">{{ $tt->soqd }}</td>
-                                    <td class="text-center">{{ getDayVn($tt->ngayqd) }}</td>
+                                    <td class="text-center">Số: {{ $tt->sototrinh }}</br> ngày {{ getDayVn($tt->ngayhoso) }}
+                                    </td>
+                                    <td class="text-center">Số: {{ $tt->soqd }} </br> ngày {{ getDayVn($tt->ngayqd) }}
+                                    </td>
                                     <td class="text-center">{{ $phamvi[$tt->capkhenthuong] ?? $tt->capkhenthuong }}</td>
-                                    <td class="text-center">{{ $tt->sototrinh }}</td>
-                                    <td class="text-center">{{ getDayVn($tt->ngayhoso) }}</td>
                                     <td>{{ $tt->tendoituong }}</td>
                                     <td>{{ $a_canhan[$tt->maphanloaicanbo] ?? '' }}</td>
                                     <td>{{ $tt->chucvu . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}</td>
-                                    <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
                                     <td>{{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}</td>
+                                    <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -135,7 +132,7 @@
         <input type="hidden" name="ngayden" value="{{ $inputs['ngayden'] }}" />
         <input type="hidden" name="gioitinh" value="{{ $inputs['gioitinh'] }}" />
         <input type="hidden" name="maphanloaicanbo" value="{{ $inputs['maphanloaicanbo'] }}" />
-        <input type="hidden" name="maloaihinhkt" value="{{ $inputs['maloaihinhkt'] }}" /> 
+        <input type="hidden" name="maloaihinhkt" value="{{ $inputs['maloaihinhkt'] }}" />
 
         <div class="modal-dialog">
             <div class="modal-content">
