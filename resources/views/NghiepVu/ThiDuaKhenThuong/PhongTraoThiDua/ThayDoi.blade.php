@@ -355,7 +355,7 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-lg-12">
-                            <label class="control-label">Mô tả tiêu chuẩn</label>
+                            <label class="control-label">Tiêu chuẩn</label>
                             {!! Form::textarea('tentieuchuandhtd', null, [
                                 'id' => 'tentieuchuandhtd',
                                 'class' => 'form-control',
@@ -366,7 +366,7 @@
 
                     <div class="form-group row">
                         <div class="col-lg-12">
-                            <label class="control-label">Ghi chú </label>
+                            <label class="control-label">Mở rộng tiêu chuẩn</label>
                             {!! Form::textarea('ghichu', null, ['class' => 'form-control', 'rows' => 3]) !!}
                         </div>
                     </div>
