@@ -613,8 +613,8 @@ function getTaoQuyetDinhKT(&$model)
     }
     $tendonvi = dsdonvi::where('madonvi', $model->madonvi)->first()->tendonvi ?? '';
     $donvi_xd = dsdonvi::where('madonvi', $model->madonvi_xd)->first();
-    $model->thongtinquyetdinh = str_replace('[chucvunguoiky]', $model->chucvunguoikyqd, $model->thongtinquyetdinh);
-    $model->thongtinquyetdinh = str_replace('[hotennguoiky]',  $model->hotennguoikyqd, $model->thongtinquyetdinh);
+    $model->thongtinquyetdinh = str_replace('[chucvunguoikyqd]', $model->chucvunguoikyqd, $model->thongtinquyetdinh);
+    $model->thongtinquyetdinh = str_replace('[hotennguoikyqd]',  $model->hotennguoikyqd, $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[soqd]',  $model->soqd, $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[sototrinh]',  $model->sototrinh, $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[diadanh]',  '......', $model->thongtinquyetdinh);
@@ -635,11 +635,14 @@ function getTaoDuThaoKT(&$model, $maduthao = null)
         $tendonvi = dsdonvi::where('madonvi', $model->madonvi)->first()->tendonvi ?? '';
 
         //Gán thông tin
+        $donvi_xd = dsdonvi::where('madonvi', $model->madonvi_xd)->first();
+
         $thongtinquyetdinh = str_replace('[noidung]', $model->noidung, $thongtinquyetdinh);
         $thongtinquyetdinh = str_replace('[donvidenghi]',  $tendonvi, $thongtinquyetdinh);
         $thongtinquyetdinh = str_replace('[sototrinh]',  $model->sototrinh, $thongtinquyetdinh);
         $thongtinquyetdinh = str_replace('[ngayhoso]',  Date2Str($model->ngayhoso), $thongtinquyetdinh);
         $thongtinquyetdinh = str_replace('[hinhthuckhenthuong]',  'Bằng khen', $thongtinquyetdinh);
+        $thongtinquyetdinh = str_replace('[donvixetduyet]',  $donvi_xd->tendonvi ?? '', $thongtinquyetdinh);
 
         $m_canhan = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)
             ->where('ketqua', '1')->orderby('stt')->get();
@@ -685,8 +688,8 @@ function getTaoQuyetDinhKTCumKhoi(&$model)
     }
     $tendonvi = dsdonvi::where('madonvi', $model->madonvi)->first()->tendonvi ?? '';
     $donvi_xd = dsdonvi::where('madonvi', $model->madonvi_xd)->first();
-    $model->thongtinquyetdinh = str_replace('[chucvunguoiky]', $model->chucvunguoikyqd, $model->thongtinquyetdinh);
-    $model->thongtinquyetdinh = str_replace('[hotennguoiky]',  $model->hotennguoikyqd, $model->thongtinquyetdinh);
+    $model->thongtinquyetdinh = str_replace('[chucvunguoikyqd]', $model->chucvunguoikyqd, $model->thongtinquyetdinh);
+    $model->thongtinquyetdinh = str_replace('[hotennguoikyqd]',  $model->hotennguoikyqd, $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[soqd]',  $model->soqd, $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[sototrinh]',  $model->sototrinh, $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[diadanh]',  '......', $model->thongtinquyetdinh);

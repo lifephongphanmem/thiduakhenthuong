@@ -57,10 +57,10 @@ class dshosokhenthuongdoingoaiController extends Controller
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         $inputs['maloaihinhkt'] = session('chucnang')['dshosokhenthuongdoingoai']['maloaihinhkt'] ?? 'ALL';
         $inputs['trangthai'] = session('chucnang')['dshosokhenthuongdoingoai']['trangthai'] ?? 'CC';
-        		//Các đơn vi xét duyệt cấp H, T => có tờ trình
-                $a_donvi_xd = array_column(dsdiaban::wherein('capdo', ['H', 'T'])->get()->toarray(), 'madonviKT');
-                $inputs['taototrinh'] = in_array($inputs['madonvi'], $a_donvi_xd);
-            
+        //Các đơn vi xét duyệt cấp H, T => có tờ trình
+        $a_donvi_xd = array_column(dsdiaban::wherein('capdo', ['H', 'T'])->get()->toarray(), 'madonviKT');
+        $inputs['taototrinh'] = in_array($inputs['madonvi'], $a_donvi_xd);
+
         $model = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi'])
             ->where('phanloai', 'KTDONVI')
             ->where('maloaihinhkt', $inputs['maloaihinhkt']);
@@ -102,6 +102,7 @@ class dshosokhenthuongdoingoaiController extends Controller
             return view('errors.noperm')->with('machucnang', 'dshosokhenthuongdoingoai')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
+        $inputs['url'] = '/KhenThuongDoiNgoai/HoSoKT/';
         $inputs['url_hs'] = '/KhenThuongDoiNgoai/HoSoKT/';
         $inputs['url_qd'] = '/KhenThuongDoiNgoai/HoSoKT/';
 
@@ -109,33 +110,30 @@ class dshosokhenthuongdoingoaiController extends Controller
 
         $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
-        $model_detai = dshosothiduakhenthuong_detai::where('mahosotdkt', $model->mahosotdkt)->get();
+        $model_hogiadinh = dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)->get();
         $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
-
         $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
         $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
-
         $model->tendonvi = $donvi->tendonvi;
-        //$m_donvi = getDonVi(session('admin')->capdo);
-        //$m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
-
-        $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE', 'HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
+        $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE'])->get()->toarray(), 'tenphanloai', 'maphanloai');
+        $a_hogiadinh = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
+
+        $a_dhkt_hogiadinh = getDanhHieuKhenThuong($donvi->capdo, 'HOGIADINH');
+
         $inputs['mahinhthuckt'] = $model->mahinhthuckt;
         $a_donvikt = array_unique(array_merge([$model->donvikhenthuong], getDonViKhenThuong()));
         return view('NghiepVu.KhenThuongDoiNgoai.HoSoKT.ThayDoi')
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
-            ->with('model_detai', $model_detai)
+            ->with('model_hogiadinh', $model_hogiadinh)
+            ->with('a_dhkt_hogiadinh', $a_dhkt_hogiadinh)
+            ->with('a_hogiadinh', $a_hogiadinh)
             ->with('a_donvikt', $a_donvikt)
             ->with('a_dhkt_canhan', $a_dhkt_canhan)
             ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
-            //->with('m_donvi', $m_donvi)
-            //->with('m_diaban', $m_diaban)
-            //->with('a_danhhieutd', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
-            //->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
             ->with('a_canhan', $a_canhan)
             ->with('a_tapthe', $a_tapthe)
             ->with('inputs', $inputs)
@@ -247,6 +245,12 @@ class dshosokhenthuongdoingoaiController extends Controller
             $filedk->move(public_path() . '/data/tailieukhac/', $inputs['tailieukhac']);
         }
 
+        if (isset($inputs['quyetdinh'])) {
+            $filedk = $request->file('tailieukhac');
+            $inputs['quyetdinh'] = $inputs['mahosotdkt'] . '_quyetdinh.' . $filedk->getClientOriginalExtension();
+            $filedk->move(public_path() . '/data/quyetdinh/', $inputs['quyetdinh']);
+        }
+
         dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first()->update($inputs);
 
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
@@ -298,7 +302,7 @@ class dshosokhenthuongdoingoaiController extends Controller
         $trangthai->save();
 
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
-    }   
+    }
 
     public function XoaHoSo(Request $request)
     {
@@ -344,10 +348,10 @@ class dshosokhenthuongdoingoaiController extends Controller
             $model->update($inputs);
         // return response()->json($inputs['id']);
 
-        $danhsach = dshosothiduakhenthuong_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();        
+        $danhsach = dshosothiduakhenthuong_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
         $dungchung = new dungchung_nghiepvuController();
         $dungchung->htmlCaNhan($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
-        
+
         return response()->json($result);
     }
 
@@ -390,9 +394,9 @@ class dshosokhenthuongdoingoaiController extends Controller
         $danhsach = dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
         $dungchung = new dungchung_nghiepvuController();
         $dungchung->htmlCaNhan($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
-        
+
         return response()->json($result);
-    }    
+    }
 
     public function ThemTapThe(Request $request)
     {
@@ -421,7 +425,7 @@ class dshosokhenthuongdoingoaiController extends Controller
         $danhsach = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
         $dungchung = new dungchung_nghiepvuController();
         $dungchung->htmlTapThe($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
-        
+
         return response()->json($result);
     }
 
@@ -494,7 +498,7 @@ class dshosokhenthuongdoingoaiController extends Controller
         $danhsach = dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $inputs['mahosotdkt'])->get();
         $dungchung = new dungchung_nghiepvuController();
         $dungchung->htmlHoGiaDinh($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
-        
+
         return response()->json($result);
     }
 
@@ -539,7 +543,7 @@ class dshosokhenthuongdoingoaiController extends Controller
         $dungchung->htmlHoGiaDinh($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
         return response()->json($result);
     }
-    
+
     public function ThemDeTai(Request $request)
     {
         $result = array(
@@ -778,11 +782,12 @@ class dshosokhenthuongdoingoaiController extends Controller
         $inputs['url_hs'] = '/KhenThuongDoiNgoai/HoSoKT/';
         $inputs['url_xd'] = '/KhenThuongDoiNgoai/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongDoiNgoai/KhenThuong/';
+        $inputs['url'] = '/KhenThuongDoiNgoai/KhenThuong/';
         $inputs['mahinhthuckt'] = session('chucnang')['dshosokhenthuongdoingoai']['mahinhthuckt'] ?? 'ALL';
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
         $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
-        $model_detai = dshosothiduakhenthuong_detai::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+        $model_hogiadinh = dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $inputs['mahosotdkt'])->get();
         $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
         $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
         $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
@@ -796,14 +801,22 @@ class dshosokhenthuongdoingoaiController extends Controller
         $model->donvikhenthuong =  $donvi_kt->tendonvi;
         $a_donvikt = array_unique(array_merge([$model->donvikhenthuong], getDonViKhenThuong()));
 
+        $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE'])->get()->toarray(), 'tenphanloai', 'maphanloai');
+        $a_hogiadinh = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
+        $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
+
+        $a_dhkt_hogiadinh = getDanhHieuKhenThuong($donvi->capdo, 'HOGIADINH');
+
         return view('NghiepVu.KhenThuongDoiNgoai.HoSoKT.PheDuyetKT')
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
-            ->with('model_detai', $model_detai)
+            ->with('model_hogiadinh', $model_hogiadinh)
             ->with('a_donvikt', $a_donvikt)
             ->with('a_dhkt_canhan', $a_dhkt_canhan)
             ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
+            ->with('a_dhkt_hogiadinh', $a_dhkt_hogiadinh)
+            ->with('a_hogiadinh', $a_hogiadinh)
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('a_donvi_kt', [$donvi_kt->madonvi => $donvi_kt->tendonvi])
             ->with('a_tapthe', $a_tapthe)

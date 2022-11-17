@@ -628,12 +628,12 @@ class xdhosodenghikhenthuongdoingoaiController extends Controller
     public function TrinhKetQua(Request $request)
     {
         $inputs = $request->all();
-        $inputs['url_hs'] = '/KhenThuongCongHien/HoSo/';
-        $inputs['url_xd'] = '/KhenThuongCongHien/XetDuyet/';
-        $inputs['url'] = '/KhenThuongCongHien/XetDuyet/';
-        $inputs['url_qd'] = '/KhenThuongCongHien/KhenThuong/';
+        $inputs['url_hs'] = '/KhenThuongDoiNgoai/HoSo/';
+        $inputs['url_xd'] = '/KhenThuongDoiNgoai/XetDuyet/';
+        $inputs['url'] = '/KhenThuongDoiNgoai/XetDuyet/';
+        $inputs['url_qd'] = '/KhenThuongDoiNgoai/KhenThuong/';
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        return view('NghiepVu.KhenThuongCongHien.XetDuyet.TrinhKetQua')
+        return view('NghiepVu.KhenThuongDoiNgoai.XetDuyet.TrinhKetQua')
             ->with('model', $model)
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Thông tin hồ sơ đề nghị khen thưởng');
