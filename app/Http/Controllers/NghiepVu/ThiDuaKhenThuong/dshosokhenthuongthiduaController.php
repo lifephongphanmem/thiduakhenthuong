@@ -275,8 +275,14 @@ class dshosokhenthuongthiduaController extends Controller
         }
         if (isset($inputs['tailieukhac'])) {
             $filedk = $request->file('tailieukhac');
-            $inputs['tailieukhac'] = $inputs['mahosotdkt'] . 'tailieukhac.' . $filedk->getClientOriginalExtension();
+            $inputs['tailieukhac'] = $inputs['mahosotdkt'] . '_tailieukhac.' . $filedk->getClientOriginalExtension();
             $filedk->move(public_path() . '/data/tailieukhac/', $inputs['tailieukhac']);
+        }
+
+        if (isset($inputs['quyetdinh'])) {
+            $filedk = $request->file('quyetdinh');
+            $inputs['quyetdinh'] = $inputs['mahosotdkt'] . 'quyetdinh.' . $filedk->getClientOriginalExtension();
+            $filedk->move(public_path() . '/data/quyetdinh/', $inputs['quyetdinh']);
         }
 
         dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first()->update($inputs);
@@ -734,11 +740,7 @@ class dshosokhenthuongthiduaController extends Controller
     public function LuuPheDuyet(Request $request)
     {
         $inputs = $request->all();
-        if (isset($inputs['quyetdinh'])) {
-            $filedk = $request->file('quyetdinh');
-            $inputs['quyetdinh'] = $inputs['mahosotdkt'] . '_quyetdinh.' . $filedk->getClientOriginalExtension();
-            $filedk->move(public_path() . '/data/quyetdinh/', $inputs['quyetdinh']);
-        }
+        
         $thoigian = date('Y-m-d H:i:s');
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model->trangthai = 'DKT';
@@ -753,6 +755,12 @@ class dshosokhenthuongthiduaController extends Controller
         $model->ngayqd = $inputs['ngayqd'];
         $model->chucvunguoikyqd = $inputs['chucvunguoikyqd'];
         $model->hotennguoikyqd = $inputs['hotennguoikyqd'];
+        if (isset($inputs['quyetdinh'])) {
+            $filedk = $request->file('quyetdinh');
+            $inputs['quyetdinh'] = $inputs['mahosotdkt'] . '_quyetdinh.' . $filedk->getClientOriginalExtension();
+            $filedk->move(public_path() . '/data/quyetdinh/', $inputs['quyetdinh']);
+            $model->quyetdinh = $inputs['quyetdinh'];
+        }
         //dd($model);
         getTaoQuyetDinhKT($model);
         $model->save();

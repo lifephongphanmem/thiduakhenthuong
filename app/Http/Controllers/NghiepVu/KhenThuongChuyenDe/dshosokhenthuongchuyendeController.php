@@ -396,6 +396,80 @@ class dshosokhenthuongchuyendeController extends Controller
         return response()->json($result);
     }
 
+    public function ThemHoGiaDinh(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
+        }
+
+        $inputs = $request->all();
+        //$id =  $inputs['id'];       
+        $model = dshosothiduakhenthuong_hogiadinh::where('id', $inputs['id'])->first();
+        unset($inputs['id']);
+        if ($model == null) {
+            $inputs['ketqua'] = 1;
+            dshosothiduakhenthuong_hogiadinh::create($inputs);
+        } else
+            $model->update($inputs);
+        // return response()->json($inputs['id']);
+
+        $danhsach = dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+
+        $dungchung = new dungchung_nghiepvuController();
+        $dungchung->htmlHoGiaDinh($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
+        return response()->json($result);
+    }
+
+    public function LayHoGiaDinh(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
+        }
+
+        $inputs = $request->all();
+        $model = dshosothiduakhenthuong_hogiadinh::findorfail($inputs['id']);
+        die(json_encode($model));
+    }
+
+    public function XoaHoGiaDinh(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
+        }
+        $inputs = $request->all();
+        $model = dshosothiduakhenthuong_hogiadinh::findorfail($inputs['id']);
+        $model->delete();
+
+        $danhsach = dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)->get();
+        $dungchung = new dungchung_nghiepvuController();
+        $dungchung->htmlHoGiaDinh($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
+        return response()->json($result);
+    }
+
     public function NhanExcelCaNhan(Request $request)
     {
         $inputs = $request->all();
@@ -911,11 +985,7 @@ class dshosokhenthuongchuyendeController extends Controller
     public function LuuPheDuyet(Request $request)
     {
         $inputs = $request->all();
-        if (isset($inputs['quyetdinh'])) {
-            $filedk = $request->file('quyetdinh');
-            $inputs['quyetdinh'] = $inputs['mahosotdkt'] . '_quyetdinh.' . $filedk->getClientOriginalExtension();
-            $filedk->move(public_path() . '/data/quyetdinh/', $inputs['quyetdinh']);
-        }
+        
         $thoigian = date('Y-m-d H:i:s');
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model->trangthai = 'DKT';
@@ -930,6 +1000,12 @@ class dshosokhenthuongchuyendeController extends Controller
         $model->ngayqd = $inputs['ngayqd'];
         $model->chucvunguoikyqd = $inputs['chucvunguoikyqd'];
         $model->hotennguoikyqd = $inputs['hotennguoikyqd'];
+        if (isset($inputs['quyetdinh'])) {
+            $filedk = $request->file('quyetdinh');
+            $inputs['quyetdinh'] = $inputs['mahosotdkt'] . '_quyetdinh.' . $filedk->getClientOriginalExtension();
+            $filedk->move(public_path() . '/data/quyetdinh/', $inputs['quyetdinh']);
+            $model->quyetdinh = $inputs['quyetdinh'];
+        }
         //dd($model);
         getTaoQuyetDinhKT($model);
         $model->save();

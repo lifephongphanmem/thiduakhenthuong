@@ -932,10 +932,10 @@ class dshosodenghikhenthuongthiduaController extends Controller
             $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/totrinh/' . $model->totrinh) . '">' . $model->totrinh . '</a ></div>';
             $result['message'] .= '</div>';
         }
-        if ($model->qdkt != '') {
+        if ($model->baocao != '') {
             $result['message'] .= '<div class="form-group row">';
-            $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Quyết định khen thưởng:</label>';
-            $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/qdkt/' . $model->qdkt) . '">' . $model->qdkt . '</a ></div>';
+            $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Báo cáo thành tích:</label>';
+            $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/baocao/' . $model->baocao) . '">' . $model->baocao . '</a ></div>';
             $result['message'] .= '</div>';
         }
         if ($model->bienban != '') {

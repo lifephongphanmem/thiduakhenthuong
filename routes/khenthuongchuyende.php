@@ -33,6 +33,10 @@ Route::group(['prefix' => 'KhenThuongChuyenDe'], function () {
         Route::get('LayDeTai', [dshosokhenthuongchuyendeController::class, 'LayDeTai']);
         //Route::post('NhanExcelDeTai', [dshosokhenthuongchuyendeController::class, 'NhanExcelDeTai']);
 
+        Route::post('ThemHoGiaDinh', [dshosokhenthuongchuyendeController::class, 'ThemHoGiaDinh']);
+        Route::get('XoaHoGiaDinh', [dshosokhenthuongchuyendeController::class, 'XoaHoGiaDinh']);
+        Route::get('LayHoGiaDinh', [dshosokhenthuongchuyendeController::class, 'LayHoGiaDinh']);
+
         Route::get('TaiLieuDinhKem', [dshosokhenthuongchuyendeController::class, 'TaiLieuDinhKem']);
         Route::post('ChuyenHoSo', [dshosokhenthuongchuyendeController::class, 'ChuyenHoSo']);
         Route::get('LayLyDo', [dshosokhenthuongchuyendeController::class, 'LayLyDo']);
@@ -84,6 +88,10 @@ Route::group(['prefix' => 'KhenThuongChuyenDe'], function () {
         Route::get('XoaDeTai', [dshosodenghikhenthuongchuyendeController::class, 'XoaDeTai']);
         Route::get('LayDeTai', [dshosodenghikhenthuongchuyendeController::class, 'LayDeTai']);
         Route::post('NhanExcelDeTai', [dshosodenghikhenthuongchuyendeController::class, 'NhanExcelDeTai']);
+
+        Route::post('ThemHoGiaDinh', [dshosodenghikhenthuongchuyendeController::class, 'ThemHoGiaDinh']);
+        Route::get('XoaHoGiaDinh', [dshosodenghikhenthuongchuyendeController::class, 'XoaHoGiaDinh']);
+        Route::get('LayHoGiaDinh', [dshosodenghikhenthuongchuyendeController::class, 'LayHoGiaDinh']);
 
         Route::get('TaiLieuDinhKem', [dshosodenghikhenthuongchuyendeController::class, 'TaiLieuDinhKem']);
         Route::post('ChuyenHoSo', [dshosodenghikhenthuongchuyendeController::class, 'ChuyenHoSo']);

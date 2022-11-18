@@ -251,7 +251,7 @@ class dshosokhenthuongdotxuatController extends Controller
 
         if (isset($inputs['quyetdinh'])) {
             $filedk = $request->file('quyetdinh');
-            $inputs['quyetdinh'] = $inputs['mahosotdkt'] . 'quyetdinh.' . $filedk->getClientOriginalExtension();
+            $inputs['quyetdinh'] = $inputs['mahosotdkt'] . '_quyetdinh.' . $filedk->getClientOriginalExtension();
             $filedk->move(public_path() . '/data/quyetdinh/', $inputs['quyetdinh']);
         }
         dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first()->update($inputs);
@@ -1057,5 +1057,79 @@ class dshosokhenthuongdotxuatController extends Controller
         $dungchung = new dungchung_nhanexcelController();
         $dungchung->NhanExcelKhenThuong($request);
         return redirect(static::$url . 'Sua?mahosotdkt=' . $request->all()['mahoso']);
+    }
+
+    public function ThemHoGiaDinh(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
+        }
+
+        $inputs = $request->all();
+        //$id =  $inputs['id'];       
+        $model = dshosothiduakhenthuong_hogiadinh::where('id', $inputs['id'])->first();
+        unset($inputs['id']);
+        if ($model == null) {
+            $inputs['ketqua'] = 1;
+            dshosothiduakhenthuong_hogiadinh::create($inputs);
+        } else
+            $model->update($inputs);
+        // return response()->json($inputs['id']);
+
+        $danhsach = dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+
+        $dungchung = new dungchung_nghiepvuController();
+        $dungchung->htmlHoGiaDinh($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
+        return response()->json($result);
+    }
+
+    public function LayHoGiaDinh(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
+        }
+
+        $inputs = $request->all();
+        $model = dshosothiduakhenthuong_hogiadinh::findorfail($inputs['id']);
+        die(json_encode($model));
+    }
+
+    public function XoaHoGiaDinh(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+        if (!Session::has('admin')) {
+            $result = array(
+                'status' => 'fail',
+                'message' => 'permission denied',
+            );
+            die(json_encode($result));
+        }
+        $inputs = $request->all();
+        $model = dshosothiduakhenthuong_hogiadinh::findorfail($inputs['id']);
+        $model->delete();
+
+        $danhsach = dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)->get();
+        $dungchung = new dungchung_nghiepvuController();
+        $dungchung->htmlHoGiaDinh($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
+        return response()->json($result);
     }
 }
