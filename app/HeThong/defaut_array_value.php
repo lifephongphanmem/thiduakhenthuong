@@ -414,6 +414,21 @@ function getTaoDuThaoToTrinhHoSo(&$model, $maduthao = null)
             }
             $thongtintotrinhhoso = str_replace('[khenthuongtapthe]',  $s_tapthe, $thongtintotrinhhoso);
         }
+
+        //Hộ gia đình        
+        $m_hogiadinh = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)
+            ->where('ketqua', '1')->orderby('stt')->get();
+        if ($m_hogiadinh->count() > 0) {
+            $s_hgd = '';
+            $i = 1;
+            foreach ($m_hogiadinh as $chitiet) {
+                $s_hgd .= '<p style=&#34;margin-left:40px;&#34;>' .
+                    ($i++) . '. ' . $chitiet->tentapthe .
+                    '</p>';
+            }
+            $thongtintotrinhhoso = str_replace('[khenthuonghogiadinh]',  $s_hgd, $thongtintotrinhhoso);
+        }
+
         $model->thongtintotrinhhoso = $thongtintotrinhhoso;
     } else {
         //Load dự thảo theo mẫu
@@ -467,6 +482,21 @@ function getTaoDuThaoToTrinhHoSo(&$model, $maduthao = null)
                 }
                 $thongtintotrinhhoso = str_replace('[khenthuongtapthe]',  $s_tapthe, $thongtintotrinhhoso);
             }
+
+            //Hộ gia đình        
+            $m_hogiadinh = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)
+                ->where('ketqua', '1')->orderby('stt')->get();
+            if ($m_hogiadinh->count() > 0) {
+                $s_hgd = '';
+                $i = 1;
+                foreach ($m_hogiadinh as $chitiet) {
+                    $s_hgd .= '<p style=&#34;margin-left:40px;&#34;>' .
+                        ($i++) . '. ' . $chitiet->tentapthe .
+                        '</p>';
+                }
+                $thongtintotrinhhoso = str_replace('[khenthuonghogiadinh]',  $s_hgd, $thongtintotrinhhoso);
+            }
+
             $model->thongtintotrinhhoso = $thongtintotrinhhoso;
         }
     }
@@ -535,6 +565,20 @@ function getTaoDuThaoToTrinhPheDuyet(&$model, $maduthao = null)
             $thongtintotrinhdenghi = str_replace('[soluongtapthe]', $m_tapthe->count() . ' tập thể', $thongtintotrinhdenghi);
         }
 
+        //Hộ gia đình
+        $m_hogiadinh = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)
+            ->where('ketqua', '1')->orderby('stt')->get();
+        if ($m_hogiadinh->count() > 0) {
+            $s_hogiadinh = '';
+            $i = 1;
+            foreach ($m_hogiadinh as $chitiet) {
+                $s_hogiadinh .= '<p style=&#34;margin-left:40px;&#34;>' .
+                    ($i++) . '. ' . $chitiet->tentapthe .
+                    '</p>';
+            }
+            $thongtintotrinhdenghi = str_replace('[khenthuonghogiadinh]',  $s_tapthe, $thongtintotrinhdenghi);
+        }
+
         $model->thongtintotrinhdenghi = $thongtintotrinhdenghi;
     } else {
         //Load dự thảo theo mẫu
@@ -601,6 +645,19 @@ function getTaoDuThaoToTrinhPheDuyet(&$model, $maduthao = null)
                 $thongtintotrinhdenghi = str_replace('[soluongtapthe]', $m_tapthe->count() . ' tập thể', $thongtintotrinhdenghi);
             }
 
+            //Hộ gia đình
+            $m_hogiadinh = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)
+                ->where('ketqua', '1')->orderby('stt')->get();
+            if ($m_hogiadinh->count() > 0) {
+                $s_hogiadinh = '';
+                $i = 1;
+                foreach ($m_hogiadinh as $chitiet) {
+                    $s_hogiadinh .= '<p style=&#34;margin-left:40px;&#34;>' .
+                        ($i++) . '. ' . $chitiet->tentapthe .
+                        '</p>';
+                }
+                $thongtintotrinhdenghi = str_replace('[khenthuonghogiadinh]',  $s_tapthe, $thongtintotrinhdenghi);
+            }
             $model->thongtintotrinhdenghi = $thongtintotrinhdenghi;
         }
     }
@@ -677,6 +734,21 @@ function getTaoDuThaoKT(&$model, $maduthao = null)
             $thongtinquyetdinh = str_replace('[khenthuongtapthe]',  $s_tapthe, $thongtinquyetdinh);
             $thongtinquyetdinh = str_replace('[soluongtapthe]', $m_tapthe->count() . ' tập thể', $thongtinquyetdinh);
         }
+
+        //Hộ gia đình        
+        $m_hogiadinh = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)
+            ->where('ketqua', '1')->orderby('stt')->get();
+        if ($m_hogiadinh->count() > 0) {
+            $s_hgd = '';
+            $i = 1;
+            foreach ($m_hogiadinh as $chitiet) {
+                $s_hgd .= '<p style=&#34;margin-left:40px;&#34;>' .
+                    ($i++) . '. ' . $chitiet->tentapthe .
+                    '</p>';
+            }
+            $thongtinquyetdinh = str_replace('[khenthuonghogiadinh]',  $s_hgd, $thongtinquyetdinh);
+        }
+        //gán thong tin quyet dinh
         $model->thongtinquyetdinh = $thongtinquyetdinh;
     }
 }
@@ -749,6 +821,19 @@ function getTaoDuThaoKTCumKhoi(&$model, $maduthao = null)
             }
             $thongtinquyetdinh = str_replace('[khenthuongtapthe]',  $s_tapthe, $thongtinquyetdinh);
             $thongtinquyetdinh = str_replace('[soluongtapthe]', $m_tapthe->count() . ' tập thể', $thongtinquyetdinh);
+        }
+        //Hộ gia đình        
+        $m_hogiadinh = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)
+            ->where('ketqua', '1')->orderby('stt')->get();
+        if ($m_hogiadinh->count() > 0) {
+            $s_hgd = '';
+            $i = 1;
+            foreach ($m_hogiadinh as $chitiet) {
+                $s_hgd .= '<p style=&#34;margin-left:40px;&#34;>' .
+                    ($i++) . '. ' . $chitiet->tentapthe .
+                    '</p>';
+            }
+            $thongtinquyetdinh = str_replace('[khenthuonghogiadinh]',  $s_hgd, $thongtinquyetdinh);
         }
         $model->thongtinquyetdinh = $thongtinquyetdinh;
     }
