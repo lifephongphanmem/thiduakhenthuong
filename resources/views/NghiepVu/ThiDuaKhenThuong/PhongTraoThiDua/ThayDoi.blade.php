@@ -281,7 +281,7 @@
                                 <th style="text-align: center" width="5%">STT</th>
                                 <th style="text-align: center">Đối tượng áp dụng</th>
                                 <th style="text-align: center">Tên tiêu chuẩn xét khen thưởng</th>
-                                <th style="text-align: center" width="25%">Ghi chú</th>
+                                <th style="text-align: center" width="25%">Mở rộng tiêu chuẩn</th>
                                 <th style="text-align: center" width="10%">Thao tác</th>
                             </tr>
                         </thead>

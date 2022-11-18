@@ -853,8 +853,8 @@ function getPhanLoaiDonVi_DiaBan()
     return array(
         //'ADMIN'=>'Đơn vị tổng hợp toàn Tỉnh',
         'T' => 'Đơn vị hành chính cấp Tỉnh',
-        'H' => 'Đơn vị hành chính cấp Thành phố, Huyện',
-        'X' => 'Đơn vị hành chính cấp Xã, Phường, Thị trấn',
+        'H' => 'Đơn vị hành chính cấp Huyện',
+        'X' => 'Đơn vị hành chính cấp Xã',
     );
 }
 
@@ -873,8 +873,8 @@ function getPhamViApDung()
         //'ADMIN'=>'Đơn vị tổng hợp toàn Tỉnh',
         'TW' => 'Cấp Nhà nước',
         'T' => 'Cấp Tỉnh',
-        'H' => 'Cấp Thành phố, Thị xã, Huyện',
-        'X' => 'Cấp Xã, Phường, Thị trấn',
+        'H' => 'Cấp Huyện',
+        'X' => 'Cấp Xã',
     );
 }
 

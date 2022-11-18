@@ -188,41 +188,7 @@ class baocaotonghopController extends Controller
             //->with('a_phamvi', getPhamViPhongTrao())
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Báo cáo tổng hợp hồ sơ thi đua, khen thưởng');
-    }
-
-    //bỏ
-    public function DanhHieu(Request $request)
-    {
-        //Không bao gồm các hồ sơ cụm khối thi đua
-        $inputs = $request->all();
-        $m_hoso = dshosothiduakhenthuong::wherenotin('trangthai', ['CC', 'BTL'])->get();
-        $m_khenthuong = dshosokhenthuong_khenthuong::all();
-        foreach ($m_khenthuong as $khenthuong) {
-            $khenthuong->madonvi = $m_hoso->where('mahosotdkt', $khenthuong->mahosotdkt)->first()->madonvi ?? null;
-        }
-        $m_khenthuong = $m_khenthuong->where('madonvi', '<>', null);
-        $model = viewdiabandonvi::wherein('madonvi', array_column($m_khenthuong->toArray(), 'madonvi'))->get();
-        $m_danhhieu = dmdanhhieuthidua::wherein('madanhhieutd', array_column($m_khenthuong->toArray(), 'madanhhieutd'))->get();
-
-        //$m_loaihinhkt = getLoaiHinhKhenThuong();
-        $a_diaban = array_column($model->toArray(), 'tendiaban', 'madiaban');
-        foreach ($model as $ct) {
-            foreach ($m_danhhieu as $danhhieu) {
-                $madanhhieutd = (string)$danhhieu->madanhhieutd;
-                $ct->$madanhhieutd = $m_khenthuong->where('madonvi', $ct->madonvi)->where('madanhhieutd', $madanhhieutd)->count();
-            }
-        }
-        //dd($model);
-        $m_donvibc = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
-        return view('BaoCao.TongHop.DanhHieu')
-            ->with('model', $model)
-            ->with('m_donvi', $m_donvibc)
-            ->with('a_diaban', $a_diaban)
-            ->with('a_danhhieutd', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
-            //->with('a_phamvi', getPhamViPhongTrao())
-            ->with('inputs', $inputs)
-            ->with('pageTitle', 'Báo cáo tổng hợp danh hiệu thi đua');
-    }
+    }    
 
     public function KhenThuong_m1(Request $request)
     {

@@ -66,7 +66,7 @@
                     <th width="5%">STT</th>
                     <th>Đối tượng áp dụng</th>
                     <th>Tên tiêu chuẩn xét khen thưởng</th>
-                    <th width="25%">Ghi chú</th>
+                    <th width="25%">Mở rộng tiêu chuẩn</th>
                 </tr>
             </thead>
             <?php $i = 1; ?>
