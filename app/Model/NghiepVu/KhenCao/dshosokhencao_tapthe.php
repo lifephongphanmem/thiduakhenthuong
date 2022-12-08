@@ -24,5 +24,13 @@ class dshosokhencao_tapthe extends Model
         'lydo',
         'noidungkhenthuong', //in trên phôi bằng khen
         'madonvi', //phục vụ lấy dữ liệu
+        'toado_tendoituong',
+        'toado_noidungkhenthuong',
+        'toado_quyetdinh',
+        'toado_ngayqd',
+        'toado_chucvunguoikyqd',
+        'toado_hotennguoikyqd',
+        'toado_donvikhenthuong',
+        'toado_sokhenthuong',
     ];
 }

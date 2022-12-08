@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\NghiepVu\_DungChung\dungchung_nghiepvuController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\NghiepVu\KhenThuongCongTrang\dshosodenghikhenthuongcongtrangController;
@@ -52,13 +54,13 @@ Route::group(['prefix' => 'KhenThuongCongTrang'], function () {
         Route::post('PheDuyet', [dshosokhenthuongcongtrangController::class, 'LuuPheDuyet']);
         Route::post('HuyPheDuyet', [dshosokhenthuongcongtrangController::class, 'HuyPheDuyet']);
         Route::get('InQuyetDinh', [dshosokhenthuongcongtrangController::class, 'InQuyetDinh']);
-        Route::get('InPhoi', [dshosokhenthuongcongtrangController::class, 'InPhoi']);
+        // Route::get('InPhoi', [dungchung_nghiepvuController::class, 'InPhoi']);
 
-        Route::post('NoiDungKhenThuong', [dshosokhenthuongcongtrangController::class, 'NoiDungKhenThuong']);
-        Route::get('InBangKhenCaNhan', [dshosokhenthuongcongtrangController::class, 'InBangKhenCaNhan']);
-        Route::get('InBangKhenTapThe', [dshosokhenthuongcongtrangController::class, 'InBangKhenTapThe']);
-        Route::get('InGiayKhenCaNhan', [dshosokhenthuongcongtrangController::class, 'InGiayKhenCaNhan']);
-        Route::get('InGiayKhenTapThe', [dshosokhenthuongcongtrangController::class, 'InGiayKhenTapThe']);
+        // Route::post('NoiDungKhenThuong', [dshosokhenthuongcongtrangController::class, 'NoiDungKhenThuong']);
+        // Route::get('InBangKhenCaNhan', [dshosokhenthuongcongtrangController::class, 'InBangKhenCaNhan']);
+        // Route::get('InBangKhenTapThe', [dshosokhenthuongcongtrangController::class, 'InBangKhenTapThe']);
+        // Route::get('InGiayKhenCaNhan', [dshosokhenthuongcongtrangController::class, 'InGiayKhenCaNhan']);
+        // Route::get('InGiayKhenTapThe', [dshosokhenthuongcongtrangController::class, 'InGiayKhenTapThe']);
         //09.11.2022
         Route::get('ToTrinhHoSo', [dshosokhenthuongcongtrangController::class, 'ToTrinhHoSo']);
         Route::post('ToTrinhHoSo', [dshosokhenthuongcongtrangController::class, 'LuuToTrinhHoSo']);

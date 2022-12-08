@@ -68,7 +68,7 @@
                 <div id="div_inPhoi">
                     <div class="row">
                         <div class="col-lg-12">
-                            <a onclick="setInDL($(this), '{{ $inputs['url_hs'] . 'InPhoi' }}')"
+                            <a onclick="setInDL($(this), '/DungChung/InPhoiKhenThuong')"
                                 class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
                                 <i class="la flaticon2-print"></i>In phôi bằng khen, giấy khen
                             </a>

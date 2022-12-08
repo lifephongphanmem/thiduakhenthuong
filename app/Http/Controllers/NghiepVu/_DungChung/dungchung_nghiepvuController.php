@@ -6,12 +6,15 @@ namespace App\Http\Controllers\NghiepVu\_DungChung;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
 use App\Model\DanhMuc\dmnhomphanloai_chitiet;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothamgiaphongtraotd;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
+use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_canhan;
+use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tapthe;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua;
 
 class dungchung_nghiepvuController extends Controller
@@ -238,6 +241,7 @@ class dungchung_nghiepvuController extends Controller
             $result['status'] = 'success';
         }
     }
+
     public function DinhKemHoSoThamGia(Request $request)
     {
         $result = array(
@@ -535,10 +539,10 @@ class dungchung_nghiepvuController extends Controller
         if (isset($model)) {
             //$a_hinhthuckt = array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt');
             //$a_danhhieutd = array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd');
-            $a_tapthe = array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai');
+            //$a_tapthe = array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai');
             $a_dhkt = getDanhHieuKhenThuong('ALL');
-            $a_loaihinh = array_column(dmloaihinhkhenthuong::all()->toarray(), 'tenloaihinhkt', 'maloaihinhkt');
-            $a_linhvuc = getLinhVucHoatDong();
+            //$a_loaihinh = array_column(dmloaihinhkhenthuong::all()->toarray(), 'tenloaihinhkt', 'maloaihinhkt');
+            //$a_linhvuc = getLinhVucHoatDong();
 
             $result['message'] = '<div class="row" id="dskhenthuonghogiadinh">';
             $result['message'] .= '<div class="col-md-12">';
@@ -585,4 +589,29 @@ class dungchung_nghiepvuController extends Controller
             $result['status'] = 'success';
         }
     }
+
+    public function InPhoi(Request $request)
+    {
+        $inputs = $request->all();
+        $inputs['url_hs'] = '/KhenThuongCongTrang/HoSoKT/';
+        $inputs['url_xd'] = '/KhenThuongCongTrang/HoSoKT/';
+        $inputs['url_qd'] = '/KhenThuongCongTrang/HoSoKT/';
+        $model =  dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
+        $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
+        $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
+        $a_dhkt = getDanhHieuKhenThuong('ALL');
+        $model->tendonvi = $m_donvi->tendonvi;
+        return view('NghiepVu._DungChung.InPhoi')
+            ->with('a_dhkt', $a_dhkt)
+            ->with('model', $model)
+            ->with('model_canhan', $model_canhan)
+            ->with('model_tapthe', $model_tapthe)
+            ->with('m_donvi', $m_donvi)
+            //->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
+            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+            ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'In bằng khen');
+    }    
 }
