@@ -26,6 +26,7 @@ class CreateDsdonviTable extends Migration
             $table->string('cdketoan',50)->nullable();
             $table->string('ketoan',50)->nullable();
             $table->double('songuoi')->default(0);
+            $table->double('sochu')->default(15);//số chữ trên 1 dòng in phôi
             $table->string('diadanh',50)->nullable();
             $table->string('nguoilapbieu',50)->nullable();
             $table->string('madonviQL',50)->nullable();

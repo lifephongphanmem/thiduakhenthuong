@@ -11,6 +11,7 @@ class dmtoadoinphoi extends Model
         'id',
         'phanloaikhenthuong', //Cụm khối; Khen thưởng
         'phanloaidoituong', //Cá nhân, tập thể, hộ gia đình
+        'madonvi',
         'maloaihinhkt',
         'toado_tendoituong',
         'toado_noidungkhenthuong',

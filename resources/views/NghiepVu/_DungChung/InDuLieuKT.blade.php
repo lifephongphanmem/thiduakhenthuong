@@ -68,7 +68,7 @@
                 <div id="div_inPhoi">
                     <div class="row">
                         <div class="col-lg-12">
-                            <a onclick="setInDL($(this), '/DungChung/InPhoiKhenThuong')"
+                            <a onclick="setInDL($(this), '/DungChung/InPhoiKhenThuong/DanhSach')"
                                 class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
                                 <i class="la flaticon2-print"></i>In phôi bằng khen, giấy khen
                             </a>

@@ -167,12 +167,12 @@
                                                                     <i class="icon-lg la fa-edit text-primary icon-2x"></i>
                                                                 </button>
                                                                 <a target="_blank" title="In phôi bằng khen"
-                                                                    href="{{ url('/DungChung/InBangKhenTapThe?id=' . $tt->id) }}"
+                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InBangKhenTapThe?id=' . $tt->id) }}"
                                                                     class="btn btn-sm btn-clean btn-icon">
                                                                     <i class="icon-lg la la-file-invoice text-dark icon-2x"></i>
                                                                 </a>
                                                                 <a target="_blank" title="In phôi giấy khen"
-                                                                    href="{{ url('/DungChung/InGiayKhenTapThe?id=' . $tt->id) }}"
+                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InGiayKhenTapThe?id=' . $tt->id) }}"
                                                                     class="btn btn-sm btn-clean btn-icon">
                                                                     <i class="icon-lg la la-file-contract text-dark icon-2x"></i>
                                                                 </a>
@@ -229,12 +229,12 @@
                                                                     <i class="icon-lg la fa-edit text-primary icon-2x"></i>
                                                                 </button>
                                                                 <a target="_blank" title="In phôi bằng khen"
-                                                                    href="{{ url('/DungChung/InBangKhenCaNhan?id=' . $tt->id) }}"
+                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InBangKhenCaNhan?id=' . $tt->id) }}"
                                                                     class="btn btn-sm btn-clean btn-icon">
                                                                     <i class="icon-lg la la-file-invoice text-dark icon-2x"></i>
                                                                 </a>
                                                                 <a target="_blank" title="In phôi giấy khen"
-                                                                    href="{{ url('/DungChung/InGiayKhenCaNhan?id=' . $tt->id) }}"
+                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InGiayKhenCaNhan?id=' . $tt->id) }}"
                                                                     class="btn btn-sm btn-clean btn-icon">
                                                                     <i class="icon-lg la la-file-contract text-dark icon-2x"></i>
                                                                 </a>

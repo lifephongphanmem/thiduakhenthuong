@@ -4,50 +4,48 @@
     @foreach ($model as $doituong)
         <table cellspacing="0" cellpadding="0" border="0" background="{{ url('/assets/media/phoi/BangKhen.jpg') }}"
             style="height: 297mm;width: 420mm;background-repeat: no-repeat;background-size: 100% 100%;">
-            {{-- <tr style="height: 10.5cm"> --}}
+
             <tr>
                 <td colspan="2">
-                    <button style="" id="flying1">
-                        <p>{{ $doituong->tentapthe }}</p>
+                    <button style="{{ $doituong->toado_tendoituong }}" id="toado_tendoituong">
+                        {{ $doituong->tentapthe }}
                     </button>
                 </td>
             </tr>
-            {{-- <tr style="height: 2cm"> --}}
+
             <tr>
                 <td colspan="2">
-                    <button style="" id="flying2" ondblclick="setNoiDung()">
-                        <p>{{ $doituong->noidungkhenthuong }}</p>
+                    <button style="{{ $doituong->toado_noidungkhenthuong }}" id="toado_noidungkhenthuong" ondblclick="setNoiDung()">
+                        {!! $doituong->noidungkhenthuong !!}
                     </button>
                 </td>
             </tr>
-            {{-- <tr style="height: 2cm"> --}}
+
             <tr>
                 <td style="width: 60%;"></td>
                 <td>
-                    <button style="" id="flying3">
-                        <p>{{ $m_hoso->diadanh . ', ' . Date2Str($m_hoso->ngayhoso) }}</p>
+                    <button style="{{ $doituong->toado_ngayqd }}" id="toado_ngayqd">
+                        {!! $doituong->ngayqd !!}
                     </button>
                 </td>
             </tr>
-            {{-- <tr style="height: 1cm"> --}}
-            <tr>
-                <td style="width: 50%;">
 
-                </td>
-                <td>
-                    <button style="" id="flying4">
-                        <p>{{ $m_hoso->chucvunguoiky }}</p>
+            <tr>
+                <td style="width: 50%;"></td>
+
+                <td style="text-align: center">
+                    <button style="{{ $doituong->toado_chucvunguoikyqd }}" id="toado_chucvunguoikyqd">
+                        {{ $doituong->chucvunguoikyqd }}
                     </button>
                 </td>
             </tr>
-            {{-- <tr style="height: 5cm"> --}}
-            <tr>
-                <td style="width: 50%;">
 
-                </td>
-                <td style="text-align: center; font-size: 20px;">
-                    <button style="" id="flying5">
-                        <p>{{ $m_hoso->hotennguoiky }}</p>
+            <tr>
+                <td style="width: 50%;"></td>
+
+                <td style="text-align: center">
+                    <button style="{{ $doituong->toado_hotennguoikyqd }}" style="" id="toado_hotennguoikyqd">
+                        {{ $doituong->hotennguoikyqd }}
                     </button>
                 </td>
             </tr>

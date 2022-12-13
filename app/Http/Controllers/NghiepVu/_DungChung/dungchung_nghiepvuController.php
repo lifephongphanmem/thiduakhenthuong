@@ -9,11 +9,16 @@ use App\Http\Controllers\Controller;
 use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
 use App\Model\DanhMuc\dmnhomphanloai_chitiet;
+use App\Model\DanhMuc\dmtoadoinphoi;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi;
+use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_canhan;
+use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_hogiadinh;
+use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_tapthe;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothamgiaphongtraotd;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_canhan;
+use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_hogiadinh;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tapthe;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua;
 
@@ -613,5 +618,86 @@ class dungchung_nghiepvuController extends Controller
             ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
             ->with('inputs', $inputs)
             ->with('pageTitle', 'In bằng khen');
-    }    
+    }
+
+    public function LuuToaDo(Request $request)
+    {
+        $inputs = $request->all();
+        switch ($inputs["phanloaikhenthuong"]) {
+            case "KHENTHUONG": {
+                    switch ($inputs["phanloaidoituong"]) {
+                        case "TAPTHE": {
+                                // dd($this->setToaDo($inputs));
+                                dshosothiduakhenthuong_tapthe::where('id', $inputs['id'])->update($this->setToaDo($inputs));
+                                break;
+                            }
+                        case "CANHAN": {
+                                dshosothiduakhenthuong_canhan::where('id', $inputs['id'])->update($this->setToaDo($inputs));
+                                break;
+                            }
+                        case "HOGIADINH": {
+                                dshosothiduakhenthuong_hogiadinh::where('id', $inputs['id'])->update($this->setToaDo($inputs));
+                                break;
+                            }
+                    }
+                    break;
+                }
+            case "CUMKHOI": {
+                    switch ($inputs["phanloaidoituong"]) {
+                        case "TAPTHE": {
+                                dshosotdktcumkhoi_tapthe::where('id', $inputs['id'])->update($this->setToaDo($inputs));
+                                break;
+                            }
+                        case "CANHAN": {
+                                dshosotdktcumkhoi_canhan::where('id', $inputs['id'])->update($this->setToaDo($inputs));
+                                break;
+                            }
+                        case "HOGIADINH": {
+                                dshosotdktcumkhoi_hogiadinh::where('id', $inputs['id'])->update($this->setToaDo($inputs));
+                                break;
+                            }
+                    }
+                    break;
+                }
+        }
+        $result['status'] = 'success';
+        $result['message'] = 'Lưu tọa độ thành công.';
+        die(json_encode($result));
+    }
+
+    public function GanToaDoMacDinh(Request $request)
+    {
+        $inputs = $request->all();
+        $model = dmtoadoinphoi::where('phanloaikhenthuong', $inputs['phanloaikhenthuong'])
+            ->where('phanloaidoituong', $inputs['phanloaidoituong'])
+            ->where('madonvi', $inputs['madonvi'])->first();
+        if ($model != null) {
+            $model->update([
+                'toado_tendoituong' => $inputs['toado_tendoituong'],
+                'toado_noidungkhenthuong' => $inputs['toado_noidungkhenthuong'],
+                'toado_ngayqd' => $inputs['toado_ngayqd'],
+                'toado_chucvunguoikyqd' => $inputs['toado_chucvunguoikyqd'],
+                'toado_hotennguoikyqd' => $inputs['toado_hotennguoikyqd'],
+                'phanloaikhenthuong' => $inputs['phanloaikhenthuong'],
+                'phanloaidoituong' => $inputs['phanloaidoituong'],
+                'madonvi' => $inputs['madonvi'],
+            ]);
+        } else
+            dmtoadoinphoi::created($inputs);
+
+        $result['status'] = 'success';
+        $result['message'] = 'Lưu tọa độ thành công.';
+        die(json_encode($result));
+    }
+
+    function setToaDo($inputs)
+    {
+        return  [
+            'toado_tendoituong' => $inputs['toado_tendoituong'],
+            'toado_noidungkhenthuong' => $inputs['toado_noidungkhenthuong'],
+            'toado_ngayqd' => $inputs['toado_ngayqd'],
+            'toado_chucvunguoikyqd' => $inputs['toado_chucvunguoikyqd'],
+            'toado_hotennguoikyqd' => $inputs['toado_hotennguoikyqd'],
+        ];
+    }
 }

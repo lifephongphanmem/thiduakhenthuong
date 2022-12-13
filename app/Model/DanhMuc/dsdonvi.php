@@ -34,5 +34,6 @@ class dsdonvi extends Model
         'madinhdanh',
         'tendvhienthi',
         'tendvcqhienthi',
+        'sochu',//Số chữ trên 1 dòng
     ];
 }
