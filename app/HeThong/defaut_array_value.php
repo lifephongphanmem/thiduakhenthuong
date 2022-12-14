@@ -22,6 +22,7 @@ function getChucVuKhenThuong($capdo = 'T')
     );
 }
 
+
 function getLinhVucHoatDong()
 {
     return array(

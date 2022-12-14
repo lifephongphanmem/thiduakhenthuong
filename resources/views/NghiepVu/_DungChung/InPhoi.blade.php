@@ -160,19 +160,19 @@
                                                                 {{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}
                                                             </td>
                                                             <td class="text-center">
-                                                                <button title="Sửa thông tin" type="button"
+                                                                {{-- <button title="Sửa thông tin" type="button"
                                                                     onclick="getTapThe('{{ $tt->id }}', 'TAPTHE')"
                                                                     class="btn btn-sm btn-clean btn-icon"
                                                                     data-target="#modal-thaydoi" data-toggle="modal">
                                                                     <i class="icon-lg la fa-edit text-primary icon-2x"></i>
-                                                                </button>
+                                                                </button> --}}
                                                                 <a target="_blank" title="In phôi bằng khen"
-                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InBangKhenTapThe?id=' . $tt->id) }}"
+                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InBangKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=TAPTHE&id=' . $tt->id) }}"
                                                                     class="btn btn-sm btn-clean btn-icon">
                                                                     <i class="icon-lg la la-file-invoice text-dark icon-2x"></i>
                                                                 </a>
                                                                 <a target="_blank" title="In phôi giấy khen"
-                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InGiayKhenTapThe?id=' . $tt->id) }}"
+                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InGiayKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=TAPTHE&id=' . $tt->id) }}"
                                                                     class="btn btn-sm btn-clean btn-icon">
                                                                     <i class="icon-lg la la-file-contract text-dark icon-2x"></i>
                                                                 </a>
@@ -222,19 +222,19 @@
                                                                 {{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}
                                                             </td>
                                                             <td class="text-center">
-                                                                <button title="Sửa thông tin" type="button"
+                                                                {{-- <button title="Sửa thông tin" type="button"
                                                                     onclick="getCaNhan('{{ $tt->id }}', 'CANHAN')"
                                                                     class="btn btn-sm btn-clean btn-icon"
                                                                     data-target="#modal-thaydoi" data-toggle="modal">
                                                                     <i class="icon-lg la fa-edit text-primary icon-2x"></i>
-                                                                </button>
+                                                                </button> --}}
                                                                 <a target="_blank" title="In phôi bằng khen"
-                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InBangKhenCaNhan?id=' . $tt->id) }}"
+                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InBangKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=CANHAN&id=' . $tt->id) }}"
                                                                     class="btn btn-sm btn-clean btn-icon">
                                                                     <i class="icon-lg la la-file-invoice text-dark icon-2x"></i>
                                                                 </a>
                                                                 <a target="_blank" title="In phôi giấy khen"
-                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InGiayKhenCaNhan?id=' . $tt->id) }}"
+                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InGiayKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=CANHAN&id=' . $tt->id) }}"
                                                                     class="btn btn-sm btn-clean btn-icon">
                                                                     <i class="icon-lg la la-file-contract text-dark icon-2x"></i>
                                                                 </a>

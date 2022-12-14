@@ -29,12 +29,12 @@
 
 <body>
     @foreach ($model as $doituong)
-        <table cellspacing="0" cellpadding="0" border="0" background="{{ url('/assets/media/phoi/BangKhen.jpg') }}"
-            style="background-repeat: no-repeat;background-size: 100% 100%;">
+        <table cellspacing="0" cellpadding="0" border="0" background="{{ url('/assets/media/phoi/GiayKhen1.jpg') }}"
+            style="background-repeat: no-repeat;background-size: 100% 115%;">
             <tr style="height: 10.5cm">
                 <td colspan="2"
                     style="text-align: center; font-size: 30px; text-transform: uppercase;vertical-align: bottom">
-                    <b>Tập thể: {{ $doituong->tentapthe }}</b>
+                    <b>Ông/Bà: {{ $doituong->tentapthe }}</b>
                 </td>
             </tr>
             <tr style="height: 2cm">
@@ -69,8 +69,6 @@
         </table>
         <p style="page-break-before: always">
     @endforeach
-
-
 </body>
 
 </html>

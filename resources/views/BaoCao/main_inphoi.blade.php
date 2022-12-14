@@ -24,7 +24,7 @@
         table,
         p {
             width: 100%;
-            margin: auto;
+            /* margin: auto; */
         }
 
         button {
@@ -208,7 +208,7 @@
     </script>
 
     <style>
-        #toado_tendoituong,
+        #toado_tendoituongin,
         #toado_noidungkhenthuong,
         #toado_ngayqd,
         #toado_chucvunguoikyqd,
@@ -225,11 +225,27 @@
         window.addEventListener('load', myInitFunc, false);
 
         function myInitFunc() {
-            byId('toado_tendoituong').addEventListener('mousedown', onImgMouseDown, false);
+            byId('toado_tendoituongin').addEventListener('mousedown', onImgMouseDown, false);
             byId('toado_noidungkhenthuong').addEventListener('mousedown', onImgMouseDown, false);
             byId('toado_ngayqd').addEventListener('mousedown', onImgMouseDown, false);
             byId('toado_chucvunguoikyqd').addEventListener('mousedown', onImgMouseDown, false);
             byId('toado_hotennguoikyqd').addEventListener('mousedown', onImgMouseDown, false);
+        }
+
+        function getStyle(e) {
+            var mElem = document.getElementById(e);
+            var fontSize = mElem.style.fontSize;
+            if (fontSize == '')
+                fontSize = '20px';
+            var fontWeight = mElem.style.fontWeight;
+            if (fontWeight == '')
+                fontWeight = 'normal';
+            var fontStyle = mElem.style.fontStyle;
+            if (fontStyle == '')
+                fontStyle = 'normal';
+            return 'top:' + mElem.style.top + ';' + 'left:' + mElem.style.left + ';' +
+                'font-size:' + fontSize + ';' + 'font-weight:' + fontWeight + ';' + 'font-style:' + fontStyle + ';'
+
         }
 
         function onImgMouseDown(e) {
@@ -260,24 +276,16 @@
 
         function setToaDo() {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            var toado1 = $("#toado_tendoituong").position();
-            var toado2 = $("#toado_noidungkhenthuong").position();
-            var toado3 = $("#toado_ngayqd").position();
-            var toado4 = $("#toado_chucvunguoikyqd").position();
-            var toado5 = $("#toado_hotennguoikyqd").position();
             $.ajax({
                 type: 'GET',
                 url: '/DungChung/LuuToaDo',
                 data: {
                     _token: CSRF_TOKEN,
-                    toado_tendoituong: 'top:' + toado1.top + 'px;left:' + toado1.left + 'px;',
-                    toado_noidungkhenthuong: 'top:' + toado2.top + 'px;left:' + toado2.left +
-                        'px;',
-                    toado_ngayqd: 'top:' + toado3.top + 'px;left:' + toado3.left + 'px;',
-                    toado_chucvunguoikyqd: 'top:' + toado4.top + 'px;left:' + toado4.left +
-                        'px;',
-                    toado_hotennguoikyqd: 'top:' + toado5.top + 'px;left:' + toado5.left +
-                        'px;',
+                    toado_tendoituongin: getStyle('toado_tendoituongin'),
+                    toado_noidungkhenthuong: getStyle('toado_noidungkhenthuong'),
+                    toado_ngayqd: getStyle('toado_ngayqd'),
+                    toado_chucvunguoikyqd: getStyle('toado_chucvunguoikyqd'),
+                    toado_hotennguoikyqd: getStyle('toado_hotennguoikyqd'),
 
                     id: "{{ $inputs['id'] }}",
                     phanloaikhenthuong: "{{ $inputs['phanloaikhenthuong'] }}",
@@ -285,48 +293,39 @@
                 },
                 dataType: 'JSON',
                 success: function(data) {
-                    //toastr.success(data.message,'Thông báo.')
-                    // if (data.status == 'success') {
-                    //     alert(data.message);
-                    location.reload();
-                    // }
+                    if (data.status == 'success') {
+                        alert(data.message);
+                        location.reload();
+                    }
                 }
 
             });
         }
 
         function setMacDinh() {
-            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            var toado1 = $("#toado_tendoituong").position();
-            var toado2 = $("#toado_noidungkhenthuong").position();
-            var toado3 = $("#toado_ngayqd").position();
-            var toado4 = $("#toado_chucvunguoikyqd").position();
-            var toado5 = $("#toado_hotennguoikyqd").position();
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');            
             $.ajax({
                 type: 'GET',
                 url: '/DungChung/GanToaDoMacDinh',
                 data: {
                     _token: CSRF_TOKEN,
-                    toado_tendoituong: 'top:' + toado1.top + 'px;left:' + toado1.left + 'px;',
-                    toado_noidungkhenthuong: 'top:' + toado2.top + 'px;left:' + toado2.left +
-                        'px;',
-                    toado_ngayqd: 'top:' + toado3.top + 'px;left:' + toado3.left + 'px;',
-                    toado_chucvunguoikyqd: 'top:' + toado4.top + 'px;left:' + toado4.left +
-                        'px;',
-                    toado_hotennguoikyqd: 'top:' + toado5.top + 'px;left:' + toado5.left +
-                        'px;',
-
+                    toado_tendoituongin: getStyle('toado_tendoituongin'),
+                    toado_noidungkhenthuong: getStyle('toado_noidungkhenthuong'),
+                    toado_ngayqd: getStyle('toado_ngayqd'),
+                    toado_chucvunguoikyqd: getStyle('toado_chucvunguoikyqd'),
+                    toado_hotennguoikyqd: getStyle('toado_hotennguoikyqd'),
                     madonvi: "{{ $m_hoso['madonvi'] }}",
                     phanloaikhenthuong: "{{ $inputs['phanloaikhenthuong'] }}",
                     phanloaidoituong: "{{ $inputs['phanloaidoituong'] }}",
+                    phanloaiphoi: "{{ $inputs['phanloaiphoi'] }}",
                 },
                 dataType: 'JSON',
                 success: function(data) {
-                    //toastr.success(data.message,'Thông báo.')
-                    // if (data.status == 'success') {
-                    alert(data.message);
-                    //location.reload();
-                    // }
+                    console.log(data);
+                    if (data.status == 'success') {
+                        alert(data.message);
+                        location.reload();
+                    }
                 }
 
             });
@@ -359,21 +358,104 @@
                 <li>
                     <button type="button" class="btn btn-info btn-xs" style="border-radius: 20px;"
                         onclick="setMacDinh()">
-                        <i class="fa fa-file-excel-o"></i> Đặt làm mặc định++++++
+                        <i class="fa fa-file-excel-o"></i> Đặt làm mặc định
                     </button>
                 </li>
             </ul>
         </nav>
     </div>
 
-    <div id="data" style="position: relative; margin-top: 35px;">
+    <div id="data" style="position: relative;">
         @yield('content')
     </div>
 </body>
 
+{{-- Cá nhân --}}
+{!! Form::open([
+    'url' => '/DungChung/LuuThayDoiViTri',
+    'id' => 'frm_ThayDoi',
+    'class' => 'form',
+    'files' => true,
+    'enctype' => 'multipart/form-data',
+]) !!}
+<input type="hidden" name="id" />
+<input type="hidden" name="mahoso" />
+<input type="hidden" name="tentruong" />
+<input type="hidden" name="toado" />
+<input type="hidden" name="phanloaikhenthuong" value="{{ $inputs['phanloaikhenthuong'] }}" />
+<input type="hidden" name="phanloaidoituong" value="{{ $inputs['phanloaidoituong'] }}" />
+<input type="hidden" name="phanloaiphoi" value="{{ $inputs['phanloaiphoi'] }}" />
+<div class="modal fade bs-modal-lg" id="modal-thaydoi" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Thông tin chi tiết</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label class="form-control-label">Nội dung in phôi</label>
+                        {!! Form::text('noidung', null, ['class' => 'form-control']) !!}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label class="form-control-label">Cỡ chữ</label>
+                        {{-- {!! Form::number('font-size', '20', ['class' => 'form-control']) !!} --}}
+                        {!! Form::text('font-size', '20px', ['class' => 'form-control']) !!}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-control-label">In đậm</label>
+                        {!! Form::select('font-weight', ['normal' => 'Bình thường', 'bold' => 'In đậm'], null, [
+                            'class' => 'form-control',
+                        ]) !!}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-control-label">In nghiêng</label>
+                        {!! Form::select('font-style', ['normal' => 'Bình thường', 'italic' => 'In nghiêng'], null, [
+                            'class' => 'form-control',
+                        ]) !!}
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-default">Thoát</button>
+                <button type="submit" class="btn btn-primary">Hoàn thành</button>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>
+{!! Form::close() !!}
+
 <script>
-    function setNoiDung() {
-        alert('ok');
+    function setNoiDung(id, toado, noidung, mahoso, tentruong) {
+
+        var element = document.getElementById(tentruong); //replace elementId with your element's Id.
+        var rect = element.getBoundingClientRect();
+        var elementLeft, elementTop; //x and y
+        var scrollTop = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body
+            .scrollTop;
+        var scrollLeft = document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body
+            .scrollLeft;
+        elementTop = rect.top + scrollTop;
+        elementLeft = rect.left + scrollLeft;
+
+        $('#modal-thaydoi').modal("show");
+        //var toado = byId(tentruong).getBoundingClientRect();
+        var form = $('#frm_ThayDoi');
+        form.find("[name='id']").val(id);
+        form.find("[name='mahoso']").val(mahoso);
+        form.find("[name='toado']").val('top:' + elementTop + 'px;left:' + elementLeft + 'px;');
+        form.find("[name='noidung']").val(noidung);
+        form.find("[name='tentruong']").val(tentruong);
+        var a_style = toado.split(';');
+        if (a_style[2] !== undefined) {
+            form.find("[name='font-size']").val(a_style[2].split(':')[1]);
+        }
     }
 </script>
 

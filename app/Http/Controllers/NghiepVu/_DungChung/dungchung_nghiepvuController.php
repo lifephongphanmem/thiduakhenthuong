@@ -670,34 +670,122 @@ class dungchung_nghiepvuController extends Controller
         $inputs = $request->all();
         $model = dmtoadoinphoi::where('phanloaikhenthuong', $inputs['phanloaikhenthuong'])
             ->where('phanloaidoituong', $inputs['phanloaidoituong'])
+            ->where('phanloaiphoi', $inputs['phanloaiphoi'])
             ->where('madonvi', $inputs['madonvi'])->first();
+
         if ($model != null) {
             $model->update([
-                'toado_tendoituong' => $inputs['toado_tendoituong'],
+                'toado_tendoituongin' => $inputs['toado_tendoituongin'],
                 'toado_noidungkhenthuong' => $inputs['toado_noidungkhenthuong'],
                 'toado_ngayqd' => $inputs['toado_ngayqd'],
                 'toado_chucvunguoikyqd' => $inputs['toado_chucvunguoikyqd'],
                 'toado_hotennguoikyqd' => $inputs['toado_hotennguoikyqd'],
                 'phanloaikhenthuong' => $inputs['phanloaikhenthuong'],
                 'phanloaidoituong' => $inputs['phanloaidoituong'],
+                'phanloaiphoi' => $inputs['phanloaiphoi'],
                 'madonvi' => $inputs['madonvi'],
             ]);
         } else
-            dmtoadoinphoi::created($inputs);
+            dmtoadoinphoi::create($inputs);
 
         $result['status'] = 'success';
-        $result['message'] = 'Lưu tọa độ thành công.';
+        $result['message'] = 'Đặt tọa độ mặc định thành công.';
         die(json_encode($result));
     }
 
     function setToaDo($inputs)
     {
         return  [
-            'toado_tendoituong' => $inputs['toado_tendoituong'],
+            'toado_tendoituongin' => $inputs['toado_tendoituongin'],
             'toado_noidungkhenthuong' => $inputs['toado_noidungkhenthuong'],
             'toado_ngayqd' => $inputs['toado_ngayqd'],
             'toado_chucvunguoikyqd' => $inputs['toado_chucvunguoikyqd'],
             'toado_hotennguoikyqd' => $inputs['toado_hotennguoikyqd'],
+        ];
+    }
+
+    public function LuuThayDoiViTri(Request $request)
+    {
+        $inputs = $request->all();        
+        switch ($inputs["phanloaikhenthuong"]) {
+            case "KHENTHUONG": {
+                    switch ($inputs["phanloaidoituong"]) {
+                        case "TAPTHE": {
+                                //dd($this->setViTri($inputs));
+                                dshosothiduakhenthuong_tapthe::where('id', $inputs['id'])->update($this->setViTri($inputs));
+                                break;
+                            }
+                        case "CANHAN": {
+                                dshosothiduakhenthuong_canhan::where('id', $inputs['id'])->update($this->setViTri($inputs));
+                                //return redirect('/DungChung/InPhoiKhenThuong/InBangKhenCaNhan?id=' . $inputs['id']);
+                                break;
+                            }
+                        case "HOGIADINH": {
+                                dshosothiduakhenthuong_hogiadinh::where('id', $inputs['id'])->update($this->setViTri($inputs));
+                                //return redirect('/DungChung/InPhoiKhenThuong/InBangKhenHoGiaDinh?id=' . $inputs['id']);
+                                break;
+                            }
+                    }
+                    break;
+                }
+            case "CUMKHOI": {
+                    switch ($inputs["phanloaidoituong"]) {
+                        case "TAPTHE": {
+                                dshosotdktcumkhoi_tapthe::where('id', $inputs['id'])->update($this->setViTri($inputs));
+                                //return redirect('/DungChung/InPhoiKhenThuong/InGiayKhenTapThe?id=' . $inputs['id']);
+                                break;
+                            }
+                        case "CANHAN": {
+                                dshosotdktcumkhoi_canhan::where('id', $inputs['id'])->update($this->setViTri($inputs));
+                                //return redirect('/DungChung/InPhoiKhenThuong/InGiayKhenCaNhan?id=' . $inputs['id']);
+                                break;
+                            }
+                        case "HOGIADINH": {
+                                dshosotdktcumkhoi_hogiadinh::where('id', $inputs['id'])->update($this->setViTri($inputs));
+                                //return redirect('/DungChung/InPhoiKhenThuong/InGiayKhenHoGiaDinh?id=' . $inputs['id']);
+                                break;
+                            }
+                    }
+                    break;
+                }
+        }
+
+        if ($inputs["phanloaiphoi"] == 'BANGKHEN')
+            return redirect('/DungChung/InPhoiKhenThuong/InBangKhen?phanloaikhenthuong=' . $inputs['phanloaikhenthuong'] . '&phanloaidoituong=' . $inputs['phanloaidoituong'] . '&id=' . $inputs['id']);
+        else
+        return redirect('/DungChung/InPhoiKhenThuong/InGiayKhen?phanloaikhenthuong=' . $inputs['phanloaikhenthuong'] . '&phanloaidoituong=' . $inputs['phanloaidoituong'] . '&id=' . $inputs['id']);
+    }
+
+    function setViTri($inputs)
+    {
+        switch ($inputs['tentruong']) {
+            case "toado_tendoituongin": {
+                    $tentruong = 'tendoituongin';
+                    break;
+                }
+            case "toado_ngayqd": {
+                    $tentruong = 'ngayqd';
+                    break;
+                }
+            case "toado_chucvunguoikyqd": {
+                    $tentruong = 'chucvunguoikyqd';
+                    break;
+                }
+            case "toado_hotennguoikyqd": {
+                    $tentruong = 'hotennguoikyqd';
+                    break;
+                }
+            default: {
+                    $tentruong = 'noidungkhenthuong';
+                }
+        }
+
+        return  [
+            $inputs['tentruong'] => $inputs['toado']
+                . 'font-size:' . $inputs['font-size'] . ';'
+                . 'font-weight:' . $inputs['font-weight'] . ';'
+                . 'font-style:' . $inputs['font-style'] . ';',
+            $tentruong => $inputs['noidung'],
         ];
     }
 }

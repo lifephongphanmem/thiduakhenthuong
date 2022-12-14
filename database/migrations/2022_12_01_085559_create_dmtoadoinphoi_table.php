@@ -17,9 +17,10 @@ class CreateDmtoadoinphoiTable extends Migration
             $table->bigIncrements('id');
             $table->string('phanloaikhenthuong')->nullable();//Cụm khối; Khen thưởng
             $table->string('phanloaidoituong')->nullable();//Cá nhân, tập thể, hộ gia đình
+            $table->string('phanloaiphoi')->nullable();//Cá nhân, tập thể, hộ gia đình
             $table->string('madonvi')->nullable();
             $table->string('maloaihinhkt')->nullable();
-            $table->string('toado_tendoituong')->nullable();
+            $table->string('toado_tendoituongin')->nullable();
             $table->string('toado_noidungkhenthuong')->nullable();
             $table->string('toado_quyetdinh')->nullable();
             $table->string('toado_ngayqd')->nullable();

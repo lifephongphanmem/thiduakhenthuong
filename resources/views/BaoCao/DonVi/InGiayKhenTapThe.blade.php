@@ -1,74 +1,67 @@
-<!DOCTYPE html
-    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+@extends('BaoCao.main_inphoi')
 
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>{{ $pageTitle }}</title>
-    <style type="text/css">
-        body {
-            font: normal 12px/16px time, serif;
-        }
-
-        table {
-            height: 21cm;
-            width: 30cm;
-            margin: auto;
-        }
-
-        table tr td:first-child {
-            text-align: center;
-        }
-
-        td,
-        th {
-            padding: 2px;
-        }
-    </style>
-</head>
-
-<body>
+@section('content')
     @foreach ($model as $doituong)
         <table cellspacing="0" cellpadding="0" border="0" background="{{ url('/assets/media/phoi/GiayKhen1.jpg') }}"
-            style="background-repeat: no-repeat;background-size: 100% 115%;">
-            <tr style="height: 10.5cm">
-                <td colspan="2"
-                    style="text-align: center; font-size: 30px; text-transform: uppercase;vertical-align: bottom">
-                    <b>Ông/Bà: {{ $doituong->tentapthe }}</b>
-                </td>
-            </tr>
-            <tr style="height: 2cm">
-                <td colspan="2" style="text-align: center; font-size: 25px;">
-                    {!! $doituong->noidungkhenthuong !!}
-                </td>
-            </tr>
-            <tr style="height: 2cm">
-                <td style="width: 50%;">
+            style="height: 297mm;width: 420mm;background-repeat: no-repeat;background-size: 100% 105%;">
 
-                </td>
-                <td style="text-align: center; font-size: 20px; vertical-align: bottom;font-style: italic">
-                    {{ $m_hoso->diadanh . ', ' . Date2Str($m_hoso->ngayhoso) }}
-                </td>
-            </tr>
-            <tr style="height: 1cm">
-                <td style="width: 50%;">
-
-                </td>
-                <td style="text-align: center; font-size: 20px; vertical-align: top">
-                    {{ $m_hoso->chucvunguoiky }}
-                </td>
-            </tr>
             <tr>
-                <td style="width: 50%;">
-
+                <td colspan="2">
+                    <label style="{{ $doituong->toado_tendoituongin }}" id="toado_tendoituongin"
+                        ondblclick="setNoiDung('{{ $doituong->id }}','{{ $doituong->toado_tendoituongin }}','{{ $doituong->tendoituongin }}','{{ $doituong->mahosotdkt }}','toado_tendoituongin')">
+                        {{ $doituong->tendoituongin }}
+                    </label>
                 </td>
-                <td style="text-align: center; font-size: 20px;">
-                    {{ $m_hoso->hotennguoiky }}
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <label style="{{ $doituong->toado_noidungkhenthuong }}" id="toado_noidungkhenthuong"
+                        ondblclick="setNoiDung('{{ $doituong->id }}','{{ $doituong->toado_noidungkhenthuong }}','{{ $doituong->noidungkhenthuong }}','{{ $doituong->mahosotdkt }}','toado_noidungkhenthuong')">
+                        {!! $doituong->noidungkhenthuong !!}
+                    </label>
+                </td>
+                {{-- <td colspan="2">
+                    <button style="{{ $doituong->toado_noidungkhenthuong }}" id="toado_noidungkhenthuong"
+                        ondblclick="setNoiDung('{{ $doituong->id }}','{{ $doituong->toado_noidungkhenthuong }}','{{ $doituong->noidungkhenthuong }}','{{ $doituong->mahosotdkt }}','toado_noidungkhenthuong')">
+                        {!! $doituong->noidungkhenthuong !!}
+                    </button>
+                </td> --}}
+            </tr>
+
+            <tr>
+                <td style="width: 60%;"></td>
+                <td>
+                    <label style="{{ $doituong->toado_ngayqd }}" id="toado_ngayqd"
+                        ondblclick="setNoiDung('{{ $doituong->id }}','{{ $doituong->toado_ngayqd }}','{{ $doituong->ngayqd }}','{{ $doituong->mahosotdkt }}','toado_ngayqd')">
+                        {!! $doituong->ngayqd !!}
+                    </label>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="width: 50%;"></td>
+
+                <td style="text-align: center">
+                    <label style="{{ $doituong->toado_chucvunguoikyqd }}" id="toado_chucvunguoikyqd"
+                        ondblclick="setNoiDung('{{ $doituong->id }}','{{ $doituong->toado_chucvunguoikyqd }}','{{ $doituong->chucvunguoikyqd }}','{{ $doituong->mahosotdkt }}','toado_chucvunguoikyqd')">
+                        {{ $doituong->chucvunguoikyqd }}
+                    </label>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="width: 50%;"></td>
+
+                <td style="text-align: center">
+                    <label style="{{ $doituong->toado_hotennguoikyqd }}" style="" id="toado_hotennguoikyqd"
+                        ondblclick="setNoiDung('{{ $doituong->id }}','{{ $doituong->toado_hotennguoikyqd }}','{{ $doituong->hotennguoikyqd }}','{{ $doituong->mahosotdkt }}','toado_hotennguoikyqd')">
+                        {{ $doituong->hotennguoikyqd }}
+                    </label>
                 </td>
             </tr>
         </table>
-        <p style="page-break-before: always">
+        {{-- <p style="page-break-before: always"> --}}
     @endforeach
-</body>
 
-</html>
+@stop

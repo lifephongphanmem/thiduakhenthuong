@@ -7,26 +7,35 @@
 
             <tr>
                 <td colspan="2">
-                    <button style="{{ $doituong->toado_tendoituong }}" id="toado_tendoituong">
-                        {{ $doituong->tentapthe }}
-                    </button>
+                    <label style="{{ $doituong->toado_tendoituongin }}" id="toado_tendoituongin"
+                        ondblclick="setNoiDung('{{ $doituong->id }}','{{ $doituong->toado_tendoituongin }}','{{ $doituong->tendoituongin }}','{{ $doituong->mahosotdkt }}','toado_tendoituongin')">
+                        {{ $doituong->tendoituongin }}
+                    </label>
                 </td>
             </tr>
 
             <tr>
                 <td colspan="2">
-                    <button style="{{ $doituong->toado_noidungkhenthuong }}" id="toado_noidungkhenthuong" ondblclick="setNoiDung()">
+                    <label style="{{ $doituong->toado_noidungkhenthuong }}" id="toado_noidungkhenthuong"
+                        ondblclick="setNoiDung('{{ $doituong->id }}','{{ $doituong->toado_noidungkhenthuong }}','{{ $doituong->noidungkhenthuong }}','{{ $doituong->mahosotdkt }}','toado_noidungkhenthuong')">
+                        {!! $doituong->noidungkhenthuong !!}
+                    </label>
+                </td>
+                {{-- <td colspan="2">
+                    <button style="{{ $doituong->toado_noidungkhenthuong }}" id="toado_noidungkhenthuong"
+                        ondblclick="setNoiDung('{{ $doituong->id }}','{{ $doituong->toado_noidungkhenthuong }}','{{ $doituong->noidungkhenthuong }}','{{ $doituong->mahosotdkt }}','toado_noidungkhenthuong')">
                         {!! $doituong->noidungkhenthuong !!}
                     </button>
-                </td>
+                </td> --}}
             </tr>
 
             <tr>
                 <td style="width: 60%;"></td>
                 <td>
-                    <button style="{{ $doituong->toado_ngayqd }}" id="toado_ngayqd">
+                    <label style="{{ $doituong->toado_ngayqd }}" id="toado_ngayqd"
+                        ondblclick="setNoiDung('{{ $doituong->id }}','{{ $doituong->toado_ngayqd }}','{{ $doituong->ngayqd }}','{{ $doituong->mahosotdkt }}','toado_ngayqd')">
                         {!! $doituong->ngayqd !!}
-                    </button>
+                    </label>
                 </td>
             </tr>
 
@@ -34,9 +43,10 @@
                 <td style="width: 50%;"></td>
 
                 <td style="text-align: center">
-                    <button style="{{ $doituong->toado_chucvunguoikyqd }}" id="toado_chucvunguoikyqd">
+                    <label style="{{ $doituong->toado_chucvunguoikyqd }}" id="toado_chucvunguoikyqd"
+                        ondblclick="setNoiDung('{{ $doituong->id }}','{{ $doituong->toado_chucvunguoikyqd }}','{{ $doituong->chucvunguoikyqd }}','{{ $doituong->mahosotdkt }}','toado_chucvunguoikyqd')">
                         {{ $doituong->chucvunguoikyqd }}
-                    </button>
+                    </label>
                 </td>
             </tr>
 
@@ -44,13 +54,14 @@
                 <td style="width: 50%;"></td>
 
                 <td style="text-align: center">
-                    <button style="{{ $doituong->toado_hotennguoikyqd }}" style="" id="toado_hotennguoikyqd">
+                    <label style="{{ $doituong->toado_hotennguoikyqd }}" style="" id="toado_hotennguoikyqd"
+                        ondblclick="setNoiDung('{{ $doituong->id }}','{{ $doituong->toado_hotennguoikyqd }}','{{ $doituong->hotennguoikyqd }}','{{ $doituong->mahosotdkt }}','toado_hotennguoikyqd')">
                         {{ $doituong->hotennguoikyqd }}
-                    </button>
+                    </label>
                 </td>
             </tr>
         </table>
-        <p style="page-break-before: always">
+        {{-- <p style="page-break-before: always"> --}}
     @endforeach
 
 @stop

@@ -24,13 +24,14 @@ class dshosotdktcumkhoi_canhan extends Model
         'maphanloaicanbo', //phân loại cán bộ
         //Kết quả đánh giá
         'ketqua',
-        'madanhhieutd',//bỏ
-        'mahinhthuckt',//bỏ
-        'madanhhieukhenthuong',//gộp danh hiệu & khen thưởng
+        'madanhhieutd', //bỏ
+        'mahinhthuckt', //bỏ
+        'madanhhieukhenthuong', //gộp danh hiệu & khen thưởng
         'lydo',
         'noidungkhenthuong', //in trên phôi bằng khen
         'madonvi', //phục vụ lấy dữ liệu
-        'toado_tendoituong',
+        //in phôi
+        'toado_tendoituongin',
         'toado_noidungkhenthuong',
         'toado_quyetdinh',
         'toado_ngayqd',
@@ -38,5 +39,12 @@ class dshosotdktcumkhoi_canhan extends Model
         'toado_hotennguoikyqd',
         'toado_donvikhenthuong',
         'toado_sokhenthuong',
+        'tendoituongin',
+        'quyetdinh',
+        'ngayqd',
+        'chucvunguoikyqd',
+        'hotennguoikyqd',
+        'donvikhenthuong',
+        'sokhenthuong',
     ];
 }
