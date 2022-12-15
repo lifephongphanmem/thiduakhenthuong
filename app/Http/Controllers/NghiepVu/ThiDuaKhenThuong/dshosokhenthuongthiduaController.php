@@ -50,6 +50,8 @@ class dshosokhenthuongthiduaController extends Controller
 
         $inputs = $request->all();
         $inputs['url_hs'] = '/HoSoThiDuaKT/';
+        $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
+        
         // $inputs['url_xd'] = '/XetDuyetHoSoThiDua/';
         $inputs['url_qd'] = '/HoSoThiDuaKT/';
         $m_donvi = getDonVi(session('admin')->capdo, 'dshosokhenthuongthidua', null, 'MODEL');

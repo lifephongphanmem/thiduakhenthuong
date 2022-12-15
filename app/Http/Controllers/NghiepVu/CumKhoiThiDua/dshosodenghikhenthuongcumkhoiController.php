@@ -54,7 +54,7 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
         $inputs['url_hs'] = '/CumKhoiThiDua/KTCumKhoi/HoSo/';
         $inputs['url_xd'] = '/CumKhoiThiDua/KTCumKhoi/XetDuyet/';
         $inputs['url_qd'] = '/CumKhoiThiDua/KTCumKhoi/KhenThuong/';
-
+        $inputs['phanloaikhenthuong'] = 'CUMKHOI';
         //$m_donvi = getDonViCK(session('admin')->capdo, null, 'MODEL');
         $m_donvi = getDonVi(session('admin')->capdo, 'dshosodenghikhenthuongcumkhoi');
         //dd($m_donvi);

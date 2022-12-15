@@ -68,12 +68,19 @@
                 <div id="div_inPhoi">
                     <div class="row">
                         <div class="col-lg-12">
-                            <a onclick="setInDL($(this), '/DungChung/InPhoiKhenThuong/DanhSach')"
-                                class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
-                                <i class="la flaticon2-print"></i>In phôi bằng khen, giấy khen
-                            </a>
+                            @if ($inputs['phanloaikhenthuong'] == 'CUMKHOI')
+                                <a onclick="setInDL($(this), '/DungChung/InPhoiCumKhoi/DanhSach')"
+                                    class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
+                                    <i class="la flaticon2-print"></i>In phôi bằng khen, giấy khen
+                                </a>
+                            @else
+                                <a onclick="setInDL($(this), '/DungChung/InPhoiKhenThuong/DanhSach')"
+                                    class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
+                                    <i class="la flaticon2-print"></i>In phôi bằng khen, giấy khen
+                                </a>
+                            @endif
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -104,5 +111,5 @@
 
     function setInPhoi(e, url) {
         e.prop('href', url + '?mahosotdkt=' + $('#frm_InDuLieu').find("[name='mahosotdkt']").val());
-    }    
+    }
 </script>

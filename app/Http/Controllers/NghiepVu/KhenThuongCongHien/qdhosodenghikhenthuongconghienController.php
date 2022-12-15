@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\NghiepVu\_DungChung\dungchung_nghiepvuController;
 use App\Model\DanhMuc\dmdanhhieuthidua;
-use App\Model\DanhMuc\dmdanhhieuthidua_tieuchuan;
 use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
 use App\Model\DanhMuc\dmnhomphanloai_chitiet;
@@ -17,19 +16,12 @@ use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\DanhMuc\duthaoquyetdinh;
 use App\Model\HeThong\trangthaihoso;
-use App\Model\NghiepVu\ThiDuaKhenThuong\dshosokhenthuong;
-use App\Model\NghiepVu\ThiDuaKhenThuong\dshosokhenthuong_chitiet;
-use App\Model\NghiepVu\ThiDuaKhenThuong\dshosokhenthuong_khenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_canhan;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_hogiadinh;
-use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_khenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tapthe;
-use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tieuchuan;
 use App\Model\View\viewdiabandonvi;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
-use Maatwebsite\Excel\Facades\Excel;
 
 class qdhosodenghikhenthuongconghienController extends Controller
 {
@@ -56,7 +48,8 @@ class qdhosodenghikhenthuongconghienController extends Controller
         $inputs['url_hs'] = '/KhenThuongCongHien/HoSo/';
         $inputs['url_xd'] = '/KhenThuongCongHien/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongCongHien/KhenThuong/';
-
+        $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
+        
         $m_donvi = getDonVi(session('admin')->capdo, 'qdhosodenghikhenthuongconghien');
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
 

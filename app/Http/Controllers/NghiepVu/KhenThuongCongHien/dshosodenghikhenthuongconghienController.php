@@ -120,6 +120,8 @@ class dshosodenghikhenthuongconghienController extends Controller
         $inputs['url_hs'] = '/KhenThuongCongHien/HoSo/';
         $inputs['url_xd'] = '/KhenThuongCongHien/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongCongHien/KhenThuong/';
+        $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
+        
         $inputs['mahinhthuckt'] = session('chucnang')['dshosodenghikhenthuongconghien']['mahinhthuckt'] ?? 'ALL';
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();

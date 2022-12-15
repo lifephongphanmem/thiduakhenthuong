@@ -31,6 +31,7 @@ class dungchung_inphoi_khenthuongController extends Controller
         $model =  dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
+        $model_hogiadinh = dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)->get();
         $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
         $a_dhkt = getDanhHieuKhenThuong('ALL');
         $model->tendonvi = $m_donvi->tendonvi;
@@ -39,6 +40,31 @@ class dungchung_inphoi_khenthuongController extends Controller
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
+            ->with('model_hogiadinh', $model_hogiadinh)
+            ->with('m_donvi', $m_donvi)
+            //->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
+            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+            ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'In bằng khen');
+    }
+
+    public function DanhSachCumKhoi(Request $request)
+    {
+        $inputs = $request->all();
+        $model =  dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $model_canhan = dshosotdktcumkhoi_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
+        $model_tapthe = dshosotdktcumkhoi_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
+        $model_hogiadinh = dshosotdktcumkhoi_hogiadinh::where('mahosotdkt', $model->mahosotdkt)->get();
+        $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
+        $a_dhkt = getDanhHieuKhenThuong('ALL');
+        $model->tendonvi = $m_donvi->tendonvi;
+        return view('NghiepVu._DungChung.InPhoiCumKhoi')
+            ->with('a_dhkt', $a_dhkt)
+            ->with('model', $model)
+            ->with('model_canhan', $model_canhan)
+            ->with('model_tapthe', $model_tapthe)
+            ->with('model_hogiadinh', $model_hogiadinh)
             ->with('m_donvi', $m_donvi)
             //->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))

@@ -47,6 +47,8 @@ class dshosokhencaochinhphuController extends Controller
         $inputs = $request->all();
         $inputs['url_hs'] = static::$url;
         $inputs['url_qd'] = static::$url;
+        $inputs['phanloaikhenthuong'] = 'KHENCAO';
+
         $inputs['tendvcqhienthi'] = '';
         $inputs['capdo'] = 'TW';
         $m_donvi = getDonVi(session('admin')->capdo, 'dshosokhencaochinhphu');

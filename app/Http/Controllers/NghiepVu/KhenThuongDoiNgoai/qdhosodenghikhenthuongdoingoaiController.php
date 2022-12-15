@@ -50,6 +50,7 @@ class qdhosodenghikhenthuongdoingoaiController extends Controller
         $inputs['url_hs'] = '/KhenThuongDoiNgoai/HoSo/';
         $inputs['url_xd'] = '/KhenThuongDoiNgoai/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongDoiNgoai/KhenThuong/';
+        $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
 
         $m_donvi = getDonVi(session('admin')->capdo, 'qdhosodenghikhenthuongdoingoai');
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();

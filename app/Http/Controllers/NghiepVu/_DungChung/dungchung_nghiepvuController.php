@@ -706,7 +706,7 @@ class dungchung_nghiepvuController extends Controller
 
     public function LuuThayDoiViTri(Request $request)
     {
-        $inputs = $request->all();        
+        $inputs = $request->all();
         switch ($inputs["phanloaikhenthuong"]) {
             case "KHENTHUONG": {
                     switch ($inputs["phanloaidoituong"]) {
@@ -753,7 +753,7 @@ class dungchung_nghiepvuController extends Controller
         if ($inputs["phanloaiphoi"] == 'BANGKHEN')
             return redirect('/DungChung/InPhoiKhenThuong/InBangKhen?phanloaikhenthuong=' . $inputs['phanloaikhenthuong'] . '&phanloaidoituong=' . $inputs['phanloaidoituong'] . '&id=' . $inputs['id']);
         else
-        return redirect('/DungChung/InPhoiKhenThuong/InGiayKhen?phanloaikhenthuong=' . $inputs['phanloaikhenthuong'] . '&phanloaidoituong=' . $inputs['phanloaidoituong'] . '&id=' . $inputs['id']);
+            return redirect('/DungChung/InPhoiKhenThuong/InGiayKhen?phanloaikhenthuong=' . $inputs['phanloaikhenthuong'] . '&phanloaidoituong=' . $inputs['phanloaidoituong'] . '&id=' . $inputs['id']);
     }
 
     function setViTri($inputs)

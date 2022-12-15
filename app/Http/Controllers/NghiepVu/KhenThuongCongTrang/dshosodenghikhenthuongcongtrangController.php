@@ -116,7 +116,8 @@ class dshosodenghikhenthuongcongtrangController extends Controller
         $inputs['url_hs'] = '/KhenThuongCongTrang/HoSo/';
         $inputs['url_xd'] = '/KhenThuongCongTrang/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongCongTrang/KhenThuong/';
-
+        $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
+        
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();

@@ -44,6 +44,8 @@ class xdhosodenghikhenthuongchuyendeController extends Controller
         $inputs['url_hs'] = '/KhenThuongChuyenDe/HoSo/';
         $inputs['url_xd'] = '/KhenThuongChuyenDe/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongChuyenDe/KhenThuong/';
+        $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
+        
         // $m_donvi = getDonViXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
         // $m_diaban = getDiaBanXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
         //$m_donvi = viewdiabandonvi::wherein('madonvi', array_column($m_donvi->toarray(), 'madonviQL'))->get();
