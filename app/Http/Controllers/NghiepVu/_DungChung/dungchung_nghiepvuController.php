@@ -707,6 +707,7 @@ class dungchung_nghiepvuController extends Controller
     public function LuuThayDoiViTri(Request $request)
     {
         $inputs = $request->all();
+        //dd($inputs);
         switch ($inputs["phanloaikhenthuong"]) {
             case "KHENTHUONG": {
                     switch ($inputs["phanloaidoituong"]) {
@@ -784,7 +785,8 @@ class dungchung_nghiepvuController extends Controller
             $inputs['tentruong'] => $inputs['toado']
                 . 'font-size:' . $inputs['font-size'] . ';'
                 . 'font-weight:' . $inputs['font-weight'] . ';'
-                . 'font-style:' . $inputs['font-style'] . ';',
+                . 'font-style:' . $inputs['font-style'] . ';'
+                . 'font-family:' . $inputs['font-family'] . ';',
             $tentruong => $inputs['noidung'],
         ];
     }

@@ -243,8 +243,13 @@
             var fontStyle = mElem.style.fontStyle;
             if (fontStyle == '')
                 fontStyle = 'normal';
+
+            var fontFamily = mElem.style.fontFamily;
+            if (fontFamily == '')
+                fontFamily = 'Tahoma';
             return 'top:' + mElem.style.top + ';' + 'left:' + mElem.style.left + ';' +
-                'font-size:' + fontSize + ';' + 'font-weight:' + fontWeight + ';' + 'font-style:' + fontStyle + ';'
+                'font-size:' + fontSize + ';' + 'font-weight:' + fontWeight + ';' +
+                'font-style:' + fontStyle + ';' + 'font-family:' + fontFamily + ';'
 
         }
 
@@ -303,7 +308,7 @@
         }
 
         function setMacDinh() {
-            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');            
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
                 type: 'GET',
                 url: '/DungChung/GanToaDoMacDinh',
@@ -395,23 +400,29 @@
                 <div class="form-group row">
                     <div class="col-lg-12">
                         <label class="form-control-label">Nội dung in phôi</label>
-                        {!! Form::text('noidung', null, ['class' => 'form-control']) !!}
+                        {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows'=>'3']) !!}
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
+                        <label class="form-control-label">Font chữ</label>
+                        {!! Form::select('font-family', getFontFamilyList(), 'Tahoma', ['class' => 'form-control']) !!}
+                    </div>
+                    <div class="col-md-6">
                         <label class="form-control-label">Cỡ chữ</label>
-                        {{-- {!! Form::number('font-size', '20', ['class' => 'form-control']) !!} --}}
                         {!! Form::text('font-size', '20px', ['class' => 'form-control']) !!}
                     </div>
-                    <div class="col-md-4">
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-6">
                         <label class="form-control-label">In đậm</label>
                         {!! Form::select('font-weight', ['normal' => 'Bình thường', 'bold' => 'In đậm'], null, [
                             'class' => 'form-control',
                         ]) !!}
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label class="form-control-label">In nghiêng</label>
                         {!! Form::select('font-style', ['normal' => 'Bình thường', 'italic' => 'In nghiêng'], null, [
                             'class' => 'form-control',
@@ -455,6 +466,11 @@
         var a_style = toado.split(';');
         if (a_style[2] !== undefined) {
             form.find("[name='font-size']").val(a_style[2].split(':')[1]);
+        }
+        if (a_style[5] !== undefined) {
+            //alert(a_style[5].split(':')[1].replace('"','').replace('"',''));
+            var font = a_style[5].split(':')[1].replace('"', '').replace('"', '');
+            form.find("[name='font-family']").val(font).trigger('change');
         }
     }
 </script>

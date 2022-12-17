@@ -22,6 +22,21 @@ function getChucVuKhenThuong($capdo = 'T')
     );
 }
 
+function getFontFamilyList()
+{
+    return array(
+        'Arial' => 'Arial',
+        'Cambria' => 'Cambria',
+        'Courier' => 'Courier',
+        'Comic Sans' => 'Comic Sans',
+        'Comic Sans MS' => 'Comic Sans MS',
+        'Tahoma' => 'Tahoma',
+        'Times New Roman' => 'Times New Roman',       
+        'Segoe UI' => 'Segoe UI',
+        'MS Gothic' => 'MS Gothic',
+    );
+}
+
 
 function getLinhVucHoatDong()
 {

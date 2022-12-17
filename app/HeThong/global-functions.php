@@ -433,7 +433,8 @@ function Date2Str($date)
     }
 }
 
-function catchuoi($str, $sokytu = 13, $themo = '<p>', $thedong = '</p>')
+//function catchuoi($str, $sokytu = 13, $themo = '<p>', $thedong = '</p>')
+function catchuoi($str, $sokytu = 13, $themo = '', $thedong = '</br>')
 {
     $s_kq = '';
     if (strlen($str) == 0) {
