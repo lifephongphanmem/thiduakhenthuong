@@ -47,7 +47,7 @@ class dshosodenghikhenthuongcongtrangController extends Controller
             return view('errors.noperm')->with('machucnang', 'dshosodenghikhenthuongcongtrang')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
-
+        $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
 
         $m_donvi = getDonVi(session('admin')->capdo, 'dshosodenghikhenthuongcongtrang');
         $a_diaban = array_column($m_donvi->toArray(), 'tendiaban', 'madiaban');

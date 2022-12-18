@@ -40,5 +40,9 @@ class dshosokhencao_hogiadinh extends Model
         'hotennguoikyqd',
         'donvikhenthuong',
         'sokhenthuong',
+        'toado_chucvudoituong',
+        'chucvudoituong',
+        'toado_pldoituong',
+        'pldoituong',
     ];
 }

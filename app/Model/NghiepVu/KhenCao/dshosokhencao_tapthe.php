@@ -18,27 +18,32 @@ class dshosokhencao_tapthe extends Model
         'ghichu', //
         //Kết quả đánh giá
         'ketqua',
-        'madanhhieutd',//bỏ
-        'mahinhthuckt',//bỏ
-        'madanhhieukhenthuong',//gộp danh hiệu & khen thưởng
+        'madanhhieutd', //bỏ
+        'mahinhthuckt', //bỏ
+        'madanhhieukhenthuong', //gộp danh hiệu & khen thưởng
         'lydo',
         'noidungkhenthuong', //in trên phôi bằng khen
         'madonvi', //phục vụ lấy dữ liệu
-       //in phôi
-       'toado_tendoituongin',
-       'toado_noidungkhenthuong',
-       'toado_quyetdinh',
-       'toado_ngayqd',
-       'toado_chucvunguoikyqd',
-       'toado_hotennguoikyqd',
-       'toado_donvikhenthuong',
-       'toado_sokhenthuong',
-       'tendoituongin',
-       'quyetdinh',
-       'ngayqd',
-       'chucvunguoikyqd',
-       'hotennguoikyqd',
-       'donvikhenthuong',
-       'sokhenthuong',
+        //in phôi
+        'toado_tendoituongin',
+        'toado_noidungkhenthuong',
+        'toado_quyetdinh',
+        'toado_ngayqd',
+        'toado_chucvunguoikyqd',
+        'toado_hotennguoikyqd',
+        'toado_donvikhenthuong',
+        'toado_sokhenthuong',
+        'tendoituongin',
+        'quyetdinh',
+        'ngayqd',
+        'chucvunguoikyqd',
+        'hotennguoikyqd',
+        'donvikhenthuong',
+        'sokhenthuong',
+        'toado_chucvudoituong',
+        'chucvudoituong',
+        'toado_pldoituong',
+        'pldoituong',
+        'tencoquan',
     ];
 }

@@ -514,7 +514,7 @@ class ComposerStaticInit2bbfd3055ada376977abbf3cd3a1a409
         'App\\Http\\Controllers\\NghiepVu\\ThiDuaKhenThuong\\dshosothiduaController' => __DIR__ . '/../..' . '/app/Http/Controllers/NghiepVu/ThiDuaKhenThuong/dshosothiduaController.php',
         'App\\Http\\Controllers\\NghiepVu\\ThiDuaKhenThuong\\dsphongtraothiduaController' => __DIR__ . '/../..' . '/app/Http/Controllers/NghiepVu/ThiDuaKhenThuong/dsphongtraothiduaController.php',
         'App\\Http\\Controllers\\NghiepVu\\ThiDuaKhenThuong\\qdhosodenghikhenthuongthiduaController' => __DIR__ . '/../..' . '/app/Http/Controllers/NghiepVu/ThiDuaKhenThuong/qdhosodenghikhenthuongthiduaController.php',
-        'App\\Http\\Controllers\\NghiepVu\\_DungChung\\dungchung_inphoiController' => __DIR__ . '/../..' . '/app/Http/Controllers/NghiepVu/_DungChung/dungchung_inphoiController.php',
+        'App\\Http\\Controllers\\NghiepVu\\_DungChung\\dungchung_inphoi_khenthuongController' => __DIR__ . '/../..' . '/app/Http/Controllers/NghiepVu/_DungChung/dungchung_inphoi_khenthuongController.php',
         'App\\Http\\Controllers\\NghiepVu\\_DungChung\\dungchung_nghiepvuController' => __DIR__ . '/../..' . '/app/Http/Controllers/NghiepVu/_DungChung/dungchung_nghiepvuController.php',
         'App\\Http\\Controllers\\NghiepVu\\_DungChung\\dungchung_nhanexcelController' => __DIR__ . '/../..' . '/app/Http/Controllers/NghiepVu/_DungChung/dungchung_nhanexcelController.php',
         'App\\Http\\Controllers\\TraCuu\\tracuucanhanController' => __DIR__ . '/../..' . '/app/Http/Controllers/TraCuu/tracuucanhanController.php',

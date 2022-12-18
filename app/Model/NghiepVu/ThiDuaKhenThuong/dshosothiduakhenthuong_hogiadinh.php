@@ -18,9 +18,9 @@ class dshosothiduakhenthuong_hogiadinh extends Model
         'ghichu', //
         //Kết quả đánh giá
         'ketqua',
-        'madanhhieutd',//bỏ
-        'mahinhthuckt',//bỏ
-        'madanhhieukhenthuong',//gộp danh hiệu & khen thưởng
+        'madanhhieutd', //bỏ
+        'mahinhthuckt', //bỏ
+        'madanhhieukhenthuong', //gộp danh hiệu & khen thưởng
         'lydo',
         'noidungkhenthuong', //in trên phôi bằng khen
         'madonvi', //phục vụ lấy dữ liệu  
@@ -40,5 +40,10 @@ class dshosothiduakhenthuong_hogiadinh extends Model
         'hotennguoikyqd',
         'donvikhenthuong',
         'sokhenthuong',
+        'toado_chucvudoituong',
+        'chucvudoituong',
+        'toado_pldoituong',
+        'pldoituong',
+
     ];
 }

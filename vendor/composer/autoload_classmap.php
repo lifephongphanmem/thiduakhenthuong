@@ -75,7 +75,7 @@ return array(
     'App\\Http\\Controllers\\NghiepVu\\ThiDuaKhenThuong\\dshosothiduaController' => $baseDir . '/app/Http/Controllers/NghiepVu/ThiDuaKhenThuong/dshosothiduaController.php',
     'App\\Http\\Controllers\\NghiepVu\\ThiDuaKhenThuong\\dsphongtraothiduaController' => $baseDir . '/app/Http/Controllers/NghiepVu/ThiDuaKhenThuong/dsphongtraothiduaController.php',
     'App\\Http\\Controllers\\NghiepVu\\ThiDuaKhenThuong\\qdhosodenghikhenthuongthiduaController' => $baseDir . '/app/Http/Controllers/NghiepVu/ThiDuaKhenThuong/qdhosodenghikhenthuongthiduaController.php',
-    'App\\Http\\Controllers\\NghiepVu\\_DungChung\\dungchung_inphoiController' => $baseDir . '/app/Http/Controllers/NghiepVu/_DungChung/dungchung_inphoiController.php',
+    'App\\Http\\Controllers\\NghiepVu\\_DungChung\\dungchung_inphoi_khenthuongController' => $baseDir . '/app/Http/Controllers/NghiepVu/_DungChung/dungchung_inphoi_khenthuongController.php',
     'App\\Http\\Controllers\\NghiepVu\\_DungChung\\dungchung_nghiepvuController' => $baseDir . '/app/Http/Controllers/NghiepVu/_DungChung/dungchung_nghiepvuController.php',
     'App\\Http\\Controllers\\NghiepVu\\_DungChung\\dungchung_nhanexcelController' => $baseDir . '/app/Http/Controllers/NghiepVu/_DungChung/dungchung_nhanexcelController.php',
     'App\\Http\\Controllers\\TraCuu\\tracuucanhanController' => $baseDir . '/app/Http/Controllers/TraCuu/tracuucanhanController.php',

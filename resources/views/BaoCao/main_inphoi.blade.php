@@ -12,6 +12,19 @@
     <title>{{ $pageTitle }} | TDKT</title>
     <link rel="shortcut icon" href="{{ url('assets/media/logos/LIFESOFT.png') }}" />
     <style type="text/css">
+        @font-face {
+            font-family: .VnTime;
+            src: url('{{ url('assets/fonts/VNTIME.TTF') }}')format('truetype');
+        }
+    </style>
+    <style type="text/css">
+        @font-face {
+            font-family: .VnShelley Allegro;
+            src: url('{{ url('assets/fonts/VNSHELL.TTF') }}')format('truetype');
+        }
+    </style>
+
+    <style type="text/css">
         /* .header tr td {
             padding-top: 0px;
             padding-bottom: 5px;
@@ -211,7 +224,10 @@
         #toado_tendoituongin,
         #toado_noidungkhenthuong,
         #toado_ngayqd,
+        #toado_quyetdinh,
         #toado_chucvunguoikyqd,
+        #toado_chucvudoituong,
+        #toado_pldoituong,
         #toado_hotennguoikyqd {
             position: absolute;
         }
@@ -230,6 +246,9 @@
             byId('toado_ngayqd').addEventListener('mousedown', onImgMouseDown, false);
             byId('toado_chucvunguoikyqd').addEventListener('mousedown', onImgMouseDown, false);
             byId('toado_hotennguoikyqd').addEventListener('mousedown', onImgMouseDown, false);
+            byId('toado_quyetdinh').addEventListener('mousedown', onImgMouseDown, false);
+            byId('toado_chucvudoituong').addEventListener('mousedown', onImgMouseDown, false);
+            byId('toado_pldoituong').addEventListener('mousedown', onImgMouseDown, false);
         }
 
         function getStyle(e) {
@@ -291,6 +310,10 @@
                     toado_ngayqd: getStyle('toado_ngayqd'),
                     toado_chucvunguoikyqd: getStyle('toado_chucvunguoikyqd'),
                     toado_hotennguoikyqd: getStyle('toado_hotennguoikyqd'),
+                    toado_quyetdinh: getStyle('toado_quyetdinh'),
+                    toado_chucvudoituong: getStyle('toado_chucvudoituong'),
+                    toado_pldoituong: getStyle('toado_pldoituong'),
+                    toado_quyetdinh: getStyle('toado_quyetdinh'),
 
                     id: "{{ $inputs['id'] }}",
                     phanloaikhenthuong: "{{ $inputs['phanloaikhenthuong'] }}",
@@ -319,6 +342,9 @@
                     toado_ngayqd: getStyle('toado_ngayqd'),
                     toado_chucvunguoikyqd: getStyle('toado_chucvunguoikyqd'),
                     toado_hotennguoikyqd: getStyle('toado_hotennguoikyqd'),
+                    toado_quyetdinh: getStyle('toado_quyetdinh'),
+                    toado_chucvudoituong: getStyle('toado_chucvudoituong'),
+                    toado_chucvudoituong: getStyle('toado_chucvudoituong'),
                     madonvi: "{{ $m_hoso['madonvi'] }}",
                     phanloaikhenthuong: "{{ $inputs['phanloaikhenthuong'] }}",
                     phanloaidoituong: "{{ $inputs['phanloaidoituong'] }}",
@@ -400,7 +426,7 @@
                 <div class="form-group row">
                     <div class="col-lg-12">
                         <label class="form-control-label">Nội dung in phôi</label>
-                        {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows'=>'3']) !!}
+                        {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows' => '3']) !!}
                     </div>
                 </div>
 

@@ -40,5 +40,11 @@ class dshosothiduakhenthuong_tapthe extends Model
        'hotennguoikyqd',
        'donvikhenthuong',
        'sokhenthuong',
+
+       'toado_chucvudoituong',
+       'chucvudoituong',
+       'toado_pldoituong',
+       'pldoituong',
+       'tencoquan',
     ];
 }

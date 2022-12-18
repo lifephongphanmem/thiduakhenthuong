@@ -701,6 +701,9 @@ class dungchung_nghiepvuController extends Controller
             'toado_ngayqd' => $inputs['toado_ngayqd'],
             'toado_chucvunguoikyqd' => $inputs['toado_chucvunguoikyqd'],
             'toado_hotennguoikyqd' => $inputs['toado_hotennguoikyqd'],
+            'toado_quyetdinh' => $inputs['toado_quyetdinh'],
+            'toado_chucvudoituong' => $inputs['toado_chucvudoituong'],
+            'toado_pldoituong' => $inputs['toado_pldoituong'],
         ];
     }
 
@@ -774,6 +777,18 @@ class dungchung_nghiepvuController extends Controller
                 }
             case "toado_hotennguoikyqd": {
                     $tentruong = 'hotennguoikyqd';
+                    break;
+                }
+            case "toado_chucvudoituong": {
+                    $tentruong = 'chucvudoituong';
+                    break;
+                }
+            case "toado_quyetdinh": {
+                    $tentruong = 'quyetdinh';
+                    break;
+                }
+            case "toado_phanloaidoituong": {
+                    $tentruong = 'phanloaidoituong';
                     break;
                 }
             default: {
