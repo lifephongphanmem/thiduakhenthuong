@@ -16,7 +16,7 @@
                 <td>
                     <label style="{{ $doituong->toado_tendoituongin }}" id="toado_tendoituongin"
                         ondblclick="setNoiDung('{{ $doituong->id }}','{{ $doituong->toado_tendoituongin }}','{{ $doituong->tendoituongin }}','{{ $doituong->mahosotdkt }}','toado_tendoituongin')">
-                        {{ $doituong->tendoituongin }}
+                        {!! $doituong->tendoituongin !!}
                     </label>
                 </td>
             </tr>
