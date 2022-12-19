@@ -440,9 +440,15 @@ function catchuoi($str, $sokytu = 13, $themo = '', $thedong = '</br>')
     if (strlen($str) == 0) {
         return $themo . $thedong;
     }
-    foreach (array_chunk(explode(' ', $str), $sokytu) as $chuoi) {
-        $s_kq .= ($themo . implode(' ', $chuoi) . $thedong);
+    $a_chuoi = array_chunk(explode(' ', $str), $sokytu);
+    for ($i = 0; $i < count($a_chuoi); $i++) {
+        $s_kq .= implode(' ', $a_chuoi[$i]);
+        if ($i < count($a_chuoi) - 2)
+            $s_kq .= $thedong;
     }
+    // foreach (array_chunk(explode(' ', $str), $sokytu) as $chuoi) {
+    //     $s_kq .= ($themo . implode(' ', $chuoi) . $thedong);
+    // }
     return $s_kq;
 }
 

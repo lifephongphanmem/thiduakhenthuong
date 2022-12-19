@@ -164,7 +164,7 @@
                                                                     onclick="getTapThe('{{ $tt->id }}', 'TAPTHE')"
                                                                     class="btn btn-sm btn-clean btn-icon"
                                                                     data-target="#modal-thaydoi" data-toggle="modal">
-                                                                    <i class="icon-lg la fa-edit text-primary icon-2x"></i>
+                                                                    <i class="icon-lg la fa-edit text-primary"></i>
                                                                 </button> --}}
                                                                 
                                                                 <a target="_blank" title="In phôi bằng khen"
@@ -182,12 +182,12 @@
                                                                 <a target="_blank" title="In phôi giấy khen"
                                                                     href="{{ url('/DungChung/InPhoiKhenThuong/InGiayKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=TAPTHE&id=' . $tt->id) }}"
                                                                     class="btn btn-xs mr-1 mb-1 mt-1">
-                                                                    <i class="icon-lg la la-file-contract text-dark icon-2x"></i>Phôi GK
+                                                                    <i class="icon-lg la la-file-contract text-dark"></i>Phôi GK
                                                                 </a>
                                                                 <a target="_blank" title="In phôi giấy khen"
                                                                     href="{{ url('/DungChung/InPhoiKhenThuong/InMauGiayKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=TAPTHE&id=' . $tt->id) }}"
                                                                     class="btn btn-xs mr-1 mb-1 mt-1">
-                                                                    <i class="icon-lg la la-file-contract text-dark icon-2x"></i>Màu GK
+                                                                    <i class="icon-lg la la-file-contract text-dark"></i>Màu GK
                                                                 </a>
                                                             </td>
                                                         </tr>
@@ -217,7 +217,7 @@
                                             <table id="sample_3" class="table table-striped table-bordered table-hover">
                                                 <thead>
                                                     <tr class="text-center">
-                                                        <th width="2%">STT</th>
+                                                        <th>STT</th>
                                                         <th>Tên đối tượng</th>
                                                         <th>Nôi dung khen thưởng</th>
                                                         <th>Hình thức khen thưởng/<br>Danh hiệu thi đua</th>
@@ -239,7 +239,7 @@
                                                                     onclick="getCaNhan('{{ $tt->id }}', 'CANHAN')"
                                                                     class="btn btn-sm btn-clean btn-icon"
                                                                     data-target="#modal-thaydoi" data-toggle="modal">
-                                                                    <i class="icon-lg la fa-edit text-primary icon-2x"></i>
+                                                                    <i class="icon-lg la fa-edit text-primary"></i>
                                                                 </button> --}}
                                                                 <a target="_blank" title="In phôi bằng khen"
                                                                     href="{{ url('/DungChung/InPhoiKhenThuong/InBangKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=CANHAN&id=' . $tt->id) }}"
@@ -256,24 +256,24 @@
                                                                 <a target="_blank" title="In phôi giấy khen"
                                                                     href="{{ url('/DungChung/InPhoiKhenThuong/InGiayKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=CANHAN&id=' . $tt->id) }}"
                                                                     class="btn btn-xs mr-1 mb-1 mt-1">
-                                                                    <i class="icon-lg la la-file-contract text-dark icon-2x"></i>Phôi GK
+                                                                    <i class="icon-lg la la-file-contract text-dark"></i>Phôi GK
                                                                 </a>
                                                                 <a target="_blank" title="In phôi giấy khen"
                                                                     href="{{ url('/DungChung/InPhoiKhenThuong/InMauGiayKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=CANHAN&id=' . $tt->id) }}"
                                                                     class="btn btn-xs mr-1 mb-1 mt-1">
-                                                                    <i class="icon-lg la la-file-contract text-dark icon-2x"></i>Màu GK
+                                                                    <i class="icon-lg la la-file-contract text-dark"></i>Màu GK
                                                                 </a>
 
 
                                                                 {{-- <a target="_blank" title="In phôi bằng khen"
                                                                     href="{{ url('/DungChung/InPhoiKhenThuong/InBangKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=CANHAN&id=' . $tt->id) }}"
                                                                     class="btn btn-sm btn-clean btn-icon">
-                                                                    <i class="icon-lg la la-file-invoice text-dark icon-2x"></i>
+                                                                    <i class="icon-lg la la-file-invoice text-dark"></i>
                                                                 </a>
                                                                 <a target="_blank" title="In phôi giấy khen"
                                                                     href="{{ url('/DungChung/InPhoiKhenThuong/InGiayKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=CANHAN&id=' . $tt->id) }}"
                                                                     class="btn btn-sm btn-clean btn-icon">
-                                                                    <i class="icon-lg la la-file-contract text-dark icon-2x"></i>
+                                                                    <i class="icon-lg la la-file-contract text-dark"></i>
                                                                 </a> --}}
                                                             </td>
                                                         </tr>

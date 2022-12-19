@@ -113,11 +113,15 @@
                     <label>Địa bàn quản lý</label>
                     {!! Form::select('madiaban', getDiaBan_All(), null, ['class' => 'form-control select2basic']) !!}
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-6">
                     <label>Ngành, lĩnh vực</label>
                     {!! Form::select('linhvuchoatdong', setArrayAll(getNganhLinhVuc(), 'Không chọn', ''), null, [
                         'class' => 'form-control select2basic',
                     ]) !!}
+                </div>
+                <div class="col-lg-2">
+                    <label>Số chữ trên dòng</label>
+                    {!! Form::number('sochu', null, ['class' => 'form-control']) !!}
                 </div>
             </div>
 
@@ -140,15 +144,16 @@
                 <div class="col-lg-8">
                     <label>Đường dẫn</label>
                     {!! Form::file('phoi_bangkhen', null, ['class' => 'form-control']) !!}
+                    @if ($model->phoi_bangkhen != '')
+                        <span class="form-control" style="border-style: none">
+                            <a href="{{ url('/data/uploads/' . $model->phoi_bangkhen) }}"
+                                target="_blank">{{ $model->phoi_bangkhen }}</a>
+                        </span>
+                    @endif
                 </div>
             </div>
 
-            @if ($model->phoi_bangkhen != '')
-                <span class="form-control" style="border-style: none">
-                    <a href="{{ url('/data/uploads/' . $model->phoi_bangkhen) }}"
-                        target="_blank">{{ $model->phoi_bangkhen }}</a>
-                </span>
-            @endif
+
 
             <h4>Thiết lập giấy khen</h4>
             <div class="form-group row">
@@ -163,15 +168,16 @@
                 <div class="col-lg-8">
                     <label>Đường dẫn</label>
                     {!! Form::file('phoi_giaykhen', null, ['class' => 'form-control']) !!}
+                    @if ($model->phoi_giaykhen != '')
+                        <span class="form-control" style="border-style: none">
+                            <a href="{{ url('/data/uploads/' . $model->phoi_giaykhen) }}"
+                                target="_blank">{{ $model->phoi_giaykhen }}</a>
+                        </span>
+                    @endif
                 </div>
             </div>
 
-            @if ($model->phoi_giaykhen != '')
-                <span class="form-control" style="border-style: none">
-                    <a href="{{ url('/data/uploads/' . $model->phoi_giaykhen) }}"
-                        target="_blank">{{ $model->phoi_giaykhen }}</a>
-                </span>
-            @endif
+
         </div>
         <div class="card-footer">
             <div class="row text-center">

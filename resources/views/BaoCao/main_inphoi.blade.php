@@ -136,6 +136,34 @@
             document.body.removeChild(fileDownload);
         }
 
+        function inDuLieu() {
+            // alert
+            if (getStyle('toado_tendoituongin').includes('color:red;'))
+                byId('toado_tendoituongin').classList.add('in');
+
+            if (getStyle('toado_noidungkhenthuong').includes('color:red;'))
+                byId('toado_noidungkhenthuong').classList.add('in');
+
+            if (getStyle('toado_ngayqd').includes('color:red;'))
+                byId('toado_ngayqd').classList.add('in');
+
+            if (getStyle('toado_chucvunguoikyqd').includes('color:red;'))
+                byId('toado_chucvunguoikyqd').classList.add('in');
+
+            if (getStyle('toado_hotennguoikyqd').includes('color:red;'))
+                byId('toado_hotennguoikyqd').classList.add('in');
+
+            if (getStyle('toado_chucvudoituong').includes('color:red;'))
+                byId('toado_chucvudoituong').classList.add('in');
+            
+            if (getStyle('toado_pldoituong').includes('color:red;'))
+                byId('toado_pldoituong').classList.add('in');
+            
+            if (getStyle('toado_quyetdinh').includes('color:red;'))
+                byId('toado_quyetdinh').classList.add('in');
+            window.print();
+        }
+
         function exportTableToExcel() {
             var downloadLink;
             var dataType = 'application/vnd.ms-excel';
@@ -270,10 +298,13 @@
             var textAlign = mElem.style.textAlign;
             if (textAlign == '')
                 textAlign = 'center';
+            var color = mElem.style.color;
+            if (color == '')
+                color = 'black';
             return 'top:' + mElem.style.top + ';' + 'left:' + mElem.style.left + ';' +
                 'font-size:' + fontSize + ';' + 'font-weight:' + fontWeight + ';' +
                 'font-style:' + fontStyle + ';' + 'font-family:' + fontFamily + ';' +
-                'text-align:' + textAlign + ';'
+                'text-align:' + textAlign + ';' + 'color:' + color + ';'
 
         }
 
@@ -318,7 +349,7 @@
                     toado_quyetdinh: getStyle('toado_quyetdinh'),
                     toado_chucvudoituong: getStyle('toado_chucvudoituong'),
                     toado_pldoituong: getStyle('toado_pldoituong'),
-                    toado_quyetdinh: getStyle('toado_quyetdinh'),
+                    //toado_quyetdinh: getStyle('toado_quyetdinh'),
 
                     id: "{{ $inputs['id'] }}",
                     phanloaikhenthuong: "{{ $inputs['phanloaikhenthuong'] }}",
@@ -376,7 +407,7 @@
             <ul>
                 <li>
                     <button type="button" class="btn btn-success btn-xs text-right"
-                        style="border-radius: 20px; margin-left: 50px" onclick="window.print()">
+                        style="border-radius: 20px; margin-left: 50px" onclick="inDuLieu()">
                         <i class="fa fa-print"></i> In dữ liệu
                     </button>
                 </li>
@@ -437,9 +468,9 @@
                 </div>
 
                 <div class="form-group row">
-                    <div style="display: none" class="col-md-4">
+                    <div class="col-md-4">
                         <label class="form-control-label">Ẩn/Hiện</label>
-                        {!! Form::select('font-family', getFontFamilyList(), 'Tahoma', ['class' => 'form-control']) !!}
+                        {!! Form::select('color', ['red' => 'Ẩn', 'black' => 'Hiện'], 'black', ['class' => 'form-control']) !!}
                     </div>
                     <div class="col-md-4">
                         <label class="form-control-label">Font chữ</label>
@@ -511,6 +542,7 @@
         form.find("[name='tentruong']").val(tentruong);
         //gán mặc định phòng lỗi
         form.find("[name='text-align']").val('center').trigger('change');
+        form.find("[name='color']").val('black').trigger('change');
         var a_style = toado.split(';');
         if (a_style[2] !== undefined) {
             form.find("[name='font-size']").val(a_style[2].split(':')[1]);
@@ -536,8 +568,11 @@
 
         if (a_style[6] !== undefined) {
             form.find("[name='text-align']").val(a_style[6].split(':')[1]).trigger('change');
-        } 
-            
+        }
+        if (a_style[7] !== undefined) {
+            form.find("[name='color']").val(a_style[7].split(':')[1]).trigger('change');
+        }
+
     }
 </script>
 

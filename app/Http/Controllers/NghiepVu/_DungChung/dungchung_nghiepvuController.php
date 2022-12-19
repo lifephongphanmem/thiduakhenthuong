@@ -806,7 +806,8 @@ class dungchung_nghiepvuController extends Controller
                 . 'font-weight:' . $inputs['font-weight'] . ';'
                 . 'font-style:' . $inputs['font-style'] . ';'
                 . 'font-family:' . $inputs['font-family'] . ';'
-                . 'text-align:' . ($inputs['text-align'] ?? 'center') . ';',
+                . 'text-align:' . ($inputs['text-align'] ?? 'center') . ';'
+                . 'color:' . ($inputs['color'] ?? 'black') . ';',
             $tentruong => $inputs['noidung'],
         ];
     }
