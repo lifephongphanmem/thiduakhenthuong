@@ -266,9 +266,14 @@
             var fontFamily = mElem.style.fontFamily;
             if (fontFamily == '')
                 fontFamily = 'Tahoma';
+
+            var textAlign = mElem.style.textAlign;
+            if (textAlign == '')
+                textAlign = 'center';
             return 'top:' + mElem.style.top + ';' + 'left:' + mElem.style.left + ';' +
                 'font-size:' + fontSize + ';' + 'font-weight:' + fontWeight + ';' +
-                'font-style:' + fontStyle + ';' + 'font-family:' + fontFamily + ';'
+                'font-style:' + fontStyle + ';' + 'font-family:' + fontFamily + ';' +
+                'text-align:' + textAlign + ';'
 
         }
 
@@ -432,24 +437,38 @@
                 </div>
 
                 <div class="form-group row">
-                    <div class="col-md-6">
+                    <div style="display: none" class="col-md-4">
+                        <label class="form-control-label">Ẩn/Hiện</label>
+                        {!! Form::select('font-family', getFontFamilyList(), 'Tahoma', ['class' => 'form-control']) !!}
+                    </div>
+                    <div class="col-md-4">
                         <label class="form-control-label">Font chữ</label>
                         {!! Form::select('font-family', getFontFamilyList(), 'Tahoma', ['class' => 'form-control']) !!}
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-control-label">Cỡ chữ</label>
-                        {!! Form::text('font-size', '20px', ['class' => 'form-control']) !!}
+                    <div class="col-md-4">
+                        <label class="form-control-label">Căn lề</label>
+                        {!! Form::select(
+                            'text-align',
+                            ['left' => 'Căn trái', 'center' => 'Căn giữa', 'justify' => 'Căn đều', 'right' => 'Căn phải'],
+                            'Tahoma',
+                            ['class' => 'form-control'],
+                        ) !!}
                     </div>
+
                 </div>
 
                 <div class="form-group row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label class="form-control-label">Cỡ chữ</label>
+                        {!! Form::text('font-size', '20px', ['class' => 'form-control']) !!}
+                    </div>
+                    <div class="col-md-4">
                         <label class="form-control-label">In đậm</label>
                         {!! Form::select('font-weight', ['normal' => 'Bình thường', 'bold' => 'In đậm'], null, [
                             'class' => 'form-control',
                         ]) !!}
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label class="form-control-label">In nghiêng</label>
                         {!! Form::select('font-style', ['normal' => 'Bình thường', 'italic' => 'In nghiêng'], null, [
                             'class' => 'form-control',
@@ -490,15 +509,35 @@
         form.find("[name='toado']").val('top:' + elementTop + 'px;left:' + elementLeft + 'px;');
         form.find("[name='noidung']").val(noidung);
         form.find("[name='tentruong']").val(tentruong);
+        //gán mặc định phòng lỗi
+        form.find("[name='text-align']").val('center').trigger('change');
         var a_style = toado.split(';');
         if (a_style[2] !== undefined) {
             form.find("[name='font-size']").val(a_style[2].split(':')[1]);
-        }
+        } else
+            form.find("[name='font-size']").val('20px');
+
+        if (a_style[3] !== undefined) {
+            form.find("[name='font-weight']").val(a_style[3].split(':')[1]).trigger('change');
+        } else
+            form.find("[name='font-weight']").val('normal').trigger('change');
+
+        if (a_style[4] !== undefined) {
+            form.find("[name='font-style']").val(a_style[4].split(':')[1]).trigger('change');
+        } else
+            form.find("[name='font-style']").val('normal').trigger('change');
+
         if (a_style[5] !== undefined) {
             //alert(a_style[5].split(':')[1].replace('"','').replace('"',''));
             var font = a_style[5].split(':')[1].replace('"', '').replace('"', '');
             form.find("[name='font-family']").val(font).trigger('change');
-        }
+        } else
+            form.find("[name='font-family']").val('Tahoma').trigger('change');
+
+        if (a_style[6] !== undefined) {
+            form.find("[name='text-align']").val(a_style[6].split(':')[1]).trigger('change');
+        } 
+            
     }
 </script>
 
