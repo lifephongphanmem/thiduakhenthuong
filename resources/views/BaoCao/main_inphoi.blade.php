@@ -344,7 +344,8 @@
                     toado_hotennguoikyqd: getStyle('toado_hotennguoikyqd'),
                     toado_quyetdinh: getStyle('toado_quyetdinh'),
                     toado_chucvudoituong: getStyle('toado_chucvudoituong'),
-                    toado_chucvudoituong: getStyle('toado_chucvudoituong'),
+                    toado_pldoituong: getStyle('toado_pldoituong'),
+
                     madonvi: "{{ $m_hoso['madonvi'] }}",
                     phanloaikhenthuong: "{{ $inputs['phanloaikhenthuong'] }}",
                     phanloaidoituong: "{{ $inputs['phanloaidoituong'] }}",

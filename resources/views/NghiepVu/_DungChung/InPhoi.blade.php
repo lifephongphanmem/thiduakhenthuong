@@ -166,11 +166,19 @@
                                                                     data-target="#modal-thaydoi" data-toggle="modal">
                                                                     <i class="icon-lg la fa-edit text-primary icon-2x"></i>
                                                                 </button> --}}
+                                                                
                                                                 <a target="_blank" title="In phôi bằng khen"
                                                                     href="{{ url('/DungChung/InPhoiKhenThuong/InBangKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=TAPTHE&id=' . $tt->id) }}"
-                                                                    class="btn btn-sm btn-clean btn-icon">
-                                                                    <i class="icon-lg la la-file-invoice text-dark icon-2x"></i>
+                                                                    class="btn btn-xs">
+                                                                    <i class="icon-lg la la-file-invoice text-dark"></i>In phôi
                                                                 </a>
+
+                                                                <a target="_blank" title="In phôi bằng khen"
+                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InMauBangKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=TAPTHE&id=' . $tt->id) }}"
+                                                                    class="btn btn-xs mr-1 mb-1 mt-1">
+                                                                    <i class="icon-lg la la-file-invoice text-dark"></i>In màu
+                                                                </a>
+
                                                                 <a target="_blank" title="In phôi giấy khen"
                                                                     href="{{ url('/DungChung/InPhoiKhenThuong/InGiayKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=TAPTHE&id=' . $tt->id) }}"
                                                                     class="btn btn-sm btn-clean btn-icon">

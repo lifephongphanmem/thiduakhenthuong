@@ -30,6 +30,7 @@ Route::group(['prefix' => 'DungChung'], function () {
         Route::get('DanhSach', [dungchung_inphoi_khenthuongController::class, 'DanhSach']);
         //Route::post('NoiDungKhenThuong', [dungchung_inphoi_khenthuongController::class, 'NoiDungKhenThuong']);
         Route::get('InBangKhen', [dungchung_inphoi_khenthuongController::class, 'InBangKhen']);
+        Route::get('InMauBangKhen', [dungchung_inphoi_khenthuongController::class, 'InMauBangKhen']);
         Route::get('InBangKhenHoGiaDinh', [dungchung_inphoi_khenthuongController::class, 'InBangKhenHoGiaDinh']);
         Route::get('InBangKhenCaNhan', [dungchung_inphoi_khenthuongController::class, 'InBangKhenCaNhan']);
 

@@ -200,14 +200,28 @@ class dsdonviController extends Controller
     public function LuuThongTinDonVi(Request $request)
     {
 
-        $inputs = $request->all();
+        $inputs = $request->all(); 
+        //dd($inputs);
         $model = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
+        if (isset($inputs['phoi_bangkhen'])) {
+            $filedk = $request->file('phoi_bangkhen');
+            $inputs['phoi_bangkhen'] = $inputs['madonvi'] . '_bangkhen.' . $filedk->getClientOriginalExtension();
+            $filedk->move(public_path() . '/data/uploads/', $inputs['phoi_bangkhen']);
+        }
+        if (isset($inputs['phoi_giaykhen'])) {
+            $filedk = $request->file('phoi_giaykhen');
+            $inputs['phoi_giaykhen'] = $inputs['madonvi'] . '_giaykhen.' . $filedk->getClientOriginalExtension();
+            $filedk->move(public_path() . '/data/uploads/', $inputs['phoi_giaykhen']);
+        }
+
         if ($model == null) {
             $inputs['madonvi'] = (string) getdate()[0];
             dsdonvi::create($inputs);
         } else {
             $model->update($inputs);
         }
+
+        
 
         return redirect('/');
     }

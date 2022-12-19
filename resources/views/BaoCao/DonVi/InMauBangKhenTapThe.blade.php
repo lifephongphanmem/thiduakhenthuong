@@ -2,8 +2,10 @@
 
 @section('content')
     @foreach ($model as $doituong)
-        <table cellspacing="0" cellpadding="0" border="0" background="{{  url( $m_donvi->phoi_bangkhen != '' ?('/data/uploads/'. $m_donvi->phoi_bangkhen) :'/assets/media/phoi/BangKhen.jpg') }}"
-            style="height: {{$m_donvi->chieurong_bangkhen != '' ? $m_donvi->chieurong_bangkhen : '297mm'}};width: {{$m_donvi->chieudai_bangkhen != '' ? $m_donvi->chieudai_bangkhen : '420mm'}};background-repeat: no-repeat;background-size: 100% 100%;">
+        <img src="{{ url($m_donvi->phoi_bangkhen != '' ? '/data/uploads/' . $m_donvi->phoi_bangkhen : '/assets/media/phoi/BangKhen.jpg') }}"
+            style="height: {{ $m_donvi->chieurong_bangkhen != '' ? $m_donvi->chieurong_bangkhen : '297mm' }};width: {{ $m_donvi->chieudai_bangkhen != '' ? $m_donvi->chieudai_bangkhen : '420mm' }};background-repeat: no-repeat;background-size: 100% 100%;" />
+        <table cellspacing="0" cellpadding="0" border="0"
+            style="height: {{ $m_donvi->chieurong_bangkhen != '' ? $m_donvi->chieurong_bangkhen : '297mm' }};width: {{ $m_donvi->chieudai_bangkhen != '' ? $m_donvi->chieudai_bangkhen : '420mm' }};background-repeat: no-repeat;background-size: 100% 100%;">
 
             <tr>
                 <td>

@@ -34,6 +34,12 @@ class dsdonvi extends Model
         'madinhdanh',
         'tendvhienthi',
         'tendvcqhienthi',
-        'sochu',//Số chữ trên 1 dòng
+        'sochu', //Số chữ trên 1 dòng
+        'phoi_bangkhen',
+        'dodai_bangkhen',
+        'chieurong_bangkhen',
+        'phoi_giaykhen',
+        'dodai_giaykhen',
+        'chieurong_giaykhen',
     ];
 }

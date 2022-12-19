@@ -1,19 +1,17 @@
 <?php
 
-namespace App\Model\DanhMuc;
+namespace App\Model\NghiepVu\CumKhoiThiDua;
 
 use Illuminate\Database\Eloquent\Model;
 
-class dmtoadoinphoi extends Model
+class dshosotdktcumkhoi_toado extends Model
 {
-    protected $table = 'dmtoadoinphoi';
+    protected $table = 'dshosotdktcumkhoi_toado';
     protected $fillable = [
         'id',
-        'phanloaikhenthuong', //Cụm khối; Khen thưởng
-        'phanloaidoituong', //Cá nhân, tập thể, hộ gia đình
-        'phanloaiphoi', //Cá nhân, tập thể, hộ gia đình
-        'madonvi',
-        'maloaihinhkt',
+        'pldoituong', //CANHAN; TAPTHE; HOGIADINH
+        'plkhenthuong', //BANGKHEN; GIAYKHEN
+        'id_doituong',
         'toado_tendoituongin',
         'toado_noidungkhenthuong',
         'toado_quyetdinh',
@@ -22,7 +20,7 @@ class dmtoadoinphoi extends Model
         'toado_hotennguoikyqd',
         'toado_donvikhenthuong',
         'toado_sokhenthuong',
-        'toado_pldoituong',
         'toado_chucvudoituong',
+        'toado_pldoituong',
     ];
 }
