@@ -792,7 +792,7 @@ class dungchung_nghiepvuController extends Controller
                     break;
                 }
             case "toado_phanloaidoituong": {
-                    $tentruong = 'phanloaidoituong';
+                    $tentruong = 'pldoituong';
                     break;
                 }
             default: {
