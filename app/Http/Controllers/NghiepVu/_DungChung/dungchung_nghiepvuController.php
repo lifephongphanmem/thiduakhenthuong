@@ -791,7 +791,7 @@ class dungchung_nghiepvuController extends Controller
                     $tentruong = 'quyetdinh';
                     break;
                 }
-            case "toado_phanloaidoituong": {
+            case "toado_pldoituong": {
                     $tentruong = 'pldoituong';
                     break;
                 }
