@@ -2,12 +2,13 @@
 
 @section('content')
     @foreach ($model as $doituong)
-        {{-- <table cellspacing="0" cellpadding="0" border="0" background="{{ url('/assets/media/phoi/GiayKhen1.jpg') }}"
-            style="height: 297mm;width: 420mm;background-repeat: no-repeat;background-size: 100% 105%;"> --}}
-            <table cellspacing="0" cellpadding="0" border="0" background="{{  url( $m_donvi->phoi_giaykhen != '' ?('/data/uploads/'. $m_donvi->phoi_giaykhen) :'/assets/media/phoi/GiayKhen1.jpg') }}"
-                style="height: 297mm;width: 420mm;background-repeat: no-repeat;background-size: 100% 105%;">
-                {{-- style="height: {{$m_donvi->chieurong_giaykhen != '' ? $m_donvi->chieurong_giaykhen : '210mm'}};width: {{$m_donvi->chieudai_giaykhen != '' ? $m_donvi->chieudai_giaykhen : '297mm'}};background-repeat: no-repeat;background-size: 100% 100%;"> --}}
-    
+        <img src="{{ url($m_donvi->phoi_giaykhen != '' ? '/data/uploads/' . $m_donvi->phoi_giaykhen : '/assets/media/phoi/GiayKhen1.jpg') }}"
+        style="height: 297mm;width: 420mm;background-repeat: no-repeat;background-size: 100% 105%;">
+            {{-- style="height: {{ $m_donvi->chieurong_giaykhen != '' ? $m_donvi->chieurong_giaykhen : '297mm' }};width: {{ $m_donvi->chieudai_giaykhen != '' ? $m_donvi->chieudai_giaykhen : '420mm' }};background-repeat: no-repeat;background-size: 100% 100%;" /> --}}
+        <table cellspacing="0" cellpadding="0" border="0"
+        style="height: 297mm;width: 420mm;background-repeat: no-repeat;background-size: 100% 105%;">
+            {{-- style="height: {{ $m_donvi->chieurong_giaykhen != '' ? $m_donvi->chieurong_giaykhen : '297mm' }};width: {{ $m_donvi->chieudai_giaykhen != '' ? $m_donvi->chieudai_giaykhen : '420mm' }};background-repeat: no-repeat;background-size: 100% 100%;"> --}}
+
             <tr>
                 <td colspan="2">
                     <label style="{{ $doituong->toado_tendoituongin }}" id="toado_tendoituongin"
