@@ -68,12 +68,12 @@
                 <th style="width: 2%">SL tập thể</th>
                 <th style="width: 2%">SL cá nhân</th>
 
-                <th style="width: 2%">Tổng số</th>
+                <th style="width: 2%">SL tập thể</th>
                 <th style="width: 2%">SL là cá nhân là lãnh đạo tỉnh, lãnh đạo các sở ban, ngành và tương đương </th>
                 <th style="width: 2%">Số lượng cá nhân là lãnh đạo từ phó phòng trở lên</th>
                 <th style="width: 2%">Số lượng cá nhân lao động trực tiếp, công nhân, nông nhân </th>
 
-                <th style="width: 2%">Tổng số</th>
+                <th style="width: 2%">SL tập thể</th>
                 <th style="width: 2%">SL là cá nhân là lãnh đạo tỉnh, lãnh đạo các sở ban, ngành và tương đương </th>
                 <th style="width: 2%">Số lượng cá nhân là lãnh đạo từ phó phòng trở lên</th>
                 <th style="width: 2%">Số lượng cá nhân lao động trực tiếp, công nhân, nông nhân </th>

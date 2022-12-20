@@ -74,6 +74,12 @@
             #myBtn {
                 display: none !important;
             }
+
+            @page {
+                size: A3 landscape;
+                /* DIN A4 standard, Europe */
+                margin: 0;
+            }
         }
 
         #fixNav {
