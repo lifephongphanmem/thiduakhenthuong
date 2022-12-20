@@ -73,6 +73,10 @@
                                 cáo hình thức khen thưởng trên địa bàn (Mẫu 02)</button>
                         </li>
                         <li>
+                            <button class="btn btn-clean text-dark" onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenThuong_m3')" data-target="#modal-khenthuong" data-toggle="modal">Báo
+                                cáo hình thức khen thưởng trên địa bàn (Mẫu 03)</button>
+                        </li>
+                        <li>
                             <button class="btn btn-clean text-dark" onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenCao_m1')" data-target="#modal-khenthuong" data-toggle="modal">Báo
                                 cáo hình thức khen thưởng (Khen cao - Mẫu 01)</button>
                         </li>

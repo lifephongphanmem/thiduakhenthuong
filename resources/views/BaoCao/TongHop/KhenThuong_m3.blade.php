@@ -23,7 +23,7 @@
 
         <tr>
             <td colspan="2" style="text-align: center; font-weight: bold; font-size: 20px;text-transform: uppercase">
-                TÔNG HỢP CÁC HÌNH THỨC KHEN THƯỞNG CẤP NHÀ NƯỚC
+                TÔNG HỢP CÁC HÌNH THỨC KHEN THƯỞNG TRÊN ĐỊA BÀN
             </td>
         </tr>
 
@@ -32,11 +32,11 @@
                 Thời điểm báo cáo: {{ getThoiDiem()[$inputs['thoidiem']] }}
             </td>
         </tr>
-        {{-- <tr>
+        <tr>
             <td colspan="2" style="text-align: center; font-weight: bold; font-style: italic">
                 Phạm vị thống kê: {{ getPhamViApDung()[$inputs['phamvithongke']] ?? 'Tất cả' }}
             </td>
-        </tr> --}}
+        </tr>
         <tr>
             <td colspan="2" style="text-align: center; font-style: italic">
                 Từ ngày: {{ getDayVn($inputs['ngaytu']) }} đến ngày: {{ getDayVn($inputs['ngayden']) }}
@@ -51,60 +51,65 @@
             <tr class="text-center">
                 <th style="width: 3%" rowspan="2">STT</th>
                 <th rowspan="2">Hình thức khen thưởng</th>
-                <th rowspan="2" style="width: 5%">Tổng số đã trình Thủ tướng Chính phủ (qua Ban TĐKT TW)</th>
-                <th rowspan="2" style="width: 5%">Tổng số đã có quyết định khen thưởng</th>
-                <th colspan="4">Khen thưởng theo công trạng, thành tích đạt được</th>
-                <th colspan="4">Khen thưởng chuyên đề, đột xuất</th>
+                <th rowspan="2" style="width: 3%">Tổng số tờ trình đề nghị khen thưởng</th>
+                <th colspan="2">Tổng số tập thể, cá nhân đã được trình đề nghị khen thưởng</th>
+                <th colspan="2">Tổng số tập thể, cá nhân đã có quyết định khen thưởng</th>
+                <th colspan="4">Khen thưởng theo công trạng thành tích đạt được</th>
+                <th colspan="4">Khen thưởng chuyên đề</th>
+                <th colspan="2">Khen thưởng đột xuất</th>
                 <th colspan="2">Khen thưởng đối ngoại</th>
-                <th colspan="2">Khen thưởng cống hiến</th>
-                <th colspan="2">Khen thưởng thành tích kháng chiến</th>
-                <th rowspan="2" style="width: 5%">Khen thưởng cho doanh nghiệp</th>
+                <th colspan="2">Khen thưởng cho doanh nghiệp</th>
                 {{-- <th colspan="{{ count($a_danhhieutd) }}">Hình thức khen thưởng</th> --}}
             </tr>
             <tr class="text-center">
-               
-                <th style="width: 5%">Tổng số</th>
-                <th style="width: 5%">Tỷ lệ</th>
-                <th style="width: 5%">Số lượng cá nhân là lãnh đạo quản lý (lãnh đạo từ cấp phòng trở lên)
-                </th>
-                <th style="width: 5%">Số lượng khen thưởng cá nhân không làm công tác quản lý</th>
+                <th style="width: 2%">SL tập thể</th>
+                <th style="width: 2%">SL cá nhân</th>
 
-                <th style="width: 5%">Tổng số</th>
-                <th style="width: 5%">Tỷ lệ</th>
-                <th style="width: 5%">Số lượng cá nhân là lãnh đạo quản lý (lãnh đạo từ cấp phòng trở lên)
-                </th>
-                <th style="width: 5%">Số lượng khen thưởng cá nhân không làm công tác quản lý</th>
+                <th style="width: 2%">SL tập thể</th>
+                <th style="width: 2%">SL cá nhân</th>
 
-                <th style="width: 5%">Tổng số</th>
-                <th style="width: 5%">Tỷ lệ</th>
+                <th style="width: 2%">Tổng số</th>
+                <th style="width: 2%">SL là cá nhân là lãnh đạo tỉnh, lãnh đạo các sở ban, ngành và tương đương </th>
+                <th style="width: 2%">Số lượng cá nhân là lãnh đạo từ phó phòng trở lên</th>
+                <th style="width: 2%">Số lượng cá nhân lao động trực tiếp, công nhân, nông nhân </th>
 
-                <th style="width: 5%">Tổng số</th>
-                <th style="width: 5%">Tỷ lệ</th>
+                <th style="width: 2%">Tổng số</th>
+                <th style="width: 2%">SL là cá nhân là lãnh đạo tỉnh, lãnh đạo các sở ban, ngành và tương đương </th>
+                <th style="width: 2%">Số lượng cá nhân là lãnh đạo từ phó phòng trở lên</th>
+                <th style="width: 2%">Số lượng cá nhân lao động trực tiếp, công nhân, nông nhân </th>
 
-                <th style="width: 5%">Tổng số</th>
-                <th style="width: 5%">Tỷ lệ</th>
+                <th style="width: 2%">SL tập thể</th>
+                <th style="width: 2%">SL cá nhân</th>
+
+                <th style="width: 2%">SL tập thể</th>
+                <th style="width: 2%">SL cá nhân</th>
+
+                <th style="width: 2%">SL tập thể</th>
+                <th style="width: 2%">SL cá nhân</th>
             </tr>
-           
+
             <tr class="text-center">
                 <th>1</th>
                 <th>2</th>
                 <th>3</th>
                 <th>4</th>
                 <th>5</th>
-                <th>6=5:4</th>
+                <th>6</th>
                 <th>7</th>
                 <th>8</th>
                 <th>9</th>
-                <th>10=9:4</th>
+                <th>10</th>
                 <th>11</th>
                 <th>12</th>
                 <th>13</th>
-                <th>14=13:4</th>
+                <th>14</th>
                 <th>15</th>
-                <th>16=15:4</th>
+                <th>16</th>
                 <th>17</th>
-                <th>18=17:4</th>
+                <th>18</th>
                 <th>19</th>
+                <th>20</th>
+                <th>21</th>
             </tr>
             {{-- <tr class="text-center">
             @foreach ($a_danhhieutd as $k => $v)
@@ -118,66 +123,61 @@
                 <td class="text-bold text-center">{{ $i++ }}</td>
                 <td class="text-bold">{{ $chitiet->tendanhhieukhenthuong }}</td>
 
-                <td class="text-center">{{ dinhdangso($chitiet->tongso) }}</td>
-                <td class="text-center">{{ dinhdangso($chitiet->tongso) }}</td>
-                
+                <td class="text-center">{{ dinhdangso($chitiet->tongtotrinh) }}</td>
 
-                <td class="text-center">{{ dinhdangso($chitiet->tongso_cotr) }}</td>
-                <td class="text-center">{{ dinhdangso(($chitiet->tongso_cotr / chkSoKhong($chitiet->tongso)) * 100, 2) }} %
-                </td>
+                <td class="text-center">{{ dinhdangso($chitiet->tongtotrinh_canhan) }}</td>
+                <td class="text-center">{{ dinhdangso($chitiet->tongtotrinh_tapthe) }}</td>
+                <td class="text-center">{{ dinhdangso($chitiet->tongtotrinh_canhan_kt) }}</td>
+                <td class="text-center">{{ dinhdangso($chitiet->tongtotrinh_tapthe_kt) }}</td>
+
+                <td class="text-center">{{ dinhdangso($chitiet->tongso_tapthe_cotr) }}</td>
                 <td class="text-center">{{ dinhdangso($chitiet->canhan_lada_cotr) }}</td>
+                <td class="text-center">{{ dinhdangso($chitiet->canhan_pp_cotr) }}</td>
                 <td class="text-center">{{ dinhdangso($chitiet->canhan_lado_cotr) }}</td>
 
-                <td class="text-center">{{ dinhdangso($chitiet->tongso_chde) }}</td>
-                <td class="text-center">{{ dinhdangso(($chitiet->tongso_chde / chkSoKhong($chitiet->tongso)) * 100, 2) }} %
-                </td>
-                <td class="text-center">{{ dinhdangso($chitiet->canhan_lada_chde) }}</td>
-                <td class="text-center">{{ dinhdangso($chitiet->canhan_lado_chde) }}</td>
+                <td class="text-center">{{ dinhdangso($chitiet->tongso_tapthe_cd) }}</td>
+                <td class="text-center">{{ dinhdangso($chitiet->canhan_lada_cd) }}</td>
+                <td class="text-center">{{ dinhdangso($chitiet->canhan_pp_cd) }}</td>
+                <td class="text-center">{{ dinhdangso($chitiet->canhan_lado_cd) }}</td>
 
-                <td class="text-center">{{ dinhdangso($chitiet->tongso_dongo) }}</td>
-                <td class="text-center">{{ dinhdangso(($chitiet->tongso_dongo / chkSoKhong($chitiet->tongso)) * 100, 2) }}
-                    %
-                </td>
+                <td class="text-center">{{ dinhdangso($chitiet->tongso_tapthe_dx) }}</td>
+                <td class="text-center">{{ dinhdangso($chitiet->tongso_canhan_dx) }}</td>
 
-                <td class="text-center">{{ dinhdangso($chitiet->tongso_conghien) }}</td>
-                <td class="text-center">{{ dinhdangso(($chitiet->tongso_conghien / chkSoKhong($chitiet->tongso)) * 100, 2) }}
-                    %
-                </td>
-                
-                <td class="text-center"></td>
-                <td class="text-center"></td>
+                <td class="text-center">{{ dinhdangso($chitiet->tongso_tapthe_dongo) }}</td>
+                <td class="text-center">{{ dinhdangso($chitiet->tongso_canhan_dongo) }}</td>
 
-                <td class="text-center">{{ dinhdangso($chitiet->tongdn) }}</td>
+                <td class="text-center">{{ dinhdangso($chitiet->tongso_tapthe_dn) }}</td>
+                <td class="text-center">{{ dinhdangso($chitiet->tongso_canhan_dn) }}</td>
             </tr>
         @endforeach
         <tr class="font-weight-boldest">
             <td class="text-center" colspan="2">Tổng cộng</td>
-            <td class="text-center">{{ dinhdangso($model->sum('tongso')) }}</td>
-            
-            <td class="text-center">{{ dinhdangso($model->sum('tongso')) }}</td>
 
-            <td class="text-center">{{ dinhdangso($model->sum('tongso_cotr')) }}</td>
-            <td class="text-center">
-                {{ dinhdangso(($model->sum('tongso_cotr') / chkSoKhong($model->sum('tongso'))) * 100, 2) }} %</td>
+            <td class="text-center">{{ dinhdangso($chitiet->tongtotrinh) }}</td>
+
+            <td class="text-center">{{ dinhdangso($model->sum('tongtotrinh_canhan')) }}</td>
+            <td class="text-center">{{ dinhdangso($model->sum('tongtotrinh_tapthe')) }}</td>
+            <td class="text-center">{{ dinhdangso($model->sum('tongtotrinh_canhan_kt')) }}</td>
+            <td class="text-center">{{ dinhdangso($model->sum('tongtotrinh_tapthe_kt')) }}</td>
+
+            <td class="text-center">{{ dinhdangso($model->sum('tongso_tapthe_cotr')) }}</td>
             <td class="text-center">{{ dinhdangso($model->sum('canhan_lada_cotr')) }}</td>
+            <td class="text-center">{{ dinhdangso($model->sum('canhan_pp_cotr')) }}</td>
             <td class="text-center">{{ dinhdangso($model->sum('canhan_lado_cotr')) }}</td>
 
-            <td class="text-center">{{ dinhdangso($model->sum('tongso_chde')) }}</td>
-            <td class="text-center">
-                {{ dinhdangso(($model->sum('tongso_chde') / chkSoKhong($model->sum('tongso'))) * 100, 2) }} %</td>
-            <td class="text-center">{{ dinhdangso($model->sum('canhan_lada_chde')) }}</td>
-            <td class="text-center">{{ dinhdangso($model->sum('canhan_lado_chde')) }}</td>
+            <td class="text-center">{{ dinhdangso($model->sum('tongso_tapthe_cd')) }}</td>
+            <td class="text-center">{{ dinhdangso($model->sum('canhan_lada_cd')) }}</td>
+            <td class="text-center">{{ dinhdangso($model->sum('canhan_pp_cd')) }}</td>
+            <td class="text-center">{{ dinhdangso($model->sum('canhan_lado_cd')) }}</td>
 
-            <td class="text-center">{{ dinhdangso($model->sum('tongso_dongo')) }}</td>
-            <td class="text-center">
-                {{ dinhdangso(($model->sum('tongso_dongo') / chkSoKhong($model->sum('tongso'))) * 100, 2) }} %</td>
+            <td class="text-center">{{ dinhdangso($model->sum('tongso_tapthe_dx')) }}</td>
+            <td class="text-center">{{ dinhdangso($model->sum('tongso_canhan_dx')) }}</td>
 
-                <td class="text-center">{{ dinhdangso($model->sum('tongso_conghien')) }}</td>
-                <td class="text-center">
-                    {{ dinhdangso(($model->sum('tongso_conghien') / chkSoKhong($model->sum('tongso'))) * 100, 2) }} %</td>
-            <td class="text-center"></td>
-            <td class="text-center"></td>
-            <td class="text-center">{{ dinhdangso($model->sum('tongdn')) }}</td>
+            <td class="text-center">{{ dinhdangso($model->sum('tongso_tapthe_dongo')) }}</td>
+            <td class="text-center">{{ dinhdangso($model->sum('tongso_canhan_dongo')) }}</td>
+
+            <td class="text-center">{{ dinhdangso($model->sum('tongso_tapthe_dn')) }}</td>
+            <td class="text-center">{{ dinhdangso($model->sum('tongso_canhan_dn')) }}</td>
         </tr>
 
     </table>
