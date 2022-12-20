@@ -131,8 +131,10 @@ class dungchung_inphoi_khenthuongController extends Controller
             ->where('phanloaidoituong', $inputs['phanloaidoituong'])
             ->where('phanloaiphoi', $inputs['phanloaiphoi'])
             ->where('madonvi', $m_hoso->madonvi)->first();
+       // dd($m_toado);
         //dd($m_toado);
         foreach ($model as $doituong) {
+            //dd($doituong);
             //$doituong->noidungkhenthuong = catchuoi(($doituong->noidungkhenthuong != '' ? $doituong->noidungkhenthuong : 'Nội dung khen thưởng'), $m_donvi->sochu);
             $doituong->noidungkhenthuong = $doituong->noidungkhenthuong != '' ? $doituong->noidungkhenthuong : ($m_hoso->noidung != '' ? catchuoi($m_hoso->noidung, $m_donvi->sochu) : 'Nội dung khen thưởng');
             $doituong->toado_noidungkhenthuong = $doituong->toado_noidungkhenthuong != '' ? $doituong->toado_noidungkhenthuong : ($m_toado->toado_noidungkhenthuong ?? '');

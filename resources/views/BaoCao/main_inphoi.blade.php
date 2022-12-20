@@ -155,10 +155,10 @@
 
             if (getStyle('toado_chucvudoituong').includes('color:red;'))
                 byId('toado_chucvudoituong').classList.add('in');
-            
+
             if (getStyle('toado_pldoituong').includes('color:red;'))
                 byId('toado_pldoituong').classList.add('in');
-            
+
             if (getStyle('toado_quyetdinh').includes('color:red;'))
                 byId('toado_quyetdinh').classList.add('in');
             window.print();
@@ -425,6 +425,12 @@
                 </li>
                 <li>
                     <button type="button" class="btn btn-info btn-xs" style="border-radius: 20px;"
+                        data-target="#modal-macdinh" data-toggle="modal">
+                        <i class="fa fa-file-excel-o"></i> Tải lại tọa độ
+                    </button>
+                </li>
+                <li>
+                    <button type="button" class="btn btn-info btn-xs" style="border-radius: 20px;"
                         onclick="setMacDinh()">
                         <i class="fa fa-file-excel-o"></i> Đặt làm mặc định
                     </button>
@@ -507,6 +513,39 @@
                     </div>
                 </div>
 
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-default">Thoát</button>
+                <button type="submit" class="btn btn-primary">Hoàn thành</button>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>
+{!! Form::close() !!}
+
+{!! Form::open([
+    'url' => '/DungChung/TaiLaiToaDo',
+    'id' => 'frm_MacDinh',
+    'class' => 'form',
+    'files' => true,
+    'enctype' => 'multipart/form-data',
+]) !!}
+<input type="hidden" name="id" value="{{ $inputs['id'] }}" />
+<input type="hidden" name="phanloaikhenthuong" value="{{ $inputs['phanloaikhenthuong'] }}" />
+<input type="hidden" name="phanloaidoituong" value="{{ $inputs['phanloaidoituong'] }}" />
+<input type="hidden" name="phanloaiphoi" value="{{ $inputs['phanloaiphoi'] }}" />
+<input type="hidden" name="madonvi" value="{{ $m_donvi->madonvi }}" />
+<div class="modal fade bs-modal-lg" id="modal-macdinh" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Thông tin chi tiết</h4>
+            </div>
+            <div class="modal-body">
+                <h4>Thông tin in phôi sẽ được khôi phục lại theo thiết lập mặc định. Bạn có chắc chắn muốn thay đổi.
+                </h4>
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-default">Thoát</button>

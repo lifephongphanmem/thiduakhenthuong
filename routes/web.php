@@ -44,6 +44,7 @@ Route::group(['prefix' => 'DungChung'], function () {
     Route::get('LuuToaDo', [dungchung_nghiepvuController::class, 'LuuToaDo']);
     Route::get('GanToaDoMacDinh', [dungchung_nghiepvuController::class, 'GanToaDoMacDinh']);
     Route::post('LuuThayDoiViTri', [dungchung_nghiepvuController::class, 'LuuThayDoiViTri']);
+    Route::post('TaiLaiToaDo', [dungchung_nghiepvuController::class, 'TaiLaiToaDo']);
 });
 
 //Hệ thống
