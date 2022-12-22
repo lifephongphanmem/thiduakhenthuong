@@ -127,12 +127,17 @@
                                     <div class="form-group row">
                                         <div class="col-lg-12 text-right">
                                             <div class="btn-group" role="group">
-                                                {{-- <button type="button" onclick="setTapThe()"
-                                                    data-target="#modal-create-tapthe" data-toggle="modal"
-                                                    class="btn btn-light-dark btn-icon btn-sm">
-                                                    <i class="fa fa-plus"></i>
-                                                </button> --}}
+                                                {{-- <a target="_blank" title="In phôi bằng khen"
+                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InDanhSachBangKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=TAPTHE&mahoso=' . $inputs['mahosotdkt'] . '&madonvi=' . $inputs['madonvi']) }}"
+                                                    class="btn btn-light-dark btn-sm">
+                                                    <i class="icon-lg la la-file-invoice"></i>Phôi BK
+                                                </a> --}}
 
+                                                <button onclick="setBangKhen('KHENTHUONG','TAPTHE')"
+                                                    title="In danh sách bằng khen" data-target="#modal-danhsach"
+                                                    data-toggle="modal" type="button" class="btn btn-light-dark btn-sm">
+                                                    <i class="icon-lg la la-file-invoice"></i>Bằng khen
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -166,28 +171,33 @@
                                                                     data-target="#modal-thaydoi" data-toggle="modal">
                                                                     <i class="icon-lg la fa-edit text-primary"></i>
                                                                 </button> --}}
-                                                                
+
                                                                 <a target="_blank" title="In phôi bằng khen"
-                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InBangKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=TAPTHE&id=' . $tt->id) }}"
+                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InBangKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=TAPTHE&id=' . $tt->id . '&madonvi=' . $inputs['madonvi']) }}"
                                                                     class="btn btn-xs">
-                                                                    <i class="icon-lg la la-file-invoice text-dark"></i>Phôi BK
+                                                                    <i class="icon-lg la la-file-invoice text-dark"></i>Phôi
+                                                                    BK
                                                                 </a>
 
                                                                 <a target="_blank" title="In phôi bằng khen"
-                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InMauBangKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=TAPTHE&id=' . $tt->id) }}"
+                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InMauBangKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=TAPTHE&id=' . $tt->id . '&madonvi=' . $inputs['madonvi']) }}"
                                                                     class="btn btn-xs mr-1 mb-1 mt-1">
-                                                                    <i class="icon-lg la la-file-invoice text-dark"></i>Màu BK
+                                                                    <i class="icon-lg la la-file-invoice text-dark"></i>Màu
+                                                                    BK
                                                                 </a>
 
                                                                 <a target="_blank" title="In phôi giấy khen"
-                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InGiayKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=TAPTHE&id=' . $tt->id) }}"
+                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InGiayKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=TAPTHE&id=' . $tt->id . '&madonvi=' . $inputs['madonvi']) }}"
                                                                     class="btn btn-xs mr-1 mb-1 mt-1">
-                                                                    <i class="icon-lg la la-file-contract text-dark"></i>Phôi GK
+                                                                    <i
+                                                                        class="icon-lg la la-file-contract text-dark"></i>Phôi
+                                                                    GK
                                                                 </a>
                                                                 <a target="_blank" title="In phôi giấy khen"
-                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InMauGiayKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=TAPTHE&id=' . $tt->id) }}"
+                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InMauGiayKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=TAPTHE&id=' . $tt->id . '&madonvi=' . $inputs['madonvi']) }}"
                                                                     class="btn btn-xs mr-1 mb-1 mt-1">
-                                                                    <i class="icon-lg la la-file-contract text-dark"></i>Màu GK
+                                                                    <i class="icon-lg la la-file-contract text-dark"></i>Màu
+                                                                    GK
                                                                 </a>
                                                             </td>
                                                         </tr>
@@ -242,26 +252,33 @@
                                                                     <i class="icon-lg la fa-edit text-primary"></i>
                                                                 </button> --}}
                                                                 <a target="_blank" title="In phôi bằng khen"
-                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InBangKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=CANHAN&id=' . $tt->id) }}"
+                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InBangKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=CANHAN&id=' . $tt->id . '&madonvi=' . $inputs['madonvi']) }}"
                                                                     class="btn btn-xs">
-                                                                    <i class="icon-lg la la-file-invoice text-dark"></i>Phôi BK
+                                                                    <i
+                                                                        class="icon-lg la la-file-invoice text-dark"></i>Phôi
+                                                                    BK
                                                                 </a>
 
                                                                 <a target="_blank" title="In phôi bằng khen"
-                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InMauBangKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=CANHAN&id=' . $tt->id) }}"
+                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InMauBangKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=CANHAN&id=' . $tt->id . '&madonvi=' . $inputs['madonvi']) }}"
                                                                     class="btn btn-xs mr-1 mb-1 mt-1">
-                                                                    <i class="icon-lg la la-file-invoice text-dark"></i>Màu BK
+                                                                    <i class="icon-lg la la-file-invoice text-dark"></i>Màu
+                                                                    BK
                                                                 </a>
 
                                                                 <a target="_blank" title="In phôi giấy khen"
-                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InGiayKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=CANHAN&id=' . $tt->id) }}"
+                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InGiayKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=CANHAN&id=' . $tt->id . '&madonvi=' . $inputs['madonvi']) }}"
                                                                     class="btn btn-xs mr-1 mb-1 mt-1">
-                                                                    <i class="icon-lg la la-file-contract text-dark"></i>Phôi GK
+                                                                    <i
+                                                                        class="icon-lg la la-file-contract text-dark"></i>Phôi
+                                                                    GK
                                                                 </a>
                                                                 <a target="_blank" title="In phôi giấy khen"
-                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InMauGiayKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=CANHAN&id=' . $tt->id) }}"
+                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InMauGiayKhen?phanloaikhenthuong=KHENTHUONG&phanloaidoituong=CANHAN&id=' . $tt->id . '&madonvi=' . $inputs['madonvi']) }}"
                                                                     class="btn btn-xs mr-1 mb-1 mt-1">
-                                                                    <i class="icon-lg la la-file-contract text-dark"></i>Màu GK
+                                                                    <i
+                                                                        class="icon-lg la la-file-contract text-dark"></i>Màu
+                                                                    GK
                                                                 </a>
 
 
@@ -303,39 +320,38 @@
     <!--end::Card-->
 
     {!! Form::open([
-        'url' =>  '/DungChung/NoiDungKhenThuong',
-        'id' => 'frm_ThayDoi',
+        'url' => '/DungChung/InPhoiKhenThuong/InDanhSachBangKhen',
+        'target' => '_blank',
+        'id' => 'frm_PhoiDanhSach',
         'class' => 'form',
         'files' => true,
         'enctype' => 'multipart/form-data',
     ]) !!}
     <input type="hidden" name="id" />
-    <input type="hidden" name="phanloai" />
-    <div class="modal fade bs-modal-lg" id="modal-thaydoi" tabindex="-1" role="dialog" aria-hidden="true">
+    <input type="hidden" name="phanloaikhenthuong" />
+    <input type="hidden" name="phanloaidoituong" />
+    <input type="hidden" name="mahoso" value="{{ $inputs['mahosotdkt'] }}" />
+    <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
+    <div class="modal fade bs-modal-lg" id="modal-danhsach" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Thông tin đối tượng</h4>
+                    <h4 class="modal-title">Thông tin chi tiết</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group row">
-                        <div class="col-lg-6">
-                            <label class="form-control-label">Tên đối tượng</label>
-                            {!! Form::text('tendoituong', null, ['class' => 'form-control', 'disabled' => 'true']) !!}
-                        </div>
-                    </div>
-
                     <div class="form-group row">
                         <div class="col-md-12">
                             <label>Nội dung khen thưởng</label>
                             {!! Form::textarea('noidungkhenthuong', null, [
                                 'class' => 'form-control',
                                 'rows' => '2',
+                                'placeholder'=>'Nội dung khen thưởng thay nội dung theo từng đối tượng'
                             ]) !!}
                         </div>
                     </div>
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-default">Thoát</button>
                     <button type="submit" class="btn btn-primary">Hoàn thành</button>
@@ -347,6 +363,13 @@
     </div>
     {!! Form::close() !!}
     <script>
+        function setBangKhen(phanloaikhenthuong, phanloaidoituong) {
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            var form = $('#frm_PhoiDanhSach');
+            form.find("[name='phanloaikhenthuong']").val(phanloaikhenthuong);
+            form.find("[name='phanloaidoituong']").val(phanloaidoituong);
+        }
+
         function getCaNhan(id, phanloai) {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
@@ -380,7 +403,7 @@
                 dataType: 'JSON',
                 success: function(data) {
                     var form = $('#frm_ThayDoi');
-                    form.find("[name='id']").val(data.id);                  
+                    form.find("[name='id']").val(data.id);
                     form.find("[name='tendoituong']").val(data.tentapthe);
                     form.find("[name='noidungkhenthuong']").val(data.noidungkhenthuong);
                     form.find("[name='phanloai']").val(phanloai);

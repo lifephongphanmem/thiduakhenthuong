@@ -31,13 +31,15 @@ Route::group(['prefix' => 'DungChung'], function () {
         //Route::post('NoiDungKhenThuong', [dungchung_inphoi_khenthuongController::class, 'NoiDungKhenThuong']);
         Route::get('InBangKhen', [dungchung_inphoi_khenthuongController::class, 'InBangKhen']);
         Route::get('InMauBangKhen', [dungchung_inphoi_khenthuongController::class, 'InMauBangKhen']);
-        Route::get('InBangKhenHoGiaDinh', [dungchung_inphoi_khenthuongController::class, 'InBangKhenHoGiaDinh']);
-        Route::get('InBangKhenCaNhan', [dungchung_inphoi_khenthuongController::class, 'InBangKhenCaNhan']);
+        Route::post('InDanhSachBangKhen', [dungchung_inphoi_khenthuongController::class, 'InDanhSachBangKhen']);
+        // Route::get('InBangKhenHoGiaDinh', [dungchung_inphoi_khenthuongController::class, 'InBangKhenHoGiaDinh']);
+        // Route::get('InBangKhenCaNhan', [dungchung_inphoi_khenthuongController::class, 'InBangKhenCaNhan']);
 
         Route::get('InGiayKhen', [dungchung_inphoi_khenthuongController::class, 'InGiayKhen']);
         Route::get('InMauGiayKhen', [dungchung_inphoi_khenthuongController::class, 'InMauGiayKhen']);
-        Route::get('InGiayKhenHoGiaDinh', [dungchung_inphoi_khenthuongController::class, 'InGiayKhenHoGiaDinh']);
-        Route::get('InGiayKhenCaNhan', [dungchung_inphoi_khenthuongController::class, 'InGiayKhenCaNhan']);
+        Route::post('InDanhSachGiayKhen', [dungchung_inphoi_khenthuongController::class, 'InDanhSachGiayKhen']);
+        // Route::get('InGiayKhenHoGiaDinh', [dungchung_inphoi_khenthuongController::class, 'InGiayKhenHoGiaDinh']);
+        // Route::get('InGiayKhenCaNhan', [dungchung_inphoi_khenthuongController::class, 'InGiayKhenCaNhan']);
     });
     Route::get('InPhoiCumKhoi/DanhSach', [dungchung_inphoi_khenthuongController::class, 'DanhSachCumKhoi']);
 

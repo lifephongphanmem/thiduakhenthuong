@@ -127,11 +127,9 @@ class dungchung_inphoi_khenthuongController extends Controller
         }
 
         $m_donvi = dsdonvi::where('madonvi', $m_hoso->madonvi)->first();
-        $m_toado = dmtoadoinphoi::where('phanloaikhenthuong', $inputs['phanloaikhenthuong'])
-            ->where('phanloaidoituong', $inputs['phanloaidoituong'])
-            ->where('phanloaiphoi', $inputs['phanloaiphoi'])
-            ->where('madonvi', $m_hoso->madonvi)->first();
-       // dd($m_toado);
+        $m_toado = getToaDoMacDinh($inputs);
+
+        //dd($m_toado);
         //dd($m_toado);
         foreach ($model as $doituong) {
             //dd($doituong);
@@ -250,10 +248,7 @@ class dungchung_inphoi_khenthuongController extends Controller
         }
 
         $m_donvi = dsdonvi::where('madonvi', $m_hoso->madonvi)->first();
-        $m_toado = dmtoadoinphoi::where('phanloaikhenthuong', $inputs['phanloaikhenthuong'])
-            ->where('phanloaidoituong', $inputs['phanloaidoituong'])
-            ->where('phanloaiphoi', $inputs['phanloaiphoi'])
-            ->where('madonvi', $m_hoso->madonvi)->first();
+        $m_toado = getToaDoMacDinh($inputs);
         foreach ($model as $doituong) {
             //$doituong->noidungkhenthuong = catchuoi(($doituong->noidungkhenthuong != '' ? $doituong->noidungkhenthuong : 'Nội dung khen thưởng'), $m_donvi->sochu);
             $doituong->noidungkhenthuong = $doituong->noidungkhenthuong != '' ? $doituong->noidungkhenthuong : ($m_hoso->noidung != '' ? catchuoi($m_hoso->noidung, $m_donvi->sochu) : 'Nội dung khen thưởng');
@@ -367,10 +362,7 @@ class dungchung_inphoi_khenthuongController extends Controller
         }
 
         $m_donvi = dsdonvi::where('madonvi', $m_hoso->madonvi)->first();
-        $m_toado = dmtoadoinphoi::where('phanloaikhenthuong', $inputs['phanloaikhenthuong'])
-            ->where('phanloaidoituong', $inputs['phanloaidoituong'])
-            ->where('phanloaiphoi', $inputs['phanloaiphoi'])
-            ->where('madonvi', $m_hoso->madonvi)->first();
+        $m_toado = getToaDoMacDinh($inputs);
         //dd($m_toado);
         foreach ($model as $doituong) {
             //$doituong->noidungkhenthuong = catchuoi(($doituong->noidungkhenthuong != '' ? $doituong->noidungkhenthuong : 'Nội dung khen thưởng'), $m_donvi->sochu);
@@ -485,10 +477,7 @@ class dungchung_inphoi_khenthuongController extends Controller
         }
 
         $m_donvi = dsdonvi::where('madonvi', $m_hoso->madonvi)->first();
-        $m_toado = dmtoadoinphoi::where('phanloaikhenthuong', $inputs['phanloaikhenthuong'])
-            ->where('phanloaidoituong', $inputs['phanloaidoituong'])
-            ->where('phanloaiphoi', $inputs['phanloaiphoi'])
-            ->where('madonvi', $m_hoso->madonvi)->first();
+        $m_toado = getToaDoMacDinh($inputs);
         foreach ($model as $doituong) {
             //$doituong->noidungkhenthuong = catchuoi(($doituong->noidungkhenthuong != '' ? $doituong->noidungkhenthuong : 'Nội dung khen thưởng'), $m_donvi->sochu);
             $doituong->noidungkhenthuong = $doituong->noidungkhenthuong != '' ? $doituong->noidungkhenthuong : ($m_hoso->noidung != '' ? catchuoi($m_hoso->noidung, $m_donvi->sochu) : 'Nội dung khen thưởng');
@@ -547,6 +536,143 @@ class dungchung_inphoi_khenthuongController extends Controller
             ->with('inputs', $inputs)
             ->with('pageTitle', 'In bằng khen cá nhân');
     }
+
+    public function InDanhSachBangKhen(Request $request)
+    {
+        $inputs = $request->all();
+        $inputs['phanloaikhenthuong'] = $inputs['phanloaikhenthuong'] ?? 'KHENTHUONG';
+        $inputs['phanloaidoituong'] = $inputs['phanloaidoituong'] ?? 'CANHAN';
+        $inputs['phanloaiphoi'] = 'BANGKHEN';
+        if ($inputs['noidungkhenthuong'] != '')
+            $inputs['noidungkhenthuong'] = str_replace("\r\n", '<br>', $inputs['noidungkhenthuong']);
+        //dd($inputs['noidungkhenthuong']);
+        switch ($inputs["phanloaikhenthuong"]) {
+            case "KHENTHUONG": {
+                    switch ($inputs["phanloaidoituong"]) {
+                        case "TAPTHE": {
+                                //dd($this->setViTri($inputs));
+                                $model = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $inputs['mahoso'])->get();
+                                break;
+                            }
+                        case "CANHAN": {
+                                $model = dshosothiduakhenthuong_canhan::where('mahosotdkt', $inputs['mahoso'])->get();
+                                break;
+                            }
+                        case "HOGIADINH": {
+                                $model = dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $inputs['mahoso'])->get();
+                                break;
+                            }
+                    }
+                    $m_hoso = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
+                    break;
+                }
+            case "CUMKHOI": {
+                    switch ($inputs["phanloaidoituong"]) {
+                        case "TAPTHE": {
+                                $model = dshosotdktcumkhoi_tapthe::where('mahosotdkt', $inputs['mahoso'])->get();
+                                break;
+                            }
+                        case "CANHAN": {
+                                $model = dshosotdktcumkhoi_canhan::where('mahosotdkt', $inputs['mahoso'])->get();
+                                break;
+                            }
+                        case "HOGIADINH": {
+                                $model = dshosotdktcumkhoi_hogiadinh::where('mahosotdkt', $inputs['mahoso'])->get();
+                                $tendoituong = 'tentapthe';
+                                break;
+                            }
+                    }
+                    $m_hoso = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahoso'])->first();
+                    break;
+                }
+        }
+
+        $m_donvi = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
+        $m_toado = getToaDoMacDinh($inputs);
+        $chieurong_bangkhen_px = chkDbl($m_donvi->chieurong_bangkhen) * 3.779527559055;
+        $i = 0;
+        $a_truongtoado = [
+            'toado_tendoituongin',
+            'toado_noidungkhenthuong',
+            'toado_ngayqd',
+            'toado_quyetdinh',
+            'toado_chucvunguoikyqd',
+            'toado_chucvudoituong',
+            'toado_pldoituong',
+            'toado_hotennguoikyqd'
+        ];
+        //dd($chieurong_bangkhen_px);
+
+        //1 Milimét [mm] = 3,779 527 559 055 Pixel [px] 
+        foreach ($model as $doituong) {
+            //$doituong->noidungkhenthuong = catchuoi(($doituong->noidungkhenthuong != '' ? $doituong->noidungkhenthuong : 'Nội dung khen thưởng'), $m_donvi->sochu);
+            $doituong->noidungkhenthuong = $doituong->noidungkhenthuong != '' ? $doituong->noidungkhenthuong : ($m_hoso->noidung != '' ? catchuoi($m_hoso->noidung, $m_donvi->sochu) : 'Nội dung khen thưởng');
+            $doituong->chucvunguoikyqd = $doituong->chucvunguoikyqd != '' ? $doituong->chucvunguoikyqd : ($m_hoso->chucvunguoikyqd != '' ? $m_hoso->chucvunguoikyqd : 'Chức vụ người ký');
+            $doituong->hotennguoikyqd = $doituong->hotennguoikyqd != '' ? $doituong->hotennguoikyqd : ($m_hoso->hotennguoikyqd != '' ? $m_hoso->hotennguoikyqd : 'Họ tên người ký');
+            $doituong->ngayqd = $doituong->ngayqd != '' ? $doituong->ngayqd : ($m_donvi->diadanh . ', ' . Date2Str($m_hoso->ngayhoso));
+            $doituong->quyetdinh = $doituong->quyetdinh != '' ? $doituong->quyetdinh : ('Số: ' . $m_hoso->soqd . ', ' . Date2Str($m_hoso->ngayhoso) . '</br>Số bằng: 01');
+
+            switch ($inputs["phanloaidoituong"]) {
+                case "CANHAN": {
+                        $doituong->tendoituongin = $doituong->tendoituongin != '' ? $doituong->tendoituongin : $doituong->tendoituong;
+                        $cq = $doituong->chucvu . $doituong->tencoquan;
+                        $doituong->chucvudoituong = $doituong->chucvudoituong != '' ? $doituong->chucvudoituong : ($cq != '' ? $cq : 'Tên phòng ban - cơ quan');
+                        $doituong->pldoituong = $doituong->pldoituong != '' ? $doituong->pldoituong : ($doituong->gioitinh == 'NAM' ? 'Ông:' : 'Bà');
+                        break;
+                    }
+                default: {
+                        $doituong->tendoituongin = $doituong->tendoituongin != '' ? $doituong->tendoituongin : $doituong->tentapthe;
+                        $doituong->chucvudoituong = $doituong->chucvudoituong != '' ? $doituong->chucvudoituong : ($doituong->tencoquan != '' ? $doituong->tencoquan : 'Tên cơ quan');
+                        $doituong->pldoituong = $doituong->pldoituong != '' ? $doituong->pldoituong : 'Tập thể:';
+                        break;
+                    }
+            }
+
+            //
+            $doituong->toado_quyetdinh = $m_toado->toado_quyetdinh ?? '';
+            $doituong->toado_chucvunguoikyqd = $m_toado->toado_chucvunguoikyqd ?? '';
+            $doituong->toado_hotennguoikyqd = $m_toado->toado_hotennguoikyqd ?? '';
+            $doituong->toado_ngayqd = $m_toado->toado_ngayqd ?? '';
+            $doituong->toado_tendoituongin = $m_toado->toado_tendoituongin ?? '';
+            $doituong->toado_chucvudoituong = $m_toado->toado_chucvudoituong ?? '';
+            $doituong->toado_pldoituong = $m_toado->toado_pldoituong ?? '';
+            $doituong->toado_noidungkhenthuong = $m_toado->toado_noidungkhenthuong ?? '';
+            //Gán lại ô nội dung
+            if ($inputs['noidungkhenthuong'] != '')
+                $doituong->noidungkhenthuong = $inputs['noidungkhenthuong'];
+            //chạy lại tọa độ
+            $chieurong = round($chieurong_bangkhen_px * $i);
+            foreach ($a_truongtoado as $tentruong) {
+                $a_toado = [];
+                foreach (explode(';', $doituong->$tentruong) as $toado) {
+                    if (str_contains($toado, 'top:')) {
+                        $a_toado[] = 'top:' . round($chieurong + Str2Bbl($toado)) . 'px';
+                    } else
+                        $a_toado[] = $toado;
+                }
+                $doituong->$tentruong = implode(';', $a_toado);
+                //kiểm tra trường ẩn thì để nội dung == '' để ko in
+                if (str_contains($doituong->$tentruong, 'color:red;')) {
+                    $truong =  getTenTruongTheToaDo($tentruong);
+                    $doituong->$truong = '';
+                }
+            }
+            $i++;
+        }
+        //dd($model);
+        return view('BaoCao.DonVi.InDanhSachBangKhen')
+            ->with('model', $model)
+            ->with('m_donvi', $m_donvi)
+            ->with('m_hoso', $m_hoso)
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'In danh sách bằng khen');
+    }
+
+    public function getDuLieu($inputs)
+    {
+        # code...
+    }
+
     // public function NoiDungKhenThuong(Request $request)
     // {
     //     $inputs = $request->all();

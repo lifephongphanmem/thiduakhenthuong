@@ -37,6 +37,8 @@ function getDbl($obj)
         return 0;
 }
 
+
+
 function getDouble($str)
 {
     $sKQ = 0;
@@ -461,4 +463,15 @@ function UNI_2_VNI($text2)
         $text = str_replace($UNI[$i], $VNI[$i], $text);
     }
     return $text;
+}
+
+function Str2Bbl($obj)
+{
+    $ketqua = '';
+    for ($i = 0; $i < strlen($obj); $i++) {
+        if (is_numeric($obj[$i]) || $obj[$i] == ',') {
+            $ketqua .= $obj[$i];
+        }
+    }
+    return $ketqua;
 }

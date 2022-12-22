@@ -134,12 +134,12 @@
             <h4>Thiết lập bằng khen</h4>
             <div class="form-group row">
                 <div class="col-lg-2">
-                    <label>Chiều dài</label>
-                    {!! Form::text('dodai_bangkhen', null, ['class' => 'form-control']) !!}
+                    <label>Chiều dài(mm)</label>
+                    {!! Form::number('dodai_bangkhen', null, ['class' => 'form-control']) !!}
                 </div>
                 <div class="col-lg-2">
-                    <label>Chiều rộng</label>
-                    {!! Form::text('chieurong_bangkhen', null, ['class' => 'form-control']) !!}
+                    <label>Chiều rộng(mm)</label>
+                    {!! Form::number('chieurong_bangkhen', null, ['class' => 'form-control']) !!}
                 </div>
                 <div class="col-lg-8">
                     <label>Đường dẫn</label>
@@ -158,12 +158,12 @@
             <h4>Thiết lập giấy khen</h4>
             <div class="form-group row">
                 <div class="col-lg-2">
-                    <label>Chiều dài</label>
-                    {!! Form::text('dodai_giaykhen', null, ['class' => 'form-control']) !!}
+                    <label>Chiều dài(mm)</label>
+                    {!! Form::number('dodai_giaykhen', null, ['class' => 'form-control']) !!}
                 </div>
                 <div class="col-lg-2">
-                    <label>Chiều rộng</label>
-                    {!! Form::text('chieurong_giaykhen', null, ['class' => 'form-control']) !!}
+                    <label>Chiều rộng(mm)</label>
+                    {!! Form::number('chieurong_giaykhen', null, ['class' => 'form-control']) !!}
                 </div>
                 <div class="col-lg-8">
                     <label>Đường dẫn</label>

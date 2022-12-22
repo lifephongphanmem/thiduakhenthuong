@@ -304,13 +304,19 @@
             var textAlign = mElem.style.textAlign;
             if (textAlign == '')
                 textAlign = 'center';
+
             var color = mElem.style.color;
             if (color == '')
                 color = 'black';
+
+            var width = mElem.style.width;
+            if (width == '')
+                width = '500px';
+
             return 'top:' + mElem.style.top + ';' + 'left:' + mElem.style.left + ';' +
                 'font-size:' + fontSize + ';' + 'font-weight:' + fontWeight + ';' +
                 'font-style:' + fontStyle + ';' + 'font-family:' + fontFamily + ';' +
-                'text-align:' + textAlign + ';' + 'color:' + color + ';'
+                'text-align:' + textAlign + ';' + 'color:' + color + ';' + 'width:' + width + ';'
 
         }
 
@@ -450,7 +456,7 @@
     </div>
 </body>
 
-{{-- Cá nhân --}}
+{{-- Lưu tọa độ --}}
 {!! Form::open([
     'url' => '/DungChung/LuuThayDoiViTri',
     'id' => 'frm_ThayDoi',
@@ -465,6 +471,7 @@
 <input type="hidden" name="phanloaikhenthuong" value="{{ $inputs['phanloaikhenthuong'] }}" />
 <input type="hidden" name="phanloaidoituong" value="{{ $inputs['phanloaidoituong'] }}" />
 <input type="hidden" name="phanloaiphoi" value="{{ $inputs['phanloaiphoi'] }}" />
+<input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
 <div class="modal fade bs-modal-lg" id="modal-thaydoi" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -519,6 +526,13 @@
                     </div>
                 </div>
 
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label class="form-control-label">Kích thước</label>
+                        {!! Form::text('width', '500px', ['class' => 'form-control']) !!}
+                    </div>                    
+                </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-default">Thoát</button>
@@ -542,7 +556,7 @@
 <input type="hidden" name="phanloaikhenthuong" value="{{ $inputs['phanloaikhenthuong'] }}" />
 <input type="hidden" name="phanloaidoituong" value="{{ $inputs['phanloaidoituong'] }}" />
 <input type="hidden" name="phanloaiphoi" value="{{ $inputs['phanloaiphoi'] }}" />
-<input type="hidden" name="madonvi" value="{{ $m_donvi->madonvi }}" />
+<input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
 <div class="modal fade bs-modal-lg" id="modal-macdinh" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -616,6 +630,10 @@
         }
         if (a_style[7] !== undefined) {
             form.find("[name='color']").val(a_style[7].split(':')[1]).trigger('change');
+        }
+
+        if (a_style[8] !== undefined) {
+            form.find("[name='width']").val(a_style[8].split(':')[1]).trigger('change');
         }
 
     }

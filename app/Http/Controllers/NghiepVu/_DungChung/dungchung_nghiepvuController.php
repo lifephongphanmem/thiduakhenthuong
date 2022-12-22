@@ -759,9 +759,9 @@ class dungchung_nghiepvuController extends Controller
         }
 
         if ($inputs["phanloaiphoi"] == 'BANGKHEN')
-            return redirect('/DungChung/InPhoiKhenThuong/InBangKhen?phanloaikhenthuong=' . $inputs['phanloaikhenthuong'] . '&phanloaidoituong=' . $inputs['phanloaidoituong'] . '&id=' . $inputs['id']);
+            return redirect('/DungChung/InPhoiKhenThuong/InBangKhen?phanloaikhenthuong=' . $inputs['phanloaikhenthuong'] . '&phanloaidoituong=' . $inputs['phanloaidoituong'] . '&id=' . $inputs['id'] . '&madonvi=' . $inputs['madonvi']);
         else
-            return redirect('/DungChung/InPhoiKhenThuong/InGiayKhen?phanloaikhenthuong=' . $inputs['phanloaikhenthuong'] . '&phanloaidoituong=' . $inputs['phanloaidoituong'] . '&id=' . $inputs['id']);
+            return redirect('/DungChung/InPhoiKhenThuong/InGiayKhen?phanloaikhenthuong=' . $inputs['phanloaikhenthuong'] . '&phanloaidoituong=' . $inputs['phanloaidoituong'] . '&id=' . $inputs['id'] . '&madonvi=' . $inputs['madonvi']);
     }
 
     public function TaiLaiToaDo(Request $request)
@@ -823,47 +823,13 @@ class dungchung_nghiepvuController extends Controller
         }
 
         if ($inputs["phanloaiphoi"] == 'BANGKHEN')
-            return redirect('/DungChung/InPhoiKhenThuong/InBangKhen?phanloaikhenthuong=' . $inputs['phanloaikhenthuong'] . '&phanloaidoituong=' . $inputs['phanloaidoituong'] . '&id=' . $inputs['id']);
+            return redirect('/DungChung/InPhoiKhenThuong/InBangKhen?phanloaikhenthuong=' . $inputs['phanloaikhenthuong'] . '&phanloaidoituong=' . $inputs['phanloaidoituong'] . '&id=' . $inputs['id'] . '&madonvi=' . $inputs['madonvi']);
         else
-            return redirect('/DungChung/InPhoiKhenThuong/InGiayKhen?phanloaikhenthuong=' . $inputs['phanloaikhenthuong'] . '&phanloaidoituong=' . $inputs['phanloaidoituong'] . '&id=' . $inputs['id']);
+            return redirect('/DungChung/InPhoiKhenThuong/InGiayKhen?phanloaikhenthuong=' . $inputs['phanloaikhenthuong'] . '&phanloaidoituong=' . $inputs['phanloaidoituong'] . '&id=' . $inputs['id'] . '&madonvi=' . $inputs['madonvi']);
     }
 
     function setViTri($inputs)
     {
-        switch ($inputs['tentruong']) {
-            case "toado_tendoituongin": {
-                    $tentruong = 'tendoituongin';
-                    break;
-                }
-            case "toado_ngayqd": {
-                    $tentruong = 'ngayqd';
-                    break;
-                }
-            case "toado_chucvunguoikyqd": {
-                    $tentruong = 'chucvunguoikyqd';
-                    break;
-                }
-            case "toado_hotennguoikyqd": {
-                    $tentruong = 'hotennguoikyqd';
-                    break;
-                }
-            case "toado_chucvudoituong": {
-                    $tentruong = 'chucvudoituong';
-                    break;
-                }
-            case "toado_quyetdinh": {
-                    $tentruong = 'quyetdinh';
-                    break;
-                }
-            case "toado_pldoituong": {
-                    $tentruong = 'pldoituong';
-                    break;
-                }
-            default: {
-                    $tentruong = 'noidungkhenthuong';
-                }
-        }
-
         return  [
             $inputs['tentruong'] => $inputs['toado']
                 . 'font-size:' . $inputs['font-size'] . ';'
@@ -871,8 +837,9 @@ class dungchung_nghiepvuController extends Controller
                 . 'font-style:' . $inputs['font-style'] . ';'
                 . 'font-family:' . $inputs['font-family'] . ';'
                 . 'text-align:' . ($inputs['text-align'] ?? 'center') . ';'
-                . 'color:' . ($inputs['color'] ?? 'black') . ';',
-            $tentruong => $inputs['noidung'],
+                . 'color:' . ($inputs['color'] ?? 'black') . ';'
+                . 'width:' . ($inputs['width'] ?? 'black') . ';',
+            getTenTruongTheToaDo($inputs['tentruong']) => $inputs['noidung'],
         ];
     }
 }

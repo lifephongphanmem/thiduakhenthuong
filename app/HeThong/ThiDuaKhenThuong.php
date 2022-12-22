@@ -163,7 +163,7 @@ function getDonViKhenThuong($donvi = null)
     $m_diaban = \App\Model\DanhMuc\dsdiaban::all();
     $a_donvi = array_column($m_diaban->toarray(), 'madonviQL');
     $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', $a_donvi)->get();
-    return array_column($model->toarray(),'tendonvi', 'tendonvi');
+    return array_column($model->toarray(), 'tendonvi', 'tendonvi');
 }
 
 //Hàm lấy danh sách đơn vị quản lý địa bàn cùng cấp và cấp trên
@@ -853,4 +853,31 @@ function setTraLai($macqcq, $hoso, $a_tralai)
         $hoso->thoidiem_ad = null;
         $hoso->madonvi_ad = null;
     }
+}
+
+//Lấy tọa độ mặc định
+function getToaDoMacDinh($inputs)
+{
+    // if (session('admin')->capdo == 'SSA') {
+    //     $inputs['madonvi'] = $m_hoso->madonvi_kt;
+    //     $model =   App\Model\DanhMuc\dmtoadoinphoi::where('phanloaikhenthuong', $inputs['phanloaikhenthuong'])
+    //         ->where('phanloaidoituong', $inputs['phanloaidoituong'])
+    //         ->where('phanloaiphoi', $inputs['phanloaiphoi'])
+    //         ->where('madonvi', $inputs['madonvi'])
+    //         ->first();
+    // } else {
+    //     $inputs['madonvi'] = session('admin')->madonvi;
+    //     $model =   App\Model\DanhMuc\dmtoadoinphoi::where('phanloaikhenthuong', $inputs['phanloaikhenthuong'])
+    //         ->where('phanloaidoituong', $inputs['phanloaidoituong'])
+    //         ->where('phanloaiphoi', $inputs['phanloaiphoi'])
+    //         ->where('madonvi', $inputs['madonvi'])
+    //         ->first();
+    // }
+    $model =   App\Model\DanhMuc\dmtoadoinphoi::where('phanloaikhenthuong', $inputs['phanloaikhenthuong'])
+        ->where('phanloaidoituong', $inputs['phanloaidoituong'])
+        ->where('phanloaiphoi', $inputs['phanloaiphoi'])
+        ->where('madonvi', $inputs['madonvi'])
+        ->first();
+
+    return $model;
 }

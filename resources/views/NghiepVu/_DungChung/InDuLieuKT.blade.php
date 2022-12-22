@@ -69,12 +69,12 @@
                     <div class="row">
                         <div class="col-lg-12">
                             @if ($inputs['phanloaikhenthuong'] == 'CUMKHOI')
-                                <a onclick="setInDL($(this), '/DungChung/InPhoiCumKhoi/DanhSach')"
+                                <a onclick="setInPhoi($(this), '/DungChung/InPhoiCumKhoi/DanhSach')"
                                     class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
                                     <i class="la flaticon2-print"></i>In phôi bằng khen, giấy khen
                                 </a>
                             @else
-                                <a onclick="setInDL($(this), '/DungChung/InPhoiKhenThuong/DanhSach')"
+                                <a onclick="setInPhoi($(this), '/DungChung/InPhoiKhenThuong/DanhSach')"
                                     class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
                                     <i class="la flaticon2-print"></i>In phôi bằng khen, giấy khen
                                 </a>
@@ -110,6 +110,7 @@
     }
 
     function setInPhoi(e, url) {
-        e.prop('href', url + '?mahosotdkt=' + $('#frm_InDuLieu').find("[name='mahosotdkt']").val());
+        e.prop('href', url + '?mahosotdkt=' + $('#frm_InDuLieu').find("[name='mahosotdkt']").val() + '&madonvi=' + $(
+            '#madonvi').val());
     }
 </script>

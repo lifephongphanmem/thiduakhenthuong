@@ -29,15 +29,34 @@ function getFontFamilyList()
         //'VnTimeH' => 'VnTimeH',
         //'.VnShelley Allegro' => '.VnShelley Allegro',
         //'VNI-Times' => 'VNI-Times',
-        
+
         'Arial' => 'Arial',
         'Brush Script MT' => 'Brush Script MT',
         'Comic Sans MS' => 'Comic Sans MS',
         'Tahoma' => 'Tahoma',
-        'Times New Roman' => 'Times New Roman',       
+        'Times New Roman' => 'Times New Roman',
     );
 }
 
+function getDSToaDo_Truong()
+{
+    return  [
+        'toado_tendoituongin' => 'tendoituongin',
+        'toado_ngayqd' => 'ngayqd',
+        'toado_chucvunguoikyqd' => 'chucvunguoikyqd',
+        'toado_hotennguoikyqd' => 'hotennguoikyqd',
+        'toado_chucvudoituong' => 'chucvudoituong',
+        'toado_quyetdinh' => 'quyetdinh',
+        'toado_pldoituong' => 'pldoituong',
+        'toado_noidungkhenthuong' =>  'noidungkhenthuong',
+    ];
+}
+
+function getTenTruongTheToaDo($tentoado)
+{
+    $a_kq = getDSToaDo_Truong();
+    return $a_kq[$tentoado] ?? 'noidungkhenthuong';
+}
 
 function getLinhVucHoatDong()
 {
