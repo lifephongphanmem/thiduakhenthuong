@@ -646,7 +646,7 @@ class dungchung_inphoi_khenthuongController extends Controller
                 $a_toado = [];
                 foreach (explode(';', $doituong->$tentruong) as $toado) {
                     if (str_contains($toado, 'top:')) {
-                        $a_toado[] = 'top:' . round($chieurong + Str2Bbl($toado)) . 'px';
+                        $a_toado[] = 'top:' . round($chieurong + round(Str2Bbl($toado))) . 'px';
                     } else
                         $a_toado[] = $toado;
                 }

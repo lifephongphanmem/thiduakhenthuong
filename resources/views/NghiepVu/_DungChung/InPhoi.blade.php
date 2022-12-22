@@ -211,12 +211,11 @@
                                     <div class="form-group row">
                                         <div class="col-lg-12 text-right">
                                             <div class="btn-group" role="group">
-                                                {{-- <button title="Thêm đối tượng" type="button" data-target="#modal-create"
-                                                    data-toggle="modal" class="btn btn-light-dark btn-icon btn-sm"
-                                                    onclick="setCaNhan()">
-                                                    <i class="fa fa-plus"></i>
-                                                </button> --}}
-
+                                                <button onclick="setBangKhen('KHENTHUONG','CANHAN')"
+                                                    title="In danh sách bằng khen" data-target="#modal-danhsach"
+                                                    data-toggle="modal" type="button" class="btn btn-light-dark btn-sm">
+                                                    <i class="icon-lg la la-file-invoice"></i>Bằng khen
+                                                </button>
 
                                             </div>
                                         </div>

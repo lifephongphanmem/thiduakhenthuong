@@ -469,7 +469,7 @@ function Str2Bbl($obj)
 {
     $ketqua = '';
     for ($i = 0; $i < strlen($obj); $i++) {
-        if (is_numeric($obj[$i]) || $obj[$i] == ',') {
+        if (is_numeric($obj[$i]) || $obj[$i] == '.') {
             $ketqua .= $obj[$i];
         }
     }
