@@ -38,6 +38,7 @@
                 tài khoản. Mật khẩu mới nên đảm bảo các
                 yếu tố: <b class="text-danger">Tối thiểu 06 ký tự; Ít nhất có 01 chữ số; Ít nhất 01 chữ cái hoặc ký tự đặc
                     biệt<b>
+
             </h6>
 
             <div class="form-group row">
@@ -59,7 +60,7 @@
                 </div>
                 <div class="col-lg-4">
                     <label>Mật khẩu mới<span class="require">*</span></label>
-                    {!! Form::text('matkhaumoi', null, ['class' => 'form-control', 'required']) !!}
+                    {!! Form::text('matkhaumoi', null, ['id'=>'matkhaumoi','class' => 'form-control', 'required']) !!}
                 </div>
             </div>
         </div>
@@ -81,10 +82,11 @@
             var chk = true;
             var str = '';
             var password = $("#matkhaumoi").val();
+           // alert(password);
             var patte = new RegExp("^(?=.*[A-Za-z@$!%*?&])(?=.*\\d)[A-Za-z@$!%*?&\\d]{6,}");//6 ký tự, 1 số, 1 chữ cái hoặc 1 ký tự đặc biệt
 
             if (patte.test(password) == false) {
-                str = str + '\t Mật khẩu mới cần thỏa mãn: độ dài tối thiểu 06 ký tự; ít nhất 01 chữ số; ít nhất 01 chữ cái hoặc ký tự đặc biệt. \n';
+                str = str + 'Mật khẩu mới cần thỏa mãn: độ dài tối thiểu 06 ký tự; ít nhất 01 chữ số; ít nhất 01 chữ cái hoặc ký tự đặc biệt. \n';
                 chk = false;
             }
 
