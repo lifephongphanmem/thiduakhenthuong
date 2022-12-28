@@ -14,6 +14,8 @@ class dmhinhthuckhenthuong extends Model
         'tenhinhthuckt',
         'phanloai',
         'phamviapdung',
-        'ghichu'
+        'ghichu',
+        'muckhencanhan',
+        'muckhentapthe',
     ];
 }

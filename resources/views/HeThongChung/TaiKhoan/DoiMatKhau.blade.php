@@ -60,7 +60,7 @@
                 </div>
                 <div class="col-lg-4">
                     <label>Mật khẩu mới<span class="require">*</span></label>
-                    {!! Form::text('matkhaumoi', null, ['id'=>'matkhaumoi','class' => 'form-control', 'required']) !!}
+                    {!! Form::text('matkhaumoi', null, ['id' => 'matkhaumoi', 'class' => 'form-control', 'required']) !!}
                 </div>
             </div>
         </div>
@@ -69,7 +69,8 @@
                 <div class="col-lg-12">
                     <a href="{{ url('/TaiKhoan/DanhSach?madonvi=' . $model->madonvi) }}" class="btn btn-danger mr-5"><i
                             class="fa fa-reply"></i>&nbsp;Quay lại</a>
-                    <button type="submit" class="btn btn-primary" onclick="validateForm()"><i class="fa fa-check"></i>Hoàn thành</button>
+                    <button type="submit" class="btn btn-primary" onclick="validateForm()"><i class="fa fa-check"></i>Hoàn
+                        thành</button>
                 </div>
             </div>
         </div>
@@ -82,24 +83,24 @@
             var chk = true;
             var str = '';
             var password = $("#matkhaumoi").val();
-           // alert(password);
-            var patte = new RegExp("^(?=.*[A-Za-z@$!%*?&])(?=.*\\d)[A-Za-z@$!%*?&\\d]{6,}");//6 ký tự, 1 số, 1 chữ cái hoặc 1 ký tự đặc biệt
+            // alert(password);
+            var patte = new RegExp(
+            "^(?=.*[A-Za-z@$!%*?&])(?=.*\\d)[A-Za-z@$!%*?&\\d]{6,}"); //6 ký tự, 1 số, 1 chữ cái hoặc 1 ký tự đặc biệt
 
             if (patte.test(password) == false) {
-                str = str + 'Mật khẩu mới cần thỏa mãn: độ dài tối thiểu 06 ký tự; ít nhất 01 chữ số; ít nhất 01 chữ cái hoặc ký tự đặc biệt. \n';
+                str = str +
+                    'Mật khẩu mới cần thỏa mãn: độ dài tối thiểu 06 ký tự; ít nhất 01 chữ số; ít nhất 01 chữ cái hoặc ký tự đặc biệt. \n';
                 chk = false;
             }
 
             if (chk == false) {
                 alert('Thông tin không hợp lệ: \n' + str);
-                $("#frm_DoiMatKhau").submit(function (e) {
+                $("#frm_DoiMatKhau").submit(function(e) {
                     e.preventDefault();
                 });
             } else {
                 $("#frm_DoiMatKhau").unbind('submit').submit();
-            }           
+            }
         }
-
-       
     </script>
 @stop

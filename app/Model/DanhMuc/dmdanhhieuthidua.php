@@ -16,5 +16,7 @@ class dmdanhhieuthidua extends Model
         'ghichu',
         'ttnguoitao',
         'phamviapdung',
+        'muckhencanhan',
+        'muckhentapthe',
     ];
 }
