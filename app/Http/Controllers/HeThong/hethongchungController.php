@@ -18,9 +18,12 @@ class hethongchungController extends Controller
     public function index()
     {
         if (Session::has('admin')) {
-            return view('HeThong.dashboard')
-                ->with('model', getHeThongChung())
-                ->with('pageTitle', 'Thông tin hỗ trợ');
+            if (dstaikhoan::where('tendangnhap', session('admin')->tendangnhap)->first()->matkhau == 'e10adc3949ba59abbe56e057f20f883e')
+                return redirect('/DoiMatKhau');           
+            else
+                return view('HeThong.dashboard')
+                    ->with('model', getHeThongChung())
+                    ->with('pageTitle', 'Thông tin hỗ trợ');
         } else {
             return redirect('/TrangChu');
         }
@@ -215,11 +218,11 @@ class hethongchungController extends Controller
         $m_diaban = dsdiaban::all();
         $inputs['madiaban'] = $inputs['madiaban'] ??  $m_diaban->first()->madiaban;
         $m_donvi = dsdonvi::all();
-        
-        $a_donvi = array_column($m_donvi->toarray(),'tendonvi','madonvi');
+
+        $a_donvi = array_column($m_donvi->toarray(), 'tendonvi', 'madonvi');
         //$model = dstaikhoan::wherein('madonvi',array_column($m_donvi->toarray(),'madonvi'))->get();
-        $model = dstaikhoan::where('tendangnhap','<>','SSA')->get();
-        foreach($model as $ct){
+        $model = dstaikhoan::where('tendangnhap', '<>', 'SSA')->get();
+        foreach ($model as $ct) {
 
             $ct->tendonvi = $a_donvi[$ct->madonvi] ?? '';
         }
@@ -227,7 +230,7 @@ class hethongchungController extends Controller
         return view('CongBo.DanhSachTaiKhoan')
             ->with('model', $model)
             ->with('inputs', $inputs)
-            ->with('a_diaban', array_column(dsdiaban::all()->toArray(),'tendiaban','madiaban'))
+            ->with('a_diaban', array_column(dsdiaban::all()->toArray(), 'tendiaban', 'madiaban'))
             ->with('pageTitle', 'Thông tin hỗ trợ');
     }
 
@@ -237,17 +240,17 @@ class hethongchungController extends Controller
         $m_diaban = dsdiaban::all();
         $inputs['madiaban'] = $inputs['madiaban'] ??  $m_diaban->first()->madiaban;
         $m_donvi = dsdonvi::where('madiaban', $inputs['madiaban'])->get();
-        
-        $a_donvi = array_column($m_donvi->toarray(),'tendonvi','madonvi');
-        $model = dstaikhoan::wherein('madonvi',array_column($m_donvi->toarray(),'madonvi'))->get();
-        foreach($model as $ct){
+
+        $a_donvi = array_column($m_donvi->toarray(), 'tendonvi', 'madonvi');
+        $model = dstaikhoan::wherein('madonvi', array_column($m_donvi->toarray(), 'madonvi'))->get();
+        foreach ($model as $ct) {
             $ct->tendonvi = $a_donvi[$ct->madonvi] ?? $ct->madonvi;
         }
         //dd($inputs);
         return view('HeThong.DanhSachHoTro')
             ->with('model', $model)
             ->with('inputs', $inputs)
-            ->with('a_diaban', array_column(dsdiaban::all()->toArray(),'tendiaban','madiaban'))
+            ->with('a_diaban', array_column(dsdiaban::all()->toArray(), 'tendiaban', 'madiaban'))
             ->with('pageTitle', 'Thông tin hỗ trợ');
     }
 }

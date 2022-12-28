@@ -673,6 +673,67 @@ class dungchung_inphoi_khenthuongController extends Controller
         # code...
     }
 
+    public function getNoiDungKhenThuong(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+
+        $inputs = $request->all();
+
+        switch ($inputs["phanloaikhenthuong"]) {
+            case "KHENTHUONG": {
+                    switch ($inputs["phanloaidoituong"]) {
+                        case "TAPTHE": {
+                                //dd($this->setViTri($inputs));
+                                $model = dshosothiduakhenthuong_tapthe::where('id', $inputs['id'])->first();
+                                break;
+                            }
+                        case "CANHAN": {
+                                $model = dshosothiduakhenthuong_canhan::where('id', $inputs['id'])->first();
+                                break;
+                            }
+                        case "HOGIADINH": {
+                                $model = dshosothiduakhenthuong_hogiadinh::where('id', $inputs['id'])->first();
+                                break;
+                            }
+                    }
+                    $m_hoso = dshosothiduakhenthuong::where('mahosotdkt', $model->mahosotdkt)->first();
+                    break;
+                }
+            case "CUMKHOI": {
+                    switch ($inputs["phanloaidoituong"]) {
+                        case "TAPTHE": {
+                                $model = dshosotdktcumkhoi_tapthe::where('id', $inputs['id'])->first();
+                                break;
+                            }
+                        case "CANHAN": {
+                                $model = dshosotdktcumkhoi_canhan::where('id', $inputs['id'])->first();
+                                break;
+                            }
+                        case "HOGIADINH": {
+                                $model = dshosotdktcumkhoi_hogiadinh::where('id', $inputs['id'])->first();
+                                break;
+                            }
+                    }
+                    $m_hoso = dshosotdktcumkhoi::where('mahosotdkt', $model->mahosotdkt)->first();
+                    break;
+                }
+        }
+        $m_donvi = dsdonvi::where('madonvi', $m_hoso->madonvi)->first();
+        //xử lý nội dung
+        $model->noidungkhenthuong = $model->noidungkhenthuong != '' ? $model->noidungkhenthuong : ($m_hoso->noidung != '' ? catchuoi($m_hoso->noidung, $m_donvi->sochu) : 'Nội dung khen thưởng');
+        
+        //tên đối tượng in
+        $tentruong = getTenTruongTheToaDo($inputs['tentruong']);
+        $result['message'] = $model->$tentruong;
+        $result['status'] = 'success';
+
+        die(json_encode($result));
+    }
+
+
     // public function NoiDungKhenThuong(Request $request)
     // {
     //     $inputs = $request->all();

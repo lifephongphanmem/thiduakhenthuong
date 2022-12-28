@@ -305,14 +305,15 @@ class dstaikhoanController extends Controller
         return view('HeThongChung.TaiKhoan.DoiMatKhau')
             ->with('model', $model)
             ->with('a_donvi', array_column($m_donvi->toarray(), 'tendonvi', 'madonvi'))
-            ->with('pageTitle', 'Chỉnh sửa thông tin đơn vị');
+            ->with('pageTitle', 'Đổi mật khẩu đăng nhập');
     }
 
     public function LuuMatKhau(Request $request)
     {
         $inputs = $request->all();
         $model = dstaikhoan::where('tendangnhap', $inputs['tendangnhap'])->first();
-        $inputs['matkhaumoi'] = md5($inputs['matkhaumoi']);
+        $inputs['matkhau'] = md5($inputs['matkhaumoi']);
+        unset($inputs['matkhaumoi']);
         $model->update($inputs);
         return redirect('/');
     }

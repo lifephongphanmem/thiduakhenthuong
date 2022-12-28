@@ -636,6 +636,27 @@
             form.find("[name='width']").val(a_style[8].split(':')[1]).trigger('change');
         }
 
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                type: 'GET',
+                url: '/DungChung/InPhoiKhenThuong/getNoiDungKhenThuong',
+                data: {
+                    _token: CSRF_TOKEN,
+                    id: "{{ $inputs['id'] }}",
+                    tentruong: tentruong,
+                    phanloaikhenthuong: "{{ $inputs['phanloaikhenthuong'] }}",
+                    phanloaidoituong: "{{ $inputs['phanloaidoituong'] }}",
+                },
+                dataType: 'JSON',
+                success: function(data) {
+                    if (data.status == 'success') {
+                        alert(data.message);
+                        //location.reload();
+                    }
+                }
+
+            });
+
     }
 </script>
 
