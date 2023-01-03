@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Session;
 
 class dmhinhthuckhenthuongController extends Controller
 {
+    static $url = '/HinhThucKhenThuong/';
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
@@ -24,20 +25,35 @@ class dmhinhthuckhenthuongController extends Controller
         if (!chkPhanQuyen('dmhinhthuckhenthuong', 'danhsach')) {
             return view('errors.noperm')->with('machucnang', 'dmhinhthuckhenthuong');
         }
-        $model = dmhinhthuckhenthuong::all();
+        $inputs = $request->all();
+        $a_phanloai = getPhanLoaiHinhThucKT();
+        $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
+        $inputs['url'] = static::$url;
+        
+        if ($inputs['phanloai'] != 'ALL')
+            $model = dmhinhthuckhenthuong::where('phanloai', $inputs['phanloai'])->get();
+        else
+            $model = dmhinhthuckhenthuong::all();
         $a_phamviapdung = getPhamViApDung();
+        $a_doituongapdung = getDoiTuongApDung();
+        //doituongapdung
         foreach ($model as $ct) {
             $ct->tenphamviapdung = '';
             foreach (explode(';', $ct->phamviapdung) as $phamvi) {
                 $ct->tenphamviapdung .= ($a_phamviapdung[$phamvi] ?? '') . '; ';
             }
+            //đối tượng
+            $ct->tendoituongapdung = '';
+            foreach (explode(';', $ct->doituongapdung) as $doituong) {
+                $ct->tendoituongapdung .= ($a_doituongapdung[$doituong] ?? '') . '; ';
+            }
         }
-        $inputs = $request->all();
+
         //dd($model);
         return view('DanhMuc.HinhThucKhenThuong.ThongTin')
             ->with('model', $model)
             ->with('inputs', $inputs)
-            ->with('a_phanloai', getPhanLoaiHinhThucKT())
+            ->with('a_phanloai', $a_phanloai)
             ->with('pageTitle', 'Danh mục loại hình khen thưởng');
     }
 
@@ -49,6 +65,7 @@ class dmhinhthuckhenthuongController extends Controller
         }
         $inputs = $request->all();
         $inputs['phamviapdung'] = implode(';', $inputs['phamviapdung']);
+        $inputs['doituongapdung'] = implode(';', $inputs['doituongapdung']);
         //dd($inputs);
         $model = dmhinhthuckhenthuong::where('mahinhthuckt', $inputs['mahinhthuckt'])->first();
         if ($model == null) {

@@ -15,7 +15,14 @@ class dmhinhthuckhenthuong extends Model
         'phanloai',
         'phamviapdung',
         'ghichu',
-        'muckhencanhan',
-        'muckhentapthe',
+        'doituongapdung',
+        'muckhencanhan_nhanuoc',
+        'muckhencanhan_tinh',
+        'muckhencanhan_huyen',
+        'muckhencanhan_xa',
+        'muckhentapthe_nhanuoc',
+        'muckhentapthe_tinh',
+        'muckhentapthe_huyen',
+        'muckhentapthe_xa',
     ];
 }

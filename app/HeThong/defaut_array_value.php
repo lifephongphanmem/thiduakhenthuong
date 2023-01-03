@@ -999,6 +999,15 @@ function getPhamViApDung()
     );
 }
 
+function getDoiTuongApDung()
+{
+    return array(
+        'CANHAN' => 'Cá nhân',
+        'TAPTHE' => 'Tập thể',
+        'HOGIADINH' => 'Hộ gia đình',
+    );
+}
+
 function getPhamViKhenThuong()
 {
     return array(
@@ -1029,6 +1038,7 @@ function getPhanLoaiTDKT()
 function getPhanLoaiHinhThucKT()
 {
     return array(
+        'DANHHIEUTD' => 'Danh hiệu thi đua',
         'HUANCHUONG' => 'Huân chương',
         'HUYCHUONG' => 'Huy chương',
         'DANHHIEUNN' => 'Danh hiệu vinh dự Nhà nước',

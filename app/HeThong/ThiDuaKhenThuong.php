@@ -99,6 +99,8 @@ function getHeThongChung()
 function getDanhHieuKhenThuong($capdo, $phanloai = 'CANHAN')
 {
     $a_ketqua = [];
+    /*
+    Ngày 03/01/2022 Gộp 2 bảng dmdanhhieuthidua và dmhinhthuckhenthuong vào thành => dmhinhthuckhenthuong
     if ($capdo == 'ALL')
         $m_danhhieu = App\Model\DanhMuc\dmdanhhieuthidua::all();
     else {
@@ -115,6 +117,7 @@ function getDanhHieuKhenThuong($capdo, $phanloai = 'CANHAN')
         elseif (in_array($capdo, explode(';', $danhhieu->phamviapdung)))
             $a_ketqua[$danhhieu->madanhhieutd] = $danhhieu->tendanhhieutd;
     }
+    */
     foreach (App\Model\DanhMuc\dmhinhthuckhenthuong::all() as $danhhieu) {
         if ($capdo == 'ALL')
             $a_ketqua[$danhhieu->mahinhthuckt] = $danhhieu->tenhinhthuckt;

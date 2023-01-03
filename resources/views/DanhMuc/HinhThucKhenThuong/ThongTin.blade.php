@@ -15,18 +15,22 @@
     <script>
         jQuery(document).ready(function() {
             TableManaged3.init();
+            $('#phanloai').change(function() {
+                window.location.href = "{{ $inputs['url'] }}" + 'ThongTin?phanloai=' + $('#phanloai').val();
+            });
         });
 
-        function add(){
-            $('#frm_modify').find("[name='mahinhthuckt']").attr('readonly',true);
+        function add() {
+            $('#frm_modify').find("[name='mahinhthuckt']").attr('readonly', true);
             $('#frm_modify').find("[name='mahinhthuckt']").val(null);
         }
 
-        function edit(mahinhthuckt, tenhinhthuckt, phamviapdung){
-            $('#frm_modify').find("[name='mahinhthuckt']").attr('readonly',false);
+        function edit(mahinhthuckt, tenhinhthuckt, phamviapdung, doituongapdung) {
+            $('#frm_modify').find("[name='mahinhthuckt']").attr('readonly', false);
             $('#frm_modify').find("[name='mahinhthuckt']").val(mahinhthuckt);
             $('#frm_modify').find("[name='tenhinhthuckt']").val(tenhinhthuckt);
             $('#frm_modify').find("[name='phamviapdung[]']").val(phamviapdung.split(';')).trigger('change');
+            $('#frm_modify').find("[name='doituongapdung[]']").val(doituongapdung.split(';')).trigger('change');
         }
     </script>
 @stop
@@ -34,9 +38,9 @@
 @section('content')
     <!--begin::Card-->
     <div class="card card-custom" style="min-height: 600px">
-        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+        <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Danh mục hình thức khen thưởng</h3>
+                <h3 class="card-label text-uppercase">Danh sách: danh hiệu thi đua, hình thức khen thưởng </h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
@@ -49,16 +53,26 @@
             </div>
         </div>
         <div class="card-body">
+            <div class="form-group row">
+                <div class="col-lg-6">
+                    <label>Phân loại</label>
+                    {!! Form::select('phanloai', setArrayAll($a_phanloai), $inputs['phanloai'], [
+                        'id' => 'phanloai',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-md-12">
                     <table class="table table-striped table-bordered table-hover" id="sample_3">
                         <thead>
                             <tr class="text-center">
                                 <th width="5%">STT</th>
-                                <th width="25%">Phân loại khen thưởng</th>
                                 <th>Tên hình thức khen thưởng</th>
                                 <th>Phạm vi áp dụng</th>
-                                <th width="15%">Thao tác</th>
+                                <th>Đối tượng áp dụng</th>
+                                <th width="10%">Thao tác</th>
                             </tr>
 
                         </thead>
@@ -67,13 +81,13 @@
                             @foreach ($model as $ct)
                                 <tr>
                                     <td class="text-center">{{ $i++ }}</td>
-                                    <td>{{$a_phanloai[$ct->phanloai] ?? '' }}</td>
                                     <td>{{ $ct->tenhinhthuckt }}</td>
                                     <td>{{ $ct->tenphamviapdung }}</td>
+                                    <td>{{ $ct->tendoituongapdung }}</td>
                                     <td style="text-align: center">
                                         @if (chkPhanQuyen('dmhinhthuckhenthuong', 'thaydoi'))
                                             <button type="button" title="Chỉnh sửa"
-                                                onclick="edit('{{ $ct->mahinhthuckt }}','{{ $ct->tenhinhthuckt }}', '{{ $ct->phamviapdung }}')"
+                                                onclick="edit('{{ $ct->mahinhthuckt }}','{{ $ct->tenhinhthuckt }}', '{{ $ct->phamviapdung }}','{{ $ct->doituongapdung }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                 data-toggle="modal">
                                                 <i class="icon-lg la fa-edit text-success"></i></button>
@@ -114,8 +128,7 @@
 
                         <div class="form-group row">
                             <div class="col-12">
-                                <label class="control-label">Tên hình thức khen thưởng<span
-                                        class="require">*</span></label>
+                                <label class="control-label">Tên hình thức khen thưởng<span class="require">*</span></label>
                                 {!! Form::text('tenhinhthuckt', null, ['class' => 'form-control', 'required' => 'required']) !!}
                             </div>
                         </div>
@@ -130,14 +143,30 @@
                         <div class="form-group row">
                             <div class="col-12">
                                 <label class="control-label">Phạm vi áp dụng</label>
-                                {!! Form::select('phamviapdung[]', getPhamViApDung(), null, ['class' => 'form-control select2_modal', 'multiple','required' => 'required']) !!}
+                                {!! Form::select('phamviapdung[]', getPhamViApDung(), null, [
+                                    'class' => 'form-control select2_modal',
+                                    'multiple',
+                                    'required' => 'required',
+                                ]) !!}
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-12">
+                                <label class="control-label">Đối tượng áp dụng</label>
+                                {!! Form::select('doituongapdung[]', getDoiTuongApDung(), null, [
+                                    'class' => 'form-control select2_modal',
+                                    'multiple',
+                                    'required' => 'required',
+                                ]) !!}
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
-                    <button type="submit" id="submit" name="submit" value="submit" class="btn btn-primary">Đồng ý</button>
+                    <button type="submit" id="submit" name="submit" value="submit" class="btn btn-primary">Đồng
+                        ý</button>
                 </div>
             </div>
         </div>
