@@ -20,17 +20,36 @@
             });
         });
 
-        function add() {
+        function add(phanloai) {
             $('#frm_modify').find("[name='mahinhthuckt']").attr('readonly', true);
             $('#frm_modify').find("[name='mahinhthuckt']").val(null);
+            $('#frm_modify').find("[name='phanloai']").val(phanloai);
         }
 
-        function edit(mahinhthuckt, tenhinhthuckt, phamviapdung, doituongapdung) {
-            $('#frm_modify').find("[name='mahinhthuckt']").attr('readonly', false);
-            $('#frm_modify').find("[name='mahinhthuckt']").val(mahinhthuckt);
-            $('#frm_modify').find("[name='tenhinhthuckt']").val(tenhinhthuckt);
-            $('#frm_modify').find("[name='phamviapdung[]']").val(phamviapdung.split(';')).trigger('change');
-            $('#frm_modify').find("[name='doituongapdung[]']").val(doituongapdung.split(';')).trigger('change');
+        function edit(id) {
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+                url: "{{ $inputs['url'] }}" + "LayChiTiet",
+                type: 'GET',
+                data: {
+                    _token: CSRF_TOKEN,
+                    id: id,
+                },
+                dataType: 'JSON',
+                success: function(data) {
+                    var form = $('#frm_modify');
+                    form.find("[name='mahinhthuckt']").attr('readonly', false);
+                    form.find("[name='mahinhthuckt']").val(data.mahinhthuckt);
+                    form.find("[name='tenhinhthuckt']").val(data.tenhinhthuckt);
+                    form.find("[name='phanloai']").val(data.phanloai).trigger('change');
+                    form.find("[name='muckhencanhan']").val(data.muckhencanhan);
+                    form.find("[name='muckhentapthe']").val(data.muckhentapthe);
+                    form.find("[name='phamviapdung[]']").val(data.phamviapdung.split(';')).trigger('change');
+                    form.find("[name='doituongapdung[]']").val(data.doituongapdung.split(';')).trigger(
+                        'change');
+                }
+            });
         }
     </script>
 @stop
@@ -45,8 +64,8 @@
             <div class="card-toolbar">
                 <!--begin::Button-->
                 @if (chkPhanQuyen('dmhinhthuckhenthuong', 'thaydoi'))
-                    <button type="button" onclick="add()" class="btn btn-success btn-xs" data-target="#modify-modal"
-                        data-toggle="modal">
+                    <button type="button" onclick="add('{{ $inputs['phanloai'] }}')" class="btn btn-success btn-xs"
+                        data-target="#modify-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
                 @endif
                 <!--end::Button-->
@@ -68,13 +87,17 @@
                     <table class="table table-striped table-bordered table-hover" id="sample_3">
                         <thead>
                             <tr class="text-center">
-                                <th width="5%">STT</th>
-                                <th>Tên hình thức khen thưởng</th>
-                                <th>Phạm vi áp dụng</th>
-                                <th>Đối tượng áp dụng</th>
-                                <th width="10%">Thao tác</th>
+                                <th width="5%" rowspan="2">STT</th>
+                                <th rowspan="2">Tên hình thức khen thưởng</th>
+                                <th rowspan="2">Phạm vi áp dụng</th>
+                                <th rowspan="2">Đối tượng áp dụng</th>
+                                <th colspan="2">Hệ số khen thưởng</th>
+                                <th width="10%" rowspan="2">Thao tác</th>
                             </tr>
-
+                            <tr class="text-center">
+                                <th width="8%">Cá nhân</th>
+                                <th width="8%">Tập thể</th>
+                            </tr>
                         </thead>
                         <tbody>
                             <?php $i = 1; ?>
@@ -84,10 +107,29 @@
                                     <td>{{ $ct->tenhinhthuckt }}</td>
                                     <td>{{ $ct->tenphamviapdung }}</td>
                                     <td>{{ $ct->tendoituongapdung }}</td>
+                                    @if ($ct->canhan_ad)
+                                        <td class="text-center">{{ dinhdangso($ct->muckhencanhan, 2) }}</td>
+                                    @else
+                                        <td class="text-center">
+                                            <a class="btn btn-sm btn-clean btn-icon">
+                                                <i class="icon-lg la fa-times-circle text-danger text-primary icon-2x"></i>
+                                            </a>
+                                        </td>
+                                    @endif
+
+                                    @if ($ct->tapthe_ad)
+                                        <td class="text-center">{{ dinhdangso($ct->muckhentapthe, 2) }}</td>
+                                    @else
+                                        <td class="text-center">
+                                            <a class="btn btn-sm btn-clean btn-icon">
+                                                <i class="icon-lg la fa-times-circle text-danger text-primary icon-2x"></i>
+                                            </a>
+                                        </td>
+                                    @endif
+
                                     <td style="text-align: center">
                                         @if (chkPhanQuyen('dmhinhthuckhenthuong', 'thaydoi'))
-                                            <button type="button" title="Chỉnh sửa"
-                                                onclick="edit('{{ $ct->mahinhthuckt }}','{{ $ct->tenhinhthuckt }}', '{{ $ct->phamviapdung }}','{{ $ct->doituongapdung }}')"
+                                            <button type="button" title="Chỉnh sửa" onclick="edit('{{ $ct->id }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                 data-toggle="modal">
                                                 <i class="icon-lg la fa-edit text-success"></i></button>
@@ -159,6 +201,16 @@
                                     'multiple',
                                     'required' => 'required',
                                 ]) !!}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-6">
+                                <label class="control-label">Mức khen cá nhân</label>
+                                {!! Form::number('muckhencanhan', 0, ['class' => 'form-control', 'step' => '0.1']) !!}
+                            </div>
+                            <div class="col-6">
+                                <label class="control-label">Mức khen tập thể</label>
+                                {!! Form::number('muckhentapthe', 0, ['class' => 'form-control', 'step' => '0.1']) !!}
                             </div>
                         </div>
                     </div>

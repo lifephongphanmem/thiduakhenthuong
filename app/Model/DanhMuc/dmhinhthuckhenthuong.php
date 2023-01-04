@@ -16,13 +16,7 @@ class dmhinhthuckhenthuong extends Model
         'phamviapdung',
         'ghichu',
         'doituongapdung',
-        'muckhencanhan_nhanuoc',
-        'muckhencanhan_tinh',
-        'muckhencanhan_huyen',
-        'muckhencanhan_xa',
-        'muckhentapthe_nhanuoc',
-        'muckhentapthe_tinh',
-        'muckhentapthe_huyen',
-        'muckhentapthe_xa',
+        'muckhencanhan',
+        'muckhentapthe',
     ];
 }

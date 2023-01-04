@@ -29,7 +29,7 @@ class dmhinhthuckhenthuongController extends Controller
         $a_phanloai = getPhanLoaiHinhThucKT();
         $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
         $inputs['url'] = static::$url;
-        
+
         if ($inputs['phanloai'] != 'ALL')
             $model = dmhinhthuckhenthuong::where('phanloai', $inputs['phanloai'])->get();
         else
@@ -47,9 +47,19 @@ class dmhinhthuckhenthuongController extends Controller
             foreach (explode(';', $ct->doituongapdung) as $doituong) {
                 $ct->tendoituongapdung .= ($a_doituongapdung[$doituong] ?? '') . '; ';
             }
+
+            if (strpos($ct->doituongapdung, 'CANHAN') !== false)
+                $ct->canhan_ad = true;
+            else
+                $ct->canhan_ad = false;
+
+            if (strpos($ct->doituongapdung, 'TAPTHE') !== false || strpos($ct->doituongapdung, 'HOGIADINH') !== false)
+                $ct->tapthe_ad = true;
+            else
+                $ct->tapthe_ad = false;
         }
 
-        //dd($model);
+        // dd($model);
         return view('DanhMuc.HinhThucKhenThuong.ThongTin')
             ->with('model', $model)
             ->with('inputs', $inputs)
@@ -75,7 +85,7 @@ class dmhinhthuckhenthuongController extends Controller
             $model->update($inputs);
         }
 
-        return redirect('/HinhThucKhenThuong/ThongTin');
+        return redirect(static::$url . 'ThongTin?phanloai=' . $inputs['phanloai']);
     }
 
     public function delete(Request $request)
@@ -87,5 +97,12 @@ class dmhinhthuckhenthuongController extends Controller
         $inputs = $request->all();
         dmhinhthuckhenthuong::findorfail($inputs['id'])->delete();
         return redirect('/HinhThucKhenThuong/ThongTin');
+    }
+
+    public function LayChiTiet(Request $request)
+    {
+        $inputs = $request->all();
+        $model = dmhinhthuckhenthuong::findorfail($inputs['id']);
+        die(json_encode($model));
     }
 }

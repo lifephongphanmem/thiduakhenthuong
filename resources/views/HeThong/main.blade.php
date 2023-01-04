@@ -205,6 +205,8 @@
 
                                             @include('HeThong.main_subkhenthuongkhac')
 
+                                            @include('HeThong.main_subquanlyquy')
+
                                             @include('HeThong.main_subqlvanban')
 
                                             @include('HeThong.main_subtracuu')

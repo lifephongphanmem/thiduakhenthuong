@@ -24,6 +24,7 @@ Route::group(['prefix'=>'HinhThucKhenThuong'], function(){
     Route::get('ThongTin','DanhMuc\dmhinhthuckhenthuongController@ThongTin');
     Route::post('Them','DanhMuc\dmhinhthuckhenthuongController@store');
     Route::post('Xoa','DanhMuc\dmhinhthuckhenthuongController@delete');
+    Route::get('LayChiTiet','DanhMuc\dmhinhthuckhenthuongController@LayChiTiet');
 });
 
 
