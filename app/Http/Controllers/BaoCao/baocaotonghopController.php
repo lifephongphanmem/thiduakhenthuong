@@ -20,6 +20,8 @@ use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_canhan;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tapthe;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua;
+use App\Model\QuyKhenThuong\dsquanlyquykhenthuong;
+use App\Model\QuyKhenThuong\dsquanlyquykhenthuong_chitiet;
 use App\Model\View\view_khencao_canhan;
 use App\Model\View\view_khencao_tapthe;
 use App\Model\View\viewdiabandonvi;
@@ -746,5 +748,50 @@ class baocaotonghopController extends Controller
             ->with('model_tapthe', $model_tapthe)
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Báo cáo tổng hợp phong trào thi đua');
+    }
+
+    public function QuyKhenThuong(Request $request)
+    {
+        $inputs = $request->all();
+
+        $model = dsquanlyquykhenthuong::where('nam', $inputs['nam'])->where('madonvi', $inputs['madonvi'])->get();
+        $maso = $model->first()->maso ?? '-life';
+        //làm lại do mảng duyệt sai
+        $model_chitiet = dsquanlyquykhenthuong_chitiet::where('maso', $maso)->get();
+        $model_thu = $model_chitiet->where('phanloai', 'THU');
+        $model_chikt = $model_chitiet->where('phanloai', 'CHI')->where('phannhom', 'KHENTHUONG');
+        $model_chikhac = $model_chitiet->where('phanloai', 'CHI')->where('phannhom', 'KHAC');
+        foreach ($model as $ct) {
+            foreach ($model_thu as $thu) {
+                $id = $thu->id;
+                $ct->$id = $thu->sotien;
+            }
+            $ct->tongchi = 0;
+            foreach ($model_chikt as $thu) {
+                $id = $thu->id;
+                $ct->$id = $thu->sotien;
+                $ct->tongchi += $thu->sotien;
+            }
+            foreach ($model_chikhac as $thu) {
+                $id = $thu->id;
+                $ct->$id = $thu->sotien;
+                $ct->tongchi += $thu->sotien;
+            }
+        }
+        $a_thu = array_column($model_thu->toarray(), 'tentieuchi', 'id');
+        $a_chikt = array_column($model_chikt->toarray(), 'tentieuchi', 'id');
+        $a_chikhac = array_column($model_chikhac->toarray(), 'tentieuchi', 'id');
+        $m_donvibc = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
+        return view('BaoCao.TongHop.QuyKhenThuong')
+            ->with('model', $model)
+            ->with('m_donvi', $m_donvibc)
+            ->with('a_thu', $a_thu)
+            ->with('a_chikt', $a_chikt)
+            ->with('a_chikhac', $a_chikhac)
+            ->with('col_thu', count($a_thu) > 0 ? count($a_thu) : 1)
+            ->with('col_chikt', count($a_chikt) > 0 ? count($a_chikt) : 1)
+            ->with('col_chikhac', count($a_chikhac) > 0 ? count($a_chikhac) : 1)
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'Báo cáo tổng hợp hình thức khen thưởng');
     }
 }

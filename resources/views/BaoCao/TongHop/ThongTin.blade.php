@@ -64,33 +64,48 @@
                         </li> --}}
 
                         <li>
-                            <button class="btn btn-clean text-dark" onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenThuong_m1', 'ALL')" data-target="#modal-khenthuong" data-toggle="modal">Báo
+                            <button class="btn btn-clean text-dark"
+                                onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenThuong_m1', 'ALL')"
+                                data-target="#modal-khenthuong" data-toggle="modal">Báo
                                 cáo hình thức khen thưởng trên địa bàn (Mẫu 01)</button>
                         </li>
 
                         <li>
-                            <button class="btn btn-clean text-dark" onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenThuong_m2')" data-target="#modal-khenthuong" data-toggle="modal">Báo
+                            <button class="btn btn-clean text-dark"
+                                onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenThuong_m2')"
+                                data-target="#modal-khenthuong" data-toggle="modal">Báo
                                 cáo hình thức khen thưởng trên địa bàn (Mẫu 02)</button>
                         </li>
                         <li>
-                            <button class="btn btn-clean text-dark" onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenThuong_m3')" data-target="#modal-khenthuong" data-toggle="modal">Báo
+                            <button class="btn btn-clean text-dark"
+                                onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenThuong_m3')"
+                                data-target="#modal-khenthuong" data-toggle="modal">Báo
                                 cáo hình thức khen thưởng trên địa bàn (Mẫu 03)</button>
                         </li>
                         <li>
-                            <button class="btn btn-clean text-dark" onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenCao_m1')" data-target="#modal-khenthuong" data-toggle="modal">Báo
+                            <button class="btn btn-clean text-dark"
+                                onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenCao_m1')"
+                                data-target="#modal-khenthuong" data-toggle="modal">Báo
                                 cáo hình thức khen thưởng (Khen cao - Mẫu 01)</button>
                         </li>
 
                         <li>
-                            <button class="btn btn-clean text-dark" onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenCao_m2')" data-target="#modal-khenthuong" data-toggle="modal">Báo
+                            <button class="btn btn-clean text-dark"
+                                onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenCao_m2')"
+                                data-target="#modal-khenthuong" data-toggle="modal">Báo
                                 cáo hình thức khen thưởng (Khen cao - Mẫu 02)</button>
+                        </li>
+                        <li>
+                            <button type="button" onclick="setBaoCaoKT('frm_quykhenthuong','/BaoCao/TongHop/QuyKhenThuong')"
+                                class="btn btn-clean text-dark" data-target="#modal-quykhenthuong" data-toggle="modal">
+                                Tổng hợp trích lập và sử dụng quỹ thi đua, khen thưởng</button>
                         </li>
                         <li>
                             <button type="button" onclick="setBaoCaoKT('frm_thongtu03','/BaoCao/TongHop/Mau0701')"
                                 class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
                                 phong trào thi đua (mẫu 0701.N/BNV-TĐKT)</button>
                         </li>
-                        {{-- <li>
+                        <li>
                             <button type="button" onclick="setBaoCaoKT('frm_thongtu03','/BaoCao/TongHop/Mau0702')"
                                 class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
                                 lượng khen thưởng cấp nhà nước (mẫu 0702.N/BNV-TĐKT)</button>
@@ -99,7 +114,7 @@
                             <button type="button" onclick="setBaoCaoKT('frm_thongtu03','/BaoCao/TongHop/Mau0703')"
                                 class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
                                 lượng khen thưởng cấp ban ngành đoàn thể trung ương (mẫu 0703.N/BNV-TĐKT)</button>
-                        </li> --}}
+                        </li>
                     </ol>
                 </div>
             </div>
@@ -245,7 +260,10 @@
                 <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Địa bàn</label>
-                        {!! Form::select('madiaban', setArrayAll($a_diaban), null, ['madiaban' => 'madt', 'class' => 'form-control select2_modal']) !!}
+                        {!! Form::select('madiaban', setArrayAll($a_diaban), null, [
+                            'madiaban' => 'madt',
+                            'class' => 'form-control select2_modal',
+                        ]) !!}
                     </div>
                 </div>
 
@@ -306,7 +324,10 @@
                 <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Địa bàn</label>
-                        {!! Form::select('madiaban', setArrayAll($a_diaban), null, ['madiaban' => 'madt', 'class' => 'form-control select2_modal']) !!}
+                        {!! Form::select('madiaban', setArrayAll($a_diaban), null, [
+                            'madiaban' => 'madt',
+                            'class' => 'form-control select2_modal',
+                        ]) !!}
                     </div>
                 </div>
 
@@ -374,7 +395,10 @@
                 <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Địa bàn</label>
-                        {!! Form::select('madiaban', setArrayAll($a_diaban), null, ['madiaban' => 'madt', 'class' => 'form-control select2_modal']) !!}
+                        {!! Form::select('madiaban', setArrayAll($a_diaban), null, [
+                            'madiaban' => 'madt',
+                            'class' => 'form-control select2_modal',
+                        ]) !!}
                     </div>
                 </div>
 
@@ -406,6 +430,63 @@
                         {!! Form::input('date', 'ngayden', date('Y') . '-12-31', ['id' => 'ngayden', 'class' => 'form-control']) !!}
                     </div>
                 </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
+                <button type="submit" name="submit" value="submit" class="btn btn-primary">Đồng ý</button>
+            </div>
+        </div>
+        {!! Form::close() !!}
+    </div>
+
+    {{-- Quy khen thưởng --}}
+    <div id="modal-quykhenthuong" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
+        {!! Form::open([
+            'url' => '',
+            'target' => '_blank',
+            'method' => 'post',
+            'id' => 'frm_quykhenthuong',
+            'class' => 'form-horizontal form-validate',
+        ]) !!}
+        <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
+        <div class="modal-dialog modal-content">
+            <div class="modal-header modal-header-primary">
+                <h4 id="modal-header-primary-label" class="modal-title">Thông tin kết xuất hình thức khen thưởng</h4>
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label>Năm báo cáo</label>
+                        {!! Form::select('nam', getNam(), date('Y'), [
+                            'class' => 'form-control select2_modal',
+                        ]) !!}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label>Thời điểm báo cáo</label>
+                        {!! Form::select('thoidiem', getThoiDiem(), 'CANAM', [
+                            'class' => 'form-control select2_modal',
+                            'onchange' => 'setNgayThang($(this),"frm_quykhenthuong")',
+                        ]) !!}
+                    </div>
+                </div>
+
+                {{-- <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label> Từ ngày</label>
+                        {!! Form::input('date', 'ngaytu', date('Y') . '-01-01', ['id' => 'ngaytu', 'class' => 'form-control']) !!}
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label> Đến ngày</label>
+                        {!! Form::input('date', 'ngayden', date('Y') . '-12-31', ['id' => 'ngayden', 'class' => 'form-control']) !!}
+                    </div>
+                </div> --}}
 
             </div>
             <div class="modal-footer">
@@ -452,7 +533,7 @@
             form.elements.ngayden.value = a_thoigian[e.val()][1];
         }
 
-        function setBaoCaoKT(formname, url, a_loaihinh) {            
+        function setBaoCaoKT(formname, url, a_loaihinh) {
             var form = document.getElementById(formname);
             form.action = url;
         }

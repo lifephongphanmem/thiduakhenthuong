@@ -18,8 +18,12 @@ class hethongchungController extends Controller
     public function index()
     {
         if (Session::has('admin')) {
-            if (dstaikhoan::where('tendangnhap', session('admin')->tendangnhap)->first()->matkhau == 'e10adc3949ba59abbe56e057f20f883e')
-                return redirect('/DoiMatKhau');           
+            if (in_array(
+                dstaikhoan::where('tendangnhap', session('admin')->tendangnhap)->first()->matkhau,
+                ['e10adc3949ba59abbe56e057f20f883e', '2d17247d02f162064940feff49988f8e']
+            ))
+            //123456; 123456@!
+                return redirect('/DoiMatKhau');
             else
                 return view('HeThong.dashboard')
                     ->with('model', getHeThongChung())
@@ -230,6 +234,7 @@ class hethongchungController extends Controller
         return view('CongBo.DanhSachTaiKhoan')
             ->with('model', $model)
             ->with('inputs', $inputs)
+            ->with('hethong', hethongchung::first())
             ->with('a_diaban', array_column(dsdiaban::all()->toArray(), 'tendiaban', 'madiaban'))
             ->with('pageTitle', 'Thông tin hỗ trợ');
     }
@@ -250,6 +255,7 @@ class hethongchungController extends Controller
         return view('HeThong.DanhSachHoTro')
             ->with('model', $model)
             ->with('inputs', $inputs)
+            ->with('hethong', hethongchung::first())
             ->with('a_diaban', array_column(dsdiaban::all()->toArray(), 'tendiaban', 'madiaban'))
             ->with('pageTitle', 'Thông tin hỗ trợ');
     }

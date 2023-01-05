@@ -1158,10 +1158,8 @@ function getLoaiVanBan()
         'nghiquyet' => 'Nghị quyết',
         'thongtu' => 'Thông tư',
         'quyetdinh' => 'Quyết định',
-        'vbhd' => 'Văn bản hướng dẫn',
-        'baocao' => 'Báo cáo tình hình giá trị trường',
-        'tailieu' => 'Báo cáo, tài liệu học tập kinh nghiệm',
-        'khoahoc' => 'Kết quả, đề tài nghiên cứu khoa học',
+        'vbhdcd' => 'Văn bản hướng dẫn, chỉ đạo',
+        'vbdh' => 'Văn bản điều hành',        
         'vbkhac' => 'Báo cáo, văn bản có liên quan khác',
     );
     return $vbqlnn;

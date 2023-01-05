@@ -32,7 +32,7 @@ class congboController extends Controller
         //dd($model);
         return view('CongBo.TrangChu')
             ->with('inputs', $inputs)
-            ->with('model', $model)
+            ->with('hethong', $model)
             ->with('pageTitle', 'Thi đua khen thưởng');
     }
 
@@ -41,8 +41,10 @@ class congboController extends Controller
         $inputs = $request->all();
         $inputs['url'] = '/QuanLyVanBan/VanBanPhapLy';
         $model = dsvanbanphaply::all();
+        $hethong = hethongchung::first();
         return view('CongBo.VanBan')
             ->with('model', $model)
+            ->with('hethong', $hethong)
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách văn bản pháp lý');
     }
@@ -75,8 +77,10 @@ class congboController extends Controller
             $model = $model->where('capkhenthuong', $inputs['capkhenthuong']);
         }
         //dd($model);
+        $hethong = hethongchung::first();
         return view('CongBo.QuyetDinh')
             ->with('model', $model->sortby('ngayqd'))
+            ->with('hethong', $hethong)
             ->with('inputs', $inputs)
             ->with('a_phamvi', getPhamViApDung())
             ->with('pageTitle', 'Danh sách quyết định khen thưởng');

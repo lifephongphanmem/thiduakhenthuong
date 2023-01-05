@@ -108,7 +108,7 @@
                                         
                                     </h2>
                                 </a>
-                                <b class="text-uppercase" style="color: #25aae2">THI ĐUA KHEN THƯỞNG - {{$model->diadanh}}</b>
+                                <b class="text-uppercase" style="color: #25aae2">THI ĐUA KHEN THƯỞNG - {{$hethong->diadanh}}</b>
                                 <!--end::Header Nav-->
                             </div>
                             <!--end::Header Menu-->
@@ -267,11 +267,11 @@
                     <div class="container d-flex flex-column justify-content-between">
                         <div class="row">
                             <div class="col-8">
-                                <p>Đơn vị: &nbsp;<b style="color: #25aae2">{{$model->tendonvi}}</b>
+                                <p>Đơn vị: &nbsp;<b style="color: #25aae2">{{$hethong->tendonvi}}</b>
                                 </p>
-                                <p>Địa chỉ: &nbsp;<b style="color: #25aae2">{{$model->diachi}}</b></p>
-                                <p>Thông tin liên hệ: &nbsp;<b style="color: #25aae2">Điện thoại: {{$model->dienthoai}} -
-                                        Email: {{$model->emailql}}</b></p>
+                                <p>Địa chỉ: &nbsp;<b style="color: #25aae2">{{$hethong->diachi}}</b></p>
+                                <p>Thông tin liên hệ: &nbsp;<b style="color: #25aae2">Điện thoại: {{$hethong->dienthoai}} -
+                                        Email: {{$hethong->emailql}}</b></p>
                             </div>
                             <div class="col-4 footer-block" style="text-align: left">
                                 <p>Đơn vị phát triển: &nbsp;<b style="color: #25aae2">Công ty phát triển phần mềm Cuộc
