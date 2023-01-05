@@ -83,7 +83,7 @@
                     <div id="div_inPhoi">
                         <div class="row">
                             <div class="col-lg-12">
-                                <a onclick="setInDL($(this), '{{ $inputs['url_qd'] . 'InPhoi' }}')"
+                                <a onclick="setInPhoi($(this), '{{ $inputs['url_qd'] . 'InPhoi' }}')"
                                     class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
                                     <i class="la flaticon2-print"></i>In phôi bằng khen, giấy khen
                                 </a>
@@ -170,6 +170,10 @@
         e.prop('href', url + '?mahosotdkt=' + $('#frm_InDuLieu').find("[name='mahosotdkt']").val());
     }
     
+    function setInPhoi(e, url) {
+        e.prop('href', url + '?mahosotdkt=' + $('#frm_InDuLieu').find("[name='mahosotdkt']").val() + '&madonvi=' + $(
+            '#madonvi').val());
+    }
     // function setInPhoi(url, phanloai) {
     //     $('#frm_InPhoi').attr('action', url);
     //     $('#frm_InPhoi').find("[name='mahosokt']").val($('#frm_InDuLieu').find("[name='mahosokt']").val());
