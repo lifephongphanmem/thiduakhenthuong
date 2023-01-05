@@ -65,20 +65,27 @@
                             <!--/span-->
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label">Thông tin liên hệ<span class="require">*</span></label>
-                                    {!! Form::text('tel', null, ['id' => 'tel', 'class' => 'form-control required']) !!}
+                                    <label class="control-label">Địa danh<span class="require">*</span></label>
+                                    {!! Form::text('diadanh', null, ['id' => 'diadanh', 'class' => 'form-control required']) !!}
                                 </div>
                             </div>
                             <!--/span-->
                         </div>
                         <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Số điện thoại</label>
+                                    {!! Form::text('dienthoai', null, ['id' => 'dienthoai', 'class' => 'form-control required']) !!}
+                                </div>
+                            </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label">Địa danh<span class="require">*</span></label>
-                                    {!! Form::text('diadanh', null, ['id' => 'diadanh', 'class' => 'form-control required']) !!}
+                                    <label class="control-label">Email<span class="require">*</span></label>
+                                    {!! Form::text('emailql', null, ['id' => 'emailql', 'class' => 'form-control required']) !!}
                                 </div>
                             </div>
+                            
                             <!--/span-->
                         </div>
                         <div class="row">

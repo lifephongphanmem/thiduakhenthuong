@@ -999,6 +999,22 @@ function getPhamViApDung()
     );
 }
 
+function getNhomChiQuy()
+{
+    return array(
+        'KHENTHUONG' => 'Chi khen thưởng',
+        'KHAC' => 'Chi khác',
+    );
+}
+
+function getPhanLoaiQuy()
+{
+    return array(
+        'THU' => 'Thu',
+        'CHI' => 'Chi',
+    );
+}
+
 function getDoiTuongApDung()
 {
     return array(

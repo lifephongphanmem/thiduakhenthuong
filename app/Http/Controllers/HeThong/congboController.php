@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\DanhMuc\dstaikhoan;
+use App\Model\HeThong\hethongchung;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
 use App\Model\VanBan\dsquyetdinhkhenthuong;
@@ -27,9 +28,11 @@ class congboController extends Controller
     {
         $inputs = $request->all();
         $inputs['url'] = '/QuanLyVanBan/VanBanPhapLy';
-        //$model = dsvanbanphaply::all();
+        $model = hethongchung::first();
+        //dd($model);
         return view('CongBo.TrangChu')
             ->with('inputs', $inputs)
+            ->with('model', $model)
             ->with('pageTitle', 'Thi đua khen thưởng');
     }
 

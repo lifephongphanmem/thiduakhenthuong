@@ -108,7 +108,7 @@
                                         
                                     </h2>
                                 </a>
-                                <b style="color: #25aae2">THI ĐUA KHEN THƯỞNG - QUẢNG BÌNH</b>
+                                <b class="text-uppercase" style="color: #25aae2">THI ĐUA KHEN THƯỞNG - {{$model->diadanh}}</b>
                                 <!--end::Header Nav-->
                             </div>
                             <!--end::Header Menu-->
@@ -267,12 +267,11 @@
                     <div class="container d-flex flex-column justify-content-between">
                         <div class="row">
                             <div class="col-8">
-                                <p>Đơn vị: &nbsp;<b style="color: #25aae2">Sở Nội vụ tỉnh Quảng Bình</b>
+                                <p>Đơn vị: &nbsp;<b style="color: #25aae2">{{$model->tendonvi}}</b>
                                 </p>
-                                <p>Địa chỉ: &nbsp;<b style="color: #25aae2">Số 72 - Ngô Quyền - Đồng Hới - Quảng
-                                        Bình</b></p>
-                                <p>Thông tin liên hệ: &nbsp;<b style="color: #25aae2">Điện thoại: (0232) 3844556 -
-                                        Email: btdkt@quangbinh.gov.vn</b></p>
+                                <p>Địa chỉ: &nbsp;<b style="color: #25aae2">{{$model->diachi}}</b></p>
+                                <p>Thông tin liên hệ: &nbsp;<b style="color: #25aae2">Điện thoại: {{$model->dienthoai}} -
+                                        Email: {{$model->emailql}}</b></p>
                             </div>
                             <div class="col-4 footer-block" style="text-align: left">
                                 <p>Đơn vị phát triển: &nbsp;<b style="color: #25aae2">Công ty phát triển phần mềm Cuộc
