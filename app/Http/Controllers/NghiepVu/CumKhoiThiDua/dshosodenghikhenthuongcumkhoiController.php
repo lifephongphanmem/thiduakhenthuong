@@ -123,6 +123,7 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
             $inputs['url_xd'] = '/CumKhoiThiDua/KTCumKhoi/HoSo/';
             $inputs['url_qd'] = '/CumKhoiThiDua/KTCumKhoi/HoSo/';
         }
+        $inputs['phanloaikhenthuong'] = 'CUMKHOI';
         return view('NghiepVu.CumKhoiThiDua.HoSoKhenThuong.DanhSach')
             ->with('model', $model)
             ->with('m_cumkhoi', $m_cumkhoi)
