@@ -15,7 +15,6 @@ class CreateDsvanphonghotroTable extends Migration
     {
         Schema::create('dsvanphonghotro', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('maso')->unique();
             $table->string('vanphong')->nullable();
             $table->string('hoten')->nullable();
             $table->string('chucvu')->nullable();
