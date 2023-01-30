@@ -131,10 +131,11 @@ class dstaikhoanController extends Controller
             $inputs['matkhau'] = md5($inputs['matkhaumoi']);
             dstaikhoan::create($inputs);
         } else {
-            if ($inputs['matkhaumoi'] == '')
-                unset($inputs['matkhaumoi']);
-            else
-                $inputs['matkhaumoi'] = md5($inputs['matkhaumoi']);
+            if ($inputs['matkhaumoi'] != '')
+                $inputs['matkhau'] = md5($inputs['matkhaumoi']);
+
+            //dd($inputs);
+            unset($inputs['matkhaumoi']);
             $model->update($inputs);
         }
 
@@ -349,8 +350,8 @@ class dstaikhoanController extends Controller
     {
         $inputs = $request->all();
         $inputs['url'] = '/TaiKhoan/PhamViDuLieu/';
-        
-        $model = dstaikhoan_phamvi::where('tendangnhap', $inputs['tendangnhap'])            
+
+        $model = dstaikhoan_phamvi::where('tendangnhap', $inputs['tendangnhap'])
             ->where('madiabancumkhoi', $inputs['madiabancumkhoi'])->first();
 
         if ($model == null) {
@@ -361,11 +362,11 @@ class dstaikhoanController extends Controller
         //dd($inputs);
         $model->save();
 
-        return redirect('/TaiKhoan/PhamViDuLieu?tendangnhap=' . $inputs['tendangnhap'] );
+        return redirect('/TaiKhoan/PhamViDuLieu?tendangnhap=' . $inputs['tendangnhap']);
     }
 
     public function XoaPhamViDuLieu(Request $request)
-    {        
+    {
         $id = $request->all()['id'];
         $model = dstaikhoan_phamvi::findorFail($id);
         $model->delete();
