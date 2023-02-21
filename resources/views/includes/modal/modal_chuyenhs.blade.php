@@ -112,16 +112,18 @@
         //$('#frm_chuyen').submit();
     }
 
-    function confirmChuyen(mahs, url, phanloaihs) {
+    function confirmChuyen(mahs, url, phanloaihs, madonvi = '') {
 
         if (phanloaihs == 'KHENTHUONG') {
             $('#frm_chuyen').attr('action', url);
             $('#frm_chuyen').find("[name='mahoso']").val(mahs);
+            $('#frm_chuyen').find("[name='madonvi_nhan']").val(madonvi);
             $('#chuyen-modal-confirm').modal("show");
 
         } else {
             $('#frm_chuyen_nganh').attr('action', url);
             $('#frm_chuyen_nganh').find("[name='mahoso']").val(mahs);
+            $('#frm_chuyen_nganh').find("[name='madonvi_nhan']").val(madonvi);
             $('#chuyen_nganh-modal-confirm').modal("show");
         }
     }

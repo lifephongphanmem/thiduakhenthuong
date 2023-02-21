@@ -1,6 +1,7 @@
 <?php
 
 use App\Model\DanhMuc\dstaikhoan_phamvi;
+use App\Model\HeThong\trangthaihoso;
 use Illuminate\Database\Eloquent\Collection;
 
 // function getQuyetDinhCKE($maso)
@@ -286,14 +287,14 @@ function getDonViCK($capdo, $chucnang = null, $kieudulieu = 'ARRAY')
 function getDonViXetDuyetCumKhoi($macumkhoi, $kieudulieu = 'ARRAY')
 {
     $m_donvi = \App\Model\View\view_dscumkhoi::where('macumkhoi', $macumkhoi)->wherein('phanloai', ['TRUONGKHOI'])->first();
-    if($m_donvi == null){
-        $m_diaban = \App\Model\DanhMuc\dsdiaban::select('madonviKT')->distinct()->get();        
-        $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', $m_diaban->toarray())->get();        
-    }else{
+    if ($m_donvi == null) {
+        $m_diaban = \App\Model\DanhMuc\dsdiaban::select('madonviKT')->distinct()->get();
+        $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', $m_diaban->toarray())->get();
+    } else {
         $m_diaban = \App\Model\DanhMuc\dsdiaban::where('madiaban', $m_donvi->madiaban)->first();
         $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', [$m_diaban->madonviKT])->get();
     }
-    
+
     switch ($kieudulieu) {
         case 'MODEL': {
                 return $model;
@@ -810,57 +811,56 @@ function setHoanThanhDV($madonvi, $hoso, $a_hoanthanh)
     }
 }
 
-//chưa dùng
 
-
-//chưa dùng
-function setTraLai($macqcq, $hoso, $a_tralai)
+//Làm cho chức năng trạng thái == CC
+function setTraLaiXD(&$model, &$inputs)
 {
-    //Gán trạng thái của đơn vị chuyển hồ sơ
-    if ($macqcq == $hoso->macqcq) {
-        $hoso->macqcq = null;
-        $hoso->trangthai = $a_tralai['trangthai'] ?? 'CHT';
-        $hoso->lydo = $a_tralai['lydo'] ?? null;
-    }
-    if ($macqcq == $hoso->macqcq_h) {
-        $hoso->macqcq_h = null;
-        $hoso->trangthai_h = $a_tralai['trangthai'] ?? 'CHT';
-        $hoso->lydo_h = $a_tralai['lydo'] ?? null;
-    }
-    if ($macqcq == $hoso->macqcq_t) {
-        $hoso->macqcq_t = null;
-        $hoso->trangthai_t = $a_tralai['trangthai'] ?? 'CHT';
-        $hoso->lydo_t = $a_tralai['lydo'] ?? null;
-    }
-    if ($macqcq == $hoso->macqcq_ad) {
-        $hoso->macqcq_ad = null;
-        $hoso->trangthai_ad = $a_tralai['trangthai'] ?? 'CHT';
-        $hoso->lydo_ad = $a_tralai['lydo'] ?? null;
-    }
-    //Gán trạng thái của đơn vị tiếp nhận hồ sơ
-    if ($macqcq == $hoso->madonvi_h) {
-        $hoso->macqcq_h = null;
-        $hoso->trangthai_h = null;
-        $hoso->lydo_h = null;
-        $hoso->thoidiem_h = null;
-        $hoso->madonvi_h = null;
-    }
+    $model->trangthai = $inputs['trangthai'];
+    $model->thoigian = $inputs['thoigian'];
+    $model->lydo = $inputs['lydo'];
 
-    if ($macqcq == $hoso->madonvi_t) {
-        $hoso->macqcq_t = null;
-        $hoso->trangthai_t = null;
-        $hoso->lydo_t = null;
-        $hoso->thoidiem_t = null;
-        $hoso->madonvi_t = null;
-    }
+    $model->trangthai_xd = $model->trangthai;
+    $model->thoigian_xd = $model->thoigian;
+    $model->save();
 
-    if ($macqcq == $hoso->madonvi_ad) {
-        $hoso->macqcq_ad = null;
-        $hoso->trangthai_ad = null;
-        $hoso->lydo_ad = null;
-        $hoso->thoidiem_ad = null;
-        $hoso->madonvi_ad = null;
-    }
+    //Lưu trạng thái
+    trangthaihoso::create([
+        'mahoso' => $inputs['mahoso'],
+        'phanloai' => 'dshosothiduakhenthuong',
+        'trangthai' => $model->trangthai,
+        'thoigian' => $model->thoigian,
+        'madonvi_nhan' => $model->madonvi,
+        'madonvi' => $model->madonvi_xd,
+        'thongtin' => 'Trả lại hồ sơ đề nghị khen thưởng.',
+    ]);
+}
+
+//Làm cho chức năng trạng thái == CC
+function setChuyenDV(&$model, &$inputs)
+{
+    //dd($inputs);
+    $model->trangthai = $inputs['trangthai'];
+    $model->thoigian = $inputs['thoigian'];
+    $model->lydo = $inputs['lydo'];
+    $model->madonvi_nhan = $inputs['madonvi_nhan'];
+
+
+    $model->trangthai_xd = $model->trangthai;
+    $model->thoigian_xd = $model->thoigian;
+    $model->madonvi_xd = $model->madonvi_nhan;
+    $model->save();
+
+    //Lưu trạng thái
+    $trangthai = new trangthaihoso();
+    $trangthai->trangthai = $inputs['trangthai'];
+    $trangthai->madonvi = $model->madonvi;
+    $trangthai->madonvi_nhan = $inputs['madonvi_nhan'];
+    $trangthai->phanloai = 'dshosothiduakhenthuong';
+    $trangthai->mahoso = $model->mahosotdkt;
+    $trangthai->thoigian = $model->thoigian;
+    $trangthai->thongtin = 'Chuyển hồ sơ đề nghị khen thưởng đã chỉnh sửa lại theo yêu cầu.';
+    $trangthai->save();
+
 }
 
 //Lấy tọa độ mặc định

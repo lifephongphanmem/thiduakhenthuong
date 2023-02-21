@@ -119,8 +119,6 @@ class qdhosodenghikhenthuongcongtrangController extends Controller
             ->with('pageTitle', 'Danh sách hồ sơ trình khen thưởng');
     }
 
-
-
     public function GanKhenThuong(Request $request)
     {
         $result = array(

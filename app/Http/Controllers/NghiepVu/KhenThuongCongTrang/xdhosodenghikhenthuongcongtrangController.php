@@ -47,7 +47,7 @@ class xdhosodenghikhenthuongcongtrangController extends Controller
         $inputs['url_xd'] = '/KhenThuongCongTrang/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongCongTrang/KhenThuong/';
         $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
-        
+
         $m_donvi = getDonVi(session('admin')->capdo, 'xdhosodenghikhenthuongcongtrang');
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
 
@@ -121,26 +121,13 @@ class xdhosodenghikhenthuongcongtrangController extends Controller
         $inputs = $request->all();
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
         //gán trạng thái hồ sơ để theo dõi
-        $model->trangthai = 'BTL';
-        $model->thoigian = date('Y-m-d H:i:s');
-        $model->lydo = $inputs['lydo'];
-        $model->madonvi_nhan = null;
-
-        $model->madonvi_xd = null;
-        $model->trangthai_xd = null;
-        $model->thoigian_xd = null;
-        $model->madonvi_nhan_xd = null;
-
-        $model->madonvi_kt = null;
-        $model->trangthai_kt = null;
-        $model->thoigian_kt = null;
-
-        //dd($model);
-        $model->save();
-
+        $inputs['trangthai'] = 'BTL';
+        $inputs['thoigian'] = date('Y-m-d H:i:s');
+        setTraLaiXD($model, $inputs);
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
     }
 
+    //chưa dùng
     public function ChuyenHoSo(Request $request)
     {
         if (!chkPhanQuyen('xdhosodenghikhenthuongcongtrang', 'hoanthanh')) {
@@ -257,7 +244,7 @@ class xdhosodenghikhenthuongcongtrangController extends Controller
     }
 
     public function TrinhKetQua(Request $request)
-    {       
+    {
         $inputs = $request->all();
         $inputs['url_hs'] = '/KhenThuongCongTrang/HoSo/';
         $inputs['url_xd'] = '/KhenThuongCongTrang/XetDuyet/';
@@ -690,7 +677,7 @@ class xdhosodenghikhenthuongcongtrangController extends Controller
 
     public function LuuTrinhKetQua(Request $request)
     {
-       
+
         $inputs = $request->all();
         //dd($inputs );
         if (isset($inputs['totrinhdenghi'])) {
@@ -698,7 +685,7 @@ class xdhosodenghikhenthuongcongtrangController extends Controller
             $inputs['totrinhdenghi'] = $inputs['mahosotdkt'] . 'totrinhdenghi.' . $filedk->getClientOriginalExtension();
             $filedk->move(public_path() . '/data/totrinh/', $inputs['totrinhdenghi']);
         }
-        
+
         //dd($inputs);
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model->update($inputs);
