@@ -44,7 +44,8 @@
                             <tr class="text-center">
                                 <th width="5%">STT</th>
                                 <th>Tên cụm, khối thi đua</th>
-                                <th width="30%">Đơn vị quản lý</th>
+                                <th>Đơn vị quản</br>lý hồ sơ</th>
+                                <th>Đơn vị xét</br>duyệt hồ sơ</th>
                                 <th width="15%">Thao tác</th>
                             </tr>
                         </thead>
@@ -54,6 +55,7 @@
                                 <td style="text-align: center">{{ $i++ }}</td>
                                 <td class="active">{{ $tt->tencumkhoi }}</td>
                                 <td>{{ $a_donvi[$tt->madonviql] ?? '' }}</td>
+                                <td>{{ $a_donvi[$tt->madonvixd] ?? '' }}</td>
                                 <td class=" text-center">
                                     @if (chkPhanQuyen('dscumkhoithidua', 'thaydoi'))
                                         <a title="Chỉnh sửa"
@@ -80,7 +82,7 @@
                                         </button>
 
                                         <button title="Xóa cụm khối" type="button"
-                                            onclick="confirmDelete('{{ $tt->id }}','{{$inputs['url'].'Xoa'}}')"
+                                            onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url'] . 'Xoa' }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
                                             data-toggle="modal">
                                             <i class="icon-lg la flaticon-delete text-danger"></i>
@@ -95,7 +97,9 @@
         </div>
     </div>
     <!--end::Card-->
+
     
+
     @include('includes.modal.modal_attackfile')
     @include('includes.modal.modal-delete')
 @stop

@@ -466,6 +466,7 @@ class ComposerStaticInit2bbfd3055ada376977abbf3cd3a1a409
         'App\\Http\\Controllers\\HeThong\\dsdonviController' => __DIR__ . '/../..' . '/app/Http/Controllers/HeThong/dsdonviController.php',
         'App\\Http\\Controllers\\HeThong\\dsnhomtaikhoanController' => __DIR__ . '/../..' . '/app/Http/Controllers/HeThong/dsnhomtaikhoanController.php',
         'App\\Http\\Controllers\\HeThong\\dstaikhoanController' => __DIR__ . '/../..' . '/app/Http/Controllers/HeThong/dstaikhoanController.php',
+        'App\\Http\\Controllers\\HeThong\\dsvanphonghotroController' => __DIR__ . '/../..' . '/app/Http/Controllers/HeThong/dsvanphonghotroController.php',
         'App\\Http\\Controllers\\HeThong\\hethongchungController' => __DIR__ . '/../..' . '/app/Http/Controllers/HeThong/hethongchungController.php',
         'App\\Http\\Controllers\\NghiepVu\\CumKhoiThiDua\\GiaoUoc\\dshosogiaouocthiduaController' => __DIR__ . '/../..' . '/app/Http/Controllers/NghiepVu/CumKhoiThiDua/GiaoUoc/dshosogiaouocthiduaController.php',
         'App\\Http\\Controllers\\NghiepVu\\CumKhoiThiDua\\GiaoUoc\\xdhosogiaouocthiduaController' => __DIR__ . '/../..' . '/app/Http/Controllers/NghiepVu/CumKhoiThiDua/GiaoUoc/xdhosogiaouocthiduaController.php',

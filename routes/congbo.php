@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix'=>'CongBo'], function(){    
     Route::get('VanBan','HeThong\congboController@VanBan');    

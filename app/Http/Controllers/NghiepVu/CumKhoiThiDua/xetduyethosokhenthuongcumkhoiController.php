@@ -51,7 +51,10 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
         //dd($m_donvi);
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
-        $m_cumkhoi = dscumkhoi::where('madonviql', $inputs['madonvi'])->get();
+        //lấy danh sách lọc cụm khối theo tài khoản
+
+        //
+        $m_cumkhoi = dscumkhoi::where('madonvixd', $inputs['madonvi'])->get();
         $inputs['macumkhoi'] = $inputs['macumkhoi'] ?? $m_cumkhoi->first()->macumkhoi;
         //Trường hợp chọn lại đơn vị nhưng mã cụm khối vẫn theo đơn vị cũ
         $inputs['macumkhoi'] = $m_cumkhoi->where('macumkhoi', $inputs['macumkhoi'])->first() != null ? $inputs['macumkhoi'] : $m_cumkhoi->first()->macumkhoi;
@@ -61,8 +64,12 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
 
         $model = dshosotdktcumkhoi::where('macumkhoi', $inputs['macumkhoi'])
             ->where('madonvi_xd', $inputs['madonvi'])->get();
+        //--lấy địa bàn quản lý theo tài khoản
+        $a_diabancumkhoi = getDiaBanCumKhoi(session('admin')->tendangnhap);
+        $a_donvidiaban = array_column(viewdiabandonvi::all()->toArray(), 'madiaban', 'madonvi');
+        //--
 
-        foreach ($model as $hoso) {
+        foreach ($model as $key => $hoso) {
             $hoso->soluongkhenthuong = dshosotdktcumkhoi_canhan::where('mahosotdkt', $hoso->mahosotdkt)->where('ketqua', '1')->count()
                 + dshosotdktcumkhoi_tapthe::where('mahosotdkt', $hoso->mahosotdkt)->where('ketqua', '1')->count();
             //Gán lại trạng thái hồ sơ
@@ -71,10 +78,17 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
             $hoso->thoigian_hoso = $hoso->thoigian_xd;
             $hoso->lydo_hoso = $hoso->lydo_xd;
             $hoso->madonvi_nhan_hoso = $hoso->madonvi_nhan_xd;
+            //lọc theo địa bàn
+            if (count($a_diabancumkhoi) > 0) {
+                //đơn vị => đia bàn => lọc điều kiện
+                $madiaban = $a_donvidiaban[$hoso->madonvi];
+                if (!in_array($madiaban, $a_diabancumkhoi))
+                    $model->forget($key);
+            }
         }
-       // dd($inputs);
+        // dd($inputs);
         $inputs['trangthai'] = session('chucnang')['xdhosokhenthuongcumkhoi']['trangthai'] ?? 'CC';
-        $inputs['trangthai'] = $inputs['trangthai'] !='ALL' ? $inputs['trangthai'] : 'CC';
+        $inputs['trangthai'] = $inputs['trangthai'] != 'ALL' ? $inputs['trangthai'] : 'CC';
         //dd($inputs);
         return view('NghiepVu.CumKhoiThiDua.XetDuyetHoSoKhenThuong.ThongTin')
             ->with('inputs', $inputs)
@@ -607,7 +621,7 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
         $inputs['maduthao'] = $inputs['maduthao'] ?? 'ALL';
         getTaoDuThaoToTrinhPheDuyetCumKhoi($model, $inputs['maduthao']);
         $a_duthao = array_column(duthaoquyetdinh::wherein('phanloai', ['TOTRINHHOSO'])->get()->toArray(), 'noidung', 'maduthao');
-        
+
         $inputs['maduthao'] = $inputs['maduthao'] ?? array_key_first($a_duthao);
         return view('BaoCao.DonVi.QuyetDinh.MauChungToTrinhKT')
             ->with('model', $model)
@@ -626,20 +640,20 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
     }
 
     public function TrinhKetQua(Request $request)
-    {       
+    {
         $inputs = $request->all();
         $inputs['url_xd'] = '/CumKhoiThiDua/KTCumKhoi/XetDuyet/';
         $inputs['url'] = '/CumKhoiThiDua/KTCumKhoi/XetDuyet/';
-        $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();        
+        $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         return view('NghiepVu.CumKhoiThiDua.XetDuyetHoSoKhenThuong.TrinhKetQua')
-            ->with('model', $model)            
+            ->with('model', $model)
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Thông tin hồ sơ đề nghị khen thưởng');
     }
 
     public function LuuTrinhKetQua(Request $request)
     {
-       
+
         $inputs = $request->all();
         //dd($inputs );
         if (isset($inputs['totrinhdenghi'])) {
@@ -647,7 +661,7 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
             $inputs['totrinhdenghi'] = $inputs['mahosotdkt'] . 'totrinhdenghi.' . $filedk->getClientOriginalExtension();
             $filedk->move(public_path() . '/data/totrinh/', $inputs['totrinhdenghi']);
         }
-        
+
         //dd($inputs);
         dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first()->update($inputs);
 

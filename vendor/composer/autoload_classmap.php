@@ -27,6 +27,7 @@ return array(
     'App\\Http\\Controllers\\HeThong\\dsdonviController' => $baseDir . '/app/Http/Controllers/HeThong/dsdonviController.php',
     'App\\Http\\Controllers\\HeThong\\dsnhomtaikhoanController' => $baseDir . '/app/Http/Controllers/HeThong/dsnhomtaikhoanController.php',
     'App\\Http\\Controllers\\HeThong\\dstaikhoanController' => $baseDir . '/app/Http/Controllers/HeThong/dstaikhoanController.php',
+    'App\\Http\\Controllers\\HeThong\\dsvanphonghotroController' => $baseDir . '/app/Http/Controllers/HeThong/dsvanphonghotroController.php',
     'App\\Http\\Controllers\\HeThong\\hethongchungController' => $baseDir . '/app/Http/Controllers/HeThong/hethongchungController.php',
     'App\\Http\\Controllers\\NghiepVu\\CumKhoiThiDua\\GiaoUoc\\dshosogiaouocthiduaController' => $baseDir . '/app/Http/Controllers/NghiepVu/CumKhoiThiDua/GiaoUoc/dshosogiaouocthiduaController.php',
     'App\\Http\\Controllers\\NghiepVu\\CumKhoiThiDua\\GiaoUoc\\xdhosogiaouocthiduaController' => $baseDir . '/app/Http/Controllers/NghiepVu/CumKhoiThiDua/GiaoUoc/xdhosogiaouocthiduaController.php',

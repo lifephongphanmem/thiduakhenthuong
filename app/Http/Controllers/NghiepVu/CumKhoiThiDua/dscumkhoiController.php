@@ -11,6 +11,7 @@ use App\Model\DanhMuc\dscumkhoi;
 use App\Model\DanhMuc\dscumkhoi_chitiet;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
+use App\Model\View\view_dscumkhoi;
 use App\Model\View\viewdiabandonvi;
 use Illuminate\Support\Facades\Session;
 
@@ -38,15 +39,16 @@ class dscumkhoiController extends Controller
         foreach ($model as $ct) {
             $ct->sodonvi = $m_chitiet->where('macumkhoi', $ct->macumkhoi)->count();
         }
-        //dd($model);
+        //dd($m_chitiet);
         $m_donvi = dsdonvi::all();
         return view('NghiepVu.CumKhoiThiDua.DanhSach.ThongTin')
             ->with('model', $model)
             ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))
+            ->with('a_donviql', array_column($m_chitiet->toArray(), 'tendonvi', 'madonvi'))
             ->with('a_capdo', getPhamViApDung())
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách cụm, khối thi đua');
-    }
+    }   
 
     public function ThayDoi(Request $request)
     {
@@ -61,12 +63,17 @@ class dscumkhoiController extends Controller
             $model = new dscumkhoi();
             $model->macumkhoi = getdate()[0];
         }
+        $model_chitiet = view_dscumkhoi::where('macumkhoi', $model->macumkhoi)->select('tendonvi', 'madonvi')->distinct()->get();        
+        $a_donviql = array_column($model_chitiet->toarray(), 'tendonvi', 'madonvi');
+        $a_donvixd = getDonViXetDuyetCumKhoi($model->macumkhoi);
+
         // $m_donvi = dsdonvi::wherein('madonvi', function ($qr) {
         //     $qr->select('madonviQL')->from('dsdiaban')->get();
         // })->get();
         return view('NghiepVu.CumKhoiThiDua.DanhSach.ThayDoi')
             ->with('model', $model)
-            //->with('a_donvi', getDonViQuanLyCumKhoi($model->macumkhoi))
+            ->with('a_donvixd', $a_donvixd)
+            ->with('a_donviql', $a_donviql)
             ->with('pageTitle', 'Thông tin cụm, khối thi đua');
     }
 
@@ -168,14 +175,14 @@ class dscumkhoiController extends Controller
         $inputs = $request->all();
         $model = dscumkhoi::where('macumkhoi', $inputs['mahs'])->first();
         $result['message'] = '<div class="modal-body" id = "dinh_kem" >';
-        
+
         if ($model->ipf1 != '') {
             $result['message'] .= '<div class="form-group row">';
             $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Quyết định:</label>';
             $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/quyetdinh/' . $model->ipf1) . '">' . $model->ipf1 . '</a ></div>';
             $result['message'] .= '</div>';
         }
-        
+
         if ($model->ipf2 != '') {
             $result['message'] .= '<div class="form-group row">';
             $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Tài liệu khác</label>';

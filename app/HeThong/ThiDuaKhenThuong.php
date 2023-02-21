@@ -286,9 +286,14 @@ function getDonViCK($capdo, $chucnang = null, $kieudulieu = 'ARRAY')
 function getDonViXetDuyetCumKhoi($macumkhoi, $kieudulieu = 'ARRAY')
 {
     $m_donvi = \App\Model\View\view_dscumkhoi::where('macumkhoi', $macumkhoi)->wherein('phanloai', ['TRUONGKHOI'])->first();
-    $m_diaban = \App\Model\DanhMuc\dsdiaban::where('madiaban', $m_donvi->madiaban)->first();
-    // $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', [$m_diaban->madonviKT, $m_donvi->madonvi])->get();
-    $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', [$m_diaban->madonviKT])->get();
+    if($m_donvi == null){
+        $m_diaban = \App\Model\DanhMuc\dsdiaban::select('madonviKT')->distinct()->get();        
+        $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', $m_diaban->toarray())->get();        
+    }else{
+        $m_diaban = \App\Model\DanhMuc\dsdiaban::where('madiaban', $m_donvi->madiaban)->first();
+        $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', [$m_diaban->madonviKT])->get();
+    }
+    
     switch ($kieudulieu) {
         case 'MODEL': {
                 return $model;
@@ -364,7 +369,7 @@ function getDonViXetDuyetHoSo($madonvi = null, $chucnang = null, $kieudulieu = '
 function getDonViXetDuyetHoSoCumKhoi($capdo, $madiaban = null, $chucnang = null, $kieudulieu = 'ARRAY')
 {
     $model = \App\Model\View\viewdiabandonvi::wherein('madonvi', function ($qr) {
-        $qr->select('madonviql')->from('dscumkhoi')->get();
+        $qr->select('madonvixd')->from('dscumkhoi')->get();
     })->get();
     switch ($kieudulieu) {
         case 'MODEL': {

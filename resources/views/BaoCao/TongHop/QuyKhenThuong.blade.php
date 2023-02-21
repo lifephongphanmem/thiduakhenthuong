@@ -23,7 +23,7 @@
 
         <tr>
             <td colspan="2" style="text-align: center; font-weight: bold; font-size: 20px;text-transform: uppercase">
-                TỔNG HỢP TRÍCH LẬP LẬP VÀ SỬ DỤNG QUỸ THI ĐUA, KHEN THƯỞNG NĂM {{ $inputs['nam'] }}
+                TỔNG HỢP TRÍCH LẬP VÀ SỬ DỤNG QUỸ THI ĐUA, KHEN THƯỞNG NĂM {{ $inputs['nam'] }}
             </td>
         </tr>
 

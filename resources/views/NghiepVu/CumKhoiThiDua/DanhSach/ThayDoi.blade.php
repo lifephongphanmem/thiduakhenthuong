@@ -12,7 +12,14 @@
 
 @section('content')
     <!--begin::Card-->
-    {!! Form::model($model, ['method' => 'POST', '/CumKhoiThiDua/CumKhoi/Them', 'class' => 'horizontal-form', 'id' => 'update_dmdonvi', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
+    {!! Form::model($model, [
+        'method' => 'POST',
+        '/CumKhoiThiDua/CumKhoi/Them',
+        'class' => 'horizontal-form',
+        'id' => 'update_dmdonvi',
+        'files' => true,
+        'enctype' => 'multipart/form-data',
+    ]) !!}
     {{-- {{ Form::hidden('id', null) }} --}}
     {{ Form::hidden('macumkhoi', null) }}
     <div class="card card-custom wave wave-animate-slow wave-primary" style="min-height: 600px">
@@ -39,13 +46,24 @@
             </div>
 
             <div class="form-group row">
+                <div class="col-6">
+                    <label>Đơn vị quản lý hồ sơ</label>
+                    {!! Form::select('madonviql', $a_donviql, null,  ['class' => 'form-control select2basic']) !!}
+                </div>
+
+                <div class="col-6">
+                    <label>Đơn vị xét duyệt hồ sơ<span class="require">*</span></label>
+                    {!! Form::select('madonvixd', $a_donvixd, null, ['class' => 'form-control select2basic', 'required']) !!}
+                </div>
+            </div>
+
+            <div class="form-group row">
                 <div class="col-12">
                     <label>Quyết định phân cụm, khối </label>
                     {!! Form::file('ipf1', null, ['id' => 'ipf1', 'class' => 'form-control']) !!}
                     @if ($model->ipf1 != '')
                         <span class="form-control" style="border-style: none">
-                            <a href="{{ url('/data/quyetdinh/' . $model->ipf1) }}"
-                                target="_blank">{{ $model->ipf1 }}</a>
+                            <a href="{{ url('/data/quyetdinh/' . $model->ipf1) }}" target="_blank">{{ $model->ipf1 }}</a>
                         </span>
                     @endif
                 </div>
@@ -57,8 +75,7 @@
                     {!! Form::file('ipf2', null, ['id' => 'ipf2', 'class' => 'form-control']) !!}
                     @if ($model->ipf2 != '')
                         <span class="form-control" style="border-style: none">
-                            <a href="{{ url('/data/tailieukhac/' . $model->ipf2) }}"
-                                target="_blank">{{ $model->ipf2 }}</a>
+                            <a href="{{ url('/data/tailieukhac/' . $model->ipf2) }}" target="_blank">{{ $model->ipf2 }}</a>
                         </span>
                     @endif
                 </div>

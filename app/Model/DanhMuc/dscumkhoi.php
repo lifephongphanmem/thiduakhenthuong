@@ -14,6 +14,8 @@ class dscumkhoi extends Model
         'ngaythanhlap',
         'capdo',
         'madonviql',
+        'madonvixd',
+        'madonvikt',
         'ipf1',
         'ipf2',
         'ipf3',
