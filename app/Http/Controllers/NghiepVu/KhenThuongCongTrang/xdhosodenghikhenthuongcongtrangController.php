@@ -78,8 +78,8 @@ class xdhosodenghikhenthuongcongtrangController extends Controller
             $model = $model->whereyear('ngayhoso', $inputs['nam']);
         //Lấy hồ sơ
         $model = $model->orderby('ngayhoso')->get();
-        $a_diabancumkhoi = getDiaBanCumKhoi(session('admin')->tendangnhap);
-        $a_donvidiaban = array_column(viewdiabandonvi::all()->toArray(), 'madiaban', 'madonvi');
+        
+        $a_donvilocdulieu = getDiaBanCumKhoi(session('admin')->tendangnhap);
         foreach ($model as $key => $hoso) {
             $hoso->soluongkhenthuong = dshosothiduakhenthuong_canhan::where('mahosotdkt', $hoso->mahosotdkt)->where('ketqua', '1')->count()
                 + dshosothiduakhenthuong_tapthe::where('mahosotdkt', $hoso->mahosotdkt)->where('ketqua', '1')->count();
@@ -90,10 +90,9 @@ class xdhosodenghikhenthuongcongtrangController extends Controller
             $hoso->lydo_hoso = $hoso->lydo_xd;
             $hoso->madonvi_nhan_hoso = $hoso->madonvi_nhan_xd;
 
-            if (count($a_diabancumkhoi) > 0) {
-                //đơn vị => đia bàn => lọc điều kiện
-                $madiaban = $a_donvidiaban[$hoso->madonvi];
-                if (!in_array($madiaban, $a_diabancumkhoi))
+            if (count($a_donvilocdulieu) > 0) {
+                //lọc các hồ sơ theo thiết lập dữ liệu
+                if (!in_array($hoso->madonvi, $a_donvilocdulieu))
                     $model->forget($key);
             }
         }

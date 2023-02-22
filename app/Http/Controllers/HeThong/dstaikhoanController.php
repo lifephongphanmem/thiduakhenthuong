@@ -327,19 +327,28 @@ class dstaikhoanController extends Controller
 
         $inputs = $request->all();
         $inputs['url'] = '/TaiKhoan/PhamViDuLieu/';
+        $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
         $model_taikhoan = dstaikhoan::where('tendangnhap', $inputs['tendangnhap'])->first();
         $model_donvi = viewdiabandonvi::where('madonvi', $model_taikhoan->madonvi)->first();
         $model = dstaikhoan_phamvi::where('tendangnhap', $inputs['tendangnhap'])->get();
 
         $m_donvi = getDonVi($model_donvi->capdo);
         //dd($model);
-        $a_diaban = array_column(dsdiaban::wherein('capdo', ['T', 'H'])->get()->toarray(), 'tendiaban', 'madiaban');
-        $a_cumkhoi = array_column(dscumkhoi::all()->toarray(), 'tencumkhoi', 'macumkhoi');
+        $a_phamvi = array_column($model->toarray(), 'maphamvi');
+        $a_diaban = array_column(dsdiaban::wherein('capdo', ['T', 'H', 'X'])->wherenotin('madiaban', $a_phamvi)->get()->toarray(), 'tendiaban', 'madiaban');
+        $a_cumkhoi = array_column(dscumkhoi::wherenotin('macumkhoi', $a_phamvi)->get()->toarray(), 'tencumkhoi', 'macumkhoi');
+        $a_donvi = array_column(dsdonvi::wherenotin('madonvi', $a_phamvi)->get()->toarray(), 'tendonvi', 'madonvi');
+        if ($inputs['phanloai'] != 'ALL') {
+            $model = $model->where('phanloai', $inputs['phanloai']);
+        }
         return view('HeThongChung.TaiKhoan.PhamViDuLieu')
             ->with('model', $model)
             ->with('model_taikhoan', $model_taikhoan)
             ->with('m_donvi', $m_donvi)
-            ->with('a_diabancumkhoi', a_merge($a_diaban, $a_cumkhoi))
+            ->with('a_diaban', $a_diaban)
+            ->with('a_cumkhoi', $a_cumkhoi)
+            ->with('a_donvi', $a_donvi)
+            ->with('a_phanloai', getPhanLoaiLocDuLieu())
             //->with('a_nhomtk', [])
             //->with('a_capdo', getPhanLoaiDonVi_DiaBan())
             ->with('inputs', $inputs)
@@ -351,13 +360,37 @@ class dstaikhoanController extends Controller
         $inputs = $request->all();
         $inputs['url'] = '/TaiKhoan/PhamViDuLieu/';
 
+
+
+
+
         $model = dstaikhoan_phamvi::where('tendangnhap', $inputs['tendangnhap'])
-            ->where('madiabancumkhoi', $inputs['madiabancumkhoi'])->first();
+            ->where('maphamvi', $inputs['maphamvi'])->first();
 
         if ($model == null) {
             $model = new dstaikhoan_phamvi();
             $model->tendangnhap = $inputs['tendangnhap'];
-            $model->madiabancumkhoi = $inputs['madiabancumkhoi'];
+            $model->maphamvi = $inputs['maphamvi'];
+
+            switch ($inputs['phanloai']) {
+                case "DONVI": {
+                        $a_donvi = array_column(dsdonvi::all()->toarray(), 'tendonvi', 'madonvi');
+                        $model->tenphamvi = $a_donvi[$inputs['maphamvi']];
+                        break;
+                    }
+                case "CUMKHOI": {
+                        $a_cumkhoi = array_column(dscumkhoi::all()->toarray(), 'tencumkhoi', 'macumkhoi');
+                        $model->tenphamvi = $a_cumkhoi[$inputs['maphamvi']];
+                        break;
+                    }
+                case "DIABAN": {
+                        $a_diaban = array_column(dsdiaban::all()->toarray(), 'tendiaban', 'madiaban');
+                        $model->tenphamvi = $a_diaban[$inputs['maphamvi']];
+                        break;
+                    }
+            }
+
+            $model->phanloai = $inputs['phanloai'];
         }
         //dd($inputs);
         $model->save();

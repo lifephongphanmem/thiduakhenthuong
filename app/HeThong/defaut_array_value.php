@@ -9,6 +9,15 @@ use App\Model\DanhMuc\dsdonvi;
  * Time: 3:05 PM
  */
 
+ function getPhanLoaiLocDuLieu()
+{
+    return array(
+        'DONVI' => 'Đơn vị sử dụng', 
+        'DIABAN' => 'Địa bàn hành chính', 
+        'CUMKHOI' => 'Cụm, khối thi đua'
+    );
+}
+
 function getChucVuKhenThuong($capdo = 'T')
 {
     return array(

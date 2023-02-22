@@ -57,7 +57,7 @@ class qdhosokhenthuongcumkhoiController extends Controller
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $inputs['maloaihinhkt'] = $inputs['maloaihinhkt'] ?? 'ALL';
-        $a_diabancumkhoi = getDiaBanCumKhoi(session('admin')->tendangnhap);
+        $a_diabancumkhoi = getCumKhoiLocDuLieu(session('admin')->tendangnhap);
         if (count($a_diabancumkhoi) > 0)
             $m_cumkhoi = dscumkhoi::wherein('macumkhoi', $a_diabancumkhoi)->get();
         else
@@ -83,13 +83,12 @@ class qdhosokhenthuongcumkhoiController extends Controller
         }
         $model = $model->orderby('ngayhoso')->get();
 
-        $a_diabancumkhoi = getDiaBanCumKhoi(session('admin')->tendangnhap);
-        //$a_donvicumkhoi = array_column(viewdiabandonvi::all()->toArray(), 'madiaban', 'madonvi');
+        $a_donvilocdulieu = getDiaBanCumKhoi(session('admin')->tendangnhap);
 
         foreach ($model as $key => $hoso) {
-            if (count($a_diabancumkhoi) > 0) {
-                //đơn vị => đia bàn => lọc điều kiện
-                if (!in_array($hoso->macumkhoi, $a_diabancumkhoi))
+            if (count($a_donvilocdulieu) > 0) {
+                //lọc các hồ sơ theo thiết lập dữ liệu
+                if (!in_array($hoso->madonvi, $a_donvilocdulieu))
                     $model->forget($key);
             }
 

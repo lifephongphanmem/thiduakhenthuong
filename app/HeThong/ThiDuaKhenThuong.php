@@ -2,6 +2,8 @@
 
 use App\Model\DanhMuc\dstaikhoan_phamvi;
 use App\Model\HeThong\trangthaihoso;
+use App\Model\View\view_dscumkhoi;
+use App\Model\View\viewdiabandonvi;
 use Illuminate\Database\Eloquent\Collection;
 
 // function getQuyetDinhCKE($maso)
@@ -198,7 +200,26 @@ function getDiaBanCumKhoi($tendangnhap)
     }
     //Lấy đơn vị quản lý địa bàn và đơn vi
     $model = dstaikhoan_phamvi::where('tendangnhap', $tendangnhap)->get();
-    return array_column($model->toarray(), 'madiabancumkhoi');
+    $a_kq = array_column($model->where('phanloai', 'DONVI')->toarray(), 'maphamvi');
+    //dd($a_kq);
+    //Lấy thông tin theo cụm khối
+    $a_cumkhoi = array_column(view_dscumkhoi::wherein('macumkhoi', array_column($model->where('phanloai', 'CUMKHOI')->toarray(), 'maphamvi'))->get()->toArray(), 'madonvi');
+    $a_kq = array_merge($a_kq, $a_cumkhoi);
+    //Lấy thông tin theo địa bàn
+    $a_diaban = array_column(viewdiabandonvi::wherein('madiaban', array_column($model->where('phanloai', 'DIABAN')->toarray(), 'maphamvi'))->get()->toArray(), 'madonvi');
+    $a_kq = array_merge($a_kq, $a_diaban);
+
+    return $a_kq;
+}
+
+//Lấy danh sách cụm, khối lọc
+function getCumKhoiLocDuLieu($tendangnhap)
+{
+    if (session('admin')->capdo == 'SSA') {
+        return [];
+    }
+    $model = dstaikhoan_phamvi::where('tendangnhap', $tendangnhap)->where('phanloai', 'CUMKHOI')->get();
+    return array_column($model->toarray(), 'maphamvi');
 }
 
 //Hàm lấy danh sách đơn vị xét duyệt trên địa bàn cùng cấp và cấp trên
@@ -860,7 +881,6 @@ function setChuyenDV(&$model, &$inputs)
     $trangthai->thoigian = $model->thoigian;
     $trangthai->thongtin = 'Chuyển hồ sơ đề nghị khen thưởng đã chỉnh sửa lại theo yêu cầu.';
     $trangthai->save();
-
 }
 
 //Lấy tọa độ mặc định

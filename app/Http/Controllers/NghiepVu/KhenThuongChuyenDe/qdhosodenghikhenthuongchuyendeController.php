@@ -51,7 +51,7 @@ class qdhosodenghikhenthuongchuyendeController extends Controller
         $inputs['url_xd'] = '/KhenThuongChuyenDe/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongChuyenDe/KhenThuong/';
         $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
-        
+
         // $m_donvi = getDonViXetDuyetHoSo(session('admin')->capdo, null, 'qdhosodenghikhenthuongchuyende', 'MODEL');
         // $m_diaban = getDiaBanXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
         // //$m_donvi = viewdiabandonvi::wherein('madonvi', array_column($m_donvi->toarray(), 'madonviQL'))->get();
@@ -80,14 +80,11 @@ class qdhosodenghikhenthuongchuyendeController extends Controller
         //Lấy hồ sơ
         $model = $model->orderby('ngayhoso')->get();
         // $m_khenthuong = dshosokhenthuong::wherein('mahosotdkt', array_column($model->toarray(), 'mahosotdkt'))->where('trangthai', 'DKT')->get();
-        $a_diabancumkhoi = getDiaBanCumKhoi(session('admin')->tendangnhap);
-        $a_donvidiaban = array_column(viewdiabandonvi::all()->toArray(), 'madiaban', 'madonvi');
+        $a_donvilocdulieu = getDiaBanCumKhoi(session('admin')->tendangnhap);
         foreach ($model as $key => $hoso) {
-
-            if (count($a_diabancumkhoi) > 0) {
-                //đơn vị => đia bàn => lọc điều kiện
-                $madiaban = $a_donvidiaban[$hoso->madonvi];
-                if (!in_array($madiaban, $a_diabancumkhoi))
+            if (count($a_donvilocdulieu) > 0) {
+                //lọc các hồ sơ theo thiết lập dữ liệu
+                if (!in_array($hoso->madonvi, $a_donvilocdulieu))
                     $model->forget($key);
             }
             //nếu hồ sơ của đơn vị thì để chỉnh sửa (cho trường hợp tự nhập quyết định khen thưởng)

@@ -11,8 +11,10 @@ class dstaikhoan_phamvi extends Model
         'id',
         'tendangnhap',
         'machucnang',
-        'phanloai', //Khen thưởng; Cụm khối
-        'madiabancumkhoi',
+        'phanloai', 
+        'madiabancumkhoi',//bỏ
+        'maphamvi',
+        'tenphamvi',
         'ghichu',
     ];
 }

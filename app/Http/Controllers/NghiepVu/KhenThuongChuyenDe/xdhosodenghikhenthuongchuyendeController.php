@@ -71,14 +71,12 @@ class xdhosodenghikhenthuongchuyendeController extends Controller
         } else {
             $m_loaihinh = dmloaihinhkhenthuong::where('maloaihinhkt', $inputs['maloaihinhkt'])->get();
         }
-        $a_diabancumkhoi = getDiaBanCumKhoi(session('admin')->tendangnhap);
-        $a_donvidiaban = array_column(viewdiabandonvi::all()->toArray(), 'madiaban', 'madonvi');
-        foreach ($model as $key => $hoso) {
+        $a_donvilocdulieu = getDiaBanCumKhoi(session('admin')->tendangnhap);
 
-            if (count($a_diabancumkhoi) > 0) {
-                //đơn vị => đia bàn => lọc điều kiện
-                $madiaban = $a_donvidiaban[$hoso->madonvi];
-                if (!in_array($madiaban, $a_diabancumkhoi))
+        foreach ($model as $key => $hoso) {
+            if (count($a_donvilocdulieu) > 0) {
+                //lọc các hồ sơ theo thiết lập dữ liệu
+                if (!in_array($hoso->madonvi, $a_donvilocdulieu))
                     $model->forget($key);
             }
             $hoso->soluongkhenthuong = dshosothiduakhenthuong_canhan::where('mahosotdkt', $hoso->mahosotdkt)->where('ketqua', '1')->count()

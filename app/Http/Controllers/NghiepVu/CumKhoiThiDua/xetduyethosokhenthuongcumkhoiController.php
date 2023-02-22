@@ -65,8 +65,7 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
         $model = dshosotdktcumkhoi::where('macumkhoi', $inputs['macumkhoi'])
             ->where('madonvi_xd', $inputs['madonvi'])->get();
         //--lấy địa bàn quản lý theo tài khoản
-        $a_diabancumkhoi = getDiaBanCumKhoi(session('admin')->tendangnhap);
-        $a_donvidiaban = array_column(viewdiabandonvi::all()->toArray(), 'madiaban', 'madonvi');
+        $a_donvilocdulieu = getDiaBanCumKhoi(session('admin')->tendangnhap);
         //--
 
         foreach ($model as $key => $hoso) {
@@ -79,10 +78,9 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
             $hoso->lydo_hoso = $hoso->lydo_xd;
             $hoso->madonvi_nhan_hoso = $hoso->madonvi_nhan_xd;
             //lọc theo địa bàn
-            if (count($a_diabancumkhoi) > 0) {
-                //đơn vị => đia bàn => lọc điều kiện
-                $madiaban = $a_donvidiaban[$hoso->madonvi];
-                if (!in_array($madiaban, $a_diabancumkhoi))
+            if (count($a_donvilocdulieu) > 0) {
+                //lọc các hồ sơ theo thiết lập dữ liệu
+                if (!in_array($hoso->madonvi, $a_donvilocdulieu))
                     $model->forget($key);
             }
         }

@@ -57,7 +57,8 @@ class dshosokhenthuongcumkhoiController extends Controller
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $inputs['maloaihinhkt'] = $inputs['maloaihinhkt'] ?? 'ALL';
-        $a_diabancumkhoi = getDiaBanCumKhoi(session('admin')->tendangnhap);
+        //Lọc cụm khối theo thiết lập lọc dữ liệu của tài khoản
+        $a_diabancumkhoi = getCumKhoiLocDuLieu(session('admin')->tendangnhap);
         if (count($a_diabancumkhoi) > 0)
             $m_cumkhoi = dscumkhoi::wherein('macumkhoi', $a_diabancumkhoi)->get();
         else
