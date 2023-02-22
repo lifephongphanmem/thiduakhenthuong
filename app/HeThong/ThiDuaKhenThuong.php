@@ -307,15 +307,21 @@ function getDonViCK($capdo, $chucnang = null, $kieudulieu = 'ARRAY')
 
 function getDonViXetDuyetCumKhoi($macumkhoi, $kieudulieu = 'ARRAY')
 {
-    $m_donvi = \App\Model\View\view_dscumkhoi::where('macumkhoi', $macumkhoi)->wherein('phanloai', ['TRUONGKHOI'])->first();
-    if ($m_donvi == null) {
-        $m_diaban = \App\Model\DanhMuc\dsdiaban::select('madonviKT')->distinct()->get();
-        $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', $m_diaban->toarray())->get();
-    } else {
-        $m_diaban = \App\Model\DanhMuc\dsdiaban::where('madiaban', $m_donvi->madiaban)->first();
-        $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', [$m_diaban->madonviKT])->get();
-    }
+    //$m_donvi = \App\Model\View\view_dscumkhoi::where('macumkhoi', $macumkhoi)->wherein('phanloai', ['TRUONGKHOI'])->first();
+    // if ($m_donvi == null) {
+    //     $m_diaban = \App\Model\DanhMuc\dsdiaban::select('madonviKT')->distinct()->get();
+    //     $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', $m_diaban->toarray())->get();
+    // } else {
+    //     $m_diaban = \App\Model\DanhMuc\dsdiaban::where('madiaban', $m_donvi->madiaban)->first();
+    //     $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', [$m_diaban->madonviKT])->get();
+    //     //Thiếu trường hợp khối huyện gửi hồ sơ lên sở nội vụ
+    //     //Thiếu trường hợp cho khánh hòa: khối thi đua theo sở ban ngành
+    // }
 
+    //22.02.203 chưa tính hết các trường hợp => tạm thời đưa hết danh sách đơn vị
+    $m_diaban = \App\Model\DanhMuc\dsdiaban::select('madonviKT')->distinct()->get();
+    $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', $m_diaban->toarray())->get();
+    //--22
     switch ($kieudulieu) {
         case 'MODEL': {
                 return $model;
