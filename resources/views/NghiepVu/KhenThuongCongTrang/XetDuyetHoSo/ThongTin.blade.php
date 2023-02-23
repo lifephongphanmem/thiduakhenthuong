@@ -94,12 +94,13 @@
 
                                 <td style="text-align: center">
                                     @include('NghiepVu._DungChung.TD_XemThongTinTDKT')
-                                    @if ($inputs['trangthai'] == 'CC')
-                                        @if (chkPhanQuyen('xdhosodenghikhenthuongcongtrang', 'thaydoi'))
+                                    
+                                    @if (chkPhanQuyen('xdhosodenghikhenthuongcongtrang', 'thaydoi'))
+                                        @if ($inputs['trangthai'] == 'CC')
                                             @include('NghiepVu._DungChung.XetDuyet.TD_TrangThai_CC')
+                                        @else
+                                            @include('NghiepVu._DungChung.XetDuyet.TD_TrangThai_CXKT')
                                         @endif
-                                    @else
-                                        @include('NghiepVu._DungChung.XetDuyet.TD_TrangThai_CXKT')
                                     @endif
                                 </td>
                             </tr>

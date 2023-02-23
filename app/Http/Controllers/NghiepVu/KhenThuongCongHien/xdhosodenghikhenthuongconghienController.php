@@ -46,7 +46,7 @@ class xdhosodenghikhenthuongconghienController extends Controller
         $inputs['url_xd'] = '/KhenThuongCongHien/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongCongHien/KhenThuong/';
         $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
-        
+
         $m_donvi = getDonVi(session('admin')->capdo, 'xdhosodenghikhenthuongconghien');
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
 
@@ -115,21 +115,9 @@ class xdhosodenghikhenthuongconghienController extends Controller
         $inputs = $request->all();
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
         //gán trạng thái hồ sơ để theo dõi
-        $model->trangthai = 'BTL';
-        $model->thoigian = date('Y-m-d H:i:s');
-        $model->lydo = $inputs['lydo'];
-        $model->madonvi_nhan = null;
-        //dd($model);
-        $model->trangthai_xd = null;
-        $model->thoigian_xd = null;
-        $model->madonvi_nhan_xd = null;
-        $model->madonvi_xd = null;
-
-        $model->madonvi_kt = null;
-        $model->trangthai_kt = null;
-        $model->thoigian_kt = null;
-        $model->save();
-
+        $inputs['trangthai'] = 'BTL';
+        $inputs['thoigian'] = date('Y-m-d H:i:s');
+        setTraLaiXD($model, $inputs);
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
     }
 

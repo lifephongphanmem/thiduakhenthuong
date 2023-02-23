@@ -48,6 +48,7 @@ class dshosodenghikhenthuongconghienController extends Controller
         $inputs['url_hs'] = '/KhenThuongCongHien/HoSo/';
         $inputs['url_xd'] = '/KhenThuongCongHien/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongCongHien/KhenThuong/';
+        $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
         //dd(session('chucnang')['dshosodenghikhenthuongconghien']['maloaihinhkt']);
         $m_donvi = getDonVi(session('admin')->capdo, 'dshosodenghikhenthuongconghien');
         $a_diaban = array_column($m_donvi->toArray(), 'tendiaban', 'madiaban');
@@ -492,23 +493,11 @@ class dshosodenghikhenthuongconghienController extends Controller
         }
         $inputs = $request->all();
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
-        $model->trangthai = 'CD';
-        $model->madonvi_nhan = $inputs['madonvi_nhan'];
-        $model->thoigian = date('Y-m-d H:i:s');
-        $model->madonvi_xd = $model->madonvi_nhan;
-        $model->trangthai_xd = $model->trangthai;
-        $model->thoigian = $model->thoigian;
-        //dd($model);
-        $model->save();
-
-        $trangthai = new trangthaihoso();
-        $trangthai->trangthai = 'CD';
-        $trangthai->madonvi = $model->madonvi;
-        $trangthai->madonvi_nhan = $inputs['madonvi_nhan'];
-        $trangthai->phanloai = 'dshosothiduakhenthuong';
-        $trangthai->mahoso = $model->mahosotdkt;
-        $trangthai->thoigian = $model->thoigian;
-        $trangthai->save();
+        
+        $inputs['trangthai'] = 'CXKT';
+        $inputs['thoigian'] = date('Y-m-d H:i:s');
+        $inputs['lydo'] = '';//Xóa lý do trả lại
+        setChuyenDV($model,$inputs);  
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }
 

@@ -88,7 +88,7 @@ class xdhosodenghikhenthuongdotxuatController extends Controller
             $hoso->madonvi_nhan_hoso = $hoso->madonvi_nhan_xd;
         }
 
-        $inputs['trangthai'] = session('chucnang')['xdhosodenghikhenthuongcongtrang']['trangthai'] ?? 'CC';
+        $inputs['trangthai'] = session('chucnang')['xdhosodenghikhenthuongdotxuat']['trangthai'] ?? 'CC';
         $inputs['trangthai'] = $inputs['trangthai'] != 'ALL' ? $inputs['trangthai'] : 'CC';
         return view('NghiepVu.KhenThuongDotXuat.XetDuyet.ThongTin')
             ->with('model', $model)
@@ -105,36 +105,23 @@ class xdhosodenghikhenthuongdotxuatController extends Controller
 
     public function TraLai(Request $request)
     {
-        if (!chkPhanQuyen('xdhosodenghikhenthuongcongtrang', 'hoanthanh')) {
-            return view('errors.noperm')->with('machucnang', 'xdhosodenghikhenthuongcongtrang')->with('tenphanquyen', 'hoanthanh');
+        if (!chkPhanQuyen('xdhosodenghikhenthuongdotxuat', 'hoanthanh')) {
+            return view('errors.noperm')->with('machucnang', 'xdhosodenghikhenthuongdotxuat')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
         //gán trạng thái hồ sơ để theo dõi
-        $model->trangthai = 'BTL';
-        $model->thoigian = date('Y-m-d H:i:s');
-        $model->lydo = $inputs['lydo'];
-        $model->madonvi_nhan = null;
-
-        $model->madonvi_xd = null;
-        $model->trangthai_xd = null;
-        $model->thoigian_xd = null;
-        $model->madonvi_nhan_xd = null;
-
-        $model->madonvi_kt = null;
-        $model->trangthai_kt = null;
-        $model->thoigian_kt = null;
-
-        //dd($model);
-        $model->save();
+        $inputs['trangthai'] = 'BTL';
+        $inputs['thoigian'] = date('Y-m-d H:i:s');
+        setTraLaiXD($model, $inputs);
 
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
     }
 
     public function ChuyenHoSo(Request $request)
     {
-        if (!chkPhanQuyen('xdhosodenghikhenthuongcongtrang', 'hoanthanh')) {
-            return view('errors.noperm')->with('machucnang', 'xdhosodenghikhenthuongcongtrang')->with('tenphanquyen', 'hoanthanh');
+        if (!chkPhanQuyen('xdhosodenghikhenthuongdotxuat', 'hoanthanh')) {
+            return view('errors.noperm')->with('machucnang', 'xdhosodenghikhenthuongdotxuat')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
         $thoigian = date('Y-m-d H:i:s');
@@ -170,8 +157,8 @@ class xdhosodenghikhenthuongdotxuatController extends Controller
 
     public function NhanHoSo(Request $request)
     {
-        if (!chkPhanQuyen('xdhosodenghikhenthuongcongtrang', 'hoanthanh')) {
-            return view('errors.noperm')->with('machucnang', 'xdhosodenghikhenthuongcongtrang')->with('tenphanquyen', 'hoanthanh');
+        if (!chkPhanQuyen('xdhosodenghikhenthuongdotxuat', 'hoanthanh')) {
+            return view('errors.noperm')->with('machucnang', 'xdhosodenghikhenthuongdotxuat')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
         //dd($inputs);

@@ -110,14 +110,16 @@
                                     </button> --}}
 
                                     @include('NghiepVu._DungChung.TD_XemThongTinTDKT')
-                                    @if ($inputs['trangthai'] == 'CC')
-                                        {{-- Trường hợp cũ đầy đủ quy trình --}}
-                                        @include('NghiepVu._DungChung.HoSo.TD_TrangThai_CC')
-                                    @else
-                                        {{-- Trường hợp gộp các quy trình vào làm một để chỉ theo dõi hồ sơ --}}
-                                        @include('NghiepVu._DungChung.HoSo.TD_TrangThai_CXKT')
+                                    
+                                    @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']) && chkPhanQuyen('dshosodenghikhenthuongcongtrang', 'thaydoi'))
+                                        @if ($inputs['trangthai'] == 'CC')
+                                            {{-- Trường hợp cũ đầy đủ quy trình --}}
+                                            @include('NghiepVu._DungChung.HoSo.TD_TrangThai_CC')
+                                        @else
+                                            {{-- Trường hợp gộp các quy trình vào làm một để chỉ theo dõi hồ sơ --}}
+                                            @include('NghiepVu._DungChung.HoSo.TD_TrangThai_CXKT')
+                                        @endif
                                     @endif
-
                                 </td>
                             </tr>
                         @endforeach
