@@ -394,7 +394,8 @@
                     toado_chucvudoituong: getStyle('toado_chucvudoituong'),
                     toado_pldoituong: getStyle('toado_pldoituong'),
 
-                    madonvi: "{{ $m_hoso['madonvi'] }}",
+                    madonvi: "{{ $inputs['madonvi'] }}",
+                    //madonvi: "{{ $m_hoso['madonvi'] }}",
                     phanloaikhenthuong: "{{ $inputs['phanloaikhenthuong'] }}",
                     phanloaidoituong: "{{ $inputs['phanloaidoituong'] }}",
                     phanloaiphoi: "{{ $inputs['phanloaiphoi'] }}",
@@ -650,7 +651,7 @@
                 dataType: 'JSON',
                 success: function(data) {
                     if (data.status == 'success') {
-                        alert(data.message);
+                        //alert(data.message);
                         //location.reload();
                     }
                 }

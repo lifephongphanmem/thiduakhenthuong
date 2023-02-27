@@ -18,6 +18,7 @@ use App\Model\DanhMuc\dscumkhoi;
 use App\Model\DanhMuc\dscumkhoi_chitiet;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
+use App\Model\DanhMuc\dstruongcumkhoi;
 use App\Model\DanhMuc\duthaoquyetdinh;
 use App\Model\HeThong\trangthaihoso;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi;
@@ -26,6 +27,7 @@ use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_detai;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_tapthe;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua;
 use App\Model\View\view_dscumkhoi;
+use App\Model\View\view_dstruongcumkhoi;
 use App\Model\View\viewdiabandonvi;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
@@ -92,8 +94,8 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
         $inputs['maloaihinhkt'] = $inputs['maloaihinhkt'] ?? 'ALL';
 
         $model = dshosotdktcumkhoi::where('macumkhoi', $inputs['macumkhoi'])
-            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH'])
-            ->where('madonvi', $inputs['madonvi']);
+            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH']);
+            //->where('madonvi', $inputs['madonvi']);
         if ($inputs['nam'] != 'ALL') {
             $model = $model->whereyear('ngayhoso', $inputs['nam']);
         }
@@ -108,8 +110,8 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
             $hoso->soluongkhenthuong = $model_canhan->where('mahosotdkt', $hoso->mahosotdkt)->count()
                 + $model_tapthe->where('mahosotdkt', $hoso->mahosotdkt)->count();
         }
-        $m_cumkhoi_chitiet = dscumkhoi_chitiet::where('madonvi', $inputs['madonvi'])->get();
-        $m_cumkhoi = dscumkhoi::wherein('macumkhoi', array_column($m_cumkhoi_chitiet->toarray(), 'macumkhoi'))->get();
+        
+        $m_cumkhoi = view_dscumkhoi::where('madonvi', $inputs['madonvi'])->get();        
         $inputs['trangthai'] = session('chucnang')['dshosodenghikhenthuongcumkhoi']['trangthai'] ?? 'CC';
         //Gán đường dẫn
         if ($inputs['trangthai'] == 'CC') {
@@ -123,7 +125,15 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
             $inputs['url_xd'] = '/CumKhoiThiDua/KTCumKhoi/HoSo/';
             $inputs['url_qd'] = '/CumKhoiThiDua/KTCumKhoi/HoSo/';
         }
+
+        //Thiết lập thông tin trưởng cụm khối
+        $inputs['ngayhientai'] = date('Y-m-d');
+        $inputs['namhientai'] = date('Y');
         $inputs['phanloaikhenthuong'] = 'CUMKHOI';
+        $truongcumkhoi = view_dstruongcumkhoi::whereYear('ngaytu', $inputs['namhientai'])->where('macumkhoi', $inputs['macumkhoi'])->where('madonvi', $inputs['madonvi'])->first();
+        $inputs['truongcumkhoi'] = isset($truongcumkhoi);
+        //dd($inputs);
+        
         return view('NghiepVu.CumKhoiThiDua.HoSoKhenThuong.DanhSach')
             ->with('model', $model)
             ->with('m_cumkhoi', $m_cumkhoi)
@@ -367,7 +377,7 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
 
         $dungchung = new dungchung_nghiepvuController();
         $dungchung->htmlCaNhan($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
-        
+
         return response()->json($result);
     }
 
@@ -410,8 +420,8 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
         $danhsach = dshosotdktcumkhoi_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
         $dungchung = new dungchung_nghiepvuController();
         $dungchung->htmlCaNhan($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
-        
-        
+
+
         return response()->json($result);
     }
 
@@ -526,7 +536,7 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
         $danhsach = dshosotdktcumkhoi_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
         $dungchung = new dungchung_nghiepvuController();
         $dungchung->htmlTapThe($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
-        
+
         return response()->json($result);
     }
 

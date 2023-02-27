@@ -200,7 +200,8 @@ function getDiaBanCumKhoi($tendangnhap)
     }
     //Lấy đơn vị quản lý địa bàn và đơn vi
     $model = dstaikhoan_phamvi::where('tendangnhap', $tendangnhap)->get();
-    $a_kq = array_column($model->where('phanloai', 'DONVI')->toarray(), 'maphamvi');
+    dd($model->toarray());
+    $a_kq = array_column($model->where('phanloai', 'CUMKHOI')->where('phanloai', 'DONVI')->toarray(), 'maphamvi');
     //dd($a_kq);
     //Lấy thông tin theo cụm khối
     $a_cumkhoi = array_column(view_dscumkhoi::wherein('macumkhoi', array_column($model->where('phanloai', 'CUMKHOI')->toarray(), 'maphamvi'))->get()->toArray(), 'madonvi');
