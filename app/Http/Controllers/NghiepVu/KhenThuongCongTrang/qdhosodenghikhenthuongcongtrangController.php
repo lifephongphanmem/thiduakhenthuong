@@ -84,7 +84,7 @@ class qdhosodenghikhenthuongcongtrangController extends Controller
         $model = $model->orderby('ngayhoso')->get();
         // $m_khenthuong = dshosokhenthuong::wherein('mahosotdkt', array_column($model->toarray(), 'mahosotdkt'))->where('trangthai', 'DKT')->get();
         $a_donvilocdulieu = getDiaBanCumKhoi(session('admin')->tendangnhap);
-            dd($a_donvilocdulieu);
+            //dd($a_donvilocdulieu);
         foreach ($model as $key => $hoso) {
             if (count($a_donvilocdulieu) > 0) {
                 //lọc các hồ sơ theo thiết lập dữ liệu
