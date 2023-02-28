@@ -24,6 +24,7 @@ use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_canhan;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_detai;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_tapthe;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua;
+use App\Model\View\view_dstruongcumkhoi;
 use App\Model\View\viewdiabandonvi;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
@@ -47,11 +48,16 @@ class dshosokhenthuongcumkhoiController extends Controller
         if (!chkPhanQuyen('dshosokhenthuongcumkhoi', 'danhsach')) {
             return view('errors.noperm')->with('machucnang', 'dshosokhenthuongcumkhoi')->with('tenphanquyen', 'danhsach');
         }
+        //B1 lọc danh sách cụm khối đơn vị theo doi => báo lỗi
+        //B2 lọc cụm khối theo đơn vị
+        //B3 xem input['macumkhoi] có tồn tại ko => lấy first()
+        
         $inputs = $request->all();
         $inputs['url_hs'] = '/CumKhoiThiDua/KTCumKhoi/HoSoKT/';
         $inputs['url_xd'] = '/CumKhoiThiDua/KTCumKhoi/HoSoKT/';
         $inputs['url_qd'] = '/CumKhoiThiDua/KTCumKhoi/HoSoKT/';
         $inputs['phanloaikhenthuong'] = 'CUMKHOI';
+
         $m_donvi = getDonVi(session('admin')->capdo, 'dshosokhenthuongcumkhoi');
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
@@ -74,7 +80,7 @@ class dshosokhenthuongcumkhoiController extends Controller
         //$capdo = $donvi->capdo ?? '';
         //dd($inputs);
         $model = dshosotdktcumkhoi::where('macumkhoi', $inputs['macumkhoi'])
-            ->where('madonvi', $inputs['madonvi'])
+            //->where('madonvi', $inputs['madonvi'])
             ->where('phanloai', 'KTDONVI');
         if ($inputs['nam'] != 'ALL') {
             $model = $model->whereyear('ngayhoso', $inputs['nam']);
@@ -94,9 +100,16 @@ class dshosokhenthuongcumkhoiController extends Controller
         $inputs['taototrinh'] = in_array($inputs['madonvi'], $a_donvi_xd);
 
         $inputs['trangthai'] = session('chucnang')['dshosokhenthuongcumkhoi']['trangthai'] ?? 'CC';
-        $cumkhoi = dscumkhoi::where('macumkhoi', $inputs['macumkhoi'])->first();
-        $inputs['truongcumkhoi'] = true;
-        //$inputs['truongcumkhoi'] = $cumkhoi->madonviql == $inputs['madonvi'] ? true : false;
+        
+        //Thiết lập thông tin trưởng cụm khối
+        $inputs['ngayhientai'] = date('Y-m-d');
+        $inputs['namhientai'] = date('Y');
+        $truongcumkhoi = view_dstruongcumkhoi::whereYear('ngaytu', $inputs['namhientai'])
+            ->where('macumkhoi', $inputs['macumkhoi'])
+            ->where('madonvi', $inputs['madonvi'])->first();
+        //nếu trưởng cụm khối == null =>lấy đơn vị quản lý để thêm hồ sơ
+        $truongcumkhoi = $truongcumkhoi->madonvi ?? $m_cumkhoi->where('macumkhoi', $inputs['macumkhoi'])->first()->madonviql;
+        $inputs['truongcumkhoi'] = $truongcumkhoi == $inputs['madonvi'] ? true : false;
         //dd($inputs);
         return view('NghiepVu.CumKhoiThiDua.HoSoKT.ThongTin')
             ->with('inputs', $inputs)

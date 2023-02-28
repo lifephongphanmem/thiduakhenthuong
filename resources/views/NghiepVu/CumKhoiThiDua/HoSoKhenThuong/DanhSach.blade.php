@@ -122,39 +122,40 @@
                                         <i class="icon-lg la la-file-download text-dark"></i>
                                     </button>
                                     @if ($inputs['trangthai'] == 'CC')
-                                        @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']))
-                                            <a title="Hồ sơ đăng ký phong trào"
-                                                href="{{ url($inputs['url_hs'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
-                                                class="btn btn-sm btn-clean btn-icon">
-                                                <i class="icon-lg la flaticon-edit-1 text-success"></i>
-                                            </a>
+                                        @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']) && $tt->madonvi == $inputs['madonvi'])
+                                            @if (chkPhanQuyen('dshosodenghikhenthuongcumkhoi', 'thaydoi'))
+                                                <a title="Hồ sơ đăng ký phong trào"
+                                                    href="{{ url($inputs['url_hs'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                                    class="btn btn-sm btn-clean btn-icon">
+                                                    <i class="icon-lg la flaticon-edit-1 text-success"></i>
+                                                </a>
 
-                                            @if ($tt->trangthai == 'BTL')
-                                                <button title="Lý do hồ sơ bị trả lại" type="button"
-                                                    onclick="viewLyDo('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}', '{{ $inputs['url_hs'] . 'LayLyDo' }}')"
-                                                    class="btn btn-sm btn-clean btn-icon" data-target="#tralai-modal"
-                                                    data-toggle="modal">
-                                                    <i class="icon-lg la fa-archive text-dark"></i>
+                                                @if ($tt->trangthai == 'BTL')
+                                                    <button title="Lý do hồ sơ bị trả lại" type="button"
+                                                        onclick="viewLyDo('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}', '{{ $inputs['url_hs'] . 'LayLyDo' }}')"
+                                                        class="btn btn-sm btn-clean btn-icon" data-target="#tralai-modal"
+                                                        data-toggle="modal">
+                                                        <i class="icon-lg la fa-archive text-dark"></i>
+                                                    </button>
+                                                @endif
+
+                                                <button type="button"
+                                                    onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url_hs'] . 'Xoa' }}')"
+                                                    class="btn btn-sm btn-clean btn-icon"
+                                                    data-target="#delete-modal-confirm" data-toggle="modal">
+                                                    <i class="icon-lg la fa-trash text-danger"></i>
                                                 </button>
                                             @endif
-
                                             <button title="Trình hồ sơ đăng ký" type="button"
                                                 onclick="confirmChuyen('{{ $tt->mahosotdkt }}','{{ $inputs['url_hs'] . 'ChuyenHoSo' }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#chuyen-modal-confirm"
                                                 data-toggle="modal">
                                                 <i class="icon-lg la fa-share text-primary"></i>
                                             </button>
-
-                                            <button type="button"
-                                                onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url_hs'] . 'Xoa' }}')"
-                                                class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
-                                                data-toggle="modal">
-                                                <i class="icon-lg la fa-trash text-danger"></i>
-                                            </button>
                                         @endif
                                     @else
                                         {{-- Trường hợp gộp các quy trình vào làm một để chỉ theo dõi hồ sơ --}}
-                                        @if (in_array($tt->trangthai, ['CXKT', 'CC', 'BTL', 'CXD']))
+                                        @if (in_array($tt->trangthai, ['CXKT', 'CC', 'BTL', 'CXD']) && $tt->madonvi == $inputs['madonvi'])
                                             @if (chkPhanQuyen('dshosodenghikhenthuongcumkhoi', 'thaydoi'))
                                                 <a href="{{ url($inputs['url_hs'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                     class="btn btn-icon btn-clean btn-lg mb-1 position-relative"

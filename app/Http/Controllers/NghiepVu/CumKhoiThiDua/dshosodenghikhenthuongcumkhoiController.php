@@ -95,7 +95,7 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
 
         $model = dshosotdktcumkhoi::where('macumkhoi', $inputs['macumkhoi'])
             ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH']);
-            //->where('madonvi', $inputs['madonvi']);
+        //->where('madonvi', $inputs['madonvi']);
         if ($inputs['nam'] != 'ALL') {
             $model = $model->whereyear('ngayhoso', $inputs['nam']);
         }
@@ -110,8 +110,8 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
             $hoso->soluongkhenthuong = $model_canhan->where('mahosotdkt', $hoso->mahosotdkt)->count()
                 + $model_tapthe->where('mahosotdkt', $hoso->mahosotdkt)->count();
         }
-        
-        $m_cumkhoi = view_dscumkhoi::where('madonvi', $inputs['madonvi'])->get();        
+
+        $m_cumkhoi = view_dscumkhoi::where('madonvi', $inputs['madonvi'])->get();
         $inputs['trangthai'] = session('chucnang')['dshosodenghikhenthuongcumkhoi']['trangthai'] ?? 'CC';
         //Gán đường dẫn
         if ($inputs['trangthai'] == 'CC') {
@@ -130,10 +130,14 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
         $inputs['ngayhientai'] = date('Y-m-d');
         $inputs['namhientai'] = date('Y');
         $inputs['phanloaikhenthuong'] = 'CUMKHOI';
-        $truongcumkhoi = view_dstruongcumkhoi::whereYear('ngaytu', $inputs['namhientai'])->where('macumkhoi', $inputs['macumkhoi'])->where('madonvi', $inputs['madonvi'])->first();
-        $inputs['truongcumkhoi'] = isset($truongcumkhoi);
+        $truongcumkhoi = view_dstruongcumkhoi::whereYear('ngaytu', $inputs['namhientai'])
+            ->where('macumkhoi', $inputs['macumkhoi'])
+            ->where('madonvi', $inputs['madonvi'])->first();
+        //nếu trưởng cụm khối == null =>lấy đơn vị quản lý để thêm hồ sơ
+        $truongcumkhoi = $truongcumkhoi->madonvi ?? $m_cumkhoi->where('macumkhoi', $inputs['macumkhoi'])->first()->madonviql;
+        $inputs['truongcumkhoi'] = $truongcumkhoi == $inputs['madonvi'] ? true : false;
         //dd($inputs);
-        
+
         return view('NghiepVu.CumKhoiThiDua.HoSoKhenThuong.DanhSach')
             ->with('model', $model)
             ->with('m_cumkhoi', $m_cumkhoi)
