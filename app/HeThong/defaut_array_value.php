@@ -9,11 +9,11 @@ use App\Model\DanhMuc\dsdonvi;
  * Time: 3:05 PM
  */
 
- function getPhanLoaiLocDuLieu()
+function getPhanLoaiLocDuLieu()
 {
     return array(
-        'DONVI' => 'Đơn vị sử dụng', 
-        'DIABAN' => 'Địa bàn hành chính', 
+        'DONVI' => 'Đơn vị sử dụng',
+        'DIABAN' => 'Địa bàn hành chính',
         'CUMKHOI' => 'Cụm, khối thi đua'
     );
 }
@@ -33,17 +33,20 @@ function getChucVuKhenThuong($capdo = 'T')
 
 function getFontFamilyList()
 {
-    return array(
-        //'.VnTime' => '.VnTime',
-        //'VnTimeH' => 'VnTimeH',
-        //'.VnShelley Allegro' => '.VnShelley Allegro',
-        //'VNI-Times' => 'VNI-Times',
-
-        'Arial' => 'Arial',
-        'Brush Script MT' => 'Brush Script MT',
-        'Comic Sans MS' => 'Comic Sans MS',
-        'Tahoma' => 'Tahoma',
+    return array(        
+        'Arial' => 'Arial',       
         'Times New Roman' => 'Times New Roman',
+        'UTMVnShelley' => 'UTMVnShelley',
+        'UTMDiana' => 'UTMDiana',
+        'UTMBeautiful' => 'UTMBeautiful',
+        'UTMEdwardianKT' => 'UTMEdwardianKT',
+        // 'UTMFleur' => 'UTMFleur',
+        'UTMNovido' => 'UTMNovido',
+        'UTMSloop' => 'UTMSloop',
+        'UTMThuPhapThienAn' => 'UTMThuPhapThienAn',
+        'UTMTimes' => 'UTMTimes',
+        'UTMWedding' => 'UTMWedding',
+        'UTMYves' => 'UTMYves',
     );
 }
 
@@ -1168,7 +1171,7 @@ function getLoaiVanBan()
         'thongtu' => 'Thông tư',
         'quyetdinh' => 'Quyết định',
         'vbhdcd' => 'Văn bản hướng dẫn, chỉ đạo',
-        'vbdh' => 'Văn bản điều hành',        
+        'vbdh' => 'Văn bản điều hành',
         'vbkhac' => 'Báo cáo, văn bản có liên quan khác',
     );
     return $vbqlnn;

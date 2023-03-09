@@ -2,8 +2,8 @@
 <html lang="vi">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,500,600,700" />
+    <meta http-equiv="Content-Type" content="text/html;" />
+    {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,500,600,700" /> --}}
     <meta name='viewport' content='width=device-width, initial-scale=1' />
     {{-- <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script> --}}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
@@ -13,14 +13,68 @@
     <link rel="shortcut icon" href="{{ url('assets/media/logos/LIFESOFT.png') }}" />
     <style type="text/css">
         @font-face {
-            font-family: .VnTime;
-            src: url('{{ url('assets/fonts/VNTIME.TTF') }}')format('truetype');
+            font-family: 'UTMBeautiful';
+            src: url('{{ url('/fonts/UTMBeautiful.TTF') }}');
         }
-    </style>
-    <style type="text/css">
+
         @font-face {
-            font-family: .VnShelley Allegro;
-            src: url('{{ url('assets/fonts/VNSHELL.TTF') }}')format('truetype');
+            font-family: 'UTMDiana';
+            src: url('{{ url('/fonts/UTMDiana.TTF') }}');
+        }
+
+        @font-face {
+            font-family: 'UTMVnShelley';
+            src: url('{{ url('/fonts/UTMEdwardianB.TTF') }}');
+        }
+
+        @font-face {
+            font-family: 'UTMEdwardianKT';
+            src: url('{{ url('/fonts/UTMEdwardianKT.TTF') }}');
+        }
+
+        @font-face {
+            font-family: 'UTMFleur';
+            src: url('{{ url('/fonts/UTMFleur.TTF') }}');
+        }
+
+        @font-face {
+            font-family: 'UTMNovido';
+            src: url('{{ url('/fonts/UTMNovido.TTF') }}');
+        }
+
+        @font-face {
+            font-family: 'UTMSloop';
+            src: url('{{ url('/fonts/UTMSloop.TTF') }}');
+        }
+
+        @font-face {
+            font-family: 'UTMThuPhapThienAn';
+            src: url('{{ url('/fonts/UTMThuPhapThienAn.TTF') }}');
+        }
+
+        @font-face {
+            font-family: 'UTMTimes';
+            src: url('{{ url('/fonts/UTMTimes.TTF') }}');
+        }
+
+        @font-face {
+            font-family: 'UTMWedding';
+            src: url('{{ url('/fonts/UTMWedding.TTF') }}');
+        }
+
+        @font-face {
+            font-family: 'UTMYves';
+            src: url('{{ url('/fonts/UTMYves.TTF') }}');
+        }
+
+        @font-face {
+            font-family: 'UTMVnTime';
+            src: url('{{ url('/fonts/UTMTimes.ttf') }}');
+        }
+
+        @font-face {
+            font-family: 'UTMThuPhap';
+            src: url('{{ url('/fonts/UTMThuPhapThienAn.TTF') }}');
         }
     </style>
 
@@ -531,7 +585,7 @@
                     <div class="col-md-4">
                         <label class="form-control-label">Kích thước</label>
                         {!! Form::text('width', '500px', ['class' => 'form-control']) !!}
-                    </div>                    
+                    </div>
                 </div>
 
             </div>
@@ -638,25 +692,25 @@
         }
 
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            $.ajax({
-                type: 'GET',
-                url: '/DungChung/InPhoiKhenThuong/getNoiDungKhenThuong',
-                data: {
-                    _token: CSRF_TOKEN,
-                    id: "{{ $inputs['id'] }}",
-                    tentruong: tentruong,
-                    phanloaikhenthuong: "{{ $inputs['phanloaikhenthuong'] }}",
-                    phanloaidoituong: "{{ $inputs['phanloaidoituong'] }}",
-                },
-                dataType: 'JSON',
-                success: function(data) {
-                    if (data.status == 'success') {
-                        //alert(data.message);
-                        //location.reload();
-                    }
+        $.ajax({
+            type: 'GET',
+            url: '/DungChung/InPhoiKhenThuong/getNoiDungKhenThuong',
+            data: {
+                _token: CSRF_TOKEN,
+                id: "{{ $inputs['id'] }}",
+                tentruong: tentruong,
+                phanloaikhenthuong: "{{ $inputs['phanloaikhenthuong'] }}",
+                phanloaidoituong: "{{ $inputs['phanloaidoituong'] }}",
+            },
+            dataType: 'JSON',
+            success: function(data) {
+                if (data.status == 'success') {
+                    //alert(data.message);
+                    //location.reload();
                 }
+            }
 
-            });
+        });
 
     }
 </script>

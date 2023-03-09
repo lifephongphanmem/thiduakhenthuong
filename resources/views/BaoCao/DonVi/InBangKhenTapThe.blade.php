@@ -4,7 +4,7 @@
     @foreach ($model as $doituong)
         <table cellspacing="0" cellpadding="0" border="0" background="{{  url( $m_donvi->phoi_bangkhen != '' ?('/data/uploads/'. $m_donvi->phoi_bangkhen) :'/assets/media/phoi/bangkhen.png') }}"
             style="height: {{$m_donvi->chieurong_bangkhen != '' ? $m_donvi->chieurong_bangkhen : '297'}}mm;width: {{$m_donvi->chieudai_bangkhen != '' ? $m_donvi->chieudai_bangkhen : '420'}}mm;background-repeat: no-repeat;background-size: 100% 100%;">
-
+                        
             <tr>
                 <td>
                     <button style="{{ $doituong->toado_pldoituong }}" id="toado_pldoituong"

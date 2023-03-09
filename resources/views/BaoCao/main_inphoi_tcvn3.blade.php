@@ -13,14 +13,20 @@
     <link rel="shortcut icon" href="{{ url('assets/media/logos/LIFESOFT.png') }}" />
     <style type="text/css">
         @font-face {
-            font-family: .VnTime;
-            src: url('{{ url('assets/fonts/VNTIME.TTF') }}')format('truetype');
+            font-family: 'VnShelleyAllegro';
+            src: url('{{ url('/fonts/VnShelleyAllegro.TTF') }}');
         }
-    </style>
-    <style type="text/css">
         @font-face {
-            font-family: .VnShelley Allegro;
-            src: url('{{ url('assets/fonts/VNSHELL.TTF') }}')format('truetype');
+            font-family: 'VnShelley';
+            src: url('{{ url('/fonts/.VnShelley Allegro.otf') }}');
+        }
+        @font-face {
+            font-family: 'VnTime';
+            src: url('{{ url('/fonts/VNTIME.TTF') }}');
+        }
+        @font-face {
+            font-family: 'VnTimeH';
+            src: url('{{ url('/fonts/VHTIME.TTF') }}');
         }
     </style>
 
