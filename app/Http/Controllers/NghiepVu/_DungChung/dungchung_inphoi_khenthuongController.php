@@ -185,8 +185,8 @@ class dungchung_inphoi_khenthuongController extends Controller
             $doituong->quyetdinh = $doituong->quyetdinh != '' ? $doituong->quyetdinh : ('Số: ' . $m_hoso->soqd . ', ' . Date2Str($m_hoso->ngayhoso) . '</br>Số bằng: 01');
             $doituong->toado_quyetdinh = $doituong->toado_quyetdinh != '' ? $doituong->toado_quyetdinh : ($m_toado->toado_quyetdinh ?? '');
 
-            $doituong->testcvn3 = UNI_2_TCVN3($doituong->tendoituongin);
-            $doituong->testcvn = UNI_to_TCVN3($doituong->tendoituongin);
+            //$doituong->testcvn3 = UNI_2_TCVN3($doituong->tendoituongin);
+            //$doituong->testcvn = UNI_to_TCVN3($doituong->tendoituongin);
         }
         //dd($model);
         return view('BaoCao.DonVi.InBangKhenTapThe')

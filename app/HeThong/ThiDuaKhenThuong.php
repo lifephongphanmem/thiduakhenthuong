@@ -94,6 +94,16 @@ function setThongTinHoSoKT(&$inputs)
     }
 }
 
+function setHuyPheDuyetHoSo(&$model)
+{
+    $model->donvikhenthuong = null;
+    $model->capkhenthuong = null;
+    $model->soqd = null;
+    $model->ngayqd = null;
+    $model->chucvunguoikyqd = null;
+    $model->hotennguoikyqd = null;
+}
+
 function getHeThongChung()
 {
     return  \App\Model\HeThong\hethongchung::all()->first() ?? new \App\Model\HeThong\hethongchung();

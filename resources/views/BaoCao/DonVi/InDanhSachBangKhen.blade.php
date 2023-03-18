@@ -1,4 +1,4 @@
-@extends('BaoCao.main_inphoi_danhsach')
+@extends('BaoCao.main_inphoi')
 
 @section('content')
     @foreach ($model as $doituong)

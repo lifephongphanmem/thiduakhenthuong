@@ -832,10 +832,10 @@ class dungchung_nghiepvuController extends Controller
     {
         return  [
             $inputs['tentruong'] => $inputs['toado']
-                . 'font-size:' . $inputs['font-size'] . ';'
-                . 'font-weight:' . $inputs['font-weight'] . ';'
-                . 'font-style:' . $inputs['font-style'] . ';'
-                . 'font-family:' . $inputs['font-family'] . ';'
+                . 'font-size:' . ($inputs['font-size'] ?? '30px') . ';' //30px
+                . 'font-weight:' . ($inputs['font-weight'] ?? 'normal') . ';' //normal
+                . 'font-style:' . ($inputs['font-style'] ?? 'normal') . ';' //normal
+                . 'font-family:' . ($inputs['font-family'] ?? 'Times New Roman') . ';'
                 . 'text-align:' . ($inputs['text-align'] ?? 'center') . ';'
                 . 'color:' . ($inputs['color'] ?? 'black') . ';'
                 . 'width:' . ($inputs['width'] ?? 'black') . ';',

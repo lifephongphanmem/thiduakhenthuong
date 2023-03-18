@@ -615,13 +615,7 @@ class qdhosodenghikhenthuongchuyendeController extends Controller
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         setTrangThaiHoSo($inputs['madonvi'], $model, ['thoigian' => $thoigian, 'trangthai' => $trangthai]);
         $model->trangthai = $trangthai; //gán trạng thái hồ sơ để theo dõi
-        $model->donvikhenthuong = null;
-        $model->capkhenthuong = null;
-        $model->soqd = null;
-        $model->ngayqd = null;
-        $model->chucvunguoikyqd = null;
-        $model->hotennguoikyqd = null;
-        //dd($model);
+        setHuyPheDuyetHoSo($model);
         $model->save();
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
     }

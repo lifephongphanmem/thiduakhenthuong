@@ -62,14 +62,14 @@
 
             <tr>
                 <td style="width: 50%;">
-                    <button style="{{ $doituong->toado_quyetdinh }}" style="" id="toado_quyetdinh"
+                    <button style="{{ $doituong->toado_quyetdinh }}" id="toado_quyetdinh"
                         ondblclick="setNoiDung('{{ $doituong->id }}','{{ $doituong->toado_quyetdinh }}','{{ $doituong->quyetdinh }}','{{ $doituong->mahosotdkt }}','toado_quyetdinh')">
                         {!! $doituong->quyetdinh !!}
                     </button>
                 </td>
 
                 <td style="text-align: center">
-                    <button style="{{ $doituong->toado_hotennguoikyqd }}" style="" id="toado_hotennguoikyqd"
+                    <button style="{{ $doituong->toado_hotennguoikyqd }}" id="toado_hotennguoikyqd"
                         ondblclick="setNoiDung('{{ $doituong->id }}','{{ $doituong->toado_hotennguoikyqd }}','{{ $doituong->hotennguoikyqd }}','{{ $doituong->mahosotdkt }}','toado_hotennguoikyqd')">
                         {{ $doituong->hotennguoikyqd }}
                     </button>
