@@ -14,7 +14,7 @@
                 </td>
 
                 <td>
-                    <button style="{{ $doituong->toado_tendoituongin }} width:1000px" id="toado_tendoituongin"
+                    <button style="{{ $doituong->toado_tendoituongin }}" id="toado_tendoituongin"
                         ondblclick="setNoiDung('{{ $doituong->id }}','{{ $doituong->toado_tendoituongin }}','{{ $doituong->tendoituongin }}','{{ $doituong->mahosotdkt }}','toado_tendoituongin')">
                         {!! $doituong->tendoituongin !!}
                     </button>

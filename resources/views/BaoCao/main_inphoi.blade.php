@@ -678,7 +678,7 @@
             var font = a_style[5].split(':')[1].replace('"', '').replace('"', '');
             form.find("[name='font-family']").val(font).trigger('change');
         } else
-            form.find("[name='font-family']").val('Tahoma').trigger('change');
+            form.find("[name='font-family']").val('Times New Roman').trigger('change');
 
         if (a_style[6] !== undefined) {
             form.find("[name='text-align']").val(a_style[6].split(':')[1]).trigger('change');

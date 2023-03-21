@@ -18,7 +18,12 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
-                        <div class="col-lg-5">
+                        <div class="col-2">
+                            <label class="form-control-label">Tên đối tượng</label>
+                            {!! Form::text('pldoituong', null, ['class' => 'form-control', 'placeholder'=>'Ông/Bà/Chức danh']) !!}
+                        </div>
+
+                        <div class="col-6">
                             <label class="form-control-label">Tên đối tượng</label>
                             {!! Form::text('tendoituong', null, ['class' => 'form-control']) !!}
                         </div>
@@ -28,12 +33,12 @@
                                 data-toggle="modal">
                                 <i class="fa fa-plus"></i></button>
                         </div> --}}
-                        <div class="col-md-3">
+                        <div class="col-2">
                             <label class="form-control-label">Ngày sinh</label>
                             {!! Form::input('date', 'ngaysinh', null, ['class' => 'form-control']) !!}
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-2">
                             <label class="form-control-label">Giới tính</label>
                             {!! Form::select('gioitinh', getGioiTinh(), null, ['class' => 'form-control']) !!}
                         </div>
@@ -131,6 +136,7 @@
                     // form.find("[name='mahinhthuckt']").val(data.mahinhthuckt).trigger('change');
                     // form.find("[name='madanhhieutd']").val(data.madanhhieutd).trigger('change');
                     form.find("[name='madanhhieukhenthuong']").val(data.madanhhieukhenthuong).trigger('change');
+                    form.find("[name='pldoituong']").val(data.pldoituong).trigger('change');
                 }
             })
         }
