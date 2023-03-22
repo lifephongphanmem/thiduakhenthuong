@@ -51,7 +51,7 @@ class dshosokhenthuongdoingoaiController extends Controller
         $inputs['url_hs'] = '/KhenThuongDoiNgoai/HoSoKT/';
         $inputs['url_qd'] = '/KhenThuongDoiNgoai/HoSoKT/';
         $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
-        
+
         $m_donvi = getDonVi(session('admin')->capdo, 'dshosokhenthuongdoingoai');
         $a_diaban = array_column($m_donvi->toArray(), 'tendiaban', 'madiaban');
 
@@ -62,6 +62,8 @@ class dshosokhenthuongdoingoaiController extends Controller
         //Các đơn vi xét duyệt cấp H, T => có tờ trình
         $a_donvi_xd = array_column(dsdiaban::wherein('capdo', ['H', 'T'])->get()->toarray(), 'madonviKT');
         $inputs['taototrinh'] = in_array($inputs['madonvi'], $a_donvi_xd);
+        //ngày 22.03.2023 = > bỏ tạo tờ trình cho hồ sơ khen thưởng (Quảng Bình)
+        $inputs['taototrinh'] = false;
 
         $model = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi'])
             ->where('phanloai', 'KTDONVI')
@@ -830,7 +832,7 @@ class dshosokhenthuongdoingoaiController extends Controller
     public function LuuPheDuyet(Request $request)
     {
         $inputs = $request->all();
-        
+
         $thoigian = date('Y-m-d H:i:s');
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model->trangthai = 'DKT';

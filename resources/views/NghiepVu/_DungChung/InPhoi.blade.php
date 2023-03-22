@@ -60,39 +60,41 @@
 
                 <div class="col-lg-4">
                     <label>Phân loại hồ sơ</label>
-                    {!! Form::select('phanloai', getPhanLoaiHoSo(), null, ['class' => 'form-control']) !!}
+                    {!! Form::select('phanloai', getPhanLoaiHoSo(), null, ['class' => 'form-control', 'disabled']) !!}
                 </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-lg-6">
-                    <label>Số tờ trình</label>
-                    {!! Form::text('sototrinh', null, ['class' => 'form-control']) !!}
-                </div>
-                <div class="col-lg-6">
-                    <label>Ngày tháng trình<span class="require">*</span></label>
-                    {!! Form::input('date', 'ngayhoso', null, ['class' => 'form-control', 'required']) !!}
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-lg-6">
-                    <label>Chức vụ người ký tờ trình</label>
-                    {!! Form::text('chucvunguoiky', null, ['class' => 'form-control']) !!}
-                </div>
-                <div class="col-lg-6">
-                    <label>Họ tên người ký tờ trình</label>
-                    {!! Form::text('nguoikytotrinh', null, ['class' => 'form-control']) !!}
-                </div>
-            </div>
+            </div>            
 
             <div class="form-group row">
                 <div class="col-lg-12">
                     <label>Mô tả hồ sơ</label>
-                    {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                    {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows' => 2, 'readonly' => 'true']) !!}
                 </div>
             </div>
 
+            <div class="form-group row muted">
+                <div class="col-6">
+                    <label>Số quyết định</label>
+                    {!! Form::text('soqd', null, ['class' => 'form-control muted', 'readonly' => 'true' ]) !!}
+                </div>
+            
+                <div class="col-6">
+                    <label>Ngày ra quyết định</label>
+                    {!! Form::input('date', 'ngayqd', date('Y-m-d'), ['class' => 'form-control', 'readonly' => 'true']) !!}
+                </div>
+            </div>
+            
+            <div class="form-group row">
+                <div class="col-6">
+                    <label>Chức vụ người ký</label>
+                    {!! Form::text('chucvunguoikyqd', null, ['class' => 'form-control', 'readonly' => 'true' ]) !!}                    
+                </div>               
+                <div class="col-6">
+                    <label>Họ tên người ký</label>
+                    {!! Form::text('hotennguoikyqd', null, ['class' => 'form-control', 'readonly' => 'true']) !!}
+                </div>
+            </div>
+
+            
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-custom">

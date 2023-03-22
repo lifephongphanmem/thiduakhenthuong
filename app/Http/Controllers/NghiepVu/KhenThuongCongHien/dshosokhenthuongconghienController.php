@@ -51,7 +51,7 @@ class dshosokhenthuongconghienController extends Controller
         $inputs['url_hs'] = '/KhenThuongCongHien/HoSoKT/';
         $inputs['url_qd'] = '/KhenThuongCongHien/HoSoKT/';
         $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
-        
+
         $m_donvi = getDonVi(session('admin')->capdo, 'dshosokhenthuongconghien');
         $a_diaban = array_column($m_donvi->toArray(), 'tendiaban', 'madiaban');
 
@@ -59,9 +59,12 @@ class dshosokhenthuongconghienController extends Controller
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         $inputs['maloaihinhkt'] = session('chucnang')['dshosokhenthuongconghien']['maloaihinhkt'] ?? 'ALL';
         $inputs['trangthai'] = session('chucnang')['dshosokhenthuongconghien']['trangthai'] ?? 'CC';
+
         //Các đơn vi xét duyệt cấp H, T => có tờ trình
         $a_donvi_xd = array_column(dsdiaban::wherein('capdo', ['H', 'T'])->get()->toarray(), 'madonviKT');
         $inputs['taototrinh'] = in_array($inputs['madonvi'], $a_donvi_xd);
+        //ngày 22.03.2023 = > bỏ tạo tờ trình cho hồ sơ khen thưởng (Quảng Bình)
+        $inputs['taototrinh'] = false;
 
         $model = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi'])
             ->where('phanloai', 'KTDONVI')
@@ -353,7 +356,7 @@ class dshosokhenthuongconghienController extends Controller
 
         $dungchung = new dungchung_nghiepvuController();
         $dungchung->htmlCaNhan($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
-        
+
         return response()->json($result);
     }
 
@@ -467,7 +470,7 @@ class dshosokhenthuongconghienController extends Controller
         $danhsach = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
         $dungchung = new dungchung_nghiepvuController();
         $dungchung->htmlTapThe($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
-        
+
         return response()->json($result);
     }
 
@@ -510,7 +513,7 @@ class dshosokhenthuongconghienController extends Controller
         $danhsach = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
         $dungchung = new dungchung_nghiepvuController();
         $dungchung->htmlTapThe($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
-        
+
         return response()->json($result);
     }
 
@@ -548,7 +551,7 @@ class dshosokhenthuongconghienController extends Controller
 
         return redirect(static::$url . 'Sua?mahosotdkt=' . $inputs['mahosotdkt']);
     }
-   
+
     public function ThemDeTai(Request $request)
     {
         $result = array(

@@ -145,7 +145,7 @@ class dungchung_inphoi_khenthuongController extends Controller
             $doituong->hotennguoikyqd = $doituong->hotennguoikyqd != '' ? $doituong->hotennguoikyqd : ($m_hoso->hotennguoikyqd != '' ? $m_hoso->hotennguoikyqd : 'Họ tên người ký');
             $doituong->toado_hotennguoikyqd = $doituong->toado_hotennguoikyqd != '' ? $doituong->toado_hotennguoikyqd : ($m_toado->toado_hotennguoikyqd ?? '');
 
-            $doituong->ngayqd = $doituong->ngayqd != '' ? $doituong->ngayqd : ($m_donvi->diadanh . ', ' . Date2Str($m_hoso->ngayhoso));
+            $doituong->ngayqd = $doituong->ngayqd != '' ? $doituong->ngayqd : ($m_donvi->diadanh . ', ' . Date2Str($m_hoso->ngayqd));
             $doituong->toado_ngayqd = $doituong->toado_ngayqd != '' ? $doituong->toado_ngayqd : ($m_toado->toado_ngayqd ?? '');
 
 
@@ -182,7 +182,7 @@ class dungchung_inphoi_khenthuongController extends Controller
                     }
             }
 
-            $doituong->quyetdinh = $doituong->quyetdinh != '' ? $doituong->quyetdinh : ('Số: ' . $m_hoso->soqd . ', ' . Date2Str($m_hoso->ngayhoso) . '</br>Số bằng: 01');
+            $doituong->quyetdinh = $doituong->quyetdinh != '' ? $doituong->quyetdinh : ('Số: ' . $m_hoso->soqd . ', ' . Date2Str($m_hoso->ngayqd) . '</br>Số bằng: 01');
             $doituong->toado_quyetdinh = $doituong->toado_quyetdinh != '' ? $doituong->toado_quyetdinh : ($m_toado->toado_quyetdinh ?? '');
 
             //$doituong->testcvn3 = UNI_2_TCVN3($doituong->tendoituongin);

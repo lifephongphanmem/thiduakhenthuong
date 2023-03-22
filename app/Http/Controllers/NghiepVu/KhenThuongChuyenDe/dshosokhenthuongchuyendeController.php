@@ -62,6 +62,8 @@ class dshosokhenthuongchuyendeController extends Controller
         //Các đơn vi xét duyệt cấp H, T => có tờ trình
         $a_donvi_xd = array_column(dsdiaban::wherein('capdo', ['H', 'T'])->get()->toarray(), 'madonviKT');
         $inputs['taototrinh'] = in_array($inputs['madonvi'], $a_donvi_xd);
+        //ngày 22.03.2023 = > bỏ tạo tờ trình cho hồ sơ khen thưởng (Quảng Bình)
+        $inputs['taototrinh'] = false;
 
         $model = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi'])
             ->where('phanloai', 'KTDONVI')
