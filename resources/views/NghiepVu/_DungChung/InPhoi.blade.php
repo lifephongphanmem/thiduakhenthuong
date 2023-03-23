@@ -79,7 +79,7 @@
             
                 <div class="col-6">
                     <label>Ngày ra quyết định</label>
-                    {!! Form::input('date', 'ngayqd', date('Y-m-d'), ['class' => 'form-control', 'readonly' => 'true']) !!}
+                    {!! Form::input('date', 'ngayqd', null, ['class' => 'form-control', 'readonly' => 'true']) !!}
                 </div>
             </div>
             
