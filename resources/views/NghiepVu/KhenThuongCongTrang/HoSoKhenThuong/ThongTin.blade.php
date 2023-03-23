@@ -76,7 +76,7 @@
                                 <th width="2%">STT</th>
                                 {{-- <th>Phân loại hồ sơ</th> --}}
                                 <th>Nội dung hồ sơ</th>
-                                <th width="8%">Tờ trình</th>
+                                <th width="8%">Ngày tháng</th>
                                 <th width="8%">Trạng thái</th>
                                 <th width="20%">Đơn vị tiếp nhận</th>
                                 <th width="10%">Thao tác</th>
