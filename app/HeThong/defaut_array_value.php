@@ -18,6 +18,14 @@ function getPhanLoaiLocDuLieu()
     );
 }
 
+function getPhanLoaiDoiTuong(){
+    return array(
+        'Ông' => 'Ông',
+        'Bà' => 'Bà',
+    );
+
+}
+
 function getChucVuKhenThuong($capdo = 'T')
 {
     return array(

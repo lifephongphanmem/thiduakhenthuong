@@ -184,6 +184,8 @@
     @include('NghiepVu._DungChung.modal_TieuChuan')
     @include('NghiepVu._DungChung.modal_XoaDoiTuong')
     @include('NghiepVu._DungChung.modal_Excel')
+    @include('NghiepVu._DungChung.modal_ThemPLDoiTuong')
+    @include('NghiepVu._DungChung.modal_ThemDanhMuc')
     {{-- @include('NghiepVu._DungChung.modal_DoiTuong') --}}
 
 @stop

@@ -18,37 +18,48 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
-                        <div class="col-2">
-                            <label class="form-control-label">Tên đối tượng</label>
-                            {!! Form::text('pldoituong', null, ['class' => 'form-control', 'placeholder'=>'Ông/Bà/Chức danh']) !!}
+                        <div class="col-3">
+                            <label class="form-control-label">Đối tượng</label>
+
+                            <div class="input-group">
+                                {!! Form::select(
+                                    'pldoituong',
+                                    array_unique(array_merge([$model->pldoituong => $model->pldoituong], getPhanLoaiDoiTuong())),
+                                    null,
+                                    ['class' => 'form-control', 'id' => 'pldoituong'],
+                                ) !!}
+                                <div class="input-group-prepend">
+                                    <button type="button" data-target="#modal-pldoituong" data-toggle="modal"
+                                        class="btn btn-light-dark btn-icon">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="col-6">
                             <label class="form-control-label">Tên đối tượng</label>
                             {!! Form::text('tendoituong', null, ['class' => 'form-control']) !!}
                         </div>
-                        {{-- <div class="col-lg-1">
-                            <label class="text-center">Chọn</label>
-                            <button type="button" class="btn btn-default btn-icon" data-target="#modal-doituong"
-                                data-toggle="modal">
-                                <i class="fa fa-plus"></i></button>
-                        </div> --}}
-                        <div class="col-2">
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-3">
                             <label class="form-control-label">Ngày sinh</label>
                             {!! Form::input('date', 'ngaysinh', null, ['class' => 'form-control']) !!}
                         </div>
 
-                        <div class="col-2">
+                        <div class="col-3">
                             <label class="form-control-label">Giới tính</label>
                             {!! Form::select('gioitinh', getGioiTinh(), null, ['class' => 'form-control']) !!}
                         </div>
-                    </div>
+                        {{-- </div>
 
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label class="form-control-label">Địa chỉ</label>
                             {!! Form::text('diachi', null, ['class' => 'form-control']) !!}
-                        </div>
+                        </div> --}}
 
                         <div class="col-md-6">
                             <label class="control-label">Phân loại cán bộ</label>
@@ -142,7 +153,7 @@
         }
 
         function LuuCaNhan() {
-            var formData = new FormData($('#frm_ThemCaNhan')[0]);            
+            var formData = new FormData($('#frm_ThemCaNhan')[0]);
 
             $.ajax({
                 url: "{{ $inputs['url'] }}" + "ThemCaNhan",
@@ -153,7 +164,7 @@
                 contentType: false,
                 data: formData,
                 success: function(data) {
-                    console.log(data);               
+                    console.log(data);
                     if (data.status == 'success') {
                         $('#dskhenthuongcanhan').replaceWith(data.message);
                         TableManaged3.init();

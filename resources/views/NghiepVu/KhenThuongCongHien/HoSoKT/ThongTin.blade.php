@@ -68,7 +68,7 @@
                             <tr class="text-center">
                                 <th width="2%">STT</th>
                                 <th>Nội dung hồ sơ</th>
-                                <th width="8%">Tờ trình</th>
+                                <th width="10%">Ngày quyết định</th>
                                 <th width="8%">Trạng thái</th>
                                 {{-- <th width="20%">Đơn vị tiếp nhận</th> --}}
                                 <th width="15%">Thao tác</th>
@@ -79,7 +79,7 @@
                             <tr>
                                 <td class="text-center">{{ $i++ }}</td>
                                 <td>{{ $tt->noidung }}</td>
-                                <td class="text-center">{{ $tt->sototrinh }}<br>{{ getDayVn($tt->ngayhoso) }}
+                                <td class="text-center">{{ $tt->soqd }}<br>{{ getDayVn($tt->ngayqd) }}
                                 </td>
                                 @include('includes.td.td_trangthai_hoso')
                                 {{-- <td>{{ $a_donvi[$tt->madonvi_nhan] ?? '' }}</td> --}}

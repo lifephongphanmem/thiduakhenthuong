@@ -609,6 +609,7 @@ class ComposerStaticInit2bbfd3055ada376977abbf3cd3a1a409
         'App\\Model\\View\\view_cumkhoi_canhan' => __DIR__ . '/../..' . '/app/Model/View/view_cumkhoi_canhan.php',
         'App\\Model\\View\\view_cumkhoi_tapthe' => __DIR__ . '/../..' . '/app/Model/View/view_cumkhoi_tapthe.php',
         'App\\Model\\View\\view_dscumkhoi' => __DIR__ . '/../..' . '/app/Model/View/view_dscumkhoi.php',
+        'App\\Model\\View\\view_dstruongcumkhoi' => __DIR__ . '/../..' . '/app/Model/View/view_dstruongcumkhoi.php',
         'App\\Model\\View\\view_khencao_canhan' => __DIR__ . '/../..' . '/app/Model/View/view_khencao_canhan.php',
         'App\\Model\\View\\view_khencao_tapthe' => __DIR__ . '/../..' . '/app/Model/View/view_khencao_tapthe.php',
         'App\\Model\\View\\view_tdkt_canhan' => __DIR__ . '/../..' . '/app/Model/View/view_tdkt_canhan.php',

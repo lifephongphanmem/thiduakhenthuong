@@ -51,7 +51,7 @@ class dshosokhenthuongcongtrangController extends Controller
         $inputs['url_hs'] = '/KhenThuongCongTrang/HoSoKT/';
         $inputs['url_qd'] = '/KhenThuongCongTrang/HoSoKT/';
         $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
-        
+
         $m_donvi = getDonVi(session('admin')->capdo, 'dshosokhenthuongcongtrang');
         $a_diaban = array_column($m_donvi->toArray(), 'tendiaban', 'madiaban');
 
@@ -61,10 +61,11 @@ class dshosokhenthuongcongtrangController extends Controller
         $inputs['trangthai'] = session('chucnang')['dshosokhenthuongcongtrang']['trangthai'] ?? 'CC';
 
         //Các đơn vi xét duyệt cấp H, T => có tờ trình
-        $a_donvi_xd = array_column(dsdiaban::wherein('capdo', ['H', 'T'])->get()->toarray(), 'madonviKT');
-        $inputs['taototrinh'] = in_array($inputs['madonvi'], $a_donvi_xd);
-        //ngày 22.03.2023 = > bỏ tạo tờ trình cho hồ sơ khen thưởng (Quảng Bình)
-        $inputs['taototrinh'] = false;
+        $inputs['taototrinh'] = session('admin')->hskhenthuong_totrinh;
+        // if ($inputs['taototrinh']) {
+        //     $a_donvi_xd = array_column(dsdiaban::wherein('capdo', ['H', 'T'])->get()->toarray(), 'madonviKT');
+        //     $inputs['taototrinh'] = in_array($inputs['madonvi'], $a_donvi_xd);
+        // }
 
         $model = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi'])
             ->where('phanloai', 'KTDONVI')
@@ -132,11 +133,11 @@ class dshosokhenthuongcongtrangController extends Controller
         $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $a_hogiadinh = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $inputs['mahinhthuckt'] = $model->mahinhthuckt;
-        $khenthuong = dsdonvi::where('madonvi',$model->madonvi)->first();
-        if($model->donvikhenthuong == ''){
-            $model->donvikhenthuong = $khenthuong->tendonvi;  
+        $khenthuong = dsdonvi::where('madonvi', $model->madonvi)->first();
+        if ($model->donvikhenthuong == '') {
+            $model->donvikhenthuong = $khenthuong->tendonvi;
         }
-        $a_donvikt = array_unique(array_merge([$model->donvikhenthuong=>$model->donvikhenthuong], getDonViKhenThuong()));
+        $a_donvikt = array_unique(array_merge([$model->donvikhenthuong => $model->donvikhenthuong], getDonViKhenThuong()));
         return view('NghiepVu.KhenThuongCongTrang.HoSoKT.ThayDoi')
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
@@ -221,10 +222,9 @@ class dshosokhenthuongcongtrangController extends Controller
 
         //Kiểm tra trạng thái hồ sơ
         setThongTinHoSoKT($inputs);
-
+        dshosothiduakhenthuong::create($inputs);
 
         //Lưu nhật ký
-        dshosothiduakhenthuong::create($inputs);
         $trangthai = new trangthaihoso();
         $trangthai->trangthai = $inputs['trangthai'];
         $trangthai->madonvi = $inputs['madonvi'];
@@ -232,6 +232,7 @@ class dshosokhenthuongcongtrangController extends Controller
         $trangthai->phanloai = 'dshosothiduakhenthuong';
         $trangthai->mahoso = $inputs['mahosotdkt'];
         $trangthai->thoigian = $inputs['ngayhoso'];
+
         $trangthai->save();
 
         return redirect(static::$url . 'Sua?mahosotdkt=' . $inputs['mahosotdkt']);
@@ -371,7 +372,7 @@ class dshosokhenthuongcongtrangController extends Controller
 
         $dungchung = new dungchung_nghiepvuController();
         $dungchung->htmlCaNhan($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
-        
+
         return response()->json($result);
     }
 
@@ -415,7 +416,7 @@ class dshosokhenthuongcongtrangController extends Controller
         $dungchung = new dungchung_nghiepvuController();
         $dungchung->htmlCaNhan($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
         return response()->json($result);
-    }    
+    }
 
     public function ThemHoGiaDinh(Request $request)
     {
@@ -446,7 +447,7 @@ class dshosokhenthuongcongtrangController extends Controller
 
         $dungchung = new dungchung_nghiepvuController();
         $dungchung->htmlHoGiaDinh($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
-        
+
         return response()->json($result);
     }
 
@@ -490,7 +491,7 @@ class dshosokhenthuongcongtrangController extends Controller
         $dungchung = new dungchung_nghiepvuController();
         $dungchung->htmlHoGiaDinh($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
         return response()->json($result);
-    }    
+    }
 
     public function ThemTapThe(Request $request)
     {
@@ -519,7 +520,7 @@ class dshosokhenthuongcongtrangController extends Controller
         $danhsach = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
         $dungchung = new dungchung_nghiepvuController();
         $dungchung->htmlTapThe($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
-        
+
         return response()->json($result);
     }
 
@@ -562,9 +563,9 @@ class dshosokhenthuongcongtrangController extends Controller
         $danhsach = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
         $dungchung = new dungchung_nghiepvuController();
         $dungchung->htmlTapThe($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
-        
+
         return response()->json($result);
-    }   
+    }
 
     public function ThemDeTai(Request $request)
     {
@@ -850,7 +851,7 @@ class dshosokhenthuongcongtrangController extends Controller
     public function LuuPheDuyet(Request $request)
     {
         $inputs = $request->all();
-        
+
         $thoigian = date('Y-m-d H:i:s');
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model->trangthai = 'DKT';
@@ -928,7 +929,7 @@ class dshosokhenthuongcongtrangController extends Controller
             ->with('model', $model)
             ->with('pageTitle', 'Quyết định khen thưởng');
     }
-   
+
     public function ToTrinhHoSo(Request $request)
     {
         $inputs = $request->all();
@@ -1011,7 +1012,7 @@ class dshosokhenthuongcongtrangController extends Controller
 
     public function NhanExcel(Request $request)
     {
-        
+
         $dungchung = new dungchung_nhanexcelController();
         $dungchung->NhanExcelKhenThuong($request);
         //dd($request);

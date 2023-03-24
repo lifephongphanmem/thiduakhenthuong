@@ -23,20 +23,24 @@
 </div>
 
 <div class="form-group row">
-    <div class="col-5">
+    <div class="col-6">
         <label>Chức vụ người ký</label>
-        {!! Form::select(
-            'chucvunguoikyqd',
-            array_unique(array_merge([$model->chucvunguoikyqd => $model->chucvunguoikyqd], getChucVuKhenThuong())),
-            null,
-            ['class' => 'form-control', 'id' => 'chucvunguoikyqd'],
-        ) !!}
+        <div class="input-group">
+            {!! Form::select(
+                'chucvunguoikyqd',
+                array_unique(array_merge([$model->chucvunguoikyqd => $model->chucvunguoikyqd], getChucVuKhenThuong())),
+                null,
+                ['class' => 'form-control', 'id' => 'chucvunguoikyqd'],
+            ) !!}
+            <div class="input-group-prepend">
+                <button type="button" data-target="#modal-chucvu" data-toggle="modal"
+                    class="btn btn-light-dark btn-icon">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </div>
+        </div>
     </div>
-    <div class="col-1">
-        <label>Thêm</label>
-        <button type="button" data-target="#modal-chucvu" data-toggle="modal" class="btn btn-light-dark btn-icon">
-            <i class="fa fa-plus"></i></button>
-    </div>
+
     <div class="col-6">
         <label>Họ tên người ký</label>
         {!! Form::text('hotennguoikyqd', null, ['class' => 'form-control']) !!}

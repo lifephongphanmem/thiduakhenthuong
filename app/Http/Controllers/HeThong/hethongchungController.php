@@ -22,7 +22,7 @@ class hethongchungController extends Controller
                 dstaikhoan::where('tendangnhap', session('admin')->tendangnhap)->first()->matkhau,
                 ['e10adc3949ba59abbe56e057f20f883e', '2d17247d02f162064940feff49988f8e']
             ))
-            //123456; 123456@!
+                //123456; 123456@!
                 return redirect('/DoiMatKhau');
             else
                 return view('HeThong.dashboard')
@@ -122,6 +122,7 @@ class hethongchungController extends Controller
         $ttuser->ipf3 = $a_HeThongChung->ipf3;
         $ttuser->ipf4 = $a_HeThongChung->ipf4;
         $ttuser->ipf5 = $a_HeThongChung->ipf5;
+        $ttuser->hskhenthuong_totrinh = $a_HeThongChung->hskhenthuong_totrinh;
         //dd($ttuser);        
 
         Session::put('admin', $ttuser);

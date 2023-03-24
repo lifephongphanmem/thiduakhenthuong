@@ -84,6 +84,7 @@ function setThongTinHoSoKT(&$inputs)
                 $inputs['madonvi_nhan_xd'] = $inputs['madonvi'];
                 $inputs['trangthai_kt'] = $inputs['trangthai'];
                 $inputs['thoidiem_kt'] = $inputs['ngayhoso'];
+                $inputs['ngayqd'] = $inputs['ngayhoso'];
 
                 //Gán thông tin đơn vị khen thưởng
                 $donvi_kt = App\Model\View\viewdiabandonvi::where('madonvi', $inputs['madonvi_kt'])->first();

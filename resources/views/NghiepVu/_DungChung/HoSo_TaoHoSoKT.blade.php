@@ -5,7 +5,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header modal-header-primary">
-                    <h4 id="modal-header-primary-label" class="modal-title">Đồng ý tạo hồ sơ trình khen thưởng ?</h4>
+                    <h4 id="modal-header-primary-label" class="modal-title">Đồng ý tạo hồ sơ khen thưởng ?</h4>
                     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
                 </div>
 
@@ -24,10 +24,11 @@
                         </div>
 
                         <div class="col-3">
-                            <label>Ngày tạo hồ sơ</label>
+                            <label>Ngày quyết định</label>
                             {!! Form::input('date', 'ngayhoso', date('Y-m-d'), ['class' => 'form-control']) !!}
                         </div>
                     </div>
+
                     @if ($inputs['taototrinh'])
                         <div class="form-group row">
                             <div class="col-4">
