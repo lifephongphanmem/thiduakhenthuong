@@ -47,7 +47,7 @@ class dshosodenghikhenthuongdotxuatController extends Controller
         $inputs['url_xd'] = '/KhenThuongDotXuat/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongDotXuat/KhenThuong/';
         $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
-        
+
         $m_donvi = getDonVi(session('admin')->capdo, 'dshosodenghikhenthuongdotxuat');
         $a_diaban = array_column($m_donvi->toArray(), 'tendiaban', 'madiaban');
 
@@ -268,8 +268,8 @@ class dshosodenghikhenthuongdotxuatController extends Controller
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
         $inputs['trangthai'] = 'CXKT';
         $inputs['thoigian'] = date('Y-m-d H:i:s');
-        $inputs['lydo'] = '';//Xóa lý do trả lại
-        setChuyenDV($model,$inputs);  
+        $inputs['lydo'] = ''; //Xóa lý do trả lại
+        setChuyenDV($model, $inputs);
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }
 
