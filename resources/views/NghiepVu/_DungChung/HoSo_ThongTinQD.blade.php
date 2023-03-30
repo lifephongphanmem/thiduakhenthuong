@@ -7,6 +7,7 @@
     <div class="col-6">
         <label>Cấp độ khen thưởng</label>
         {!! Form::select('capkhenthuong', getPhamViKhenThuong(), null, ['class' => 'form-control', 'disabled'=>true]) !!}
+        {!! Form::hidden('capkhenthuong', null) !!}
     </div>
 </div>
 
