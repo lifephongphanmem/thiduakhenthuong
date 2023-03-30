@@ -117,7 +117,7 @@ class dshosodenghikhenthuongcongtrangController extends Controller
         $inputs['url_xd'] = '/KhenThuongCongTrang/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongCongTrang/KhenThuong/';
         $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
-        
+
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
@@ -125,9 +125,13 @@ class dshosodenghikhenthuongcongtrangController extends Controller
         $model_hogiadinh = dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)->get();
         $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
 
-        $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
-        $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
-        $a_dhkt_hogiadinh = getDanhHieuKhenThuong($donvi->capdo, 'HOGIADINH');
+        // $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
+        // $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
+        // $a_dhkt_hogiadinh = getDanhHieuKhenThuong($donvi->capdo, 'HOGIADINH');
+        //30.03.2023 Hồ sơ đề nghị thì mở hết danh hiệu để chọn do đề nghị là gửi cấp trên 
+        $a_dhkt_canhan = getDanhHieuKhenThuong('ALL');
+        $a_dhkt_tapthe = getDanhHieuKhenThuong('ALL', 'TAPTHE');
+        $a_dhkt_hogiadinh = getDanhHieuKhenThuong('ALL', 'HOGIADINH');
 
         $model->tendonvi = $donvi->tendonvi;
         $m_donvi = getDonVi(session('admin')->capdo);
@@ -281,11 +285,11 @@ class dshosodenghikhenthuongcongtrangController extends Controller
             return view('errors.noperm')->with('machucnang', 'dshosodenghikhenthuongcongtrang')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
-        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();        
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
         $inputs['trangthai'] = 'CXKT';
         $inputs['thoigian'] = date('Y-m-d H:i:s');
-        $inputs['lydo'] = '';//Xóa lý do trả lại
-        setChuyenDV($model,$inputs);       
+        $inputs['lydo'] = ''; //Xóa lý do trả lại
+        setChuyenDV($model, $inputs);
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }
 

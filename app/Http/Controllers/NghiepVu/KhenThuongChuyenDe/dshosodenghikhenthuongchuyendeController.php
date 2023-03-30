@@ -132,9 +132,10 @@ class dshosodenghikhenthuongchuyendeController extends Controller
         $model_hogiadinh = dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)->get();
         $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
 
-        $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
-        $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
-        $a_dhkt_hogiadinh = getDanhHieuKhenThuong($donvi->capdo, 'HOGIADINH');
+        //30.03.2023 Hồ sơ đề nghị thì mở hết danh hiệu để chọn do đề nghị là gửi cấp trên 
+        $a_dhkt_canhan = getDanhHieuKhenThuong('ALL');
+        $a_dhkt_tapthe = getDanhHieuKhenThuong('ALL', 'TAPTHE');
+        $a_dhkt_hogiadinh = getDanhHieuKhenThuong('ALL', 'HOGIADINH');
 
         $model->tendonvi = $donvi->tendonvi;
         $inputs['mahinhthuckt'] = $model->mahinhthuckt;
