@@ -19,7 +19,7 @@
                     <div class="form-group row">
                         <div class="col-md-3">
                             <label class="control-label">Phân loại khen thưởng</label>
-                            {!! Form::text('phanloaikhenthuong', 'Q', ['class' => 'form-control']) !!}
+                            {!! Form::text('phanloaikhenthuong', 'R', ['class' => 'form-control']) !!}
                         </div>
 
                         <div class="col-md-3">
@@ -39,17 +39,17 @@
 
                         <div class="col-md-3">
                             <label class="form-control-label">Danh hiệu thi đua/Hình thức khen thưởng</label>
-                            {!! Form::text('madanhhieukhenthuong', 'R', ['class' => 'form-control']) !!}
+                            {!! Form::text('madanhhieukhenthuong', 'S', ['class' => 'form-control']) !!}
                         </div>
 
                         <div class="col-md-3">
                             <label class="form-control-label">Phân loại đối tượng</label>
-                            {!! Form::text('maphanloaidoituong', 'S', ['class' => 'form-control']) !!}
+                            {!! Form::text('maphanloaidoituong', 'T', ['class' => 'form-control']) !!}
                         </div>
 
                         <div class="col-md-3">
                             <label class="form-control-label">Lĩnh vực hoạt động đơn vị </label>
-                            {!! Form::text('linhvuchoatdong', 'T', ['class' => 'form-control',]) !!}
+                            {!! Form::text('linhvuchoatdong', 'U', ['class' => 'form-control',]) !!}
                         </div>
                     </div>
 

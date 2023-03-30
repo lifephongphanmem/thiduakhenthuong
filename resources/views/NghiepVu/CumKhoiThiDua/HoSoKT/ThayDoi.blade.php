@@ -54,28 +54,32 @@
                     <label>Tên đơn vị</label>
                     {!! Form::text('tendonvi', null, ['class' => 'form-control', 'readonly' => 'true']) !!}
                 </div>
-
-                <div class="col-lg-3">
-                    <label>Số tờ trình</label>
-                    {!! Form::text('sototrinh', null, ['class' => 'form-control']) !!}
-                </div>
-                <div class="col-lg-3">
-                    <label>Ngày tháng trình<span class="require">*</span></label>
-                    {!! Form::input('date', 'ngayhoso', null, ['class' => 'form-control', 'required']) !!}
-                </div>
             </div>
 
-            <div class="form-group row">
-                <div class="col-lg-6">
-                    <label>Chức vụ người ký tờ trình</label>
-                    {!! Form::text('chucvunguoiky', null, ['class' => 'form-control']) !!}
+            @if (session('admin')->hskhenthuong_totrinh)
+                <div class="form-group row">
+                    <div class="col-lg-3">
+                        <label>Số tờ trình</label>
+                        {!! Form::text('sototrinh', null, ['class' => 'form-control']) !!}
+                    </div>
+                    <div class="col-lg-3">
+                        <label>Ngày tháng trình<span class="require">*</span></label>
+                        {!! Form::input('date', 'ngayhoso', null, ['class' => 'form-control', 'required']) !!}
+                    </div>
                 </div>
-                <div class="col-lg-6">
-                    <label>Họ tên người ký tờ trình</label>
-                    {!! Form::text('nguoikytotrinh', null, ['class' => 'form-control']) !!}
-                </div>
-            </div>
 
+                <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label>Chức vụ người ký tờ trình</label>
+                        {!! Form::text('chucvunguoiky', null, ['class' => 'form-control']) !!}
+                    </div>
+                    <div class="col-lg-6">
+                        <label>Họ tên người ký tờ trình</label>
+                        {!! Form::text('nguoikytotrinh', null, ['class' => 'form-control']) !!}
+                    </div>
+                </div>
+            @endif
+            
             <div class="form-group row">
                 <div class="col-lg-12">
                     <label>Mô tả hồ sơ</label>
@@ -133,8 +137,8 @@
             @if ($model->trangthai == 'DKT')
                 @include('NghiepVu._DungChung.HoSo_ThongTinQD')
             @endif
-            
-           @include('NghiepVu._DungChung.HoSo_DanhSachKhenThuongCumKhoi')
+
+            @include('NghiepVu._DungChung.HoSo_DanhSachKhenThuongCumKhoi')
 
         </div>
         <div class="card-footer">

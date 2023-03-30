@@ -68,7 +68,7 @@
                             <tr class="text-center">
                                 <th width="2%">STT</th>
                                 <th>Nội dung hồ sơ</th>
-                                <th width="10%">Ngày quyết</br>định khen thưởng</th>
+                                <th width="10%">Quyết định</th>
                                 <th width="10%">Trạng thái</th>
                                 {{-- <th width="20%">Đơn vị tiếp nhận</th> --}}
                                 <th width="15%">Thao tác</th>

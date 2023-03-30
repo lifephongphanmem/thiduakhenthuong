@@ -37,7 +37,7 @@ class dungchung_nhanexcelController extends Controller
         $path = public_path() . '/data/uploads/' . $filename . '.xlsx';
         $data = [];
 
-        Excel::load($path, function ($reader) use (&$data, $inputs) {
+        Excel::load($path, function ($reader) use (&$data) {
             $obj = $reader->getExcel();
             $sheet = $obj->getSheet(0);
             $data = $sheet->toArray(null, true, true, true); // giữ lại tiêu đề A=>'val';
@@ -45,48 +45,47 @@ class dungchung_nhanexcelController extends Controller
         $a_dm_canhan = array();
         $a_dm_tapthe = array();
         $a_dm_hogiadinh = array();
-        
+
         for ($i = $inputs['tudong']; $i <= $inputs['dendong']; $i++) {
             if (!isset($data[$i][$inputs['phanloaikhenthuong']])) {
                 continue;
             }
-            if($data[$i][$inputs['phanloaikhenthuong']] == 'TAPTHE'){
+            if ($data[$i][$inputs['phanloaikhenthuong']] == 'TAPTHE') {
                 $a_dm_tapthe[] = array(
                     'mahosotdkt' => $inputs['mahoso'],
                     'tentapthe' => $data[$i][$inputs['tendoituong']] ?? '',
                     'madanhhieukhenthuong' => $data[$i][$inputs['madanhhieukhenthuong']] ?? $inputs['madanhhieukhenthuong_tt'],
                     'maphanloaitapthe' => $data[$i][$inputs['maphanloaidoituong']] ?? $inputs['maphanloaidoituong_tt'],
-                    'linhvuchoatdong' => $data[$i][$inputs['linhvuchoatdong']] ?? $inputs['linhvuchoatdong_tt'],                    
-                    'ketqua' => '1',                    
+                    'linhvuchoatdong' => $data[$i][$inputs['linhvuchoatdong']] ?? $inputs['linhvuchoatdong_tt'],
+                    'ketqua' => '1',
                 );
             }
-            if($data[$i][$inputs['phanloaikhenthuong']] == 'CANHAN'){
+            if ($data[$i][$inputs['phanloaikhenthuong']] == 'CANHAN') {
                 $a_dm_canhan[] = array(
                     'mahosotdkt' => $inputs['mahoso'],
                     'tendoituong' => $data[$i][$inputs['tendoituong']] ?? '',
                     'madanhhieukhenthuong' => $data[$i][$inputs['madanhhieukhenthuong']] ?? $inputs['madanhhieukhenthuong_cn'],
                     'maphanloaicanbo' => $data[$i][$inputs['maphanloaidoituong']] ?? $inputs['maphanloaidoituong_cn'],
-                    'chucvu' => $data[$i][$inputs['chucvu']] ?? '',                    
+                    'chucvu' => $data[$i][$inputs['chucvu']] ?? '',
                     'tencoquan' => $data[$i][$inputs['tencoquan']] ?? '',
                     'ketqua' => '1',
-                    'gioitinh'=> 'NAM',
+                    'gioitinh' => 'NAM',
                     //'ngaysinh' => $data[$i][$inputs['ngaysinh']] ?? null,
                     //'tenphongban' => $data[$i][$inputs['tenphongban']] ?? '',
                 );
             }
-            if($data[$i][$inputs['phanloaikhenthuong']] == 'HOGIADINH'){
+            if ($data[$i][$inputs['phanloaikhenthuong']] == 'HOGIADINH') {
                 $a_dm_hogiadinh[] = array(
                     'mahosotdkt' => $inputs['mahoso'],
                     'tentapthe' => $data[$i][$inputs['tendoituong']] ?? '',
                     'madanhhieukhenthuong' => $data[$i][$inputs['madanhhieukhenthuong']] ?? $inputs['madanhhieukhenthuong_hgd'],
-                    'maphanloaitapthe' => $data[$i][$inputs['maphanloaidoituong']] ?? $inputs['maphanloaidoituong_hgd'],               
-                    'ketqua' => '1',                    
+                    'maphanloaitapthe' => $data[$i][$inputs['maphanloaidoituong']] ?? $inputs['maphanloaidoituong_hgd'],
+                    'ketqua' => '1',
                 );
             }
-            
         }
-        // File::Delete($path);
-        // dd($a_dm_tapthe);
+        File::Delete($path);
+        //dd($a_dm_canhan);
         dshosothiduakhenthuong_canhan::insert($a_dm_canhan);
         dshosothiduakhenthuong_tapthe::insert($a_dm_tapthe);
         dshosothiduakhenthuong_hogiadinh::insert($a_dm_hogiadinh);
@@ -119,40 +118,39 @@ class dungchung_nhanexcelController extends Controller
             if (!isset($data[$i][$inputs['phanloaikhenthuong']])) {
                 continue;
             }
-            if($data[$i][$inputs['phanloaikhenthuong']] == 'TAPTHE'){
+            if ($data[$i][$inputs['phanloaikhenthuong']] == 'TAPTHE') {
                 $a_dm_tapthe[] = array(
                     'mahosothamgiapt' => $inputs['mahoso'],
                     'tentapthe' => $data[$i][$inputs['tendoituong']] ?? '',
                     'madanhhieukhenthuong' => $data[$i][$inputs['madanhhieukhenthuong']] ?? $inputs['madanhhieukhenthuong_tt'],
                     'maphanloaitapthe' => $data[$i][$inputs['maphanloaidoituong']] ?? $inputs['maphanloaidoituong_tt'],
-                    'linhvuchoatdong' => $data[$i][$inputs['linhvuchoatdong']] ?? $inputs['linhvuchoatdong_tt'],                    
-                                       
+                    'linhvuchoatdong' => $data[$i][$inputs['linhvuchoatdong']] ?? $inputs['linhvuchoatdong_tt'],
+
                 );
             }
-            if($data[$i][$inputs['phanloaikhenthuong']] == 'CANHAN'){
+            if ($data[$i][$inputs['phanloaikhenthuong']] == 'CANHAN') {
                 $a_dm_canhan[] = array(
                     'mahosothamgiapt' => $inputs['mahoso'],
                     'tendoituong' => $data[$i][$inputs['tendoituong']] ?? '',
                     'madanhhieukhenthuong' => $data[$i][$inputs['madanhhieukhenthuong']] ?? $inputs['madanhhieukhenthuong_cn'],
                     'maphanloaicanbo' => $data[$i][$inputs['maphanloaidoituong']] ?? $inputs['maphanloaidoituong_cn'],
-                    'chucvu' => $data[$i][$inputs['chucvu']] ?? '',                    
+                    'chucvu' => $data[$i][$inputs['chucvu']] ?? '',
                     'tencoquan' => $data[$i][$inputs['tencoquan']] ?? '',
-                    
-                    'gioitinh'=> 'NAM',
+
+                    'gioitinh' => 'NAM',
                     //'ngaysinh' => $data[$i][$inputs['ngaysinh']] ?? null,
                     //'tenphongban' => $data[$i][$inputs['tenphongban']] ?? '',
                 );
             }
-            if($data[$i][$inputs['phanloaikhenthuong']] == 'HOGIADINH'){
+            if ($data[$i][$inputs['phanloaikhenthuong']] == 'HOGIADINH') {
                 $a_dm_hogiadinh[] = array(
                     'mahosothamgiapt' => $inputs['mahoso'],
                     'tentapthe' => $data[$i][$inputs['tendoituong']] ?? '',
                     'madanhhieukhenthuong' => $data[$i][$inputs['madanhhieukhenthuong']] ?? $inputs['madanhhieukhenthuong_hgd'],
-                    'maphanloaitapthe' => $data[$i][$inputs['maphanloaidoituong']] ?? $inputs['maphanloaidoituong_hgd'],               
-                    
+                    'maphanloaitapthe' => $data[$i][$inputs['maphanloaidoituong']] ?? $inputs['maphanloaidoituong_hgd'],
+
                 );
             }
-            
         }
         dshosothamgiaphongtraotd_canhan::insert($a_dm_canhan);
         dshosothamgiaphongtraotd_tapthe::insert($a_dm_tapthe);
@@ -186,26 +184,26 @@ class dungchung_nhanexcelController extends Controller
             if (!isset($data[$i][$inputs['phanloaikhenthuong']])) {
                 continue;
             }
-            if($data[$i][$inputs['phanloaikhenthuong']] == 'TAPTHE'){
+            if ($data[$i][$inputs['phanloaikhenthuong']] == 'TAPTHE') {
                 $a_dm_tapthe[] = array(
                     'mahosotdkt' => $inputs['mahoso'],
                     'tentapthe' => $data[$i][$inputs['tendoituong']] ?? '',
                     'madanhhieukhenthuong' => $data[$i][$inputs['madanhhieukhenthuong']] ?? $inputs['madanhhieukhenthuong_tt'],
                     'maphanloaitapthe' => $data[$i][$inputs['maphanloaidoituong']] ?? $inputs['maphanloaidoituong_tt'],
-                    'linhvuchoatdong' => $data[$i][$inputs['linhvuchoatdong']] ?? $inputs['linhvuchoatdong_tt'],                    
-                    'ketqua' => '1',                    
+                    'linhvuchoatdong' => $data[$i][$inputs['linhvuchoatdong']] ?? $inputs['linhvuchoatdong_tt'],
+                    'ketqua' => '1',
                 );
             }
-            if($data[$i][$inputs['phanloaikhenthuong']] == 'CANHAN'){
+            if ($data[$i][$inputs['phanloaikhenthuong']] == 'CANHAN') {
                 $a_dm_canhan[] = array(
                     'mahosotdkt' => $inputs['mahoso'],
                     'tendoituong' => $data[$i][$inputs['tendoituong']] ?? '',
                     'madanhhieukhenthuong' => $data[$i][$inputs['madanhhieukhenthuong']] ?? $inputs['madanhhieukhenthuong_cn'],
                     'maphanloaicanbo' => $data[$i][$inputs['maphanloaidoituong']] ?? $inputs['maphanloaidoituong_cn'],
-                    'chucvu' => $data[$i][$inputs['chucvu']] ?? '',                    
+                    'chucvu' => $data[$i][$inputs['chucvu']] ?? '',
                     'tencoquan' => $data[$i][$inputs['tencoquan']] ?? '',
                     'ketqua' => '1',
-                    'gioitinh'=> 'NAM',
+                    'gioitinh' => 'NAM',
                     //'ngaysinh' => $data[$i][$inputs['ngaysinh']] ?? null,
                     //'tenphongban' => $data[$i][$inputs['tenphongban']] ?? '',
                 );
@@ -219,7 +217,7 @@ class dungchung_nhanexcelController extends Controller
             //         'ketqua' => '1',                    
             //     );
             // }
-            
+
         }
         dshosotdktcumkhoi_canhan::insert($a_dm_canhan);
         dshosotdktcumkhoi_tapthe::insert($a_dm_tapthe);

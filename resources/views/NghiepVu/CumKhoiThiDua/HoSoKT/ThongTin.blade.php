@@ -220,26 +220,28 @@
                             ]) !!}
                         </div>
                         <div class="col-3">
-                            <label>Ngày tạo hồ sơ</label>
+                            <label>Ngày quyết định</label>
                             {!! Form::input('date', 'ngayhoso', date('Y-m-d'), ['class' => 'form-control']) !!}
                         </div>
                     </div>
-
-                    <div class="form-group row">
-                        <div class="col-4">
-                            <label>Số tờ trình</label>
-                            {!! Form::text('sototrinh', null, ['class' => 'form-control']) !!}
-                        </div>                        
                     
-                        <div class="col-4">
-                            <label>Chức vụ người ký tờ trình</label>
-                            {!! Form::text('chucvunguoiky', null, ['class' => 'form-control']) !!}
+                    @if ($inputs['taototrinh'])
+                        <div class="form-group row">
+                            <div class="col-4">
+                                <label>Số tờ trình</label>
+                                {!! Form::text('sototrinh', null, ['class' => 'form-control']) !!}
+                            </div>
+
+                            <div class="col-4">
+                                <label>Chức vụ người ký tờ trình</label>
+                                {!! Form::text('chucvunguoiky', null, ['class' => 'form-control']) !!}
+                            </div>
+                            <div class="col-4">
+                                <label>Họ tên người ký tờ trình</label>
+                                {!! Form::text('nguoikytotrinh', null, ['class' => 'form-control']) !!}
+                            </div>
                         </div>
-                        <div class="col-4">
-                            <label>Họ tên người ký tờ trình</label>
-                            {!! Form::text('nguoikytotrinh', null, ['class' => 'form-control']) !!}
-                        </div>
-                    </div>
+                    @endif
 
                     <div class="form-group row">
                         <div class="col-12">

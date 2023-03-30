@@ -2,13 +2,13 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Thêm phân loại đối tượng</h4>
+                <h4 class="modal-title">Phân loại đối tượng</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
             </div>
             <div class="modal-body">
                 <div class="form-group row">
                     <div class="col-12">
-                        <label class="form-control-label">Chức vụ người ký</label>
+                        <label class="form-control-label">Đối tượng</label>
                         {!!Form::text('pldoituong_add', null, array('id' => 'pldoituong_add','class' => 'form-control','required'=>'required'))!!}
                     </div>                    
                 </div>

@@ -695,6 +695,7 @@ class dshosokhenthuongcumkhoiController extends Controller
         $thoigian = date('Y-m-d H:i:s');
         $inputs['mahosotdkt'] = (string)getdate()[0];
         $inputs['phanloai'] = 'KTDONVI';
+        $inputs['ngayqd'] = $inputs['ngayhoso'];
 
         //Kiểm tra trạng thái hồ sơ
         setThongTinHoSoKT($inputs);

@@ -154,7 +154,7 @@
                 @include('NghiepVu._DungChung.HoSo_ThongTinQD')
             @endif
 
-           @include('NghiepVu._DungChung.HoSo_DanhSachKhenThuongCumKhoi')
+            @include('NghiepVu._DungChung.HoSo_DanhSachKhenThuongCumKhoi')
         </div>
         <div class="card-footer">
             <div class="row text-center">

@@ -15,8 +15,9 @@
     <script>
         jQuery(document).ready(function() {
             TableManaged3.init();
-            $('#phanloai').change(function() {
-                window.location.href = "{{ $inputs['url'] }}" + 'ThongTin?phanloai=' + $('#phanloai').val();
+            $('#phanloai, #phamviapdung').change(function() {
+                window.location.href = "{{ $inputs['url'] }}" + 'ThongTin?phanloai=' + $('#phanloai')
+                .val() + '&phamviapdung=' + $('#phamviapdung').val();
             });
         });
 
@@ -47,7 +48,7 @@
                     form.find("[name='muckhentapthe']").val(data.muckhentapthe);
                     form.find("[name='phamviapdung[]']").val(data.phamviapdung.split(';')).trigger('change');
                     form.find("[name='doituongapdung[]']").val(data.doituongapdung.split(';')).trigger(
-                        'change');
+                    'change');
                 }
             });
         }
@@ -77,6 +78,14 @@
                     <label>Phân loại</label>
                     {!! Form::select('phanloai', setArrayAll($a_phanloai), $inputs['phanloai'], [
                         'id' => 'phanloai',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
+                </div>
+
+                <div class="col-lg-6">
+                    <label>Phạm vi áp dụng</label>
+                    {!! Form::select('phamviapdung', setArrayAll($a_phamvi), $inputs['phamviapdung'], [
+                        'id' => 'phamviapdung',
                         'class' => 'form-control select2basic',
                     ]) !!}
                 </div>

@@ -28,6 +28,7 @@ class dmhinhthuckhenthuongController extends Controller
         $inputs = $request->all();
         $a_phanloai = getPhanLoaiHinhThucKT();
         $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
+        $inputs['phamviapdung'] = $inputs['phamviapdung'] ?? 'ALL';
         $inputs['url'] = static::$url;
 
         if ($inputs['phanloai'] != 'ALL')
@@ -37,11 +38,18 @@ class dmhinhthuckhenthuongController extends Controller
         $a_phamviapdung = getPhamViApDung();
         $a_doituongapdung = getDoiTuongApDung();
         //doituongapdung
-        foreach ($model as $ct) {
+        foreach ($model as $key => $ct) {
+            //lọc phạm vi áp dụng
             $ct->tenphamviapdung = '';
-            foreach (explode(';', $ct->phamviapdung) as $phamvi) {
-                $ct->tenphamviapdung .= ($a_phamviapdung[$phamvi] ?? '') . '; ';
+            $phamvi = explode(';', $ct->phamviapdung);
+            foreach ($phamvi as $val) {
+                $ct->tenphamviapdung .= ($a_phamviapdung[$val] ?? '') . '; ';
             }
+            
+            if ($inputs['phamviapdung'] != 'ALL' && !in_array($inputs['phamviapdung'], $phamvi)) {                
+                $model->forget($key);
+            }
+
             //đối tượng
             $ct->tendoituongapdung = '';
             foreach (explode(';', $ct->doituongapdung) as $doituong) {
@@ -64,6 +72,7 @@ class dmhinhthuckhenthuongController extends Controller
             ->with('model', $model)
             ->with('inputs', $inputs)
             ->with('a_phanloai', $a_phanloai)
+            ->with('a_phamvi', $a_phamviapdung)
             ->with('pageTitle', 'Danh mục loại hình khen thưởng');
     }
 
