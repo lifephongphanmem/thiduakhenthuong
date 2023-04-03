@@ -854,6 +854,12 @@ class dshosokhenthuongcongtrangController extends Controller
 
         $thoigian = date('Y-m-d H:i:s');
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        
+        //kiểm tra các thông tin chi tiết có hợp lệ không
+        //Cá nhân: maphanloaicanbo; madanhhieukhenthuong
+        //Tập thể: maphanloaitapthe; linhvuchoatdong; madanhhieukhenthuong
+        //Hộ gia đình: maphanloaitapthe; madanhhieukhenthuong
+
         $model->trangthai = 'DKT';
         //gán trạng thái hồ sơ để theo dõi
         $model->trangthai_xd = $model->trangthai;

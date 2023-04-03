@@ -145,13 +145,13 @@ function getDanhHieuKhenThuong($capdo, $phanloai = 'CANHAN')
 function DHKT_BaoCao()
 {
     $ketqua = new Collection();
-    $m_danhhieu = App\Model\DanhMuc\dmdanhhieuthidua::all();
+    // $m_danhhieu = App\Model\DanhMuc\dmdanhhieuthidua::all();
 
-    foreach ($m_danhhieu as $danhhieu) {
-        $danhhieu->madanhhieukhenthuong = $danhhieu->madanhhieutd;
-        $danhhieu->tendanhhieukhenthuong = $danhhieu->tendanhhieutd;
-        $ketqua->add($danhhieu);
-    }
+    // foreach ($m_danhhieu as $danhhieu) {
+    //     $danhhieu->madanhhieukhenthuong = $danhhieu->madanhhieutd;
+    //     $danhhieu->tendanhhieukhenthuong = $danhhieu->tendanhhieutd;
+    //     $ketqua->add($danhhieu);
+    // }
     foreach (App\Model\DanhMuc\dmhinhthuckhenthuong::all() as $danhhieu) {
         $danhhieu->madanhhieukhenthuong = $danhhieu->mahinhthuckt;
         $danhhieu->tendanhhieukhenthuong = $danhhieu->tenhinhthuckt;
@@ -487,6 +487,19 @@ function getDonVi($capdo, $chucnang = null, $tenquyen = null)
 //Lấy danh sách địa bàn theo đơn vị để kết xuất báo cáo tổng hợp
 function getDiaBanBaoCaoTongHop($donvi)
 {
+    $m_donvi = App\Model\DanhMuc\dsdiaban::where('madiaban', $donvi->madiaban)->get();
+    //Lấy địa bàn trực thuộc
+    $dsdiaban = App\Model\DanhMuc\dsdiaban::where('madiaban', '<>', $donvi->madiaban)->get();
+    getDiaBanTrucThuoc($dsdiaban, $donvi->madiaban, $m_donvi);
+    return $m_donvi;
+}
+
+//Lấy danh sách địa bàn theo đơn vị để tra cứu tìm kiếm
+function getDiaBanTraCuu($donvi)
+{
+    //nếu đơn vị là đơn vị khen thưởng và quản lý => tìm kiếm đc tất cả đơn vị trong địa bàn
+    //nếu đơn vị là đơn vị nhập liệu => chỉ tìm được dữ liêu đơn vị mình
+    
     $m_donvi = App\Model\DanhMuc\dsdiaban::where('madiaban', $donvi->madiaban)->get();
     //Lấy địa bàn trực thuộc
     $dsdiaban = App\Model\DanhMuc\dsdiaban::where('madiaban', '<>', $donvi->madiaban)->get();

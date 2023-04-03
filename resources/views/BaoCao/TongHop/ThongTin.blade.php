@@ -86,14 +86,14 @@
                             <button class="btn btn-clean text-dark"
                                 onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenCao_m1')"
                                 data-target="#modal-khenthuong" data-toggle="modal">Báo
-                                cáo hình thức khen thưởng (Khen cao - Mẫu 01)</button>
+                                cáo hình thức khen thưởng (Khen thưởng cấp nhà nước - Mẫu 01)</button>
                         </li>
 
                         <li>
                             <button class="btn btn-clean text-dark"
                                 onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenCao_m2')"
                                 data-target="#modal-khenthuong" data-toggle="modal">Báo
-                                cáo hình thức khen thưởng (Khen cao - Mẫu 02)</button>
+                                cáo hình thức khen thưởng (Khen thưởng cấp nhà nước - Mẫu 02)</button>
                         </li>
                         {{-- <li>
                             <button type="button" onclick="setBaoCaoKT('frm_quykhenthuong','/BaoCao/TongHop/QuyKhenThuong')"
@@ -321,6 +321,7 @@
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
             </div>
             <div class="modal-body">
+                <p style="color: #0000FF">Thống kê các danh hiệu thi đua và hình thức khen thưởng đã được phê duyệt theo hồ sơ khen thưởng và hồ sơ đề nghị khen thưởng.</p>
                 <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Địa bàn</label>

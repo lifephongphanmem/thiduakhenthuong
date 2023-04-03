@@ -1145,9 +1145,9 @@ function getPhamViApDungPhongTrao($capdo = 'T')
 
 function getPhamViThongKe($capdo = 'T')
 {
-    $a_kq['T'] =  array('T' => 'Các đơn vị hành chính cấp Tỉnh', 'H' => 'Các đơn vị hành chính cấp Huyện', 'X' => 'Các đơn vị hành chính cấp Xã');
-    $a_kq['H'] =  array('H' => 'Các đơn vị hành chính cấp Huyện', 'X' => 'Các đơn vị hành chính cấp Xã');
-    $a_kq['X'] =  array('X' => 'Các đơn vị hành chính cấp Xã');
+    $a_kq['T'] =  array('T' => 'Cấp Tỉnh', 'H' => 'Cấp Huyện', 'X' => 'Cấp Xã');
+    $a_kq['H'] =  array('H' => 'Cấp Huyện', 'X' => 'Cấp Xã');
+    $a_kq['X'] =  array('X' => 'Cấp Xã');
     return $a_kq[$capdo];
 }
 

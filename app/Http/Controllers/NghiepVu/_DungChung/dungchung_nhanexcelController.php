@@ -6,6 +6,7 @@ namespace App\Http\Controllers\NghiepVu\_DungChung;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
 use App\Model\DanhMuc\dmnhomphanloai_chitiet;
 use App\Model\DanhMuc\dsdonvi;
@@ -45,6 +46,9 @@ class dungchung_nhanexcelController extends Controller
         $a_dm_canhan = array();
         $a_dm_tapthe = array();
         $a_dm_hogiadinh = array();
+        
+        //Mã hợp lệ => gán về mã mặc định (xem xét nếu gán mà ko thông báo thì khó hiểu cho ng nhận)
+        $a_dhkt = array_column(dmhinhthuckhenthuong::all()->toarray(),'madanhhieukhenthuong');
 
         for ($i = $inputs['tudong']; $i <= $inputs['dendong']; $i++) {
             if (!isset($data[$i][$inputs['phanloaikhenthuong']])) {

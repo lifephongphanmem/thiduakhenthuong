@@ -168,7 +168,7 @@ class baocaotonghopController extends Controller
             $model = $model->where('capdo', $inputs['phamvithongke']);
         }
         $m_hoso = dshosothiduakhenthuong::wherenotin('trangthai', ['CC', 'BTL'])
-            ->wherebetween('ngayhoso', [$inputs['ngaytu'], $inputs['ngayden']])
+            ->wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
             ->wherein('madonvi', array_column($model->toArray(), 'madonvi'))->get();
 
         $m_loaihinhkt = getLoaiHinhKhenThuong();
@@ -205,10 +205,10 @@ class baocaotonghopController extends Controller
             $model = $model->where('capdo', $inputs['phamvithongke']);
         }
         $m_hoso = dshosothiduakhenthuong::wherenotin('trangthai', ['CC', 'BTL'])
-            ->wherebetween('ngayhoso', [$inputs['ngaytu'], $inputs['ngayden']])
-            ->wherein('madonvi', array_column($model->toArray(), 'madonvi'))->get();
-        //$m_hoso_canhan = dshosothiduakhenthuong_canhan::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->get();
-        //$m_hoso_tapthe = dshosothiduakhenthuong_tapthe::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->get();
+            ->wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
+            //->wherein('madonvi', array_column($model->toArray(), 'madonvi'))
+            ->get();
+
         $a_hinhthuckt = getDanhHieuKhenThuong('ALL');
         $a_diaban = array_column($model->toArray(), 'tendiaban', 'madiaban');
         $a_dhkt = [];
@@ -258,7 +258,7 @@ class baocaotonghopController extends Controller
             $m_donvi = $m_donvi->where('capdo', $inputs['phamvithongke']);
         }
         $m_hoso = dshosothiduakhenthuong::wherenotin('trangthai', ['CC', 'BTL'])
-            ->wherebetween('ngayhoso', [$inputs['ngaytu'], $inputs['ngayden']])
+            ->wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
             ->wherein('madonvi', array_column($m_donvi->toArray(), 'madonvi'))
             ->wherein('maloaihinhkt', ['1650358223', '1650358255', '1650358265', '1650358310'])
             ->get();
@@ -361,7 +361,7 @@ class baocaotonghopController extends Controller
             $m_donvi = $m_donvi->where('capdo', $inputs['phamvithongke']);
         }
         $m_hoso = dshosothiduakhenthuong::wherenotin('trangthai', ['CC', 'BTL'])
-            ->wherebetween('ngayhoso', [$inputs['ngaytu'], $inputs['ngayden']])
+            ->wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
             ->wherein('madonvi', array_column($m_donvi->toArray(), 'madonvi'))
             ->wherein('maloaihinhkt', ['1650358223', '1650358255', '1650358265', '1650358310'])
             ->get();
@@ -492,7 +492,7 @@ class baocaotonghopController extends Controller
         // if ($inputs['phamvithongke'] != 'ALL') {
         //     $m_donvi = $m_donvi->where('capdo', $inputs['phamvithongke']);
         // }
-        $m_hoso = dshosokhencao::wherebetween('ngayhoso', [$inputs['ngaytu'], $inputs['ngayden']])
+        $m_hoso = dshosokhencao::wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
             //->wherein('madonvi', array_column($m_donvi->toArray(), 'madonvi'))
             ->wherein('maloaihinhkt', ['1650358223', '1650358255', '1650358265', '1650358310', '1650358282'])
             ->get();
@@ -591,7 +591,7 @@ class baocaotonghopController extends Controller
     {
         $inputs = $request->all();
 
-        $m_hoso = dshosokhencao::wherebetween('ngayhoso', [$inputs['ngaytu'], $inputs['ngayden']])
+        $m_hoso = dshosokhencao::wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
             ->wherein('maloaihinhkt', ['1650358223', '1650358255', '1650358265', '1650358310', '1650358282'])
             ->get();
         $model = DHKT_BaoCao();

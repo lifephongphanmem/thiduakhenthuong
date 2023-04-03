@@ -8,23 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\DanhMuc\dmdanhhieuthidua;
-use App\Model\DanhMuc\dmdanhhieuthidua_tieuchuan;
 use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
 use App\Model\DanhMuc\dmnhomphanloai_chitiet;
-use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
-use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_canhan;
-use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_detai;
-use App\Model\View\view_cumkhoi_canhan;
 use App\Model\View\view_tdkt_canhan;
 use App\Model\View\view_tdkt_detai;
-use App\Model\View\view_tdkt_tapthe;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
 
 class tracuucanhanController extends Controller
 {
+    public static $url = '/TraCuu/CaNhan/';
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
@@ -43,11 +37,18 @@ class tracuucanhanController extends Controller
                 ->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
-        // $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE', 'HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
+        $inputs['url'] = static::$url;
         $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
+        $m_donvi = getDonVi(session('admin')->capdo);
+        $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
+        $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
+        $m_diaban = getDiaBanTraCuu($donvi);
+
         return view('TraCuu.CaNhan.ThongTin')
             ->with('inputs', $inputs)
             ->with('a_canhan', $a_canhan)
+            ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))
+            ->with('a_diaban', array_column($m_diaban->toArray(), 'tendiaban', 'madiaban'))
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('pageTitle', 'Tìm kiếm thông tin theo cá nhân');
     }
@@ -65,7 +66,7 @@ class tracuucanhanController extends Controller
             ->with('model_khenthuong', $model_khenthuong)
             ->with('model_detai', $model_detai)
             ->with('a_dhkt', $a_dhkt)
-            ->with('phamvi', getPhamViApDung()) 
+            ->with('phamvi', getPhamViApDung())
             ->with('inputs', $inputs)
             ->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
             ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
@@ -86,7 +87,7 @@ class tracuucanhanController extends Controller
             ->with('model_khenthuong', $model_khenthuong)
             ->with('model_detai', $model_detai)
             ->with('a_dhkt', $a_dhkt)
-            ->with('phamvi', getPhamViApDung()) 
+            ->with('phamvi', getPhamViApDung())
             ->with('inputs', $inputs)
             //->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
             //->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))

@@ -15,6 +15,11 @@
     <script>
         jQuery(document).ready(function() {
             TableManagedclass.init();
+            
+            $('#madonvi').change(function() {
+                window.location.href = "{{ $inputs['url'] }}" + "ThongTin?madonvi=" + $('#madonvi').val();
+            });
+        
         });
     </script>
 @stop
@@ -41,6 +46,24 @@
         </div>
 
         <div class="card-body">
+
+            <div class="form-group row">
+                <div class="col-6">
+                    <label>Đơn vị tìm kiếm</label>
+                    {!! Form::select('madonvi', $a_donvi, $inputs['madonvi'], [
+                        'id' => 'madonvi',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
+                </div>
+
+                <div class="col-6">
+                    <label>Địa bàn tìm kiếm</label>
+                    {!! Form::select('madiaban', setArrayAll($a_diaban), null, [
+                        'madiaban' => 'madiaban',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
+                </div>
+            </div>
 
             <div class="form-group row">
                 <div class="col-4">
