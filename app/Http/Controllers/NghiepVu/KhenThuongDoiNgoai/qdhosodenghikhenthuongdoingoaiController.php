@@ -563,20 +563,27 @@ class qdhosodenghikhenthuongdoingoaiController extends Controller
                 ->with('machucnang', 'qdhosodenghikhenthuongchuyende')
                 ->with('tenphanquyen', 'hoanthanh');
         }
+        // $inputs = $request->all();
+        // $thoigian = date('Y-m-d H:i:s');
+        // $trangthai = 'CXKT';
+        // $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        // setTrangThaiHoSo($inputs['madonvi'], $model, ['thoigian' => $thoigian, 'trangthai' => $trangthai]);
+        // $model->trangthai = $trangthai; //gán trạng thái hồ sơ để theo dõi
+        // $model->donvikhenthuong = null;
+        // $model->capkhenthuong = null;
+        // $model->soqd = null;
+        // $model->ngayqd = null;
+        // $model->chucvunguoikyqd = null;
+        // $model->hotennguoikyqd = null;
+        // //dd($model);
+        // $model->save();
+
         $inputs = $request->all();
-        $thoigian = date('Y-m-d H:i:s');
-        $trangthai = 'CXKT';
+        $inputs['thoigian'] = date('Y-m-d H:i:s');
+        $inputs['trangthai'] = 'CXKT';
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        setTrangThaiHoSo($inputs['madonvi'], $model, ['thoigian' => $thoigian, 'trangthai' => $trangthai]);
-        $model->trangthai = $trangthai; //gán trạng thái hồ sơ để theo dõi
-        $model->donvikhenthuong = null;
-        $model->capkhenthuong = null;
-        $model->soqd = null;
-        $model->ngayqd = null;
-        $model->chucvunguoikyqd = null;
-        $model->hotennguoikyqd = null;
-        //dd($model);
-        $model->save();
+        setHuyKhenThuong($model, $inputs);
+        
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
     }
 

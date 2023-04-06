@@ -871,32 +871,37 @@ class dshosokhenthuongdoingoaiController extends Controller
 
     public function HuyPheDuyet(Request $request)
     {
+        // $inputs = $request->all();
+        // $thoigian = date('Y-m-d H:i:s');
+        // $trangthai = 'CXKT';
+        // $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+
+        // $model->trangthai = $trangthai;
+        // $model->trangthai_xd = $model->trangthai;
+        // $model->trangthai_kt = $model->trangthai;
+        // $model->thoigian_kt = null;
+
+        // $model->donvikhenthuong = null;
+        // $model->capkhenthuong = null;
+        // $model->soqd = null;
+        // $model->ngayqd = null;
+        // $model->chucvunguoikyqd = null;
+        // $model->hotennguoikyqd = null;
+        // //dd($model);
+        // $model->save();
+        // trangthaihoso::create([
+        //     'mahoso' => $inputs['mahosotdkt'],
+        //     'phanloai' => 'dshosothiduakhenthuong',
+        //     'trangthai' => $model->trangthai,
+        //     'thoigian' => $thoigian,
+        //     'madonvi' => $inputs['madonvi'],
+        //     'thongtin' => 'Hủy phê duyệt đề nghị khen thưởng.',
+        // ]);
         $inputs = $request->all();
-        $thoigian = date('Y-m-d H:i:s');
-        $trangthai = 'CXKT';
+        $inputs['thoigian'] = date('Y-m-d H:i:s');
+        $inputs['trangthai'] = 'CXKT';
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-
-        $model->trangthai = $trangthai;
-        $model->trangthai_xd = $model->trangthai;
-        $model->trangthai_kt = $model->trangthai;
-        $model->thoigian_kt = null;
-
-        $model->donvikhenthuong = null;
-        $model->capkhenthuong = null;
-        $model->soqd = null;
-        $model->ngayqd = null;
-        $model->chucvunguoikyqd = null;
-        $model->hotennguoikyqd = null;
-        //dd($model);
-        $model->save();
-        trangthaihoso::create([
-            'mahoso' => $inputs['mahosotdkt'],
-            'phanloai' => 'dshosothiduakhenthuong',
-            'trangthai' => $model->trangthai,
-            'thoigian' => $thoigian,
-            'madonvi' => $inputs['madonvi'],
-            'thongtin' => 'Hủy phê duyệt đề nghị khen thưởng.',
-        ]);
+        setHuyKhenThuong($model, $inputs);
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }
 
