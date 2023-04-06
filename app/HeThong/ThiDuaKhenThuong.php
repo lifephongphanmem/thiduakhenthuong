@@ -95,7 +95,7 @@ function setThongTinHoSoKT(&$inputs)
     }
 }
 
-function setHuyPheDuyetHoSo(&$model)
+function setHuyKhenThuong(&$model, $inputs)
 {
     $model->donvikhenthuong = null;
     $model->capkhenthuong = null;
@@ -103,6 +103,72 @@ function setHuyPheDuyetHoSo(&$model)
     $model->ngayqd = null;
     $model->chucvunguoikyqd = null;
     $model->hotennguoikyqd = null;
+
+    $model->trangthai = $inputs['trangthai'];
+    $model->trangthai_xd = $model->trangthai;
+    $model->trangthai_kt = $model->trangthai;
+    $model->thoigian_kt = null;
+    $a_update = [
+        'toado_tendoituongin' => '',
+        'toado_noidungkhenthuong' => '',
+        'toado_quyetdinh' => '',
+        'toado_ngayqd' => '',
+        'toado_chucvunguoikyqd' => '',
+        'toado_hotennguoikyqd' => '',
+        'toado_donvikhenthuong' => '',
+        'toado_sokhenthuong' => '',
+        'toado_chucvudoituong' => '',
+        'toado_pldoituong' => '',
+
+        'tendoituongin' => '',
+        'noidungkhenthuong' => '',
+        'quyetdinh' => '',
+        'ngayqd' => '',
+        'chucvunguoikyqd' => '',
+        'hotennguoikyqd' => '',
+        'donvikhenthuong' => '',
+        'sokhenthuong' => '',
+        'chucvudoituong' => '',
+        'pldoituong' => '',
+    ];
+
+    App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)->update($a_update);
+    App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->update($a_update);
+    App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)->update($a_update);
+
+    // 'toado_tendoituongin',
+    // 'toado_noidungkhenthuong',
+    // 'toado_quyetdinh',
+    // 'toado_ngayqd',
+    // 'toado_chucvunguoikyqd',
+    // 'toado_hotennguoikyqd',
+    // 'toado_donvikhenthuong',
+    // 'toado_sokhenthuong',
+    // 'toado_chucvudoituong',
+    // 'toado_pldoituong',
+
+    // 'tendoituongin',
+    //'noidungkhenthuong'
+    // 'quyetdinh',
+    // 'ngayqd',
+    // 'chucvunguoikyqd',
+    // 'hotennguoikyqd',
+    // 'donvikhenthuong',
+    // 'sokhenthuong',
+    // 'chucvudoituong',
+    //'pldoituong'
+
+
+    //dd($model);
+    $model->save();
+    trangthaihoso::create([
+        'mahoso' => $inputs['mahosotdkt'],
+        'phanloai' => 'dshosothiduakhenthuong',
+        'trangthai' => $model->trangthai,
+        'thoigian' => $inputs['thoigian'],
+        'madonvi' => $inputs['madonvi'],
+        'thongtin' => 'Hủy phê duyệt đề nghị khen thưởng.',
+    ]);
 }
 
 function getHeThongChung()
@@ -497,13 +563,16 @@ function getDiaBanBaoCaoTongHop($donvi)
 //Lấy danh sách địa bàn theo đơn vị để tra cứu tìm kiếm
 function getDiaBanTraCuu($donvi)
 {
+    $m_donvi = App\Model\DanhMuc\dsdiaban::where('madiaban', $donvi->madiaban)->get();
     //nếu đơn vị là đơn vị khen thưởng và quản lý => tìm kiếm đc tất cả đơn vị trong địa bàn
     //nếu đơn vị là đơn vị nhập liệu => chỉ tìm được dữ liêu đơn vị mình
-    
-    $m_donvi = App\Model\DanhMuc\dsdiaban::where('madiaban', $donvi->madiaban)->get();
+    $diaban = $m_donvi->where('madiaban', $donvi->madiaban)->first();
+    //dd($diaban);
     //Lấy địa bàn trực thuộc
-    $dsdiaban = App\Model\DanhMuc\dsdiaban::where('madiaban', '<>', $donvi->madiaban)->get();
-    getDiaBanTrucThuoc($dsdiaban, $donvi->madiaban, $m_donvi);
+    if ($donvi->madonvi == $diaban->madonviQL || $donvi->madonvi == $diaban->madonviKT) {
+        $dsdiaban = App\Model\DanhMuc\dsdiaban::where('madiaban', '<>', $donvi->madiaban)->get();
+        getDiaBanTrucThuoc($dsdiaban, $donvi->madiaban, $m_donvi);
+    }
     return $m_donvi;
 }
 
@@ -633,6 +702,8 @@ function setChuyenHoSo($capdo, $hoso, $a_hoanthanh)
             $hoso->thoigian_tw = $a_hoanthanh['thoigian'];
     }
 }
+
+
 
 //Nhận và trả lại
 function setNhanHoSo($madonvi_nhan, $hoso, $a_hoanthanh)

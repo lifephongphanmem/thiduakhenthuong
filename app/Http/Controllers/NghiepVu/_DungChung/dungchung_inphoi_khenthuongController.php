@@ -79,24 +79,24 @@ class dungchung_inphoi_khenthuongController extends Controller
         $inputs['phanloaikhenthuong'] = $inputs['phanloaikhenthuong'] ?? 'KHENTHUONG';
         $inputs['phanloaidoituong'] = $inputs['phanloaidoituong'] ?? 'CANHAN';
         $inputs['phanloaiphoi'] = 'BANGKHEN';
-        $tendoituong = '';
+        //$tendoituong = '';
         switch ($inputs["phanloaikhenthuong"]) {
             case "KHENTHUONG": {
                     switch ($inputs["phanloaidoituong"]) {
                         case "TAPTHE": {
                                 //dd($this->setViTri($inputs));
                                 $model = dshosothiduakhenthuong_tapthe::where('id', $inputs['id'])->get();
-                                $tendoituong = 'tentapthe';
+                                // $tendoituong = 'tentapthe';
                                 break;
                             }
                         case "CANHAN": {
                                 $model = dshosothiduakhenthuong_canhan::where('id', $inputs['id'])->get();
-                                $tendoituong = 'tendoituong';
+                                // $tendoituong = 'tendoituong';
                                 break;
                             }
                         case "HOGIADINH": {
                                 $model = dshosothiduakhenthuong_hogiadinh::where('id', $inputs['id'])->get();
-                                $tendoituong = 'tentapthe';
+                                // $tendoituong = 'tentapthe';
                                 break;
                             }
                     }
@@ -107,17 +107,17 @@ class dungchung_inphoi_khenthuongController extends Controller
                     switch ($inputs["phanloaidoituong"]) {
                         case "TAPTHE": {
                                 $model = dshosotdktcumkhoi_tapthe::where('id', $inputs['id'])->get();
-                                $tendoituong = 'tentapthe';
+                                // $tenoituong = 'tentapthe';
                                 break;
                             }
                         case "CANHAN": {
                                 $model = dshosotdktcumkhoi_canhan::where('id', $inputs['id'])->get();
-                                $tendoituong = 'tendoituong';
+                                // $tendoituong = 'tendoituong';
                                 break;
                             }
                         case "HOGIADINH": {
                                 $model = dshosotdktcumkhoi_hogiadinh::where('id', $inputs['id'])->get();
-                                $tendoituong = 'tentapthe';
+                                // $tendoituong = 'tentapthe';
                                 break;
                             }
                     }
@@ -169,9 +169,10 @@ class dungchung_inphoi_khenthuongController extends Controller
                         $doituong->tendoituongin = $doituong->tendoituongin != '' ? $doituong->tendoituongin : catchuoi($doituong->tentapthe, $m_donvi->sochu);
                         $doituong->toado_tendoituongin = $doituong->toado_tendoituongin != '' ? $doituong->toado_tendoituongin : ($m_toado->toado_tendoituongin ?? '');
 
-                        //$doituong->chucvudoituong = '';
-                        $doituong->chucvudoituong = $doituong->chucvudoituong != '' ? $doituong->chucvudoituong : ($doituong->tencoquan != '' ? $doituong->tencoquan : 'Tên cơ quan');
-                        //$doituong->chucvudoituong = $doituong->chucvudoituong == 'A'
+                        //$doituong->chucvudoituong = '';tendonvi
+                        $doituong->chucvudoituong = $doituong->chucvudoituong != '' ? $doituong->chucvudoituong : $m_donvi->tendonvi;
+                        //$doituong->chucvudoituong = $doituong->chucvudoituong != '' ? $doituong->chucvudoituong : ($doituong->tencoquan != '' ? $doituong->tencoquan : 'Tên cơ quan');
+                       
                         $doituong->toado_chucvudoituong = $doituong->toado_chucvudoituong != '' ? $doituong->toado_chucvudoituong : ($m_toado->toado_chucvudoituong ?? '');
 
                         //$doituong->pldoituong = '';
@@ -625,7 +626,8 @@ class dungchung_inphoi_khenthuongController extends Controller
                     }
                 default: {
                         $doituong->tendoituongin = $doituong->tendoituongin != '' ? $doituong->tendoituongin : $doituong->tentapthe;
-                        $doituong->chucvudoituong = $doituong->chucvudoituong != '' ? $doituong->chucvudoituong : ($doituong->tencoquan != '' ? $doituong->tencoquan : 'Tên cơ quan');
+                        $doituong->chucvudoituong = $doituong->chucvudoituong != '' ? $doituong->chucvudoituong : $m_donvi->tendonvi;
+                        //$doituong->chucvudoituong = $doituong->chucvudoituong != '' ? $doituong->chucvudoituong : ($doituong->tencoquan != '' ? $doituong->tencoquan : 'Tên cơ quan');
                         $doituong->pldoituong = $doituong->pldoituong != '' ? $doituong->pldoituong : 'Tập thể:';
                         break;
                     }

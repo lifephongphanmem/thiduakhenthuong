@@ -15,11 +15,30 @@
     <script>
         jQuery(document).ready(function() {
             TableManagedclass.init();
-            
+
             $('#madonvi').change(function() {
                 window.location.href = "{{ $inputs['url'] }}" + "ThongTin?madonvi=" + $('#madonvi').val();
             });
-        
+
+            $('#madiaban').change(function() {                
+                var madiaban = $(this).val();                
+                var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    url: "/TraCuu/DungChung/LayDonVi",
+                    type: "GET",
+                    data: {
+                        _token: CSRF_TOKEN,
+                        madiaban: madiaban,
+                    },
+                    dataType: 'JSON',
+                    success: function(data) {
+                        console.log(data);
+                        if (data.status == 'success') {
+                            $('#div_donvi').replaceWith(data.message);
+                        }
+                    }
+                });
+            });
         });
     </script>
 @stop
@@ -49,17 +68,28 @@
 
             <div class="form-group row">
                 <div class="col-6">
-                    <label>Đơn vị tìm kiếm</label>
+                    <label>Đơn vị</label>
                     {!! Form::select('madonvi', $a_donvi, $inputs['madonvi'], [
                         'id' => 'madonvi',
                         'class' => 'form-control select2basic',
                     ]) !!}
                 </div>
 
+            </div>
+
+            <div class="form-group row">
                 <div class="col-6">
                     <label>Địa bàn tìm kiếm</label>
                     {!! Form::select('madiaban', setArrayAll($a_diaban), null, [
-                        'madiaban' => 'madiaban',
+                        'id' => 'madiaban',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
+                </div>
+
+                <div id="#div_donvi" class="col-6">
+                    <label>Đơn vị tìm kiếm</label>
+                    {!! Form::select('madonvi_tc', setArrayAll([]), null, [
+                        'id' => 'madonvi_tc',
                         'class' => 'form-control select2basic',
                     ]) !!}
                 </div>
@@ -85,11 +115,17 @@
             <div class="form-group row">
                 <div class="col-lg-3">
                     <label>Khen thưởng - Từ</label>
-                    {!! Form::input('date', 'ngaytu', null, ['class' => 'form-control', 'title'=>'Căn cứ ngày quyết định khen thưởng']) !!}
+                    {!! Form::input('date', 'ngaytu', null, [
+                        'class' => 'form-control',
+                        'title' => 'Căn cứ ngày quyết định khen thưởng',
+                    ]) !!}
                 </div>
                 <div class="col-lg-3">
                     <label>Khen thưởng - Đến</label>
-                    {!! Form::input('date', 'ngayden', null, ['class' => 'form-control', 'title'=>'Căn cứ ngày quyết định khen thưởng']) !!}
+                    {!! Form::input('date', 'ngayden', null, [
+                        'class' => 'form-control',
+                        'title' => 'Căn cứ ngày quyết định khen thưởng',
+                    ]) !!}
                 </div>
 
                 <div class="col-md-3">

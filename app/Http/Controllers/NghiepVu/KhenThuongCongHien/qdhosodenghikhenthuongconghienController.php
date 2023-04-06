@@ -49,7 +49,7 @@ class qdhosodenghikhenthuongconghienController extends Controller
         $inputs['url_xd'] = '/KhenThuongCongHien/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongCongHien/KhenThuong/';
         $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
-        
+
         $m_donvi = getDonVi(session('admin')->capdo, 'qdhosodenghikhenthuongconghien');
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
 
@@ -75,7 +75,7 @@ class qdhosodenghikhenthuongconghienController extends Controller
         //Lấy hồ sơ
         $model = $model->orderby('ngayhoso')->get();
         // $m_khenthuong = dshosokhenthuong::wherein('mahosotdkt', array_column($model->toarray(), 'mahosotdkt'))->where('trangthai', 'DKT')->get();
-        $a_donvilocdulieu = getDiaBanCumKhoi(session('admin')->tendangnhap);        
+        $a_donvilocdulieu = getDiaBanCumKhoi(session('admin')->tendangnhap);
         foreach ($model as $key => $hoso) {
             if (count($a_donvilocdulieu) > 0) {
                 //lọc các hồ sơ theo thiết lập dữ liệu
@@ -334,19 +334,10 @@ class qdhosodenghikhenthuongconghienController extends Controller
                 ->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
-        $thoigian = date('Y-m-d H:i:s');
-        $trangthai = 'CXKT';
+        $inputs['thoigian'] = date('Y-m-d H:i:s');
+        $inputs['trangthai'] = 'CXKT';
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        setTrangThaiHoSo($inputs['madonvi'], $model, ['thoigian' => $thoigian, 'trangthai' => $trangthai]);
-        $model->trangthai = $trangthai; //gán trạng thái hồ sơ để theo dõi
-        $model->donvikhenthuong = null;
-        $model->capkhenthuong = null;
-        $model->soqd = null;
-        $model->ngayqd = null;
-        $model->chucvunguoikyqd = null;
-        $model->hotennguoikyqd = null;
-        //dd($model);
-        $model->save();
+        setHuyKhenThuong($model, $inputs);
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
     }
 

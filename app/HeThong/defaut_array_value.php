@@ -18,12 +18,12 @@ function getPhanLoaiLocDuLieu()
     );
 }
 
-function getPhanLoaiDoiTuong(){
+function getPhanLoaiDoiTuong()
+{
     return array(
         'Ông' => 'Ông',
         'Bà' => 'Bà',
     );
-
 }
 
 function getChucVuKhenThuong($capdo = 'T')
@@ -41,8 +41,8 @@ function getChucVuKhenThuong($capdo = 'T')
 
 function getFontFamilyList()
 {
-    return array(        
-        'Arial' => 'Arial',       
+    return array(
+        'Arial' => 'Arial',
         'Times New Roman' => 'Times New Roman',
         'UTMVnShelley' => 'UTMVnShelley',
         'UTMDiana' => 'UTMDiana',

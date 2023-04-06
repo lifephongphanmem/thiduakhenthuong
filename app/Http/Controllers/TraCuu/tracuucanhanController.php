@@ -36,6 +36,10 @@ class tracuucanhanController extends Controller
                 ->with('machucnang', 'timkiemcanhan')
                 ->with('tenphanquyen', 'danhsach');
         }
+        //B1: xác định đơn vị
+        // Nhập liệu => chỉ load địa bàn theo đơn
+        //Xét duyêt; Khen thương => load địa bàn và địa bàn trực thuộc
+        //B2:
         $inputs = $request->all();
         $inputs['url'] = static::$url;
         $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
@@ -43,6 +47,10 @@ class tracuucanhanController extends Controller
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         $m_diaban = getDiaBanTraCuu($donvi);
+        $inputs['madiaban'] = $inputs['madiaban'] ?? 'ALL';
+       // dd($m_diaban);
+        $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
+        //lấy danh sách đơn vị theo địa bàn
 
         return view('TraCuu.CaNhan.ThongTin')
             ->with('inputs', $inputs)

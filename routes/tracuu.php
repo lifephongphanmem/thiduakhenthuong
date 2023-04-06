@@ -4,6 +4,11 @@ use App\Http\Controllers\TraCuu\tracuucanhanController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'TraCuu'], function () {
+    Route::group(['prefix' => 'DungChung'], function () {
+        Route::get('LayDonVi', [tracuucanhanController::class, 'ThongTin']);
+       
+    });
+
     Route::group(['prefix' => 'CaNhan'], function () {
         Route::get('ThongTin', [tracuucanhanController::class, 'ThongTin']);
         Route::post('ThongTin', 'TraCuu\tracuucanhanController@KetQua');
