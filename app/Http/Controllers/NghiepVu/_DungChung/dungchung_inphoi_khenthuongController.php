@@ -592,6 +592,7 @@ class dungchung_inphoi_khenthuongController extends Controller
         }
 
         $m_donvi = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
+        $m_donvi_dn = dsdonvi::where('madonvi', $m_hoso->madonvi)->first();
         $m_toado = getToaDoMacDinh($inputs);
         $chieurong_bangkhen_px = chkDbl($m_donvi->chieurong_bangkhen) * 3.779527559055;
         $i = 0;
@@ -626,7 +627,7 @@ class dungchung_inphoi_khenthuongController extends Controller
                     }
                 default: {
                         $doituong->tendoituongin = $doituong->tendoituongin != '' ? $doituong->tendoituongin : $doituong->tentapthe;
-                        $doituong->chucvudoituong = $doituong->chucvudoituong != '' ? $doituong->chucvudoituong : $m_donvi->tendonvi;
+                        $doituong->chucvudoituong = $doituong->chucvudoituong != '' ? $doituong->chucvudoituong : $m_donvi_dn->tendonvi;
                         //$doituong->chucvudoituong = $doituong->chucvudoituong != '' ? $doituong->chucvudoituong : ($doituong->tencoquan != '' ? $doituong->tencoquan : 'Tên cơ quan');
                         $doituong->pldoituong = $doituong->pldoituong != '' ? $doituong->pldoituong : 'Tập thể:';
                         break;
