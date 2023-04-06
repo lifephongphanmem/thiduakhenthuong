@@ -93,9 +93,11 @@
                                 <th>Trạng thái<br>hồ sơ</th>
                             </tr>
                         </thead>
+                        
+                        <?php $i = 1; ?>
                         @foreach ($model as $key => $tt)
                             <tr>
-                                <td style="text-align: center">{{ $key + 1 }}</td>
+                                <td class="text-center">{{ $i++ }}</td>
                                 {{-- <td>{{ $tt->tendonvi }}</td> --}}
                                 <td>{{ $a_phamvi[$tt->phamviapdung] ?? '' }}</td>
                                 <td>{{ $tt->noidung }}</td>

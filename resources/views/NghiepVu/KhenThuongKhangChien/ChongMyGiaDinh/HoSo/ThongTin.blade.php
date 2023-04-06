@@ -33,8 +33,7 @@
             </div>
             <div class="card-toolbar">
                 @if (chkPhanQuyen('khenthuongchongmygiadinh', 'thaydoi'))
-                    <a href="{{ url($inputs['url'].'Them?madonvi=' . $inputs['madonvi']) }}"
-                        class="btn btn-success btn-xs">
+                    <a href="{{ url($inputs['url'] . 'Them?madonvi=' . $inputs['madonvi']) }}" class="btn btn-success btn-xs">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</a>
                 @endif
             </div>
@@ -93,9 +92,10 @@
                             </tr>
                         </thead>
 
+                        <?php $i = 1; ?>
                         @foreach ($model as $key => $tt)
                             <tr>
-                                <td class="text-center">{{ $key + 1 }}</td>
+                                <td class="text-center">{{ $i++ }}</td>
                                 <td>{{ $tt->loaihosokc }}</td>
                                 <td>{{ $tt->noidung }}</td>
                                 <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>

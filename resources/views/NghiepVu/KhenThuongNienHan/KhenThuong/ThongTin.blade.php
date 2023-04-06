@@ -66,7 +66,7 @@
                     <label style="font-weight: bold">Năm</label>
                     {!! Form::select('nam', getNam(true), $inputs['nam'], ['id' => 'nam', 'class' => 'form-control select2basic']) !!}
                 </div>
-            </div>           
+            </div>
 
             <div class="form-group row">
                 <div class="col-md-12">
@@ -84,9 +84,10 @@
                             </tr>
                         </thead>
 
+                        <?php $i = 1; ?>
                         @foreach ($model as $key => $tt)
                             <tr>
-                                <td class="text-center">{{ $key + 1 }}</td>
+                                <td class="text-center">{{ $i++ }}</td>
                                 <td>{{ $a_donvi[$tt->madonvi] ?? '' }}</td>
                                 <td>{{ $a_phanloaihs[$tt->phanloai] ?? $tt->phanloai }}</td>
                                 <td>{{ $tt->noidung }}</td>
@@ -102,7 +103,7 @@
                                         {{ $tt->thongtinquyetdinh == '' || $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}>
                                         <i class="icon-lg la flaticon2-print text-dark"></i>
                                     </button>
-                                    
+
                                     <button title="Tài liệu đính kèm" type="button"
                                         onclick="get_attack('{{ $tt->mahosotdkt }}', '{{ $inputs['url_hs'] . 'TaiLieuDinhKem' }}')"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
@@ -155,7 +156,7 @@
         </div>
     </div>
     <!--end::Card-->
-    
+
     <!--Modal Tạo hồ sơ-->
     {!! Form::open(['url' => $inputs['url_qd'] . 'Them', 'id' => 'frm_hoso']) !!}
     <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />

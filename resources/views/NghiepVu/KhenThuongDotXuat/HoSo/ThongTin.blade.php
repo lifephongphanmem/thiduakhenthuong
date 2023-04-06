@@ -84,9 +84,10 @@
                             </tr>
                         </thead>
 
+                        <?php $i = 1; ?>
                         @foreach ($model as $key => $tt)
                             <tr>
-                                <td class="text-center">{{ $key + 1 }}</td>
+                                <td class="text-center">{{ $i++ }}</td>
                                 {{-- <td>{{ $a_phanloaihs[$tt->phanloai] ?? $tt->phanloai }}</td> --}}
                                 <td>{{ $tt->noidung }}</td>
                                 {{-- <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td> --}}
@@ -94,7 +95,7 @@
                                 @include('includes.td.td_trangthai_hoso')
                                 <td>{{ $a_donvi[$tt->madonvi_nhan] ?? '' }}</td>
 
-                                <td style="text-align: center">                                    
+                                <td style="text-align: center">
                                     @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']) && chkPhanQuyen('dshosodenghikhenthuongdotxuat', 'thaydoi'))
                                         @if ($inputs['trangthai'] == 'CC')
                                             {{-- Trường hợp cũ đầy đủ quy trình --}}

@@ -77,16 +77,17 @@
                                 <th>Phân loại hồ sơ</th>
                                 <th>Nội dung hồ sơ</th>
                                 <th width="8%">Ngày tháng</th>
-                                
+
                                 <th width="8%">Trạng thái</th>
                                 <th width="20%">Đơn vị tiếp nhận</th>
                                 <th width="15%">Thao tác</th>
                             </tr>
                         </thead>
 
+                        <?php $i = 1; ?>
                         @foreach ($model as $key => $tt)
                             <tr>
-                                <td class="text-center">{{ $key + 1 }}</td>
+                                <td class="text-center">{{ $i++ }}</td>
                                 <td>{{ $a_phanloaihs[$tt->phanloai] ?? $tt->phanloai }}</td>
                                 <td>{{ $tt->noidung }}</td>
                                 <td class="text-center">{{ $tt->sototrinh }}<br>{{ getDayVn($tt->ngayhoso) }}

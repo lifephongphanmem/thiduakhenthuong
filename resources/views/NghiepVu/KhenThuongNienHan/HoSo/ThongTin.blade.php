@@ -83,10 +83,11 @@
                             </tr>
                         </thead>
 
+                        <?php $i = 1; ?>
                         @foreach ($model as $key => $tt)
                             <tr>
-                                <td class="text-center">{{ $key + 1 }}</td>
-                                <td>{{$a_phanloaihs[$tt->phanloai] ?? $tt->phanloai }}</td>
+                                <td class="text-center">{{ $i++ }}</td>
+                                <td>{{ $a_phanloaihs[$tt->phanloai] ?? $tt->phanloai }}</td>
                                 <td>{{ $tt->noidung }}</td>
                                 <td class="text-center">{{ $tt->sototrinh }}<br>{{ getDayVn($tt->ngayhoso) }}
                                 </td>
@@ -144,7 +145,7 @@
     </div>
     <!--end::Card-->
     <!--Modal Nhận hồ sơ-->
-    {!! Form::open(['url' =>$inputs['url_hs']. 'Them', 'id' => 'frm_hoso']) !!}
+    {!! Form::open(['url' => $inputs['url_hs'] . 'Them', 'id' => 'frm_hoso']) !!}
     <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
     <div id="taohoso-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
         <div class="modal-dialog modal-lg">

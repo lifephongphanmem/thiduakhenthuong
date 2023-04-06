@@ -82,9 +82,10 @@
                             </tr>
                         </thead>
 
+                        <?php $i = 1; ?>
                         @foreach ($model as $key => $tt)
                             <tr>
-                                <td class="text-center">{{ $key + 1 }}</td>
+                                <td class="text-center">{{ $i++ }}</td>
                                 <td>{{ $a_donvi[$tt->madonvi] ?? '' }}</td>
                                 <td>{{ $a_phanloaihs[$tt->phanloai] ?? $tt->phanloai }}</td>
                                 <td>{{ $tt->noidung }}</td>
@@ -94,7 +95,7 @@
 
                                 <td style="text-align: center">
                                     @include('NghiepVu._DungChung.TD_XemThongTinTDKT')
-                                    
+
                                     @if (chkPhanQuyen('xdhosodenghikhenthuongcongtrang', 'thaydoi'))
                                         @if ($inputs['trangthai'] == 'CC')
                                             @include('NghiepVu._DungChung.XetDuyet.TD_TrangThai_CC')
