@@ -155,7 +155,7 @@ class dungchung_inphoi_khenthuongController extends Controller
                         $doituong->tendoituongin = $doituong->tendoituongin != '' ? $doituong->tendoituongin : catchuoi($doituong->tendoituong, $m_donvi->sochu);
                         $doituong->toado_tendoituongin = $doituong->toado_tendoituongin != '' ? $doituong->toado_tendoituongin : ($m_toado->toado_tendoituongin ?? '');
 
-                        $cq = $doituong->chucvu . $doituong->tencoquan;
+                        $cq = $doituong->chucvu . ' ' . $doituong->tencoquan;
                         $doituong->chucvudoituong = $doituong->chucvudoituong != '' ? $doituong->chucvudoituong : ($cq != '' ? catchuoi($cq, $m_donvi->sochu) : 'Tên phòng ban - cơ quan');
                         $doituong->toado_chucvudoituong = $doituong->toado_chucvudoituong != '' ? $doituong->toado_chucvudoituong : ($m_toado->toado_chucvudoituong ?? '');
 
@@ -172,7 +172,7 @@ class dungchung_inphoi_khenthuongController extends Controller
                         //$doituong->chucvudoituong = '';tendonvi
                         $doituong->chucvudoituong = $doituong->chucvudoituong != '' ? $doituong->chucvudoituong : $m_donvi->tendonvi;
                         //$doituong->chucvudoituong = $doituong->chucvudoituong != '' ? $doituong->chucvudoituong : ($doituong->tencoquan != '' ? $doituong->tencoquan : 'Tên cơ quan');
-                       
+
                         $doituong->toado_chucvudoituong = $doituong->toado_chucvudoituong != '' ? $doituong->toado_chucvudoituong : ($m_toado->toado_chucvudoituong ?? '');
 
                         //$doituong->pldoituong = '';
@@ -582,7 +582,6 @@ class dungchung_inphoi_khenthuongController extends Controller
                             }
                         case "HOGIADINH": {
                                 $model = dshosotdktcumkhoi_hogiadinh::where('mahosotdkt', $inputs['mahoso'])->get();
-                                $tendoituong = 'tentapthe';
                                 break;
                             }
                     }
@@ -620,7 +619,7 @@ class dungchung_inphoi_khenthuongController extends Controller
             switch ($inputs["phanloaidoituong"]) {
                 case "CANHAN": {
                         $doituong->tendoituongin = $doituong->tendoituongin != '' ? $doituong->tendoituongin : $doituong->tendoituong;
-                        $cq = $doituong->chucvu . $doituong->tencoquan;
+                        $cq = $doituong->chucvu . ' ' . $doituong->tencoquan;
                         $doituong->chucvudoituong = $doituong->chucvudoituong != '' ? $doituong->chucvudoituong : ($cq != '' ? $cq : 'Tên phòng ban - cơ quan');
                         $doituong->pldoituong = $doituong->pldoituong != '' ? $doituong->pldoituong : ($doituong->gioitinh == 'NAM' ? 'Ông:' : 'Bà');
                         break;
@@ -730,7 +729,7 @@ class dungchung_inphoi_khenthuongController extends Controller
         $m_donvi = dsdonvi::where('madonvi', $m_hoso->madonvi)->first();
         //xử lý nội dung
         $model->noidungkhenthuong = $model->noidungkhenthuong != '' ? $model->noidungkhenthuong : ($m_hoso->noidung != '' ? catchuoi($m_hoso->noidung, $m_donvi->sochu) : 'Nội dung khen thưởng');
-        
+
         //tên đối tượng in
         $tentruong = getTenTruongTheToaDo($inputs['tentruong']);
         $result['message'] = $model->$tentruong;
