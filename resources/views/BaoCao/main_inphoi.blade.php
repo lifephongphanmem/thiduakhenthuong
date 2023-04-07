@@ -376,10 +376,15 @@
             if (width == '')
                 width = '500px';
 
+            var textTransform = mElem.style.textTransform;
+            if (width == '')
+                width = 'none';
+
             return 'top:' + mElem.style.top + ';' + 'left:' + mElem.style.left + ';' +
                 'font-size:' + fontSize + ';' + 'font-weight:' + fontWeight + ';' +
                 'font-style:' + fontStyle + ';' + 'font-family:' + fontFamily + ';' +
-                'text-align:' + textAlign + ';' + 'color:' + color + ';' + 'width:' + width + ';'
+                'text-align:' + textAlign + ';' + 'color:' + color + ';' + 'width:' + width + ';' +
+                'text-transform:' + textTransform + ';'
 
         }
 
