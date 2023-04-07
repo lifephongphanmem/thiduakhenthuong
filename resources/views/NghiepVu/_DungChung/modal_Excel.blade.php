@@ -18,23 +18,28 @@
                 <div class="modal-body">
                     <div class="form-group row">
                         <div class="col-md-3">
-                            <label class="control-label">Phân loại khen thưởng</label>
-                            {!! Form::text('phanloaikhenthuong', 'R', ['class' => 'form-control']) !!}
+                            <label class="control-label">Phân loại đối tượng</label>
+                            {!! Form::text('pldoituong', 'B', ['class' => 'form-control']) !!}
                         </div>
 
                         <div class="col-md-3">
                             <label class="control-label">Tên đối tượng</label>
-                            {!! Form::text('tendoituong', 'B', ['class' => 'form-control']) !!}
+                            {!! Form::text('tendoituong', 'C', ['class' => 'form-control']) !!}
                         </div>
 
                         <div class="col-md-3">
                             <label class="form-control-label">Chức vụ</label>
-                            {!! Form::text('chucvu', 'C', ['class' => 'form-control']) !!}
+                            {!! Form::text('chucvu', 'D', ['class' => 'form-control']) !!}
                         </div>
 
                         <div class="col-md-3">
                             <label class="form-control-label">Đơn vị công tác</label>
-                            {!! Form::text('tencoquan', 'D', ['class' => 'form-control']) !!}
+                            {!! Form::text('tencoquan', 'E', ['class' => 'form-control']) !!}
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="control-label">Phân loại khen thưởng</label>
+                            {!! Form::text('phanloaikhenthuong', 'R', ['class' => 'form-control']) !!}
                         </div>
 
                         <div class="col-md-3">

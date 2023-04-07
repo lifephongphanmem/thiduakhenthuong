@@ -44,17 +44,18 @@ function getFontFamilyList()
     return array(
         'Arial' => 'Arial',
         'Times New Roman' => 'Times New Roman',
-        'UTMVnShelley' => 'UTMVnShelley',
-        'UTMDiana' => 'UTMDiana',
-        'UTMBeautiful' => 'UTMBeautiful',
-        'UTMEdwardianKT' => 'UTMEdwardianKT',
+        'Shelley Allegro' => 'Shelley Allegro',
+        // 'UTMVnShelley' => 'UTMVnShelley',
+        // 'UTMDiana' => 'UTMDiana',
+        // 'UTMBeautiful' => 'UTMBeautiful',
+        // 'UTMEdwardianKT' => 'UTMEdwardianKT',
         // 'UTMFleur' => 'UTMFleur',
-        'UTMNovido' => 'UTMNovido',
-        'UTMSloop' => 'UTMSloop',
-        'UTMThuPhapThienAn' => 'UTMThuPhapThienAn',
-        'UTMTimes' => 'UTMTimes',
-        'UTMWedding' => 'UTMWedding',
-        'UTMYves' => 'UTMYves',
+        // 'UTMNovido' => 'UTMNovido',
+        // 'UTMSloop' => 'UTMSloop',
+        // 'UTMThuPhapThienAn' => 'UTMThuPhapThienAn',
+        'VnTimes' => 'VnTimes',
+        // 'UTMWedding' => 'UTMWedding',
+        // 'UTMYves' => 'UTMYves',
     );
 }
 

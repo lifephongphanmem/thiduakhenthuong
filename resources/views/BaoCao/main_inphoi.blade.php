@@ -2,7 +2,7 @@
 <html lang="vi">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html;" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,500,600,700" /> --}}
     <meta name='viewport' content='width=device-width, initial-scale=1' />
     {{-- <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script> --}}
@@ -11,7 +11,16 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>{{ $pageTitle }} | TDKT</title>
     <link rel="shortcut icon" href="{{ url('assets/media/logos/LIFESOFT.png') }}" />
+    <link
+        href="https://www.dafontfree.net/embed/c2hlbGxleS1hbGxlZ3JvLXNjcmlwdC1yZWd1bGFyJmRhdGEvMjcvcy8xNDI3MTQvU0hBTC50dGY"
+        rel="stylesheet" type="text/css" />
+
     <style type="text/css">
+        @font-face {
+            font-family: 'Shelley Allegro';
+            src: url('{{ url('/fonts/HP005.ttf') }}');
+        }
+
         @font-face {
             font-family: 'UTMBeautiful';
             src: url('{{ url('/fonts/UTMBeautiful.TTF') }}');
@@ -53,7 +62,7 @@
         }
 
         @font-face {
-            font-family: 'UTMTimes';
+            font-family: 'VnTimes';
             src: url('{{ url('/fonts/UTMTimes.TTF') }}');
         }
 
@@ -579,9 +588,20 @@
                             'class' => 'form-control',
                         ]) !!}
                     </div>
+
                 </div>
 
                 <div class="form-group row">
+                    <div class="col-md-4">
+                        <label class="form-control-label">Kiểu chữ</label>
+                        {!! Form::select(
+                            'text-transform',
+                            ['none' => 'Không chọn', 'lowercase' => 'In thường', 'uppercase' => 'In hoa', 'capitalize' => 'In hoa chữ cái đầu'],
+                            null,
+                            ['class' => 'form-control'],
+                        ) !!}
+                    </div>
+
                     <div class="col-md-4">
                         <label class="form-control-label">Kích thước</label>
                         {!! Form::text('width', '500px', ['class' => 'form-control']) !!}
@@ -689,6 +709,10 @@
 
         if (a_style[8] !== undefined) {
             form.find("[name='width']").val(a_style[8].split(':')[1]).trigger('change');
+        }
+
+        if (a_style[9] !== undefined) {
+            form.find("[name='text-transform']").val(a_style[9].split(':')[1]).trigger('change');
         }
 
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');

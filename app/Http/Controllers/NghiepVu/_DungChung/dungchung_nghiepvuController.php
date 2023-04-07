@@ -838,7 +838,8 @@ class dungchung_nghiepvuController extends Controller
                 . 'font-family:' . ($inputs['font-family'] ?? 'Times New Roman') . ';'
                 . 'text-align:' . ($inputs['text-align'] ?? 'center') . ';'
                 . 'color:' . ($inputs['color'] ?? 'black') . ';'
-                . 'width:' . ($inputs['width'] ?? '400px') . ';',
+                . 'width:' . ($inputs['width'] ?? '400px') . ';'
+                . 'text-transform:' . ($inputs['text-transform'] ?? 'none') . ';',
             getTenTruongTheToaDo($inputs['tentruong']) => $inputs['noidung'],
         ];
     }

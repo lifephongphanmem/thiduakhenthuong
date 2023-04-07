@@ -49,7 +49,7 @@ class dungchung_nhanexcelController extends Controller
         
         //Mã hợp lệ => gán về mã mặc định (xem xét nếu gán mà ko thông báo thì khó hiểu cho ng nhận)
         $a_dhkt = array_column(dmhinhthuckhenthuong::all()->toarray(),'madanhhieukhenthuong');
-
+        
         for ($i = $inputs['tudong']; $i <= $inputs['dendong']; $i++) {
             if (!isset($data[$i][$inputs['phanloaikhenthuong']])) {
                 continue;
@@ -57,7 +57,7 @@ class dungchung_nhanexcelController extends Controller
             if ($data[$i][$inputs['phanloaikhenthuong']] == 'TAPTHE') {
                 $a_dm_tapthe[] = array(
                     'mahosotdkt' => $inputs['mahoso'],
-                    'tentapthe' => $data[$i][$inputs['tendoituong']] ?? '',
+                    'tentapthe' => $data[$i][$inputs['tendoituong']] ?? '',                    
                     'madanhhieukhenthuong' => $data[$i][$inputs['madanhhieukhenthuong']] ?? $inputs['madanhhieukhenthuong_tt'],
                     'maphanloaitapthe' => $data[$i][$inputs['maphanloaidoituong']] ?? $inputs['maphanloaidoituong_tt'],
                     'linhvuchoatdong' => $data[$i][$inputs['linhvuchoatdong']] ?? $inputs['linhvuchoatdong_tt'],
@@ -65,15 +65,17 @@ class dungchung_nhanexcelController extends Controller
                 );
             }
             if ($data[$i][$inputs['phanloaikhenthuong']] == 'CANHAN') {
+                $pldoituong = $data[$i][$inputs['pldoituong']] ?? 'Ông';
                 $a_dm_canhan[] = array(
                     'mahosotdkt' => $inputs['mahoso'],
                     'tendoituong' => $data[$i][$inputs['tendoituong']] ?? '',
+                    'pldoituong' => $pldoituong,
                     'madanhhieukhenthuong' => $data[$i][$inputs['madanhhieukhenthuong']] ?? $inputs['madanhhieukhenthuong_cn'],
                     'maphanloaicanbo' => $data[$i][$inputs['maphanloaidoituong']] ?? $inputs['maphanloaidoituong_cn'],
                     'chucvu' => $data[$i][$inputs['chucvu']] ?? '',
                     'tencoquan' => $data[$i][$inputs['tencoquan']] ?? '',
                     'ketqua' => '1',
-                    'gioitinh' => 'NAM',
+                    'gioitinh' => in_array($pldoituong,['Ông', 'ÔNG', 'ông']) ? 'NAM' : 'NU',
                     //'ngaysinh' => $data[$i][$inputs['ngaysinh']] ?? null,
                     //'tenphongban' => $data[$i][$inputs['tenphongban']] ?? '',
                 );
