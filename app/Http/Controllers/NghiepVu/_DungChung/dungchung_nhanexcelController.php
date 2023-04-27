@@ -46,10 +46,10 @@ class dungchung_nhanexcelController extends Controller
         $a_dm_canhan = array();
         $a_dm_tapthe = array();
         $a_dm_hogiadinh = array();
-        
+
         //Mã hợp lệ => gán về mã mặc định (xem xét nếu gán mà ko thông báo thì khó hiểu cho ng nhận)
-        $a_dhkt = array_column(dmhinhthuckhenthuong::all()->toarray(),'madanhhieukhenthuong');
-        
+        $a_dhkt = array_column(dmhinhthuckhenthuong::all()->toarray(), 'madanhhieukhenthuong');
+
         for ($i = $inputs['tudong']; $i <= $inputs['dendong']; $i++) {
             if (!isset($data[$i][$inputs['phanloaikhenthuong']])) {
                 continue;
@@ -57,7 +57,7 @@ class dungchung_nhanexcelController extends Controller
             if ($data[$i][$inputs['phanloaikhenthuong']] == 'TAPTHE') {
                 $a_dm_tapthe[] = array(
                     'mahosotdkt' => $inputs['mahoso'],
-                    'tentapthe' => $data[$i][$inputs['tendoituong']] ?? '',                    
+                    'tentapthe' => $data[$i][$inputs['tendoituong']] ?? '',
                     'madanhhieukhenthuong' => $data[$i][$inputs['madanhhieukhenthuong']] ?? $inputs['madanhhieukhenthuong_tt'],
                     'maphanloaitapthe' => $data[$i][$inputs['maphanloaidoituong']] ?? $inputs['maphanloaidoituong_tt'],
                     'linhvuchoatdong' => $data[$i][$inputs['linhvuchoatdong']] ?? $inputs['linhvuchoatdong_tt'],
@@ -75,7 +75,7 @@ class dungchung_nhanexcelController extends Controller
                     'chucvu' => $data[$i][$inputs['chucvu']] ?? '',
                     'tencoquan' => $data[$i][$inputs['tencoquan']] ?? '',
                     'ketqua' => '1',
-                    'gioitinh' => in_array($pldoituong,['Ông', 'ÔNG', 'ông']) ? 'NAM' : 'NU',
+                    'gioitinh' => in_array($pldoituong, ['Ông', 'ÔNG', 'ông']) ? 'NAM' : 'NU',
                     //'ngaysinh' => $data[$i][$inputs['ngaysinh']] ?? null,
                     //'tenphongban' => $data[$i][$inputs['tenphongban']] ?? '',
                 );
@@ -91,10 +91,16 @@ class dungchung_nhanexcelController extends Controller
             }
         }
         File::Delete($path);
-        //dd($a_dm_canhan);
-        dshosothiduakhenthuong_canhan::insert($a_dm_canhan);
-        dshosothiduakhenthuong_tapthe::insert($a_dm_tapthe);
-        dshosothiduakhenthuong_hogiadinh::insert($a_dm_hogiadinh);
+        //dd($data);
+        foreach (array_chunk($a_dm_canhan, 100) as $data) {
+            dshosothiduakhenthuong_canhan::insert($data);
+        }
+        foreach (array_chunk($a_dm_tapthe, 100) as $data) {
+            dshosothiduakhenthuong_tapthe::insert($data);
+        }
+        foreach (array_chunk($a_dm_hogiadinh, 100) as $data) {
+            dshosothiduakhenthuong_hogiadinh::insert($data);
+        }
         File::Delete($path);
     }
 
