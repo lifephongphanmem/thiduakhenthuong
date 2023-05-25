@@ -153,7 +153,7 @@
         <tr class="font-weight-boldest">
             <td class="text-center" colspan="2">Tổng cộng</td>
 
-            <td class="text-center">{{ dinhdangso($chitiet->tongtotrinh) }}</td>
+            <td class="text-center">{{ dinhdangso($model->sum('tongtotrinh')) }}</td>
 
             <td class="text-center">{{ dinhdangso($model->sum('tongtotrinh_canhan')) }}</td>
             <td class="text-center">{{ dinhdangso($model->sum('tongtotrinh_tapthe')) }}</td>

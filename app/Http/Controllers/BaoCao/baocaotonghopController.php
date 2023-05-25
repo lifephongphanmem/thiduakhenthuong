@@ -158,6 +158,7 @@ class baocaotonghopController extends Controller
     public function HoSo(Request $request)
     {
         $inputs = $request->all();
+        $inputs['madiaban'] = $inputs['madiaban'] ?? 'ALL';
         $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
         $m_diaban = getDiaBanBaoCaoTongHop($donvi);
         if ($inputs['madiaban'] != 'ALL') {
@@ -195,12 +196,19 @@ class baocaotonghopController extends Controller
     public function KhenThuong_m1(Request $request)
     {
         $inputs = $request->all();
+        $inputs['madiaban'] = $inputs['madiaban'] ?? 'ALL';
         $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
         $m_diaban = getDiaBanBaoCaoTongHop($donvi);
         if ($inputs['madiaban'] != 'ALL') {
             $m_diaban = $m_diaban->where('madiaban', $inputs['madiaban']);
         }
-        $model = viewdiabandonvi::wherein('madiaban', array_column($m_diaban->toArray(), 'madiaban'))->get();
+        //Nếu đơn vị quản lý địa bàn (madonviQL) hoặc đơn vị khen thưởng (madonviKT) thì mới xem đc dữ liệu toàn địa bàn
+        if ($donvi->madonvi == $donvi->madonviQL || $donvi->madonvi == $donvi->madonviKT) {
+            $model = viewdiabandonvi::wherein('madiaban', array_column($m_diaban->toArray(), 'madiaban'))->get();
+        }else{
+            $model = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->get();
+        }
+
         if ($inputs['phamvithongke'] != 'ALL') {
             $model = $model->where('capdo', $inputs['phamvithongke']);
         }
@@ -248,12 +256,20 @@ class baocaotonghopController extends Controller
     public function KhenThuong_m2(Request $request)
     {
         $inputs = $request->all();
+        $inputs['madiaban'] = $inputs['madiaban'] ?? 'ALL';
         $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
         $m_diaban = getDiaBanBaoCaoTongHop($donvi);
         if ($inputs['madiaban'] != 'ALL') {
             $m_diaban = $m_diaban->where('madiaban', $inputs['madiaban']);
         }
-        $m_donvi = viewdiabandonvi::wherein('madiaban', array_column($m_diaban->toArray(), 'madiaban'))->get();
+        //Nếu đơn vị quản lý địa bàn (madonviQL) hoặc đơn vị khen thưởng (madonviKT) thì mới xem đc dữ liệu toàn địa bàn
+        if ($donvi->madonvi == $donvi->madonviQL || $donvi->madonvi == $donvi->madonviKT) {
+            $m_donvi = viewdiabandonvi::wherein('madiaban', array_column($m_diaban->toArray(), 'madiaban'))->get();
+        }else{
+            $m_donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->get();
+        }
+
+        //$m_donvi = viewdiabandonvi::wherein('madiaban', array_column($m_diaban->toArray(), 'madiaban'))->get();
         if ($inputs['phamvithongke'] != 'ALL') {
             $m_donvi = $m_donvi->where('capdo', $inputs['phamvithongke']);
         }
@@ -351,12 +367,20 @@ class baocaotonghopController extends Controller
     public function KhenThuong_m3(Request $request)
     {
         $inputs = $request->all();
+        $inputs['madiaban'] = $inputs['madiaban'] ?? 'ALL';
         $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
         $m_diaban = getDiaBanBaoCaoTongHop($donvi);
         if ($inputs['madiaban'] != 'ALL') {
             $m_diaban = $m_diaban->where('madiaban', $inputs['madiaban']);
         }
-        $m_donvi = viewdiabandonvi::wherein('madiaban', array_column($m_diaban->toArray(), 'madiaban'))->get();
+        //Nếu đơn vị quản lý địa bàn (madonviQL) hoặc đơn vị khen thưởng (madonviKT) thì mới xem đc dữ liệu toàn địa bàn
+        if ($donvi->madonvi == $donvi->madonviQL || $donvi->madonvi == $donvi->madonviKT) {
+            $m_donvi = viewdiabandonvi::wherein('madiaban', array_column($m_diaban->toArray(), 'madiaban'))->get();
+        }else{
+            $m_donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->get();
+        }
+        
+        //$m_donvi = viewdiabandonvi::wherein('madiaban', array_column($m_diaban->toArray(), 'madiaban'))->get();
         if ($inputs['phamvithongke'] != 'ALL') {
             $m_donvi = $m_donvi->where('capdo', $inputs['phamvithongke']);
         }
@@ -483,6 +507,7 @@ class baocaotonghopController extends Controller
     public function KhenCao_m1(Request $request)
     {
         $inputs = $request->all();
+        $inputs['madiaban'] = $inputs['madiaban'] ?? 'ALL';
         $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
         // $m_diaban = getDiaBanBaoCaoTongHop($donvi);
         // if ($inputs['madiaban'] != 'ALL') {
@@ -576,7 +601,7 @@ class baocaotonghopController extends Controller
         }
 
         $m_donvibc = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
-        //dd($m_donvibc);
+        
         return view('BaoCao.TongHop.KhenThuong_m3')
             ->with('model', $model)
             ->with('m_donvi', $m_donvibc)
@@ -590,7 +615,7 @@ class baocaotonghopController extends Controller
     public function KhenCao_m2(Request $request)
     {
         $inputs = $request->all();
-
+        $inputs['madiaban'] = $inputs['madiaban'] ?? 'ALL';
         $m_hoso = dshosokhencao::wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
             ->wherein('maloaihinhkt', ['1650358223', '1650358255', '1650358265', '1650358310', '1650358282'])
             ->get();
@@ -702,6 +727,7 @@ class baocaotonghopController extends Controller
     public function Mau0701(Request $request)
     {
         $inputs = $request->all();
+        $inputs['madiaban'] = $inputs['madiaban'] ?? 'ALL';
         $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
         $model = getDSPhongTrao($donvi);
         $model = $model->wherein('phamviapdung', ['TW', 'T', 'SBN']);
@@ -719,6 +745,7 @@ class baocaotonghopController extends Controller
     public function Mau0702(Request $request)
     {
         $inputs = $request->all();
+        $inputs['madiaban'] = $inputs['madiaban'] ?? 'ALL';
         $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
         $model = dshosokhencao::all();
         $model_canhan = view_khencao_canhan::all();
@@ -736,6 +763,7 @@ class baocaotonghopController extends Controller
     public function Mau0703(Request $request)
     {
         $inputs = $request->all();
+        $inputs['madiaban'] = $inputs['madiaban'] ?? 'ALL';
         $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
         $model = dshosokhencao::all();
         $model_canhan = view_khencao_canhan::all();
@@ -753,7 +781,7 @@ class baocaotonghopController extends Controller
     public function QuyKhenThuong(Request $request)
     {
         $inputs = $request->all();
-
+        $inputs['madiaban'] = $inputs['madiaban'] ?? 'ALL';
         $model = dsquanlyquykhenthuong::where('nam', $inputs['nam'])->where('madonvi', $inputs['madonvi'])->get();
         $maso = $model->first()->maso ?? '-life';
         //làm lại do mảng duyệt sai

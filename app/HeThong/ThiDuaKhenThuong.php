@@ -312,8 +312,13 @@ function getDonViXetDuyetDiaBan($donvi, $kieudulieu = 'ARRAY')
     if ($m_diabanQL != null)
         $a_donvi = array_merge($a_donvi, [$m_diabanQL->madonviKT]);
 
+    //2023.05.25 thêm điều kiện đơn vị không gửi đc cho chính mính (kể cả đơn vị quản lý ở cấp H)
+    if ($donvi->capdo != 'T') {
+        $a_donvi = array_diff($a_donvi, [$donvi->madonvi]);
+    }
+
     $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', $a_donvi)->get();
-    //dd( $model);
+
     switch ($kieudulieu) {
         case 'MODEL': {
                 return $model;
@@ -555,9 +560,12 @@ function getDonVi($capdo, $chucnang = null, $tenquyen = null)
 function getDiaBanBaoCaoTongHop($donvi)
 {
     $m_donvi = App\Model\DanhMuc\dsdiaban::where('madiaban', $donvi->madiaban)->get();
-    //Lấy địa bàn trực thuộc
-    $dsdiaban = App\Model\DanhMuc\dsdiaban::where('madiaban', '<>', $donvi->madiaban)->get();
-    getDiaBanTrucThuoc($dsdiaban, $donvi->madiaban, $m_donvi);
+    //Nếu đơn vị quản lý địa bàn (madonviQL) hoặc đơn vị khen thưởng (madonviKT) thì mới xem đc địa bàn cấp dưới
+    if ($donvi->madonvi == $donvi->madonviQL || $donvi->madonvi == $donvi->madonviKT) {
+        $dsdiaban = App\Model\DanhMuc\dsdiaban::where('madiaban', '<>', $donvi->madiaban)->get();
+        getDiaBanTrucThuoc($dsdiaban, $donvi->madiaban, $m_donvi);
+    }
+
     return $m_donvi;
 }
 
