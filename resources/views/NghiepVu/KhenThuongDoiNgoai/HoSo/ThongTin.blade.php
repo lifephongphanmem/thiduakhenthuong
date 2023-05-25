@@ -95,6 +95,8 @@
                                 <td>{{ $a_donvi[$tt->madonvi_nhan] ?? '' }}</td>
 
                                 <td style="text-align: center">
+                                    @include('NghiepVu._DungChung.TD_XemThongTinTDKT')
+
                                     @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']) && chkPhanQuyen('dshosodenghikhenthuongdoingoai', 'thaydoi'))
                                         @if ($inputs['trangthai'] == 'CC')
                                             {{-- Trường hợp cũ đầy đủ quy trình --}}

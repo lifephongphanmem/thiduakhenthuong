@@ -150,6 +150,8 @@ class dsdonviController extends Controller
         }
         $id = $request->all()['id'];
         $model = dsdonvi::findorFail($id);
+        //xoá tài khoản
+        dstaikhoan::where('madonvi', $model->madonvi)->delete();
         //dd($model);
         $model->delete();
         return redirect('/DonVi/DanhSach?madiaban=' . $model->madiaban);

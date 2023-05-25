@@ -94,7 +94,7 @@ class dshosodenghikhenthuongcongtrangController extends Controller
         //dd($inputs);
         return view('NghiepVu.KhenThuongCongTrang.HoSoKhenThuong.ThongTin')
             ->with('model', $model)
-            ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))
+            ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
             ->with('a_capdo', getPhamViApDung())
             ->with('m_donvi', $m_donvi)
             ->with('a_diaban', $a_diaban)

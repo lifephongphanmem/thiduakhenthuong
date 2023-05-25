@@ -305,7 +305,8 @@ function getDonViXetDuyetDiaBan($donvi, $kieudulieu = 'ARRAY')
 {
     //Lấy đơn vị quản lý địa bàn và đơn vi
     $m_diaban = \App\Model\DanhMuc\dsdiaban::where('madiaban', $donvi->madiaban)->first();
-    $a_donvi = [$m_diaban->madonviKT, $donvi->madonvi];
+    //$a_donvi = [$m_diaban->madonviKT, $donvi->madonvi]; 2023.05.25 bỏ chức năng tự gửi hồ sơ đề nghị lên đơn mình do đã tách hồ sơ khen thưởng tại đơn vị
+    $a_donvi = [$m_diaban->madonviKT];
     $m_diabanQL = \App\Model\DanhMuc\dsdiaban::where('madiaban', $m_diaban->madiabanQL)->first();
 
     if ($m_diabanQL != null)
