@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers\NghiepVu\KhenThuongChuyenDe;
 
-
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\NghiepVu\_DungChung\dungchung_nghiepvuController;
@@ -21,7 +18,6 @@ use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_canhan;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_detai;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_hogiadinh;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tapthe;
-use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua;
 use App\Model\View\viewdiabandonvi;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
@@ -51,10 +47,7 @@ class qdhosodenghikhenthuongchuyendeController extends Controller
         $inputs['url_xd'] = '/KhenThuongChuyenDe/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongChuyenDe/KhenThuong/';
         $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
-
-        // $m_donvi = getDonViXetDuyetHoSo(session('admin')->capdo, null, 'qdhosodenghikhenthuongchuyende', 'MODEL');
-        // $m_diaban = getDiaBanXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
-        // //$m_donvi = viewdiabandonvi::wherein('madonvi', array_column($m_donvi->toarray(), 'madonviQL'))->get();
+        
         $m_donvi = getDonVi(session('admin')->capdo, 'qdhosodenghikhenthuongchuyende');
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
 

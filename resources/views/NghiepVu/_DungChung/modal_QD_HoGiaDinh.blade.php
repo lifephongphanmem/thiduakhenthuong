@@ -19,7 +19,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
-                        <div class="col-md-11">
+                        <div class="col-md-12">
                             <label class="form-control-label">Tên hộ gia đình</label>
                             {!! Form::text('tentapthe', null, ['class' => 'form-control']) !!}
                         </div>

@@ -107,21 +107,11 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-12">
+                            <div id="dSDonVi"  class="col-md-12">
                                 <label class="control-label">Tên đơn vị</label>
-                                <select class="form-control select2_modal" name="madonvi">
-                                    @foreach ($a_diaban as $key => $val)
-                                        <optgroup label="{{ $val }}">
-                                            <?php $donvi = $m_donvi->where('madiaban', $key); ?>
-                                            @foreach ($donvi as $ct)
-                                                <option value="{{ $ct->madonvi }}">{{ $ct->tendonvi }}</option>
-                                            @endforeach
-                                        </optgroup>
-                                    @endforeach
-                                </select>
+                                {!! Form::select('madonvi', [], null, ['class' => 'form-control']) !!}
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -136,7 +126,24 @@
 
     <script>
         function getThongTin(madonvi, macumkhoi, madanhsach) {
-            $('#frm_modify').find("[name='madonvi']").val(madonvi).trigger('change');
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                url: "{{ $inputs['url'] }}" + "LayDSDonVi",
+                type: 'GET',
+                data: {
+                    _token: CSRF_TOKEN,
+                    macumkhoi: macumkhoi,
+                    madonvi: madonvi
+                },
+                dataType: 'JSON',
+                success: function(data) {
+                    console.log(data);
+                    if (data.status == 'success') {
+                        $('#dSDonVi').replaceWith(data.message);
+                    }
+                }
+            });
+
             $('#frm_modify').find("[name='macumkhoi']").val(macumkhoi).trigger('change');
             $('#frm_modify').find("[name='madanhsach']").val(madanhsach);
         }

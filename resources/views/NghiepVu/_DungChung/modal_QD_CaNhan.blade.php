@@ -17,7 +17,7 @@
             </div>
             <div class="modal-body">
                 <div class="form-group row">
-                    <div class="col-lg-5">
+                    <div class="col-lg-6">
                         <label class="form-control-label">Tên đối tượng</label>
                         {!! Form::text('tendoituong', null, ['class' => 'form-control']) !!}
                     </div>
@@ -73,7 +73,7 @@
                     <div class="col-md-12">
                         <label class="control-label">Danh hiệu thi đua/Hình thức khen thưởng</label>
                         {!! Form::select('madanhhieukhenthuong', $a_dhkt_canhan, null, [
-                            'class' => 'form-control select2_modal',
+                            'class' => 'form-control select2_modal','disabled'=>true
                         ]) !!}
                     </div>
                     {{-- <div class="col-md-6">

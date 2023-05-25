@@ -55,14 +55,10 @@ class xdhosodenghikhenthuongcongtrangController extends Controller
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $inputs['maloaihinhkt'] = session('chucnang')['dshosodenghikhenthuongcongtrang']['maloaihinhkt'] ?? 'ALL';
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
-        // $model = dshosothiduakhenthuong::wherein('mahosotdkt', function ($qr) use ($inputs) {
-        //     $qr->select('mahosotdkt')->from('dshosothiduakhenthuong')
-        //         ->where('madonvi_nhan', $inputs['madonvi'])
-        //         ->orwhere('madonvi_nhan_h', $inputs['madonvi'])
-        //         ->orwhere('madonvi_nhan_t', $inputs['madonvi'])->get();
-        // })->where('maloaihinhkt', $inputs['maloaihinhkt']); //->orderby('ngayhoso')->get();
+
 
         $model = dshosothiduakhenthuong::where('madonvi_xd', $inputs['madonvi'])
+            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH'])
             ->where('maloaihinhkt', $inputs['maloaihinhkt']); //->orderby('ngayhoso')->get();
 
         if (in_array($inputs['maloaihinhkt'], ['', 'ALL', 'all'])) {
@@ -78,7 +74,7 @@ class xdhosodenghikhenthuongcongtrangController extends Controller
             $model = $model->whereyear('ngayhoso', $inputs['nam']);
         //Lấy hồ sơ
         $model = $model->orderby('ngayhoso')->get();
-        
+
         $a_donvilocdulieu = getDiaBanCumKhoi(session('admin')->tendangnhap);
         foreach ($model as $key => $hoso) {
             $hoso->soluongkhenthuong = dshosothiduakhenthuong_canhan::where('mahosotdkt', $hoso->mahosotdkt)->where('ketqua', '1')->count()

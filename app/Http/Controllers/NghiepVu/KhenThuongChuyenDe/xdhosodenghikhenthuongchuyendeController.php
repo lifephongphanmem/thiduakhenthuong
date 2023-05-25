@@ -45,7 +45,7 @@ class xdhosodenghikhenthuongchuyendeController extends Controller
         $inputs['url_xd'] = '/KhenThuongChuyenDe/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongChuyenDe/KhenThuong/';
         $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
-        
+
         // $m_donvi = getDonViXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
         // $m_diaban = getDiaBanXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
         //$m_donvi = viewdiabandonvi::wherein('madonvi', array_column($m_donvi->toarray(), 'madonviQL'))->get();
@@ -57,7 +57,9 @@ class xdhosodenghikhenthuongchuyendeController extends Controller
         $inputs['maloaihinhkt'] = session('chucnang')['dshosodenghikhenthuongchuyende']['maloaihinhkt'] ?? 'ALL';
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         $model = dshosothiduakhenthuong::where('madonvi_xd', $inputs['madonvi'])
+            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH'])
             ->where('maloaihinhkt', $inputs['maloaihinhkt']);
+            
         $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
         if ($inputs['phanloai'] != 'ALL')
             $model = $model->where('phanloai', $inputs['phanloai']);
@@ -662,7 +664,7 @@ class xdhosodenghikhenthuongchuyendeController extends Controller
     }
 
     public function TrinhKetQua(Request $request)
-    {       
+    {
         $inputs = $request->all();
         $inputs['url_hs'] = '/KhenThuongChuyenDe/HoSo/';
         $inputs['url_xd'] = '/KhenThuongChuyenDe/XetDuyet/';
@@ -670,14 +672,14 @@ class xdhosodenghikhenthuongchuyendeController extends Controller
         $inputs['url_qd'] = '/KhenThuongChuyenDe/KhenThuong/';
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         return view('NghiepVu.KhenThuongChuyenDe.XetDuyet.TrinhKetQua')
-            ->with('model', $model)          
+            ->with('model', $model)
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Thông tin hồ sơ đề nghị khen thưởng');
     }
 
     public function LuuTrinhKetQua(Request $request)
     {
-       
+
         $inputs = $request->all();
         //dd($inputs );
         if (isset($inputs['totrinhdenghi'])) {
@@ -685,10 +687,9 @@ class xdhosodenghikhenthuongchuyendeController extends Controller
             $inputs['totrinhdenghi'] = $inputs['mahosotdkt'] . '_totrinhdenghi.' . $filedk->getClientOriginalExtension();
             $filedk->move(public_path() . '/data/totrinh/', $inputs['totrinhdenghi']);
         }
-        
+
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model->update($inputs);
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_xd);
     }
-
 }

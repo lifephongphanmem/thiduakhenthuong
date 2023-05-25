@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers\NghiepVu\CumKhoiThiDua;
 
-
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\DanhMuc\dscumkhoi;
-use App\Model\DanhMuc\dscumkhoi_chitiet;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\DanhMuc\dstruongcumkhoi;
 use App\Model\DanhMuc\dstruongcumkhoi_chitiet;
-use App\Model\View\viewdiabandonvi;
+use App\Model\View\view_dscumkhoi;
 use Illuminate\Support\Facades\Session;
 
 class dstruongcumkhoiController extends Controller
@@ -121,15 +117,15 @@ class dstruongcumkhoiController extends Controller
         $model = dstruongcumkhoi_chitiet::where('madanhsach', $inputs['madanhsach'])->get();
 
         $a_donvi = array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi');
-        $m_donvi = viewdiabandonvi::all();
+        //$m_donvi = viewdiabandonvi::all();
 
         return view('NghiepVu.CumKhoiThiDua.TruongCumKhoi.DanhSach')
             ->with('model', $model)
             ->with('m_cumkhoi', $m_cumkhoi)
-            ->with('m_donvi', $m_donvi)
+            //->with('m_donvi', $m_donvi)
             ->with('a_donvi', $a_donvi)
             ->with('a_cumkhoi', array_column(dscumkhoi::all()->toArray(), 'tencumkhoi', 'macumkhoi'))
-            ->with('a_diaban', array_column($m_donvi->toArray(), 'tendiaban', 'madiaban'))
+            //->with('a_diaban', array_column($m_donvi->toArray(), 'tendiaban', 'madiaban'))
             // ->with('a_phanloai', getPhanLoaiDonViCumKhoi())
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Thông tin danh sách trưởng cụm, khối');
@@ -142,12 +138,27 @@ class dstruongcumkhoiController extends Controller
             return view('errors.noperm')->with('machucnang', 'dstruongcumkhoi')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
-        $model = dstruongcumkhoi_chitiet::where('madonvi', $inputs['madonvi'])
-            ->where('macumkhoi', $inputs['macumkhoi'])
+        $model = dstruongcumkhoi_chitiet::where('macumkhoi', $inputs['macumkhoi'])
             ->where('madanhsach', $inputs['madanhsach'])->first();
 
         $model->update($inputs);
 
         return redirect(static::$url . 'DanhSach?madanhsach=' . $inputs['madanhsach']);
-    }    
+    }
+
+    public function LayDSDonVi(Request $request)
+    {
+        $inputs = $request->all();
+        $model = view_dscumkhoi::where('macumkhoi', $inputs['macumkhoi'])->get();
+
+        $result['status'] = 'success';
+        $result['message'] = '<div id="dSDonVi" class="col-12">';
+        $result['message'] .= '<label>Tên đơn vị</label>';
+        $result['message'] .= '<select class="form-control select2_modal" required="true" name="madonvi">';
+        foreach ($model as $ct) {
+            $result['message'] .= '<option value="' . $ct->madonvi . '" ' . ($ct->madonvi == $inputs['madonvi'] ? 'selected' : '') . '>' . $ct->tendonvi . '</option>';
+        }
+        $result['message'] .= '</select></div>';
+        die(json_encode($result));
+    }
 }

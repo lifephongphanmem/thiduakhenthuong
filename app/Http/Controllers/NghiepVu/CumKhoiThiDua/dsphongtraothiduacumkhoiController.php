@@ -44,11 +44,11 @@ class dsphongtraothiduacumkhoiController extends Controller
         }
         $inputs = $request->all();
         $inputs['url'] = static::$url;
-        $m_donvi = getDonViQuanLyCumKhoi('ALL','MODEL');
+        $m_donvi = getDonViQuanLyCumKhoi('ALL', 'MODEL');
         if (count($m_donvi) == 0) {
             return view('errors.403')->with('message', 'Hệ thống chưa có trưởng, phó cụm khối thi đua nào. Bạn hãy kiểm tra lại danh sách cụm khối.');
         }
-        
+
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
         $m_cumkhoi = dscumkhoi::wherein('macumkhoi', array_column($m_donvi->toarray(), 'macumkhoi'))->get();
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
@@ -86,7 +86,7 @@ class dsphongtraothiduacumkhoiController extends Controller
         $model = dsphongtraothiduacumkhoi::where('maphongtraotd', $inputs['maphongtraotd'])->first();
         $inputs['madonvi'] = $inputs['madonvi'] ?? $model->madonvi;
         $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
-        
+
         if ($model == null) {
             $model = new dsphongtraothidua();
             $model->madonvi = $inputs['madonvi'];
@@ -286,10 +286,10 @@ class dsphongtraothiduacumkhoiController extends Controller
             );
             die(json_encode($result));
         }
-        
-        $inputs = $request->all();        
+
+        $inputs = $request->all();
         $model = dsphongtraothiduacumkhoi_tieuchuan::where('maphongtraotd', $inputs['maphongtraotd'])->where('matieuchuandhtd', $inputs['matieuchuandhtd'])->first();
-        
+
         if ($model == null) {
             $model = new dsphongtraothiduacumkhoi_tieuchuan();
             $model->maphongtraotd = $inputs['maphongtraotd'];
