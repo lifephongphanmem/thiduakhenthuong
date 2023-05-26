@@ -49,7 +49,8 @@ class qdhosodenghikhenthuongdotxuatController extends Controller
         $inputs['url_xd'] = '/KhenThuongDotXuat/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongDotXuat/KhenThuong/';
         $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
-        
+        $inputs['trangthaihoso'] = $inputs['trangthaihoso'] ?? 'ALL';
+
         $m_donvi = getDonVi(session('admin')->capdo, 'qdhosodenghikhenthuongdotxuat');
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
 
@@ -71,9 +72,15 @@ class qdhosodenghikhenthuongdotxuatController extends Controller
         $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
         if ($inputs['phanloai'] != 'ALL')
             $model = $model->where('phanloai', $inputs['phanloai']);
+
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         if ($inputs['nam'] != 'ALL')
             $model = $model->whereyear('ngayhoso', $inputs['nam']);
+
+        //Lọc trạng thái (do đã chuyển trạng thái trong quá trình phê duyệt hồ sơ)
+        if ($inputs['trangthaihoso'] != 'ALL')
+            $model = $model->where('trangthai', $inputs['trangthaihoso']);
+            
         //Lấy hồ sơ
         $model = $model->orderby('ngayhoso')->get();
 
@@ -134,7 +141,7 @@ class qdhosodenghikhenthuongdotxuatController extends Controller
         $model->update($inputs);
         return redirect('/KhenThuongDotXuat/KhenThuong/ThongTin?madonvi=' . $model->madonvi);
     }
-   
+
     public function PheDuyet(Request $request)
     {
         $inputs = $request->all();
@@ -156,7 +163,7 @@ class qdhosodenghikhenthuongdotxuatController extends Controller
         $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $a_hogiadinh = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
-                
+
         //Gán thông tin đơn vị khen thưởng
         $donvi_kt = viewdiabandonvi::where('madonvi', $model->madonvi_kt)->first();
 
@@ -185,7 +192,7 @@ class qdhosodenghikhenthuongdotxuatController extends Controller
     public function LuuPheDuyet(Request $request)
     {
         $inputs = $request->all();
-        
+
         $thoigian = date('Y-m-d H:i:s');
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model->trangthai = 'DKT';
@@ -232,7 +239,7 @@ class qdhosodenghikhenthuongdotxuatController extends Controller
         $inputs['trangthai'] = 'CXKT';
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         setHuyKhenThuong($model, $inputs);
-        
+
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
     }
 

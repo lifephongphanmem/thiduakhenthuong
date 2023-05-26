@@ -45,6 +45,7 @@ class xdhosodenghikhenthuongchuyendeController extends Controller
         $inputs['url_xd'] = '/KhenThuongChuyenDe/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongChuyenDe/KhenThuong/';
         $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
+        $inputs['trangthaihoso'] = $inputs['trangthaihoso'] ?? 'ALL';
 
         // $m_donvi = getDonViXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
         // $m_diaban = getDiaBanXetDuyetHoSo(session('admin')->capdo, null, null, 'MODEL');
@@ -59,13 +60,17 @@ class xdhosodenghikhenthuongchuyendeController extends Controller
         $model = dshosothiduakhenthuong::where('madonvi_xd', $inputs['madonvi'])
             ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH'])
             ->where('maloaihinhkt', $inputs['maloaihinhkt']);
-            
+
         $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
         if ($inputs['phanloai'] != 'ALL')
             $model = $model->where('phanloai', $inputs['phanloai']);
+
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         if ($inputs['nam'] != 'ALL')
             $model = $model->whereyear('ngayhoso', $inputs['nam']);
+        //Lọc trạng thái
+        if ($inputs['trangthaihoso'] != 'ALL')
+            $model = $model->where('trangthai_xd', $inputs['trangthaihoso']);
         //Lấy hồ sơ
         $model = $model->orderby('ngayhoso')->get();
         if (in_array($inputs['maloaihinhkt'], ['', 'ALL', 'all'])) {

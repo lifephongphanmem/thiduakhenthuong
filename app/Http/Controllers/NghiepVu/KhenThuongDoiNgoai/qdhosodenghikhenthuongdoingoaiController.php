@@ -51,6 +51,7 @@ class qdhosodenghikhenthuongdoingoaiController extends Controller
         $inputs['url_xd'] = '/KhenThuongDoiNgoai/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongDoiNgoai/KhenThuong/';
         $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
+        $inputs['trangthaihoso'] = $inputs['trangthaihoso'] ?? 'ALL';
 
         $m_donvi = getDonVi(session('admin')->capdo, 'qdhosodenghikhenthuongdoingoai');
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
@@ -73,9 +74,14 @@ class qdhosodenghikhenthuongdoingoaiController extends Controller
         $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
         if ($inputs['phanloai'] != 'ALL')
             $model = $model->where('phanloai', $inputs['phanloai']);
+
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         if ($inputs['nam'] != 'ALL')
             $model = $model->whereyear('ngayhoso', $inputs['nam']);
+
+        //Lọc trạng thái (do đã chuyển trạng thái trong quá trình phê duyệt hồ sơ)
+        if ($inputs['trangthaihoso'] != 'ALL')
+            $model = $model->where('trangthai', $inputs['trangthaihoso']);
         //Lấy hồ sơ
         $model = $model->orderby('ngayhoso')->get();
         // $m_khenthuong = dshosokhenthuong::wherein('mahosotdkt', array_column($model->toarray(), 'mahosotdkt'))->where('trangthai', 'DKT')->get();
@@ -87,7 +93,7 @@ class qdhosodenghikhenthuongdoingoaiController extends Controller
                 if (!in_array($hoso->madonvi, $a_donvilocdulieu))
                     $model->forget($key);
             }
-            
+
             //nếu hồ sơ của đơn vị thì để chỉnh sửa (cho trường hợp tự nhập quyết định khen thưởng)
             $hoso->chinhsua = $hoso->madonvi == $inputs['madonvi'] ? true : false;
             $hoso->soluongkhenthuong = dshosothiduakhenthuong_canhan::where('mahosotdkt', $hoso->mahosotdkt)->where('ketqua', '1')->count()
@@ -583,7 +589,7 @@ class qdhosodenghikhenthuongdoingoaiController extends Controller
         $inputs['trangthai'] = 'CXKT';
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         setHuyKhenThuong($model, $inputs);
-        
+
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
     }
 

@@ -46,6 +46,7 @@ class xdhosodenghikhenthuongconghienController extends Controller
         $inputs['url_xd'] = '/KhenThuongCongHien/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongCongHien/KhenThuong/';
         $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
+        $inputs['trangthaihoso'] = $inputs['trangthaihoso'] ?? 'ALL';
 
         $m_donvi = getDonVi(session('admin')->capdo, 'xdhosodenghikhenthuongconghien');
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
@@ -66,9 +67,15 @@ class xdhosodenghikhenthuongconghienController extends Controller
         $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
         if ($inputs['phanloai'] != 'ALL')
             $model = $model->where('phanloai', $inputs['phanloai']);
+
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         if ($inputs['nam'] != 'ALL')
             $model = $model->whereyear('ngayhoso', $inputs['nam']);
+
+        //Lọc trạng thái
+        if ($inputs['trangthaihoso'] != 'ALL')
+            $model = $model->where('trangthai_xd', $inputs['trangthaihoso']);
+
         //Lấy hồ sơ
         $model = $model->orderby('ngayhoso')->get();
 
