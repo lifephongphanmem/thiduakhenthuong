@@ -206,7 +206,7 @@ class baocaotonghopController extends Controller
         if ($donvi->madonvi == $donvi->madonviQL) {
             // if ($donvi->madonvi == $donvi->madonviQL || $donvi->madonvi == $donvi->madonviKT) {
             $model = viewdiabandonvi::wherein('madiaban', array_column($m_diaban->toArray(), 'madiaban'))->get();
-        }else{
+        } else {
             $model = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->get();
         }
 
@@ -267,7 +267,7 @@ class baocaotonghopController extends Controller
         if ($donvi->madonvi == $donvi->madonviQL) {
             // if ($donvi->madonvi == $donvi->madonviQL || $donvi->madonvi == $donvi->madonviKT) {
             $m_donvi = viewdiabandonvi::wherein('madiaban', array_column($m_diaban->toArray(), 'madiaban'))->get();
-        }else{
+        } else {
             $m_donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->get();
         }
 
@@ -379,10 +379,10 @@ class baocaotonghopController extends Controller
         if ($donvi->madonvi == $donvi->madonviQL) {
             // if ($donvi->madonvi == $donvi->madonviQL || $donvi->madonvi == $donvi->madonviKT) {
             $m_donvi = viewdiabandonvi::wherein('madiaban', array_column($m_diaban->toArray(), 'madiaban'))->get();
-        }else{
+        } else {
             $m_donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->get();
         }
-        
+
         //$m_donvi = viewdiabandonvi::wherein('madiaban', array_column($m_diaban->toArray(), 'madiaban'))->get();
         if ($inputs['phamvithongke'] != 'ALL') {
             $m_donvi = $m_donvi->where('capdo', $inputs['phamvithongke']);
@@ -604,7 +604,7 @@ class baocaotonghopController extends Controller
         }
 
         $m_donvibc = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
-        
+
         return view('BaoCao.TongHop.KhenThuong_m3')
             ->with('model', $model)
             ->with('m_donvi', $m_donvibc)

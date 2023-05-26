@@ -123,12 +123,13 @@
                 <td class="text-bold text-center">{{ $i++ }}</td>
                 <td class="text-bold">{{ $chitiet->tendanhhieukhenthuong }}</td>
 
-                <td class="text-center">{{ dinhdangso($chitiet->tongtotrinh) }}</td>
+                <td class="text-center"></td>
+                {{-- <td class="text-center">{{ dinhdangso($chitiet->tongtotrinh) }}</td> --}}
 
-                <td class="text-center">{{ dinhdangso($chitiet->tongtotrinh_canhan) }}</td>
                 <td class="text-center">{{ dinhdangso($chitiet->tongtotrinh_tapthe) }}</td>
-                <td class="text-center">{{ dinhdangso($chitiet->tongtotrinh_canhan_kt) }}</td>
+                <td class="text-center">{{ dinhdangso($chitiet->tongtotrinh_canhan) }}</td>
                 <td class="text-center">{{ dinhdangso($chitiet->tongtotrinh_tapthe_kt) }}</td>
+                <td class="text-center">{{ dinhdangso($chitiet->tongtotrinh_canhan_kt) }}</td>
 
                 <td class="text-center">{{ dinhdangso($chitiet->tongso_tapthe_cotr) }}</td>
                 <td class="text-center">{{ dinhdangso($chitiet->canhan_lada_cotr) }}</td>
@@ -153,12 +154,13 @@
         <tr class="font-weight-boldest">
             <td class="text-center" colspan="2">Tổng cộng</td>
 
-            <td class="text-center">{{ dinhdangso($model->sum('tongtotrinh')) }}</td>
+            <td class="text-center"></td>
+            {{-- <td class="text-center">{{ dinhdangso($model->sum('tongtotrinh')) }}</td> --}}
 
-            <td class="text-center">{{ dinhdangso($model->sum('tongtotrinh_canhan')) }}</td>
             <td class="text-center">{{ dinhdangso($model->sum('tongtotrinh_tapthe')) }}</td>
-            <td class="text-center">{{ dinhdangso($model->sum('tongtotrinh_canhan_kt')) }}</td>
+            <td class="text-center">{{ dinhdangso($model->sum('tongtotrinh_canhan')) }}</td>
             <td class="text-center">{{ dinhdangso($model->sum('tongtotrinh_tapthe_kt')) }}</td>
+            <td class="text-center">{{ dinhdangso($model->sum('tongtotrinh_canhan_kt')) }}</td>
 
             <td class="text-center">{{ dinhdangso($model->sum('tongso_tapthe_cotr')) }}</td>
             <td class="text-center">{{ dinhdangso($model->sum('canhan_lada_cotr')) }}</td>
