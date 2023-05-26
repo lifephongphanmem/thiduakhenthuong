@@ -203,7 +203,8 @@ class baocaotonghopController extends Controller
             $m_diaban = $m_diaban->where('madiaban', $inputs['madiaban']);
         }
         //Nếu đơn vị quản lý địa bàn (madonviQL) hoặc đơn vị khen thưởng (madonviKT) thì mới xem đc dữ liệu toàn địa bàn
-        if ($donvi->madonvi == $donvi->madonviQL || $donvi->madonvi == $donvi->madonviKT) {
+        if ($donvi->madonvi == $donvi->madonviKT) {
+            // if ($donvi->madonvi == $donvi->madonviQL || $donvi->madonvi == $donvi->madonviKT) {
             $model = viewdiabandonvi::wherein('madiaban', array_column($m_diaban->toArray(), 'madiaban'))->get();
         }else{
             $model = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->get();
@@ -263,7 +264,8 @@ class baocaotonghopController extends Controller
             $m_diaban = $m_diaban->where('madiaban', $inputs['madiaban']);
         }
         //Nếu đơn vị quản lý địa bàn (madonviQL) hoặc đơn vị khen thưởng (madonviKT) thì mới xem đc dữ liệu toàn địa bàn
-        if ($donvi->madonvi == $donvi->madonviQL || $donvi->madonvi == $donvi->madonviKT) {
+        if ($donvi->madonvi == $donvi->madonviKT) {
+            // if ($donvi->madonvi == $donvi->madonviQL || $donvi->madonvi == $donvi->madonviKT) {
             $m_donvi = viewdiabandonvi::wherein('madiaban', array_column($m_diaban->toArray(), 'madiaban'))->get();
         }else{
             $m_donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->get();
@@ -374,7 +376,8 @@ class baocaotonghopController extends Controller
             $m_diaban = $m_diaban->where('madiaban', $inputs['madiaban']);
         }
         //Nếu đơn vị quản lý địa bàn (madonviQL) hoặc đơn vị khen thưởng (madonviKT) thì mới xem đc dữ liệu toàn địa bàn
-        if ($donvi->madonvi == $donvi->madonviQL || $donvi->madonvi == $donvi->madonviKT) {
+        if ($donvi->madonvi == $donvi->madonviKT) {
+            // if ($donvi->madonvi == $donvi->madonviQL || $donvi->madonvi == $donvi->madonviKT) {
             $m_donvi = viewdiabandonvi::wherein('madiaban', array_column($m_diaban->toArray(), 'madiaban'))->get();
         }else{
             $m_donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->get();

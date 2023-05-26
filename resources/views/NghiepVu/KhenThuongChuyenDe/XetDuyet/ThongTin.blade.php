@@ -18,7 +18,7 @@
             $('#madonvi, #nam, #phanloai, #trangthaihoso').change(function() {
                 window.location.href = "{{ $inputs['url_xd'] }}" + 'ThongTin?madonvi=' + $('#madonvi')
                     .val() + '&nam=' + $('#nam').val() + "&phanloai=" + $('#phanloai').val() +
-                    "&trangthaihoso=" + $('#trangthaihoso').val();;
+                    "&trangthaihoso=" + $('#trangthaihoso').val();
             });
         });
     </script>
