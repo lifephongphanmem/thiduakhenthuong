@@ -433,7 +433,7 @@ class baocaotonghopController extends Controller
                 ->where('madanhhieukhenthuong', $ct->madanhhieukhenthuong);
 
             $ct->tongso_tapthe_cotr = $tapthe_congtrang->count();
-            $ct->canhan_lada_cotr = $canhan_congtrang->wherein('maphanloaicanbo', ['1660638930', '1660638843', '1660638808'])->count();
+            $ct->canhan_lada_cotr = $canhan_congtrang->wherein('maphanloaicanbo', ['1660638843', '1660638808'])->count();
             $ct->canhan_pp_cotr = $canhan_congtrang->wherein('maphanloaicanbo', ['1660638930'])->count();
             $ct->canhan_lado_cotr = $canhan_congtrang->wherein('maphanloaicanbo', ['1660638976'])->count();
 
@@ -445,7 +445,7 @@ class baocaotonghopController extends Controller
                 ->where('madanhhieukhenthuong', $ct->madanhhieukhenthuong);
 
             $ct->tongso_tapthe_cd = $tapthe_chuyende->count();
-            $ct->canhan_lada_cd = $canhan_chuyende->wherein('maphanloaicanbo', ['1660638930', '1660638843', '1660638808'])->count();
+            $ct->canhan_lada_cd = $canhan_chuyende->wherein('maphanloaicanbo', ['1660638843', '1660638808'])->count();
             $ct->canhan_pp_cd = $canhan_chuyende->wherein('maphanloaicanbo', ['1660638930'])->count();
             $ct->canhan_lado_cd = $canhan_chuyende->wherein('maphanloaicanbo', ['1660638976'])->count();
 
