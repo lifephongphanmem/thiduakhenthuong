@@ -20,6 +20,7 @@ use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_canhan;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_detai;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_tapthe;
+use App\Model\View\view_dscumkhoi;
 use App\Model\View\viewdiabandonvi;
 use Illuminate\Support\Facades\Session;
 
@@ -42,11 +43,48 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
             return view('errors.noperm')->with('machucnang', 'xdhosokhenthuongcumkhoi')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
+        $m_donvi = getDonViXetDuyetHoSoCumKhoi(session('admin')->capdo, 'MODEL');
+        if ($m_donvi->count() == 0) {
+            return view('errors.403')
+                ->with('message', 'Chưa có đơn vị được phân công nhiệm xét duyệt hồ sơ đề nghị khen thưởng cho cụm, khối thi đua.')
+                ->with('url', '/');
+        }
+        $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
+        $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
+        $model = dscumkhoi::where('madonvixd', $inputs['madonvi'])->get();
+        $m_hoso = dshosotdktcumkhoi::wherein('macumkhoi', array_column($model->toarray(),'macumkhoi'))
+        ->where('madonvi_xd', $inputs['madonvi'])->get();
+        $a_trangthai = array_unique(array_column($m_hoso->toarray(),'trangthai'));
+        foreach($model as $chitiet){
+            $hoso = $m_hoso->where('macumkhoi',$chitiet->macumkhoi);
+            foreach($a_trangthai as $trangthai){
+                $chitiet->$trangthai = $hoso->where('trangthai',$trangthai)->count();
+            }
+        }  
+        //dd($model);
+        $inputs['url_xd'] = static::$url;
+        $inputs['url_hs'] = '/CumKhoiThiDua/KTCumKhoi/HoSo/';
+        return view('NghiepVu.CumKhoiThiDua.HoSoKT.DanhSach')
+            ->with('model', $model)            
+            ->with('m_donvi', $m_donvi)
+            ->with('m_diaban', $m_diaban)           
+            ->with('a_trangthai_hoso', $a_trangthai)           
+            ->with('a_trangthai', getTrangThaiHoSo())           
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'Danh sách hồ sơ khen thưởng của cụm, khối');
+    }
+
+    public function DanhSach(Request $request)
+    {
+        if (!chkPhanQuyen('xdhosokhenthuongcumkhoi', 'danhsach')) {
+            return view('errors.noperm')->with('machucnang', 'xdhosokhenthuongcumkhoi')->with('tenphanquyen', 'danhsach');
+        }
+        $inputs = $request->all();
         $inputs['url_hs'] = '/CumKhoiThiDua/KTCumKhoi/HoSo/';
         $inputs['url_xd'] = '/CumKhoiThiDua/KTCumKhoi/XetDuyet/';
         $inputs['url_qd'] = '/CumKhoiThiDua/KTCumKhoi/KhenThuong/';
         $inputs['phanloaikhenthuong'] = 'CUMKHOI';
-        $m_donvi = getDonViXetDuyetHoSoCumKhoi(session('admin')->capdo, null, null, 'MODEL');
+        $m_donvi = getDonViXetDuyetHoSoCumKhoi(session('admin')->capdo, 'MODEL');
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
         //dd($m_donvi);
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
@@ -54,14 +92,8 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
         //lấy danh sách lọc cụm khối theo tài khoản
 
         //
-        $m_cumkhoi = dscumkhoi::where('madonvixd', $inputs['madonvi'])->get();
-        $inputs['macumkhoi'] = $inputs['macumkhoi'] ?? $m_cumkhoi->first()->macumkhoi;
-        //Trường hợp chọn lại đơn vị nhưng mã cụm khối vẫn theo đơn vị cũ
-        $inputs['macumkhoi'] = $m_cumkhoi->where('macumkhoi', $inputs['macumkhoi'])->first() != null ? $inputs['macumkhoi'] : $m_cumkhoi->first()->macumkhoi;
-        //$donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
-        //$capdo = $donvi->capdo ?? '';
-        //dd($m_donvi);
-
+        $m_cumkhoi = view_dscumkhoi::where('madonvi', $inputs['madonvi'])->get();
+        $inputs['macumkhoi'] = $inputs['macumkhoi'] ?? $m_cumkhoi->first()->macumkhoi;        
         $model = dshosotdktcumkhoi::where('macumkhoi', $inputs['macumkhoi'])
             ->where('madonvi_xd', $inputs['madonvi'])->get();
         //--lấy địa bàn quản lý theo tài khoản
@@ -102,25 +134,13 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
 
     public function TraLai(Request $request)
     {
-        $inputs = $request->all();
+        $inputs = $request->all();        
         $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahoso'])->first();
-        //gán trạng thái hồ sơ để theo dõi
-        $model->trangthai = 'BTL';
-        $model->thoigian = date('Y-m-d H:i:s');
-        $model->lydo = $inputs['lydo'];
-        $model->madonvi_nhan = null;
         //dd($model);
-        $model->trangthai_xd = null;
-        $model->thoigian_xd = null;
-        $model->madonvi_nhan_xd = null;
-        $model->madonvi_xd = null;
-
-        $model->madonvi_kt = null;
-        $model->trangthai_kt = null;
-        $model->thoigian_kt = null;
-        $model->save();
-
-        return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi'] . '&macumkhoi=' . $model->macumkhoi);
+        $inputs['trangthai'] = 'BTL';
+        $inputs['thoigian'] = date('Y-m-d H:i:s');
+        setTraLaiXDCK($model, $inputs);
+        return redirect(static::$url . 'DanhSach?madonvi=' . $inputs['madonvi'] . '&macumkhoi=' . $model->macumkhoi);
     }
 
     public function NhanHoSo(Request $request)
@@ -141,7 +161,7 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
             'thongtin' => 'Tiếp nhận hồ sơ đề nghị khen thưởng.',
         ]);
 
-        return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi_nhan'] . '&macumkhoi=' . $model->macumkhoi);
+        return redirect(static::$url . 'DanhSach?madonvi=' . $inputs['madonvi_nhan'] . '&macumkhoi=' . $model->macumkhoi);
     }
 
     public function ChuyenHoSo(Request $request)
@@ -174,7 +194,7 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
             'thongtin' => 'Trình đề nghị khen thưởng.',
         ]);
 
-        return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_xd . '&macumkhoi=' . $model->macumkhoi);
+        return redirect(static::$url . 'DanhSach?madonvi=' . $model->madonvi_xd . '&macumkhoi=' . $model->macumkhoi);
     }
 
     public function XetKT(Request $request)
@@ -587,7 +607,7 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
         $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model->thongtinquyetdinh = $inputs['thongtinquyetdinh'];
         $model->save();
-        return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_xd);
+        return redirect(static::$url . 'DanhSach?madonvi=' . $model->madonvi_xd);
     }
 
     public function LayLyDo(Request $request)
@@ -634,7 +654,7 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
         $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model->thongtintotrinhdenghi = $inputs['thongtintotrinhdenghi'];
         $model->save();
-        return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_xd);
+        return redirect(static::$url . 'DanhSach?madonvi=' . $model->madonvi_xd);
     }
 
     public function TrinhKetQua(Request $request)
@@ -663,6 +683,6 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
         //dd($inputs);
         dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first()->update($inputs);
 
-        return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
+        return redirect(static::$url . 'DanhSach?madonvi=' . $inputs['madonvi']);
     }
 }

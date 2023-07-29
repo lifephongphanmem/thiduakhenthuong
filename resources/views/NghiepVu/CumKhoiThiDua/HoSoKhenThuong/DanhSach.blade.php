@@ -179,6 +179,21 @@
                                                     <i class="icon-lg la flaticon-edit-1 text-success"></i>
                                                 </a> --}}
 
+                                                @if ($tt->trangthai == 'BTL')
+                                                    <button title="Lý do hồ sơ bị trả lại" type="button"
+                                                        onclick="viewLyDo('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}', '{{ $inputs['url_hs'] . 'LayLyDo' }}')"
+                                                        class="btn btn-sm btn-clean btn-icon" data-target="#tralai-modal"
+                                                        data-toggle="modal">
+                                                        <i class="icon-lg la fa-archive text-info"></i></button>
+                                                    
+                                                        <button title="Trình hồ sơ đăng ký" type="button"
+                                                        onclick="confirmChuyen('{{ $tt->mahosotdkt }}','{{ $inputs['url_hs'] . 'ChuyenHoSo' }}', '{{ $tt->phanloai }}')"
+                                                        class="btn btn-sm btn-clean btn-icon">
+                                                        <i class="icon-lg la fa-share text-primary"></i>
+                                                    </button>
+                                                @endif
+
+
                                                 <button type="button"
                                                     onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url_hs'] . 'Xoa' }}')"
                                                     class="btn btn-sm btn-clean btn-icon"
@@ -261,7 +276,6 @@
                             </div>
                         </div>
                     @endif
-
 
                     <div class="form-group row">
                         <div class="col-6">
@@ -358,6 +372,7 @@
     @include('includes.modal.modal_approve_hs')
     @include('NghiepVu._DungChung.modal_PheDuyet')
     @include('NghiepVu._DungChung.InDuLieu')
+    @include('includes.modal.modal_chuyenhs')
     @include('includes.modal.modal_attackfile')
     @include('includes.modal.modal-lydo')
 @stop

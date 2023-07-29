@@ -89,6 +89,10 @@ function setThongTinHoSoKT(&$inputs)
                 //Gán thông tin đơn vị khen thưởng
                 $donvi_kt = App\Model\View\viewdiabandonvi::where('madonvi', $inputs['madonvi_kt'])->first();
                 $inputs['capkhenthuong'] =  $donvi_kt->capdo ?? '';
+                //Nếu đơn vị tạo hồ sơ là đơn vị cấp T thì chỉ có Uỷ ban mới để khen thưởng cấp tỉnh còn lại là cấp SBN
+                if ($inputs['capkhenthuong'] == 'T' && $inputs['madonvi'] != $donvi_kt->madonviQL) {
+                    $inputs['capkhenthuong'] = 'SBN';
+                }
                 $inputs['donvikhenthuong'] =  $donvi_kt->tendvhienthi ?? '';
                 break;
             }
@@ -389,23 +393,38 @@ function getDonViCK($capdo, $chucnang = null, $kieudulieu = 'ARRAY')
     return $m_donvi;
 }
 
-function getDonViXetDuyetCumKhoi($macumkhoi, $kieudulieu = 'ARRAY')
+function getDonViXetDuyetCumKhoi($macumkhoi = null, $kieudulieu = 'ARRAY')
 {
-    //$m_donvi = \App\Model\View\view_dscumkhoi::where('macumkhoi', $macumkhoi)->wherein('phanloai', ['TRUONGKHOI'])->first();
-    // if ($m_donvi == null) {
-    //     $m_diaban = \App\Model\DanhMuc\dsdiaban::select('madonviKT')->distinct()->get();
-    //     $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', $m_diaban->toarray())->get();
-    // } else {
-    //     $m_diaban = \App\Model\DanhMuc\dsdiaban::where('madiaban', $m_donvi->madiaban)->first();
-    //     $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', [$m_diaban->madonviKT])->get();
-    //     //Thiếu trường hợp khối huyện gửi hồ sơ lên sở nội vụ
-    //     //Thiếu trường hợp cho khánh hòa: khối thi đua theo sở ban ngành
-    // }
+    if ($macumkhoi == null) {
+        $m_diaban = \App\Model\DanhMuc\dsdiaban::select('madonviKT')->distinct()->get();
+        $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', $m_diaban->toarray())->get();
+        //--22
 
-    //22.02.203 chưa tính hết các trường hợp => tạm thời đưa hết danh sách đơn vị
-    $m_diaban = \App\Model\DanhMuc\dsdiaban::select('madonviKT')->distinct()->get();
-    $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', $m_diaban->toarray())->get();
-    //--22
+    } else {
+        $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', function ($qr) use ($macumkhoi) {
+            $qr->select('madonvixd')->from('dscumkhoi')->where('macumkhoi', $macumkhoi)->get();
+        })->get();
+    }
+    switch ($kieudulieu) {
+        case 'MODEL': {
+                return $model;
+                break;
+            }
+        default:
+            return array_column($model->toarray(), 'tendonvi', 'madonvi');
+    }
+}
+
+function getDonViPheDuyetCumKhoi($macumkhoi = null, $kieudulieu = 'ARRAY')
+{
+    if ($macumkhoi == null) {
+        $m_diaban = \App\Model\DanhMuc\dsdiaban::select('madonviQL')->distinct()->get();
+        $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', $m_diaban->toarray())->get();
+    } else {
+        $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', function ($qr) use ($macumkhoi) {
+            $qr->select('madonvikt')->from('dscumkhoi')->where('macumkhoi', $macumkhoi)->get();
+        })->get();
+    }
     switch ($kieudulieu) {
         case 'MODEL': {
                 return $model;
@@ -477,8 +496,8 @@ function getDonViXetDuyetHoSo($madonvi = null, $chucnang = null, $kieudulieu = '
     }
 }
 
-
-function getDonViXetDuyetHoSoCumKhoi($capdo, $madiaban = null, $chucnang = null, $kieudulieu = 'ARRAY')
+//Lấy các đơn vị có chức năng xét duyệt hồ sơ cụm, khối
+function getDonViXetDuyetHoSoCumKhoi($capdo, $kieudulieu = 'ARRAY')
 {
     $model = \App\Model\View\viewdiabandonvi::wherein('madonvi', function ($qr) {
         $qr->select('madonvixd')->from('dscumkhoi')->get();
@@ -968,6 +987,29 @@ function setTraLaiXD(&$model, &$inputs)
 }
 
 //Làm cho chức năng trạng thái == CC
+function setTraLaiXDCK(&$model, &$inputs)
+{
+    $model->trangthai = $inputs['trangthai'];
+    $model->thoigian = $inputs['thoigian'];
+    $model->lydo = $inputs['lydo'];
+
+    $model->trangthai_xd = $model->trangthai;
+    $model->thoigian_xd = $model->thoigian;
+    $model->save();
+
+    //Lưu trạng thái
+    trangthaihoso::create([
+        'mahoso' => $inputs['mahoso'],
+        'phanloai' => 'dshosotdktcumkhoi',
+        'trangthai' => $model->trangthai,
+        'thoigian' => $model->thoigian,
+        'madonvi_nhan' => $model->madonvi,
+        'madonvi' => $model->madonvi_xd,
+        'thongtin' => 'Trả lại hồ sơ đề nghị khen thưởng.',
+    ]);
+}
+
+//Làm cho chức năng trạng thái == CC
 function setChuyenDV(&$model, &$inputs)
 {
     //dd($inputs);
@@ -988,6 +1030,33 @@ function setChuyenDV(&$model, &$inputs)
     $trangthai->madonvi = $model->madonvi;
     $trangthai->madonvi_nhan = $inputs['madonvi_nhan'];
     $trangthai->phanloai = 'dshosothiduakhenthuong';
+    $trangthai->mahoso = $model->mahosotdkt;
+    $trangthai->thoigian = $model->thoigian;
+    $trangthai->thongtin = 'Chuyển hồ sơ đề nghị khen thưởng đã chỉnh sửa lại theo yêu cầu.';
+    $trangthai->save();
+}
+
+//Làm cho chức năng trạng thái == CC
+function setChuyenDV_CumKhoi(&$model, &$inputs)
+{
+    //dd($inputs);
+    $model->trangthai = $inputs['trangthai'];
+    $model->thoigian = $inputs['thoigian'];
+    $model->lydo = $inputs['lydo'];
+    $model->madonvi_nhan = $inputs['madonvi_nhan'];
+
+
+    $model->trangthai_xd = $model->trangthai;
+    $model->thoigian_xd = $model->thoigian;
+    $model->madonvi_xd = $model->madonvi_nhan;
+    $model->save();
+
+    //Lưu trạng thái
+    $trangthai = new trangthaihoso();
+    $trangthai->trangthai = $inputs['trangthai'];
+    $trangthai->madonvi = $model->madonvi;
+    $trangthai->madonvi_nhan = $inputs['madonvi_nhan'];
+    $trangthai->phanloai = 'dshosotdktcumkhoi';
     $trangthai->mahoso = $model->mahosotdkt;
     $trangthai->thoigian = $model->thoigian;
     $trangthai->thongtin = 'Chuyển hồ sơ đề nghị khen thưởng đã chỉnh sửa lại theo yêu cầu.';

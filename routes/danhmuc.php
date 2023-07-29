@@ -17,7 +17,7 @@ Route::group(['prefix'=>'DanhHieuThiDua'], function(){
 Route::group(['prefix'=>'LoaiHinhKhenThuong'], function(){
     Route::get('ThongTin','DanhMuc\dmloaihinhkhenthuongController@ThongTin');
     Route::post('Them','DanhMuc\dmloaihinhkhenthuongController@store');
-    Route::post('Xoa','HeThong\dmloaihinhkhenthuongController@delete');
+    Route::post('Xoa','DanhMuc\dmloaihinhkhenthuongController@delete');
 });
 
 Route::group(['prefix'=>'HinhThucKhenThuong'], function(){

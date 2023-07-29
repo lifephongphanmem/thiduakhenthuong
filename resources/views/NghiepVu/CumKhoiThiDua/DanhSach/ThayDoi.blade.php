@@ -46,14 +46,18 @@
             </div>
 
             <div class="form-group row">
-                <div class="col-6">
+                <div class="col-4">
                     <label>Đơn vị quản lý hồ sơ</label>
                     {!! Form::select('madonviql', $a_donviql, null,  ['class' => 'form-control select2basic']) !!}
                 </div>
 
-                <div class="col-6">
+                <div class="col-4">
                     <label>Đơn vị xét duyệt hồ sơ<span class="require">*</span></label>
                     {!! Form::select('madonvixd', $a_donvixd, null, ['class' => 'form-control select2basic', 'required']) !!}
+                </div>
+                <div class="col-4">
+                    <label>Đơn vị phê duyệt khen thưởng<span class="require">*</span></label>
+                    {!! Form::select('madonvikt', $a_donvikt, null, ['class' => 'form-control select2basic', 'required']) !!}
                 </div>
             </div>
 

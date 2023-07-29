@@ -17,7 +17,7 @@
             TableManaged3.init();
 
             $('#madonvi').change(function() {
-                window.location.href = "{{ $inputs['url_qd'] }}" + 'ThongTin?madonvi=' + $('#madonvi').val();
+                window.location.href = "{{ $inputs['url_xd'] }}" + 'ThongTin?madonvi=' + $('#madonvi');
             });
         });
     </script>
@@ -49,7 +49,18 @@
                             </optgroup>
                         @endforeach
                     </select>
-                </div>               
+                </div>
+                {{-- <div class="col-md-5">
+                    <label style="font-weight: bold">Loại hình khen thưởng</label>
+                    {!! Form::select('nam', setArrayAll($a_loaihinhkt), $inputs['maloaihinhkt'], [
+                        'id' => 'maloaihinhkt',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
+                </div>
+                <div class="col-md-2">
+                    <label style="font-weight: bold">Năm</label>
+                    {!! Form::select('nam', getNam(true), $inputs['nam'], ['id' => 'nam', 'class' => 'form-control select2basic']) !!}
+                </div> --}}
             </div>
 
 
@@ -89,7 +100,7 @@
 
                                 <td style="text-align: center">
                                     <a title="Xem chi tiết"
-                                        href="{{ url($inputs['url_qd'] . 'DanhSach?madonvi=' . $inputs['madonvi'] . '&macumkhoi=' . $tt->macumkhoi) }}"
+                                        href="{{ url($inputs['url_xd'] . 'DanhSach?madonvi=' . $inputs['madonvi'] . '&macumkhoi=' . $tt->macumkhoi) }}"
                                         class="btn btn-sm btn-clean btn-icon">
                                         <i class="icon-lg la flaticon-folder text-dark icon-2x"></i>
                                     </a>

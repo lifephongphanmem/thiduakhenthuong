@@ -65,8 +65,9 @@ class dscumkhoiController extends Controller
         }
         $model_chitiet = view_dscumkhoi::where('macumkhoi', $model->macumkhoi)->select('tendonvi', 'madonvi')->distinct()->get();        
         $a_donviql = array_column($model_chitiet->toarray(), 'tendonvi', 'madonvi');
-        $a_donvixd = getDonViXetDuyetCumKhoi($model->macumkhoi);
-
+        $a_donvixd = getDonViXetDuyetCumKhoi();
+        $a_donvikt = getDonViPheDuyetCumKhoi();
+        
         // $m_donvi = dsdonvi::wherein('madonvi', function ($qr) {
         //     $qr->select('madonviQL')->from('dsdiaban')->get();
         // })->get();
@@ -74,6 +75,7 @@ class dscumkhoiController extends Controller
             ->with('model', $model)
             ->with('a_donvixd', $a_donvixd)
             ->with('a_donviql', $a_donviql)
+            ->with('a_donvikt', $a_donvikt)
             ->with('pageTitle', 'Thông tin cụm, khối thi đua');
     }
 

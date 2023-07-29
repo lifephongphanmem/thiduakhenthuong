@@ -15,20 +15,9 @@
     <script>
         jQuery(document).ready(function() {
             TableManaged3.init();
-            $('#madonvi').change(function() {
-                window.location.href = '/CumKhoiThiDua/XetDuyetHoSoKhenThuong/ThongTin?madonvi=' + $(
-                        '#madonvi').val() +
-                    '&macumkhoi=' + $('#macumkhoi').val() + '&nam=' + $('#nam').val();
-            });
-            $('#nam').change(function() {
-                window.location.href = '/CumKhoiThiDua/XetDuyetHoSoKhenThuong/ThongTin?madonvi=' + $(
-                        '#madonvi').val() +
-                    '&macumkhoi=' + $('#macumkhoi').val() + '&nam=' + $('#nam').val();
-            });
-            $('#macumkhoi').change(function() {
-                window.location.href = '/CumKhoiThiDua/XetDuyetHoSoKhenThuong/ThongTin?madonvi=' + $(
-                        '#madonvi').val() +
-                    '&macumkhoi=' + $('#macumkhoi').val() + '&nam=' + $('#nam').val();
+            $('#madonvi,#nam,#macumkhoi').change(function() {
+                window.location.href = "{{ $inputs['url_xd'] }}" + 'ThongTin?madonvi=' + $('#madonvi')
+                    .val() + '&nam=' + $('#nam').val() + '&macumkhoi=' + $('#macumkhoi').val();
             });
         });
     </script>
@@ -174,6 +163,15 @@
                                         @endif
                                     @else
                                         @if (in_array($tt->trangthai, ['CXKT']))
+                                            @if (in_array($tt->trangthai_hoso, ['DD', 'CD', 'CXKT']))
+                                                <button title="Trả lại hồ sơ" type="button"
+                                                    onclick="confirmTraLai('{{ $tt->mahosotdkt }}', '{{ $inputs['madonvi'] }}', '{{ $inputs['url_xd'] . 'TraLai' }}')"
+                                                    class="btn btn-sm btn-clean btn-icon" data-target="#modal-tralai"
+                                                    data-toggle="modal">
+                                                    <i class="icon-lg la la-reply text-danger"></i>
+                                                </button>
+                                            @endif
+                                            
                                             <a title="Tạo dự thảo tờ trình"
                                                 href="{{ url($inputs['url_xd'] . 'ToTrinhPheDuyet?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                 class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
@@ -187,10 +185,10 @@
                                             </a>
 
                                             <a title="Trình kết quả khen thưởng"
-                                            href="{{ url($inputs['url_xd'] . 'TrinhKetQua?mahosotdkt=' . $tt->mahosotdkt) }}"
-                                            class="btn btn-sm btn-clean btn-icon">
-                                            <i class="icon-lg la flaticon-internet text-success"></i>
-                                        </a>
+                                                href="{{ url($inputs['url_xd'] . 'TrinhKetQua?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                                class="btn btn-sm btn-clean btn-icon">
+                                                <i class="icon-lg la flaticon-internet text-success"></i>
+                                            </a>
                                         @endif
                                     @endif
                                 </td>

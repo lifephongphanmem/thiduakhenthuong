@@ -61,9 +61,9 @@ Route::group(['prefix' => 'TaiKhoan'], function () {
 
 });
 Route::group(['prefix' => 'HeThongAPI'], function () {
-    Route::get('CaNhan', 'HeThong\HeThongAPIController@CaNhan');
-    Route::get('TapThe', 'HeThong\HeThongAPIController@TapThe');
-    Route::get('PhongTrao', 'HeThong\HeThongAPIController@PhongTrao');
+    //Route::get('CaNhan', 'HeThong\HeThongAPIController@CaNhan');
+    //Route::get('TapThe', 'HeThong\HeThongAPIController@TapThe');
+    //Route::get('PhongTrao', 'HeThong\HeThongAPIController@PhongTrao');
 });
 
 Route::group(['prefix' => 'ChucNang'], function () {

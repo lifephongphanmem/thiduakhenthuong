@@ -1049,6 +1049,7 @@ function getPhamViKhenThuong()
 {
     return array(
         'T' => 'Cấp Tỉnh',
+        'SBN' => 'Cấp Sở, ban, ngành',
         'H' => 'Cấp Huyện',
         'X' => 'Cấp Xã',
     );

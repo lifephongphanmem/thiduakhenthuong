@@ -34,7 +34,7 @@ class xdhosogiaouocthiduaController extends Controller
         }
         $inputs = $request->all();
         $inputs['url'] = static::$url;
-        $m_donvi = getDonViXetDuyetHoSoCumKhoi(session('admin')->capdo, null, null, 'MODEL');
+        $m_donvi = getDonViXetDuyetHoSoCumKhoi(session('admin')->capdo, 'MODEL');
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
 
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';

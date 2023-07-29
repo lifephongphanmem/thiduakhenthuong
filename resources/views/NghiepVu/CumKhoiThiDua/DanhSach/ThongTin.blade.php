@@ -46,6 +46,7 @@
                                 <th>Tên cụm, khối thi đua</th>
                                 <th>Đơn vị quản</br>lý hồ sơ</th>
                                 <th>Đơn vị xét</br>duyệt hồ sơ</th>
+                                <th>Đơn vị phê</br>duyệt khen thưởng</th>
                                 <th width="15%">Thao tác</th>
                             </tr>
                         </thead>
@@ -56,6 +57,7 @@
                                 <td class="active">{{ $tt->tencumkhoi }}</td>
                                 <td>{{ $a_donvi[$tt->madonviql] ?? '' }}</td>
                                 <td>{{ $a_donvi[$tt->madonvixd] ?? '' }}</td>
+                                <td>{{ $a_donvi[$tt->madonvikt] ?? '' }}</td>
                                 <td class=" text-center">
                                     @if (chkPhanQuyen('dscumkhoithidua', 'thaydoi'))
                                         <a title="Chỉnh sửa"
