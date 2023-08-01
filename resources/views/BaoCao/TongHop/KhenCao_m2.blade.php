@@ -50,7 +50,7 @@
         <thead>
             <tr class="text-center">
                 <th style="width: 3%" rowspan="2">STT</th>
-                <th rowspan="2">Hình thức khen thưởng</th>
+                <th rowspan="2">Danh hiệu thi đua/Hình thức khen thưởng</th>
                 <th colspan="2">Tổng số đã trình Thủ tướng Chính phủ (qua Ban TĐKT TW)</th>
                 <th colspan="2">Tổng số đã có quyết định khen thưởng</th>
                 <th colspan="3">Khen thưởng theo công trạng, thành tích đạt được</th>

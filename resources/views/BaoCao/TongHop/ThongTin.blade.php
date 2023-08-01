@@ -64,20 +64,20 @@
                         </li> --}}
 
                         <li>
-                            <button class="btn btn-clean text-dark"
+                            <button class="btn btn-clean text-dark" title="Thống kê tất cả các loại hình khen thưởng"
                                 onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenThuong_m1', 'ALL')"
                                 data-target="#modal-khenthuong" data-toggle="modal">Báo
                                 cáo hình thức khen thưởng trên địa bàn (Mẫu 01)</button>
                         </li>
 
                         <li>
-                            <button class="btn btn-clean text-dark"
+                            <button class="btn btn-clean text-dark" title="Thống kê các loại hình khen thưởng: Công trạng; Chuyên đề; Đối ngoại; Đột xuất"
                                 onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenThuong_m2')"
                                 data-target="#modal-khenthuong" data-toggle="modal">Báo
                                 cáo hình thức khen thưởng trên địa bàn (Mẫu 02)</button>
                         </li>
                         <li>
-                            <button class="btn btn-clean text-dark"
+                            <button class="btn btn-clean text-dark" title="Thống kê các loại hình khen thưởng: Công trạng; Chuyên đề; Đối ngoại; Đột xuất"
                                 onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenThuong_m3')"
                                 data-target="#modal-khenthuong" data-toggle="modal">Báo
                                 cáo hình thức khen thưởng trên địa bàn (Mẫu 03)</button>
@@ -206,9 +206,15 @@
                 </div>
 
                 <div class="form-group row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-6">
                         <label>Phạm vị thống kê</label>
                         {!! Form::select('phamvithongke', setArrayAll($a_phamvithongke), null, ['class' => 'form-control']) !!}
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label>Phân loại hồ sơ</label>
+                        {!! Form::select('phanloai', setArrayAll(getPhanLoaiHoSo_BaoCao()), null, ['class' => 'form-control select2_modal']) !!}
+                        {{-- {!! Form::select('phamvithongke[]', setArrayAll(getPhanLoaiHoSo_BaoCao()), null, ['class' => 'form-control select2_modal','multiple'=>'true']) !!} --}}
                     </div>
                 </div>
 
@@ -231,6 +237,18 @@
                     <div class="col-lg-6">
                         <label> Đến ngày</label>
                         {!! Form::input('date', 'ngayden', date('Y') . '-12-31', ['id' => 'ngayden', 'class' => 'form-control']) !!}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-3 col-form-label"></label>
+                    <div class="col-9 col-form-label">
+                        <div class="checkbox-inline">
+                            <label class="checkbox checkbox-outline checkbox-success">
+                                <input type="checkbox" name="indonvidulieu">
+                                <span></span>Chỉ in các đơn vị có số liệu khen thưởng</label>                           
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -343,11 +361,18 @@
                 </div>
 
                 <div class="form-group row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-6">
                         <label>Phạm vị thống kê</label>
                         {!! Form::select('phamvithongke', setArrayAll($a_phamvithongke), null, ['class' => 'form-control']) !!}
                     </div>
+
+                    <div class="col-lg-6">
+                        <label>Phân loại hồ sơ</label>
+                        {!! Form::select('phanloai', setArrayAll(getPhanLoaiHoSo_BaoCao()), null, ['class' => 'form-control select2_modal']) !!}
+                        {{-- {!! Form::select('phamvithongke[]', setArrayAll(getPhanLoaiHoSo_BaoCao()), null, ['class' => 'form-control select2_modal','multiple'=>'true']) !!} --}}
+                    </div>
                 </div>
+               
 
                 {{-- <div class="form-group row">
                     <div class="col-lg-12">
@@ -365,6 +390,18 @@
                     <div class="col-lg-6">
                         <label> Đến ngày</label>
                         {!! Form::input('date', 'ngayden', date('Y') . '-12-31', ['id' => 'ngayden', 'class' => 'form-control']) !!}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-3 col-form-label"></label>
+                    <div class="col-9 col-form-label">
+                        <div class="checkbox-inline">
+                            <label class="checkbox checkbox-outline checkbox-success">
+                                <input type="checkbox" name="indonvidulieu">
+                                <span></span>Chỉ in các đơn vị có số liệu khen thưởng</label>                           
+                        </div>
+                        
                     </div>
                 </div>
 

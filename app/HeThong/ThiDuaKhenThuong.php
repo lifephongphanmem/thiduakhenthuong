@@ -582,7 +582,8 @@ function getDiaBanBaoCaoTongHop($donvi)
     //Nếu đơn vị quản lý địa bàn (madonviQL) hoặc đơn vị khen thưởng (madonviKT) thì mới xem đc địa bàn cấp dưới
     if ($donvi->madonvi == $donvi->madonviQL || $donvi->madonvi == $donvi->madonviKT) {
         $dsdiaban = App\Model\DanhMuc\dsdiaban::where('madiaban', '<>', $donvi->madiaban)->get();
-        getDiaBanTrucThuoc($dsdiaban, $donvi->madiaban, $m_donvi);
+        //2023.08.01 chỉ kết xuất các đơn vị trên địa bàn ko lấy đơn vị trực thuộc
+        //getDiaBanTrucThuoc($dsdiaban, $donvi->madiaban, $m_donvi);
     }
 
     return $m_donvi;

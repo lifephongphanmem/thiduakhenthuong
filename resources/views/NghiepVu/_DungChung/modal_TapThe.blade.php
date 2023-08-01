@@ -18,7 +18,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
-                        <div class="col-md-11">
+                        <div class="col-md-12">
                             <label class="form-control-label">Tên tập thể</label>
                             {!! Form::text('tentapthe', null, ['class' => 'form-control']) !!}
                         </div>
@@ -28,6 +28,13 @@
                                 data-toggle="modal">
                                 <i class="fa fa-plus"></i></button>
                         </div> --}}
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label class="form-control-label">Tên đơn vị / cơ quan</label>
+                            {!! Form::text('tencoquan', null, ['class' => 'form-control']) !!}
+                        </div>                        
                     </div>
 
                     <div class="form-group row">
@@ -100,6 +107,7 @@
                     form.find("[name='linhvuchoatdong']").val(data.linhvuchoatdong).trigger('change');
                     form.find("[name='madanhhieukhenthuong']").val(data.madanhhieukhenthuong).trigger('change');
                     form.find("[name='tentapthe']").val(data.tentapthe);
+                    form.find("[name='tencoquan']").val(data.tencoquan);
                 }
             });
         }

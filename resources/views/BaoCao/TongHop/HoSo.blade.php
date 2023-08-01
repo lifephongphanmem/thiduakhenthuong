@@ -37,6 +37,11 @@
             </td>
         </tr>
         <tr>
+            <td colspan="2" style="text-align: center; font-weight: bold; font-style: italic">
+                Phân loại hồ sơ: {{ getPhanLoaiHoSo_BaoCao()[$inputs['phanloai']] ?? 'Tất cả' }}
+            </td>
+        </tr>
+        <tr>
             <td colspan="2" style="text-align: center; font-style: italic">
                 Từ ngày: {{ getDayVn($inputs['ngaytu']) }} đến ngày: {{ getDayVn($inputs['ngayden']) }}
             </td>
@@ -50,11 +55,12 @@
             <tr class="text-center">
                 <th style="width: 3%" rowspan="2">STT</th>
                 <th rowspan="2">Tên đơn vị</th>
+                <th rowspan="2" style="width: 8%">Tổng số hồ sơ</th>
                 <th colspan="{{ count($a_loaihinhkt) }}">Loại hình khen thưởng</th>
             </tr>
             <tr class="text-center">
                 @foreach ($a_loaihinhkt as $k => $v)
-                    <th style="width: 10%">{{ $v }}</th>
+                    <th style="width: 8%">{{ $v }}</th>
                 @endforeach
             </tr>
         </thead>
@@ -67,15 +73,20 @@
             <tr class="font-weight-boldest">
                 <td class="text-bold text-center">{{ IntToRoman($i++) }}</td>
                 <td class="text-bold">{{ $v_diaban }}</td>
+                <td class="text-center">{{ dinhdangso($chitiet->sum('tongso'))}}</td>
                 @foreach ($a_loaihinhkt as $k_lh => $v_lh)
                     <td class="text-center">{{ dinhdangso($chitiet->sum($k_lh)) }}</td>
                 @endforeach
             </tr>
 
             @foreach ($chitiet as $ct)
+                @if ($ct->tongso <= 0 && isset($inputs['indonvidulieu']))
+                    @continue;
+                @endif
                 <tr>
                     <td class="text-right">{{ $k++ }}</td>
                     <td>{{ $ct->tendonvi }}</td>
+                    <td class="text-center">{{ dinhdangso($ct->tongso)}}</td>
                     @foreach ($a_loaihinhkt as $k_lh => $v_lh)
                         <td class="text-center">{{ dinhdangso($ct->$k_lh) }}</td>
                     @endforeach
@@ -84,6 +95,7 @@
         @endforeach
         <tr class="font-weight-boldest">
             <td class="text-center" colspan="2">Tổng cộng</td>
+            <td class="text-center">{{ dinhdangso($model->sum('tongso'))}}</td>
             @foreach ($a_loaihinhkt as $k_lh => $v_lh)
                 <td class="text-center">{{ dinhdangso($model->sum($k_lh)) }}</td>
             @endforeach

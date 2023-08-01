@@ -134,7 +134,7 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
                 ->where('madonvi', $inputs['madonvi'])->first();
 
             //nếu trưởng cụm khối == null =>lấy đơn vị quản lý để thêm hồ sơ
-            $truongcumkhoi = $truongcumkhoi->madonvi ?? $m_cumkhoi->where('macumkhoi', $inputs['macumkhoi'])->first()->madonviql;
+            $truongcumkhoi = $truongcumkhoi->madonvi ?? null;
             $inputs['truongcumkhoi'] = $truongcumkhoi == $inputs['madonvi'] ? true : false;
         } else {
             $inputs['truongcumkhoi'] == false;

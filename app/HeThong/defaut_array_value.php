@@ -127,9 +127,9 @@ function getTrangThaiTheoDoi()
     );
 }
 
+//chưa dùng
 function getPhanLoaiHoSoKT()
-{
-    //30.10.22 Chia thêm nhóm để tách hồ sơ khen thưởng và hồ sơ đề nghị khen thưởng
+{    
     return array(
         'KTDONVI' => 'Hồ sơ khen thưởng tại đơn vị',
     );
@@ -138,8 +138,15 @@ function getPhanLoaiHoSoKT()
 function getPhanLoaiHoSo()
 {
     return array(
-        'KHENTHUONG' => 'Hồ sơ khen thưởng theo địa bàn',
-        'KTNGANH' => 'Hồ sơ khen thưởng theo ngành',
+        'KHENTHUONG' => 'Hồ sơ đề nghị cấp trên khen thưởng',
+        //'KTNGANH' => 'Hồ sơ khen thưởng theo ngành', //chuyển lên loại hồ sơ khen thưởng tại đơn vị
+    );
+}
+
+function getPhanLoaiHoSo_BaoCao(){
+    return array(
+        'KTDONVI' => 'Hồ sơ khen thưởng tại đơn vị',
+        'KHENTHUONG' => 'Hồ sơ đề nghị cấp trên khen thưởng',
     );
 }
 
@@ -1283,6 +1290,7 @@ function getTrangThaiChucNangHoSo($trangthai = 'ALL')
         'CC' => 'Chờ chuyển', //=>Nộp hồ sơ bình thưởng
         'CXKT' => 'Chờ xét khen thưởng', //Đã gán madonvi_xd,madonvi_kt,
         'DKT' => 'Đã khen thưởng', //Đã gán madonvi_xd,madonvi_kt,
+        'BTL' => 'Bị trả lại',
     ];
     return $trangthai == 'ALL' ? $a_kq : [$trangthai => $a_kq[$trangthai]];
 }

@@ -39,7 +39,7 @@
         <tr class="text-center">
             <th style="width: 3%" rowspan="2">STT</th>
             <th rowspan="2">Tên đơn vị</th>
-            <th colspan="{{ count($a_danhhieutd) }}">Danh hiệu thi đua</th>
+            <th colspan="{{ count($a_danhhieutd) }}">Danh hiệu thi đua/Hình thức khen thưởng</th>
         </tr>
         <tr class="text-center">
             @foreach ($a_danhhieutd as $k => $v)

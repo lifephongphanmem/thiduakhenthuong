@@ -24,6 +24,8 @@ use App\Model\QuyKhenThuong\dsquanlyquykhenthuong;
 use App\Model\QuyKhenThuong\dsquanlyquykhenthuong_chitiet;
 use App\Model\View\view_khencao_canhan;
 use App\Model\View\view_khencao_tapthe;
+use App\Model\View\view_tdkt_canhan;
+use App\Model\View\view_tdkt_tapthe;
 use App\Model\View\viewdiabandonvi;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
@@ -170,14 +172,20 @@ class baocaotonghopController extends Controller
         }
         $m_hoso = dshosothiduakhenthuong::wherenotin('trangthai', ['CC', 'BTL'])
             ->wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
-            ->wherein('madonvi', array_column($model->toArray(), 'madonvi'))->get();
-
+            ->wherein('madonvi', array_column($model->toArray(), 'madonvi'));
+        
+            if ($inputs['phanloai'] != 'ALL') {
+            $m_hoso = $m_hoso->where('phanloai', $inputs['phanloai']);
+        }
+        $m_hoso =  $m_hoso->get();
         $m_loaihinhkt = getLoaiHinhKhenThuong();
         $a_diaban = array_column($model->toArray(), 'tendiaban', 'madiaban');
         foreach ($model as $ct) {
+            $ct->tongso = 0;
             foreach ($m_loaihinhkt as $loaihinh) {
                 $maloaihinhkt = $loaihinh->maloaihinhkt;
                 $ct->$maloaihinhkt = $m_hoso->where('madonvi', $ct->madonvi)->where('maloaihinhkt', $maloaihinhkt)->count();
+                $ct->tongso += $ct->$maloaihinhkt;
             }
         }
 
@@ -213,28 +221,29 @@ class baocaotonghopController extends Controller
         if ($inputs['phamvithongke'] != 'ALL') {
             $model = $model->where('capdo', $inputs['phamvithongke']);
         }
+
         $m_hoso = dshosothiduakhenthuong::wherenotin('trangthai', ['CC', 'BTL'])
-            ->wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
-            //->wherein('madonvi', array_column($model->toArray(), 'madonvi'))
-            ->get();
+            ->wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']]);
+        if ($inputs['phanloai'] != 'ALL') {
+            $m_hoso = $m_hoso->where('phanloai', $inputs['phanloai']);
+        }
+        $m_hoso =  $m_hoso->get();
+        $m_canhan = view_tdkt_canhan::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();
+        $m_tapthe = view_tdkt_tapthe::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();
 
         $a_hinhthuckt = getDanhHieuKhenThuong('ALL');
         $a_diaban = array_column($model->toArray(), 'tendiaban', 'madiaban');
         $a_dhkt = [];
-        // dd($m_hinhthuckt);
+
         foreach ($model as $ct) {
-            $hoso = $m_hoso->where('madonvi', $ct->madonvi);
-            $m_canhan = dshosothiduakhenthuong_canhan::wherein('mahosotdkt', array_column($hoso->toarray(), 'mahosotdkt'))->get();
-            $m_tapthe = dshosothiduakhenthuong_tapthe::wherein('mahosotdkt', array_column($hoso->toarray(), 'mahosotdkt'))->get();
-            $ct->tongso = $m_canhan->count() + $m_tapthe->count();
-            // if($m_canhan->count() > 0){
-            //     dd($m_canhan);
-            // }
+            $canhan = $m_canhan->where('madonvi', $ct->madonvi);
+            $tapthe = $m_tapthe->where('madonvi', $ct->madonvi);
+            $ct->tongso = $canhan->count() + $tapthe->count();
 
             foreach ($a_hinhthuckt as $key => $val) {
                 //$mahinhthuckt = $loaihinh->madanhhieukhenthuong;
-                $ct->$key = $m_canhan->where('madanhhieukhenthuong', $key)->count()
-                    + $m_tapthe->where('madanhhieukhenthuong', $key)->count();
+                $ct->$key = $canhan->where('madanhhieukhenthuong', $key)->count()
+                    + $tapthe->where('madanhhieukhenthuong', $key)->count();
                 if ($ct->$key > 0)
                     $a_dhkt[$key] = $val;
             }
@@ -278,10 +287,16 @@ class baocaotonghopController extends Controller
         $m_hoso = dshosothiduakhenthuong::wherenotin('trangthai', ['CC', 'BTL'])
             ->wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
             ->wherein('madonvi', array_column($m_donvi->toArray(), 'madonvi'))
-            ->wherein('maloaihinhkt', ['1650358223', '1650358255', '1650358265', '1650358310'])
-            ->get();
-        $m_hoso_canhan = dshosothiduakhenthuong_canhan::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->get();
-        $m_hoso_tapthe = dshosothiduakhenthuong_tapthe::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->get();
+            ->wherein('maloaihinhkt', ['1650358223', '1650358255', '1650358265', '1650358310']);
+
+        //Lọc phân loại hồ sơ
+        if ($inputs['phanloai'] != 'ALL') {
+            $m_hoso = $m_hoso->where('phanloai', $inputs['phanloai']);
+        }
+        $m_hoso =  $m_hoso->get();
+
+        $m_hoso_canhan = dshosothiduakhenthuong_canhan::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();
+        $m_hoso_tapthe = dshosothiduakhenthuong_tapthe::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();
         $model = DHKT_BaoCao();
         //dd($model);
         //$m_loaihinhkt = dmloaihinhkhenthuong::wherein('maloaihinhkt', array_unique(array_column($m_hoso->toarray(), 'maloaihinhkt')))->get();
@@ -390,10 +405,14 @@ class baocaotonghopController extends Controller
         $m_hoso = dshosothiduakhenthuong::wherenotin('trangthai', ['CC', 'BTL'])
             ->wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
             ->wherein('madonvi', array_column($m_donvi->toArray(), 'madonvi'))
-            ->wherein('maloaihinhkt', ['1650358223', '1650358255', '1650358265', '1650358310'])
-            ->get();
-        $m_hoso_canhan = dshosothiduakhenthuong_canhan::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->get();
-        $m_hoso_tapthe = dshosothiduakhenthuong_tapthe::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->get();
+            ->wherein('maloaihinhkt', ['1650358223', '1650358255', '1650358265', '1650358310']);
+        //Lọc phân loại hồ sơ
+        if ($inputs['phanloai'] != 'ALL') {
+            $m_hoso = $m_hoso->where('phanloai', $inputs['phanloai']);
+        }
+        $m_hoso =  $m_hoso->get();
+        $m_hoso_canhan = dshosothiduakhenthuong_canhan::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();
+        $m_hoso_tapthe = dshosothiduakhenthuong_tapthe::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();
         $model = DHKT_BaoCao();
         //dd($model);
         //$m_loaihinhkt = dmloaihinhkhenthuong::wherein('maloaihinhkt', array_unique(array_column($m_hoso->toarray(), 'maloaihinhkt')))->get();

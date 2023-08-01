@@ -38,6 +38,11 @@
             </td>
         </tr>
         <tr>
+            <td colspan="2" style="text-align: center; font-weight: bold; font-style: italic">
+                Phân loại hồ sơ: {{ getPhanLoaiHoSo_BaoCao()[$inputs['phanloai']] ?? 'Tất cả' }}
+            </td>
+        </tr>
+        <tr>
             <td colspan="2" style="text-align: center; font-style: italic">
                 Từ ngày: {{ getDayVn($inputs['ngaytu']) }} đến ngày: {{ getDayVn($inputs['ngayden']) }}
             </td>
@@ -51,12 +56,12 @@
             <tr class="text-center">
                 <th style="width: 3%" rowspan="2">STT</th>
                 <th rowspan="2">Tên đơn vị</th>
-                <th colspan="{{ count($a_hinhthuckt) + 1 }}">Hình thức khen thưởng</th>
+                <th colspan="{{ count($a_hinhthuckt) + 1 }}">Danh hiệu thi đua/Hình thức khen thưởng</th>
             </tr>
             <tr class="text-center">
-                <th style="width: 10%">Tổng số</th>
+                <th style="width: 8%">Tổng số</th>
                 @foreach ($a_hinhthuckt as $k => $v)
-                    <th>{{ $v }}</th>
+                    <th style="width: 5%">{!! $v !!}</th>
                 @endforeach
             </tr>
         </thead>
@@ -76,6 +81,9 @@
             </tr>
 
             @foreach ($chitiet as $ct)
+            @if ($ct->tongso <= 0 && isset($inputs['indonvidulieu']))
+                @continue;
+            @endif
                 <tr>
                     <td class="text-right">{{ $k++ }}</td>
                     <td>{{ $ct->tendonvi }}</td>

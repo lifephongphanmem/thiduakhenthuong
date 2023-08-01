@@ -38,6 +38,11 @@
             </td>
         </tr>
         <tr>
+            <td colspan="2" style="text-align: center; font-weight: bold; font-style: italic">
+                Phân loại hồ sơ: {{ getPhanLoaiHoSo_BaoCao()[$inputs['phanloai']] ?? 'Tất cả' }}
+            </td>
+        </tr>
+        <tr>
             <td colspan="2" style="text-align: center; font-style: italic">
                 Từ ngày: {{ getDayVn($inputs['ngaytu']) }} đến ngày: {{ getDayVn($inputs['ngayden']) }}
             </td>
@@ -50,7 +55,7 @@
         <thead>
             <tr class="text-center">
                 <th style="width: 3%" rowspan="2">STT</th>
-                <th rowspan="2">Hình thức khen thưởng</th>
+                <th rowspan="2">Danh hiệu thi đua/Hình thức khen thưởng</th>
                 <th rowspan="2" style="width: 3%">Tổng số tờ trình đề nghị khen thưởng</th>
                 <th colspan="2">Tổng số tập thể, cá nhân đã được trình đề nghị khen thưởng</th>
                 <th colspan="2">Tổng số tập thể, cá nhân đã có quyết định khen thưởng</th>
