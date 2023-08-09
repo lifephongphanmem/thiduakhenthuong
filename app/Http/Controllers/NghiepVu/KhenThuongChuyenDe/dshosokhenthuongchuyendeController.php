@@ -51,7 +51,7 @@ class dshosokhenthuongchuyendeController extends Controller
         $inputs['url_hs'] = '/KhenThuongChuyenDe/HoSoKT/';
         $inputs['url_qd'] = '/KhenThuongChuyenDe/HoSoKT/';
         $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
-        
+
         $m_donvi = getDonVi(session('admin')->capdo, 'dshosokhenthuongchuyende');
         $a_diaban = array_column($m_donvi->toArray(), 'tendiaban', 'madiaban');
 
@@ -59,7 +59,7 @@ class dshosokhenthuongchuyendeController extends Controller
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         $inputs['maloaihinhkt'] = session('chucnang')['dshosokhenthuongchuyende']['maloaihinhkt'] ?? 'ALL';
         $inputs['trangthai'] = session('chucnang')['dshosokhenthuongchuyende']['trangthai'] ?? 'CC';
-        
+
         //Các đơn vi xét duyệt cấp H, T => có tờ trình
         $inputs['taototrinh'] = session('admin')->hskhenthuong_totrinh;
         // if ($inputs['taototrinh']) {
@@ -118,7 +118,10 @@ class dshosokhenthuongchuyendeController extends Controller
         $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_hogiadinh = dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)->get();
         $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
-
+        //Các đơn vị cấp Tỉnh chỉ đc khen thưởng tương đương Huyện (trừ UBND)
+        if ($donvi->capdo == 'T' && $donvi->madonvi != $donvi->madonviQL) {
+            $donvi->capdo = 'H';
+        }
         $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
         $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
         $a_dhkt_hogiadinh = getDanhHieuKhenThuong($donvi->capdo, 'HOGIADINH');
@@ -991,7 +994,7 @@ class dshosokhenthuongchuyendeController extends Controller
     public function LuuPheDuyet(Request $request)
     {
         $inputs = $request->all();
-        
+
         $thoigian = date('Y-m-d H:i:s');
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model->trangthai = 'DKT';

@@ -118,7 +118,11 @@ class dshosokhenthuongdotxuatController extends Controller
         $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_hogiadinh = dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)->get();
         $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
-
+        
+        //Các đơn vị cấp Tỉnh chỉ đc khen thưởng tương đương Huyện (trừ UBND)
+        if ($donvi->capdo == 'T' && $donvi->madonvi != $donvi->madonviQL) {
+            $donvi->capdo = 'H';
+        }
         $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
         $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
 
@@ -861,7 +865,7 @@ class dshosokhenthuongdotxuatController extends Controller
         $inputs['trangthai'] = 'CXKT';
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         setHuyKhenThuong($model, $inputs);
-        
+
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }
 
