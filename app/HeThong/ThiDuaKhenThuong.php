@@ -583,7 +583,7 @@ function getDiaBanBaoCaoTongHop($donvi)
     if ($donvi->madonvi == $donvi->madonviQL || $donvi->madonvi == $donvi->madonviKT) {
         $dsdiaban = App\Model\DanhMuc\dsdiaban::where('madiaban', '<>', $donvi->madiaban)->get();
         //2023.08.01 chỉ kết xuất các đơn vị trên địa bàn ko lấy đơn vị trực thuộc
-        //getDiaBanTrucThuoc($dsdiaban, $donvi->madiaban, $m_donvi);
+        getDiaBanTrucThuoc($dsdiaban, $donvi->madiaban, $m_donvi);
     }
 
     return $m_donvi;
