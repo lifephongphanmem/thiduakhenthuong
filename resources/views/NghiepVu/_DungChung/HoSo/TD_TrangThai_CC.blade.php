@@ -1,13 +1,21 @@
-<a title="Thông tin hồ sơ" href="{{ url($inputs['url_hs'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
+{{-- <a title="Thông tin hồ sơ" href="{{ url($inputs['url_hs'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
     class="btn btn-sm btn-clean btn-icon">
     <i class="icon-lg la flaticon-edit-1 text-success"></i>
+</a> --}}
+<a href="{{ url($inputs['url_hs'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
+    class="btn btn-icon btn-clean btn-lg mb-1 position-relative" title="Thông tin hồ sơ khen thưởng">
+    <span class="svg-icon svg-icon-xl">
+        <i class="icon-lg la flaticon-list text-success"></i>
+    </span>
+    <span
+        class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->soluongkhenthuong }}</span>
 </a>
-
-<a title="Tạo dự thảo tờ trình" href="{{ url($inputs['url_hs'] . 'ToTrinhHoSo?mahosotdkt=' . $tt->mahosotdkt) }}"
-    class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
-    <i class="icon-lg la flaticon-edit-1 text-success"></i>
-</a>
-
+@if (session('admin')->opt_duthaototrinh)
+    <a title="Tạo dự thảo tờ trình" href="{{ url($inputs['url_hs'] . 'ToTrinhHoSo?mahosotdkt=' . $tt->mahosotdkt) }}"
+        class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
+        <i class="icon-lg la flaticon-edit-1 text-success"></i>
+    </a>
+@endif
 @if ($tt->trangthai == 'BTL')
     <button title="Lý do hồ sơ bị trả lại" type="button"
         onclick="viewLyDo('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}', '{{ $inputs['url_hs'] . 'LayLyDo' }}')"

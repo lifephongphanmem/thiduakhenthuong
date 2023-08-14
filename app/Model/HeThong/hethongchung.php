@@ -35,5 +35,7 @@ class hethongchung extends Model
         'diachicongty',
         'logocongty',
         'hskhenthuong_totrinh',
+        'opt_duthaototrinh',
+        'opt_duthaoquyetdinh',
     ];
 }

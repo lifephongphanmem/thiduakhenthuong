@@ -101,7 +101,8 @@ class xdhosodenghikhenthuongcongtrangController extends Controller
         }
         $inputs['trangthai'] = session('chucnang')['xdhosodenghikhenthuongcongtrang']['trangthai'] ?? 'CC';
         $inputs['trangthai'] = $inputs['trangthai'] != 'ALL' ? $inputs['trangthai'] : 'CC';
-
+        //dd($model->where('trangthai','CXKT')->where('madonvi_kt',''));
+        
         return view('NghiepVu.KhenThuongCongTrang.XetDuyetHoSo.ThongTin')
             ->with('model', $model)
             ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))

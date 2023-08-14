@@ -14,12 +14,12 @@
 <div class="form-group row">
     <div class="col-6">
         <label>Số quyết định</label>
-        {!! Form::text('soqd', null, ['class' => 'form-control', 'required']) !!}
+        {!! Form::text('soqd', null, ['class' => 'form-control']) !!}
     </div>
 
     <div class="col-6">
         <label>Ngày ra quyết định</label>
-        {!! Form::input('date', 'ngayqd', date('Y-m-d'), ['class' => 'form-control']) !!}
+        {!! Form::input('date', 'ngayqd', null, ['class' => 'form-control']) !!}
     </div>
 </div>
 

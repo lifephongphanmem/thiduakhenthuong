@@ -132,7 +132,7 @@ class dshosodenghikhenthuongdoingoaiController extends Controller
         $model_hogiadinh = dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)->get();
         $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
         $model->tendonvi = $donvi->tendonvi;
-        
+
         // $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
         // $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
         //30.03.2023 Hồ sơ đề nghị thì mở hết danh hiệu để chọn do đề nghị là gửi cấp trên 
@@ -421,7 +421,11 @@ class dshosodenghikhenthuongdoingoaiController extends Controller
         }
         $inputs = $request->all();
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
-        $inputs['trangthai'] = 'CXKT';
+        //đơn vị sử dụng trạng thái CXKT => hồ sơ chuyển đi sẽ có trạng thái CXKT vì đã có đơn vị khen thưởng trong lúc tạo hồ so
+        //đơn vị sử dụng trạng thái CC => hồ sơ chuyển đi sẽ có trạng thái DD để đơn vị xét duyệt chuyển cho đơn vị cấp trên
+        $trangthai = session('chucnang')['dshosodenghikhenthuongdoingoai']['trangthai'] ?? 'CC';
+        $inputs['trangthai'] = $trangthai == 'CC' ? 'DD' : 'CXKT';
+
         $inputs['thoigian'] = date('Y-m-d H:i:s');
         $inputs['lydo'] = ''; //Xóa lý do trả lại
         setChuyenDV($model, $inputs);

@@ -92,6 +92,7 @@ class dshosodenghikhenthuongdotxuatController extends Controller
             $inputs['url_xd'] = '/KhenThuongDotXuat/HoSo/';
             $inputs['url_qd'] = '/KhenThuongDotXuat/HoSo/';
         }
+        
         return view('NghiepVu.KhenThuongDotXuat.HoSo.ThongTin')
             ->with('model', $model)
             ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
@@ -271,7 +272,11 @@ class dshosodenghikhenthuongdotxuatController extends Controller
         }
         $inputs = $request->all();
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
-        $inputs['trangthai'] = 'CXKT';
+       //đơn vị sử dụng trạng thái CXKT => hồ sơ chuyển đi sẽ có trạng thái CXKT vì đã có đơn vị khen thưởng trong lúc tạo hồ so
+        //đơn vị sử dụng trạng thái CC => hồ sơ chuyển đi sẽ có trạng thái DD để đơn vị xét duyệt chuyển cho đơn vị cấp trên
+        $trangthai = session('chucnang')['dshosodenghikhenthuongdotxuat']['trangthai'] ?? 'CC';
+        $inputs['trangthai'] = $trangthai == 'CC' ? 'DD' : 'CXKT';
+
         $inputs['thoigian'] = date('Y-m-d H:i:s');
         $inputs['lydo'] = ''; //Xóa lý do trả lại
         setChuyenDV($model, $inputs);

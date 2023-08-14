@@ -262,6 +262,10 @@ function getDonViQuanLyDiaBan($donvi, $kieudulieu = 'ARRAY')
     if ($m_diabanQL != null)
         $a_donvi = array_merge($a_donvi, [$m_diabanQL->madonviQL]);
 
+    //2023.05.25 thêm điều kiện đơn vị không gửi đc cho chính mính (kể cả đơn vị quản lý ở cấp H)
+    if ($donvi->capdo != 'T') {
+        $a_donvi = array_diff($a_donvi, [$donvi->madonvi]);
+    }
     $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', $a_donvi)->get();
     switch ($kieudulieu) {
         case 'MODEL': {
@@ -963,7 +967,6 @@ function setHoanThanhDV($madonvi, $hoso, $a_hoanthanh)
     }
 }
 
-
 //Làm cho chức năng trạng thái == CC
 function setTraLaiXD(&$model, &$inputs)
 {
@@ -985,6 +988,37 @@ function setTraLaiXD(&$model, &$inputs)
         'madonvi' => $model->madonvi_xd,
         'thongtin' => 'Trả lại hồ sơ đề nghị khen thưởng.',
     ]);
+}
+
+//Làm cho chức năng trạng thái == CC
+function setTraLaiPD(&$model, &$inputs)
+{
+    //Tạo nhật ký trc do hồ sơ xoá madonvi_kt
+    $a_nhatky = [
+        'mahoso' => $inputs['mahoso'],
+        'phanloai' => 'dshosothiduakhenthuong',
+        'trangthai' => $model->trangthai,
+        'thoigian' => $model->thoigian,
+        'madonvi_nhan' => $model->madonvi_xd,
+        'madonvi' => $model->madonvi_kt,
+        'thongtin' => 'Trả lại hồ sơ đề nghị khen thưởng.',
+    ];
+
+    $model->trangthai = $inputs['trangthai'];
+    $model->thoigian = $inputs['thoigian'];
+    $model->lydo = $inputs['lydo'];
+
+    $model->lydo_xd = $inputs['lydo'];
+    $model->trangthai_xd = $inputs['trangthai'];
+    $model->thoigian_xd = $inputs['thoigian'];
+
+    $model->madonvi_kt = null;
+    $model->trangthai_kt = null;
+    $model->thoigian_kt = null;
+    $model->save();
+
+    //Lưu trạng thái
+    trangthaihoso::create($a_nhatky);
 }
 
 //Làm cho chức năng trạng thái == CC
@@ -1023,6 +1057,7 @@ function setChuyenDV(&$model, &$inputs)
     $model->trangthai_xd = $model->trangthai;
     $model->thoigian_xd = $model->thoigian;
     $model->madonvi_xd = $model->madonvi_nhan;
+    //dd($model);
     $model->save();
 
     //Lưu trạng thái

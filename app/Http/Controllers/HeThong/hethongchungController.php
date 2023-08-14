@@ -123,6 +123,8 @@ class hethongchungController extends Controller
         $ttuser->ipf4 = $a_HeThongChung->ipf4;
         $ttuser->ipf5 = $a_HeThongChung->ipf5;
         $ttuser->hskhenthuong_totrinh = $a_HeThongChung->hskhenthuong_totrinh;
+        $ttuser->opt_duthaototrinh = $a_HeThongChung->opt_duthaototrinh;
+        $ttuser->opt_duthaoquyetdinh = $a_HeThongChung->opt_duthaoquyetdinh;
         //dd($ttuser);        
 
         Session::put('admin', $ttuser);
@@ -213,6 +215,19 @@ class hethongchungController extends Controller
             $inputs['ipf2'] =  '_Zalo.' . $filedk->getClientOriginalExtension();
             $filedk->move(public_path() . '/data/download/', $inputs['ipf2']);
         }
+
+        if (isset($inputs['opt_duthaototrinh'])) {
+            $inputs['opt_duthaototrinh'] = true;
+        } else {
+            $inputs['opt_duthaototrinh'] = false;
+        }
+
+        if (isset($inputs['opt_duthaoquyetdinh'])) {
+            $inputs['opt_duthaoquyetdinh'] = true;
+        } else {
+            $inputs['opt_duthaoquyetdinh'] = false;
+        }
+        //dd($inputs);
         hethongchung::first()->update($inputs);
         return redirect('/HeThongChung/ThongTin');
     }
