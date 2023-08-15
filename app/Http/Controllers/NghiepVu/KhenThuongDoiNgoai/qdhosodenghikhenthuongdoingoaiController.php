@@ -562,11 +562,30 @@ class qdhosodenghikhenthuongdoingoaiController extends Controller
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_kt);
     }
 
+    public function TraLai(Request $request)
+    {
+        if (!chkPhanQuyen('qdhosodenghikhenthuongdoingoai', 'hoanthanh')) {
+            return view('errors.noperm')
+                ->with('machucnang', 'qdhosodenghikhenthuongdoingoai')
+                ->with('tenphanquyen', 'hoanthanh');
+        }
+        $inputs = $request->all();
+        //dd($inputs);
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
+        //gán trạng thái hồ sơ để theo dõi
+        $madonvi = $model->madonvi_kt;
+        $inputs['trangthai'] = 'BTLXD';
+        $inputs['thoigian'] = date('Y-m-d H:i:s');
+        setTraLaiPD($model, $inputs);
+
+        return redirect(static::$url . 'ThongTin?madonvi=' . $madonvi);
+    }
+
     public function HuyPheDuyet(Request $request)
     {
-        if (!chkPhanQuyen('qdhosodenghikhenthuongchuyende', 'hoanthanh')) {
+        if (!chkPhanQuyen('qdhosodenghikhenthuongdoingoai', 'hoanthanh')) {
             return view('errors.noperm')
-                ->with('machucnang', 'qdhosodenghikhenthuongchuyende')
+                ->with('machucnang', 'qdhosodenghikhenthuongdoingoai')
                 ->with('tenphanquyen', 'hoanthanh');
         }
         // $inputs = $request->all();
@@ -763,4 +782,5 @@ class qdhosodenghikhenthuongdoingoaiController extends Controller
         return response()->json($result);
         //return die(json_encode($result));
     }
+    
 }
