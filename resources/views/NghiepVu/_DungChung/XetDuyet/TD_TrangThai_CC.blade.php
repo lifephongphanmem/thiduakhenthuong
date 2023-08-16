@@ -7,14 +7,14 @@
 @endif
 
 @if (in_array($tt->trangthai_hoso, ['DD', 'BTLXD']))
-    <a href="{{ url($inputs['url_xd'] . 'XetKT?mahosotdkt=' . $tt->mahosotdkt . '&madonvi=' . $inputs['madonvi']) }}"
+    {{-- <a href="{{ url($inputs['url_xd'] . 'XetKT?mahosotdkt=' . $tt->mahosotdkt . '&madonvi=' . $inputs['madonvi']) }}"
         class="btn btn-icon btn-clean btn-lg mb-1 position-relative" title="Thông tin hồ sơ khen thưởng">
         <span class="svg-icon svg-icon-xl">
             <i class="icon-lg la flaticon-list text-success"></i>
         </span>
         <span
             class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->soluongkhenthuong }}</span>
-    </a>
+    </a> --}}
     @if (session('admin')->opt_duthaototrinh)
         <a title="Tạo dự thảo quyết định khen thưởng"
             href="{{ url($inputs['url_xd'] . 'QuyetDinh?mahosotdkt=' . $tt->mahosotdkt) }}"
@@ -22,6 +22,12 @@
             <i class="icon-lg la flaticon-edit-1 text-success"></i>
         </a>
     @endif
+
+    <a title="Trình kết quả khen thưởng"
+        href="{{ url($inputs['url_xd'] . 'TrinhKetQua?mahosotdkt=' . $tt->mahosotdkt) }}"
+        class="btn btn-sm btn-clean btn-icon">
+        <i class="icon-lg la flaticon-internet text-success"></i>
+    </a>
 
     <button title="Chuyển phê duyệt khen thưởng" type="button"
         onclick="confirmNhanvaTKT('{{ $tt->mahosotdkt }}','{{ $inputs['url_xd'] . 'ChuyenHoSo' }}','{{ $inputs['madonvi'] }}')"
