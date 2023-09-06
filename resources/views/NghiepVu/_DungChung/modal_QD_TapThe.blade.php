@@ -42,7 +42,8 @@
                         <div class="col-md-12">
                             <label class="control-label">Danh hiệu thi đua/Hình thức khen thưởng</label>
                             {!! Form::select('madanhhieukhenthuong', $a_dhkt_tapthe, null, [
-                                'class' => 'form-control select2_modal','disabled'=>true
+                                'class' => 'form-control select2_modal',
+                                'disabled' => true,
                             ]) !!}
                         </div>
                         {{-- <div class="col-md-6">
@@ -80,6 +81,102 @@
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-default">Thoát</button>
                     <button type="button" class="btn btn-primary" onclick="LuuTapThe()">Cập nhật</button>
+                    {{-- <button type="submit" class="btn btn-primary">Hoàn thành</button> --}}
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+    </div>
+    {!! Form::close() !!}
+
+    {{-- tập thể --}}
+    {!! Form::open([
+        'url' => $inputs['url_qd'] . '/GanSoQDTapThe',
+        'id' => 'frm_SoQDTapThe',
+        'class' => 'form',
+        'files' => true,
+        'enctype' => 'multipart/form-data',
+    ]) !!}
+    <input type="hidden" name="mahosotdkt" value="{{ $model->mahosotdkt }}" />
+    <input type="hidden" name="id" />
+    <div class="modal fade bs-modal-lg" id="modal-soqdtapthe" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Gán thông tin số quyết định khen thưởng</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label class="form-control-label">Số quyết định khen thưởng</label>
+                            {!! Form::text('soqdkhenthuong', null, ['class' => 'form-control', 'required']) !!}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Ngày ra quyết định</label>
+                            {!! Form::input('date', 'ngayqdkhenthuong', null, ['class' => 'form-control', 'required']) !!}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <table class="table table-striped table-bordered table-hover dulieubang">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th width="2%">STT</th>
+                                        <th>Tên tập thể</th>
+                                        <th>Phân loại<br>đối tượng</th>
+                                        <th>Danh hiệu thi đua/<br>Hình thức khen thưởng </th>
+                                        {{-- <th>Loại hình khen thưởng</th> --}}
+                                        {{-- <th>Kết quả<br>khen thưởng</th> --}}
+                                        {{-- <th>Lý do không khen/</br>Nội dung khen thưởng</th> --}}
+                                        <th width="10%">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $i = 1; ?>
+                                    @foreach ($model_tapthe as $key => $tt)
+                                        <tr class="odd gradeX">
+                                            <td class="text-center">{{ $i++ }}</td>
+                                            <td>{{ $tt->tentapthe }}</td>
+                                            <td>{{ $a_tapthe[$tt->maphanloaitapthe] ?? '' }}</td>
+                                            <td class="text-center">
+                                                {{ $a_dhkt_tapthe[$tt->madanhhieukhenthuong] ?? '' }}
+                                            </td>
+                                            {{-- <td class="text-center">
+                                                {{ $a_loaihinhkt[$model->maloaihinhkt] ?? '' }}
+                                            </td> --}}
+                                            {{-- @if ($tt->ketqua == 1)
+                                                <td class="text-center">
+                                                    <a class="btn btn-sm btn-clean btn-icon">
+                                                        <i class="icon-lg la fa-check text-primary icon-2x"></i>
+                                                    </a>
+                                                @else
+                                                <td class="text-center">
+                                                    <a class="btn btn-sm btn-clean btn-icon">
+                                                        <i class="icon-lg la fa-times-circle text-danger icon-2x"></i>
+                                                    </a>
+                                                </td>
+                                            @endif
+                                            <td>{{ $tt->noidungkhenthuong }}</td> --}}
+                                            <td class="text-center">
+                                                @if ($tt->ketqua == 1)
+                                                    <input type="checkbox" name="{{ 'hoso[' . $tt->mahosotdkt . ']' }}"
+                                                        class="btn btn-sm icon-2x" checked />
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-default">Thoát</button>
+                    <button type="submit" class="btn btn-primary">Cập nhật</button>
                     {{-- <button type="submit" class="btn btn-primary">Hoàn thành</button> --}}
                 </div>
                 <!-- /.modal-content -->

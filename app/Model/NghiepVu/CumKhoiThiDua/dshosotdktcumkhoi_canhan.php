@@ -50,5 +50,10 @@ class dshosotdktcumkhoi_canhan extends Model
         'chucvudoituong',
         'toado_pldoituong',
         'pldoituong',
+        //Thêm các trường số qd khen thưởng do 1 hồ sơ khen thưởng có thể có nhiều qd khen thưởng, nhiều tờ trình khen thưởng
+        'soqdkhenthuong',
+        'ngayqdkhenthuong',
+        'sototrinhkhenthuong',
+        'ngaytrinhkhenthuong',
     ];
 }

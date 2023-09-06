@@ -42,7 +42,14 @@
                                 <div class="btn-group" role="group">
                                     <button title="Khen thưởng cả tập thể" onclick="setKhenThuongTatCa('TAPTHE')"
                                         data-target="#modal-GanKhenThuong" data-toggle="modal" type="button"
-                                        class="btn btn-info btn-icon btn-sm"><i class="fas flaticon-list"></i></button>
+                                        class="btn btn-info btn-icon btn-sm"><i class="fas flaticon-list"></i>
+                                    </button>
+
+                                    <button
+                                        title="Gán số quyết định cho nhiều đối tượng" data-target="#modal-soqdtapthe"
+                                        data-toggle="modal" type="button" class="btn btn-primary btn-icon btn-sm"><i
+                                            class="fas text-dark flaticon-interface-4"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -96,7 +103,7 @@
                                                         data-target="#modal-create-tapthe" data-toggle="modal">
                                                         <i class="icon-lg la fa-edit text-primary"></i>
                                                     </button>
-                                                   
+
                                                     {{-- <button title="Tiêu chuẩn" type="button"
                                                         onclick="getTieuChuan('{{ $tt->id }}','TAPTHE','{{ $tt->tentapthe }}')"
                                                         class="btn btn-sm btn-clean btn-icon"
@@ -173,7 +180,7 @@
                                                         data-target="#modal-create-hogiadinh" data-toggle="modal">
                                                         <i class="icon-lg la fa-edit text-primary"></i>
                                                     </button>
-                                                    
+
                                                     {{-- <button title="Tiêu chuẩn" type="button"
                                                         onclick="getTieuChuan('{{ $tt->id }}','TAPTHE','{{ $tt->tentapthe }}')"
                                                         class="btn btn-sm btn-clean btn-icon"
@@ -258,7 +265,7 @@
                                                         data-target="#modal-create" data-toggle="modal">
                                                         <i class="icon-lg la fa-edit text-primary"></i>
                                                     </button>
-                                                    
+
                                                     {{-- <button title="Tiêu chuẩn" type="button"
                                                         onclick="getTieuChuan('{{ $tt->id }}','CANHAN','{{ $tt->tendoituong }}')"
                                                         class="btn btn-sm btn-clean btn-icon"

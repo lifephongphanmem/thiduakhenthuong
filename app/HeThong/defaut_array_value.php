@@ -129,7 +129,7 @@ function getTrangThaiTheoDoi()
 
 //chưa dùng
 function getPhanLoaiHoSoKT()
-{    
+{
     return array(
         'KTDONVI' => 'Hồ sơ khen thưởng tại đơn vị',
     );
@@ -143,7 +143,8 @@ function getPhanLoaiHoSo()
     );
 }
 
-function getPhanLoaiHoSo_BaoCao(){
+function getPhanLoaiHoSo_BaoCao()
+{
     return array(
         'KTDONVI' => 'Hồ sơ khen thưởng tại đơn vị',
         'KHENTHUONG' => 'Hồ sơ đề nghị cấp trên khen thưởng',
@@ -1279,15 +1280,16 @@ function getTrangThaiHoSo()
         'CXKT' => 'Chờ xét khen thưởng',
         'DKT' => 'Đã khen thưởng',
         'DXKT' => 'Đang xét khen thưởng',
-        'DD' => 'Đã duyệt',
+        'DD' => 'Chờ chuyển<br>khen thưởng',
     ];
 }
 
 //Gán cho mặc định chức năg
 function getTrangThaiChucNangHoSo($trangthai = 'ALL')
 {
+    
     $a_kq = [
-        'CC' => 'Chờ chuyển', //=>Nộp hồ sơ bình thưởng
+        'DD' => 'Chờ chuyển khen thưởng', //=>Nộp hồ sơ bình thưởng
         'CXKT' => 'Chờ xét khen thưởng', //Đã gán madonvi_xd,madonvi_kt,
         'DKT' => 'Đã khen thưởng', //Đã gán madonvi_xd,madonvi_kt,
         'BTL' => 'Bị trả lại',
@@ -1302,4 +1304,53 @@ function getTEST()
         'Xét duyệt' => ['CD' => 'Chờ duyệt', 'DD' => 'Đã duyệt',],
         'Phê duyệt' => ['CXKT' => 'Chờ xét khen thưởng', 'DKT' => 'Đã khen thưởng',],
     ];
+}
+
+function getTrangThai_TD_HoSo($trangthai)
+{
+    $a_trangthai = [
+        'CC' => [
+            'trangthai' => 'Chờ chuyển',
+            'class' => 'badge badge-warning'
+        ],
+
+        'CD' => [
+            'trangthai' => 'Chờ duyệt',
+            'class' => 'badge badge-info'
+        ],
+        'BTL' => [
+            'trangthai' => 'Bị trả<br>lại',
+            'class' => 'badge badge-danger'
+        ],
+
+        'BTLXD' => [
+            'trangthai' => 'Trả lại<br>xét duyệt',
+            'class' => 'badge badge-danger'
+        ],
+
+        'CNXKT' => [
+            'trangthai' => 'Chờ nhận<br>để xét<br>khen thưởng',
+            'class' => 'badge badge-info'
+        ],
+        'CXKT' => [
+            'trangthai' => 'Chờ xét<br>khen thưởng',
+            'class' => 'badge badge-warning'
+        ],
+
+        'DKT' => [
+            'trangthai' => 'Đã khen<br>thưởng',
+            'class' => 'badge badge-success'
+        ],
+        'DD' => [
+            'trangthai' => 'Chờ chuyển<br>khen thưởng',
+            'class' => 'badge badge-success'
+        ],
+
+        'DXKT' => [
+            'trangthai' => 'Đang xét<br>khen thưởng',
+            'class' => 'badge badge-warning'
+        ],
+    ];
+
+    return $a_trangthai[$trangthai] ?? ['trangthai' => $trangthai, 'class' => 'badge badge-info'];
 }

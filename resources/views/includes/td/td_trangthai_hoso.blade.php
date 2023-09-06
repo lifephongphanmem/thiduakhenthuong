@@ -1,4 +1,4 @@
-@if ($tt->trangthai == 'CC')
+{{-- @if ($tt->trangthai == 'CC')
     <td align="center">
         <span class="badge badge-warning">Chờ chuyển</span>
     </td>
@@ -23,9 +23,6 @@
     <td align="center"><span class="badge badge-warning">Chờ xét<br>khen thưởng</span>
         <br>Thời gian:<br><b>{{ getDayVn($tt->thoigian) }}</b>
     </td>
-@elseif($tt->trangthai == 'CXD')
-    <td align="center"><span class="badge badge-warning">Chưa có</span>
-    </td>
 @elseif($tt->trangthai == 'DKT')
     <td align="center">
         <span class="badge badge-success">Đã khen<br>thưởng</span>
@@ -39,4 +36,29 @@
         <span class="badge badge-success">Đã duyệt</span>
         <br>Thời gian:<br><b>{{ getDayVn($tt->thoigian) }}</b>
     </td>
-@endif
+@endif --}}
+
+<?php $a_trangthai_td = getTrangThai_TD_HoSo($tt->trangthai); ?>
+@switch($tt->trangthai)
+    @case('CD')
+    @case('BTL')
+
+    @case('BTLXD')
+        <td align="center">
+            <span class="{{ $a_trangthai_td['class'] }}">{!! $a_trangthai_td['trangthai'] !!}</span>
+        </td>
+    @break
+
+    @case('CNXKT')
+    @case('CXKT')
+
+    @case('DKT')
+    @case('DXKT')
+
+    @case('DD')
+        <td align="center">
+            <span class="{{ $a_trangthai_td['class'] }}">{!! $a_trangthai_td['trangthai'] !!}</span>
+            <br>Thời gian:<br><b>{{ getDayVn($tt->thoigian) }}</b>
+        </td>
+    @break
+@endswitch

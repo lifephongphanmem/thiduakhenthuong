@@ -46,5 +46,10 @@ class dshosothiduakhenthuong_tapthe extends Model
        'toado_pldoituong',
        'pldoituong',
        'tencoquan',
+       //Thêm các trường số qd khen thưởng do 1 hồ sơ khen thưởng có thể có nhiều qd khen thưởng, nhiều tờ trình khen thưởng
+       'soqdkhenthuong',
+       'ngayqdkhenthuong',
+       'sototrinhkhenthuong',
+       'ngaytrinhkhenthuong',
     ];
 }
