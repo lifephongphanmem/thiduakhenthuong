@@ -7,7 +7,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Model\DanhMuc\dmdanhhieuthidua;
 use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
 use App\Model\DanhMuc\dsdiaban;
@@ -15,7 +14,6 @@ use App\Model\DanhMuc\dsdonvi;
 use App\Model\NghiepVu\KhenCao\dshosokhencao;
 use App\Model\NghiepVu\KhenCao\dshosokhencao_canhan;
 use App\Model\NghiepVu\KhenCao\dshosokhencao_tapthe;
-use App\Model\NghiepVu\ThiDuaKhenThuong\dshosokhenthuong_khenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_canhan;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tapthe;
@@ -53,6 +51,8 @@ class baocaotonghopController extends Controller
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         $m_diaban = getDiaBanBaoCaoTongHop($donvi);
+        //dd($m_diaban->toArray());
+
         return view('BaoCao.TongHop.ThongTin')
             ->with('m_diaban', $m_diaban)
             ->with('m_donvi', $m_donvi)
@@ -173,8 +173,8 @@ class baocaotonghopController extends Controller
         $m_hoso = dshosothiduakhenthuong::wherenotin('trangthai', ['CC', 'BTL'])
             ->wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
             ->wherein('madonvi', array_column($model->toArray(), 'madonvi'));
-        
-            if ($inputs['phanloai'] != 'ALL') {
+
+        if ($inputs['phanloai'] != 'ALL') {
             $m_hoso = $m_hoso->where('phanloai', $inputs['phanloai']);
         }
         $m_hoso =  $m_hoso->get();
@@ -213,13 +213,15 @@ class baocaotonghopController extends Controller
         //Nếu đơn vị quản lý địa bàn (madonviQL) hoặc đơn vị khen thưởng (madonviKT) thì mới xem đc dữ liệu toàn địa bàn
         if ($donvi->madonvi == $donvi->madonviQL) {
             // if ($donvi->madonvi == $donvi->madonviQL || $donvi->madonvi == $donvi->madonviKT) {
-            $model = viewdiabandonvi::wherein('madiaban', array_column($m_diaban->toArray(), 'madiaban'))->get();
+            $model = viewdiabandonvi::wherein('madiaban', array_column($m_diaban->toArray(), 'madiaban'));
         } else {
-            $model = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->get();
+            $model = viewdiabandonvi::where('madonvi', $inputs['madonvi']);
         }
 
         if ($inputs['phamvithongke'] != 'ALL') {
-            $model = $model->where('capdo', $inputs['phamvithongke']);
+            $model = $model->where('capdo', $inputs['phamvithongke'])->get();
+        } else {
+            $model = $model->get();
         }
 
         $m_hoso = dshosothiduakhenthuong::wherenotin('trangthai', ['CC', 'BTL'])
@@ -227,14 +229,25 @@ class baocaotonghopController extends Controller
         if ($inputs['phanloai'] != 'ALL') {
             $m_hoso = $m_hoso->where('phanloai', $inputs['phanloai']);
         }
+
+        if ($inputs['madonvi_kt'] != 'ALL') {
+            $m_hoso = $m_hoso->where('madonvi_kt', $inputs['madonvi_kt']);
+        }
+
         $m_hoso =  $m_hoso->get();
+
         $m_canhan = view_tdkt_canhan::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();
         $m_tapthe = view_tdkt_tapthe::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();
 
-        $a_hinhthuckt = getDanhHieuKhenThuong('ALL');
-        $a_diaban = array_column($model->toArray(), 'tendiaban', 'madiaban');
-        $a_dhkt = [];
+        $a_danhhieukhenthuong = array_unique(array_merge(
+            array_column($m_canhan->toarray(), 'madanhhieukhenthuong'),
+            array_column($m_tapthe->toarray(), 'madanhhieukhenthuong')
+        ));
+        //$a_hinhthuckt = getDanhHieuKhenThuong('ALL');
+        $a_hinhthuckt = array_column(dmhinhthuckhenthuong::wherein('mahinhthuckt', $a_danhhieukhenthuong)->get()->toarray(), 'tenhinhthuckt', 'mahinhthuckt');
+        $a_diaban = a_unique(a_split($model->toArray(), ['tendiaban', 'madiaban', 'capdo', 'madiabanQL']));
 
+        //dd($a_hinhthuckt);
         foreach ($model as $ct) {
             $canhan = $m_canhan->where('madonvi', $ct->madonvi);
             $tapthe = $m_tapthe->where('madonvi', $ct->madonvi);
@@ -244,19 +257,34 @@ class baocaotonghopController extends Controller
                 //$mahinhthuckt = $loaihinh->madanhhieukhenthuong;
                 $ct->$key = $canhan->where('madanhhieukhenthuong', $key)->count()
                     + $tapthe->where('madanhhieukhenthuong', $key)->count();
-                if ($ct->$key > 0)
-                    $a_dhkt[$key] = $val;
             }
         }
-        //$m_hinhthuc = dmhinhthuckhenthuong::wherein('mahinhthuckt', array_merge(array_column($m_hoso_canhan->toarray(), 'mahinhthuckt'), array_column($m_hoso_tapthe->toarray(), 'mahinhthuckt')))->get();
 
-        //dd($model);
+        //Lọc theo địa bàn để lấy báo cáo phù hợp
+        $a_huyen = [];        
+        switch (getCapDoLonNhat(array_unique(array_column($a_diaban, 'capdo')))) {
+            case 'H': {
+                    $view = 'BaoCao.TongHop.KhenThuong_CapHuyen';                    
+                    break;
+                }
+            case 'X': {
+                    $view = 'BaoCao.TongHop.KhenThuong_CapXa';
+                    //Lấy ds huyện
+                    $a_huyen = array_column(dsdiaban::where('capdo','H')->get()->toarray(),'tendiaban','madiaban');
+                    break;
+                }
+            default: {
+                    $view = 'BaoCao.TongHop.KhenThuong_CapTinh';
+                }
+        }
+        // dd($view);
         $m_donvibc = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
-        return view('BaoCao.TongHop.KhenThuong')
+        return view($view)
             ->with('model', $model)
             ->with('m_donvi', $m_donvibc)
             ->with('a_diaban', $a_diaban)
-            ->with('a_hinhthuckt', array_unique($a_dhkt))
+            ->with('a_huyen', $a_huyen) //dùng cho xã để lọc theo huyện
+            ->with('a_hinhthuckt', $a_hinhthuckt)
             //->with('a_danhhieutd', array_column($m_hinhthuc->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
             //->with('a_phamvi', getPhamViPhongTrao())
             ->with('inputs', $inputs)
@@ -292,6 +320,9 @@ class baocaotonghopController extends Controller
         //Lọc phân loại hồ sơ
         if ($inputs['phanloai'] != 'ALL') {
             $m_hoso = $m_hoso->where('phanloai', $inputs['phanloai']);
+        }
+        if ($inputs['madonvi_kt'] != 'ALL') {
+            $m_hoso = $m_hoso->where('madonvi_kt', $inputs['madonvi_kt']);
         }
         $m_hoso =  $m_hoso->get();
 
@@ -409,6 +440,9 @@ class baocaotonghopController extends Controller
         //Lọc phân loại hồ sơ
         if ($inputs['phanloai'] != 'ALL') {
             $m_hoso = $m_hoso->where('phanloai', $inputs['phanloai']);
+        }
+        if ($inputs['madonvi_kt'] != 'ALL') {
+            $m_hoso = $m_hoso->where('madonvi_kt', $inputs['madonvi_kt']);
         }
         $m_hoso =  $m_hoso->get();
         $m_hoso_canhan = dshosothiduakhenthuong_canhan::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();
@@ -843,5 +877,11 @@ class baocaotonghopController extends Controller
             ->with('col_chikhac', count($a_chikhac) > 0 ? count($a_chikhac) : 1)
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Báo cáo tổng hợp hình thức khen thưởng');
+    }
+
+    function getMaDiaBan(&$chitiet, $m_phanloai)
+    {
+        //Truyền vào đơn vị
+        //gán madiaban: T, H, X căn cứ theo cấp độ
     }
 }

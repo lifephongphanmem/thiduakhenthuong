@@ -1125,3 +1125,15 @@ function getToaDoMacDinh($inputs)
 
     return $model;
 }
+
+//Lấy cấp độ cao nhất
+function getCapDoLonNhat($capdo)
+{
+    if (in_array('T', $capdo)) {
+        return 'T';
+    } elseif (in_array('H', $capdo)) {
+        return 'H';
+    } else {
+        return 'X';
+    }
+}

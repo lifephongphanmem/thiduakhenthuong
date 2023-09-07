@@ -65,35 +65,87 @@
                 @endforeach
             </tr>
         </thead>
-        <?php $i = 1; ?>
-        @foreach ($a_diaban as $k_diaban => $v_diaban)
+
+        <?php
+        $i = 0;
+        $i_diaban = 0;
+        $diaban = a_getelement($a_diaban, ['capdo' => 'H']);
+        ?>
+        @foreach ($diaban as $v_diaban)
+            <!-- Dải các đơn vị trong địa bàn Huyện -->
             <?php
-            $chitiet = $model->where('madiaban', (string) $k_diaban);
+            $donvi = $model->where('madiaban', (string) $v_diaban['madiaban']);
             $k = 1;
             ?>
             <tr class="font-weight-boldest">
-                <td class="text-bold text-center">{{ IntToRoman($i++) }}</td>
-                <td class="text-bold">{{ $v_diaban }}</td>
-                <td class="text-center">{{ dinhdangso($chitiet->sum('tongso')) }}</td>
-                @foreach ($a_hinhthuckt as $k_lh => $v_lh)
-                    <td class="text-center">{{ dinhdangso($chitiet->sum($k_lh)) }}</td>
-                @endforeach
+                <td class="text-bold text-center">{{ IntToRoman(++$i) }}</td>
+                <td class="text-bold">{{ $v_diaban['tendiaban'] }}</td>
             </tr>
-
-            @foreach ($chitiet as $ct)
-            @if ($ct->tongso <= 0 && isset($inputs['indonvidulieu']))
-                @continue;
-            @endif
-                <tr>
-                    <td class="text-right">{{ $k++ }}</td>
-                    <td>{{ $ct->tendonvi }}</td>
-                    <td class="text-center">{{ dinhdangso($ct->tongso) }}</td>
+            @if ($donvi->count() > 0)
+                <tr class="font-weight-bold">
+                    <td class="text-bold text-center">{{ IntToRoman($i) . '.' . ++$i_diaban }}</td>
+                    <td class="text-bold">Các đơn vị trong địa bàn</td>
+                    <td class="text-center">{{ dinhdangso($donvi->sum('tongso')) }}</td>
                     @foreach ($a_hinhthuckt as $k_lh => $v_lh)
-                        <td class="text-center">{{ dinhdangso($ct->$k_lh) }}</td>
+                        <td class="text-center">{{ dinhdangso($donvi->sum($k_lh)) }}</td>
                     @endforeach
                 </tr>
-            @endforeach
+
+                @foreach ($donvi as $ct)
+                    @if ($ct->tongso <= 0 && isset($inputs['indonvidulieu']))
+                        @continue;
+                    @endif
+                    <tr>
+                        <td class="text-right">{{ $k++ }}</td>
+                        <td>{{ $ct->tendonvi }}</td>
+                        <td class="text-center">{{ dinhdangso($ct->tongso) }}</td>
+                        @foreach ($a_hinhthuckt as $k_lh => $v_lh)
+                            <td class="text-center">{{ dinhdangso($ct->$k_lh) }}</td>
+                        @endforeach
+                    </tr>
+                @endforeach
+            @endif
+
+            <!-- Dải các Xã trong huyện -->
+            <?php
+            $diaban_capduoi = a_getelement($a_diaban, ['madiabanQL' => $v_diaban['madiaban']]); //Đơn vị cấp Huyện
+            $donvi_xa = $model->where('madiabanQL', (string) $v_diaban['madiaban']);
+            // echo (count($diaban_capduoi_h) .'----'.$k_capdo);
+            $i_cd_x = 1;
+            ?>
+            @if (count($diaban_capduoi) > 0)
+                <tr class="font-weight-bold">
+                    <td class="text-bold text-center">{{ IntToRoman($i) . '.' . $i_diaban }}
+                    </td>
+                    <td class="text-bold">Các xã, phường, thị trấn</td>
+                    <td class="text-center">{{ dinhdangso($donvi_xa->sum('tongso')) }}</td>
+                    @foreach ($a_hinhthuckt as $k_lh => $v_lh)
+                        <td class="text-center">{{ dinhdangso($donvi_xa->sum($k_lh)) }}</td>
+                    @endforeach
+                </tr>
+                @foreach ($diaban_capduoi as $diaban_cd_x)
+                    <?php
+                    $donvi_x = $model->where('madiaban', (string) $diaban_cd_x['madiaban']);
+                    $k_x = 1;
+                    ?>
+                    @foreach ($donvi_x as $ct)
+                        @if ($ct->tongso <= 0 && isset($inputs['indonvidulieu']))
+                            @continue;
+                        @endif
+                        <tr>
+                            <td class="text-right">{{$i_cd_x++}}</td>
+                            <td>{{ $ct->tendonvi }}</td>
+                            <td class="text-center">{{ dinhdangso($ct->tongso) }}</td>
+                            @foreach ($a_hinhthuckt as $k_lh => $v_lh)
+                                <td class="text-center">{{ dinhdangso($ct->$k_lh) }}</td>
+                            @endforeach
+                        </tr>
+                    @endforeach
+                @endforeach                
+            @endif
         @endforeach
+
+
         <tr class="font-weight-boldest">
             <td class="text-center" colspan="2">Tổng cộng</td>
             <td class="text-center">{{ dinhdangso($model->sum('tongso')) }}</td>
