@@ -49,7 +49,7 @@
 
                     <div class="form-group row">
                         <div class="col-12">
-                            <label>Nội dung trình khen thưởng</label>
+                            <label>Nội dung quyết định khen thưởng</label>
                             {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows' => 2]) !!}
                         </div>
                     </div>
