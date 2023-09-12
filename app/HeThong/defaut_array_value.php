@@ -1286,10 +1286,10 @@ function getTrangThaiHoSo()
 
 //Gán cho mặc định chức năg
 function getTrangThaiChucNangHoSo($trangthai = 'ALL')
-{
-    
+{    
     $a_kq = [
-        'DD' => 'Chờ chuyển khen thưởng', //=>Nộp hồ sơ bình thưởng
+        'CC' => 'Chờ chuyển', //=>Nộp hồ sơ bình thưởng
+        'DD' => 'Chờ chuyển khen thưởng', //
         'CXKT' => 'Chờ xét khen thưởng', //Đã gán madonvi_xd,madonvi_kt,
         'DKT' => 'Đã khen thưởng', //Đã gán madonvi_xd,madonvi_kt,
         'BTL' => 'Bị trả lại',

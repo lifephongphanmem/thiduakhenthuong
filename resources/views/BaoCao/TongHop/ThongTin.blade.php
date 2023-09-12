@@ -366,7 +366,7 @@
                 <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Đơn vị phê duyệt khen thưởng</label>
-                        {!! Form::select('madonvi_kt', setArrayAll($a_donvi), $inputs['madonvi'], [
+                        {!! Form::select('madonvi_kt', setArrayAll($a_donvi), 'ALL', [
                             'class' => 'form-control select2_modal',
                         ]) !!}
                     </div>
@@ -406,7 +406,7 @@
                     <div class="col-9 col-form-label">
                         <div class="checkbox-inline">
                             <label class="checkbox checkbox-outline checkbox-success">
-                                <input type="checkbox" name="indonvidulieu">
+                                <input type="checkbox" name="indonvidulieu" checked>
                                 <span></span>Chỉ in các đơn vị có số liệu khen thưởng</label>                           
                         </div>
                         
