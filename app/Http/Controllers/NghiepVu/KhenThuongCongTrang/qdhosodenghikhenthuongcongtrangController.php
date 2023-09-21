@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\NghiepVu\_DungChung\dungchung_nghiepvu_tailieuController;
 use App\Http\Controllers\NghiepVu\_DungChung\dungchung_nghiepvuController;
 use App\Model\DanhMuc\dmdanhhieuthidua;
 use App\Model\DanhMuc\dmhinhthuckhenthuong;
@@ -20,6 +21,7 @@ use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_canhan;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_detai;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_hogiadinh;
+use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tailieu;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tapthe;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua;
 use App\Model\View\viewdiabandonvi;
@@ -563,7 +565,9 @@ class qdhosodenghikhenthuongcongtrangController extends Controller
         $a_hogiadinh = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $a_dhkt_hogiadinh = getDanhHieuKhenThuong($donvi->capdo, 'HOGIADINH');
-
+        //Gán tài liệu đính kèm
+        $model_tailieu = dshosothiduakhenthuong_tailieu::where('mahosotdkt', $inputs['mahosotdkt'])->where('phanloai', 'QDKT')->first();
+        $model->quyetdinh = $model_tailieu->tentailieu ?? '';
 
         //Gán thông tin đơn vị khen thưởng
         $donvi_kt = viewdiabandonvi::where('madonvi', $model->madonvi_kt)->first();
@@ -612,11 +616,10 @@ class qdhosodenghikhenthuongcongtrangController extends Controller
         getTaoQuyetDinhKT($model);
 
         if (isset($inputs['quyetdinh'])) {
-            $filedk = $request->file('quyetdinh');
-            $inputs['quyetdinh'] = $inputs['mahosotdkt'] . '_quyetdinh.' . $filedk->getClientOriginalExtension();
-            $filedk->move(public_path() . '/data/quyetdinh/', $inputs['quyetdinh']);
-            $model->quyetdinh = $inputs['quyetdinh'];
+            $dinhkem = new dungchung_nghiepvu_tailieuController();
+            $dinhkem->ThemTaiLieuDK($request, 'dshosothiduakhenthuong', 'quyetdinh', $model->madonvi_kt);
         }
+
         $model->save();
         trangthaihoso::create([
             'mahoso' => $inputs['mahosotdkt'],
@@ -635,11 +638,24 @@ class qdhosodenghikhenthuongcongtrangController extends Controller
                 ->with('machucnang', 'qdhosodenghikhenthuongcongtrang')
                 ->with('tenphanquyen', 'hoanthanh');
         }
+
         $inputs = $request->all();
         $inputs['thoigian'] = date('Y-m-d H:i:s');
         $inputs['trangthai'] = 'CXKT';
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         setHuyKhenThuong($model, $inputs);
+
+        //Xoá tài liệu đính kèm quyết định khen thưởng
+        $model_tailieu = dshosothiduakhenthuong_tailieu::where('mahosotdkt', $inputs['mahosotdkt'])->where('phanloai', 'QDKT')->first();
+        if ($model_tailieu != null) {
+            $rq = new Request([
+                'phanloaihoso'   => 'dshosothiduakhenthuong',
+                'id' => $model_tailieu->id,
+            ]);
+            //$rq->request->add(['phanloaihoso' => 'dshosothiduakhenthuong', 'id'=>'10']);        
+            $dinhkem = new dungchung_nghiepvu_tailieuController();
+            $dinhkem->XoaTaiLieu($rq);
+        }
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
     }
 

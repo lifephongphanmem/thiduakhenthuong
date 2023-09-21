@@ -1286,7 +1286,7 @@ function getTrangThaiHoSo()
 
 //Gán cho mặc định chức năg
 function getTrangThaiChucNangHoSo($trangthai = 'ALL')
-{    
+{
     $a_kq = [
         'CC' => 'Chờ chuyển', //=>Nộp hồ sơ bình thưởng
         'DD' => 'Chờ chuyển khen thưởng', //
@@ -1353,4 +1353,24 @@ function getTrangThai_TD_HoSo($trangthai)
     ];
 
     return $a_trangthai[$trangthai] ?? ['trangthai' => $trangthai, 'class' => 'badge badge-info'];
+}
+
+function getPhanLoaiTaiLieuDK($phanloaihoso = 'ALL')
+{
+    $a_kq = [
+        'TOTRINH' => 'Tờ trình đề nghị khen thưởng',
+        'BAOCAO' => 'Báo cáo thành tích',
+        'BIENBAN' => 'Biên bản cuộc họp',
+        'DTKH' => 'Đề tài khoa học',
+        'SANGKIEN' => 'Sáng kiến sáng tạo',
+        'TOTRINHKQ' => 'Tờ trình kết quả khen thưởng',
+        'QDKT' => 'Quyết định khen thưởng',
+        'KHAC' => 'Tài liệu khác',
+    ];
+    //Bỏ các giấy tờ đính kèm xét duyệt và qd
+    if ($phanloaihoso == 'DENGHI') {
+        unset($a_kq['TOTRINHKQ']);
+        unset($a_kq['QDKT']);
+    }
+    return $a_kq;
 }

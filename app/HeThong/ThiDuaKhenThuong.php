@@ -277,6 +277,12 @@ function getDonViQuanLyDiaBan($donvi, $kieudulieu = 'ARRAY')
     }
 }
 
+//Hàm lấy danh sách đơn vị quản lý địa bàn và các đơn vị quản lý địa bàn ở cấp dưới (Kết xuất báo cáo)
+function getDonViQL_BaoCao($a_donvi){
+    $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', $a_donvi)->get();
+    return array_column($model->toarray(), 'tendonvi', 'madonvi');
+}
+
 //Lấy địa bàn, cụm khối để lọc dữ liệu
 function getDiaBanCumKhoi($tendangnhap)
 {
