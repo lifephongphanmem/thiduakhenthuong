@@ -731,8 +731,8 @@ function getTaoDuThaoToTrinhPheDuyet(&$model, $maduthao = null)
 function getTaoQuyetDinhKT(&$model)
 {
     if ($model->thongtinquyetdinh == '') {
-        getTaoDuThaoKT($model);
-    }
+        getTaoDuThaoKT($model);        
+    }    
     $tendonvi = dsdonvi::where('madonvi', $model->madonvi)->first()->tendonvi ?? '';
     $donvi_xd = dsdonvi::where('madonvi', $model->madonvi_xd)->first();
     $model->thongtinquyetdinh = str_replace('[chucvunguoikyqd]', $model->chucvunguoikyqd, $model->thongtinquyetdinh);
@@ -745,6 +745,7 @@ function getTaoQuyetDinhKT(&$model)
     $model->thongtinquyetdinh = str_replace('[donvidenghi]',  $tendonvi, $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[donvikhenthuong]',  $model->donvikhenthuong, $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[donvixetduyet]',  $donvi_xd->tendonvi ?? '', $model->thongtinquyetdinh);
+    //dd($model);
 }
 
 function getTaoDuThaoKT(&$model, $maduthao = null)
@@ -766,9 +767,17 @@ function getTaoDuThaoKT(&$model, $maduthao = null)
         $thongtinquyetdinh = str_replace('[hinhthuckhenthuong]',  'Bằng khen', $thongtinquyetdinh);
         $thongtinquyetdinh = str_replace('[donvixetduyet]',  $donvi_xd->tendonvi ?? '', $thongtinquyetdinh);
 
+        // Lấy danh sách khen thưởng theo cá nhân và tập thể
+
         $m_canhan = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)
             ->where('ketqua', '1')->orderby('stt')->get();
-        if ($m_canhan->count() > 0) {
+
+        $m_tapthe = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)
+            ->where('ketqua', '1')->orderby('stt')->get();
+        //Xử lý các trường hợp
+
+        if ($m_canhan->count() > 0 && $m_tapthe->count() > 0) {
+            //Cá nhân
             $s_canhan = '';
             $i = 1;
             foreach ($m_canhan as $canhan) {
@@ -782,13 +791,9 @@ function getTaoDuThaoKT(&$model, $maduthao = null)
             //dd($s_canhan);
             // $thongtinquyetdinh = str_replace('<p style=&#34;margin-left:25px;&#34;>[khenthuongcanhan]</p>',  $s_canhan, $thongtinquyetdinh);
             $thongtinquyetdinh = str_replace('[khenthuongcanhan]',  $s_canhan, $thongtinquyetdinh);
-            $thongtinquyetdinh = str_replace('[soluongcanhan]', $m_canhan->count() . ' cá nhân', $thongtinquyetdinh);
-        }
+            
 
-        //Tập thể
-        $m_tapthe = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)
-            ->where('ketqua', '1')->orderby('stt')->get();
-        if ($m_tapthe->count() > 0) {
+            //Tập thể
             $s_tapthe = '';
             $i = 1;
             foreach ($m_tapthe as $chitiet) {
@@ -797,7 +802,46 @@ function getTaoDuThaoKT(&$model, $maduthao = null)
                     '</p>';
             }
             $thongtinquyetdinh = str_replace('[khenthuongtapthe]',  $s_tapthe, $thongtinquyetdinh);
+
+            $thongtinquyetdinh = str_replace('[soluongcanhan]', $m_canhan->count() . ' cá nhân', $thongtinquyetdinh);
             $thongtinquyetdinh = str_replace('[soluongtapthe]', $m_tapthe->count() . ' tập thể', $thongtinquyetdinh);
+        } else {
+            //Cá nhân
+            if ($m_canhan->count() > 0) {
+                $s_canhan = '';
+                $i = 1;
+                foreach ($m_canhan as $canhan) {
+                    $s_canhan .= '<p style=&#34;margin-left:40px;&#34;>' .
+                        ($i++) . '. ' . $canhan->tendoituong .
+                        ($canhan->chucvu == '' ? '' : (', ' . $canhan->chucvu)) .
+                        ($canhan->tencoquan == '' ? '' : (' ' . $canhan->tencoquan)) .
+                        '</p>';
+                    //dd($s_canhan);
+                }
+                //dd($s_canhan);
+                // $thongtinquyetdinh = str_replace('<p style=&#34;margin-left:25px;&#34;>[khenthuongcanhan]</p>',  $s_canhan, $thongtinquyetdinh);
+                $thongtinquyetdinh = str_replace('[khenthuongcanhan]',  $s_canhan, $thongtinquyetdinh);
+                
+                $thongtinquyetdinh = str_replace('II. Tập thể',  '', $thongtinquyetdinh);
+                $thongtinquyetdinh = str_replace('[khenthuongtapthe]',  '', $thongtinquyetdinh);
+                $thongtinquyetdinh = str_replace('[soluongtapthe] và [soluongcanhan]', $m_canhan->count() . ' cá nhân', $thongtinquyetdinh);
+            }
+
+            //Tập thể
+            if ($m_tapthe->count() > 0) {
+                $s_tapthe = '';
+                $i = 1;
+                foreach ($m_tapthe as $chitiet) {
+                    $s_tapthe .= '<p style=&#34;margin-left:40px;&#34;>' .
+                        ($i++) . '. ' . $chitiet->tentapthe .
+                        '</p>';
+                }
+                $thongtinquyetdinh = str_replace('[khenthuongtapthe]',  $s_tapthe, $thongtinquyetdinh);
+                $thongtinquyetdinh = str_replace('I. Cá nhân',  '', $thongtinquyetdinh);
+                $thongtinquyetdinh = str_replace('II. Tập thể',  'I. Tập thể', $thongtinquyetdinh);
+                $thongtinquyetdinh = str_replace('[khenthuongcanhan]',  '', $thongtinquyetdinh);
+                $thongtinquyetdinh = str_replace('[soluongtapthe] và [soluongcanhan]', $m_tapthe->count() . ' tập thể', $thongtinquyetdinh);
+            }
         }
 
         //Hộ gia đình        
@@ -814,6 +858,7 @@ function getTaoDuThaoKT(&$model, $maduthao = null)
             $thongtinquyetdinh = str_replace('[khenthuonghogiadinh]',  $s_hgd, $thongtinquyetdinh);
         }
         //gán thong tin quyet dinh
+        //dd($thongtinquyetdinh);
         $model->thongtinquyetdinh = $thongtinquyetdinh;
     }
 }
@@ -1286,7 +1331,7 @@ function getTrangThaiHoSo()
 
 //Gán cho mặc định chức năg
 function getTrangThaiChucNangHoSo($trangthai = 'ALL')
-{    
+{
     $a_kq = [
         'CC' => 'Chờ chuyển', //=>Nộp hồ sơ bình thưởng
         'DD' => 'Chờ chuyển khen thưởng', //

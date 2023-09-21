@@ -266,9 +266,7 @@ class qdhosodenghikhenthuongdotxuatController extends Controller
     {
         $inputs = $request->all();
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        // if ($model->thongtinquyetdinh == '') {
-        //     $model->thongtinquyetdinh = getQuyetDinhCKE('QUYETDINH');
-        // }
+        getTaoQuyetDinhKT($model);
         $model->thongtinquyetdinh = str_replace('<p>[sangtrangmoi]</p>', '<div class=&#34;sangtrangmoi&#34;></div>', $model->thongtinquyetdinh);
         //dd($model);
         return view('BaoCao.DonVi.XemQuyetDinh')

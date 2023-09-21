@@ -374,6 +374,7 @@ class qdhosodenghikhenthuongcongtrangController extends Controller
         return redirect(static::$url . 'Sua?mahosotdkt=' . $inputs['mahosotdkt']);
     }
 
+    //bỏ
     public function QuyetDinh(Request $request)
     {
         $inputs = $request->all();
@@ -434,11 +435,8 @@ class qdhosodenghikhenthuongcongtrangController extends Controller
     {
         $inputs = $request->all();
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        // if ($model->thongtinquyetdinh == '') {
-        //     $model->thongtinquyetdinh = getQuyetDinhCKE('QUYETDINH');
-        // }
+        getTaoQuyetDinhKT($model);
         $model->thongtinquyetdinh = str_replace('<p>[sangtrangmoi]</p>', '<div class=&#34;sangtrangmoi&#34;></div>', $model->thongtinquyetdinh);
-        //dd($model);
         return view('BaoCao.DonVi.XemQuyetDinh')
             ->with('model', $model)
             ->with('pageTitle', 'Quyết định khen thưởng');
@@ -608,9 +606,8 @@ class qdhosodenghikhenthuongcongtrangController extends Controller
         $model->ngayqd = $inputs['ngayqd'];
         $model->chucvunguoikyqd = $inputs['chucvunguoikyqd'];
         $model->hotennguoikyqd = $inputs['hotennguoikyqd'];
-        //dd($model);
         getTaoQuyetDinhKT($model);
-
+        //dd($model->thongtinquyetdinh);
         if (isset($inputs['quyetdinh'])) {
             $filedk = $request->file('quyetdinh');
             $inputs['quyetdinh'] = $inputs['mahosotdkt'] . '_quyetdinh.' . $filedk->getClientOriginalExtension();
