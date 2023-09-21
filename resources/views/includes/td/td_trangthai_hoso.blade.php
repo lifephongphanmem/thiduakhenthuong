@@ -40,6 +40,11 @@
 
 <?php $a_trangthai_td = getTrangThai_TD_HoSo($tt->trangthai); ?>
 @switch($tt->trangthai)
+    @case('CC')
+        <td align="center">
+            <span class="{{ $a_trangthai_td['class'] }}">{!! $a_trangthai_td['trangthai'] !!}</span>
+        </td>
+        @break
     @case('CD')
     @case('BTL')
 
