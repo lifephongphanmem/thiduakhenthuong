@@ -107,6 +107,7 @@ function setHuyKhenThuong(&$model, $inputs)
     $model->ngayqd = null;
     $model->chucvunguoikyqd = null;
     $model->hotennguoikyqd = null;
+    $model->thongtinquyetdinh = null;
 
     $model->trangthai = $inputs['trangthai'];
     $model->trangthai_xd = $model->trangthai;
