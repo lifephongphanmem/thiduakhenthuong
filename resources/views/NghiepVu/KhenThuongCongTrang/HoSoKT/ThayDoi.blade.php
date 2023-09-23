@@ -87,7 +87,7 @@
                 </div>
             </div>
 
-            <div class="form-group row">
+            {{-- <div class="form-group row">
                 <div class="col-lg-6">
                     <label>Tờ trình: </label>
                     {!! Form::file('totrinh', null, ['id' => 'totrinh', 'class' => 'form-control']) !!}
@@ -132,7 +132,7 @@
                         </span>
                     @endif
                 </div>
-            </div>
+            </div> --}}
             <hr>
             @if ($model->trangthai == 'DKT')
                 @include('NghiepVu._DungChung.HoSo_ThongTinQD')
