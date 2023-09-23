@@ -21,9 +21,9 @@
             <i class="icon-lg la flaticon-edit-1 text-success"></i>
         </a>
     @endif
-    <a title="Trình kết quả khen thưởng"
+    <a title="Tờ trình kết quả khen thưởng"
         href="{{ url($inputs['url_xd'] . 'TrinhKetQua?mahosotdkt=' . $tt->mahosotdkt) }}"
         class="btn btn-sm btn-clean btn-icon">
-        <i class="icon-lg la flaticon-internet text-success"></i>
+        <i class="icon-lg la flaticon-list-1 text-success"></i>
     </a>
 @endif

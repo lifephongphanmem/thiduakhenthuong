@@ -10,6 +10,8 @@ use App\Model\DanhMuc\dstaikhoan;
 use App\Model\DanhMuc\dstaikhoan_phanquyen;
 use App\Model\HeThong\hethongchung;
 use App\Model\HeThong\hethongchung_chucnang;
+use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
+use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tailieu;
 use App\Model\View\viewdiabandonvi;
 use Illuminate\Support\Facades\Session;
 
@@ -113,6 +115,81 @@ class hethongchungController extends Controller
             //$ttuser->chucnang = array('SSA');
             $ttuser->capdo = "SSA";
             //$ttuser->phanquyen = [];
+            
+            //23.09.22 Nâng cấp hệ thống tài liệu đính kèm
+            // $model_hoso = dshosothiduakhenthuong::all();
+            // $a_tailieu = [];
+            // foreach ($model_hoso as $hoso) {
+            //     if ($hoso->totrinh != '') {
+            //         $a_tailieu[] = [
+            //             'mahosotdkt' => $hoso->mahosotdkt,
+            //             'phanloai' => 'TOTRINH',
+            //             'madonvi' => $hoso->madonvi,
+            //             'tentailieu' => $hoso->totrinh,
+            //             'noidung' => 'Tờ trình đề nghị khen thưởng',
+            //             'ngaythang' => $hoso->thoigian,
+            //         ];
+            //     }
+            //     if ($hoso->baocao != '') {
+            //         $a_tailieu[] = [
+            //             'mahosotdkt' => $hoso->mahosotdkt,
+            //             'phanloai' => 'BAOCAO',
+            //             'madonvi' => $hoso->madonvi,
+            //             'tentailieu' => $hoso->baocao,
+            //             'noidung' => 'Báo cáo thành tích',
+            //             'ngaythang' => $hoso->thoigian,
+            //         ];
+            //     }
+            //     if ($hoso->bienban != '') {
+            //         $a_tailieu[] = [
+            //             'mahosotdkt' => $hoso->mahosotdkt,
+            //             'phanloai' => 'BIENBAN',
+            //             'madonvi' => $hoso->madonvi,
+            //             'tentailieu' => $hoso->bienban,
+            //             'noidung' => 'Biên bản cuộc họp',
+            //             'ngaythang' => $hoso->thoigian,
+            //         ];
+            //     }
+            //     if ($hoso->tailieukhac != '') {
+            //         $a_tailieu[] = [
+            //             'mahosotdkt' => $hoso->mahosotdkt,
+            //             'phanloai' => 'KHAC',
+            //             'madonvi' => $hoso->madonvi,
+            //             'tentailieu' => $hoso->tailieukhac,
+            //             'noidung' => 'Tài liệu khác',
+            //             'ngaythang' => $hoso->thoigian,
+            //         ];
+            //     }
+
+            //     if ($hoso->totrinhdenghi != '') {
+            //         //Đơn vị xét duyệt
+            //         $a_tailieu[] = [
+            //             'mahosotdkt' => $hoso->mahosotdkt,
+            //             'phanloai' => 'TOTRINHKQ',
+            //             'madonvi' => $hoso->madonvi_xd,
+            //             'tentailieu' => $hoso->totrinhdenghi,
+            //             'noidung' => 'Tờ trình kết quả khen thưởng',
+            //             'ngaythang' => $hoso->thoigian_xd,
+            //         ];
+            //     }
+            //     if ($hoso->quyetdinh != '') {
+            //         //ĐƠn vị phê duyệt
+            //         //Đơn vị xét duyệt
+            //         $a_tailieu[] = [
+            //             'mahosotdkt' => $hoso->mahosotdkt,
+            //             'phanloai' => 'QDKT',
+            //             'madonvi' => $hoso->madonvi_kt,
+            //             'tentailieu' => $hoso->quyetdinh,
+            //             'noidung' => 'Quyết định khen thưởng',
+            //             'ngaythang' => $hoso->thoigian_kt,
+            //         ];
+            //     }
+            // }
+            // foreach (array_chunk($a_tailieu, 200) as $data) {
+            //     //dd($data);
+            //     dshosothiduakhenthuong_tailieu::insert($data);
+            // }
+            
         }
 
         //Lấy setting gán luôn vào phiên đăng nhập

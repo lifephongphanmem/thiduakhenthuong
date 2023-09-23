@@ -22,6 +22,7 @@ use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_canhan;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_detai;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_hogiadinh;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_khenthuong;
+use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tailieu;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tapthe;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua;
 use App\Model\View\viewdiabandonvi;
@@ -111,15 +112,19 @@ class dshosokhenthuongdoingoaiController extends Controller
         $inputs['url'] = '/KhenThuongDoiNgoai/HoSoKT/';
         $inputs['url_hs'] = '/KhenThuongDoiNgoai/HoSoKT/';
         $inputs['url_qd'] = '/KhenThuongDoiNgoai/HoSoKT/';
+        $inputs['phanloaihoso'] = 'dshosothiduakhenthuong';
+        $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
 
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
 
         $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_hogiadinh = dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)->get();
+        $model_tailieu = dshosothiduakhenthuong_tailieu::where('mahosotdkt', $model->mahosotdkt)->get();
+
         $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
         //Các đơn vị cấp Tỉnh chỉ đc khen thưởng tương đương Huyện (trừ UBND)
-        if($donvi->capdo == 'T' && $donvi->madonvi != $donvi->madonviQL){
+        if ($donvi->capdo == 'T' && $donvi->madonvi != $donvi->madonviQL) {
             $donvi->capdo = 'H';
         }
         $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
@@ -138,12 +143,15 @@ class dshosokhenthuongdoingoaiController extends Controller
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
             ->with('model_hogiadinh', $model_hogiadinh)
+            ->with('model_tailieu', $model_tailieu)
+            ->with('a_pltailieu', getPhanLoaiTaiLieuDK())
+            ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
             ->with('a_dhkt_hogiadinh', $a_dhkt_hogiadinh)
             ->with('a_hogiadinh', $a_hogiadinh)
             ->with('a_donvikt', $a_donvikt)
             ->with('a_dhkt_canhan', $a_dhkt_canhan)
             ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
-            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+            //->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('a_canhan', $a_canhan)
             ->with('a_tapthe', $a_tapthe)
             ->with('inputs', $inputs)

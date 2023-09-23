@@ -19,6 +19,7 @@ use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothamgiaphongtraotd;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_canhan;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_hogiadinh;
+use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tailieu;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tapthe;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua;
 
@@ -314,63 +315,7 @@ class dungchung_nghiepvuController extends Controller
         die(json_encode($result));
     }
 
-    public function DinhKemHoSoKhenThuong(Request $request)
-    {
-        $result = array(
-            'status' => 'fail',
-            'message' => 'error',
-        );
-
-        $inputs = $request->all();
-        $result['message'] = '<div class="modal-body" id = "dinh_kem" >';
-        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahs'])->first();
-        if ($model != null) {
-            if (isset($model->totrinh)) {
-                $result['message'] .= '<div class="form-group row">';
-                $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Tờ trình:</label>';
-                $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/totrinh/' . $model->totrinh) . '">' . $model->totrinh . '</a ></div>';
-                $result['message'] .= '</div>';
-            }
-
-            if (isset($model->baocao)) {
-                $result['message'] .= '<div class="form-group row">';
-                $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Báo cáo thành tích:</label>';
-                $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/baocao/' . $model->baocao) . '">' . $model->baocao . '</a ></div>';
-                $result['message'] .= '</div>';
-            }
-
-            if (isset($model->bienban)) {
-                $result['message'] .= '<div class="form-group row">';
-                $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Biên bản cuộc họp</label>';
-                $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/bienban/' . $model->bienban) . '">' . $model->bienban . '</a ></div>';
-                $result['message'] .= '</div>';
-            }
-            if (isset($model->tailieukhac)) {
-                $result['message'] .= '<div class="form-group row">';
-                $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Tài liệu khác</label>';
-                $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/tailieukhac/' . $model->tailieukhac) . '">' . $model->tailieukhac . '</a ></div>';
-                $result['message'] .= '</div>';
-            }
-
-            if (isset($model->totrinhdenghi)) {
-                $result['message'] .= '<div class="form-group row">';
-                $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Tờ trình kết quả khen thưởng:</label>';
-                $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/totrinh/' . $model->totrinhdenghi) . '">' . $model->totrinhdenghi . '</a ></div>';
-                $result['message'] .= '</div>';
-            }
-
-            if (isset($model->quyetdinh)) {
-                $result['message'] .= '<div class="form-group row">';
-                $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Quyết định khen thưởng:</label>';
-                $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/quyetdinh/' . $model->quyetdinh) . '">' . $model->quyetdinh . '</a ></div>';
-                $result['message'] .= '</div>';
-            }
-        }
-        $result['message'] .= '</div>';
-        $result['status'] = 'success';
-
-        die(json_encode($result));
-    }
+   
 
     public function DinhKemHoSoKhenCao(Request $request)
     {

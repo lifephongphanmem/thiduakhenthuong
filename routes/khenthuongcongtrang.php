@@ -55,7 +55,6 @@ Route::group(['prefix' => 'KhenThuongCongTrang'], function () {
         Route::post('HuyPheDuyet', [dshosokhenthuongcongtrangController::class, 'HuyPheDuyet']);
         Route::get('InQuyetDinh', [dshosokhenthuongcongtrangController::class, 'InQuyetDinh']);
         // Route::get('InPhoi', [dungchung_nghiepvuController::class, 'InPhoi']);
-
         // Route::post('NoiDungKhenThuong', [dshosokhenthuongcongtrangController::class, 'NoiDungKhenThuong']);
         // Route::get('InBangKhenCaNhan', [dshosokhenthuongcongtrangController::class, 'InBangKhenCaNhan']);
         // Route::get('InBangKhenTapThe', [dshosokhenthuongcongtrangController::class, 'InBangKhenTapThe']);
@@ -82,23 +81,22 @@ Route::group(['prefix' => 'KhenThuongCongTrang'], function () {
         Route::post('ThemHoGiaDinh', [dshosodenghikhenthuongcongtrangController::class, 'ThemHoGiaDinh']);
         Route::get('XoaHoGiaDinh', [dshosodenghikhenthuongcongtrangController::class, 'XoaHoGiaDinh']);
         Route::get('LayHoGiaDinh', [dshosodenghikhenthuongcongtrangController::class, 'LayHoGiaDinh']);
-
         Route::post('NhanExcel', [dshosodenghikhenthuongcongtrangController::class, 'NhanExcel']);
 
         Route::post('ThemTapThe', [dshosodenghikhenthuongcongtrangController::class, 'ThemTapThe']);
         Route::get('XoaTapThe', [dshosodenghikhenthuongcongtrangController::class, 'XoaTapThe']);
         Route::get('LayTapThe', [dshosodenghikhenthuongcongtrangController::class, 'LayTapThe']);
-        Route::post('NhanExcelTapThe', [dshosodenghikhenthuongcongtrangController::class, 'NhanExcelTapThe']);
+        // Route::post('NhanExcelTapThe', [dshosodenghikhenthuongcongtrangController::class, 'NhanExcelTapThe']);
 
         Route::post('ThemCaNhan', [dshosodenghikhenthuongcongtrangController::class, 'ThemCaNhan']);
         Route::get('XoaCaNhan', [dshosodenghikhenthuongcongtrangController::class, 'XoaCaNhan']);
         Route::get('LayCaNhan', [dshosodenghikhenthuongcongtrangController::class, 'LayCaNhan']);
-        Route::post('NhanExcelCaNhan', [dshosodenghikhenthuongcongtrangController::class, 'NhanExcelCaNhan']);
+        // Route::post('NhanExcelCaNhan', [dshosodenghikhenthuongcongtrangController::class, 'NhanExcelCaNhan']);
 
         Route::post('ThemDeTai', [dshosodenghikhenthuongcongtrangController::class, 'ThemDeTai']);
         Route::get('XoaDeTai', [dshosodenghikhenthuongcongtrangController::class, 'XoaDeTai']);
         Route::get('LayDeTai', [dshosodenghikhenthuongcongtrangController::class, 'LayDeTai']);
-        Route::post('NhanExcelDeTai', [dshosodenghikhenthuongcongtrangController::class, 'NhanExcelDeTai']);
+        // Route::post('NhanExcelDeTai', [dshosodenghikhenthuongcongtrangController::class, 'NhanExcelDeTai']);
 
         Route::get('TaiLieuDinhKem', [dshosodenghikhenthuongcongtrangController::class, 'TaiLieuDinhKem']);
         Route::post('ChuyenHoSo', 'NghiepVu\KhenThuongCongTrang\dshosodenghikhenthuongcongtrangController@ChuyenHoSo');
@@ -106,26 +104,27 @@ Route::group(['prefix' => 'KhenThuongCongTrang'], function () {
         Route::get('LayTieuChuan', 'NghiepVu\KhenThuongCongTrang\dshosodenghikhenthuongcongtrangController@LayTieuChuan');
         Route::get('LayDoiTuong', 'NghiepVu\KhenThuongCongTrang\dshosodenghikhenthuongcongtrangController@LayDoiTuong');
         //29.10.2022
-        Route::get('InHoSoPD', [qdhosodenghikhenthuongcongtrangController::class, 'XemHoSo']);
-        Route::get('QuyetDinh', [dshosodenghikhenthuongcongtrangController::class, 'QuyetDinh']);
-        Route::get('TaoDuThao', [dshosodenghikhenthuongcongtrangController::class, 'DuThaoQuyetDinh']);
-        Route::post('QuyetDinh', [dshosodenghikhenthuongcongtrangController::class, 'LuuQuyetDinh']);
-        Route::get('PheDuyet', [dshosodenghikhenthuongcongtrangController::class, 'PheDuyet']);
-        Route::post('PheDuyet', [dshosodenghikhenthuongcongtrangController::class, 'LuuPheDuyet']);
-        Route::post('HuyPheDuyet', [dshosodenghikhenthuongcongtrangController::class, 'HuyPheDuyet']);
-
-        Route::get('InQuyetDinh', [qdhosodenghikhenthuongcongtrangController::class, 'InQuyetDinh']);
-        Route::get('InPhoi', [qdhosodenghikhenthuongcongtrangController::class, 'InPhoi']);
-
-        Route::post('NoiDungKhenThuong', [qdhosodenghikhenthuongcongtrangController::class, 'NoiDungKhenThuong']);
-        Route::get('InBangKhenCaNhan', [qdhosodenghikhenthuongcongtrangController::class, 'InBangKhenCaNhan']);
-        Route::get('InBangKhenTapThe', [qdhosodenghikhenthuongcongtrangController::class, 'InBangKhenTapThe']);
-        Route::get('InGiayKhenCaNhan', [qdhosodenghikhenthuongcongtrangController::class, 'InGiayKhenCaNhan']);
-        Route::get('InGiayKhenTapThe', [qdhosodenghikhenthuongcongtrangController::class, 'InGiayKhenTapThe']);
-        //09.11.2022
+        // 
+        // Route::get('QuyetDinh', [dshosodenghikhenthuongcongtrangController::class, 'QuyetDinh']);
+        // Route::get('TaoDuThao', [dshosodenghikhenthuongcongtrangController::class, 'DuThaoQuyetDinh']);
+        // Route::post('QuyetDinh', [dshosodenghikhenthuongcongtrangController::class, 'LuuQuyetDinh']);
+        // Route::get('PheDuyet', [dshosodenghikhenthuongcongtrangController::class, 'PheDuyet']);
+        // Route::post('PheDuyet', [dshosodenghikhenthuongcongtrangController::class, 'LuuPheDuyet']);
+        // Route::post('HuyPheDuyet', [dshosodenghikhenthuongcongtrangController::class, 'HuyPheDuyet']);       
+        // Route::get('InPhoi', [qdhosodenghikhenthuongcongtrangController::class, 'InPhoi']);
+        // Route::post('NoiDungKhenThuong', [qdhosodenghikhenthuongcongtrangController::class, 'NoiDungKhenThuong']);
+        // Route::get('InBangKhenCaNhan', [qdhosodenghikhenthuongcongtrangController::class, 'InBangKhenCaNhan']);
+        // Route::get('InBangKhenTapThe', [qdhosodenghikhenthuongcongtrangController::class, 'InBangKhenTapThe']);
+        // Route::get('InGiayKhenCaNhan', [qdhosodenghikhenthuongcongtrangController::class, 'InGiayKhenCaNhan']);
+        // Route::get('InGiayKhenTapThe', [qdhosodenghikhenthuongcongtrangController::class, 'InGiayKhenTapThe']);
+       
+        //09.11.2022        
         Route::get('ToTrinhHoSo', [dshosodenghikhenthuongcongtrangController::class, 'ToTrinhHoSo']);
         Route::post('ToTrinhHoSo', [dshosodenghikhenthuongcongtrangController::class, 'LuuToTrinhHoSo']);
         Route::get('InToTrinhHoSo', [dshosodenghikhenthuongcongtrangController::class, 'InToTrinhHoSo']);
+        Route::get('InToTrinhPheDuyet', [xdhosodenghikhenthuongcongtrangController::class, 'InToTrinhPheDuyet']);
+        Route::get('InHoSoPD', [qdhosodenghikhenthuongcongtrangController::class, 'XemHoSo']);
+        Route::get('InQuyetDinh', [qdhosodenghikhenthuongcongtrangController::class, 'InQuyetDinh']);
     });
 
     Route::group(['prefix' => 'XetDuyet'], function () {
@@ -133,7 +132,8 @@ Route::group(['prefix' => 'KhenThuongCongTrang'], function () {
         Route::post('TraLai', 'NghiepVu\KhenThuongCongTrang\xdhosodenghikhenthuongcongtrangController@TraLai');
         Route::post('NhanHoSo', 'NghiepVu\KhenThuongCongTrang\xdhosodenghikhenthuongcongtrangController@NhanHoSo');
         Route::post('ChuyenHoSo', 'NghiepVu\KhenThuongCongTrang\xdhosodenghikhenthuongcongtrangController@ChuyenHoSo');
-
+        
+        /*2023.09.21 Lọc dần các chức năng thừa
         Route::get('XetKT', [xdhosodenghikhenthuongcongtrangController::class, 'XetKT']);
         Route::post('ThemTapThe', [xdhosodenghikhenthuongcongtrangController::class, 'ThemTapThe']);
         Route::post('ThemCaNhan', [xdhosodenghikhenthuongcongtrangController::class, 'ThemCaNhan']);
@@ -143,6 +143,7 @@ Route::group(['prefix' => 'KhenThuongCongTrang'], function () {
         Route::post('QuyetDinh', [xdhosodenghikhenthuongcongtrangController::class, 'LuuQuyetDinh']);
         Route::post('PheDuyet', [xdhosodenghikhenthuongcongtrangController::class, 'PheDuyet']);
         Route::get('LayLyDo', [xdhosodenghikhenthuongcongtrangController::class, 'LayLyDo']);
+        */
 
         //09.11.2022
         Route::get('ToTrinhPheDuyet', [xdhosodenghikhenthuongcongtrangController::class, 'ToTrinhPheDuyet']);
@@ -157,6 +158,8 @@ Route::group(['prefix' => 'KhenThuongCongTrang'], function () {
 
     Route::group(['prefix' => 'KhenThuong'], function () {
         Route::get('ThongTin', [qdhosodenghikhenthuongcongtrangController::class, 'ThongTin']);
+       
+        /*2023.09.21 Lọc dần các chức năng thừa
         Route::post('Them', [qdhosodenghikhenthuongcongtrangController::class, 'Them']);
         Route::get('Sua', [qdhosodenghikhenthuongcongtrangController::class, 'Sua']);
         Route::post('Sua', [qdhosodenghikhenthuongcongtrangController::class, 'LuuHoSo']);
@@ -172,14 +175,20 @@ Route::group(['prefix' => 'KhenThuongCongTrang'], function () {
         Route::post('NhanExcelCaNhan', [qdhosodenghikhenthuongcongtrangController::class, 'NhanExcelCaNhan']);
         Route::post('NhanExcelDeTai', [qdhosodenghikhenthuongcongtrangController::class, 'NhanExcelDeTai']);
 
+        Route::get('InPhoi', [qdhosodenghikhenthuongcongtrangController::class, 'InPhoi']);
+        Route::post('NoiDungKhenThuong', [qdhosodenghikhenthuongcongtrangController::class, 'NoiDungKhenThuong']);
+        Route::get('InBangKhenCaNhan', [qdhosodenghikhenthuongcongtrangController::class, 'InBangKhenCaNhan']);
+        Route::get('InBangKhenTapThe', [qdhosodenghikhenthuongcongtrangController::class, 'InBangKhenTapThe']);
+        Route::get('InGiayKhenCaNhan', [qdhosodenghikhenthuongcongtrangController::class, 'InGiayKhenCaNhan']);
+        Route::get('InGiayKhenTapThe', [qdhosodenghikhenthuongcongtrangController::class, 'InGiayKhenTapThe']);
+        */
         Route::get('PheDuyet', [qdhosodenghikhenthuongcongtrangController::class, 'PheDuyet']);
         Route::post('PheDuyet', [qdhosodenghikhenthuongcongtrangController::class, 'LuuPheDuyet']);
 
         Route::get('XetKT', [qdhosodenghikhenthuongcongtrangController::class, 'XetKT']);
         Route::get('QuyetDinh', [qdhosodenghikhenthuongcongtrangController::class, 'QuyetDinh']);
         Route::get('TaoDuThao', [qdhosodenghikhenthuongcongtrangController::class, 'DuThaoQuyetDinh']);
-        Route::post('QuyetDinh', [qdhosodenghikhenthuongcongtrangController::class, 'LuuQuyetDinh']);
-        //Route::post('PheDuyet', [qdhosodenghikhenthuongcongtrangController::class, 'PheDuyet']);
+        Route::post('QuyetDinh', [qdhosodenghikhenthuongcongtrangController::class, 'LuuQuyetDinh']);       
         Route::post('GanKhenThuong', [qdhosodenghikhenthuongcongtrangController::class, 'GanKhenThuong']);
         Route::post('HuyPheDuyet', [qdhosodenghikhenthuongcongtrangController::class, 'HuyPheDuyet']);
         Route::post('TraLai', [qdhosodenghikhenthuongcongtrangController::class, 'TraLai']);
@@ -189,15 +198,7 @@ Route::group(['prefix' => 'KhenThuongCongTrang'], function () {
         Route::get('InQuyetDinh', [qdhosodenghikhenthuongcongtrangController::class, 'InQuyetDinh']);
         Route::post('InBangKhen', [qdhosodenghikhenthuongcongtrangController::class, 'InBangKhen']);
         Route::post('InGiayKhen', [qdhosodenghikhenthuongcongtrangController::class, 'InGiayKhen']);
-        Route::get('InHoSoPD', [qdhosodenghikhenthuongcongtrangController::class, 'XemHoSo']);
-
-        Route::get('InPhoi', [qdhosodenghikhenthuongcongtrangController::class, 'InPhoi']);
-        Route::post('NoiDungKhenThuong', [qdhosodenghikhenthuongcongtrangController::class, 'NoiDungKhenThuong']);
-        Route::get('InBangKhenCaNhan', [qdhosodenghikhenthuongcongtrangController::class, 'InBangKhenCaNhan']);
-        Route::get('InBangKhenTapThe', [qdhosodenghikhenthuongcongtrangController::class, 'InBangKhenTapThe']);
-        Route::get('InGiayKhenCaNhan', [qdhosodenghikhenthuongcongtrangController::class, 'InGiayKhenCaNhan']);
-        Route::get('InGiayKhenTapThe', [qdhosodenghikhenthuongcongtrangController::class, 'InGiayKhenTapThe']);
-        
+        Route::get('InHoSoPD', [qdhosodenghikhenthuongcongtrangController::class, 'XemHoSo']);        
         Route::get('InToTrinhPheDuyet', [qdhosodenghikhenthuongcongtrangController::class, 'InToTrinhPheDuyet']);
     });
 });

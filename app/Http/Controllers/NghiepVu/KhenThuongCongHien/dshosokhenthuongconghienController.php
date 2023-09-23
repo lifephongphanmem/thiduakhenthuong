@@ -22,6 +22,7 @@ use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_canhan;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_detai;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_hogiadinh;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_khenthuong;
+use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tailieu;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tapthe;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua;
 use App\Model\View\viewdiabandonvi;
@@ -111,14 +112,18 @@ class dshosokhenthuongconghienController extends Controller
         $inputs['url'] = '/KhenThuongCongHien/HoSoKT/';
         $inputs['url_hs'] = '/KhenThuongCongHien/HoSoKT/';
         $inputs['url_qd'] = '/KhenThuongCongHien/HoSoKT/';
+        $inputs['phanloaihoso'] = 'dshosothiduakhenthuong';
+        $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
 
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_hogiadinh = dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)->get();
+        $model_tailieu = dshosothiduakhenthuong_tailieu::where('mahosotdkt', $model->mahosotdkt)->get();
+
         $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
         //Các đơn vị cấp Tỉnh chỉ đc khen thưởng tương đương Huyện (trừ UBND)
-        if($donvi->capdo == 'T' && $donvi->madonvi != $donvi->madonviQL){
+        if ($donvi->capdo == 'T' && $donvi->madonvi != $donvi->madonviQL) {
             $donvi->capdo = 'H';
         }
         $a_dhkt_canhan = a_merge(getDanhHieuKhenThuong($donvi->capdo), getDanhHieuKhenThuong('TW'));
@@ -130,7 +135,6 @@ class dshosokhenthuongconghienController extends Controller
         $a_hogiadinh = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
 
-
         $inputs['mahinhthuckt'] = $model->mahinhthuckt;
         $a_donvikt = array_unique(array_merge([$model->donvikhenthuong], getDonViKhenThuong()));
         return view('NghiepVu.KhenThuongCongHien.HoSoKT.ThayDoi')
@@ -138,6 +142,9 @@ class dshosokhenthuongconghienController extends Controller
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
             ->with('model_hogiadinh', $model_hogiadinh)
+            ->with('model_tailieu', $model_tailieu)
+            ->with('a_pltailieu', getPhanLoaiTaiLieuDK())
+            ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
             ->with('a_donvikt', $a_donvikt)
             ->with('a_dhkt_canhan', $a_dhkt_canhan)
             ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
@@ -233,35 +240,7 @@ class dshosokhenthuongconghienController extends Controller
             return view('errors.noperm')->with('machucnang', 'dshosokhenthuongconghien')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
-        if (isset($inputs['totrinh'])) {
-            $filedk = $request->file('totrinh');
-            $inputs['totrinh'] = $inputs['mahosotdkt'] . '_totrinh.' . $filedk->getClientOriginalExtension();
-            $filedk->move(public_path() . '/data/totrinh/', $inputs['totrinh']);
-        }
-        if (isset($inputs['baocao'])) {
-            $filedk = $request->file('baocao');
-            $inputs['baocao'] = $inputs['mahosotdkt'] . '_baocao.' . $filedk->getClientOriginalExtension();
-            $filedk->move(public_path() . '/data/baocao/', $inputs['baocao']);
-        }
-        if (isset($inputs['bienban'])) {
-            $filedk = $request->file('bienban');
-            $inputs['bienban'] = $inputs['mahosotdkt'] . '_bienban.' . $filedk->getClientOriginalExtension();
-            $filedk->move(public_path() . '/data/bienban/', $inputs['bienban']);
-        }
-        if (isset($inputs['tailieukhac'])) {
-            $filedk = $request->file('tailieukhac');
-            $inputs['tailieukhac'] = $inputs['mahosotdkt'] . '_tailieukhac.' . $filedk->getClientOriginalExtension();
-            $filedk->move(public_path() . '/data/tailieukhac/', $inputs['tailieukhac']);
-        }
-
-        if (isset($inputs['quyetdinh'])) {
-            $filedk = $request->file('quyetdinh');
-            $inputs['quyetdinh'] = $inputs['mahosotdkt'] . '_quyetdinh.' . $filedk->getClientOriginalExtension();
-            $filedk->move(public_path() . '/data/quyetdinh/', $inputs['quyetdinh']);
-        }
-
         dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first()->update($inputs);
-
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
     }
 
@@ -703,47 +682,7 @@ class dshosokhenthuongconghienController extends Controller
 
             $result['status'] = 'success';
         }
-    }
-
-    public function TaiLieuDinhKem(Request $request)
-    {
-        $result = array(
-            'status' => 'fail',
-            'message' => 'error',
-        );
-
-        $inputs = $request->all();
-        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahs'])->first();
-        $result['message'] = '<div class="modal-body" id = "dinh_kem" >';
-        if ($model->totrinh != '') {
-            $result['message'] .= '<div class="form-group row">';
-            $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Tờ trình:</label>';
-            $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/totrinh/' . $model->totrinh) . '">' . $model->totrinh . '</a ></div>';
-            $result['message'] .= '</div>';
-        }
-        if ($model->qdkt != '') {
-            $result['message'] .= '<div class="form-group row">';
-            $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Quyết định khen thưởng:</label>';
-            $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/qdkt/' . $model->qdkt) . '">' . $model->qdkt . '</a ></div>';
-            $result['message'] .= '</div>';
-        }
-        if ($model->bienban != '') {
-            $result['message'] .= '<div class="form-group row">';
-            $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Biên bản cuộc họp</label>';
-            $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/bienban/' . $model->bienban) . '">' . $model->bienban . '</a ></div>';
-            $result['message'] .= '</div>';
-        }
-        if ($model->tailieukhac != '') {
-            $result['message'] .= '<div class="form-group row">';
-            $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Tài liệu khác</label>';
-            $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/tailieukhac/' . $model->tailieukhac) . '">' . $model->tailieukhac . '</a ></div>';
-            $result['message'] .= '</div>';
-        }
-        $result['message'] .= '</div>';
-        $result['status'] = 'success';
-
-        die(json_encode($result));
-    }
+    }    
 
     public function QuyetDinh(Request $request)
     {

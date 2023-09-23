@@ -54,8 +54,9 @@
         {!! Form::file('quyetdinh', null, ['id' => 'quyetdinh', 'class' => 'form-control']) !!}
         @if ($model->quyetdinh != '')
             <span class="form-control" style="border-style: none">
-                <a href="{{ url('/data/quyetdinh/' . $model->quyetdinh) }}" target="_blank">{{ $model->quyetdinh }}</a>
+                <a href="{{ url('/data/tailieudinhkem/' . $model->quyetdinh) }}" target="_blank">{{ $model->quyetdinh }}</a>
             </span>
         @endif
+        {!! Form::hidden('phanloaitailieu', 'QDKT',) !!}
     </div>
 </div>

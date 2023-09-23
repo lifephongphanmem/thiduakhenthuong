@@ -180,6 +180,7 @@
     @include('NghiepVu._DungChung.modal_TapThe')
     @include('NghiepVu._DungChung.modal_HoGiaDinh')
     @include('NghiepVu._DungChung.modal_DeTai')
+    @include('NghiepVu._DungChung.modal_TaiLieuDinhKem')
     {{-- chưa dùng tiêu chuẩn --}}
     @include('NghiepVu._DungChung.modal_TieuChuan')
     @include('NghiepVu._DungChung.modal_XoaDoiTuong')

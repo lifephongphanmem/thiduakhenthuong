@@ -54,7 +54,7 @@
 
                         <div class="col-md-3">
                             <label class="form-control-label">Lĩnh vực hoạt động đơn vị </label>
-                            {!! Form::text('linhvuchoatdong', 'U', ['class' => 'form-control',]) !!}
+                            {!! Form::text('linhvuchoatdong', 'U', ['class' => 'form-control']) !!}
                         </div>
                     </div>
 
@@ -114,7 +114,7 @@
                                 'class' => 'form-control',
                             ]) !!}
                         </div>
-                    
+
                         <div class="col-md-3">
                             <label class="control-label">Phân loại cá nhân<span class="require">*</span></label>
                             {!! Form::select('maphanloaidoituong_cn', $a_canhan, null, [
@@ -147,6 +147,23 @@
 
     <script>
         function setNhanExcel(mahoso) {
+            if (window.confirm('Bạn có lưu các thay đổi về thông tin hồ sơ ?'))          
+            {
+                var formData = new FormData($('#frm_ThayDoi')[0]);
+                $.ajax({
+                    url: "{{ $inputs['url_hs'] }}" + "Sua",
+                    method: "POST",
+                    cache: false,
+                    dataType: false,
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    success: function(data) {
+                        // console.log(data);
+                    }
+                });
+            }
+
             $('#frm_NhanExcel').find("[name='mahoso']").val(mahoso);
         }
     </script>

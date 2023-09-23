@@ -68,7 +68,7 @@
 
         <?php
         $i = 0;
-        $i_diaban = 0;
+        
         $diaban = a_getelement($a_diaban, ['capdo' => 'H']);
         ?>
         @foreach ($diaban as $v_diaban)
@@ -76,6 +76,7 @@
             <?php
             $donvi = $model->where('madiaban', (string) $v_diaban['madiaban']);
             $k = 1;
+            $i_diaban = 0;
             ?>
             <tr class="font-weight-boldest">
                 <td class="text-bold text-center">{{ IntToRoman(++$i) }}</td>

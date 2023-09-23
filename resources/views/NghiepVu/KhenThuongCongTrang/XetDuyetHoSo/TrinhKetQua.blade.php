@@ -43,7 +43,7 @@
             'files' => true,
             'enctype' => 'multipart/form-data',
         ]) !!}
-        {{ Form::hidden('madonvi', null, ['id' => 'madonvi']) }}
+         {{ Form::hidden('madonvi_xd', null) }} <!-- Lấy thông tin đơn vị để đưa vào bảng tài liệu -->
         {{ Form::hidden('mahosotdkt', null, ['id' => 'mahosotdkt']) }}
         <div class="card-body">
             @include('NghiepVu._DungChung.HoSo_ThongTinToTrinh')

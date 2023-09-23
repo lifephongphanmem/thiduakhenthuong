@@ -50,9 +50,8 @@ class baocaotonghopController extends Controller
         $m_donvi = getDonVi(session('admin')->capdo, 'baocaotapthe');
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
-        $m_diaban = getDiaBanBaoCaoTongHop($donvi);
-        //dd($m_diaban->toArray());
-
+        $m_diaban = getDiaBanBaoCaoTongHop($donvi);        //dd($m_diaban->toArray());
+       
         return view('BaoCao.TongHop.ThongTin')
             ->with('m_diaban', $m_diaban)
             ->with('m_donvi', $m_donvi)
@@ -60,6 +59,7 @@ class baocaotonghopController extends Controller
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('a_diaban', array_column($m_diaban->toArray(), 'tendiaban', 'madiaban'))
             ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))
+            ->with('a_donvi_ql', getDonViQL_BaoCao(array_column($m_diaban->toArray(),'madonviQL')))
             ->with('a_phamvithongke', getPhamViThongKe($donvi->capdo))
             ->with('pageTitle', 'Báo cáo tổng hợp');
     }

@@ -20,7 +20,7 @@
     <button title="Lý do hồ sơ bị trả lại" type="button"
         onclick="viewLyDo('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}', '{{ $inputs['url_hs'] . 'LayLyDo' }}')"
         class="btn btn-sm btn-clean btn-icon" data-target="#tralai-modal" data-toggle="modal">
-        <i class="icon-lg la fa-archive text-info"></i>
+        <i class="icon-lg la flaticon2-information text-info"></i>
     </button>
 @endif
 <button title="Trình hồ sơ đăng ký" type="button"

@@ -3,6 +3,7 @@
 use App\Http\Controllers\HeThong\dstaikhoanController;
 use App\Http\Controllers\HeThong\hethongchungController;
 use App\Http\Controllers\NghiepVu\_DungChung\dungchung_inphoi_khenthuongController;
+use App\Http\Controllers\NghiepVu\_DungChung\dungchung_nghiepvu_tailieuController;
 use App\Http\Controllers\NghiepVu\_DungChung\dungchung_nghiepvuController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +21,7 @@ Route::group(['prefix' => 'DungChung'], function () {
     Route::get('getDonViKhenThuong_ThemHS', [dungchung_nghiepvuController::class, 'getDonViKhenThuong_ThemHS']);
     Route::get('lichsucapnhat', [dungchung_nghiepvuController::class, 'getDonViKhenThuong_ThemHS']);
     //
-    Route::get('DinhKemHoSoKhenThuong', [dungchung_nghiepvuController::class, 'DinhKemHoSoKhenThuong']);
+    Route::get('DinhKemHoSoKhenThuong', [dungchung_nghiepvu_tailieuController::class, 'DinhKemHoSoKhenThuong']);
     Route::get('DinhKemHoSoKhenCao', [dungchung_nghiepvuController::class, 'DinhKemHoSoKhenCao']);
     Route::get('DinhKemHoSoCumKhoi', [dungchung_nghiepvuController::class, 'DinhKemHoSoCumKhoi']);
     Route::get('DinhKemHoSoThamGia', [dungchung_nghiepvuController::class, 'DinhKemHoSoThamGia']);   
@@ -48,7 +49,17 @@ Route::group(['prefix' => 'DungChung'], function () {
     Route::get('GanToaDoMacDinh', [dungchung_nghiepvuController::class, 'GanToaDoMacDinh']);
     Route::post('LuuThayDoiViTri', [dungchung_nghiepvuController::class, 'LuuThayDoiViTri']);
     Route::post('TaiLaiToaDo', [dungchung_nghiepvuController::class, 'TaiLaiToaDo']);
+
+    //2023.09.14 Dùng chung cho nghiệp vụ tài liệu đính kèm
+    Route::group(['prefix' => 'TaiLieuDinhKem'], function () {
+        Route::get('LayTaiLieu', [dungchung_nghiepvu_tailieuController::class, 'LayTaiLieu']);
+        Route::post('ThemTaiLieu', [dungchung_nghiepvu_tailieuController::class, 'ThemTaiLieu']);
+        Route::get('XoaTaiLieu', [dungchung_nghiepvu_tailieuController::class, 'XoaTaiLieu']);
+
+    });
 });
+
+
 
 //Hệ thống
 include('hethong.php');

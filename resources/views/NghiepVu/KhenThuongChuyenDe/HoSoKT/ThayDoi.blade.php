@@ -48,7 +48,7 @@
         {{ Form::hidden('mahosotdkt', null, ['id' => 'mahosotdkt']) }}
         {{ Form::hidden('maloaihinhkt', null, ['id' => 'maloaihinhkt']) }}
         <div class="card-body">
-            <h4 class="text-dark font-weight-bold mb-5">Thông tin chung</h4>
+            <h4 class="text-dark font-weight-bold mb-5">Thông tin chung </h4>
             <div class="form-group row">
                 <div class="col-lg-6">
                     <label>Tên đơn vị</label>
@@ -156,6 +156,7 @@
     @include('NghiepVu._DungChung.modal_CaNhan')
     @include('NghiepVu._DungChung.modal_TapThe')
     @include('NghiepVu._DungChung.modal_HoGiaDinh')
+    @include('NghiepVu._DungChung.modal_TaiLieuDinhKem')
     {{-- chưa dùng tiêu chuẩn --}}
     @include('NghiepVu._DungChung.modal_TieuChuan')
     @include('NghiepVu._DungChung.modal_XoaDoiTuong')

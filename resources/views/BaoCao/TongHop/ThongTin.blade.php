@@ -366,7 +366,7 @@
                 <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Đơn vị phê duyệt khen thưởng</label>
-                        {!! Form::select('madonvi_kt', setArrayAll($a_donvi), 'ALL', [
+                        {!! Form::select('madonvi_kt', setArrayAll($a_donvi_ql), 'ALL', [
                             'class' => 'form-control select2_modal',
                         ]) !!}
                     </div>
