@@ -303,4 +303,29 @@ class dungchung_nghiepvu_tailieuController extends Controller
 
         die(json_encode($result));
     }
+
+    public function DinhKemHoSoCumKhoi(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+
+        $inputs = $request->all();
+        $result['message'] = '<div class="modal-body" id = "dinh_kem" >';
+        $model = dshosotdktcumkhoi_tailieu::where('mahosotdkt', $inputs['mahs'])->get();
+        if ($model->count() > 0) {
+            $a_pltailieu = getPhanLoaiTaiLieuDK();
+            foreach($model as $tailieu){
+                $result['message'] .= '<div class="form-group row">';
+                $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >'.($a_pltailieu[$tailieu->phanloai] ?? $tailieu->phanloai).':</label>';
+                $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/tailieudinhkem/' . $tailieu->tentailieu) . '">' . $tailieu->tentailieu . '</a ></div>';
+                $result['message'] .= '</div>';
+            }
+        }
+        $result['message'] .= '</div>';
+        $result['status'] = 'success';
+
+        die(json_encode($result));
+    }
 }

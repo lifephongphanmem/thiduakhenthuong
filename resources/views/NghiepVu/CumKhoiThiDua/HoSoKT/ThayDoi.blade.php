@@ -87,7 +87,7 @@
                 </div>
             </div>
 
-            <div class="form-group row">
+            {{-- <div class="form-group row">
                 <div class="col-lg-6">
                     <label>Tờ trình: </label>
                     {!! Form::file('totrinh', null, ['id' => 'totrinh', 'class' => 'form-control']) !!}
@@ -132,7 +132,7 @@
                         </span>
                     @endif
                 </div>
-            </div>
+            </div> --}}
 
             @if ($model->trangthai == 'DKT')
                 @include('NghiepVu._DungChung.HoSo_ThongTinQD')
@@ -158,6 +158,7 @@
     @include('NghiepVu._DungChung.modal_TapThe')
     @include('NghiepVu._DungChung.modal_HoGiaDinh')
     @include('NghiepVu._DungChung.modal_DeTai')
+    @include('NghiepVu._DungChung.modal_TaiLieuDinhKem')
     @include('NghiepVu._DungChung.modal_ThemDanhMuc')
     {{-- chưa dùng tiêu chuẩn --}}
     @include('NghiepVu._DungChung.modal_TieuChuan')

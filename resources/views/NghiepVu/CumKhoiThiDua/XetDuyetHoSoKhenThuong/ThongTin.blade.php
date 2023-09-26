@@ -102,7 +102,7 @@
                                     </button>
 
                                     <button title="Tài liệu đính kèm" type="button"
-                                        onclick="get_attack('{{ $tt->mahosotdkt }}', '/DungChung/DinhKemHoSoKhenCao')"
+                                        onclick="get_attack('{{ $tt->mahosotdkt }}', '/DungChung/DinhKemHoSoCumKhoi')"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
                                         data-toggle="modal">
                                         <i class="icon-lg la la-file-download text-dark"></i>
@@ -129,13 +129,13 @@
                                                     <span
                                                         class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->soluongkhenthuong }}</span>
                                                 </a>
-
-                                                <a title="Tạo dự thảo quyết định khen thưởng"
-                                                    href="{{ url($inputs['url_xd'] . 'QuyetDinh?mahosotdkt=' . $tt->mahosotdkt) }}"
-                                                    class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
-                                                    <i class="icon-lg la flaticon-edit-1 text-success"></i>
-                                                </a>
-
+                                                @if (session('admin')->opt_duthaoquyetdinh)
+                                                    <a title="Tạo dự thảo quyết định khen thưởng"
+                                                        href="{{ url($inputs['url_xd'] . 'QuyetDinh?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                                        class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
+                                                        <i class="icon-lg la flaticon-edit-1 text-success"></i>
+                                                    </a>
+                                                @endif
                                                 <button title="Chuyển phê duyệt khen thưởng" type="button"
                                                     onclick="confirmNhanvaTKT('{{ $tt->mahosotdkt }}','{{ $inputs['url_xd'] . 'ChuyenHoSo' }}','{{ $inputs['madonvi'] }}')"
                                                     class="btn btn-sm btn-clean btn-icon"
@@ -171,23 +171,24 @@
                                                     <i class="icon-lg la la-reply text-danger"></i>
                                                 </button>
                                             @endif
-                                            
+                                            @if (session('admin')->opt_duthaototrinh)
                                             <a title="Tạo dự thảo tờ trình"
                                                 href="{{ url($inputs['url_xd'] . 'ToTrinhPheDuyet?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                 class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
                                                 <i class="icon-lg la flaticon-edit-1 text-success"></i>
                                             </a>
-
-                                            <a title="Tạo dự thảo quyết định khen thưởng"
-                                                href="{{ url($inputs['url_xd'] . 'QuyetDinh?mahosotdkt=' . $tt->mahosotdkt) }}"
-                                                class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
-                                                <i class="icon-lg la flaticon-edit-1 text-success"></i>
-                                            </a>
-
+                                            @endif
+                                            @if (session('admin')->opt_duthaoquyetdinh)
+                                                <a title="Tạo dự thảo quyết định khen thưởng"
+                                                    href="{{ url($inputs['url_xd'] . 'QuyetDinh?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                                    class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
+                                                    <i class="icon-lg la flaticon-edit-1 text-success"></i>
+                                                </a>
+                                            @endif
                                             <a title="Trình kết quả khen thưởng"
                                                 href="{{ url($inputs['url_xd'] . 'TrinhKetQua?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                 class="btn btn-sm btn-clean btn-icon">
-                                                <i class="icon-lg la flaticon-internet text-success"></i>
+                                                <i class="icon-lg la flaticon-list-1 text-success"></i>
                                             </a>
                                         @endif
                                     @endif

@@ -23,7 +23,7 @@ Route::group(['prefix' => 'DungChung'], function () {
     //
     Route::get('DinhKemHoSoKhenThuong', [dungchung_nghiepvu_tailieuController::class, 'DinhKemHoSoKhenThuong']);
     Route::get('DinhKemHoSoKhenCao', [dungchung_nghiepvuController::class, 'DinhKemHoSoKhenCao']);
-    Route::get('DinhKemHoSoCumKhoi', [dungchung_nghiepvuController::class, 'DinhKemHoSoCumKhoi']);
+    Route::get('DinhKemHoSoCumKhoi', [dungchung_nghiepvu_tailieuController::class, 'DinhKemHoSoCumKhoi']);
     Route::get('DinhKemHoSoThamGia', [dungchung_nghiepvuController::class, 'DinhKemHoSoThamGia']);   
     
 
