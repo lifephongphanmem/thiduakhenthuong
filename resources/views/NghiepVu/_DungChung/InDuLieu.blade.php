@@ -29,15 +29,17 @@
                         </a>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <a onclick="setInDL($(this), '{{ $inputs['url_hs'] . 'InToTrinhHoSo' }}')"
-                            class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
-                            <i class="la flaticon2-print"></i>Tờ trình khen thưởng
-                        </a>
+                
+                @if (session('admin')->hskhenthuong_totrinh)
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <a onclick="setInDL($(this), '{{ $inputs['url_hs'] . 'InToTrinhHoSo' }}')"
+                                class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
+                                <i class="la flaticon2-print"></i>Tờ trình khen thưởng
+                            </a>
+                        </div>
                     </div>
-                </div>
-
+                @endif
 
                 <div id="div_inDuLieu">
                     <div class="row">
@@ -48,22 +50,28 @@
                             </a>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <a onclick="setInDL($(this), '{{ $inputs['url_qd'] . 'InToTrinhPheDuyet' }}')"
-                                class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
-                                <i class="la flaticon2-print"></i>Tờ trình phê duyệt khen thưởng
-                            </a>
+
+                    @if (session('admin')->hskhenthuong_totrinh)
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <a onclick="setInDL($(this), '{{ $inputs['url_qd'] . 'InToTrinhPheDuyet' }}')"
+                                    class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
+                                    <i class="la flaticon2-print"></i>Tờ trình phê duyệt khen thưởng
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <a id="btnInQD" onclick="setInDL($(this), '{{ $inputs['url_qd'] . 'InQuyetDinh' }}')"
-                                class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
-                                <i class="la flaticon2-print"></i>Quyết định khen thưởng
-                            </a>
+                    @endif
+
+                    @if (session('admin')->hskhenthuong_quyetdinh)
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <a id="btnInQD" onclick="setInDL($(this), '{{ $inputs['url_qd'] . 'InQuyetDinh' }}')"
+                                    class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
+                                    <i class="la flaticon2-print"></i>Quyết định khen thưởng
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
 
                 <div id="div_inPhoi">

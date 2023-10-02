@@ -12,6 +12,7 @@ use App\Model\DanhMuc\dmdanhhieuthidua_tieuchuan;
 use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
 use App\Model\DanhMuc\dmnhomphanloai_chitiet;
+use App\Model\DanhMuc\dsdonvi;
 use App\Model\View\view_cumkhoi_canhan;
 use App\Model\View\view_cumkhoi_tapthe;
 use App\Model\View\view_tdkt_canhan;
@@ -104,6 +105,16 @@ class tracuutaptheController extends Controller
 
         if ($inputs['maloaihinhkt'] != 'ALL')
             $model_khenthuong = $model_khenthuong->where('maloaihinhkt', $inputs['maloaihinhkt']);
+
+        //Lọc các kết quả khen thưởng trên địa bàn
+        // $donvi = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
+        // $a_diaban = array_column(getDiaBanTraCuu($donvi)->toarray(), 'madiaban');
+        // // dd($m_diaban);
+        // if ($inputs['madiaban'] == 'ALL')
+        //     $model_khenthuong = $model_khenthuong->wherein('madiaban', $a_diaban);
+        // else
+        //     $model_khenthuong = $model_khenthuong->where('madiaban', $inputs['madiaban']);
+        
         //Lấy kết quả khen thưởng
         $model_khenthuong = $model_khenthuong->get();
     }

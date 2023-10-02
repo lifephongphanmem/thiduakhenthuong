@@ -52,7 +52,7 @@
                                 <th rowspan="2">Lĩnh vực hoạt động</th>
                                 <th rowspan="2">Danh hiệu thi đua</br>/Hình thức khen thưởng</th>
                                 <th rowspan="2">Loại hình khen thưởng</th>
-
+                                <th rowspan="2" width="5%">Thao tác</th>
                             </tr>
                             <tr class="text-center">
                                 <th width="8%">Số quyết định</th>
@@ -74,6 +74,14 @@
                                     <td>{{ $a_linhvuc[$tt->linhvuchoatdong] ?? $tt->linhvuchoatdong }}</td>
                                     <td>{{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}</td>
                                     <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
+                                    <td>
+                                        <button title="Tài liệu đính kèm" type="button"
+                                            onclick="get_attack('{{ $tt->mahosotdkt }}', '/DungChung/DinhKemHoSoKhenThuong')"
+                                            class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
+                                            data-toggle="modal">
+                                            <i class="icon-lg la la-file-download text-dark icon-2x"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -90,6 +98,7 @@
                 </div>
             </div>
         </div>
+        @include('includes.modal.modal_attackfile')
         <!--end::Card-->
 
         {{-- In dữ liệu --}}
@@ -108,8 +117,6 @@
                         <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
                     </div>
                     <div class="modal-body">
-
-
                         <div class="row">
                             <div class="col-lg-12">
                                 <button type="submit" onclick="setInDL('/TraCuu/TapThe/InKetQua')"

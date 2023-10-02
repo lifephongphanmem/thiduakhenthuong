@@ -19,7 +19,7 @@ class view_tdkt_canhan extends Model
 //                          dbo.dshosothiduakhenthuong_canhan.ngaysinh, dbo.dshosothiduakhenthuong_canhan.gioitinh, dbo.dshosothiduakhenthuong_canhan.chucvu, dbo.dshosothiduakhenthuong_canhan.diachi, 
 //                          dbo.dshosothiduakhenthuong_canhan.tencoquan, dbo.dshosothiduakhenthuong_canhan.tenphongban, dbo.dshosothiduakhenthuong_canhan.maphanloaicanbo, dbo.dshosothiduakhenthuong_canhan.ketqua, 
 //                          dbo.dshosothiduakhenthuong_canhan.mahinhthuckt, dbo.dshosothiduakhenthuong_canhan.madanhhieutd, dbo.dshosothiduakhenthuong_canhan.noidungkhenthuong, dbo.dshosothiduakhenthuong.ngayhoso, 
-//                          dbo.dshosothiduakhenthuong.trangthai
+//                          dbo.dshosothiduakhenthuong.trangthai, dbo.dshosothiduakhenthuong_canhan.madanhhieukhenthuong, dbo.dsdonvi.madiaban
 // FROM            dbo.dshosothiduakhenthuong INNER JOIN
-//                          dbo.dshosothiduakhenthuong_canhan ON dbo.dshosothiduakhenthuong.mahosotdkt = dbo.dshosothiduakhenthuong_canhan.mahosotdkt
-// GO
+//                          dbo.dshosothiduakhenthuong_canhan ON dbo.dshosothiduakhenthuong.mahosotdkt = dbo.dshosothiduakhenthuong_canhan.mahosotdkt INNER JOIN
+//                          dbo.dsdonvi ON dbo.dshosothiduakhenthuong.madonvi = dbo.dsdonvi.madonvi

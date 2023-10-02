@@ -59,14 +59,16 @@
                         </div>
                     @endif
 
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <a id="btnInQD" onclick="setInDL($(this), '{{ $inputs['url_hs'] . 'InQuyetDinh' }}')"
-                                class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
-                                <i class="la flaticon2-print"></i>Quyết định khen thưởng
-                            </a>
+                    @if (session('admin')->hskhenthuong_quyetdinh)
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <a id="btnInQD" onclick="setInDL($(this), '{{ $inputs['url_hs'] . 'InQuyetDinh' }}')"
+                                    class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
+                                    <i class="la flaticon2-print"></i>Quyết định khen thưởng
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
 
                 <div id="div_inPhoi">

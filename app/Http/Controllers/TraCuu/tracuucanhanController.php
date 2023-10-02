@@ -11,6 +11,7 @@ use App\Model\DanhMuc\dmdanhhieuthidua;
 use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
 use App\Model\DanhMuc\dmnhomphanloai_chitiet;
+use App\Model\DanhMuc\dsdonvi;
 use App\Model\View\view_tdkt_canhan;
 use App\Model\View\view_tdkt_detai;
 use Illuminate\Support\Collection;
@@ -48,7 +49,7 @@ class tracuucanhanController extends Controller
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         $m_diaban = getDiaBanTraCuu($donvi);
         $inputs['madiaban'] = $inputs['madiaban'] ?? 'ALL';
-       // dd($m_diaban);
+        // dd($m_diaban);
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         //lấy danh sách đơn vị theo địa bàn
 
@@ -61,15 +62,18 @@ class tracuucanhanController extends Controller
             ->with('pageTitle', 'Tìm kiếm thông tin theo cá nhân');
     }
 
-
     public function KetQua(Request $request)
     {
         $inputs = $request->all();
         //Chưa tính trường hợp đơn vị
+        //dd($inputs);
+        //Nếu đơn vị quản lý địa bàn => xem đc tất cả
+        //Nếu đơn vị nhập liệu => chỉ xem hồ sơ đơn vị gửi
         $model_khenthuong = view_tdkt_canhan::where('trangthai', 'DKT');
         $model_detai = view_tdkt_detai::query();
         $this->TimKiem($model_khenthuong, $model_detai, $inputs);
         $a_dhkt = getDanhHieuKhenThuong('ALL');
+        //dd( $model_khenthuong->toarray());
         return view('TraCuu.CaNhan.KetQua')
             ->with('model_khenthuong', $model_khenthuong)
             ->with('model_detai', $model_detai)
@@ -106,7 +110,6 @@ class tracuucanhanController extends Controller
 
     function TimKiem(&$model_khenthuong, &$model_detai, $inputs)
     {
-
         if ($inputs['tendoituong'] != '') {
             $model_khenthuong = $model_khenthuong->where('tendoituong', 'Like', '%' . $inputs['tendoituong'] . '%');
         }
@@ -132,9 +135,19 @@ class tracuucanhanController extends Controller
 
         if ($inputs['maloaihinhkt'] != 'ALL')
             $model_khenthuong = $model_khenthuong->where('maloaihinhkt', $inputs['maloaihinhkt']);
+
+        //Lọc các kết quả khen thưởng trên địa bàn
+        $donvi = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
+        $a_diaban = array_column(getDiaBanTraCuu($donvi)->toarray(), 'madiaban');
+        // dd($m_diaban);
+        if ($inputs['madiaban'] == 'ALL')
+            $model_khenthuong = $model_khenthuong->wherein('madiaban', $a_diaban);
+        else
+            $model_khenthuong = $model_khenthuong->where('madiaban', $inputs['madiaban']);
+
         //Lấy kết quả khen thưởng
         $model_khenthuong = $model_khenthuong->get();
-        //dd($model_khenthuong);
+        //dd($a_diaban);
         //Đề tài
         $model_detai = $model_detai->wherein('mahosotdkt', array_unique(array_column($model_khenthuong->toarray(), 'mahosotdkt')));
         if ($inputs['tendoituong'] != null && $inputs['tendoituong'] != '')
