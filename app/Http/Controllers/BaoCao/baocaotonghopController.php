@@ -225,20 +225,21 @@ class baocaotonghopController extends Controller
         }
 
         $m_hoso = dshosothiduakhenthuong::wherenotin('trangthai', ['CC', 'BTL'])
-            ->wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']]);
+            ->wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
+            ->wherein('madonvi',array_column($model->toarray(), 'madonvi'));
         if ($inputs['phanloai'] != 'ALL') {
             $m_hoso = $m_hoso->where('phanloai', $inputs['phanloai']);
         }
-
+        
         if ($inputs['madonvi_kt'] != 'ALL') {
             $m_hoso = $m_hoso->where('madonvi_kt', $inputs['madonvi_kt']);
         }
 
         $m_hoso =  $m_hoso->get();
-
+        //dd($m_hoso);
         $m_canhan = view_tdkt_canhan::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();
         $m_tapthe = view_tdkt_tapthe::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();
-
+        // dd($m_canhan->where('madanhhieukhenthuong','1650360491'));
         $a_danhhieukhenthuong = array_unique(array_merge(
             array_column($m_canhan->toarray(), 'madanhhieukhenthuong'),
             array_column($m_tapthe->toarray(), 'madanhhieukhenthuong')
@@ -247,7 +248,7 @@ class baocaotonghopController extends Controller
         $a_hinhthuckt = array_column(dmhinhthuckhenthuong::wherein('mahinhthuckt', $a_danhhieukhenthuong)->get()->toarray(), 'tenhinhthuckt', 'mahinhthuckt');
         $a_diaban = a_unique(a_split($model->toArray(), ['tendiaban', 'madiaban', 'capdo', 'madiabanQL']));
 
-        //dd($a_hinhthuckt);
+        //dd($a_danhhieukhenthuong);
         foreach ($model as $ct) {
             $canhan = $m_canhan->where('madonvi', $ct->madonvi);
             $tapthe = $m_tapthe->where('madonvi', $ct->madonvi);
@@ -259,7 +260,7 @@ class baocaotonghopController extends Controller
                     + $tapthe->where('madanhhieukhenthuong', $key)->count();
             }
         }
-
+        //dd($model);
         //Lọc theo địa bàn để lấy báo cáo phù hợp
         $a_huyen = [];        
         switch (getCapDoLonNhat(array_unique(array_column($a_diaban, 'capdo')))) {
