@@ -15,6 +15,7 @@ class UpdateHethongchung240323Table extends Migration
     {
         Schema::table('hethongchung', function (Blueprint $table) {
             $table->boolean('hskhenthuong_totrinh')->default(0);
+            $table->string('madonvi_macdinhphoi')->nullable();
            
         });
     }
@@ -28,6 +29,7 @@ class UpdateHethongchung240323Table extends Migration
     {
         Schema::table('hethongchung', function (Blueprint $table) {            
             $table->dropColumn('hskhenthuong_totrinh');   
+            $table->dropColumn('madonvi_macdinhphoi');   
         });
     }
 }

@@ -156,7 +156,7 @@ class dshosodenghikhenthuongcongtrangController extends Controller
             ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
             ->with('m_phongtraotd', $m_phongtrao)
             //->with('a_phongtraotd', array_column($m_phongtrao->toArray(), 'noidung', 'maphongtraotd'))
-            //->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('a_canhan', $a_canhan)
             ->with('a_tapthe', $a_tapthe)
             ->with('a_hogiadinh', $a_hogiadinh)

@@ -279,7 +279,8 @@ function getDonViQuanLyDiaBan($donvi, $kieudulieu = 'ARRAY')
 }
 
 //Hàm lấy danh sách đơn vị quản lý địa bàn và các đơn vị quản lý địa bàn ở cấp dưới (Kết xuất báo cáo)
-function getDonViQL_BaoCao($a_donvi){
+function getDonViQL_BaoCao($a_donvi)
+{
     $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', $a_donvi)->get();
     return array_column($model->toarray(), 'tendonvi', 'madonvi');
 }
@@ -1124,12 +1125,23 @@ function getToaDoMacDinh($inputs)
     //         ->where('madonvi', $inputs['madonvi'])
     //         ->first();
     // }
+
+    //Làm lấy thông tin tại đơn vị
+
     $model =   App\Model\DanhMuc\dmtoadoinphoi::where('phanloaikhenthuong', $inputs['phanloaikhenthuong'])
         ->where('phanloaidoituong', $inputs['phanloaidoituong'])
         ->where('phanloaiphoi', $inputs['phanloaiphoi'])
         ->where('madonvi', $inputs['madonvi'])
         ->first();
-
+    if ($model == null) {
+        //2023.10.04 lấy mặc định theo tỉnh => xay dựng để thiết lập theo HeThongChung
+        $model =  App\Model\DanhMuc\dmtoadoinphoi::where('phanloaikhenthuong', $inputs['phanloaikhenthuong'])
+            ->where('phanloaidoituong', $inputs['phanloaidoituong'])
+            ->where('phanloaiphoi', $inputs['phanloaiphoi'])
+            ->where('madonvi', '1665799784')
+            ->first();
+        //dd($model);
+    }
     return $model;
 }
 

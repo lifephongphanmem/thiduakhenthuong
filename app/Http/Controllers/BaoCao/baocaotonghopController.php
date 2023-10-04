@@ -259,6 +259,8 @@ class baocaotonghopController extends Controller
                 $ct->$key = $canhan->where('madanhhieukhenthuong', $key)->count()
                     + $tapthe->where('madanhhieukhenthuong', $key)->count();
             }
+            // if($ct->madonvi == '1668019143')
+            // dd($canhan);
         }
         //dd($model);
         //Lọc theo địa bàn để lấy báo cáo phù hợp

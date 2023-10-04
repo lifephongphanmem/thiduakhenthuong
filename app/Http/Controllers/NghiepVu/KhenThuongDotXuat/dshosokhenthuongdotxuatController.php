@@ -152,6 +152,7 @@ class dshosokhenthuongdotxuatController extends Controller
             ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
             ->with('a_dhkt_hogiadinh', $a_dhkt_hogiadinh)
             ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
+            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('a_pltailieu', getPhanLoaiTaiLieuDK())
             ->with('a_canhan', $a_canhan)
             ->with('a_tapthe', $a_tapthe)

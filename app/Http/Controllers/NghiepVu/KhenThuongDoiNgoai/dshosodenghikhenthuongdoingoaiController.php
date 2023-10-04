@@ -162,7 +162,7 @@ class dshosodenghikhenthuongdoingoaiController extends Controller
             ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
             ->with('a_hogiadinh', $a_hogiadinh)
             ->with('a_dhkt_hogiadinh', $a_dhkt_hogiadinh)
-            //->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             //->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
             ->with('a_canhan', $a_canhan)
             ->with('a_tapthe', $a_tapthe)
