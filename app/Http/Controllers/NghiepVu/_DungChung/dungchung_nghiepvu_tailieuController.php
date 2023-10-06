@@ -73,16 +73,16 @@ class dungchung_nghiepvu_tailieuController extends Controller
         );
         //return response()->json($inputs);
 
-        $this->htmlTaiLieu($result, $danhsach, true);
+        $this->htmlTaiLieu($result, $danhsach, $inputs['madonvi']);
         return response()->json($result);
     }
 
     //Thêm tài liệu cho các nghiệp vụ goi (Tờ trình kết quả KT, Quyết định khen thương)
     function ThemTaiLieuDK(Request $request, $phanloaihoso, $truongdulieu, $madonvi)
     {
-        $inputs = $request->all();        
+        $inputs = $request->all();
         //Gán lại trường thông tin
-        $inputs['phanloai'] = $inputs['phanloaitailieu']; 
+        $inputs['phanloai'] = $inputs['phanloaitailieu'];
         unset($inputs['phanloaitailieu']);
         $inputs['madonvi'] = $madonvi;
         $filedk = $request->file($truongdulieu);
@@ -131,9 +131,9 @@ class dungchung_nghiepvu_tailieuController extends Controller
         return  array(
             'status' => 'success',
             'message' => 'Thêm mới thành công',
-        );        
+        );
     }
-    
+
     function LayTaiLieu(Request $request)
     {
         $inputs = $request->all();
@@ -189,11 +189,11 @@ class dungchung_nghiepvu_tailieuController extends Controller
         );
         //return response()->json($inputs);
 
-        $this->htmlTaiLieu($result, $danhsach, true);
+        $this->htmlTaiLieu($result, $danhsach, $inputs['madonvi']);
         return response()->json($result);
     }
 
-    function htmlTaiLieu(&$result, $model, $bXoa = true)
+    function htmlTaiLieu(&$result, $model, $madonvi_cs)
     {
         if (isset($model)) {
             $a_pltailieu = getPhanLoaiTaiLieuDK();
@@ -218,11 +218,15 @@ class dungchung_nghiepvu_tailieuController extends Controller
                 $result['message'] .= '<td>' . ($a_donvi[$tt->madonvi] ?? $tt->madonvi) . '</td>';
                 $result['message'] .= '<td>' . ($a_pltailieu[$tt->phanloai] ?? '') . '</td>';
                 $result['message'] .= '<td>' . $tt->noidung . '</td>';
-                $result['message'] .= '<td class="text-center"><button title="Sửa thông tin" type="button" onclick="getTaiLieu(&#39;' . $tt->id . '&#39;)"  class="btn btn-sm btn-clean btn-icon"
-                            data-target="#modal-tailieu" data-toggle="modal"><i class="icon-lg la fa-edit text-primary"></i></button>';
-                if ($bXoa)
+                $result['message'] .= '<td class="text-center">';
+                if ($tt->madonvi ==  $madonvi_cs) {
+                    $result['message'] .= '<button title="Sửa thông tin" type="button" onclick="getTaiLieu(&#39;' . $tt->id . '&#39;)"  class="btn btn-sm btn-clean btn-icon"
+                    data-target="#modal-tailieu" data-toggle="modal"><i class="icon-lg la fa-edit text-primary"></i></button>';
+
                     $result['message'] .= '<button title="Xóa" type="button" onclick="delTaiLieu(&#39;' . $tt->id . '&#39;)" class="btn btn-sm btn-clean btn-icon" data-target="#modal-delete-tailieu" data-toggle="modal">
-                            <i class="icon-lg la fa-trash text-danger"></i></button>';
+                    <i class="icon-lg la fa-trash text-danger"></i></button>';
+                }
+
                 if ($tt->tentailieu != '')
                     $result['message'] .= '<a target="_blank" title="Tải file đính kèm"
                             href="/data/tailieudinhkem/' . $tt->tentailieu . '" class="btn btn-clean btn-icon btn-sm"><i class="fa flaticon-download text-info"></i></a>';
@@ -251,52 +255,44 @@ class dungchung_nghiepvu_tailieuController extends Controller
         $model = dshosothiduakhenthuong_tailieu::where('mahosotdkt', $inputs['mahs'])->get();
         if ($model->count() > 0) {
             $a_pltailieu = getPhanLoaiTaiLieuDK();
-            foreach($model as $tailieu){
-                $result['message'] .= '<div class="form-group row">';
-                $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >'.($a_pltailieu[$tailieu->phanloai] ?? $tailieu->phanloai).':</label>';
-                $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/tailieudinhkem/' . $tailieu->tentailieu) . '">' . $tailieu->tentailieu . '</a ></div>';
-                $result['message'] .= '</div>';
-            }    
-            // if (isset($model->totrinh)) {
+            $a_donvi = array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi');
+            $result['message'] .= '<div class="col-md-12">';
+            $result['message'] .= '<table class="table table-bordered table-hover dulieubang">';
+            $result['message'] .= '<thead>';
+            $result['message'] .= '<tr class="text-center">';
+            $result['message'] .= '<th width="2%">STT</th>';
+            $result['message'] .= '<th width="20%">Đơn vị tải lên</th>';
+            $result['message'] .= '<th width="20%">Phân loại tài liệu</th>';
+            $result['message'] .= '<th>Nội dung tóm tắt</th>';
+            $result['message'] .= '<th width="15%">Thao tác</th>';
+            $result['message'] .= '</tr>';
+            $result['message'] .= '</thead>';
+            $result['message'] .= '<tbody>';
+            $i = 1;
+            foreach ($model as $tt) {
+                $result['message'] .= '<tr class="odd gradeX">';
+                $result['message'] .= '<td class="text-center">' . $i++ . '</td>';
+                $result['message'] .= '<td>' . ($a_donvi[$tt->madonvi] ?? $tt->madonvi) . '</td>';
+                $result['message'] .= '<td>' . ($a_pltailieu[$tt->phanloai] ?? '') . '</td>';
+                $result['message'] .= '<td>' . $tt->noidung . '</td>';
+                $result['message'] .= '<td class="text-center">';
+
+                if ($tt->tentailieu != '')
+                    $result['message'] .= '<a target="_blank" title="Tải file đính kèm"
+                            href="/data/tailieudinhkem/' . $tt->tentailieu . '" class="btn btn-clean btn-icon btn-sm"><i class="fa flaticon-download text-info"></i></a>';
+                $result['message'] .= '</td>';
+                $result['message'] .= '</tr>';
+            }
+            $result['message'] .= '</tbody>';
+            $result['message'] .= '</table>';
+            $result['message'] .= '</div>';
+            // foreach ($model as $tailieu) {
             //     $result['message'] .= '<div class="form-group row">';
-            //     $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Tờ trình:</label>';
-            //     $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/totrinh/' . $model->totrinh) . '">' . $model->totrinh . '</a ></div>';
+            //     $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >' . ($a_pltailieu[$tailieu->phanloai] ?? $tailieu->phanloai) . ':</label>';
+            //     $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/tailieudinhkem/' . $tailieu->tentailieu) . '">' . $tailieu->tentailieu . '</a ></div>';
             //     $result['message'] .= '</div>';
             // }
 
-            // if (isset($model->baocao)) {
-            //     $result['message'] .= '<div class="form-group row">';
-            //     $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Báo cáo thành tích:</label>';
-            //     $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/baocao/' . $model->baocao) . '">' . $model->baocao . '</a ></div>';
-            //     $result['message'] .= '</div>';
-            // }
-
-            // if (isset($model->bienban)) {
-            //     $result['message'] .= '<div class="form-group row">';
-            //     $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Biên bản cuộc họp</label>';
-            //     $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/bienban/' . $model->bienban) . '">' . $model->bienban . '</a ></div>';
-            //     $result['message'] .= '</div>';
-            // }
-            // if (isset($model->tailieukhac)) {
-            //     $result['message'] .= '<div class="form-group row">';
-            //     $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Tài liệu khác</label>';
-            //     $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/tailieukhac/' . $model->tailieukhac) . '">' . $model->tailieukhac . '</a ></div>';
-            //     $result['message'] .= '</div>';
-            // }
-
-            // if (isset($model->totrinhdenghi)) {
-            //     $result['message'] .= '<div class="form-group row">';
-            //     $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Tờ trình kết quả khen thưởng:</label>';
-            //     $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/totrinh/' . $model->totrinhdenghi) . '">' . $model->totrinhdenghi . '</a ></div>';
-            //     $result['message'] .= '</div>';
-            // }
-
-            // if (isset($model->quyetdinh)) {
-            //     $result['message'] .= '<div class="form-group row">';
-            //     $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Quyết định khen thưởng:</label>';
-            //     $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/quyetdinh/' . $model->quyetdinh) . '">' . $model->quyetdinh . '</a ></div>';
-            //     $result['message'] .= '</div>';
-            // }
         }
         $result['message'] .= '</div>';
         $result['status'] = 'success';
@@ -316,12 +312,44 @@ class dungchung_nghiepvu_tailieuController extends Controller
         $model = dshosotdktcumkhoi_tailieu::where('mahosotdkt', $inputs['mahs'])->get();
         if ($model->count() > 0) {
             $a_pltailieu = getPhanLoaiTaiLieuDK();
-            foreach($model as $tailieu){
-                $result['message'] .= '<div class="form-group row">';
-                $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >'.($a_pltailieu[$tailieu->phanloai] ?? $tailieu->phanloai).':</label>';
-                $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/tailieudinhkem/' . $tailieu->tentailieu) . '">' . $tailieu->tentailieu . '</a ></div>';
-                $result['message'] .= '</div>';
+            $a_donvi = array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi');
+            $result['message'] .= '<div class="col-md-12">';
+            $result['message'] .= '<table class="table table-bordered table-hover dulieubang">';
+            $result['message'] .= '<thead>';
+            $result['message'] .= '<tr class="text-center">';
+            $result['message'] .= '<th width="2%">STT</th>';
+            $result['message'] .= '<th width="20%">Đơn vị tải lên</th>';
+            $result['message'] .= '<th width="20%">Phân loại tài liệu</th>';
+            $result['message'] .= '<th>Nội dung tóm tắt</th>';
+            $result['message'] .= '<th width="15%">Thao tác</th>';
+            $result['message'] .= '</tr>';
+            $result['message'] .= '</thead>';
+            $result['message'] .= '<tbody>';
+            $i = 1;
+            foreach ($model as $tt) {
+                $result['message'] .= '<tr class="odd gradeX">';
+                $result['message'] .= '<td class="text-center">' . $i++ . '</td>';
+                $result['message'] .= '<td>' . ($a_donvi[$tt->madonvi] ?? $tt->madonvi) . '</td>';
+                $result['message'] .= '<td>' . ($a_pltailieu[$tt->phanloai] ?? '') . '</td>';
+                $result['message'] .= '<td>' . $tt->noidung . '</td>';
+                $result['message'] .= '<td class="text-center">';
+
+                if ($tt->tentailieu != '')
+                    $result['message'] .= '<a target="_blank" title="Tải file đính kèm"
+                            href="/data/tailieudinhkem/' . $tt->tentailieu . '" class="btn btn-clean btn-icon btn-sm"><i class="fa flaticon-download text-info"></i></a>';
+                $result['message'] .= '</td>';
+                $result['message'] .= '</tr>';
             }
+            $result['message'] .= '</tbody>';
+            $result['message'] .= '</table>';
+            $result['message'] .= '</div>';
+            // $a_pltailieu = getPhanLoaiTaiLieuDK();
+            // foreach ($model as $tailieu) {
+            //     $result['message'] .= '<div class="form-group row">';
+            //     $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >' . ($a_pltailieu[$tailieu->phanloai] ?? $tailieu->phanloai) . ':</label>';
+            //     $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/tailieudinhkem/' . $tailieu->tentailieu) . '">' . $tailieu->tentailieu . '</a ></div>';
+            //     $result['message'] .= '</div>';
+            // }
         }
         $result['message'] .= '</div>';
         $result['status'] = 'success';

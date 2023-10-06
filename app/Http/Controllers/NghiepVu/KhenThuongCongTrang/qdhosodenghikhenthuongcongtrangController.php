@@ -550,11 +550,14 @@ class qdhosodenghikhenthuongcongtrangController extends Controller
         $inputs['url_xd'] = '/KhenThuongCongTrang/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongCongTrang/KhenThuong/';
         $inputs['url'] = '/KhenThuongCongTrang/KhenThuong/';
+        $inputs['phanloaihoso'] = 'dshosothiduakhenthuong';
+
         //$inputs['mahinhthuckt'] = session('chucnang')['qdhosodenghikhenthuongcongtrang']['mahinhthuckt'] ?? 'ALL';
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
         $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
         $model_hogiadinh = dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+        $model_tailieu = dshosothiduakhenthuong_tailieu::where('mahosotdkt', $inputs['mahosotdkt'])->get();
         $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
         $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
         $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
@@ -563,13 +566,10 @@ class qdhosodenghikhenthuongcongtrangController extends Controller
         $a_hogiadinh = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $a_dhkt_hogiadinh = getDanhHieuKhenThuong($donvi->capdo, 'HOGIADINH');
-        //Gán tài liệu đính kèm
-        $model_tailieu = dshosothiduakhenthuong_tailieu::where('mahosotdkt', $inputs['mahosotdkt'])->where('phanloai', 'QDKT')->first();
-        $model->quyetdinh = $model_tailieu->tentailieu ?? '';
-
         //Gán thông tin đơn vị khen thưởng
         $donvi_kt = viewdiabandonvi::where('madonvi', $model->madonvi_kt)->first();
-
+        //Gán thông tin đơn vị chỉnh sửa tài liệu đính kèm
+        $inputs['madonvi'] = $model->madonvi_kt;
         $model->capkhenthuong =  $donvi_kt->capdo;
         $model->donvikhenthuong =  $donvi_kt->tendonvi;
         $a_donvikt = array_unique(array_merge([$model->donvikhenthuong], getDonViKhenThuong()));
@@ -579,6 +579,9 @@ class qdhosodenghikhenthuongcongtrangController extends Controller
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
             ->with('model_hogiadinh', $model_hogiadinh)
+            ->with('model_tailieu', $model_tailieu)
+            ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
+            ->with('a_pltailieu', getPhanLoaiTaiLieuDK())
             ->with('a_donvikt', $a_donvikt)
             ->with('a_dhkt_canhan', $a_dhkt_canhan)
             ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
@@ -609,12 +612,7 @@ class qdhosodenghikhenthuongcongtrangController extends Controller
         $model->ngayqd = $inputs['ngayqd'];
         $model->chucvunguoikyqd = $inputs['chucvunguoikyqd'];
         $model->hotennguoikyqd = $inputs['hotennguoikyqd'];
-        getTaoQuyetDinhKT($model);
-        //dd($model->thongtinquyetdinh);
-        if (isset($inputs['quyetdinh'])) {
-            $dinhkem = new dungchung_nghiepvu_tailieuController();
-            $dinhkem->ThemTaiLieuDK($request, 'dshosothiduakhenthuong', 'quyetdinh', $model->madonvi_kt);
-        }
+        getTaoQuyetDinhKT($model);      
 
         $model->save();
         trangthaihoso::create([

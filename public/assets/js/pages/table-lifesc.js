@@ -375,7 +375,8 @@ var TableManagedclass = function () {
                 "searchable": false,
                 "targets": [0]
             }],
-            "bSort" : false
+            "bSort" : false,
+            destroy: true,
             //"order": [
             //    [0, "asc"]
             //] // set first column as a default sort by asc

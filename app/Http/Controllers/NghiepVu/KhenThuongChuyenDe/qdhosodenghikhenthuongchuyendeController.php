@@ -249,11 +249,14 @@ class qdhosodenghikhenthuongchuyendeController extends Controller
         $inputs['url_xd'] = '/KhenThuongChuyenDe/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongChuyenDe/KhenThuong/';
         $inputs['url'] = '/KhenThuongChuyenDe/KhenThuong/';
+        $inputs['phanloaihoso'] = 'dshosothiduakhenthuong';
+
         //$inputs['mahinhthuckt'] = session('chucnang')['qdhosodenghikhenthuongcongtrang']['mahinhthuckt'] ?? 'ALL';
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
         $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
         $model_hogiadinh = dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+        $model_tailieu = dshosothiduakhenthuong_tailieu::where('mahosotdkt', $inputs['mahosotdkt'])->get();
         $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
         $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
         $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
@@ -266,9 +269,8 @@ class qdhosodenghikhenthuongchuyendeController extends Controller
 
         //Gán thông tin đơn vị khen thưởng
         $donvi_kt = viewdiabandonvi::where('madonvi', $model->madonvi_kt)->first();
-        //Gán tài liệu đính kèm
-        $model_tailieu = dshosothiduakhenthuong_tailieu::where('mahosotdkt', $inputs['mahosotdkt'])->where('phanloai', 'QDKT')->first();
-        $model->quyetdinh = $model_tailieu->tentailieu ?? '';
+        //Gán thông tin để thông tin đơn vị đang thao tác
+        $inputs['madonvi'] = $model->madonvi_kt;
 
         $model->capkhenthuong =  $donvi_kt->capdo;
         $model->donvikhenthuong =  $donvi_kt->tendonvi;
@@ -279,6 +281,9 @@ class qdhosodenghikhenthuongchuyendeController extends Controller
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
             ->with('model_hogiadinh', $model_hogiadinh)
+            ->with('model_tailieu', $model_tailieu)
+            ->with('a_pltailieu', getPhanLoaiTaiLieuDK())
+            ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
             ->with('a_donvikt', $a_donvikt)
             ->with('a_dhkt_canhan', $a_dhkt_canhan)
             ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
@@ -310,10 +315,7 @@ class qdhosodenghikhenthuongchuyendeController extends Controller
         $model->ngayqd = $inputs['ngayqd'];
         $model->chucvunguoikyqd = $inputs['chucvunguoikyqd'];
         $model->hotennguoikyqd = $inputs['hotennguoikyqd'];
-        if (isset($inputs['quyetdinh'])) {
-            $dinhkem = new dungchung_nghiepvu_tailieuController();
-            $dinhkem->ThemTaiLieuDK($request, 'dshosothiduakhenthuong', 'quyetdinh', $model->madonvi_kt);
-        }
+
         getTaoQuyetDinhKT($model);
         $model->save();
         trangthaihoso::create([
@@ -333,7 +335,7 @@ class qdhosodenghikhenthuongchuyendeController extends Controller
             return view('errors.noperm')
                 ->with('machucnang', 'qdhosodenghikhenthuongchuyende')
                 ->with('tenphanquyen', 'hoanthanh');
-        }        
+        }
 
         $inputs = $request->all();
         $inputs['thoigian'] = date('Y-m-d H:i:s');
@@ -346,7 +348,7 @@ class qdhosodenghikhenthuongchuyendeController extends Controller
             $rq = new Request([
                 'phanloaihoso'   => 'dshosothiduakhenthuong',
                 'id' => $model_tailieu->id,
-            ]);       
+            ]);
             $dinhkem = new dungchung_nghiepvu_tailieuController();
             $dinhkem->XoaTaiLieu($rq);
         }
@@ -370,7 +372,7 @@ class qdhosodenghikhenthuongchuyendeController extends Controller
         $inputs['thoigian'] = date('Y-m-d H:i:s');
         setTraLaiPD($model, $inputs);
         return redirect(static::$url . 'ThongTin?madonvi=' . $madonvi);
-    }   
+    }
 
     public function NoiDungKhenThuong(Request $request)
     {
@@ -428,7 +430,7 @@ class qdhosodenghikhenthuongchuyendeController extends Controller
             ->with('model', $model)
             ->with('pageTitle', 'Tờ trình khen thưởng');
     }
-    
+
     public function XemHoSo(Request $request)
     {
         $inputs = $request->all();

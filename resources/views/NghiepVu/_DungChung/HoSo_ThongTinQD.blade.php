@@ -48,7 +48,7 @@
     </div>
 </div>
 
-<div class="form-group row">
+{{-- <div class="form-group row">
     <div class="col-6">
         <label>Quyết định khen thưởng: </label>
         {!! Form::file('quyetdinh', null, ['id' => 'quyetdinh', 'class' => 'form-control']) !!}
@@ -59,4 +59,4 @@
         @endif
         {!! Form::hidden('phanloaitailieu', 'QDKT',) !!}
     </div>
-</div>
+</div> --}}

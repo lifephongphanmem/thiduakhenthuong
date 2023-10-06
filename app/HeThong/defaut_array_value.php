@@ -731,8 +731,8 @@ function getTaoDuThaoToTrinhPheDuyet(&$model, $maduthao = null)
 function getTaoQuyetDinhKT(&$model)
 {
     if ($model->thongtinquyetdinh == '') {
-        getTaoDuThaoKT($model);        
-    }    
+        getTaoDuThaoKT($model);
+    }
     $tendonvi = dsdonvi::where('madonvi', $model->madonvi)->first()->tendonvi ?? '';
     $donvi_xd = dsdonvi::where('madonvi', $model->madonvi_xd)->first();
     $model->thongtinquyetdinh = str_replace('[chucvunguoikyqd]', $model->chucvunguoikyqd, $model->thongtinquyetdinh);
@@ -791,7 +791,7 @@ function getTaoDuThaoKT(&$model, $maduthao = null)
             //dd($s_canhan);
             // $thongtinquyetdinh = str_replace('<p style=&#34;margin-left:25px;&#34;>[khenthuongcanhan]</p>',  $s_canhan, $thongtinquyetdinh);
             $thongtinquyetdinh = str_replace('[khenthuongcanhan]',  $s_canhan, $thongtinquyetdinh);
-            
+
 
             //Tập thể
             $s_tapthe = '';
@@ -821,7 +821,7 @@ function getTaoDuThaoKT(&$model, $maduthao = null)
                 //dd($s_canhan);
                 // $thongtinquyetdinh = str_replace('<p style=&#34;margin-left:25px;&#34;>[khenthuongcanhan]</p>',  $s_canhan, $thongtinquyetdinh);
                 $thongtinquyetdinh = str_replace('[khenthuongcanhan]',  $s_canhan, $thongtinquyetdinh);
-                
+
                 $thongtinquyetdinh = str_replace('II. Tập thể',  '', $thongtinquyetdinh);
                 $thongtinquyetdinh = str_replace('[khenthuongtapthe]',  '', $thongtinquyetdinh);
                 $thongtinquyetdinh = str_replace('[soluongtapthe] và [soluongcanhan]', $m_canhan->count() . ' cá nhân', $thongtinquyetdinh);
@@ -1412,10 +1412,22 @@ function getPhanLoaiTaiLieuDK($phanloaihoso = 'ALL')
         'QDKT' => 'Quyết định khen thưởng',
         'KHAC' => 'Tài liệu khác',
     ];
-    //Bỏ các giấy tờ đính kèm xét duyệt và qd
+    //Đề nghị khen thưởng
     if ($phanloaihoso == 'DENGHI') {
-        unset($a_kq['TOTRINHKQ']);
-        unset($a_kq['QDKT']);
+        return  [
+            'TOTRINH' => 'Tờ trình đề nghị khen thưởng',
+            'BAOCAO' => 'Báo cáo thành tích',
+            'BIENBAN' => 'Biên bản cuộc họp',
+            'DTKH' => 'Đề tài khoa học',
+            'SANGKIEN' => 'Sáng kiến sáng tạo',
+            'KHAC' => 'Tài liệu khác',
+        ];
+    }
+    //Quyết định khen thưởng
+    if ($phanloaihoso == 'QDKT') {
+        return [
+            'QDKT' => 'Quyết định khen thưởng',
+        ];
     }
     return $a_kq;
 }
