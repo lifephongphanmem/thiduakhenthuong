@@ -55,7 +55,7 @@
                     {!! Form::text('tendonvi', null, ['class' => 'form-control', 'readonly' => 'true']) !!}
                 </div>
             </div>
-            
+
             @if (session('admin')->hskhenthuong_totrinh)
                 <div class="form-group row">
                     <div class="col-lg-6">
@@ -135,7 +135,7 @@
             </div> --}}
 
             @if ($model->trangthai == 'DKT')
-                @include('NghiepVu._DungChung.HoSo_ThongTinQD')
+                @include('NghiepVu._DungChung.HoSo_KhenThuong_ThongTinQD')
             @endif
 
             @include('NghiepVu._DungChung.HoSo_DanhSachKhenThuong')
