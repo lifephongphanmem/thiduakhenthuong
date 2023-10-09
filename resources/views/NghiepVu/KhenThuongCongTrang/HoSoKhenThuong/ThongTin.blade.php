@@ -15,6 +15,7 @@
     <script>
         jQuery(document).ready(function() {
             TableManaged3.init();
+            TableManagedclass.init();
             $('#madonvi, #nam, #phanloai').change(function() {
                 window.location.href = "{{ $inputs['url_hs'] }}" + "ThongTin?madonvi=" + $(
                     '#madonvi').val() + "&nam=" + $('#nam').val();
@@ -32,8 +33,13 @@
             </div>
             <div class="card-toolbar">
                 @if (chkPhanQuyen('dshosodenghikhenthuongcongtrang', 'thaydoi'))
+                    <button type="button" class="btn btn-success btn-xs mr-2" data-toggle="modal"
+                        data-target="#tonghophoso-modal">
+                        <i class="fa fa-plus"></i>&nbsp;Tổng hợp
+                    </button>
                     <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
-                        <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
+                        <i class="fa fa-plus"></i>&nbsp;Thêm mới
+                    </button>
                 @endif
             </div>
         </div>
@@ -133,6 +139,7 @@
 
     @include('NghiepVu._DungChung.modal_PheDuyet')
     @include('NghiepVu._DungChung.HoSo_TaoHoSo')
+    @include('NghiepVu._DungChung.HoSo_TongHopHoSo')
     @include('NghiepVu._DungChung.InDuLieu')
     @include('includes.modal.modal-delete')
     @include('includes.modal.modal_chuyenhs')

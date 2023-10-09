@@ -62,7 +62,7 @@
                     <label>Phân loại hồ sơ</label>
                     {!! Form::select('phanloai', getPhanLoaiHoSo(), null, ['class' => 'form-control', 'disabled']) !!}
                 </div>
-            </div>            
+            </div>
 
             <div class="form-group row">
                 <div class="col-lg-12">
@@ -74,27 +74,27 @@
             <div class="form-group row muted">
                 <div class="col-6">
                     <label>Số quyết định</label>
-                    {!! Form::text('soqd', null, ['class' => 'form-control muted', 'readonly' => 'true' ]) !!}
+                    {!! Form::text('soqd', null, ['class' => 'form-control muted', 'readonly' => 'true']) !!}
                 </div>
-            
+
                 <div class="col-6">
                     <label>Ngày ra quyết định</label>
                     {!! Form::input('date', 'ngayqd', null, ['class' => 'form-control', 'readonly' => 'true']) !!}
                 </div>
             </div>
-            
+
             <div class="form-group row">
                 <div class="col-6">
                     <label>Chức vụ người ký</label>
-                    {!! Form::text('chucvunguoikyqd', null, ['class' => 'form-control', 'readonly' => 'true' ]) !!}                    
-                </div>               
+                    {!! Form::text('chucvunguoikyqd', null, ['class' => 'form-control', 'readonly' => 'true']) !!}
+                </div>
                 <div class="col-6">
                     <label>Họ tên người ký</label>
                     {!! Form::text('hotennguoikyqd', null, ['class' => 'form-control', 'readonly' => 'true']) !!}
                 </div>
             </div>
 
-            
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-custom">
@@ -137,8 +137,15 @@
 
                                                 <button onclick="setBangKhen('KHENTHUONG','TAPTHE')"
                                                     title="In danh sách bằng khen" data-target="#modal-danhsach"
-                                                    data-toggle="modal" type="button" class="btn btn-light-dark btn-sm">
+                                                    data-toggle="modal" type="button"
+                                                    class="btn btn-light-dark btn-sm mr-2">
                                                     <i class="icon-lg la la-file-invoice"></i>Bằng khen
+                                                </button>
+
+                                                <button onclick="setGiayKhen('KHENTHUONG','TAPTHE')"
+                                                    title="In danh sách giấy khen" data-target="#modal-danhsach-giaykhen"
+                                                    data-toggle="modal" type="button" class="btn btn-light-dark btn-sm">
+                                                    <i class="icon-lg la la-file-invoice"></i>Giấy khen
                                                 </button>
                                             </div>
                                         </div>
@@ -215,10 +222,16 @@
                                             <div class="btn-group" role="group">
                                                 <button onclick="setBangKhen('KHENTHUONG','CANHAN')"
                                                     title="In danh sách bằng khen" data-target="#modal-danhsach"
-                                                    data-toggle="modal" type="button" class="btn btn-light-dark btn-sm">
+                                                    data-toggle="modal" type="button"
+                                                    class="btn btn-light-dark btn-sm mr-2">
                                                     <i class="icon-lg la la-file-invoice"></i>Bằng khen
                                                 </button>
 
+                                                <button onclick="setGiayKhen('KHENTHUONG','CANHAN')"
+                                                    title="In danh sách giấy khen" data-target="#modal-danhsach-giaykhen"
+                                                    data-toggle="modal" type="button" class="btn btn-light-dark btn-sm">
+                                                    <i class="icon-lg la la-file-invoice"></i>Giấy khen
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -320,10 +333,11 @@
     </div>
     <!--end::Card-->
 
+    <!-- In danh sách bằng khen -->
     {!! Form::open([
         'url' => '/DungChung/InPhoiKhenThuong/InDanhSachBangKhen',
         'target' => '_blank',
-        'id' => 'frm_PhoiDanhSach',
+        'id' => 'frm_PhoiDanhSachBK',
         'class' => 'form',
         'files' => true,
         'enctype' => 'multipart/form-data',
@@ -347,7 +361,52 @@
                             {!! Form::textarea('noidungkhenthuong', null, [
                                 'class' => 'form-control',
                                 'rows' => '2',
-                                'placeholder'=>'Nội dung khen thưởng thay nội dung theo từng đối tượng'
+                                'placeholder' => 'Nội dung khen thưởng thay nội dung theo từng đối tượng',
+                            ]) !!}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-default">Thoát</button>
+                    <button type="submit" class="btn btn-primary">Hoàn thành</button>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+    </div>
+    {!! Form::close() !!}
+
+    <!-- In danh sách giấy khen -->
+    {!! Form::open([
+        'url' => '/DungChung/InPhoiKhenThuong/InDanhSachGiayKhen',
+        'target' => '_blank',
+        'id' => 'frm_PhoiDanhSachGK',
+        'class' => 'form',
+        'files' => true,
+        'enctype' => 'multipart/form-data',
+    ]) !!}
+    <input type="hidden" name="id" />
+    <input type="hidden" name="phanloaikhenthuong" />
+    <input type="hidden" name="phanloaidoituong" />
+    <input type="hidden" name="mahoso" value="{{ $inputs['mahosotdkt'] }}" />
+    <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
+    <div class="modal fade bs-modal-lg" id="modal-danhsach-giaykhen" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Thông tin chi tiết</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label>Nội dung khen thưởng</label>
+                            {!! Form::textarea('noidungkhenthuong', null, [
+                                'class' => 'form-control',
+                                'rows' => '2',
+                                'placeholder' => 'Nội dung khen thưởng thay nội dung theo từng đối tượng',
                             ]) !!}
                         </div>
                     </div>
@@ -366,7 +425,14 @@
     <script>
         function setBangKhen(phanloaikhenthuong, phanloaidoituong) {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            var form = $('#frm_PhoiDanhSach');
+            var form = $('#frm_PhoiDanhSachBK');
+            form.find("[name='phanloaikhenthuong']").val(phanloaikhenthuong);
+            form.find("[name='phanloaidoituong']").val(phanloaidoituong);
+        }
+
+        function setGiayKhen(phanloaikhenthuong, phanloaidoituong) {
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            var form = $('#frm_PhoiDanhSachGK');
             form.find("[name='phanloaikhenthuong']").val(phanloaikhenthuong);
             form.find("[name='phanloaidoituong']").val(phanloaidoituong);
         }

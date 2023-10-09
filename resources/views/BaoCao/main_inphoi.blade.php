@@ -625,6 +625,7 @@
 </div>
 {!! Form::close() !!}
 
+{{-- Tọa độ mặc định--}}
 {!! Form::open([
     'url' => '/DungChung/TaiLaiToaDo',
     'id' => 'frm_MacDinh',
@@ -669,8 +670,7 @@
         var scrollLeft = document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body
             .scrollLeft;
         elementTop = rect.top + scrollTop;
-        elementLeft = rect.left + scrollLeft;
-
+        elementLeft = rect.left + scrollLeft;        
         $('#modal-thaydoi').modal("show");
         //var toado = byId(tentruong).getBoundingClientRect();
         var form = $('#frm_ThayDoi');
