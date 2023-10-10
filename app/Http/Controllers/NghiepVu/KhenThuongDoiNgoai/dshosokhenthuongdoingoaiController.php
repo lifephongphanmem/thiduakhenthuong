@@ -801,6 +801,7 @@ class dshosokhenthuongdoingoaiController extends Controller
         $inputs['url_xd'] = '/KhenThuongDoiNgoai/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongDoiNgoai/KhenThuong/';
         $inputs['url'] = '/KhenThuongDoiNgoai/KhenThuong/';
+        $inputs['phanloaihoso'] = 'dshosothiduakhenthuong';
         $inputs['mahinhthuckt'] = session('chucnang')['dshosokhenthuongdoingoai']['mahinhthuckt'] ?? 'ALL';
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
