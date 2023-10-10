@@ -15,9 +15,9 @@
         <span
             class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->soluongkhenthuong }}</span>
     </a> --}}
-    @if (session('admin')->opt_duthaototrinh)
-        <a title="Tạo dự thảo quyết định khen thưởng"
-            href="{{ url($inputs['url_xd'] . 'QuyetDinh?mahosotdkt=' . $tt->mahosotdkt) }}"
+    @if (session('admin')->opt_duthaoquyetdinh)
+        <a title="Tạo dự thảo quyết định khen thưởng" target="_blank"
+            href="{{ url('/DungChung/DuThao/QuyetDinhKhenThuong?mahosotdkt=' . $tt->mahosotdkt) }}"
             class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
             <i class="icon-lg la flaticon-edit-1 text-success"></i>
         </a>

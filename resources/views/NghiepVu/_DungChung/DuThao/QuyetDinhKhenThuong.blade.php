@@ -10,11 +10,13 @@
 @stop
 
 @section('custom-script-footer')
-<script>
-    
-</script>
+    <script>
+        jQuery(document).ready(function() {
+
+        });
+    </script>
     <script src="/assets/js/pages/custom/ckeditor/ckeditor.js"></script>
-    <script src="/assets/js/pages/custom/ckeditor/ckeditor-custom.js"></script>  
+    <script src="/assets/js/pages/custom/ckeditor/ckeditor-custom.js"></script>
 @stop
 
 @section('content')
@@ -25,35 +27,30 @@
             <div class="card-title">
                 <h3 class="card-label text-uppercase">Thông tin dự thảo quyết định khen thưởng</h3>
             </div>
-            <div class="card-toolbar">                
+            <div class="card-toolbar">
+                <button class="btn btn-primary mr-2" data-target="#taoduthao-modal" data-toggle="modal"><i
+                        class="fa fa-check"></i>Tạo mới</button>
                 <button class="btn btn-info" data-target="#dstruongdl-modal" data-toggle="modal"><i class="fa fa-list-ol"></i>Tên trường</button>
             </div>
         </div>
 
         <div class="card-body">
-            <div class="form-group row">
-                <div class="col-12">
-                    <label style="font-weight: bold">Tên dự thảo</label>
-                    {!! Form::text('tenduthao',  $model->noidung, ['id' => 'tenduthao', 'class' => 'form-control muted']) !!}
-                </div>
-            </div>
-            <hr>
             {!! Form::model($model, [
                 'method' => 'POST',
-                'url' => $inputs['url'] . 'Luu',
+                'url' => '/DungChung/DuThao/LuuQuyetDinhKhenThuong',
                 'class' => 'form',
                 'id' => 'frm_In',
                 'files' => true,
                 'enctype' => 'multipart/form-data',
             ]) !!}
-            {{ Form::hidden('maduthao', null) }}
-            {{ Form::hidden('codehtml', null) }}
+            {{ Form::hidden('mahosotdkt', null) }}
+            {{ Form::hidden('thongtinquyetdinh', null) }}
 
             <div class="document-editor__toolbar"></div>
             <div class="form-control editor" style="height: auto; border: 1px solid #E4E6EF;">
-                {!! html_entity_decode($model->codehtml) !!}
+                {!! html_entity_decode($model->thongtinquyetdinh) !!}
             </div>
-            
+
             {{-- <div id="kt-ckeditor-1-toolbar"></div>
             <div id="kt-ckeditor-1">
                 {!! html_entity_decode($model->thongtinquyetdinh) !!}
@@ -62,15 +59,47 @@
         <div class="card-footer">
             <div class="row text-center">
                 <div class="col-lg-12">
-                    <a href="{{ url($inputs['url'] . 'ThongTin') }}"
-                        class="btn btn-danger mr-5"><i class="fa fa-reply"></i>&nbsp;Quay lại</a>
-                    <button type="submit" onclick="setGiaTri()" class="btn btn-primary"><i class="fa fa-check"></i>Hoàn
-                        thành</button>
+                    {{-- <a onclick="quay_lai_trang_truoc()" class="btn btn-danger mr-5"><i class="fa fa-reply"></i>&nbsp;Quay
+                        lại</a> --}}
+                    <button type="submit" onclick="setGiaTri()" class="btn btn-primary"><i class="fa fa-check"></i>Lưu dữ
+                        liệu</button>
                 </div>
             </div>
         </div>
     </div>
     <!--end::Card-->
+    {!! Form::close() !!}
+
+    <!--Modal Tạo mới dự thảo-->
+    {!! Form::open(['url' => '/DungChung/DuThao/TaoQuyetDinhKhenThuong', 'id' => 'frm_hoso']) !!}
+    <input type="hidden" name="mahosotdkt" value="{{ $model->mahosotdkt }}" />
+    <div id="taoduthao-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header modal-header-primary">
+                    <h4 id="modal-header-primary-label" class="modal-title">Đồng ý tạo mới dự thảo quyết định khen thưởng
+                    </h4>
+                    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label style="font-weight: bold">Mẫu dự thảo khen thưởng</label>
+                            {!! Form::select('maduthao', $a_duthao, $inputs['maduthao'], [
+                                'id' => 'maduthao',
+                                'class' => 'form-control select2basic',
+                            ]) !!}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
+                    <button type="submit" class="btn btn-primary">Đồng ý</button>
+                </div>
+            </div>
+        </div>
+    </div>
     {!! Form::close() !!}
 
     <!--Modal danh sách trường dữ liệu-->
@@ -112,8 +141,12 @@
         </div>
     </div>
     <script>
+        function quay_lai_trang_truoc() {
+            history.back();
+        }
+
         function setGiaTri() {
-            $('#frm_In').find("[name='codehtml']").val(myEditor.getData());
+            $('#frm_In').find("[name='thongtinquyetdinh']").val(myEditor.getData());
         }
     </script>
 @stop

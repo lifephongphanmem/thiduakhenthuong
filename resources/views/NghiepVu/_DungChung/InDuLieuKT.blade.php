@@ -48,7 +48,7 @@
                         </div>
                     </div>
 
-                    @if (session('admin')->hskhenthuong_totrinh)
+                    @if (session('admin')->opt_duthaototrinh)
                         <div class="row">
                             <div class="col-lg-12">
                                 <a onclick="setInDL($(this), '{{ $inputs['url_hs'] . 'InToTrinhPheDuyet' }}')"
@@ -59,7 +59,7 @@
                         </div>
                     @endif
 
-                    @if (session('admin')->hskhenthuong_quyetdinh)
+                    @if (session('admin')->opt_duthaoquyetdinh)
                         <div class="row">
                             <div class="col-lg-12">
                                 <a id="btnInQD" onclick="setInDL($(this), '{{ $inputs['url_hs'] . 'InQuyetDinh' }}')"

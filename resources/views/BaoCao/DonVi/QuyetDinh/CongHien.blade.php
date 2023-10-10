@@ -13,7 +13,7 @@
 <script>
     jQuery(document).ready(function() {
         $('#maduthao').change(function() {
-            window.location.href = "{{$inputs['url']}}" +  "TaoDuThao?maduthao=" + $('#maduthao').val() + "&mahosotdkt=" + "{{$inputs['mahosotdkt']}}";
+            window.location.href = "/DungChung/DuThao/TaoQuyetDinhKhenThuong?maduthao=" + $('#maduthao').val() + "&mahosotdkt=" + "{{$inputs['mahosotdkt']}}";
         });       
     });
 </script>
@@ -51,7 +51,7 @@
             <hr>
             {!! Form::model($model, [
                 'method' => 'POST',
-                'url' => $inputs['url'] . 'QuyetDinh',
+                'url' => '/DungChung/DuThao/QuyetDinhKhenThuong',
                 'class' => 'form',
                 'id' => 'frm_In',
                 'files' => true,
@@ -67,8 +67,8 @@
         <div class="card-footer">
             <div class="row text-center">
                 <div class="col-lg-12">
-                    <a href="{{ url($inputs['url'] . 'ThongTin?madonvi=' . $inputs['madonvi']) }}"
-                        class="btn btn-danger mr-5"><i class="fa fa-reply"></i>&nbsp;Quay lại</a>
+                    {{-- <a href="{{ url($inputs['url'] . 'ThongTin?madonvi=' . $inputs['madonvi']) }}"
+                        class="btn btn-danger mr-5"><i class="fa fa-reply"></i>&nbsp;Quay lại</a> --}}
                     <button type="submit" onclick="setGiaTri()" class="btn btn-primary"><i class="fa fa-check"></i>Hoàn
                         thành</button>
                 </div>

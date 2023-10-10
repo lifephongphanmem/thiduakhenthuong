@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HeThong\dstaikhoanController;
 use App\Http\Controllers\HeThong\hethongchungController;
+use App\Http\Controllers\NghiepVu\_DungChung\dungchung_duthaokhenthuongController;
 use App\Http\Controllers\NghiepVu\_DungChung\dungchung_inphoi_khenthuongController;
 use App\Http\Controllers\NghiepVu\_DungChung\dungchung_nghiepvu_tailieuController;
 use App\Http\Controllers\NghiepVu\_DungChung\dungchung_nghiepvuController;
@@ -24,24 +25,17 @@ Route::group(['prefix' => 'DungChung'], function () {
     Route::get('DinhKemHoSoKhenThuong', [dungchung_nghiepvu_tailieuController::class, 'DinhKemHoSoKhenThuong']);
     Route::get('DinhKemHoSoKhenCao', [dungchung_nghiepvuController::class, 'DinhKemHoSoKhenCao']);
     Route::get('DinhKemHoSoCumKhoi', [dungchung_nghiepvu_tailieuController::class, 'DinhKemHoSoCumKhoi']);
-    Route::get('DinhKemHoSoThamGia', [dungchung_nghiepvuController::class, 'DinhKemHoSoThamGia']);   
-    
+    Route::get('DinhKemHoSoThamGia', [dungchung_nghiepvuController::class, 'DinhKemHoSoThamGia']);       
 
     Route::group(['prefix' => 'InPhoiKhenThuong'], function () {
         Route::get('DanhSach', [dungchung_inphoi_khenthuongController::class, 'DanhSach']);
-        Route::get('getNoiDungKhenThuong', [dungchung_inphoi_khenthuongController::class, 'getNoiDungKhenThuong']);
-        //Route::post('NoiDungKhenThuong', [dungchung_inphoi_khenthuongController::class, 'NoiDungKhenThuong']);
+        Route::get('getNoiDungKhenThuong', [dungchung_inphoi_khenthuongController::class, 'getNoiDungKhenThuong']);        
         Route::get('InBangKhen', [dungchung_inphoi_khenthuongController::class, 'InBangKhen']);
         Route::get('InMauBangKhen', [dungchung_inphoi_khenthuongController::class, 'InMauBangKhen']);
         Route::post('InDanhSachBangKhen', [dungchung_inphoi_khenthuongController::class, 'InDanhSachBangKhen']);
-        // Route::get('InBangKhenHoGiaDinh', [dungchung_inphoi_khenthuongController::class, 'InBangKhenHoGiaDinh']);
-        // Route::get('InBangKhenCaNhan', [dungchung_inphoi_khenthuongController::class, 'InBangKhenCaNhan']);
-
         Route::get('InGiayKhen', [dungchung_inphoi_khenthuongController::class, 'InGiayKhen']);
         Route::get('InMauGiayKhen', [dungchung_inphoi_khenthuongController::class, 'InMauGiayKhen']);
         Route::post('InDanhSachGiayKhen', [dungchung_inphoi_khenthuongController::class, 'InDanhSachGiayKhen']);
-        // Route::get('InGiayKhenHoGiaDinh', [dungchung_inphoi_khenthuongController::class, 'InGiayKhenHoGiaDinh']);
-        // Route::get('InGiayKhenCaNhan', [dungchung_inphoi_khenthuongController::class, 'InGiayKhenCaNhan']);
     });
     Route::get('InPhoiCumKhoi/DanhSach', [dungchung_inphoi_khenthuongController::class, 'DanhSachCumKhoi']);
 
@@ -56,6 +50,16 @@ Route::group(['prefix' => 'DungChung'], function () {
         Route::post('ThemTaiLieu', [dungchung_nghiepvu_tailieuController::class, 'ThemTaiLieu']);
         Route::get('XoaTaiLieu', [dungchung_nghiepvu_tailieuController::class, 'XoaTaiLieu']);
 
+    });
+    //2023.10.10 Các nghiệp vụ dự thảo
+    Route::group(['prefix' => 'DuThao'], function () {
+        //hosothiduakhenthuong
+        Route::get('QuyetDinhKhenThuong', [dungchung_duthaokhenthuongController::class, 'QuyetDinhKhenThuong']);
+        Route::post('LuuQuyetDinhKhenThuong', [dungchung_duthaokhenthuongController::class, 'LuuQuyetDinhKhenThuong']);
+        Route::post('TaoQuyetDinhKhenThuong', [dungchung_duthaokhenthuongController::class, 'TaoQuyetDinhKhenThuong']);
+
+        //Cy=ụm khối
+        Route::get('QuyetDinhCumKhoi', [dungchung_duthaokhenthuongController::class, 'QuyetDinhCumKhoi']);
     });
 });
 
