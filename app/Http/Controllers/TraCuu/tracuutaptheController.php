@@ -18,11 +18,13 @@ use App\Model\View\view_cumkhoi_tapthe;
 use App\Model\View\view_tdkt_canhan;
 use App\Model\View\view_tdkt_detai;
 use App\Model\View\view_tdkt_tapthe;
+use App\Model\View\viewdiabandonvi;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
 
 class tracuutaptheController extends Controller
 {
+    public static $url = '/TraCuu/TapThe/';
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
@@ -38,11 +40,17 @@ class tracuutaptheController extends Controller
         if (!chkPhanQuyen('timkiemphongtrao', 'danhsach')) {
             return view('errors.noperm')->with('machucnang', 'timkiemphongtrao')->with('tenphanquyen', 'danhsach');
         }
+        $inputs = $request->all();
+        $inputs['url'] = static::$url;
         $m_tapthe = view_tdkt_tapthe::all();
+        $m_donvi = getDonVi(session('admin')->capdo);
+        $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         return view('TraCuu.TapThe.ThongTin')
             ->with('m_tapthe', $m_tapthe)
+            ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))
             ->with('a_tapthe', array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE', 'HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai'))
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+            ->with('inputs', $inputs)
             ->with('pageTitle', 'Tìm kiếm thông tin theo tập thể');
     }
 
@@ -86,7 +94,6 @@ class tracuutaptheController extends Controller
 
     function TimKiem(&$model_khenthuong, $inputs)
     {
-
         if ($inputs['tentapthe'] != '') {
             $model_khenthuong = $model_khenthuong->where('tentapthe', 'Like', '%' . $inputs['tentapthe'] . '%');
         }
@@ -107,6 +114,16 @@ class tracuutaptheController extends Controller
             $model_khenthuong = $model_khenthuong->where('maloaihinhkt', $inputs['maloaihinhkt']);
 
         //Lọc các kết quả khen thưởng trên địa bàn
+        $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
+
+        //đơn vị Phê duyệt xem đc tất cả dữ liệu
+        if ($donvi->madonvi == $donvi->madonviQL) {
+            $a_diaban = array_column(getDiaBanTraCuu($donvi)->toarray(), 'madiaban');
+            $model_khenthuong = $model_khenthuong->wherein('madiaban', $a_diaban);
+        } else {
+            $model_khenthuong = $model_khenthuong->where('madonvi', $inputs['madonvi']);
+        }
+        //Lọc các kết quả khen thưởng trên địa bàn
         // $donvi = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
         // $a_diaban = array_column(getDiaBanTraCuu($donvi)->toarray(), 'madiaban');
         // // dd($m_diaban);
@@ -114,7 +131,7 @@ class tracuutaptheController extends Controller
         //     $model_khenthuong = $model_khenthuong->wherein('madiaban', $a_diaban);
         // else
         //     $model_khenthuong = $model_khenthuong->where('madiaban', $inputs['madiaban']);
-        
+
         //Lấy kết quả khen thưởng
         $model_khenthuong = $model_khenthuong->get();
     }

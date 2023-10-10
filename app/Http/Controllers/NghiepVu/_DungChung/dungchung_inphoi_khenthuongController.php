@@ -151,7 +151,8 @@ class dungchung_inphoi_khenthuongController extends Controller
                         $doituong->tendoituongin = $doituong->tendoituongin != '' ? $doituong->tendoituongin : catchuoi($doituong->tendoituong, $m_donvi->sochu);
                         $doituong->toado_tendoituongin = $doituong->toado_tendoituongin != '' ? $doituong->toado_tendoituongin : ($m_toado->toado_tendoituongin ?? '');
 
-                        $cq = $doituong->chucvu . ' ' . $doituong->tenphongban . ' ' . $doituong->tencoquan;
+                        // $cq = $doituong->chucvu . ';' . $doituong->tenphongban . ';' . $doituong->tencoquan;
+                        $cq = $doituong->chucvu . ($doituong->tenphongban == '' ? '' :  '; ' . $doituong->tenphongban) . ($doituong->tencoquan == '' ? '' :  '; ' . $doituong->tencoquan);
                         $doituong->chucvudoituong = $doituong->chucvudoituong != '' ? $doituong->chucvudoituong : ($cq != '' ? catchuoi($cq, $m_donvi->sochu) : 'Tên phòng ban - cơ quan');
                         $doituong->toado_chucvudoituong = $doituong->toado_chucvudoituong != '' ? $doituong->toado_chucvudoituong : ($m_toado->toado_chucvudoituong ?? '');
 
@@ -256,7 +257,8 @@ class dungchung_inphoi_khenthuongController extends Controller
                         $doituong->tendoituongin = $doituong->tendoituongin != '' ? $doituong->tendoituongin : catchuoi($doituong->tendoituong, $m_donvi->sochu);
                         $doituong->toado_tendoituongin = $doituong->toado_tendoituongin != '' ? $doituong->toado_tendoituongin : ($m_toado->toado_tendoituongin ?? '');
 
-                        $cq = $doituong->chucvu . ' ' . $doituong->tenphongban . ' ' . $doituong->tencoquan;
+                        // $cq = $doituong->chucvu . ' ' . $doituong->tenphongban . ' ' . $doituong->tencoquan;
+                        $cq = $doituong->chucvu . ($doituong->tenphongban == '' ? '' :  '; ' . $doituong->tenphongban) . ($doituong->tencoquan == '' ? '' :  '; ' . $doituong->tencoquan);
                         $doituong->chucvudoituong = $doituong->chucvudoituong != '' ? $doituong->chucvudoituong : ($cq != '' ? catchuoi($cq, $m_donvi->sochu) : 'Tên phòng ban - cơ quan');
                         $doituong->toado_chucvudoituong = $doituong->toado_chucvudoituong != '' ? $doituong->toado_chucvudoituong : ($m_toado->toado_chucvudoituong ?? '');
 
@@ -471,10 +473,10 @@ class dungchung_inphoi_khenthuongController extends Controller
                         $doituong->tendoituongin = $doituong->tendoituongin != '' ? $doituong->tendoituongin : $doituong->tendoituong;
                         $doituong->toado_tendoituongin = $doituong->toado_tendoituongin != '' ? $doituong->toado_tendoituongin : ($m_toado->toado_tendoituongin ?? '');
 
-                        $cq = $doituong->chucvu . ' ' . $doituong->tenphongban . ' ' . $doituong->tencoquan;
+                        // $cq = $doituong->chucvu . ' ' . $doituong->tenphongban . ' ' . $doituong->tencoquan;
+                        $cq = $doituong->chucvu . ($doituong->tenphongban == '' ? '' :  '; ' . $doituong->tenphongban) . ($doituong->tencoquan == '' ? '' :  '; ' . $doituong->tencoquan);
                         $doituong->chucvudoituong = $doituong->chucvudoituong != '' ? $doituong->chucvudoituong : ($cq != '' ? $cq : 'Tên phòng ban - cơ quan');
                         $doituong->toado_chucvudoituong = $doituong->toado_chucvudoituong != '' ? $doituong->toado_chucvudoituong : ($m_toado->toado_chucvudoituong ?? '');
-
 
                         $doituong->pldoituong = $doituong->pldoituong != '' ? $doituong->pldoituong : ($doituong->gioitinh == 'NAM' ? 'Ông:' : 'Bà');
                         $doituong->toado_pldoituong = $doituong->toado_pldoituong != '' ? $doituong->toado_pldoituong : ($m_toado->toado_pldoituong ?? '');
@@ -490,7 +492,6 @@ class dungchung_inphoi_khenthuongController extends Controller
 
                         $doituong->pldoituong = $doituong->pldoituong != '' ? $doituong->pldoituong : 'Tập thể:';
                         $doituong->toado_pldoituong = $doituong->toado_pldoituong != '' ? $doituong->toado_pldoituong : ($m_toado->toado_pldoituong ?? '');
-
                         break;
                     }
             }
@@ -579,10 +580,10 @@ class dungchung_inphoi_khenthuongController extends Controller
                         $doituong->tendoituongin = $doituong->tendoituongin != '' ? $doituong->tendoituongin : $doituong->tendoituong;
                         $doituong->toado_tendoituongin = $doituong->toado_tendoituongin != '' ? $doituong->toado_tendoituongin : ($m_toado->toado_tendoituongin ?? '');
 
-                        $cq = $doituong->chucvu . ' ' . $doituong->tenphongban . ' ' . $doituong->tencoquan;
+                        // $cq = $doituong->chucvu . ' ' . $doituong->tenphongban . ' ' . $doituong->tencoquan;
+                        $cq = $doituong->chucvu . ($doituong->tenphongban == '' ? '' :  '; ' . $doituong->tenphongban) . ($doituong->tencoquan == '' ? '' :  '; ' . $doituong->tencoquan);
                         $doituong->chucvudoituong = $doituong->chucvudoituong != '' ? $doituong->chucvudoituong : ($cq != '' ? $cq : 'Tên phòng ban - cơ quan');
                         $doituong->toado_chucvudoituong = $doituong->toado_chucvudoituong != '' ? $doituong->toado_chucvudoituong : ($m_toado->toado_chucvudoituong ?? '');
-
 
                         $doituong->pldoituong = $doituong->pldoituong != '' ? $doituong->pldoituong : ($doituong->gioitinh == 'NAM' ? 'Ông:' : 'Bà');
                         $doituong->toado_pldoituong = $doituong->toado_pldoituong != '' ? $doituong->toado_pldoituong : ($m_toado->toado_pldoituong ?? '');
@@ -598,7 +599,6 @@ class dungchung_inphoi_khenthuongController extends Controller
 
                         $doituong->pldoituong = $doituong->pldoituong != '' ? $doituong->pldoituong : 'Tập thể:';
                         $doituong->toado_pldoituong = $doituong->toado_pldoituong != '' ? $doituong->toado_pldoituong : ($m_toado->toado_pldoituong ?? '');
-
                         break;
                     }
             }
@@ -694,7 +694,8 @@ class dungchung_inphoi_khenthuongController extends Controller
                 case "CANHAN": {
                         $doituong->tendoituongin = $doituong->tendoituongin != '' ? $doituong->tendoituongin : $doituong->tendoituong;
 
-                        $cq = $doituong->chucvu . ' ' . $doituong->tenphongban . ' ' . $doituong->tencoquan;
+                        // $cq = $doituong->chucvu . ' ' . $doituong->tenphongban . ' ' . $doituong->tencoquan;
+                        $cq = $doituong->chucvu . ($doituong->tenphongban == '' ? '' :  '; ' . $doituong->tenphongban) . ($doituong->tencoquan == '' ? '' :  '; ' . $doituong->tencoquan);
                         $doituong->chucvudoituong = $doituong->chucvudoituong != '' ? $doituong->chucvudoituong : ($cq != '' ? $cq : 'Tên phòng ban - cơ quan');
                         $doituong->pldoituong = $doituong->pldoituong != '' ? $doituong->pldoituong : ($doituong->gioitinh == 'NAM' ? 'Ông:' : 'Bà');
                         break;
@@ -826,7 +827,8 @@ class dungchung_inphoi_khenthuongController extends Controller
                 case "CANHAN": {
                         $doituong->tendoituongin = $doituong->tendoituongin != '' ? $doituong->tendoituongin : $doituong->tendoituong;
 
-                        $cq = $doituong->chucvu . ' ' . $doituong->tenphongban . ' ' . $doituong->tencoquan;
+                        // $cq = $doituong->chucvu . ' ' . $doituong->tenphongban . ' ' . $doituong->tencoquan;
+                        $cq = $doituong->chucvu . ($doituong->tenphongban == '' ? '' :  '; ' . $doituong->tenphongban) . ($doituong->tencoquan == '' ? '' :  '; ' . $doituong->tencoquan);
                         $doituong->chucvudoituong = $doituong->chucvudoituong != '' ? $doituong->chucvudoituong : ($cq != '' ? $cq : 'Tên phòng ban - cơ quan');
                         $doituong->pldoituong = $doituong->pldoituong != '' ? $doituong->pldoituong : ($doituong->gioitinh == 'NAM' ? 'Ông:' : 'Bà');
                         break;

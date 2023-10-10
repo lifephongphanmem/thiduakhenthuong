@@ -14,6 +14,7 @@ use App\Model\DanhMuc\dmnhomphanloai_chitiet;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\View\view_tdkt_canhan;
 use App\Model\View\view_tdkt_detai;
+use App\Model\View\viewdiabandonvi;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
 
@@ -137,17 +138,25 @@ class tracuucanhanController extends Controller
             $model_khenthuong = $model_khenthuong->where('maloaihinhkt', $inputs['maloaihinhkt']);
 
         //Lọc các kết quả khen thưởng trên địa bàn
-        $donvi = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
-        $a_diaban = array_column(getDiaBanTraCuu($donvi)->toarray(), 'madiaban');
-        // dd($m_diaban);
-        if ($inputs['madiaban'] == 'ALL')
-            $model_khenthuong = $model_khenthuong->wherein('madiaban', $a_diaban);
-        else
-            $model_khenthuong = $model_khenthuong->where('madiaban', $inputs['madiaban']);
+        $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
+
+        //đơn vị Phê duyệt xem đc tất cả dữ liệu
+        if($donvi->madonvi == $donvi->madonviQL){
+            $a_diaban = array_column(getDiaBanTraCuu($donvi)->toarray(), 'madiaban');
+            // dd($m_diaban);
+            if ($inputs['madiaban'] == 'ALL')
+                $model_khenthuong = $model_khenthuong->wherein('madiaban', $a_diaban);
+            else
+                $model_khenthuong = $model_khenthuong->where('madiaban', $inputs['madiaban']);
+        }else{
+            $model_khenthuong = $model_khenthuong->where('madonvi', $inputs['madonvi']);
+        }
+        //dd($donvi);        
 
         //Lấy kết quả khen thưởng
         $model_khenthuong = $model_khenthuong->get();
         //dd($a_diaban);
+
         //Đề tài
         $model_detai = $model_detai->wherein('mahosotdkt', array_unique(array_column($model_khenthuong->toarray(), 'mahosotdkt')));
         if ($inputs['tendoituong'] != null && $inputs['tendoituong'] != '')

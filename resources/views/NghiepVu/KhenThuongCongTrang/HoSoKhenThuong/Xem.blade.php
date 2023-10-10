@@ -73,6 +73,28 @@
         </table>
     @endif
 
+    @if (count($model_hogiadinh) > 0)
+        <p style="text-left: center; font-size: 18px;">Thông tin khen thưởng hộ gia đình</p>
+        <table id="data_body3" class="money" cellspacing="0" cellpadding="0" border="1"
+            style="margin: 5px auto; border-collapse: collapse;font:normal 12px Times, serif;">
+            <thead>
+                <tr class="text-center">
+                    <th width="10%">STT</th>
+                    <th>Tên hộ gia đình</th>
+                    <th>Hình thức khen thưởng/<br>Danh hiệu thi đua</th>
+                </tr>
+            </thead>
+            <?php $i = 1; ?>
+            @foreach ($model_hogiadinh as $key => $tt)
+                <tr class="odd gradeX">
+                    <td class="text-center">{{ $i++ }}</td>
+                    <td>{{ $tt->tentapthe }}</td>
+                    <td>{{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}</td>
+                </tr>
+            @endforeach
+        </table>
+    @endif
+
     @if (count($model_canhan) > 0)
         <p style="text-left: center; font-size: 18px;">Thông tin khen thưởng cá nhân</p>
         <table id="data_body2" class="money" cellspacing="0" cellpadding="0" border="1"

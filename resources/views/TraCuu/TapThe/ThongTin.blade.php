@@ -36,6 +36,16 @@
         </div>
         
         <div class="card-body">
+            <div class="form-group row">
+                <div class="col-6">
+                    <label>Đơn vị</label>
+                    {!! Form::select('madonvi', $a_donvi, $inputs['madonvi'], [
+                        'id' => 'madonvi',
+                        'class' => 'form-control select2basic',
+                    ]) !!}
+                </div>                
+            </div>
+
             <div class="form-group row">                
                 <div class="col-6">
                     <label>Tên đơn vị</label>

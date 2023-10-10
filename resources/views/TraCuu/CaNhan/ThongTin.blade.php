@@ -75,9 +75,6 @@
                     ]) !!}
                 </div>
 
-            </div>
-
-            <div class="form-group row">
                 <div class="col-6">
                     <label>Địa bàn tìm kiếm</label>
                     {!! Form::select('madiaban', setArrayAll($a_diaban), null, [
@@ -85,14 +82,16 @@
                         'class' => 'form-control select2basic',
                     ]) !!}
                 </div>
+            </div>
 
-                <div id="#div_donvi" class="col-6">
+            <div class="form-group row">
+                {{-- <div id="#div_donvi" class="col-6">
                     <label>Đơn vị tìm kiếm</label>
                     {!! Form::select('madonvi_tc', setArrayAll([]), null, [
                         'id' => 'madonvi_tc',
                         'class' => 'form-control select2basic',
                     ]) !!}
-                </div>
+                </div> --}}
             </div>
 
             <div class="form-group row">
