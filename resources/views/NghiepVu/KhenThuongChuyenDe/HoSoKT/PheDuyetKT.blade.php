@@ -67,4 +67,5 @@
     @include('NghiepVu._DungChung.modal_QD_CaNhan')
     @include('NghiepVu._DungChung.modal_QD_TapThe')
     @include('NghiepVu._DungChung.modal_QD_HoGiaDinh')
+    @include('NghiepVu._DungChung.modal_QD_TaiLieuDinhKem')
 @stop
