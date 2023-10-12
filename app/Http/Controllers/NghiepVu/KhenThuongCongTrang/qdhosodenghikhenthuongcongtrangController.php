@@ -648,6 +648,7 @@ class qdhosodenghikhenthuongcongtrangController extends Controller
             $rq = new Request([
                 'phanloaihoso'   => 'dshosothiduakhenthuong',
                 'id' => $model_tailieu->id,
+                'madonvi'=>$model->madonvi_kt,
             ]);        
             $dinhkem = new dungchung_nghiepvu_tailieuController();
             $dinhkem->XoaTaiLieu($rq);

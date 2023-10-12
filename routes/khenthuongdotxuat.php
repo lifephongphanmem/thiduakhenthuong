@@ -162,7 +162,9 @@ Route::group(['prefix' => 'KhenThuongDotXuat'], function () {
         Route::post('HuyPheDuyet', 'NghiepVu\KhenThuongDotXuat\qdhosodenghikhenthuongdotxuatController@HuyPheDuyet');
         Route::post('TraLai', 'NghiepVu\KhenThuongDotXuat\qdhosodenghikhenthuongdotxuatController@TraLai');
         Route::get('InToTrinhPheDuyet', [qdhosodenghikhenthuongdotxuatController::class, 'InToTrinhPheDuyet']);
-
+        Route::post('ThemTapThe', [qdhosodenghikhenthuongdotxuatController::class, 'ThemTapThe']);
+        Route::post('ThemCaNhan', [qdhosodenghikhenthuongdotxuatController::class, 'ThemCaNhan']);
+        Route::post('ThemHoGiaDinh', [qdhosodenghikhenthuongdotxuatController::class, 'ThemHoGiaDinh']); 
         /*2023.09.21 Lọc dần các chức năng thừa
         Route::post('KhenThuong', 'NghiepVu\KhenThuongDotXuat\qdhosodenghikhenthuongdotxuatController@KhenThuong');
         Route::get('DanhSach', 'NghiepVu\KhenThuongDotXuat\qdhosodenghikhenthuongdotxuatController@DanhSach');

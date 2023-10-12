@@ -149,9 +149,9 @@ Route::group(['prefix' => 'KhenThuongCongHien'], function () {
         // Route::post('Them', [qdhosodenghikhenthuongconghienController::class, 'Them']);
         // Route::get('Sua', [qdhosodenghikhenthuongconghienController::class, 'Sua']);
         // Route::post('Sua', [qdhosodenghikhenthuongconghienController::class, 'LuuHoSo']);       
-        // Route::post('ThemTapThe', [qdhosodenghikhenthuongconghienController::class, 'ThemTapThe']);
-        // Route::post('ThemCaNhan', [qdhosodenghikhenthuongconghienController::class, 'ThemCaNhan']);
-        // Route::post('ThemHoGiaDinh', [qdhosodenghikhenthuongconghienController::class, 'ThemHoGiaDinh']);
+        Route::post('ThemTapThe', [qdhosodenghikhenthuongconghienController::class, 'ThemTapThe']);
+        Route::post('ThemCaNhan', [qdhosodenghikhenthuongconghienController::class, 'ThemCaNhan']);
+        Route::post('ThemHoGiaDinh', [qdhosodenghikhenthuongconghienController::class, 'ThemHoGiaDinh']);
         
         Route::post('NhanExcel', [qdhosodenghikhenthuongconghienController::class, 'NhanExcel']);       
         Route::post('GanKhenThuong', [qdhosodenghikhenthuongconghienController::class, 'GanKhenThuong']);

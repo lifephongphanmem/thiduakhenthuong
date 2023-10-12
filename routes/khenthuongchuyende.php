@@ -152,7 +152,9 @@ Route::group(['prefix' => 'KhenThuongChuyenDe'], function () {
 
     Route::group(['prefix' => 'KhenThuong'], function () {
         Route::get('ThongTin', [qdhosodenghikhenthuongchuyendeController::class, 'ThongTin']);
-        
+        Route::post('ThemTapThe', [qdhosodenghikhenthuongchuyendeController::class, 'ThemTapThe']);
+        Route::post('ThemCaNhan', [qdhosodenghikhenthuongchuyendeController::class, 'ThemCaNhan']);
+        Route::post('ThemHoGiaDinh', [qdhosodenghikhenthuongchuyendeController::class, 'ThemHoGiaDinh']);
         /*2023.09.21 Lọc dần các chức năng thừa
         Route::post('Them', [qdhosodenghikhenthuongchuyendeController::class, 'Them']);
         Route::get('Sua', [qdhosodenghikhenthuongchuyendeController::class, 'Sua']);
