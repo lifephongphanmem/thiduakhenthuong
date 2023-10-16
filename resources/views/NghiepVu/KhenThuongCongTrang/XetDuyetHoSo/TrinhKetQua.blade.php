@@ -47,8 +47,6 @@
         {{ Form::hidden('mahosotdkt', null, ['id' => 'mahosotdkt']) }}
         <div class="card-body">
             @include('NghiepVu._DungChung.HoSo_ThongTinToTrinh')
-
-
         </div>
         <div class="card-footer">
             <div class="row text-center">
@@ -63,4 +61,5 @@
     </div>
     <!--end::Card-->
     @include('NghiepVu._DungChung.modal_ThemDanhMuc')
+    @include('NghiepVu._DungChung.modal_XD_TaiLieuDinhKem')    
 @stop

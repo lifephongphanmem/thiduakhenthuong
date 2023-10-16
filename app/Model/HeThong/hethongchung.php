@@ -34,10 +34,13 @@ class hethongchung extends Model
         'sodienthoaicongty',
         'diachicongty',
         'logocongty',
+        //Tuỳ chọn
         'hskhenthuong_totrinh',
         'opt_duthaototrinh',
         'opt_duthaoquyetdinh',
-        'madonvi_macdinhphoi'
-
+        'madonvi_macdinhphoi',
+        'maduthaototrinhdenghi',
+        'maduthaototrinhketqua',
+        'maduthaoquyetdinh',       
     ];
 }

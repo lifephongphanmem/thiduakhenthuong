@@ -63,4 +63,5 @@
     </div>
     <!--end::Card-->
     @include('NghiepVu._DungChung.modal_ThemDanhMuc')
+    @include('NghiepVu._DungChung.modal_XD_TaiLieuDinhKem')
 @stop

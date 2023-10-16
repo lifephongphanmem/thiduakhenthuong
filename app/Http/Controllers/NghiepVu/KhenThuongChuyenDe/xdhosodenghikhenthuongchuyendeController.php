@@ -299,11 +299,16 @@ class xdhosodenghikhenthuongchuyendeController extends Controller
         $inputs['url_xd'] = '/KhenThuongChuyenDe/XetDuyet/';
         $inputs['url'] = '/KhenThuongChuyenDe/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongChuyenDe/KhenThuong/';
+        $inputs['phanloaihoso'] = 'dshosothiduakhenthuong';
+
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        $model_tailieu = dshosothiduakhenthuong_tailieu::where('mahosotdkt', $inputs['mahosotdkt'])->where('phanloai','TOTRINHKQ')->first();
-        $model->totrinhdenghi = $model_tailieu->tentailieu ?? '';
+        $model_tailieu = dshosothiduakhenthuong_tailieu::where('mahosotdkt', $inputs['mahosotdkt'])->get(); 	
+       
         return view('NghiepVu.KhenThuongChuyenDe.XetDuyet.TrinhKetQua')
             ->with('model', $model)
+            ->with('model_tailieu', $model_tailieu)
+            ->with('a_pltailieu', getPhanLoaiTaiLieuDK())
+            ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Thông tin hồ sơ đề nghị khen thưởng');
     }
@@ -311,11 +316,7 @@ class xdhosodenghikhenthuongchuyendeController extends Controller
     public function LuuTrinhKetQua(Request $request)
     {
         $inputs = $request->all();        
-        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        if (isset($inputs['totrinhdenghi'])) {
-            $dinhkem = new dungchung_nghiepvu_tailieuController();
-            $dinhkem->ThemTaiLieuDK($request,'dshosothiduakhenthuong','totrinhdenghi',$model->madonvi_xd);
-        }
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();        
         $model->update($inputs);
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_xd);
     }

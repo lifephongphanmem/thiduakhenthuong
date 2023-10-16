@@ -32,12 +32,11 @@
         ]) !!}
         <div class="card-body">
             <h4 class="text-dark font-weight-bold mb-5">Thông tin chung</h4>
-            
+
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="control-label">Cấp bản quyền cho đơn vị<span
-                                class="require">*</span></label>
+                        <label class="control-label">Cấp bản quyền cho đơn vị<span class="require">*</span></label>
                         {!! Form::text('tendonvi', null, ['id' => 'tendonvi', 'class' => 'form-control required']) !!}
                     </div>
                 </div>
@@ -86,8 +85,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="control-label">Tên đơn vị chủ quản hiển thị<span
-                                class="require">*</span></label>
+                        <label class="control-label">Tên đơn vị chủ quản hiển thị<span class="require">*</span></label>
                         {!! Form::text('tendvcqhienthi', null, ['id' => 'tendvcqhienthi', 'class' => 'form-control required']) !!}
                     </div>
                 </div>
@@ -107,8 +105,43 @@
                             placeholder="Thông tin, số điện thoại liên lạc với các bộ phận">{{ $model->thongtinhd }}</textarea>
                     </div>
                 </div>
+            </div>    
+            <h4 class="text-dark font-weight-bold mb-5">Thiết lập sử dụng tính năng</h4>  
+            <div class="form-group row">
+                <label class="col-1"></label>
+                <div class="col-11 col-form-label">
+                    <div class="checkbox-inline">
+                        <label class="checkbox checkbox-outline checkbox-success">
+                            <input type="checkbox" name="hskhenthuong_totrinh" />
+                            <span></span>Dự thảo tờ trình đề nghị khen thưởng</label>
+                        <label class="checkbox checkbox-outline checkbox-success">
+                            <input type="checkbox" name="opt_duthaototrinh" />
+                            <span></span>Dự thảo tờ trình kết quả khen thưởng</label>
+                        <label class="checkbox checkbox-outline checkbox-success">
+                            <input type="checkbox" name="opt_duthaoquyetdinh" />
+                            <span></span>Dự thảo quyết định khen thưởng</label>
+                    </div>
+                </div>
             </div>
+
+            <h4 class="text-dark font-weight-bold mb-5">Thiết lập tham số mặc định</h4>  
+            <div class="form-group row">
+                <div class="col-4">
+                    <label>Dự thảo đề nghị khen thưởng</label>
+                    {!! Form::select('maduthaototrinhdenghi', $a_duthao, null, ['class' => 'form-control select2basic']) !!}
+                </div>
+                <div class="col-4">
+                    <label>Dự thảo kết quả khen thưởng</label>
+                    {!! Form::select('maduthaototrinhketqua', $a_duthao, null, ['class' => 'form-control select2basic']) !!}
+                </div>
+                <div class="col-4">
+                    <label>Dự thảo quyết định khen thưởng</label>
+                    {!! Form::select('maduthaoquyetdinh', $a_duthao, null, ['class' => 'form-control select2basic']) !!}
+                </div>
+            </div>            
+
             @if (session('admin')->capdo == 'SSA')
+            <h4 class="text-dark font-weight-bold mb-5">Thiết lập khác (SSA)</h4>  
                 <div class="form-group row">
                     <div class="col-md-12">
                         <label>Tài liệu hướng dẫn sử dụng: </label>
@@ -128,25 +161,10 @@
                         {!! Form::file('ipf2', null, ['id' => 'ipf2', 'class' => 'form-control']) !!}
                         @if ($model->ipf2 != '')
                             <span class="form-control" style="border-style: none">
-                                <a href="{{ url('/data/download/' . $model->ipf1) }}"
+                                <a href="{{ url('/data/download/' . $model->ipf2) }}"
                                     target="_blank">{{ $model->ipf2 }}</a>
                             </span>
                         @endif
-                    </div>
-                </div>
-
-                <h4 class="text-dark font-weight-bold mb-5">Thiết lập khác</h4>
-                <div class="form-group row">
-                    <label class="col-1"></label>
-                    <div class="col-11 col-form-label">
-                        <div class="checkbox-inline">
-                            <label class="checkbox checkbox-outline checkbox-success">
-                                <input type="checkbox" name="opt_duthaototrinh" />
-                                <span></span>Dự thảo tờ trình</label>
-                            <label class="checkbox checkbox-outline checkbox-success">
-                                <input type="checkbox" name="opt_duthaoquyetdinh" />
-                                <span></span>Dự thảo quyết định khen thưởng</label>
-                        </div>
                     </div>
                 </div>
             @endif
@@ -158,8 +176,8 @@
             <div class="row text-center">
                 <div class="col-lg-12">
                     <a href="{{ url('general') }}" class="btn btn-danger"><i class="fa fa-reply"></i>&nbsp;Quay lại</a>
-                <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Cập
-                    nhật</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Cập
+                        nhật</button>
                 </div>
             </div>
         </div>

@@ -8,7 +8,7 @@
     ]) !!}
     <input type="hidden" name="id" />
     <input type="hidden" name="mahosotdkt" value="{{ $model->mahosotdkt }}" />
-    <input type="hidden" name="madonvi" value="{{ $model->madonvi_kt }}" />
+    <input type="hidden" name="madonvi" value="{{ $model->madonvi_xd }}" />
     <input type="hidden" name="phanloaihoso" value="{{ $inputs['phanloaihoso'] }}" />
     <div class="modal fade bs-modal-lg" id="modal-tailieu" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-xl">
@@ -21,7 +21,7 @@
                     <div class="form-group row">
                         <div class="col-md-12">
                             <label class="control-label">Phân loại tài liệu</label>
-                            {!! Form::select('phanloai', getPhanLoaiTaiLieuDK('QDKT'), null, [
+                            {!! Form::select('phanloai', getPhanLoaiTaiLieuDK('TOTRINHKQ'), null, [
                                 'class' => 'form-control',
                             ]) !!}
                         </div>
@@ -67,7 +67,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                 </div>
                 <input type="hidden" name="id">
-                <input type="hidden" name="madonvi" value="{{ $model->madonvi_kt }}" />
+                <input type="hidden" name="madonvi" value="{{ $model->madonvi_xd }}" />
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-default">Thoát</button>
                     <button type="button" class="btn btn-primary" onclick="confirmXoaTaiLieu()">Đồng ý</button>
@@ -94,7 +94,7 @@
                     _token: CSRF_TOKEN,
                     id: $('#frm_XoaTaiLieu').find("[name='id']").val(),
                     phanloaihoso: "{{ $inputs['phanloaihoso'] }}",
-                    madonvi: $('#frm_XoaTaiLieu').find("[name='madonvi']").val(),
+                    madonvi: "{{ $model->madonvi_xd }}",
                 },
                 dataType: 'JSON',
                 success: function(data) {

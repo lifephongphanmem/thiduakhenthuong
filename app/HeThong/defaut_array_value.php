@@ -806,7 +806,7 @@ function getTaoDuThaoKT(&$model, $maduthao = null)
             }
             $thongtinquyetdinh = str_replace('[khenthuongtapthe]',  $s_tapthe, $thongtinquyetdinh);
             $thongtinquyetdinh = str_replace('[soluongtapthe]', $m_tapthe->count() . ' tập thể,', $thongtinquyetdinh);
-        }else {
+        } else {
             $thongtinquyetdinh = str_replace('[khenthuongtapthe]',  '', $thongtinquyetdinh);
             $thongtinquyetdinh = str_replace('[soluongtapthe]', '', $thongtinquyetdinh);
         }
@@ -822,8 +822,7 @@ function getTaoDuThaoKT(&$model, $maduthao = null)
             }
             $thongtinquyetdinh = str_replace('[khenthuonghogiadinh]',  $s_hogiadinh, $thongtinquyetdinh);
             $thongtinquyetdinh = str_replace('[soluonghogiadinh]', $m_hogiadinh->count() . ' hộ gia đình,', $thongtinquyetdinh);
-        }
-        else {
+        } else {
             $thongtinquyetdinh = str_replace('[khenthuonghogiadinh]',  '', $thongtinquyetdinh);
             $thongtinquyetdinh = str_replace('[soluonghogiadinh]', '', $thongtinquyetdinh);
         }
@@ -1489,16 +1488,6 @@ function getTrangThai_TD_HoSo($trangthai)
 
 function getPhanLoaiTaiLieuDK($phanloaihoso = 'ALL')
 {
-    $a_kq = [
-        'TOTRINH' => 'Tờ trình đề nghị khen thưởng',
-        'BAOCAO' => 'Báo cáo thành tích',
-        'BIENBAN' => 'Biên bản cuộc họp',
-        'DTKH' => 'Đề tài khoa học',
-        'SANGKIEN' => 'Sáng kiến sáng tạo',
-        'TOTRINHKQ' => 'Tờ trình kết quả khen thưởng',
-        'QDKT' => 'Quyết định khen thưởng',
-        'KHAC' => 'Tài liệu khác',
-    ];
     //Đề nghị khen thưởng
     if ($phanloaihoso == 'DENGHI') {
         return  [
@@ -1510,12 +1499,30 @@ function getPhanLoaiTaiLieuDK($phanloaihoso = 'ALL')
             'KHAC' => 'Tài liệu khác',
         ];
     }
+    //Tờ trình kết quả khen thưởng
+    if ($phanloaihoso == 'TOTRINHKQ') {
+        return [
+            'TOTRINHKQ' => 'Tờ trình kết quả khen thưởng',
+        ];
+    }
     //Quyết định khen thưởng
     if ($phanloaihoso == 'QDKT') {
         return [
             'QDKT' => 'Quyết định khen thưởng',
         ];
     }
+
+    //Hồ sơ khen thưởng
+    $a_kq = [
+        'TOTRINH' => 'Tờ trình đề nghị khen thưởng',
+        'BAOCAO' => 'Báo cáo thành tích',
+        'BIENBAN' => 'Biên bản cuộc họp',
+        'DTKH' => 'Đề tài khoa học',
+        'SANGKIEN' => 'Sáng kiến sáng tạo',
+        'TOTRINHKQ' => 'Tờ trình kết quả khen thưởng',
+        'QDKT' => 'Quyết định khen thưởng',
+        'KHAC' => 'Tài liệu khác',
+    ];
     return $a_kq;
 }
 

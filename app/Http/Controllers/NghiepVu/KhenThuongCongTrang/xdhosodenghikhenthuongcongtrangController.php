@@ -303,13 +303,18 @@ class xdhosodenghikhenthuongcongtrangController extends Controller
         $inputs['url_xd'] = '/KhenThuongCongTrang/XetDuyet/';
         $inputs['url'] = '/KhenThuongCongTrang/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongCongTrang/KhenThuong/';
+        $inputs['phanloaihoso'] = 'dshosothiduakhenthuong';
+        
         $inputs['mahinhthuckt'] = session('chucnang')['xdhosodenghikhenthuongcongtrang']['mahinhthuckt'] ?? 'ALL';
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        $model_tailieu = dshosothiduakhenthuong_tailieu::where('mahosotdkt', $inputs['mahosotdkt'])->where('phanloai', 'TOTRINHKQ')->first();
-        $model->totrinhdenghi = $model_tailieu->tentailieu ?? '';
-
+        $model_tailieu = dshosothiduakhenthuong_tailieu::where('mahosotdkt', $inputs['mahosotdkt'])->get();      
+        //$inputs['madonvi'] = $model->madonvi_xd;//Gán đơn vị tải tài liệu đính kèm
+        //dd($model_tailieu);
         return view('NghiepVu.KhenThuongCongTrang.XetDuyetHoSo.TrinhKetQua')
             ->with('model', $model)
+            ->with('model_tailieu', $model_tailieu)
+            ->with('a_pltailieu', getPhanLoaiTaiLieuDK())
+            ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Thông tin tờ trình đề nghị khen thưởng');
     }
@@ -318,10 +323,10 @@ class xdhosodenghikhenthuongcongtrangController extends Controller
     {
         $inputs = $request->all();
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        if (isset($inputs['totrinhdenghi'])) {
-            $dinhkem = new dungchung_nghiepvu_tailieuController();
-            $dinhkem->ThemTaiLieuDK($request, 'dshosothiduakhenthuong', 'totrinhdenghi', $model->madonvi_xd);
-        }
+        // if (isset($inputs['totrinhdenghi'])) {
+        //     $dinhkem = new dungchung_nghiepvu_tailieuController();
+        //     $dinhkem->ThemTaiLieuDK($request, 'dshosothiduakhenthuong', 'totrinhdenghi', $model->madonvi_xd);
+        // }
         $model->update($inputs);
 
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_xd);

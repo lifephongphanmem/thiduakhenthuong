@@ -613,25 +613,24 @@ class xdhosodenghikhenthuongdotxuatController extends Controller
         $inputs['url_xd'] = '/KhenThuongDotXuat/XetDuyet/';
         $inputs['url'] = '/KhenThuongDotXuat/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongDotXuat/KhenThuong/';
+        $inputs['phanloaihoso'] = 'dshosothiduakhenthuong';
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        $model_tailieu = dshosothiduakhenthuong_tailieu::where('mahosotdkt', $inputs['mahosotdkt'])->where('phanloai','TOTRINHKQ')->first();
-        $model->totrinhdenghi = $model_tailieu->tentailieu ?? '';
+        $model_tailieu = dshosothiduakhenthuong_tailieu::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+
         return view('NghiepVu.KhenThuongDotXuat.XetDuyet.TrinhKetQua')
             ->with('model', $model)
+            ->with('model_tailieu', $model_tailieu)
+            ->with('a_pltailieu', getPhanLoaiTaiLieuDK())
+            ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Thông tin hồ sơ đề nghị khen thưởng');
     }
 
     public function LuuTrinhKetQua(Request $request)
     {
-
         $inputs = $request->all();
         //dd($inputs ); 
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        if (isset($inputs['totrinhdenghi'])) {
-            $dinhkem = new dungchung_nghiepvu_tailieuController();
-            $dinhkem->ThemTaiLieuDK($request,'dshosothiduakhenthuong','totrinhdenghi',$model->madonvi_xd);
-        }
         $model->update($inputs);
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_xd);
     }

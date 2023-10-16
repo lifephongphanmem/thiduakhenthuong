@@ -8,6 +8,7 @@ use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\DanhMuc\dstaikhoan;
 use App\Model\DanhMuc\dstaikhoan_phanquyen;
+use App\Model\DanhMuc\duthaoquyetdinh;
 use App\Model\HeThong\hethongchung;
 use App\Model\HeThong\hethongchung_chucnang;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
@@ -115,7 +116,7 @@ class hethongchungController extends Controller
             //$ttuser->chucnang = array('SSA');
             $ttuser->capdo = "SSA";
             //$ttuser->phanquyen = [];
-            
+
             //23.09.22 Nâng cấp hệ thống tài liệu đính kèm
             // $model_hoso = dshosothiduakhenthuong::all();
             // $a_tailieu = [];
@@ -189,7 +190,7 @@ class hethongchungController extends Controller
             //     //dd($data);
             //     dshosothiduakhenthuong_tailieu::insert($data);
             // }
-            
+
         }
 
         //Lấy setting gán luôn vào phiên đăng nhập
@@ -272,8 +273,10 @@ class hethongchungController extends Controller
             return view('errors.noperm')->with('machucnang', 'hethongchung');
         }
         $model = hethongchung::first();
+        $a_duthao = array_column(duthaoquyetdinh::all()->toArray(),  'noidung',  'maduthao');
         return view('HeThongChung.HeThong.Sua')
             ->with('model', $model)
+            ->with('a_duthao', $a_duthao)
             ->with('pageTitle', 'Chỉnh sửa cấu hình hệ thống');
     }
     public function LuuThayDoi(Request $request)
@@ -282,6 +285,7 @@ class hethongchungController extends Controller
             return view('errors.noperm')->with('machucnang', 'hethongchung');
         }
         $inputs = $request->all();
+        //dd($inputs);
         if (isset($inputs['ipf1'])) {
             $filedk = $request->file('ipf1');
             $inputs['ipf1'] = '_HuongDanSuDung.' . $filedk->getClientOriginalExtension();
@@ -292,18 +296,10 @@ class hethongchungController extends Controller
             $inputs['ipf2'] =  '_Zalo.' . $filedk->getClientOriginalExtension();
             $filedk->move(public_path() . '/data/download/', $inputs['ipf2']);
         }
+        $inputs['opt_duthaototrinh'] = isset($inputs['opt_duthaototrinh']);
+        $inputs['opt_duthaoquyetdinh'] = isset($inputs['opt_duthaoquyetdinh']);
+        $inputs['hskhenthuong_totrinh'] = isset($inputs['hskhenthuong_totrinh']);
 
-        if (isset($inputs['opt_duthaototrinh'])) {
-            $inputs['opt_duthaototrinh'] = true;
-        } else {
-            $inputs['opt_duthaototrinh'] = false;
-        }
-
-        if (isset($inputs['opt_duthaoquyetdinh'])) {
-            $inputs['opt_duthaoquyetdinh'] = true;
-        } else {
-            $inputs['opt_duthaoquyetdinh'] = false;
-        }
         //dd($inputs);
         hethongchung::first()->update($inputs);
         return redirect('/HeThongChung/ThongTin');

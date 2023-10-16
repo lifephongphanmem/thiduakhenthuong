@@ -106,7 +106,8 @@
                 data: {
                     _token: CSRF_TOKEN,
                     id: $('#frm_XoaTaiLieu').find("[name='id']").val(),
-                    phanloaihoso: "{{ $inputs['phanloaihoso'] }}"
+                    phanloaihoso: "{{ $inputs['phanloaihoso'] }}",
+                    madonvi: $('#frm_XoaTaiLieu').find("[name='madonvi']").val(),
                 },
                 dataType: 'JSON',
                 success: function(data) {
