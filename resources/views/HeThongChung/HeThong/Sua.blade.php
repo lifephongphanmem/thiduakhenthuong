@@ -1,14 +1,10 @@
 @extends('HeThong.main')
 
 @section('custom-style')
-    {{-- <link rel="stylesheet" type="text/css" href="{{ url('assets/global/plugins/select2/select2.css') }}" /> --}}
 @stop
 
-
-@section('custom-script')
-    {{-- <script type="text/javascript" src="{{ url('assets/global/plugins/jquery-validation/js/jquery.validate.min.js') }}"></script> --}}
-    {{-- <script type="text/javascript" src="{{ url('assets/global/plugins/select2/select2.min.js') }}"></script> --}}
-
+@section('custom-script-footer')
+    <script src="/assets/js/pages/select2.js"></script>
 @stop
 
 @section('content')
@@ -105,8 +101,8 @@
                             placeholder="Thông tin, số điện thoại liên lạc với các bộ phận">{{ $model->thongtinhd }}</textarea>
                     </div>
                 </div>
-            </div>    
-            <h4 class="text-dark font-weight-bold mb-5">Thiết lập sử dụng tính năng</h4>  
+            </div>
+            <h4 class="text-dark font-weight-bold mb-5">Thiết lập sử dụng tính năng</h4>
             <div class="form-group row">
                 <label class="col-1"></label>
                 <div class="col-11 col-form-label">
@@ -124,24 +120,30 @@
                 </div>
             </div>
 
-            <h4 class="text-dark font-weight-bold mb-5">Thiết lập tham số mặc định</h4>  
+            <h4 class="text-dark font-weight-bold mb-5">Thiết lập tham số mặc định</h4>
             <div class="form-group row">
                 <div class="col-4">
                     <label>Dự thảo đề nghị khen thưởng</label>
-                    {!! Form::select('maduthaototrinhdenghi', $a_duthao, null, ['class' => 'form-control select2basic']) !!}
+                    {!! Form::select('maduthaototrinhdenghi', $a_duthao_denghi, null, ['class' => 'form-control select2basic']) !!}
                 </div>
                 <div class="col-4">
                     <label>Dự thảo kết quả khen thưởng</label>
-                    {!! Form::select('maduthaototrinhketqua', $a_duthao, null, ['class' => 'form-control select2basic']) !!}
+                    {!! Form::select('maduthaototrinhketqua', $a_duthao_ketqua, null, ['class' => 'form-control select2basic']) !!}
                 </div>
                 <div class="col-4">
                     <label>Dự thảo quyết định khen thưởng</label>
-                    {!! Form::select('maduthaoquyetdinh', $a_duthao, null, ['class' => 'form-control select2basic']) !!}
+                    {!! Form::select('maduthaoquyetdinh', $a_duthao_qdkt, null, ['class' => 'form-control select2basic']) !!}
                 </div>
-            </div>            
+            </div>
 
             @if (session('admin')->capdo == 'SSA')
-            <h4 class="text-dark font-weight-bold mb-5">Thiết lập khác (SSA)</h4>  
+                <h4 class="text-dark font-weight-bold mb-5">Thiết lập khác (SSA)</h4>
+                <div class="form-group row">
+                    <div class="col-6">
+                        <label>Đơn vị in phôi mặc định</label>
+                        {!! Form::select('madonvi_inphoi', $a_donvi, null, ['class' => 'form-control select2basic']) !!}
+                    </div>
+                </div>
                 <div class="form-group row">
                     <div class="col-md-12">
                         <label>Tài liệu hướng dẫn sử dụng: </label>

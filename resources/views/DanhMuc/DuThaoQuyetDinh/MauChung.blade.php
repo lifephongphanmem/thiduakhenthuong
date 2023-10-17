@@ -5,16 +5,19 @@
     {{-- <link rel="stylesheet" type="text/css" href="{{ url('assets/css/pages/select2.css') }}" /> --}}
 @stop
 
-@section('custom-script')
-
-@stop
-
 @section('custom-script-footer')
-<script>
-    
-</script>
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <script src="/assets/js/pages/select2.js"></script>
+    <script src="/assets/js/pages/jquery.dataTables.min.js"></script>
+    <script src="/assets/js/pages/dataTables.bootstrap.js"></script>
+    <script src="/assets/js/pages/table-lifesc.js"></script>
+    <script>
+        jQuery(document).ready(function() {
+            TableManagedclass.init();
+        });
+    </script>
     <script src="/assets/js/pages/custom/ckeditor/ckeditor.js"></script>
-    <script src="/assets/js/pages/custom/ckeditor/ckeditor-custom.js"></script>  
+    <script src="/assets/js/pages/custom/ckeditor/ckeditor-custom.js"></script>
 @stop
 
 @section('content')
@@ -25,8 +28,9 @@
             <div class="card-title">
                 <h3 class="card-label text-uppercase">Thông tin dự thảo quyết định khen thưởng</h3>
             </div>
-            <div class="card-toolbar">                
-                <button class="btn btn-info" data-target="#dstruongdl-modal" data-toggle="modal"><i class="fa fa-list-ol"></i>Tên trường</button>
+            <div class="card-toolbar">
+                <button class="btn btn-info" data-target="#dstruongdl-modal" data-toggle="modal"><i
+                        class="fa fa-list-ol"></i>Tên trường</button>
             </div>
         </div>
 
@@ -34,7 +38,7 @@
             <div class="form-group row">
                 <div class="col-12">
                     <label style="font-weight: bold">Tên dự thảo</label>
-                    {!! Form::text('tenduthao',  $model->noidung, ['id' => 'tenduthao', 'class' => 'form-control muted']) !!}
+                    {!! Form::text('tenduthao', $model->noidung, ['id' => 'tenduthao', 'class' => 'form-control muted']) !!}
                 </div>
             </div>
             <hr>
@@ -53,7 +57,7 @@
             <div class="form-control editor" style="height: auto; border: 1px solid #E4E6EF;">
                 {!! html_entity_decode($model->codehtml) !!}
             </div>
-            
+
             {{-- <div id="kt-ckeditor-1-toolbar"></div>
             <div id="kt-ckeditor-1">
                 {!! html_entity_decode($model->thongtinquyetdinh) !!}
@@ -62,8 +66,8 @@
         <div class="card-footer">
             <div class="row text-center">
                 <div class="col-lg-12">
-                    <a href="{{ url($inputs['url'] . 'ThongTin') }}"
-                        class="btn btn-danger mr-5"><i class="fa fa-reply"></i>&nbsp;Quay lại</a>
+                    <a href="{{ url($inputs['url'] . 'ThongTin') }}" class="btn btn-danger mr-5"><i
+                            class="fa fa-reply"></i>&nbsp;Quay lại</a>
                     <button type="submit" onclick="setGiaTri()" class="btn btn-primary"><i class="fa fa-check"></i>Hoàn
                         thành</button>
                 </div>
@@ -88,8 +92,8 @@
                             <table class="table table-striped table-bordered table-hover dulieubang">
                                 <thead>
                                     <tr class="text-center">
-                                        <th width="10%">STT</th>
-                                        <th>Tên tập thể</th>
+                                        <th width="5%">STT</th>
+                                        <th>Tên trường dữ liệu</th>
                                         <th>Diễn giải</th>
                                     </tr>
                                 </thead>

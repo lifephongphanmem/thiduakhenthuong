@@ -1133,12 +1133,11 @@ function getToaDoMacDinh($inputs)
         ->where('phanloaiphoi', $inputs['phanloaiphoi'])
         ->where('madonvi', $inputs['madonvi'])
         ->first();
-    if ($model == null) {
-        //2023.10.04 lấy mặc định theo tỉnh => xay dựng để thiết lập theo HeThongChung
+    if ($model == null) {        
         $model =  App\Model\DanhMuc\dmtoadoinphoi::where('phanloaikhenthuong', $inputs['phanloaikhenthuong'])
             ->where('phanloaidoituong', $inputs['phanloaidoituong'])
             ->where('phanloaiphoi', $inputs['phanloaiphoi'])
-            ->where('madonvi', '1665799784')
+            ->where('madonvi', session('admin')->madonvi_inphoi)
             ->first();
         //dd($model);
     }
