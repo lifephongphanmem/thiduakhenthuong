@@ -203,6 +203,7 @@ class hethongchungController extends Controller
         $ttuser->hskhenthuong_totrinh = $a_HeThongChung->hskhenthuong_totrinh;
         $ttuser->opt_duthaototrinh = $a_HeThongChung->opt_duthaototrinh;
         $ttuser->opt_duthaoquyetdinh = $a_HeThongChung->opt_duthaoquyetdinh;
+        $ttuser->madonvi_inphoi = $a_HeThongChung->madonvi_inphoi;
         //dd($ttuser);        
 
         Session::put('admin', $ttuser);
@@ -273,10 +274,17 @@ class hethongchungController extends Controller
             return view('errors.noperm')->with('machucnang', 'hethongchung');
         }
         $model = hethongchung::first();
-        $a_duthao = array_column(duthaoquyetdinh::all()->toArray(),  'noidung',  'maduthao');
+        $m_duthao = duthaoquyetdinh::all();
+        $a_duthao_denghi = array_column($m_duthao->where('phanloai','TOTRINHHOSO')->toArray(),  'noidung',  'maduthao');
+        $a_duthao_ketqua = array_column($m_duthao->where('phanloai','TOTRINHPHEDUYET')->toArray(),  'noidung',  'maduthao');
+        $a_duthao_qdkt = array_column($m_duthao->where('phanloai','QUYETDINH')->toArray(),  'noidung',  'maduthao');
+
         return view('HeThongChung.HeThong.Sua')
             ->with('model', $model)
-            ->with('a_duthao', $a_duthao)
+            ->with('a_duthao_denghi', $a_duthao_denghi)
+            ->with('a_duthao_ketqua', $a_duthao_ketqua)
+            ->with('a_duthao_qdkt', $a_duthao_qdkt)
+            ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
             ->with('pageTitle', 'Chỉnh sửa cấu hình hệ thống');
     }
     public function LuuThayDoi(Request $request)

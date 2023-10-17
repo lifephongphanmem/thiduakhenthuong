@@ -3,8 +3,9 @@
 @section('content')
     @foreach ($model as $doituong)
         <table cellspacing="0" cellpadding="0" border="0"
-            background="{{ url($m_donvi->phoi_bangkhen != '' ? '/data/uploads/' . $m_donvi->phoi_bangkhen : '/assets/media/phoi/GiayKhen1.jpg') }}"
-            style="height: {{ $m_donvi->chieurong_bangkhen != '' ? $m_donvi->chieurong_bangkhen : '297' }}mm;width: {{ $m_donvi->chieudai_bangkhen != '' ? $m_donvi->chieudai_bangkhen : '420' }}mm;background-repeat: no-repeat;background-size: 100% 100%;">
+            background="{{ url($m_donvi->phoi_giaykhen != '' ? '/data/uploads/' . $m_donvi->phoi_giaykhen : '/assets/media/phoi/GiayKhen1.jpg') }}"
+            style="height: {{ $m_donvi->chieurong_giaykhen != '' ? $m_donvi->chieurong_giaykhen : '210' }}mm;width: {{ $m_donvi->dodai_giaykhen != '' ? $m_donvi->dodai_giaykhen : '297' }}mm;background-repeat: no-repeat;background-size: 100% 100%;">
+            {{-- style="height: {{ $m_donvi->chieurong_bangkhen != '' ? $m_donvi->chieurong_bangkhen : '297' }}mm;width: {{ $m_donvi->chieudai_bangkhen != '' ? $m_donvi->chieudai_bangkhen : '420' }}mm;background-repeat: no-repeat;background-size: 100% 100%;"> --}}
 
             <tr>
                 <td>

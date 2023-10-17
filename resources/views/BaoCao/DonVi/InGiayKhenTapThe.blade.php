@@ -6,9 +6,7 @@
             style="height: 297mm;width: 420mm;background-repeat: no-repeat;background-size: 100% 105%;"> --}}
         <table cellspacing="0" cellpadding="0" border="0"
             background="{{ url($m_donvi->phoi_giaykhen != '' ? '/data/uploads/' . $m_donvi->phoi_giaykhen : '/assets/media/phoi/GiayKhen1.jpg') }}"
-            style="height: 297mm;width: 420mm;background-repeat: no-repeat;background-size: 100% 100%;">
-            {{-- style="height: {{$m_donvi->chieurong_giaykhen != '' ? $m_donvi->chieurong_giaykhen : '210mm'}};width: {{$m_donvi->chieudai_giaykhen != '' ? $m_donvi->chieudai_giaykhen : '297mm'}};background-repeat: no-repeat;background-size: 100% 100%;"> --}}
-
+            style="height: {{ $m_donvi->chieurong_giaykhen != '' ? $m_donvi->chieurong_giaykhen : '210' }}mm;width: {{ $m_donvi->dodai_giaykhen != '' ? $m_donvi->dodai_giaykhen : '297' }}mm;background-repeat: no-repeat;background-size: 100% 100%;">
             <tr>
                 <td>
                     <button style="{{ $doituong->toado_pldoituong }}" id="toado_pldoituong"

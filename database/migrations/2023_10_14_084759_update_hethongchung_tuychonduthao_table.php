@@ -15,6 +15,7 @@ class UpdateHethongchungTuychonduthaoTable extends Migration
     {
         //Mã số mặc định khi chọn phân loại
         Schema::table('hethongchung', function (Blueprint $table) {
+            $table->string('madonvi_inphoi')->nullable();//Mặc định đơn vị in phôi
             $table->string('maduthaototrinhdenghi')->nullable();
             $table->string('maduthaototrinhketqua')->nullable();
             $table->string('maduthaoquyetdinh')->nullable();
@@ -29,6 +30,7 @@ class UpdateHethongchungTuychonduthaoTable extends Migration
     public function down()
     {
         Schema::table('hethongchung', function (Blueprint $table) {            
+            $table->dropColumn('madonvi_inphoi');   
             $table->dropColumn('maduthaototrinhdenghi');   
             $table->dropColumn('maduthaototrinhketqua');
             $table->dropColumn('maduthaoquyetdinh');   
