@@ -40,6 +40,7 @@ class dsdonvi extends Model
         'chieurong_bangkhen',
         'phoi_giaykhen',
         'dodai_giaykhen',
-        'chieurong_giaykhen',
+        'chieurong_giaykhen',        
     ];
+    //Giấy khen 365x270; 
 }

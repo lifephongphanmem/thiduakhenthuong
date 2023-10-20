@@ -10,11 +10,13 @@
     <span
         class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->soluongkhenthuong }}</span>
 </a>
-@if (session('admin')->opt_duthaototrinh)
-    <a title="Tạo dự thảo tờ trình" href="{{ url($inputs['url_hs'] . 'ToTrinhHoSo?mahosotdkt=' . $tt->mahosotdkt) }}"
-        class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
-        <i class="icon-lg la flaticon-edit-1 text-success"></i>
-    </a>
+@if (session('admin')->opt_duthaototrinh)    
+    <a title="Tạo dự thảo đề nghị khen thưởng" target="_blank"
+            href="{{ url('/DungChung/DuThao/ToTrinhDeNghiKhenThuong?mahosotdkt=' . $tt->mahosotdkt) }}"
+            class="btn btn-sm btn-clean btn-icon">
+            {{-- class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}"> --}}
+            <i class="icon-lg la flaticon-clipboard text-success"></i>
+        </a>
 @endif
 @if ($tt->trangthai == 'BTL')
     <button title="Lý do hồ sơ bị trả lại" type="button"

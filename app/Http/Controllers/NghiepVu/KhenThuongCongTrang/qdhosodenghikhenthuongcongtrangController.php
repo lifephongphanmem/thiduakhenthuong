@@ -54,6 +54,7 @@ class qdhosodenghikhenthuongcongtrangController extends Controller
         $inputs['url_qd'] = '/KhenThuongCongTrang/KhenThuong/';
         $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
         $inputs['trangthaihoso'] = $inputs['trangthaihoso'] ?? 'ALL';
+        $inputs['phanloaihoso'] = 'dshosothiduakhenthuong';
 
         $m_donvi = getDonVi(session('admin')->capdo, 'qdhosodenghikhenthuongcongtrang');
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();

@@ -72,6 +72,7 @@ class qdhosokhenthuongcumkhoiController extends Controller
         $inputs['url_qd'] = static::$url;
         $inputs['url_xd'] = '/CumKhoiThiDua/KTCumKhoi/XetDuyet/';
         $inputs['url_hs'] = '/CumKhoiThiDua/KTCumKhoi/HoSo/';
+        $inputs['phanloaihoso'] = 'dshosotdktcumkhoi';
         return view('NghiepVu.CumKhoiThiDua.KhenThuongHoSoKhenThuong.ThongTin')
             ->with('model', $model)
             ->with('m_donvi', $m_donvi)

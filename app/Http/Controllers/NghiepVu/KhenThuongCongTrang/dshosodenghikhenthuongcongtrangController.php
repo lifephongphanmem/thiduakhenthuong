@@ -49,7 +49,8 @@ class dshosodenghikhenthuongcongtrangController extends Controller
         }
         $inputs = $request->all();
         $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
-
+        $inputs['phanloaihoso'] = 'dshosothiduakhenthuong';
+        
         $m_donvi = getDonVi(session('admin')->capdo, 'dshosodenghikhenthuongcongtrang');
         $a_diaban = array_column($m_donvi->toArray(), 'tendiaban', 'madiaban');
 

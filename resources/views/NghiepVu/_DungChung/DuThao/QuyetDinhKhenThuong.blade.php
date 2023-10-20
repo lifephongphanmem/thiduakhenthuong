@@ -10,9 +10,12 @@
 @stop
 
 @section('custom-script-footer')
+<script src="/assets/js/pages/jquery.dataTables.min.js"></script>
+    <script src="/assets/js/pages/dataTables.bootstrap.js"></script>
+    <script src="/assets/js/pages/table-lifesc.js"></script>
     <script>
         jQuery(document).ready(function() {
-
+            TableManagedclass.init();
         });
     </script>
     <script src="/assets/js/pages/custom/ckeditor/ckeditor.js"></script>
@@ -30,7 +33,8 @@
             <div class="card-toolbar">
                 <button class="btn btn-primary mr-2" data-target="#taoduthao-modal" data-toggle="modal"><i
                         class="fa fa-check"></i>Tạo mới</button>
-                <button class="btn btn-info" data-target="#dstruongdl-modal" data-toggle="modal"><i class="fa fa-list-ol"></i>Tên trường</button>
+                <button class="btn btn-info" data-target="#dstruongdl-modal" data-toggle="modal"><i
+                        class="fa fa-list-ol"></i>Tên trường</button>
             </div>
         </div>
 

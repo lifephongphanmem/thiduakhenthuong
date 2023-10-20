@@ -8,6 +8,14 @@
                                             </a> 
                                             @endif
                                             --}}
+    @if (session('admin')->opt_duthaoquyetdinh)
+        <a title="Tạo dự thảo quyết định khen thưởng" target="_blank"
+            href="{{ url('/DungChung/DuThao/QuyetDinhKhenThuong?mahosotdkt=' . $tt->mahosotdkt) }}"
+            class="btn btn-sm btn-clean btn-icon">
+            {{-- class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}"> --}}
+            <i class="icon-lg la flaticon-edit-1 text-success"></i>
+        </a>
+    @endif
 
     <a title="Phê duyệt hồ sơ khen thưởng" href="{{ url($inputs['url_qd'] . 'PheDuyet?mahosotdkt=' . $tt->mahosotdkt) }}"
         class="btn btn-sm btn-clean btn-icon">

@@ -48,6 +48,7 @@ class dshosodenghikhenthuongdotxuatController extends Controller
         $inputs['url_xd'] = '/KhenThuongDotXuat/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongDotXuat/KhenThuong/';
         $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
+        $inputs['phanloaihoso'] = 'dshosothiduakhenthuong';
 
         $m_donvi = getDonVi(session('admin')->capdo, 'dshosodenghikhenthuongdotxuat');
         $a_diaban = array_column($m_donvi->toArray(), 'tendiaban', 'madiaban');

@@ -545,6 +545,7 @@ function getThongTinDonVi($madonvi, $tentruong)
 
 function chkPhanQuyen($machucnang = null, $tenphanquyen = null)
 {
+    
     //return true;
     //Kiểm tra giao diện (danhmucchucnang)
     if (!chkGiaoDien($machucnang)) {
@@ -555,7 +556,7 @@ function chkPhanQuyen($machucnang = null, $tenphanquyen = null)
     if (in_array($capdo, ['SSA', 'ssa',])) {
         return true;
     }
-    //dd(session('phanquyen'));
+    dd(session('phanquyen'));
     return session('phanquyen')[$machucnang][$tenphanquyen] ?? 0;
 }
 

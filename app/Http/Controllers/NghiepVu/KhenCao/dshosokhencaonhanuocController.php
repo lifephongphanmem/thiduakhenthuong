@@ -48,6 +48,7 @@ class dshosokhencaonhanuocController extends Controller
         $inputs['url_hs'] = static::$url;
         $inputs['url_qd'] = static::$url;
         $inputs['phanloaikhenthuong'] = 'KHENCAO';
+        $inputs['phanloaihoso'] = 'dshosokhencao';
 
         $inputs['tendvcqhienthi'] = '';
         $inputs['capdo'] = 'TW';

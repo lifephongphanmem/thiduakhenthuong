@@ -54,11 +54,23 @@ Route::group(['prefix' => 'DungChung'], function () {
     //2023.10.10 Các nghiệp vụ dự thảo
     Route::group(['prefix' => 'DuThao'], function () {
         //hosothiduakhenthuong
+        //Tờ trình đề nghị khen thưởng
+        Route::get('ToTrinhDeNghiKhenThuong', [dungchung_duthaokhenthuongController::class, 'ToTrinhDeNghiKhenThuong']);
+        Route::post('LuuToTrinhDeNghiKhenThuong', [dungchung_duthaokhenthuongController::class, 'LuuToTrinhDeNghiKhenThuong']);
+        Route::post('TaoToTrinhDeNghiKhenThuong', [dungchung_duthaokhenthuongController::class, 'TaoToTrinhDeNghiKhenThuong']);
+        Route::get('InToTrinhDeNghiKhenThuong', [dungchung_duthaokhenthuongController::class, 'InToTrinhDeNghiKhenThuong']);
+        //Tờ trình kết quả
+        Route::get('ToTrinhKetQuaKhenThuong', [dungchung_duthaokhenthuongController::class, 'ToTrinhKetQuaKhenThuong']);
+        Route::post('LuuToTrinhKetQuaKhenThuong', [dungchung_duthaokhenthuongController::class, 'LuuToTrinhKetQuaKhenThuong']);
+        Route::post('TaoToTrinhKetQuaKhenThuong', [dungchung_duthaokhenthuongController::class, 'TaoToTrinhKetQuaKhenThuong']);
+        Route::get('InToTrinhKetQuaKhenThuong', [dungchung_duthaokhenthuongController::class, 'InToTrinhKetQuaKhenThuong']);
+        //Quyết định khen thưởng
+        Route::get('InQuyetDinhKhenThuong', [dungchung_duthaokhenthuongController::class, 'InQuyetDinhKhenThuong']);
         Route::get('QuyetDinhKhenThuong', [dungchung_duthaokhenthuongController::class, 'QuyetDinhKhenThuong']);
         Route::post('LuuQuyetDinhKhenThuong', [dungchung_duthaokhenthuongController::class, 'LuuQuyetDinhKhenThuong']);
         Route::post('TaoQuyetDinhKhenThuong', [dungchung_duthaokhenthuongController::class, 'TaoQuyetDinhKhenThuong']);
 
-        //Cy=ụm khối
+        //Cụm khối
         Route::get('QuyetDinhCumKhoi', [dungchung_duthaokhenthuongController::class, 'QuyetDinhCumKhoi']);
     });
 });

@@ -5,6 +5,7 @@
     <input type="hidden" name="mahosotdkt" />
     <input type="hidden" name="maphongtraotd" />
     <input type="hidden" name="mahosokt" />
+    <input type="hidden" name="phanloaihoso" value="{{ $inputs['phanloaihoso'] }}" />
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header modal-header-primary">
@@ -29,11 +30,11 @@
                         </a>
                     </div>
                 </div>
-                
+
                 @if (session('admin')->hskhenthuong_totrinh)
                     <div class="row">
                         <div class="col-lg-12">
-                            <a onclick="setInDL($(this), '{{ $inputs['url_hs'] . 'InToTrinhHoSo' }}')"
+                            <a onclick="setInDuThao($(this), '/DungChung/DuThao/InToTrinhDeNghiKhenThuong')"
                                 class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
                                 <i class="la flaticon2-print"></i>Tờ trình khen thưởng
                             </a>
@@ -54,7 +55,7 @@
                     @if (session('admin')->opt_duthaototrinh)
                         <div class="row">
                             <div class="col-lg-12">
-                                <a onclick="setInDL($(this), '{{ $inputs['url_qd'] . 'InToTrinhPheDuyet' }}')"
+                                <a onclick="setInDuThao($(this), '/DungChung/DuThao/InToTrinhKetQuaKhenThuong')"
                                     class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
                                     <i class="la flaticon2-print"></i>Tờ trình phê duyệt khen thưởng
                                 </a>
@@ -65,7 +66,8 @@
                     @if (session('admin')->opt_duthaoquyetdinh)
                         <div class="row">
                             <div class="col-lg-12">
-                                <a id="btnInQD" onclick="setInDL($(this), '{{ $inputs['url_qd'] . 'InQuyetDinh' }}')"
+                                <a id="btnInQD"
+                                    onclick="setInDuThao($(this), '/DungChung/DuThao/InQuyetDinhKhenThuong')"
                                     class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
                                     <i class="la flaticon2-print"></i>Quyết định khen thưởng
                                 </a>
@@ -119,6 +121,11 @@
 
     function setInDL(e, url) {
         e.prop('href', url + '?mahosotdkt=' + $('#frm_InDuLieu').find("[name='mahosotdkt']").val());
+    }
+
+    function setInDuThao(e, url) {
+        e.prop('href', url + '?mahosotdkt=' + $('#frm_InDuLieu').find("[name='mahosotdkt']").val() + '&phanloaihoso=' +
+            $('#frm_InDuLieu').find("[name='phanloaihoso']").val());
     }
 
     function setInPhoi(e, url) {

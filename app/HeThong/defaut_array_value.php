@@ -421,46 +421,44 @@ function getTaoDuThaoToTrinhPheDuyetCumKhoi(&$model, $maduthao = null)
 
 function getTaoDuThaoToTrinhHoSo(&$model, $maduthao = null)
 {
-    //$maduthao = 'ALL' =>khỏi tạo lại dự thảo
-    if ($maduthao  == 'ALL') {
-        $thongtintotrinhhoso = App\Model\DanhMuc\duthaoquyetdinh::wherein('phanloai', ['TOTRINHHOSO'])->first()->codehtml ?? '';
-        $donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
-        $tendonvi = $donvi->tendonvi ?? '';
+    //Load dự thảo theo mẫu
+    if ($model->thongtintotrinhhoso == '') {
+        $thongtintotrinhhoso = App\Model\DanhMuc\duthaoquyetdinh::where('maduthao', $maduthao)->first()->codehtml ?? '';
 
-        //Gán thông tin
-        $thongtintotrinhhoso = str_replace('[noidung]', $model->noidung, $thongtintotrinhhoso);
-        $thongtintotrinhhoso = str_replace('[donvidenghi]',  $tendonvi, $thongtintotrinhhoso);
-        $thongtintotrinhhoso = str_replace('[sototrinh]',  $model->sototrinh, $thongtintotrinhhoso);
-        $thongtintotrinhhoso = str_replace('[ngayhoso]',  Date2Str($model->ngayhoso), $thongtintotrinhhoso);
-        //Thông tin đơn vị
-        $thongtintotrinhhoso = str_replace('[tendvcqhienthi]',  $donvi->tendvcqhienthi, $thongtintotrinhhoso);
-        $thongtintotrinhhoso = str_replace('[diadanh]',  $donvi->diadanh, $thongtintotrinhhoso);
-        $thongtintotrinhhoso = str_replace('[chucvunguoiky]',  $model->chucvunguoiky, $thongtintotrinhhoso);
-        $thongtintotrinhhoso = str_replace('[nguoikytotrinh]',  $donvi->nguoikytotrinh, $thongtintotrinhhoso);
-
+        // Lấy danh sách khen thưởng theo cá nhân và tập thể
+        $i_theodoi = 1;
         $m_canhan = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)
             ->where('ketqua', '1')->orderby('stt')->get();
+
+        $m_tapthe = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)
+            ->where('ketqua', '1')->orderby('stt')->get();
+
+        $m_hogiadinh = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)
+            ->where('ketqua', '1')->orderby('stt')->get();
+
+
+        //Xử lý các trường hợp
+        //Cá nhân
         if ($m_canhan->count() > 0) {
-            $s_canhan = '';
+            $s_canhan = IntToRoman($i_theodoi++) . '. Cá nhân';
             $i = 1;
             foreach ($m_canhan as $canhan) {
                 $s_canhan .= '<p style=&#34;margin-left:40px;&#34;>' .
                     ($i++) . '. ' . $canhan->tendoituong .
-                    ($canhan->chucvu == '' ? '' : ('; ' . $canhan->chucvu)) .
-                    ($canhan->tencoquan == '' ? '' : ('; ' . $canhan->tencoquan)) .
+                    ($canhan->chucvu == '' ? '' : (', ' . $canhan->chucvu)) .
+                    ($canhan->tencoquan == '' ? '' : (' ' . $canhan->tencoquan)) .
                     '</p>';
-                //dd($s_canhan);
             }
-            //dd($s_canhan);
-            // $thongtintotrinhhoso = str_replace('<p style=&#34;margin-left:25px;&#34;>[khenthuongcanhan]</p>',  $s_canhan, $thongtintotrinhhoso);
             $thongtintotrinhhoso = str_replace('[khenthuongcanhan]',  $s_canhan, $thongtintotrinhhoso);
+            $thongtintotrinhhoso = str_replace('[soluongcanhan]', $m_canhan->count() . ' cá nhân,', $thongtintotrinhhoso);
+        } else {
+            $thongtintotrinhhoso = str_replace('[khenthuongcanhan]',  '', $thongtintotrinhhoso);
+            $thongtintotrinhhoso = str_replace('[soluongcanhan]', '', $thongtintotrinhhoso);
         }
 
         //Tập thể
-        $m_tapthe = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)
-            ->where('ketqua', '1')->orderby('stt')->get();
         if ($m_tapthe->count() > 0) {
-            $s_tapthe = '';
+            $s_tapthe = IntToRoman($i_theodoi++) . '. Tập thể';
             $i = 1;
             foreach ($m_tapthe as $chitiet) {
                 $s_tapthe .= '<p style=&#34;margin-left:40px;&#34;>' .
@@ -468,148 +466,95 @@ function getTaoDuThaoToTrinhHoSo(&$model, $maduthao = null)
                     '</p>';
             }
             $thongtintotrinhhoso = str_replace('[khenthuongtapthe]',  $s_tapthe, $thongtintotrinhhoso);
+            $thongtintotrinhhoso = str_replace('[soluongtapthe]', $m_tapthe->count() . ' tập thể,', $thongtintotrinhhoso);
+        } else {
+            $thongtintotrinhhoso = str_replace('[khenthuongtapthe]',  '', $thongtintotrinhhoso);
+            $thongtintotrinhhoso = str_replace('[soluongtapthe]', '', $thongtintotrinhhoso);
         }
 
-        //Hộ gia đình        
-        $m_hogiadinh = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)
-            ->where('ketqua', '1')->orderby('stt')->get();
+        //Hộ gia đình
         if ($m_hogiadinh->count() > 0) {
-            $s_hgd = '';
+            $s_hogiadinh = IntToRoman($i_theodoi++) . '. Hộ gia đình';
             $i = 1;
             foreach ($m_hogiadinh as $chitiet) {
-                $s_hgd .= '<p style=&#34;margin-left:40px;&#34;>' .
+                $s_hogiadinh .= '<p style=&#34;margin-left:40px;&#34;>' .
                     ($i++) . '. ' . $chitiet->tentapthe .
                     '</p>';
             }
-            $thongtintotrinhhoso = str_replace('[khenthuonghogiadinh]',  $s_hgd, $thongtintotrinhhoso);
+            $thongtintotrinhhoso = str_replace('[khenthuonghogiadinh]',  $s_hogiadinh, $thongtintotrinhhoso);
+            $thongtintotrinhhoso = str_replace('[soluonghogiadinh]', $m_hogiadinh->count() . ' hộ gia đình,', $thongtintotrinhhoso);
+        } else {
+            $thongtintotrinhhoso = str_replace('[khenthuonghogiadinh]',  '', $thongtintotrinhhoso);
+            $thongtintotrinhhoso = str_replace('[soluonghogiadinh]', '', $thongtintotrinhhoso);
         }
 
         $model->thongtintotrinhhoso = $thongtintotrinhhoso;
-    } else {
-        //Load dự thảo theo mẫu
-        if ($model->thongtintotrinhhoso == '') {
-            if ($maduthao == null)
-                $thongtintotrinhhoso = App\Model\DanhMuc\duthaoquyetdinh::wherein('phanloai', ['TOTRINHHOSO'])->first()->codehtml ?? '';
-            else
-                $thongtintotrinhhoso = App\Model\DanhMuc\duthaoquyetdinh::where('maduthao', $maduthao)->first()->codehtml ?? '';
+        //Gán thông tin
+        $donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
+        $donvi_xd = dsdonvi::where('madonvi', $model->madonvi_xd)->first();
+        $donvi_kt = dsdonvi::where('madonvi', $model->madonvi_kt)->first();
 
-            $donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
-            $tendonvi = $donvi->tendonvi ?? '';
-
-            //Gán thông tin
-            $thongtintotrinhhoso = str_replace('[noidung]', $model->noidung, $thongtintotrinhhoso);
-            $thongtintotrinhhoso = str_replace('[donvidenghi]',  $tendonvi, $thongtintotrinhhoso);
-            $thongtintotrinhhoso = str_replace('[sototrinh]',  $model->sototrinh, $thongtintotrinhhoso);
-            $thongtintotrinhhoso = str_replace('[ngayhoso]',  Date2Str($model->ngayhoso), $thongtintotrinhhoso);
-            //Thông tin đơn vị
-            $thongtintotrinhhoso = str_replace('[diadanh]',  $donvi->diadanh, $thongtintotrinhhoso);
-            $thongtintotrinhhoso = str_replace('[chucvunguoiky]',  $model->chucvunguoiky, $thongtintotrinhhoso);
-            $thongtintotrinhhoso = str_replace('[nguoikytotrinh]',  $donvi->nguoikytotrinh, $thongtintotrinhhoso);
-
-            $m_canhan = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)
-                ->where('ketqua', '1')->orderby('stt')->get();
-            if ($m_canhan->count() > 0) {
-                $s_canhan = '';
-                $i = 1;
-                foreach ($m_canhan as $canhan) {
-                    $s_canhan .= '<p style=&#34;margin-left:40px;&#34;>' .
-                        ($i++) . '. ' . $canhan->tendoituong .
-                        ($canhan->chucvu == '' ? '' : ('; ' . $canhan->chucvu)) .
-                        ($canhan->tencoquan == '' ? '' : ('; ' . $canhan->tencoquan)) .
-                        '</p>';
-                    //dd($s_canhan);
-                }
-                //dd($s_canhan);
-                // $thongtintotrinhhoso = str_replace('<p style=&#34;margin-left:25px;&#34;>[khenthuongcanhan]</p>',  $s_canhan, $thongtintotrinhhoso);
-                $thongtintotrinhhoso = str_replace('[khenthuongcanhan]',  $s_canhan, $thongtintotrinhhoso);
-            }
-
-            //Tập thể
-            $m_tapthe = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)
-                ->where('ketqua', '1')->orderby('stt')->get();
-            if ($m_tapthe->count() > 0) {
-                $s_tapthe = '';
-                $i = 1;
-                foreach ($m_tapthe as $chitiet) {
-                    $s_tapthe .= '<p style=&#34;margin-left:40px;&#34;>' .
-                        ($i++) . '. ' . $chitiet->tentapthe .
-                        '</p>';
-                }
-                $thongtintotrinhhoso = str_replace('[khenthuongtapthe]',  $s_tapthe, $thongtintotrinhhoso);
-            }
-
-            //Hộ gia đình        
-            $m_hogiadinh = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)
-                ->where('ketqua', '1')->orderby('stt')->get();
-            if ($m_hogiadinh->count() > 0) {
-                $s_hgd = '';
-                $i = 1;
-                foreach ($m_hogiadinh as $chitiet) {
-                    $s_hgd .= '<p style=&#34;margin-left:40px;&#34;>' .
-                        ($i++) . '. ' . $chitiet->tentapthe .
-                        '</p>';
-                }
-                $thongtintotrinhhoso = str_replace('[khenthuonghogiadinh]',  $s_hgd, $thongtintotrinhhoso);
-            }
-
-            $model->thongtintotrinhhoso = $thongtintotrinhhoso;
-        }
+        $model->thongtintotrinhhoso = str_replace('[noidung]', $model->noidung, $model->thongtintotrinhhoso);
+        $model->thongtintotrinhhoso = str_replace('[hinhthuckhenthuong]',  'Bằng khen', $model->thongtintotrinhhoso);
+        $model->thongtintotrinhhoso = str_replace('[nguoikytotrinh]', $model->nguoikytotrinh, $model->thongtintotrinhhoso);
+        $model->thongtintotrinhhoso = str_replace('[chucvunguoiky]', $model->chucvunguoiky, $model->thongtintotrinhhoso);
+        $model->thongtintotrinhhoso = str_replace('[chucvunguoikyqd]', $model->chucvunguoikyqd, $model->thongtintotrinhhoso);
+        $model->thongtintotrinhhoso = str_replace('[hotennguoikyqd]',  $model->hotennguoikyqd, $model->thongtintotrinhhoso);
+        $model->thongtintotrinhhoso = str_replace('[soqd]',  $model->soqd, $model->thongtintotrinhhoso);
+        $model->thongtintotrinhhoso = str_replace('[sototrinh]',  $model->sototrinh, $model->thongtintotrinhhoso);
+        $model->thongtintotrinhhoso = str_replace('[diadanh]',  $donvi->diadanh, $model->thongtintotrinhhoso);
+        $model->thongtintotrinhhoso = str_replace('[ngayqd]',  Date2Str($model->ngayqd), $model->thongtintotrinhhoso);
+        $model->thongtintotrinhhoso = str_replace('[ngayhoso]',  Date2Str($model->ngayhoso), $model->thongtintotrinhhoso);
+        $model->thongtintotrinhhoso = str_replace('[donvidenghi]',  $donvi->tendvhienthi, $model->thongtintotrinhhoso);
+        $model->thongtintotrinhhoso = str_replace('[donvikhenthuong]', $donvi_kt->tendvhienthi ?? '', $model->thongtintotrinhhoso);
+        $model->thongtintotrinhhoso = str_replace('[donvixetduyet]',  $donvi_xd->tendvhienthi ?? '', $model->thongtintotrinhhoso);
+        $model->thongtintotrinhhoso = str_replace('[sototrinhdenghi]',  $model->sototrinhdenghi ?? '', $model->thongtintotrinhhoso);
+        $model->thongtintotrinhhoso = str_replace('[ngaythangtotrinhdenghi]',  Date2Str($model->ngaythangtotrinhdenghi), $model->thongtintotrinhhoso);
+        $model->thongtintotrinhhoso = str_replace('[chucvutotrinhdenghi]',  $model->chucvutotrinhdenghi ?? '', $model->thongtintotrinhhoso);
+        $model->thongtintotrinhhoso = str_replace('[nguoikytotrinhdenghi]',  $model->nguoikytotrinhdenghi ?? '', $model->thongtintotrinhhoso);
     }
 }
 
 function getTaoDuThaoToTrinhPheDuyet(&$model, $maduthao = null)
 {
-    //$maduthao = 'ALL' =>khỏi tạo lại dự thảo
-    if ($maduthao  == 'ALL') {
-        $thongtintotrinhdenghi = App\Model\DanhMuc\duthaoquyetdinh::wherein('phanloai', ['TOTRINHPHEDUYET'])->first()->codehtml ?? '';
-        $donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
-        $donvi_xd = dsdonvi::where('madonvi', $model->madonvi_xd)->first();
-        $donvi_kt = dsdonvi::where('madonvi', $model->madonvi_kt)->first();
-        $tendonvi = $donvi->tendonvi ?? '';
-        //dd($thongtintotrinhdenghi);
-        //Gán thông tin
-        $thongtintotrinhdenghi = str_replace('[sototrinhdenghi]', $model->sototrinhdenghi, $thongtintotrinhdenghi);
-        $thongtintotrinhdenghi = str_replace('[noidung]', $model->noidung, $thongtintotrinhdenghi);
-        $thongtintotrinhdenghi = str_replace('[donvixetduyet]',  $donvi_xd->tendonvi ?? '', $thongtintotrinhdenghi);
-        $thongtintotrinhdenghi = str_replace('[ngaythangtotrinhdenghi]',  Date2Str($model->ngaythangtotrinhdenghi), $thongtintotrinhdenghi);
+    //Load dự thảo theo mẫu
+    if ($model->thongtintotrinhdenghi == '') {
+        $thongtintotrinhdenghi = App\Model\DanhMuc\duthaoquyetdinh::where('maduthao', $maduthao)->first()->codehtml ?? '';
 
-        $thongtintotrinhdenghi = str_replace('[diadanh]',  $donvi->diadanh, $thongtintotrinhdenghi);
-        $thongtintotrinhdenghi = str_replace('[chucvunguoikyxetduyet]',  $donvi_xd->cdlanhdao ?? '', $thongtintotrinhdenghi);
-        $thongtintotrinhdenghi = str_replace('[nguoikytotrinhxetduyet]',  $donvi_xd->lanhdao ?? '', $thongtintotrinhdenghi);
-
-        $thongtintotrinhdenghi = str_replace('[donvikhenthuong]',  $donvi_kt->tendonvi ?? '', $thongtintotrinhdenghi);
-        $thongtintotrinhdenghi = str_replace('[chucvunguoikykhenthuong]',  $donvi_kt->lanhdao ?? '', $thongtintotrinhdenghi);
-        $thongtintotrinhdenghi = str_replace('[hinhthuckhenthuong]',  'Bằng khen', $thongtintotrinhdenghi);
-
-        $thongtintotrinhdenghi = str_replace('[donvidenghi]',  $tendonvi, $thongtintotrinhdenghi);
-        $thongtintotrinhdenghi = str_replace('[sototrinh]',  $model->sototrinh, $thongtintotrinhdenghi);
-        $thongtintotrinhdenghi = str_replace('[ngayhoso]',  Date2Str($model->ngayhoso), $thongtintotrinhdenghi);
-        // soluongtapthe
-        // soluongcanhan
+        // Lấy danh sách khen thưởng theo cá nhân và tập thể
+        $i_theodoi = 1;
         $m_canhan = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)
             ->where('ketqua', '1')->orderby('stt')->get();
+
+        $m_tapthe = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)
+            ->where('ketqua', '1')->orderby('stt')->get();
+
+        $m_hogiadinh = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)
+            ->where('ketqua', '1')->orderby('stt')->get();
+
+
+        //Xử lý các trường hợp
+        //Cá nhân
         if ($m_canhan->count() > 0) {
-            $s_canhan = '';
+            $s_canhan = IntToRoman($i_theodoi++) . '. Cá nhân';
             $i = 1;
             foreach ($m_canhan as $canhan) {
                 $s_canhan .= '<p style=&#34;margin-left:40px;&#34;>' .
                     ($i++) . '. ' . $canhan->tendoituong .
-                    ($canhan->chucvu == '' ? '' : ('; ' . $canhan->chucvu)) .
-                    ($canhan->tencoquan == '' ? '' : ('; ' . $canhan->tencoquan)) .
+                    ($canhan->chucvu == '' ? '' : (', ' . $canhan->chucvu)) .
+                    ($canhan->tencoquan == '' ? '' : (' ' . $canhan->tencoquan)) .
                     '</p>';
-                //dd($s_canhan);
             }
-            //dd($s_canhan);
-            // $thongtintotrinhdenghi = str_replace('<p style=&#34;margin-left:25px;&#34;>[khenthuongcanhan]</p>',  $s_canhan, $thongtintotrinhdenghi);
             $thongtintotrinhdenghi = str_replace('[khenthuongcanhan]',  $s_canhan, $thongtintotrinhdenghi);
-            $thongtintotrinhdenghi = str_replace('[soluongcanhan]', $m_canhan->count() . ' cá nhân', $thongtintotrinhdenghi);
+            $thongtintotrinhdenghi = str_replace('[soluongcanhan]', $m_canhan->count() . ' cá nhân,', $thongtintotrinhdenghi);
+        } else {
+            $thongtintotrinhdenghi = str_replace('[khenthuongcanhan]',  '', $thongtintotrinhdenghi);
+            $thongtintotrinhdenghi = str_replace('[soluongcanhan]', '', $thongtintotrinhdenghi);
         }
 
         //Tập thể
-        $m_tapthe = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)
-            ->where('ketqua', '1')->orderby('stt')->get();
         if ($m_tapthe->count() > 0) {
-            $s_tapthe = '';
+            $s_tapthe = IntToRoman($i_theodoi++) . '. Tập thể';
             $i = 1;
             foreach ($m_tapthe as $chitiet) {
                 $s_tapthe .= '<p style=&#34;margin-left:40px;&#34;>' .
@@ -617,104 +562,52 @@ function getTaoDuThaoToTrinhPheDuyet(&$model, $maduthao = null)
                     '</p>';
             }
             $thongtintotrinhdenghi = str_replace('[khenthuongtapthe]',  $s_tapthe, $thongtintotrinhdenghi);
-            $thongtintotrinhdenghi = str_replace('[soluongtapthe]', $m_tapthe->count() . ' tập thể', $thongtintotrinhdenghi);
+            $thongtintotrinhdenghi = str_replace('[soluongtapthe]', $m_tapthe->count() . ' tập thể,', $thongtintotrinhdenghi);
+        } else {
+            $thongtintotrinhdenghi = str_replace('[khenthuongtapthe]',  '', $thongtintotrinhdenghi);
+            $thongtintotrinhdenghi = str_replace('[soluongtapthe]', '', $thongtintotrinhdenghi);
         }
 
         //Hộ gia đình
-        $m_hogiadinh = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)
-            ->where('ketqua', '1')->orderby('stt')->get();
         if ($m_hogiadinh->count() > 0) {
-            $s_hogiadinh = '';
+            $s_hogiadinh = IntToRoman($i_theodoi++) . '. Hộ gia đình';
             $i = 1;
             foreach ($m_hogiadinh as $chitiet) {
                 $s_hogiadinh .= '<p style=&#34;margin-left:40px;&#34;>' .
                     ($i++) . '. ' . $chitiet->tentapthe .
                     '</p>';
             }
-            $thongtintotrinhdenghi = str_replace('[khenthuonghogiadinh]',  $s_tapthe, $thongtintotrinhdenghi);
+            $thongtintotrinhdenghi = str_replace('[khenthuonghogiadinh]',  $s_hogiadinh, $thongtintotrinhdenghi);
+            $thongtintotrinhdenghi = str_replace('[soluonghogiadinh]', $m_hogiadinh->count() . ' hộ gia đình,', $thongtintotrinhdenghi);
+        } else {
+            $thongtintotrinhdenghi = str_replace('[khenthuonghogiadinh]',  '', $thongtintotrinhdenghi);
+            $thongtintotrinhdenghi = str_replace('[soluonghogiadinh]', '', $thongtintotrinhdenghi);
         }
 
         $model->thongtintotrinhdenghi = $thongtintotrinhdenghi;
-    } else {
-        //Load dự thảo theo mẫu
-        if ($model->thongtintotrinhdenghi == '') {
-            if ($maduthao == null)
-                $thongtintotrinhdenghi = App\Model\DanhMuc\duthaoquyetdinh::wherein('phanloai', ['TOTRINHPHEDUYET'])->first()->codehtml ?? '';
-            else
-                $thongtintotrinhdenghi = App\Model\DanhMuc\duthaoquyetdinh::where('maduthao', $maduthao)->first()->codehtml ?? '';
+        //Gán thông tin
+        $donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
+        $donvi_xd = dsdonvi::where('madonvi', $model->madonvi_xd)->first();
+        $donvi_kt = dsdonvi::where('madonvi', $model->madonvi_kt)->first();
 
-            $donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
-            $donvi_xd = dsdonvi::where('madonvi', $model->madonvi_xd)->first();
-            $donvi_kt = dsdonvi::where('madonvi', $model->madonvi_kt)->first();
-            $tendonvi = $donvi->tendonvi ?? '';
-            //dd($thongtintotrinhdenghi);
-            //Gán thông tin
-            $thongtintotrinhdenghi = str_replace('[sototrinhdenghi]', $model->sototrinhdenghi, $thongtintotrinhdenghi);
-            $thongtintotrinhdenghi = str_replace('[noidung]', $model->noidung, $thongtintotrinhdenghi);
-            $thongtintotrinhdenghi = str_replace('[donvixetduyet]',  $donvi_xd->tendonvi ?? '', $thongtintotrinhdenghi);
-            $thongtintotrinhdenghi = str_replace('[ngaythangtotrinhdenghi]',  Date2Str($model->ngaythangtotrinhdenghi), $thongtintotrinhdenghi);
-
-            $thongtintotrinhdenghi = str_replace('[diadanh]',  $donvi->diadanh, $thongtintotrinhdenghi);
-            $thongtintotrinhdenghi = str_replace('[chucvunguoikyxetduyet]',  $donvi_xd->cdlanhdao ?? '', $thongtintotrinhdenghi);
-            $thongtintotrinhdenghi = str_replace('[nguoikytotrinhxetduyet]',  $donvi_xd->lanhdao ?? '', $thongtintotrinhdenghi);
-
-            $thongtintotrinhdenghi = str_replace('[chucvunguoikykhenthuong]',  $donvi_kt->lanhdao ?? '', $thongtintotrinhdenghi);
-            $thongtintotrinhdenghi = str_replace('[hinhthuckhenthuong]',  'Bằng khen', $thongtintotrinhdenghi);
-
-            $thongtintotrinhdenghi = str_replace('[donvidenghi]',  $tendonvi, $thongtintotrinhdenghi);
-            $thongtintotrinhdenghi = str_replace('[sototrinh]',  $model->sototrinh, $thongtintotrinhdenghi);
-            $thongtintotrinhdenghi = str_replace('[ngayhoso]',  Date2Str($model->ngayhoso), $thongtintotrinhdenghi);
-            // soluongtapthe
-            // soluongcanhan
-            $m_canhan = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)
-                ->where('ketqua', '1')->orderby('stt')->get();
-            if ($m_canhan->count() > 0) {
-                $s_canhan = '';
-                $i = 1;
-                foreach ($m_canhan as $canhan) {
-                    $s_canhan .= '<p style=&#34;margin-left:40px;&#34;>' .
-                        ($i++) . '. ' . $canhan->tendoituong .
-                        ($canhan->chucvu == '' ? '' : ('; ' . $canhan->chucvu)) .
-                        ($canhan->tencoquan == '' ? '' : ('; ' . $canhan->tencoquan)) .
-                        '</p>';
-                    //dd($s_canhan);
-                }
-                //dd($s_canhan);
-                // $thongtintotrinhdenghi = str_replace('<p style=&#34;margin-left:25px;&#34;>[khenthuongcanhan]</p>',  $s_canhan, $thongtintotrinhdenghi);
-                $thongtintotrinhdenghi = str_replace('[khenthuongcanhan]',  $s_canhan, $thongtintotrinhdenghi);
-                $thongtintotrinhdenghi = str_replace('[soluongcanhan]', $m_canhan->count() . ' cá nhân', $thongtintotrinhdenghi);
-            }
-
-            //Tập thể
-            $m_tapthe = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)
-                ->where('ketqua', '1')->orderby('stt')->get();
-            if ($m_tapthe->count() > 0) {
-                $s_tapthe = '';
-                $i = 1;
-                foreach ($m_tapthe as $chitiet) {
-                    $s_tapthe .= '<p style=&#34;margin-left:40px;&#34;>' .
-                        ($i++) . '. ' . $chitiet->tentapthe .
-                        '</p>';
-                }
-                $thongtintotrinhdenghi = str_replace('[khenthuongtapthe]',  $s_tapthe, $thongtintotrinhdenghi);
-                $thongtintotrinhdenghi = str_replace('[soluongtapthe]', $m_tapthe->count() . ' tập thể', $thongtintotrinhdenghi);
-            }
-
-            //Hộ gia đình
-            $m_hogiadinh = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)
-                ->where('ketqua', '1')->orderby('stt')->get();
-            if ($m_hogiadinh->count() > 0) {
-                $s_hogiadinh = '';
-                $i = 1;
-                foreach ($m_hogiadinh as $chitiet) {
-                    $s_hogiadinh .= '<p style=&#34;margin-left:40px;&#34;>' .
-                        ($i++) . '. ' . $chitiet->tentapthe .
-                        '</p>';
-                }
-                $thongtintotrinhdenghi = str_replace('[khenthuonghogiadinh]',  $s_tapthe, $thongtintotrinhdenghi);
-            }
-            $model->thongtintotrinhdenghi = $thongtintotrinhdenghi;
-        }
+        $model->thongtintotrinhdenghi = str_replace('[noidung]', $model->noidung, $model->thongtintotrinhdenghi);
+        $model->thongtintotrinhdenghi = str_replace('[hinhthuckhenthuong]',  'Bằng khen', $model->thongtintotrinhdenghi);
+        $model->thongtintotrinhdenghi = str_replace('[nguoikytotrinh]', $model->nguoikytotrinh, $model->thongtintotrinhdenghi);
+        $model->thongtintotrinhdenghi = str_replace('[chucvunguoiky]', $model->chucvunguoiky, $model->thongtintotrinhdenghi);
+        $model->thongtintotrinhdenghi = str_replace('[chucvunguoikyqd]', $model->chucvunguoikyqd, $model->thongtintotrinhdenghi);
+        $model->thongtintotrinhdenghi = str_replace('[hotennguoikyqd]',  $model->hotennguoikyqd, $model->thongtintotrinhdenghi);
+        $model->thongtintotrinhdenghi = str_replace('[soqd]',  $model->soqd, $model->thongtintotrinhdenghi);
+        $model->thongtintotrinhdenghi = str_replace('[sototrinh]',  $model->sototrinh, $model->thongtintotrinhdenghi);
+        $model->thongtintotrinhdenghi = str_replace('[diadanh]',  $donvi->diadanh, $model->thongtintotrinhdenghi);
+        $model->thongtintotrinhdenghi = str_replace('[ngayqd]',  Date2Str($model->ngayqd), $model->thongtintotrinhdenghi);
+        $model->thongtintotrinhdenghi = str_replace('[ngayhoso]',  Date2Str($model->ngayhoso), $model->thongtintotrinhdenghi);
+        $model->thongtintotrinhdenghi = str_replace('[donvidenghi]',  $donvi->tendvhienthi, $model->thongtintotrinhdenghi);
+        $model->thongtintotrinhdenghi = str_replace('[donvikhenthuong]', $donvi_kt->tendvhienthi ?? '', $model->thongtintotrinhdenghi);
+        $model->thongtintotrinhdenghi = str_replace('[donvixetduyet]',  $donvi_xd->tendvhienthi ?? '', $model->thongtintotrinhdenghi);
+        $model->thongtintotrinhdenghi = str_replace('[sototrinhdenghi]',  $model->sototrinhdenghi ?? '', $model->thongtintotrinhdenghi);
+        $model->thongtintotrinhdenghi = str_replace('[ngaythangtotrinhdenghi]',  Date2Str($model->ngaythangtotrinhdenghi), $model->thongtintotrinhdenghi);
+        $model->thongtintotrinhdenghi = str_replace('[chucvutotrinhdenghi]',  $model->chucvutotrinhdenghi ?? '', $model->thongtintotrinhdenghi);
+        $model->thongtintotrinhdenghi = str_replace('[nguoikytotrinhdenghi]',  $model->nguoikytotrinhdenghi ?? '', $model->thongtintotrinhdenghi);
     }
 }
 
@@ -740,6 +633,10 @@ function getTaoQuyetDinhKT(&$model)
     $model->thongtinquyetdinh = str_replace('[donvidenghi]',  $donvi->tendvhienthi, $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[donvikhenthuong]', $donvi_kt->tendvhienthi ?? '', $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[donvixetduyet]',  $donvi_xd->tendvhienthi ?? '', $model->thongtinquyetdinh);
+    $model->thongtinquyetdinh = str_replace('[sototrinhdenghi]',  $model->sototrinhdenghi ?? '', $model->thongtinquyetdinh);
+    $model->thongtinquyetdinh = str_replace('[ngaythangtotrinhdenghi]',  Date2Str($model->ngaythangtotrinhdenghi), $model->thongtinquyetdinh);
+    $model->thongtinquyetdinh = str_replace('[chucvutotrinhdenghi]',  $model->chucvutotrinhdenghi ?? '', $model->thongtinquyetdinh);
+    $model->thongtinquyetdinh = str_replace('[nguoikytotrinhdenghi]',  $model->nguoikytotrinhdenghi ?? '', $model->thongtinquyetdinh);
 }
 
 function getTaoDuThaoKT(&$model, $maduthao = null)
@@ -762,9 +659,7 @@ function getTaoDuThaoKT(&$model, $maduthao = null)
         $thongtinquyetdinh = str_replace('[donvixetduyet]',  $donvi_xd->tendonvi ?? '', $thongtinquyetdinh);
 
         // Lấy danh sách khen thưởng theo cá nhân và tập thể
-
         $i_theodoi = 1;
-
         $m_canhan = App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)
             ->where('ketqua', '1')->orderby('stt')->get();
 
@@ -1549,20 +1444,29 @@ function getTenTruongDuLieuDuThao()
         '[donvixetduyet]',  $donvi_xd->tendonvi ?? '', $model->thongtinquyetdinh);
         */
     return [
-        '[noidung]' => 'Nội dung hồ sơ',
+        //Thông tin tờ trình đề nghị khen thưởng
+        '[ngayhoso]' => 'Ngày tháng tạo hồ sơ (ngày trình đề nghị)',
+        '[sototrinh]' => 'Số tờ trình đề nghị khen thưởng',
         '[chucvunguoiky]' => 'Chức vụ người ký tờ trình',
         '[nguoikytotrinh]' => 'Họ tên người ký tờ trình',
+        '[donvidenghi]' => 'Tên đơn vị đề nghị khen thưởng (theo thông tin đơn vị)',
+        //Thông tin tờ trình kết quả khen thưởng
+        '[sototrinhdenghi]' => 'Số tờ trình kết quả khen thưởng',
+        '[ngaythangtotrinhdenghi]' => 'Ngày trình kết quả khen thưởng',
+        '[chucvutotrinhdenghi]' => 'Chức vụ người ký tờ trình kết quả khen thưởng',
+        '[nguoikytotrinhdenghi]' => 'Họ tên người ký tờ trình kết quả khen thưởng',
+        '[donvixetduyet]' => 'Tên đơn vị xét duyệt hồ sơ (theo thông tin đơn vị)',
+        //Thông tin quyết định khen thưởng
         '[chucvunguoikyqd]' => 'Chức vụ người ký quyết định khen thưởng',
         '[hotennguoikyqd]' => 'Họ tên người ký quyết định khen thưởng',
         '[soqd]' => 'Số quyết định khen thưởng',
-        '[sototrinh]' => 'Số tờ trình đề nghị khen thưởng',
         '[ngayqd]' => 'Ngày tháng quyết định',
-        '[ngayhoso]' => 'Ngày tháng tạo hồ sơ',
-        '[diadanh]' => 'Địa danh (theo thông tin đơn vị)',
-        '[donvidenghi]' => 'Tên đơn vị đề nghị khen thưởng (theo thông tin đơn vị)',
-        '[donvixetduyet]' => 'Tên đơn vị xét duyệt hồ sơ (theo thông tin đơn vị)',
         '[donvikhenthuong]' => 'Tên đơn vị phê duyệt khen thưởng (theo thông tin đơn vị)',
-        '[hinhthuckhenthuong]' => 'Tên hình thức khen thưởng', //Đang lấy mặc định
+        //Thông tin chung
+        '[noidung]' => 'Nội dung hồ sơ',
+        '[diadanh]' => 'Địa danh (theo thông tin đơn vị)',
+        '[hinhthuckhenthuong]' => 'Tên hình thức khen thưởng', //Đang lấy mặc định 
+        //Thông tin danh sách khen thưởng
         '[soluongtapthe]' => 'Tổng số lượng khen thưởng cho tập thể',
         '[soluongcanhan]' => 'Tổng số lượng khen thưởng cho cá nhân',
         '[soluonghogiadinh]' => 'Tổng số lượng khen thưởng cho hộ gia đình',
@@ -1571,5 +1475,7 @@ function getTenTruongDuLieuDuThao()
         '[khenthuongtapthe]' => 'Danh sách khen thưởng của tập thể',
         '[khenthuonghogiadinh]' => 'Danh sách khen thưởng của hộ gia đình',
         '[khenthuongtapthevahogiadinh]' => 'Danh sách khen thưởng của tạp thể và hộ gia đình',
+
+
     ];
 }
