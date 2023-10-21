@@ -97,7 +97,7 @@
 
                                 <td style="text-align: center">
                                     @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']) && chkPhanQuyen('dshosodenghikhenthuongdotxuat', 'thaydoi'))
-                                        @if ($inputs['trangthai'] == 'CC')
+                                        @if (in_array($inputs['trangthai'], ['CC', 'CD']))
                                             {{-- Trường hợp cũ đầy đủ quy trình --}}
                                             @include('NghiepVu._DungChung.HoSo.TD_TrangThai_CC')
                                         @else

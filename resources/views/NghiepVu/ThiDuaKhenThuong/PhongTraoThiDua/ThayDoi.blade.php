@@ -188,6 +188,16 @@
                     {!! Form::text('tendonvi', null, ['class' => 'form-control text-success text-bold', 'readonly']) !!}
                 </div>
             </div>
+
+            <div class="form-group row">
+                <div class="col-lg-12">
+                    <label>Phát động theo phong trào của cấp trên</label>
+                    {!! Form::select('maphongtraotd_coso', setArrayAll($a_phongtrao_captren, 'Không chọn', ''), null, [
+                        'class' => 'form-control select2basic',
+                    ]) !!}
+                </div>
+            </div>
+
             <div class="form-group row">
                 <div class="col-lg-4">
                     <label>Phạm vị phát động</label>
@@ -302,7 +312,7 @@
                                         </button>
 
                                         <button title="Tài liệu đính kèm" type="button"
-                                            onclick="get_attack('{{$tt->id}}', '/PhongTraoThiDua/DinhKemTieuChuan')"
+                                            onclick="get_attack('{{ $tt->id }}', '/PhongTraoThiDua/DinhKemTieuChuan')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
                                             data-toggle="modal">
                                             <i class="icon-lg la la-file-download text-dark"></i>

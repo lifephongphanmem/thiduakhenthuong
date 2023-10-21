@@ -82,7 +82,7 @@
                                 <th width="15%">Thao tác</th>
                             </tr>
                         </thead>
-                        <?php $i=1;?>
+                        <?php $i = 1; ?>
                         @foreach ($model as $key => $tt)
                             <tr>
                                 <td class="text-center">{{ $i++ }}</td>
@@ -95,9 +95,9 @@
 
                                 <td style="text-align: center">
                                     @include('NghiepVu._DungChung.TD_XemThongTinTDKT')
-                                    
+
                                     @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']) && chkPhanQuyen('dshosodenghikhenthuongchuyende', 'thaydoi'))
-                                        @if ($inputs['trangthai'] == 'CC')
+                                        @if (in_array($inputs['trangthai'], ['CC', 'CD']))
                                             {{-- Trường hợp cũ đầy đủ quy trình --}}
                                             @include('NghiepVu._DungChung.HoSo.TD_TrangThai_CC')
                                         @else

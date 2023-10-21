@@ -84,7 +84,7 @@
                                     </a>
                                     
                                     @if ($tt->nhanhoso == 'DANGNHAN')
-                                        @if (in_array($tt->trangthai_hoso, ['CD', 'CNXKT']))
+                                        @if (in_array($tt->trangthai_hoso, ['CD', 'CNXKT', 'CC']))
                                             <button title="Nhận hồ sơ đăng ký" type="button"
                                                 onclick="confirmNhan('{{ $tt->mahosothamgiapt }}','/XetDuyetHoSoThiDua/NhanHoSo','{{ $inputs['madonvi'] }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#nhan-modal-confirm"

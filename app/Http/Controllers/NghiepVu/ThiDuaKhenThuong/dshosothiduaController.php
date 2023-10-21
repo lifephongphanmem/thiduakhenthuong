@@ -118,7 +118,7 @@ class dshosothiduaController extends Controller
             $DangKy->mahosotdkt = $hoso->mahosotdkt ?? '-1';
         }
         $inputs['trangthai'] = session('chucnang')['dshosothidua']['trangthai'] ?? 'CC';
-        //dd(getDonViQuanLyDiaBan($donvi));
+        //  dd($inputs);
         return view('NghiepVu.ThiDuaKhenThuong.HoSoThiDua.ThongTin')
             ->with('inputs', $inputs)
             ->with('model', $model->sortby('tungay'))
@@ -334,11 +334,11 @@ class dshosothiduaController extends Controller
         $inputs = $request->all();
         $model = dshosothamgiaphongtraotd::where('mahosothamgiapt', $inputs['mahoso'])->first();
         $m_donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi_nhan'])->first();
-
+       
         $inputs['trangthai'] = session('chucnang')['dshosothidua']['trangthai'] ?? 'CC';
         //Thiết lập lại do chỉ có 2 bước trong quy trình
         $inputs['trangthai'] = $inputs['trangthai'] != 'CC' ? 'DD' : $inputs['trangthai'];
-        //dd($inputs['trangthai']);
+        // dd($inputs['trangthai']);
         $model->trangthai = $inputs['trangthai'];
         $model->madonvi_nhan = $inputs['madonvi_nhan'];
         $model->thoigian = date('Y-m-d H:i:s');
@@ -347,7 +347,7 @@ class dshosothiduaController extends Controller
         $model->save();
 
         $trangthai = new trangthaihoso();
-        $trangthai->trangthai = 'CD';
+        $trangthai->trangthai = $inputs['trangthai'];
         $trangthai->madonvi = $model->madonvi;
         $trangthai->madonvi_nhan = $inputs['madonvi_nhan'];
         $trangthai->phanloai = 'dshosothamgiaphongtraotd';

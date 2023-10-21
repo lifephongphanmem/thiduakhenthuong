@@ -50,7 +50,7 @@ class dshosodenghikhenthuongcongtrangController extends Controller
         $inputs = $request->all();
         $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
         $inputs['phanloaihoso'] = 'dshosothiduakhenthuong';
-        
+
         $m_donvi = getDonVi(session('admin')->capdo, 'dshosodenghikhenthuongcongtrang');
         $a_diaban = array_column($m_donvi->toArray(), 'tendiaban', 'madiaban');
 
@@ -227,6 +227,85 @@ class dshosodenghikhenthuongcongtrangController extends Controller
         return redirect(static::$url . 'Sua?mahosotdkt=' . $inputs['mahosotdkt']);
     }
 
+    public function ThemTongHop(Request $request)
+    {
+        if (!chkPhanQuyen('dshosodenghikhenthuongcongtrang', 'thaydoi')) {
+            return view('errors.noperm')->with('machucnang', 'dshosodenghikhenthuongcongtrang')->with('tenphanquyen', 'thaydoi');
+        }
+        $inputs = $request->all();
+
+        $inputs['mahosotdkt'] = (string)getdate()[0];
+        $inputs['phanloai'] = 'KHENTHUONG';
+        //lấy danh sách chi tiết
+        if (isset($inputs['hoso'])) {
+            $a_hoso = array_keys($inputs['hoso']);
+            //Cá nhân
+            $m_canhan = dshosothiduakhenthuong_canhan::wherein('mahosotdkt', $a_hoso)->where('ketqua', 1)->get();
+            $a_canhan = [];
+            foreach ($m_canhan as $canhan) {
+                $a_canhan[] = [
+                    'mahosotdkt' => $inputs['mahosotdkt'],
+                    'maccvc' => $canhan->maccvc,
+                    'socancuoc' => $canhan->socancuoc,
+                    'tendoituong' => $canhan->tendoituong,
+                    'ngaysinh' => $canhan->ngaysinh,
+                    'gioitinh' => $canhan->gioitinh,
+                    'chucvu' => $canhan->chucvu,
+                    'diachi' => $canhan->diachi,
+                    'tencoquan' => $canhan->tencoquan,
+                    'tenphongban' => $canhan->tenphongban,
+                    'maphanloaicanbo' => $canhan->maphanloaicanbo,
+                    'ketqua' => 1,
+                    'madanhhieukhenthuong' => $canhan->madanhhieukhenthuong,
+                ];
+            }
+            dshosothiduakhenthuong_canhan::insert($a_canhan);
+            //Tập thể
+            $m_tapthe = dshosothiduakhenthuong_tapthe::wherein('mahosotdkt', $a_hoso)->where('ketqua', 1)->get();
+            $a_tapthe = [];
+            foreach ($m_tapthe as $tapthe) {
+                $a_tapthe[] = [
+                    'mahosotdkt' => $inputs['mahosotdkt'],
+                    'ketqua' => 1,
+                    'madanhhieukhenthuong' => $tapthe->madanhhieukhenthuong,
+                    'linhvuchoatdong' => $tapthe->linhvuchoatdong,
+                    'maphanloaitapthe' => $tapthe->maphanloaitapthe,
+                    'tentapthe' => $tapthe->tentapthe,
+                ];
+            }
+            dshosothiduakhenthuong_tapthe::insert($a_tapthe);
+            //Hộ gia đình
+            $m_hogiadinh = dshosothiduakhenthuong_hogiadinh::wherein('mahosotdkt', $a_hoso)->where('ketqua', 1)->get();
+            $a_hogiadinh = [];
+            foreach ($m_hogiadinh as $hogiadinh) {
+                $a_hogiadinh[] = [
+                    'mahosotdkt' => $inputs['mahosotdkt'],
+                    'ketqua' => 1,
+                    'madanhhieukhenthuong' => $hogiadinh->madanhhieukhenthuong,
+                    'linhvuchoatdong' => $hogiadinh->linhvuchoatdong,
+                    'maphanloaitapthe' => $hogiadinh->maphanloaitapthe,
+                    'tentapthe' => $hogiadinh->tentapthe,
+                ];
+            }
+            dshosothiduakhenthuong_hogiadinh::insert($a_hogiadinh);
+        }
+
+        //Kiểm tra trạng thái hồ sơ
+        setThongTinHoSo($inputs);
+        //Lưu nhật ký
+        dshosothiduakhenthuong::create($inputs);
+        $trangthai = new trangthaihoso();
+        $trangthai->trangthai = $inputs['trangthai'];
+        $trangthai->madonvi = $inputs['madonvi'];
+        $trangthai->thongtin = "Thêm mới hồ sơ đề nghị khen thưởng";
+        $trangthai->phanloai = 'dshosothiduakhenthuong';
+        $trangthai->mahoso = $inputs['mahosotdkt'];
+        $trangthai->thoigian = $inputs['ngayhoso'];
+        $trangthai->save();
+
+        return redirect(static::$url . 'Sua?mahosotdkt=' . $inputs['mahosotdkt']);
+    }
+
     public function LuuHoSo(Request $request)
     {
         if (!chkPhanQuyen('dshosodenghikhenthuongcongtrang', 'thaydoi')) {
@@ -265,10 +344,7 @@ class dshosodenghikhenthuongcongtrangController extends Controller
         }
         $inputs = $request->all();
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
-        //đơn vị sử dụng trạng thái CXKT => hồ sơ chuyển đi sẽ có trạng thái CXKT vì đã có đơn vị khen thưởng trong lúc tạo hồ so
-        //đơn vị sử dụng trạng thái CC => hồ sơ chuyển đi sẽ có trạng thái DD để đơn vị xét duyệt chuyển cho đơn vị cấp trên
-        $trangthai = session('chucnang')['dshosodenghikhenthuongcongtrang']['trangthai'] ?? 'CC';
-        $inputs['trangthai'] = $trangthai == 'CC' ? 'DD' : 'CXKT';
+        $inputs['trangthai'] = getTrangThaiChuyenHS(session('chucnang')['dshosodenghikhenthuongcongtrang']['trangthai'] ?? 'CC');
         $inputs['thoigian'] = date('Y-m-d H:i:s');
         $inputs['lydo'] = ''; //Xóa lý do trả lại
         setChuyenDV($model, $inputs);
@@ -290,6 +366,9 @@ class dshosodenghikhenthuongcongtrangController extends Controller
         }
         $inputs = $request->all();
         $model = dshosothiduakhenthuong::findorfail($inputs['id']);
+        dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)->delete();
+        dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->delete();
+        dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)->delete();
         $model->delete();
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }

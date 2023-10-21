@@ -15,6 +15,7 @@
     <script>
         jQuery(document).ready(function() {
             TableManaged3.init();
+            TableManagedclass.init();
             $('#madonvi, #nam, #phamviapdung').change(function() {
                 window.location.href = '/PhongTraoThiDua/ThongTin?madonvi=' + $('#madonvi').val() +
                     '&nam=' + $('#nam').val() + '&phamviapdung=' + $('#phamviapdung').val();
@@ -33,6 +34,9 @@
             <div class="card-toolbar">
                 <!--begin::Button-->
                 @if (chkPhanQuyen('dsphongtraothidua', 'thaydoi'))
+                    <button class="btn btn-success btn-xs mr-2" data-target="#modal-phongtrao_captren" data-toggle="modal">
+                        <i class="fa fa-plus"></i> Tiếp nhận từ cấp trên</button>
+
                     <a href="{{ url('/PhongTraoThiDua/Them?madonvi=' . $inputs['madonvi']) }}"
                         class="btn btn-success btn-xs">
                         <i class="fa fa-plus"></i> Thêm mới</a>
@@ -56,7 +60,7 @@
                         @endforeach
                     </select>
                 </div>
-            
+
                 <div class="col-md-5">
                     <label style="font-weight: bold">Phạm vi phát động</label>
                     {!! Form::select('phamviapdung', setArrayAll($a_phamvi, 'Tất cả', 'ALL'), $inputs['phamviapdung'], [
@@ -167,7 +171,7 @@
                 <input type="hidden" name="maphongtraotd" id="maphongtraotd">
                 <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}">
                 <div class="modal-body">
-                    
+
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
@@ -242,6 +246,60 @@
             $('#frm_HuyKetThuc').find("[name='maphongtraotd']").val(maphongtraotd);
         }
     </script>
+
+    <!-- Phong trao cấp trên -->
+    <div class="modal fade" id="modal-phongtrao_captren" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Tiếp nhận phong trào thi đua từ cấp trên</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <table class="table table-striped table-bordered table-hover dulieubang">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th width="2%">STT</th>
+                                        <th>Tên phong trào thi đua</th>
+                                        <th>Văn bản</th>
+                                        <th>Phạm vi phát động</th>
+                                        <th width="10%">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <?php $i = 1; ?>
+                                @foreach ($m_phongtrao_captren as $key => $tt)
+                                    <tr>
+                                        <td style="text-align: center">{{ $i++ }}</td>
+                                        <td class="active">{{ $tt->noidung }}</td>
+                                        <td class="text-center">Số: {{ $tt->soqd }}</br> Ngày:
+                                            {{ getDayVn($tt->ngayqd) }}</td>
+                                        <td>{{ $a_phamvi[$tt->phamviapdung] ?? '' }}</td>
+
+                                        <td class=" text-center">
+                                            <a title="Tiếp nhận và phát động phong trào"
+                                                href="{{ url('/PhongTraoThiDua/Them?maphongtraotd_coso=' . $tt->maphongtraotd . '&madonvi=' . $inputs['madonvi']) }}"
+                                                class="btn btn-sm btn-clean btn-icon" target="_blank">
+                                                <i class="icon-lg la fa-edit text-dark"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
     @include('includes.modal.modal-delete')
     @include('includes.modal.modal_attackfile')
 @stop

@@ -45,6 +45,8 @@
             <span class="{{ $a_trangthai_td['class'] }}">{!! $a_trangthai_td['trangthai'] !!}</span>
         </td>
         @break
+    @case('CXD')
+    @case('KHS')
     @case('CD')
     @case('BTL')
 
@@ -66,4 +68,8 @@
             <br>Thời gian:<br><b>{{ getDayVn($tt->thoigian) }}</b>
         </td>
     @break
+    @default
+        <td align="center">
+            <span class="badge badge-info">{{$tt->trangthai}}</span>
+        </td>
 @endswitch

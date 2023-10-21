@@ -51,11 +51,14 @@ class dsphongtraothiduaController extends Controller
             $model = $model->whereYear('ngayqd', $inputs['nam']);
         if ($inputs['phanloai'] != 'ALL')
             $model = $model->where('phanloai', $inputs['phanloai']);
-
+        $model = $model->orderby('ngayqd')->get();
+        $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
+        $m_phongtrao_captren = dsphongtraothidua::where('phamviapdung', getCapDoDiaBanCapTren($donvi->capdo))->get();
         return view('NghiepVu.ThiDuaKhenThuong.PhongTraoThiDua.ThongTin')
-            ->with('model', $model->orderby('ngayqd')->get())
+            ->with('model', $model)
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
+            ->with('m_phongtrao_captren', $m_phongtrao_captren)
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('a_phamvi', getPhamViPhongTrao($m_donvi->where('madonvi', $inputs['madonvi'])->first()->capdo ?? 'T'))
             ->with('a_phanloai', getPhanLoaiPhongTraoThiDua(true))
@@ -82,6 +85,7 @@ class dsphongtraothiduaController extends Controller
             $model->trangthai = 'CC';
             $model->phanloai = $donvi->capdo;
             $model->maloaihinhkt = $inputs['maloaihinhkt'];
+            $model->maphongtraotd_coso = $inputs['maphongtraotd_coso'] ?? '';
             $model->mahinhthuckt = session('chucnang')['dsphongtraothidua']['mahinhthuckt'] ?? '';
             //dd( $model);
         }
@@ -101,12 +105,15 @@ class dsphongtraothiduaController extends Controller
                 $capdo = 'H';
         }
         $a_phamvi = getPhamViPhatDongPhongTrao($capdo);
+        $a_phongtrao_captren = array_column(dsphongtraothidua::where('phamviapdung', getCapDoDiaBanCapTren($donvi->capdo))->get()->toarray(),'noidung','maphongtraotd');
+
         return view('NghiepVu.ThiDuaKhenThuong.PhongTraoThiDua.ThayDoi')
             ->with('model', $model)
             ->with('model_tieuchuan', $model_tieuchuan)
             ->with('a_tieuchuan', array_column(dmdanhhieuthidua_tieuchuan::all()->toArray(), 'tentieuchuandhtd', 'matieuchuandhtd'))
             ->with('a_loaihinhkt', array_column($m_loaihinh->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
+            ->with('a_phongtrao_captren', $a_phongtrao_captren)
             ->with('a_phamvi', $a_phamvi)
             ->with('a_phanloaidt', getPhanLoaiTDKT())
             ->with('inputs', $inputs)
@@ -133,7 +140,6 @@ class dsphongtraothiduaController extends Controller
 
     public function LuuPhongTrao(Request $request)
     {
-
         if (!chkPhanQuyen('dsphongtraothidua', 'thaydoi')) {
             return view('errors.noperm')->with('machucnang', 'dsphongtraothidua');
         }

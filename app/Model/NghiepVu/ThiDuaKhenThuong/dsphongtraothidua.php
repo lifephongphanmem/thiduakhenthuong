@@ -9,6 +9,7 @@ class dsphongtraothidua extends Model
     protected $table = 'dsphongtraothidua';
     protected $fillable = [
         'id',
+        'maphongtraotd_coso',//Mã phong trào cấp trên để phát động theo
         'maphongtraotd',
         'maloaihinhkt',
         'phanloai',

@@ -545,7 +545,6 @@ function getThongTinDonVi($madonvi, $tentruong)
 
 function chkPhanQuyen($machucnang = null, $tenphanquyen = null)
 {
-    
     //return true;
     //Kiểm tra giao diện (danhmucchucnang)
     if (!chkGiaoDien($machucnang)) {
@@ -556,7 +555,7 @@ function chkPhanQuyen($machucnang = null, $tenphanquyen = null)
     if (in_array($capdo, ['SSA', 'ssa',])) {
         return true;
     }
-    dd(session('phanquyen'));
+    //dd(session('phanquyen'));
     return session('phanquyen')[$machucnang][$tenphanquyen] ?? 0;
 }
 
@@ -1134,7 +1133,7 @@ function getToaDoMacDinh($inputs)
         ->where('phanloaiphoi', $inputs['phanloaiphoi'])
         ->where('madonvi', $inputs['madonvi'])
         ->first();
-    if ($model == null) {        
+    if ($model == null) {
         $model =  App\Model\DanhMuc\dmtoadoinphoi::where('phanloaikhenthuong', $inputs['phanloaikhenthuong'])
             ->where('phanloaidoituong', $inputs['phanloaidoituong'])
             ->where('phanloaiphoi', $inputs['phanloaiphoi'])
@@ -1154,5 +1153,47 @@ function getCapDoLonNhat($capdo)
         return 'H';
     } else {
         return 'X';
+    }
+}
+
+//Lấy cấp độ của địa bàn cấp trên
+function getCapDoDiaBanCapTren($capdo)
+{
+    $kq = 'X';
+    switch ($capdo) {
+        case 'T': {
+                $kq = 'TW';
+                break;
+            }
+        case 'H': {
+                $kq = 'T';
+                break;
+            }
+        case 'X': {
+                $kq = 'H';
+                break;
+            }
+    }
+    return $kq;
+}
+
+//Lấy trạng thái tiếp theo của hồ sơ
+
+function getTrangThaiChuyenHS($trangthai)
+{
+    //Ko tính trường hợp  hồ sơ bị trả lại => nếu hồ sơ bị trả lại thì gán trạng thái theo chức năng rồi mới xác định 
+    switch ($trangthai) {
+        case 'CC': {
+                return 'CD';
+            }
+        case 'CD': {
+                return 'DD';
+            }
+        case 'DD':
+        case 'CXKT': {
+                return 'CXKT';
+            }
+        default:
+            return 'CD';
     }
 }
