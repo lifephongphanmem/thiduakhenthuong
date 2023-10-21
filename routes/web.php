@@ -87,6 +87,7 @@ include('khenthuongchuyende.php');
 include('khenthuongdotxuat.php');
 include('khenthuongconghien.php');
 include('khenthuongdoingoai.php');
+include('khencao.php');
 include('cumkhoi.php');
 include('tracuu.php');
 include('dangkydanhhieu.php');

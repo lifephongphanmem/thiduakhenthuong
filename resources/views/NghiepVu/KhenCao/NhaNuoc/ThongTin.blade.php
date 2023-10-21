@@ -43,6 +43,10 @@
             </div>
             <div class="card-toolbar">
                 @if (chkPhanQuyen('dshosokhencaochinhphu', 'thaydoi'))
+                <button type="button" class="btn btn-success btn-xs mr-2" data-toggle="modal"
+                        data-target="#tonghophoso-modal">
+                        <i class="fa fa-plus"></i>&nbsp;Tổng hợp
+                    </button>
                     <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
                 @endif
@@ -219,6 +223,7 @@
     </div>
     {!! Form::close() !!}
 
+    @include('NghiepVu._DungChung.HoSo_KhenCao_TongHopHoSo')
     @include('NghiepVu._DungChung.InDuLieuKT')
     @include('NghiepVu._DungChung.modal_KhenThuong')
     @include('includes.modal.modal-lydo')

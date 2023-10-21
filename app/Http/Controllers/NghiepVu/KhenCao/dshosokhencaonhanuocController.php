@@ -14,6 +14,7 @@ use App\Model\DanhMuc\dmnhomphanloai_chitiet;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\HeThong\trangthaihoso;
+use App\Model\NghiepVu\KhenCao\dshosodenghikhencao;
 use App\Model\NghiepVu\KhenCao\dshosokhencao;
 use App\Model\NghiepVu\KhenCao\dshosokhencao_canhan;
 use App\Model\NghiepVu\KhenCao\dshosokhencao_tapthe;
@@ -78,12 +79,16 @@ class dshosokhencaonhanuocController extends Controller
                 + dshosokhencao_tapthe::where('mahosotdkt', $hoso->mahosotdkt)->count();
             getDonViChuyen($inputs['madonvi'], $hoso);
         }
+        $model_hoso = dshosodenghikhencao::where(function ($qr) use ($inputs) {
+            $qr->where('madonvi_xd', $inputs['madonvi'])->orwhere('madonvi_kt', $inputs['madonvi']);
+        })->get();
         return view('NghiepVu.KhenCao.NhaNuoc.ThongTin')
             ->with('model', $model)
             ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))
             ->with('a_capdo', getPhamViApDung())
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
+            ->with('model_hoso', $model_hoso)
             ->with('a_donviql', getDonViQuanLyDiaBan($donvi))
             ->with('a_loaihinhkt', array_column($m_loaihinh->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('a_phamvi', getPhamViKhenCao($donvi->capdo))
