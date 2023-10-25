@@ -224,7 +224,7 @@
     {!! Form::close() !!}
 
     @include('NghiepVu._DungChung.HoSo_KhenCao_TongHopHoSo')
-    @include('NghiepVu._DungChung.InDuLieuKT')
+    @include('NghiepVu._DungChung.InDuLieu_KhenCao')
     @include('NghiepVu._DungChung.modal_KhenThuong')
     @include('includes.modal.modal-lydo')
     @include('includes.modal.modal-delete')

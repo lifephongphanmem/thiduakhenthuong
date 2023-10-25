@@ -36,7 +36,7 @@
                         <div class="col-lg-12">
                             <a onclick="setInDuThao($(this), '/DungChung/DuThao/InToTrinhDeNghiKhenThuong')"
                                 class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
-                                <i class="la flaticon2-print"></i>Tờ trình khen thưởng
+                                <i class="la flaticon2-print"></i>Tờ trình đề nghị khen thưởng
                             </a>
                         </div>
                     </div>

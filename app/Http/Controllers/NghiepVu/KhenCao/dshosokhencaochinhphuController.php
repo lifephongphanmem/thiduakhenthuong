@@ -17,6 +17,8 @@ use App\Model\HeThong\trangthaihoso;
 use App\Model\NghiepVu\KhenCao\dshosodenghikhencao;
 use App\Model\NghiepVu\KhenCao\dshosokhencao;
 use App\Model\NghiepVu\KhenCao\dshosokhencao_canhan;
+use App\Model\NghiepVu\KhenCao\dshosokhencao_hogiadinh;
+use App\Model\NghiepVu\KhenCao\dshosokhencao_tailieu;
 use App\Model\NghiepVu\KhenCao\dshosokhencao_tapthe;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua;
 use App\Model\View\viewdiabandonvi;
@@ -110,6 +112,8 @@ class dshosokhencaochinhphuController extends Controller
         $inputs['url_xd'] = static::$url;
         $inputs['url_qd'] = static::$url;
         $inputs['mahinhthuckt'] = session('chucnang')['dshosokhencaochinhphu']['mahinhthuckt'] ?? 'ALL';
+        $inputs['phanloaihoso'] = 'dshosokhencao';
+
         $model = dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
         $model->tendonvi = $donvi->tendonvi;
@@ -118,6 +122,8 @@ class dshosokhencaochinhphuController extends Controller
         $model->tendonvi = $donvi->tendonvi;
         $model_canhan =  dshosokhencao_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
         $model_tapthe = dshosokhencao_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+        $model_hogiadinh = dshosokhencao_hogiadinh::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+        $model_tailieu = dshosokhencao_tailieu::where('mahosotdkt', $inputs['mahosotdkt'])->get();
         $m_phongtrao = dsphongtraothidua::where('phamviapdung', 'TW')->get();
         $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE', 'HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
@@ -126,6 +132,8 @@ class dshosokhencaochinhphuController extends Controller
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
+            ->with('model_hogiadinh', $model_hogiadinh)
+            ->with('model_tailieu', $model_tailieu)
             ->with('a_dhkt_canhan', $a_dhkt_canhan)
             ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
             ->with('a_tapthe', $a_tapthe)

@@ -56,6 +56,8 @@ class dsphongtraothiduacumkhoiController extends Controller
         $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
         $inputs['phamviapdung'] = $inputs['phamviapdung'] ?? 'ALL';
         $inputs['macumkhoi'] = $inputs['macumkhoi'] ?? $m_cumkhoi->first()->macumkhoi;
+        $inputs['phanloaihoso'] = 'dshosotdktcumkhoi';
+
         $model = dsphongtraothiduacumkhoi::where('madonvi', $inputs['madonvi']);
         if ($inputs['nam'] != 'ALL')
             $model = $model->whereYear('ngayqd', $inputs['nam']);
@@ -85,6 +87,8 @@ class dsphongtraothiduacumkhoiController extends Controller
         $inputs['maphongtraotd'] = $inputs['maphongtraotd'] ?? null;
         $model = dsphongtraothiduacumkhoi::where('maphongtraotd', $inputs['maphongtraotd'])->first();
         $inputs['madonvi'] = $inputs['madonvi'] ?? $model->madonvi;
+        $inputs['phanloaihoso'] = 'dshosotdktcumkhoi';
+        
         $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
 
         if ($model == null) {

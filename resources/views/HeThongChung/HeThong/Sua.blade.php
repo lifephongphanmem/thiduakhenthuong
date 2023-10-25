@@ -108,13 +108,16 @@
                 <div class="col-11 col-form-label">
                     <div class="checkbox-inline">
                         <label class="checkbox checkbox-outline checkbox-success">
-                            <input type="checkbox" name="hskhenthuong_totrinh" />
+                            <input type="checkbox" name="hskhenthuong_totrinh"
+                                {{ $model->hskhenthuong_totrinh == 1 ? 'checked' : '' }} />
                             <span></span>Dự thảo tờ trình đề nghị khen thưởng</label>
                         <label class="checkbox checkbox-outline checkbox-success">
-                            <input type="checkbox" name="opt_duthaototrinh" />
+                            <input type="checkbox" name="opt_duthaototrinh"
+                                {{ $model->opt_duthaototrinh == 1 ? 'checked' : '' }} />
                             <span></span>Dự thảo tờ trình kết quả khen thưởng</label>
                         <label class="checkbox checkbox-outline checkbox-success">
-                            <input type="checkbox" name="opt_duthaoquyetdinh" />
+                            <input type="checkbox" name="opt_duthaoquyetdinh"
+                                {{ $model->opt_duthaoquyetdinh == 1 ? 'checked' : '' }} />
                             <span></span>Dự thảo quyết định khen thưởng</label>
                     </div>
                 </div>

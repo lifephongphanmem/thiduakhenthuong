@@ -94,7 +94,8 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $inputs['nam'] = $inputs['nam'] ?? date('Y');
         $inputs['maloaihinhkt'] = $inputs['maloaihinhkt'] ?? 'ALL';
-
+        $inputs['phanloaihoso'] = 'dshosotdktcumkhoi';
+        
         $model = dshosotdktcumkhoi::where('macumkhoi', $inputs['macumkhoi'])
             ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH']);
         //->where('madonvi', $inputs['madonvi']);

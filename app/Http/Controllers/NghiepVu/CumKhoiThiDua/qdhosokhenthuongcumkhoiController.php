@@ -93,7 +93,8 @@ class qdhosokhenthuongcumkhoiController extends Controller
         $inputs['url_xd'] = '/CumKhoiThiDua/KTCumKhoi/XetDuyet/';
         $inputs['url_qd'] = '/CumKhoiThiDua/KTCumKhoi/KhenThuong/';
         $inputs['phanloaikhenthuong'] = 'CUMKHOI';
-
+        $inputs['phanloaihoso'] = 'dshosotdktcumkhoi';
+        
         $m_donvi = getDonVi(session('admin')->capdo, 'qdhosokhenthuongcumkhoi');
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;

@@ -110,6 +110,8 @@ class dshosokhencaonhanuocController extends Controller
         $inputs['url_qd'] = static::$url;
         $inputs['url'] = static::$url;
         $inputs['mahinhthuckt'] = session('chucnang')['dshosokhencaonhanuoc']['mahinhthuckt'] ?? 'ALL';
+        $inputs['phanloaihoso'] = 'dshosokhencao';
+        
         $model = dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
         $model->tendonvi = $donvi->tendonvi;

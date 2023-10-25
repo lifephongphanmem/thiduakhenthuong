@@ -278,7 +278,7 @@ class hethongchungController extends Controller
         $a_duthao_denghi = array_column($m_duthao->where('phanloai','TOTRINHHOSO')->toArray(),  'noidung',  'maduthao');
         $a_duthao_ketqua = array_column($m_duthao->where('phanloai','TOTRINHPHEDUYET')->toArray(),  'noidung',  'maduthao');
         $a_duthao_qdkt = array_column($m_duthao->where('phanloai','QUYETDINH')->toArray(),  'noidung',  'maduthao');
-
+        //dd($model);
         return view('HeThongChung.HeThong.Sua')
             ->with('model', $model)
             ->with('a_duthao_denghi', $a_duthao_denghi)

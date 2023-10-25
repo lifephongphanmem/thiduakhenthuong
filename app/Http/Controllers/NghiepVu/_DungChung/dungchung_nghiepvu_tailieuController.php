@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_tailieu;
+use App\Model\NghiepVu\KhenCao\dshosodenghikhencao;
+use App\Model\NghiepVu\KhenCao\dshosodenghikhencao_tailieu;
 use App\Model\NghiepVu\KhenCao\dshosokhencao_tailieu;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tailieu;
 use Illuminate\Support\Facades\File;
@@ -63,6 +65,20 @@ class dungchung_nghiepvu_tailieuController extends Controller
                         $model->update($inputs);
                     }
                     $danhsach = dshosotdktcumkhoi_tailieu::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+                    break;
+                }
+            case 'dshosodenghikhencao': {
+                    $model = dshosodenghikhencao::where('id', $inputs['id'])->first();
+                    unset($inputs['id']);
+                    if ($model == null) {
+                        dshosodenghikhencao_tailieu::create($inputs);
+                    } else {
+                        if (file_exists('/data/tailieudinhkem/' . $model->tentailieu)) {
+                            File::Delete('/data/tailieudinhkem/' . $model->tentailieu);
+                        }
+                        $model->update($inputs);
+                    }
+                    $danhsach = dshosodenghikhencao_tailieu::where('mahosotdkt', $inputs['mahosotdkt'])->get();
                     break;
                 }
         }
@@ -127,6 +143,20 @@ class dungchung_nghiepvu_tailieuController extends Controller
                     }
                     break;
                 }
+
+            case 'dshosodenghikhencao': {
+                    $model = dshosodenghikhencao_tailieu::where('mahosotdkt', $inputs['mahosotdkt'])->where('phanloai', $inputs['phanloai'])->first();
+                    unset($inputs['id']);
+                    if ($model == null) {
+                        dshosodenghikhencao_tailieu::create($inputs);
+                    } else {
+                        if (file_exists('/data/tailieudinhkem/' . $model->tentailieu)) {
+                            File::Delete('/data/tailieudinhkem/' . $model->tentailieu);
+                        }
+                        $model->update($inputs);
+                    }
+                    break;
+                }
         }
         return  array(
             'status' => 'success',
@@ -148,6 +178,10 @@ class dungchung_nghiepvu_tailieuController extends Controller
                 }
             case 'dshosotdktcumkhoi': {
                     $model = dshosotdktcumkhoi_tailieu::where('id', $inputs['id'])->first();
+                    break;
+                }
+            case 'dshosodenghikhencao': {
+                    $model = dshosodenghikhencao_tailieu::where('id', $inputs['id'])->first();
                     break;
                 }
         }
@@ -176,6 +210,13 @@ class dungchung_nghiepvu_tailieuController extends Controller
                     $model = dshosotdktcumkhoi_tailieu::where('id', $inputs['id'])->first();
                     $model->delete();
                     $danhsach = dshosotdktcumkhoi_tailieu::where('mahosotdkt', $model->mahosotdkt)->get();
+                    break;
+                }
+
+            case 'dshosodenghikhencao': {
+                    $model = dshosodenghikhencao_tailieu::where('id', $inputs['id'])->first();
+                    $model->delete();
+                    $danhsach = dshosodenghikhencao_tailieu::where('mahosotdkt', $model->mahosotdkt)->get();
                     break;
                 }
         }
@@ -350,6 +391,56 @@ class dungchung_nghiepvu_tailieuController extends Controller
             //     $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/tailieudinhkem/' . $tailieu->tentailieu) . '">' . $tailieu->tentailieu . '</a ></div>';
             //     $result['message'] .= '</div>';
             // }
+        }
+        $result['message'] .= '</div>';
+        $result['status'] = 'success';
+
+        die(json_encode($result));
+    }
+
+    public function DinhKemHoSoDeNghiCumKhoi(Request $request)
+    {
+        $result = array(
+            'status' => 'fail',
+            'message' => 'error',
+        );
+
+        $inputs = $request->all();
+        $result['message'] = '<div class="modal-body" id = "dinh_kem" >';
+        $model = dshosodenghikhencao_tailieu::where('mahosotdkt', $inputs['mahs'])->get();
+        if ($model->count() > 0) {
+            $a_pltailieu = getPhanLoaiTaiLieuDK();
+            $a_donvi = array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi');
+            $result['message'] .= '<div class="col-md-12">';
+            $result['message'] .= '<table class="table table-bordered table-hover dulieubang">';
+            $result['message'] .= '<thead>';
+            $result['message'] .= '<tr class="text-center">';
+            $result['message'] .= '<th width="2%">STT</th>';
+            $result['message'] .= '<th width="20%">Đơn vị tải lên</th>';
+            $result['message'] .= '<th width="20%">Phân loại tài liệu</th>';
+            $result['message'] .= '<th>Nội dung tóm tắt</th>';
+            $result['message'] .= '<th width="15%">Thao tác</th>';
+            $result['message'] .= '</tr>';
+            $result['message'] .= '</thead>';
+            $result['message'] .= '<tbody>';
+            $i = 1;
+            foreach ($model as $tt) {
+                $result['message'] .= '<tr class="odd gradeX">';
+                $result['message'] .= '<td class="text-center">' . $i++ . '</td>';
+                $result['message'] .= '<td>' . ($a_donvi[$tt->madonvi] ?? $tt->madonvi) . '</td>';
+                $result['message'] .= '<td>' . ($a_pltailieu[$tt->phanloai] ?? '') . '</td>';
+                $result['message'] .= '<td>' . $tt->noidung . '</td>';
+                $result['message'] .= '<td class="text-center">';
+
+                if ($tt->tentailieu != '')
+                    $result['message'] .= '<a target="_blank" title="Tải file đính kèm"
+                            href="/data/tailieudinhkem/' . $tt->tentailieu . '" class="btn btn-clean btn-icon btn-sm"><i class="fa flaticon-download text-info"></i></a>';
+                $result['message'] .= '</td>';
+                $result['message'] .= '</tr>';
+            }
+            $result['message'] .= '</tbody>';
+            $result['message'] .= '</table>';
+            $result['message'] .= '</div>';
         }
         $result['message'] .= '</div>';
         $result['status'] = 'success';
