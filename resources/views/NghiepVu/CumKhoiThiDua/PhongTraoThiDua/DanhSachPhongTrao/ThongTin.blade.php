@@ -34,8 +34,12 @@
             <div class="card-toolbar">
                 <!--begin::Button-->
                 @if (chkPhanQuyen('dsphongtraothiduacumkhoi', 'thaydoi'))
-                    <a href="{{ url($inputs['url'] . 'Them?madonvi=' . $inputs['madonvi'] . '&macumkhoi='.$inputs['macumkhoi']) }}" class="btn btn-success btn-xs">
+                    <a href="{{ url($inputs['url'] . 'Them?madonvi=' . $inputs['madonvi'] ) }}"
+                        class="btn btn-success btn-xs">
                         <i class="fa fa-plus"></i> Thêm mới</a>
+                    {{-- <a href="{{ url($inputs['url'] . 'Them?madonvi=' . $inputs['madonvi'] . '&macumkhoi=' . $inputs['macumkhoi']) }}"
+                        class="btn btn-success btn-xs">
+                        <i class="fa fa-plus"></i> Thêm mới</a> --}}
                 @endif
                 <!--end::Button-->
             </div>
@@ -69,7 +73,7 @@
                 </div>
             </div>
 
-            <div class="form-group row">
+            {{-- <div class="form-group row">
                 <div class="col-12">
                     <label style="font-weight: bold">Cụm, khối thi đua</label>
                     <select class="form-control select2basic" id="macumkhoi">
@@ -80,6 +84,7 @@
                     </select>
                 </div>
             </div>
+             --}}
             <div class="form-group row">
                 {{-- <div class="col-md-4">
                     <label style="font-weight: bold">Phạm vi phát động</label>

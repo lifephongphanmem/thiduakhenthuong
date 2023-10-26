@@ -60,7 +60,8 @@
                         <thead>
                             <tr class="text-center">
                                 <th width="5%">STT</th>
-                                <th>Tên cụm, khối thi đua</th>                                
+                                <th>Tên cụm, khối thi đua</th>
+                                <th width="15%">Cấp độ</th>
                                 <th width="8%">Số</br>hồ sơ</th>
                                 <th width="30%">Đơn vị quản lý cụm, khối</th>
                                 <th width="10%">Thao tác</th>
@@ -69,7 +70,8 @@
                         @foreach ($model as $key => $tt)
                             <tr>
                                 <td style="text-align: center">{{ $key + 1 }}</td>
-                                <td class="active">{{ $tt->tencumkhoi }}</td>                               
+                                <td class="active">{{ $tt->tencumkhoi }}</td>
+                                <td>{{ $a_capdo[$tt->capdo] ?? '' }}</td>
                                 <td class=" text-center">{{ $tt->sohoso }}</td>
                                 <td>{{ $a_donvi[$tt->madonviql] ?? '' }}</td>
                                 <td class=" text-center">

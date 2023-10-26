@@ -317,6 +317,34 @@ function getCumKhoiLocDuLieu($tendangnhap)
 }
 
 //Hàm lấy danh sách đơn vị xét duyệt trên địa bàn cùng cấp và cấp trên
+function getDonViXetDuyetDiaBan_Tam($donvi, $kieudulieu = 'ARRAY')
+{
+    //Lấy đơn vị quản lý địa bàn và đơn vi
+    $m_diaban = \App\Model\DanhMuc\dsdiaban::where('madiaban', $donvi->madiaban)->first();
+    $a_donvi = [$m_diaban->madonviKT, $donvi->madonvi,$m_diaban->madonviQL]; 
+    //$a_donvi = [$m_diaban->madonviKT];
+    $m_diabanQL = \App\Model\DanhMuc\dsdiaban::where('madiaban', $m_diaban->madiabanQL)->first();
+
+    if ($m_diabanQL != null)
+        $a_donvi = array_merge($a_donvi, [$m_diabanQL->madonviKT]);
+
+    //2023.05.25 thêm điều kiện đơn vị không gửi đc cho chính mính (kể cả đơn vị quản lý ở cấp H)
+    if ($donvi->capdo != 'T') {
+        $a_donvi = array_diff($a_donvi, [$donvi->madonvi]);
+    }
+
+    $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', $a_donvi)->get();
+
+    switch ($kieudulieu) {
+        case 'MODEL': {
+                return $model;
+                break;
+            }
+        default:
+            return array_column($model->toarray(), 'tendonvi', 'madonvi');
+    }
+}
+
 function getDonViXetDuyetDiaBan($donvi, $kieudulieu = 'ARRAY')
 {
     //Lấy đơn vị quản lý địa bàn và đơn vi
