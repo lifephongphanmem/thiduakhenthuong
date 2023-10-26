@@ -217,18 +217,6 @@
                                     </li>
                                 @endif
 
-                                @if (chkPhanQuyen('dsvanphonghotro', 'phanquyen'))
-                                    <li class="menu-item" aria-haspopup="true">
-                                        <a href="{{ url('/VanPhongHoTro/ThongTin') }}" class="menu-link">
-                                            <i class="menu-bullet menu-bullet-dot">
-                                                <span></span>
-                                            </i>
-                                            <span
-                                                class="menu-text font-weight-bold">{{ chkGiaoDien('dsvanphonghotro', 'tenchucnang') }}</span>
-                                        </a>
-                                    </li>
-                                @endif
-
                                 @if (chkPhanQuyen('hethongchung_chucnang', 'phanquyen'))
                                     <li class="menu-item" aria-haspopup="true">
                                         <a href="{{ url('/ChucNang/ThongTin') }}" class="menu-link">
@@ -241,7 +229,17 @@
                                     </li>
                                 @endif
 
-
+                                @if (chkPhanQuyen('dsvanphonghotro', 'phanquyen'))
+                                    <li class="menu-item" aria-haspopup="true">
+                                        <a href="{{ url('/VanPhongHoTro/ThongTin') }}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span
+                                                class="menu-text font-weight-bold">{{ chkGiaoDien('dsvanphonghotro', 'tenchucnang') }}</span>
+                                        </a>
+                                    </li>
+                                @endif
                             </ul>
                         </div>
                     </li>

@@ -127,10 +127,10 @@
                                                                 <td class="text-center">
                                                                     {{ $tt->sototrinh }}<br>{{ getDayVn($tt->ngayhoso) }}
                                                                 </td>
-                                                                <td style="text-align: center"></td>
+                                                                @include('includes.td.td_trangthai_hosotonghop')
                                                                 <td>{{ $a_donvi[$tt->madonvi_nhan] ?? '' }}</td>
                                                                 <td class="text-center">
-                                                                    <input type="checkbox" name="{{ 'hoso[' . $tt->mahosotdkt . ']' }}" checked />
+                                                                    <input type="checkbox" name="{{ 'hoso[' . $tt->mahosotdkt . ']' }}" />
                                                                 </td>
                                                             </tr>
                                                         @endforeach

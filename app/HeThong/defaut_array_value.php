@@ -1316,6 +1316,7 @@ function getTrangThaiChucNangHoSo($trangthai = 'ALL')
     $a_kq = [
         'CC' => 'Chờ chuyển', //=>Nộp hồ sơ bình thưởng
         'CD' => 'Chờ duyệt', //
+        'DTN' => 'Đã tiếp nhận', //
         'DD' => 'Chờ chuyển khen thưởng', //
         'CXKT' => 'Chờ xét khen thưởng', //Đã gán madonvi_xd,madonvi_kt,
         'DKT' => 'Đã khen thưởng', //Đã gán madonvi_xd,madonvi_kt,
@@ -1343,6 +1344,11 @@ function getTrangThai_TD_HoSo($trangthai)
 
         'CD' => [
             'trangthai' => 'Chờ duyệt',
+            'class' => 'badge badge-info'
+        ],
+        
+        'DTN' => [
+            'trangthai' => 'Đã tiếp<br>nhận',
             'class' => 'badge badge-info'
         ],
         'CXD' => [

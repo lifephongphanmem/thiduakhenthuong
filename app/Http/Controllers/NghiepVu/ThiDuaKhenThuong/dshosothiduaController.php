@@ -335,7 +335,7 @@ class dshosothiduaController extends Controller
         $model = dshosothamgiaphongtraotd::where('mahosothamgiapt', $inputs['mahoso'])->first();
         $m_donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi_nhan'])->first();
        
-        $inputs['trangthai'] = session('chucnang')['dshosothidua']['trangthai'] ?? 'CC';
+        $inputs['trangthai'] = getTrangThaiChuyenHS(session('chucnang')['dshosothidua']['trangthai'] ?? 'CC'); 
         //Thiết lập lại do chỉ có 2 bước trong quy trình
         $inputs['trangthai'] = $inputs['trangthai'] != 'CC' ? 'DD' : $inputs['trangthai'];
         // dd($inputs['trangthai']);

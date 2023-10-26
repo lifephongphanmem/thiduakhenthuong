@@ -32,7 +32,7 @@
     <div class="card card-custom wave wave-animate-slow wave-primary" style="min-height: 600px">
         <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Danh sách tài khoản</h3>
+                <h3 class="card-label text-uppercase">Danh sách {{ chkGiaoDien('dsnhomtaikhoan', 'tenchucnang') }}</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->

@@ -46,6 +46,20 @@
                                         </a>
                                     </li>
                                 @endif
+
+                                @if (chkPhanQuyen('tnhosodenghikhenthuongcongtrang', 'phanquyen'))
+                                    <li class="menu-item" aria-haspopup="true">
+                                        <a href="{{ url('/KhenThuongCongTrang/TiepNhan/ThongTin') }}"
+                                            class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span
+                                                class="menu-text font-weight-bold">{{ chkGiaoDien('tnhosodenghikhenthuongcongtrang', 'tenchucnang') }}</span>
+                                        </a>
+                                    </li>
+                                @endif
+
                                 @if (chkPhanQuyen('xdhosodenghikhenthuongcongtrang', 'phanquyen'))
                                     <li class="menu-item" aria-haspopup="true">
                                         <a href="{{ url('/KhenThuongCongTrang/XetDuyet/ThongTin') }}" class="menu-link">
@@ -109,6 +123,20 @@
                                         </a>
                                     </li>
                                 @endif
+
+                                @if (chkPhanQuyen('tnhosodenghikhenthuongchuyende', 'phanquyen'))
+                                    <li class="menu-item" aria-haspopup="true">
+                                        <a href="{{ url('/KhenThuongChuyenDe/TiepNhan/ThongTin') }}"
+                                            class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span
+                                                class="menu-text font-weight-bold">{{ chkGiaoDien('tnhosodenghikhenthuongchuyende', 'tenchucnang') }}</span>
+                                        </a>
+                                    </li>
+                                @endif
+
                                 @if (chkPhanQuyen('xdhosodenghikhenthuongchuyende', 'phanquyen'))
                                     <li class="menu-item" aria-haspopup="true">
                                         <a href="{{ url('/KhenThuongChuyenDe/XetDuyet/ThongTin') }}" class="menu-link">
@@ -172,9 +200,23 @@
                                         </a>
                                     </li>
                                 @endif
+                                @if (chkPhanQuyen('tnhosodenghikhenthuongdotxuat', 'phanquyen'))
+                                    <li class="menu-item" aria-haspopup="true">
+                                        <a href="{{ url('/KhenThuongDotXuat/TiepNhan/ThongTin') }}"
+                                            class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span
+                                                class="menu-text font-weight-bold">{{ chkGiaoDien('tnhosodenghikhenthuongdotxuat', 'tenchucnang') }}</span>
+                                        </a>
+                                    </li>
+                                @endif
+
                                 @if (chkPhanQuyen('xdhosodenghikhenthuongdotxuat', 'phanquyen'))
                                     <li class="menu-item" aria-haspopup="true">
-                                        <a href="{{ url('/KhenThuongDotXuat/XetDuyet/ThongTin') }}" class="menu-link">
+                                        <a href="{{ url('/KhenThuongDotXuat/XetDuyet/ThongTin') }}"
+                                            class="menu-link">
                                             <i class="menu-bullet menu-bullet-dot">
                                                 <span></span>
                                             </i>
@@ -235,6 +277,20 @@
                                         </a>
                                     </li>
                                 @endif
+
+                                @if (chkPhanQuyen('tnhosodenghikhenthuongconghien', 'phanquyen'))
+                                    <li class="menu-item" aria-haspopup="true">
+                                        <a href="{{ url('/KhenThuongCongHien/TiepNhan/ThongTin') }}"
+                                            class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span
+                                                class="menu-text font-weight-bold">{{ chkGiaoDien('tnhosodenghikhenthuongconghien', 'tenchucnang') }}</span>
+                                        </a>
+                                    </li>
+                                @endif
+
                                 @if (chkPhanQuyen('xdhosodenghikhenthuongconghien', 'phanquyen'))
                                     <li class="menu-item" aria-haspopup="true">
                                         <a href="{{ url('/KhenThuongCongHien/XetDuyet/ThongTin') }}"
@@ -285,6 +341,18 @@
                                             </i>
                                             <span
                                                 class="menu-text font-weight-bold">{{ chkGiaoDien('dshosokhenthuongnienhan', 'tenchucnang') }}</span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (chkPhanQuyen('tnhosokhenthuongnienhan', 'phanquyen'))
+                                    <li class="menu-item" aria-haspopup="true">
+                                        <a href="{{ url('/KhenThuongNienHan/TiepNhan/ThongTin') }}"
+                                            class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span
+                                                class="menu-text font-weight-bold">{{ chkGiaoDien('tnhosokhenthuongnienhan', 'tenchucnang') }}</span>
                                         </a>
                                     </li>
                                 @endif
@@ -349,6 +417,17 @@
                                             </i>
                                             <span
                                                 class="menu-text font-weight-bold">{{ chkGiaoDien('dshosodenghikhenthuongdoingoai', 'tenchucnang') }}</span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (chkPhanQuyen('tnhosodenghikhenthuongdoingoai', 'phanquyen'))
+                                    <li class="menu-item" aria-haspopup="true">
+                                        <a href="{{ url('/KhenThuongDoiNgoai/TiepNhan/ThongTin') }}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span
+                                                class="menu-text font-weight-bold">{{ chkGiaoDien('tnhosodenghikhenthuongdoingoai', 'tenchucnang') }}</span>
                                         </a>
                                     </li>
                                 @endif
