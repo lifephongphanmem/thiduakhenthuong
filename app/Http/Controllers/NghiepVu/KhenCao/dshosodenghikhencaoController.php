@@ -86,12 +86,15 @@ class dshosodenghikhencaoController extends Controller
         } else {
             $m_loaihinh = dmloaihinhkhenthuong::where('maloaihinhkt', $inputs['maloaihinhkt'])->get();
         }
-
+        $model_hoso = dshosodenghikhencao::where(function ($qr) use ($inputs) {
+            $qr->where('madonvi_xd', $inputs['madonvi'])->orwhere('madonvi_kt', $inputs['madonvi']);
+        })->get();
         
         return view('NghiepVu.KhenCao.HoSoDeNghi.ThongTin')
             ->with('model', $model)
             ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
             ->with('a_capdo', getPhamViApDung())
+            ->with('model_hoso', $model_hoso)
             ->with('m_donvi', $m_donvi)
             ->with('a_diaban', $a_diaban)
             ->with('a_donviql', getDonViXetDuyetDiaBan($donvi))
