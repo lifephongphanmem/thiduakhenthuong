@@ -261,7 +261,7 @@
                                                         </button>
                                                         @if (session('admin')->capdo == 'SSA' && $sudung_c4 == '1')
                                                             <button title="Xóa thông tin" type="button"
-                                                                onclick="confirmDelete('{{ $c4->id }}','TaiKhoan/Xoa')"
+                                                                onclick="confirmDelete('{{ $c4->id }}','/ChucNang/Xoa')"
                                                                 class="btn btn-sm btn-clean btn-icon"
                                                                 data-target="#delete-modal-confirm" data-toggle="modal">
                                                                 <i class="icon-lg la fa-trash-alt text-danger"></i>

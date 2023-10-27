@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\TraCuu;
+namespace App\Http\Controllers\API;
 
 
 use Carbon\Carbon;
@@ -18,48 +18,29 @@ use App\Model\View\viewdiabandonvi;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
 
-class tracuucanhanController extends Controller
+class APIthongtinchungController extends Controller
 {
-    public static $url = '/TraCuu/CaNhan/';
+    public static $url = '/HeThongAPI/XuatDuLieu/';
     public function __construct()
     {
-        $this->middleware(function ($request, $next) {
-            if (!Session::has('admin')) {
-                return redirect('/');
-            };
-            return $next($request);
-        });
+        // $this->middleware(function ($request, $next) {
+        //     if (!Session::has('admin')) {
+        //         return redirect('/');
+        //     };
+        //     return $next($request);
+        // });
     }
 
-    public function ThongTin(Request $request)
-    {
-        if (!chkPhanQuyen('timkiemcanhan', 'danhsach')) {
-            return view('errors.noperm')
-                ->with('machucnang', 'timkiemcanhan')
-                ->with('tenphanquyen', 'danhsach');
-        }
-        //B1: xác định đơn vị
-        // Nhập liệu => chỉ load địa bàn theo đơn
-        //Xét duyêt; Khen thương => load địa bàn và địa bàn trực thuộc
-        //B2:
-        $inputs = $request->all();
-        $inputs['url'] = static::$url;
-        $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
+    public function CaNhan(Request $request)
+    {        
+        $inputs = $request->all();        
+        $inputs['url'] = static::$url.'/CaNhan';       
         $m_donvi = getDonVi(session('admin')->capdo);
-        $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
-        $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
-        $m_diaban = getDiaBanTraCuu($donvi);
-        $inputs['madiaban'] = $inputs['madiaban'] ?? 'ALL';
-        // dd($m_diaban);
-        $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
-        //lấy danh sách đơn vị theo địa bàn
+        $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;       
 
-        return view('TraCuu.CaNhan.ThongTin')
-            ->with('inputs', $inputs)
-            ->with('a_canhan', $a_canhan)
+        return view('API.ThongTin')
+            ->with('inputs', $inputs)            
             ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))
-            ->with('a_diaban', array_column($m_diaban->toArray(), 'tendiaban', 'madiaban'))
-            ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('pageTitle', 'Tìm kiếm thông tin theo cá nhân');
     }
 
@@ -67,7 +48,7 @@ class tracuucanhanController extends Controller
     {
         $inputs = $request->all();
         //Chưa tính trường hợp đơn vị
-       
+        //dd($inputs);
         //Nếu đơn vị quản lý địa bàn => xem đc tất cả
         //Nếu đơn vị nhập liệu => chỉ xem hồ sơ đơn vị gửi
         $model_khenthuong = view_tdkt_canhan::where('trangthai', 'DKT');

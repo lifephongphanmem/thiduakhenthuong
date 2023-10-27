@@ -257,31 +257,144 @@
                         <div class="menu-submenu">
                             <i class="menu-arrow"></i>
                             <ul class="menu-subnav">
-                                @if (chkPhanQuyen('apicanhan', 'phanquyen'))
-                                    <li class="menu-item" aria-haspopup="true">
-                                        <a href="/API/CaNhan" class="menu-link">
+                                @if (chkPhanQuyen('apithongtinchung', 'phanquyen'))
+                                    <li class="menu-item menu-item-submenu" aria-haspopup="true"
+                                        data-menu-toggle="hover">
+                                        <a href="javascript:;" class="menu-link menu-toggle">
                                             <i class="menu-bullet menu-bullet-dot">
                                                 <span></span>
                                             </i>
                                             <span
-                                                class="menu-text">{{ chkGiaoDien('apicanhan', 'tenchucnang') }}</span>
+                                                class="menu-text font-weight-bold">{{ chkGiaoDien('apithongtinchung', 'tenchucnang') }}</span>
+                                            <i class="menu-arrow"></i>
                                         </a>
+                                        <div class="menu-submenu">
+                                            <i class="menu-arrow"></i>
+                                            <ul class="menu-subnav">
+                                                {{-- @if (chkPhanQuyen('apicanhan', 'phanquyen'))
+                                                <li class="menu-item" aria-haspopup="true">
+                                                    <a href="/HeThongAPI/CaNhan" class="menu-link">
+                                                        <i class="menu-bullet menu-bullet-dot">
+                                                            <span></span>
+                                                        </i>
+                                                        <span
+                                                            class="menu-text">{{ chkGiaoDien('apicanhan', 'tenchucnang') }}</span>
+                                                    </a>
+                                                </li>
+                                            @endif                                             --}}
+                                            </ul>
+                                        </div>
                                     </li>
                                 @endif
-                                @if (chkPhanQuyen('apitapthe', 'phanquyen'))
-                                    <li class="menu-item" aria-haspopup="true">
-                                        <a href="/API/TapThe" class="menu-link">
+
+                                @if (chkPhanQuyen('apixuatdulieu', 'phanquyen'))
+                                    <li class="menu-item menu-item-submenu" aria-haspopup="true"
+                                        data-menu-toggle="hover">
+                                        <a href="javascript:;" class="menu-link menu-toggle">
                                             <i class="menu-bullet menu-bullet-dot">
                                                 <span></span>
                                             </i>
                                             <span
-                                                class="menu-text">{{ chkGiaoDien('apitapthe', 'tenchucnang') }}</span>
+                                                class="menu-text font-weight-bold">{{ chkGiaoDien('apixuatdulieu', 'tenchucnang') }}</span>
+                                            <i class="menu-arrow"></i>
                                         </a>
+                                        <div class="menu-submenu">
+                                            <i class="menu-arrow"></i>
+                                            <ul class="menu-subnav">
+                                                @if (chkPhanQuyen('apixuatcanhan', 'phanquyen'))
+                                                    <li class="menu-item" aria-haspopup="true">
+                                                        <a href="/HeThongAPI/XuatDuLieu/CaNhan" class="menu-link">
+                                                            <i class="menu-bullet menu-bullet-dot">
+                                                                <span></span>
+                                                            </i>
+                                                            <span
+                                                                class="menu-text">{{ chkGiaoDien('apixuatcanhan', 'tenchucnang') }}</span>
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                                @if (chkPhanQuyen('apixuattapthe', 'phanquyen'))
+                                                    <li class="menu-item" aria-haspopup="true">
+                                                        <a href="/HeThongAPI/XuatDuLieu/TapThe" class="menu-link">
+                                                            <i class="menu-bullet menu-bullet-dot">
+                                                                <span></span>
+                                                            </i>
+                                                            <span
+                                                                class="menu-text">{{ chkGiaoDien('apixuattapthe', 'tenchucnang') }}</span>
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                                @if (chkPhanQuyen('apixuatphongtrao', 'phanquyen'))
+                                                    <li class="menu-item" aria-haspopup="true">
+                                                        <a href="/HeThongAPI/XuatDuLieu/PhongTrao" class="menu-link">
+                                                            <i class="menu-bullet menu-bullet-dot">
+                                                                <span></span>
+                                                            </i>
+                                                            <span
+                                                                class="menu-text">{{ chkGiaoDien('apixuatphongtrao', 'tenchucnang') }}</span>
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                            </ul>
+                                        </div>
                                     </li>
                                 @endif
+
+                                @if (chkPhanQuyen('apinhandulieu', 'phanquyen'))
+                                    <li class="menu-item menu-item-submenu" aria-haspopup="true"
+                                        data-menu-toggle="hover">
+                                        <a href="javascript:;" class="menu-link menu-toggle">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span
+                                                class="menu-text font-weight-bold">{{ chkGiaoDien('apinhandulieu', 'tenchucnang') }}</span>
+                                            <i class="menu-arrow"></i>
+                                        </a>
+                                        <div class="menu-submenu">
+                                            <i class="menu-arrow"></i>
+                                            <ul class="menu-subnav">
+                                                @if (chkPhanQuyen('apinhancanhan', 'phanquyen'))
+                                                    <li class="menu-item" aria-haspopup="true">
+                                                        <a href="/HeThongAPI/NhanDuLieu/CaNhan" class="menu-link">
+                                                            <i class="menu-bullet menu-bullet-dot">
+                                                                <span></span>
+                                                            </i>
+                                                            <span
+                                                                class="menu-text">{{ chkGiaoDien('apinhancanhan', 'tenchucnang') }}</span>
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                                @if (chkPhanQuyen('apinhantapthe', 'phanquyen'))
+                                                    <li class="menu-item" aria-haspopup="true">
+                                                        <a href="/HeThongAPI/NhanDuLieu/TapThe" class="menu-link">
+                                                            <i class="menu-bullet menu-bullet-dot">
+                                                                <span></span>
+                                                            </i>
+                                                            <span
+                                                                class="menu-text">{{ chkGiaoDien('apinhantapthe', 'tenchucnang') }}</span>
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                                @if (chkPhanQuyen('apinhanphongtrao', 'phanquyen'))
+                                                    <li class="menu-item" aria-haspopup="true">
+                                                        <a href="/HeThongAPI/NhanDuLieu/PhongTrao" class="menu-link">
+                                                            <i class="menu-bullet menu-bullet-dot">
+                                                                <span></span>
+                                                            </i>
+                                                            <span
+                                                                class="menu-text">{{ chkGiaoDien('apinhanphongtrao', 'tenchucnang') }}</span>
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                            </ul>
+                                        </div>
+                                    </li>
+                                @endif
+
+                               
                                 {{-- @if (chkPhanQuyen('hethongchung_chucnang', 'phanquyen'))
                                 <li class="menu-item" aria-haspopup="true">
-                                    <a href="/API/PhongTrao" class="menu-link">
+                                    <a href="/HeThongAPI/PhongTrao" class="menu-link">
                                         <i class="menu-bullet menu-bullet-dot">
                                             <span></span>
                                         </i>

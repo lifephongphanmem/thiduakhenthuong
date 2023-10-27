@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\API\APIthongtinchungController;
+use App\Http\Controllers\API\APIxuatdulieuController;
 use App\Http\Controllers\HeThong\dstaikhoanController;
 use App\Http\Controllers\HeThong\hethongchungController;
 use App\Http\Controllers\NghiepVu\_DungChung\dungchung_duthaokhenthuongController;
@@ -75,6 +77,21 @@ Route::group(['prefix' => 'DungChung'], function () {
         //Cụm khối
         Route::get('QuyetDinhCumKhoi', [dungchung_duthaokhenthuongController::class, 'QuyetDinhCumKhoi']);
     });
+});
+
+//Giao diện API
+Route::group(['prefix' => 'HeThongAPI'], function () {
+    Route::group(['prefix' => 'ThongTinChung'], function () {       
+        Route::get('ThongTin', [APIthongtinchungController::class, 'ThongTin']);
+        
+    });
+    
+    Route::group(['prefix' => 'XuatDuLieu'], function () {
+        Route::get('CaNhan', [APIxuatdulieuController::class, 'CaNhan']);
+        Route::get('TapThe', [APIxuatdulieuController::class, 'TapThe']);
+        Route::get('PhongTrao', [APIxuatdulieuController::class, 'PhongTrao']);        
+    });
+    
 });
 
 
