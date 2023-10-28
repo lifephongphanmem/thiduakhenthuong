@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\APIketnoiController;
 use App\Http\Controllers\API\APIthongtinchungController;
 use App\Http\Controllers\API\APIxuatdulieuController;
 use App\Http\Controllers\HeThong\dstaikhoanController;
@@ -81,11 +82,19 @@ Route::group(['prefix' => 'DungChung'], function () {
 
 //Giao diện API
 Route::group(['prefix' => 'HeThongAPI'], function () {
+    Route::group(['prefix' => 'KetNoi'], function () {       
+        Route::get('QuanLyVanBan', [APIketnoiController::class, 'QuanLyVanBan']);
+        Route::get('QuanLyCanBo', [APIketnoiController::class, 'QuanLyCanBo']);
+        Route::get('QuanLyLuuTru', [APIketnoiController::class, 'QuanLyLuuTru']);
+        Route::get('QuanLyTDKT', [APIketnoiController::class, 'QuanLyTDKT']);
+        
+    });
+    
     Route::group(['prefix' => 'ThongTinChung'], function () {       
         Route::get('ThongTin', [APIthongtinchungController::class, 'ThongTin']);
         
     });
-    
+
     Route::group(['prefix' => 'XuatDuLieu'], function () {
         Route::get('CaNhan', [APIxuatdulieuController::class, 'CaNhan']);
         Route::get('TapThe', [APIxuatdulieuController::class, 'TapThe']);
