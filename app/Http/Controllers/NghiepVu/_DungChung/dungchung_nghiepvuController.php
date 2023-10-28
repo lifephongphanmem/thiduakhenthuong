@@ -715,7 +715,7 @@ class dungchung_nghiepvuController extends Controller
         $m_toado = dmtoadoinphoi::where('phanloaikhenthuong', $inputs['phanloaikhenthuong'])
             ->where('phanloaidoituong', $inputs['phanloaidoituong'])
             ->where('phanloaiphoi', $inputs['phanloaiphoi'])
-            ->where('madonvi', $inputs['madonvi'])->first();
+            ->where('madonvi', $inputs['madonvi_laytoado'])->first();
 
         //Gán lại ảnh phôi 
         $m_donvi_laytoado = dsdonvi::where('madonvi', $inputs['madonvi_laytoado'])->first();

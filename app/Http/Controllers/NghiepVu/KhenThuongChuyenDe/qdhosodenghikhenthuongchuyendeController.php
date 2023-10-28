@@ -275,6 +275,7 @@ class qdhosodenghikhenthuongchuyendeController extends Controller
 
         $model->capkhenthuong =  $donvi_kt->capdo;
         $model->donvikhenthuong =  $donvi_kt->tendonvi;
+        $model->chucvunguoikyqd = 'Chủ tịch';
         $a_donvikt = array_unique(array_merge([$model->donvikhenthuong], getDonViKhenThuong()));
 
         return view('NghiepVu.KhenThuongChuyenDe.KhenThuong.PheDuyetKT')
