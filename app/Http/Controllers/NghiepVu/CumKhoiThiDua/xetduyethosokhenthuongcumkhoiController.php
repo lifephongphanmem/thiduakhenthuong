@@ -62,6 +62,7 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
             foreach ($a_trangthai as $trangthai) {
                 $chitiet->$trangthai = $hoso->where('trangthai', $trangthai)->count();
             }
+            $chitiet->tonghoso = $hoso->count();
         }
         //dd($model);
         $inputs['url_xd'] = static::$url;
@@ -69,7 +70,7 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
         $inputs['phanloaihoso'] = 'dshosotdktcumkhoi';
         
         return view('NghiepVu.CumKhoiThiDua.HoSoKT.DanhSach')
-            ->with('model', $model)
+            ->with('model', $model->where('tonghoso','>',0))
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
             ->with('a_trangthai_hoso', $a_trangthai)
@@ -133,7 +134,8 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
             ->with('m_diaban', $m_diaban)
             ->with('m_cumkhoi', $m_cumkhoi)
             ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
-            ->with('a_donviql', getDonViQuanLyCumKhoi($inputs['macumkhoi']))
+            ->with('a_donviql', getDonViXetDuyetCumKhoi($inputs['macumkhoi']))
+            // ->with('a_donviql', getDonViQuanLyCumKhoi($inputs['macumkhoi']))
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('pageTitle', 'Danh sách hồ sơ thi đua');
     }

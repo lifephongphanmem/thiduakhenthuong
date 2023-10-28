@@ -115,26 +115,26 @@ class dungchung_duthaokhenthuongController extends Controller
             case 'dshosothiduakhenthuong': {
                     $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
                     if ($model->thongtintotrinhdenghi == '') {
-                        getTaoDuThaoToTrinhHoSo($model, $inputs['maduthao']);
+                        getTaoDuThaoToTrinhPheDuyet($model, $inputs['maduthao']);
                     }
                     break;
                 }
             case 'dshosokhencao': {
                     $model = dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first();
                     if ($model->thongtintotrinhdenghi == '') {
-                        getTaoDuThaoToTrinhHoSo($model, $inputs['maduthao']);
+                        getTaoDuThaoToTrinhPheDuyet($model, $inputs['maduthao']);
                     }
                     break;
                 }
             case 'dshosotdktcumkhoi': {
                     $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
                     if ($model->thongtintotrinhdenghi == '') {
-                        getTaoDuThaoToTrinhHoSo($model, $inputs['maduthao']);
+                        getTaoDuThaoToTrinhPheDuyet($model, $inputs['maduthao']);
                     }
                     break;
                 }
         }
-
+        //dd($model);
         $model->thongtinquyetdinh = $model->thongtintotrinhdenghi;
         $model->thongtinquyetdinh = str_replace('<p>[sangtrangmoi]</p>', '<div class=&#34;sangtrangmoi&#34;></div>', $model->thongtinquyetdinh);
         return view('NghiepVu._DungChung.DuThao.InDuThao')

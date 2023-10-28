@@ -321,7 +321,7 @@ function getDonViXetDuyetDiaBan_Tam($donvi, $kieudulieu = 'ARRAY')
 {
     //Lấy đơn vị quản lý địa bàn và đơn vi
     $m_diaban = \App\Model\DanhMuc\dsdiaban::where('madiaban', $donvi->madiaban)->first();
-    $a_donvi = [$m_diaban->madonviKT, $donvi->madonvi,$m_diaban->madonviQL]; 
+    $a_donvi = [$m_diaban->madonviKT, $donvi->madonvi, $m_diaban->madonviQL];
     //$a_donvi = [$m_diaban->madonviKT];
     $m_diabanQL = \App\Model\DanhMuc\dsdiaban::where('madiaban', $m_diaban->madiabanQL)->first();
 
@@ -478,6 +478,8 @@ function getDonViPheDuyetCumKhoi($macumkhoi = null, $kieudulieu = 'ARRAY')
 function getDonViQuanLyCumKhoi($macumkhoi, $kieudulieu = 'ARRAY')
 {
     $m_donvi = \App\Model\View\view_dscumkhoi::where('macumkhoi', $macumkhoi)->wherein('phanloai', ['TRUONGKHOI'])->first();
+    $m_donvi = \App\Model\View\view_dscumkhoi::where('macumkhoi', $macumkhoi)->wherein('phanloai', ['TRUONGKHOI'])->first();
+    //dd(\App\Model\View\view_dscumkhoi::where('macumkhoi', $macumkhoi)->get());
     $m_diaban = \App\Model\DanhMuc\dsdiaban::where('madiaban', $m_donvi->madiaban)->first();
     // $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', [$m_diaban->madonviQL, $m_donvi->madonvi])->get();
     $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', [$m_diaban->madonviQL])->get();
@@ -1224,4 +1226,10 @@ function getTrangThaiChuyenHS($trangthai)
         default:
             return 'CD';
     }
+}
+
+function getDonViToaDoMacDinh($a_donvi)
+{
+    $m_donvi = App\Model\View\viewdiabandonvi::wherein('madonvi', $a_donvi)->get();
+    return array_column($m_donvi->toarray(), 'tendonvi', 'madonvi');
 }

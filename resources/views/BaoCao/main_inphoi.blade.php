@@ -625,7 +625,7 @@
 </div>
 {!! Form::close() !!}
 
-{{-- Tọa độ mặc định--}}
+{{-- Tọa độ mặc định --}}
 {!! Form::open([
     'url' => '/DungChung/TaiLaiToaDo',
     'id' => 'frm_MacDinh',
@@ -638,6 +638,7 @@
 <input type="hidden" name="phanloaidoituong" value="{{ $inputs['phanloaidoituong'] }}" />
 <input type="hidden" name="phanloaiphoi" value="{{ $inputs['phanloaiphoi'] }}" />
 <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
+
 <div class="modal fade bs-modal-lg" id="modal-macdinh" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -647,6 +648,12 @@
             <div class="modal-body">
                 <h4>Thông tin in phôi sẽ được khôi phục lại theo thiết lập mặc định. Bạn có chắc chắn muốn thay đổi.
                 </h4>
+                <div class="col-12">
+                    <label>Đơn vị lấy toạ độ</label>
+                    {!! Form::select('madonvi_laytoado', getDonViToaDoMacDinh([$inputs['madonvi'], session('admin')->madonvi_inphoi]), null, [
+                        'class' => 'form-control',
+                    ]) !!}
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-default">Thoát</button>
@@ -670,7 +677,7 @@
         var scrollLeft = document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body
             .scrollLeft;
         elementTop = rect.top + scrollTop;
-        elementLeft = rect.left + scrollLeft;        
+        elementLeft = rect.left + scrollLeft;
         $('#modal-thaydoi').modal("show");
         //var toado = byId(tentruong).getBoundingClientRect();
         var form = $('#frm_ThayDoi');

@@ -315,7 +315,7 @@ class dungchung_nghiepvuController extends Controller
         die(json_encode($result));
     }
 
-   
+
 
     public function DinhKemHoSoKhenCao(Request $request)
     {
@@ -712,11 +712,21 @@ class dungchung_nghiepvuController extends Controller
     public function TaiLaiToaDo(Request $request)
     {
         $inputs = $request->all();
-        //dd($inputs);
         $m_toado = dmtoadoinphoi::where('phanloaikhenthuong', $inputs['phanloaikhenthuong'])
             ->where('phanloaidoituong', $inputs['phanloaidoituong'])
             ->where('phanloaiphoi', $inputs['phanloaiphoi'])
             ->where('madonvi', $inputs['madonvi'])->first();
+
+        //Gán lại ảnh phôi 
+        $m_donvi_laytoado = dsdonvi::where('madonvi', $inputs['madonvi_laytoado'])->first();
+        $m_donvi = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
+        $m_donvi->phoi_bangkhen = $m_donvi_laytoado->phoi_bangkhen;
+        $m_donvi->dodai_bangkhen = $m_donvi_laytoado->dodai_bangkhen;
+        $m_donvi->chieurong_bangkhen = $m_donvi_laytoado->chieurong_bangkhen;
+        $m_donvi->phoi_giaykhen = $m_donvi_laytoado->phoi_giaykhen;
+        $m_donvi->dodai_giaykhen = $m_donvi_laytoado->dodai_giaykhen;
+        $m_donvi->chieurong_giaykhen = $m_donvi_laytoado->chieurong_giaykhen;
+        $m_donvi->save();
 
         $a_toado = [
             'toado_tendoituongin' => $m_toado->toado_tendoituongin ?? '',
