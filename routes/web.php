@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('', 'HeThong\hethongchungController@index');
 
 Route::get('DanhSachHoTro', [hethongchungController::class, 'DanhSachHoTro']);
+Route::get('NhatKyHeThong', [hethongchungController::class, 'NhatKyHeThong']);
 
 Route::get('DanhSachTaiKhoan', [hethongchungController::class, 'DanhSachTaiKhoan']);
 Route::get('DoiMatKhau', [dstaikhoanController::class, 'DoiMatKhau']);

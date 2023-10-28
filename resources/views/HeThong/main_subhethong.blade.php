@@ -392,64 +392,59 @@
                                 @endif
 
                                 <li class="menu-item menu-item-submenu" aria-haspopup="true"
-                                data-menu-toggle="hover">
-                                <a href="javascript:;" class="menu-link menu-toggle">
-                                    <i class="menu-bullet menu-bullet-dot">
-                                        <span></span>
-                                    </i>
-                                    <span
-                                        class="menu-text font-weight-bold">Quản lý kết nối</span>
-                                    <i class="menu-arrow"></i>
-                                </a>
-                                <div class="menu-submenu">
-                                    <i class="menu-arrow"></i>
-                                    <ul class="menu-subnav">
-                                        <li class="menu-item" aria-haspopup="true">
-                                            <a href="/HeThongAPI/KetNoi/QuanLyVanBan" class="menu-link">
-                                                <i class="menu-bullet menu-bullet-dot">
-                                                    <span></span>
-                                                </i>
-                                                <span
-                                                    class="menu-text">Quản lý văn bản điều hành</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <ul class="menu-subnav">
-                                        <li class="menu-item" aria-haspopup="true">
-                                            <a href="/HeThongAPI/KetNoi/QuanLyCanBo" class="menu-link">
-                                                <i class="menu-bullet menu-bullet-dot">
-                                                    <span></span>
-                                                </i>
-                                                <span
-                                                    class="menu-text">Quản lý cán bộ</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <ul class="menu-subnav">
-                                        <li class="menu-item" aria-haspopup="true">
-                                            <a href="/HeThongAPI/KetNoi/QuanLyLuuTru" class="menu-link">
-                                                <i class="menu-bullet menu-bullet-dot">
-                                                    <span></span>
-                                                </i>
-                                                <span
-                                                    class="menu-text">Quản lý tài liệu lưu trữ</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <ul class="menu-subnav">
-                                        <li class="menu-item" aria-haspopup="true">
-                                            <a href="/HeThongAPI/KetNoi/QuanLyTDKT" class="menu-link">
-                                                <i class="menu-bullet menu-bullet-dot">
-                                                    <span></span>
-                                                </i>
-                                                <span
-                                                    class="menu-text">Thi đua khen thưởng của Bộ Nội vụ</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                               
+                                    data-menu-toggle="hover">
+                                    <a href="javascript:;" class="menu-link menu-toggle">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text font-weight-bold">Quản lý kết nối</span>
+                                        <i class="menu-arrow"></i>
+                                    </a>
+                                    <div class="menu-submenu">
+                                        <i class="menu-arrow"></i>
+                                        <ul class="menu-subnav">
+                                            <li class="menu-item" aria-haspopup="true">
+                                                <a href="/HeThongAPI/KetNoi/QuanLyVanBan" class="menu-link">
+                                                    <i class="menu-bullet menu-bullet-dot">
+                                                        <span></span>
+                                                    </i>
+                                                    <span class="menu-text">Quản lý văn bản điều hành</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <ul class="menu-subnav">
+                                            <li class="menu-item" aria-haspopup="true">
+                                                <a href="/HeThongAPI/KetNoi/QuanLyCanBo" class="menu-link">
+                                                    <i class="menu-bullet menu-bullet-dot">
+                                                        <span></span>
+                                                    </i>
+                                                    <span class="menu-text">Quản lý cán bộ</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <ul class="menu-subnav">
+                                            <li class="menu-item" aria-haspopup="true">
+                                                <a href="/HeThongAPI/KetNoi/QuanLyLuuTru" class="menu-link">
+                                                    <i class="menu-bullet menu-bullet-dot">
+                                                        <span></span>
+                                                    </i>
+                                                    <span class="menu-text">Quản lý tài liệu lưu trữ</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <ul class="menu-subnav">
+                                            <li class="menu-item" aria-haspopup="true">
+                                                <a href="/HeThongAPI/KetNoi/QuanLyTDKT" class="menu-link">
+                                                    <i class="menu-bullet menu-bullet-dot">
+                                                        <span></span>
+                                                    </i>
+                                                    <span class="menu-text">Thi đua khen thưởng của Bộ Nội vụ</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+
                                 {{-- @if (chkPhanQuyen('hethongchung_chucnang', 'phanquyen'))
                                 <li class="menu-item" aria-haspopup="true">
                                     <a href="/HeThongAPI/PhongTrao" class="menu-link">
@@ -474,6 +469,7 @@
                     </a>
                 </li>
 
+
                 @if (chkPhanQuyen('hethongchung', 'phanquyen'))
                     <li class="menu-item" aria-haspopup="true">
                         <a href="{{ url('/HeThongChung/ThongTin') }}" class="menu-link">
@@ -482,6 +478,17 @@
                             </i>
                             <span
                                 class="menu-text font-weight-bold">{{ chkGiaoDien('hethongchung', 'tenchucnang') }}</span>
+                        </a>
+                    </li>
+                @endif
+                <!-- Chưa xây dựng -->
+                @if (chkPhanQuyen('nhatkyhethong', 'phanquyen'))
+                    <li class="menu-item" aria-haspopup="true">
+                        <a href="{{ url('/NhatKyHeThong') }}" class="menu-link">
+                            <i class="menu-bullet menu-bullet-dot">
+                                <span></span>
+                            </i>
+                            <span class="menu-text font-weight-bold">Nhật ký hệ thống</span>
                         </a>
                     </li>
                 @endif

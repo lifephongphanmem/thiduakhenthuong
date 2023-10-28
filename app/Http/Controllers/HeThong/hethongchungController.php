@@ -11,6 +11,7 @@ use App\Model\DanhMuc\dstaikhoan_phanquyen;
 use App\Model\DanhMuc\duthaoquyetdinh;
 use App\Model\HeThong\hethongchung;
 use App\Model\HeThong\hethongchung_chucnang;
+use App\Model\HeThong\trangthaihoso;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_tailieu;
 use App\Model\View\viewdiabandonvi;
@@ -354,6 +355,19 @@ class hethongchungController extends Controller
             ->with('inputs', $inputs)
             ->with('hethong', hethongchung::first())
             ->with('a_diaban', array_column(dsdiaban::all()->toArray(), 'tendiaban', 'madiaban'))
+            ->with('pageTitle', 'Thông tin hỗ trợ');
+    }
+
+    public function NhatKyHeThong(Request $request)
+    {
+        $inputs = $request->all();       
+        $m_donvi = dsdonvi::all();
+        $a_donvi = array_column($m_donvi->toarray(), 'tendonvi', 'madonvi');
+        $model = trangthaihoso::wherein('madonvi', array_column($m_donvi->toarray(), 'madonvi'))->get(); 
+        return view('HeThong.NhatKyHeThong')
+            ->with('model', $model)
+            ->with('inputs', $inputs)
+            ->with('a_donvi', $a_donvi)
             ->with('pageTitle', 'Thông tin hỗ trợ');
     }
 }

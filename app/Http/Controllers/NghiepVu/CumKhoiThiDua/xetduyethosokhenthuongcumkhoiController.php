@@ -57,20 +57,27 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
         $m_hoso = dshosotdktcumkhoi::wherein('macumkhoi', array_column($model->toarray(), 'macumkhoi'))
             ->where('madonvi_xd', $inputs['madonvi'])->get();
         $a_trangthai = array_unique(array_column($m_hoso->toarray(), 'trangthai'));
-        foreach ($model as $chitiet) {
+        $a_donvilocdulieu = getDiaBanCumKhoi(session('admin')->tendangnhap);
+        foreach ($model as $key => $chitiet) {
             $hoso = $m_hoso->where('macumkhoi', $chitiet->macumkhoi);
             foreach ($a_trangthai as $trangthai) {
                 $chitiet->$trangthai = $hoso->where('trangthai', $trangthai)->count();
             }
             $chitiet->tonghoso = $hoso->count();
+            if (count($a_donvilocdulieu) > 0) {
+                //lọc các hồ sơ theo thiết lập dữ liệu
+                if (!in_array($hoso->macumkhoi, $a_donvilocdulieu))
+                    $model->forget($key);
+            }
         }
         //dd($model);
         $inputs['url_xd'] = static::$url;
         $inputs['url_hs'] = '/CumKhoiThiDua/KTCumKhoi/HoSo/';
         $inputs['phanloaihoso'] = 'dshosotdktcumkhoi';
-        
+
+
         return view('NghiepVu.CumKhoiThiDua.HoSoKT.DanhSach')
-            ->with('model', $model->where('tonghoso','>',0))
+            ->with('model', $model)
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
             ->with('a_trangthai_hoso', $a_trangthai)

@@ -802,7 +802,7 @@ class dungchung_inphoi_khenthuongController extends Controller
         $m_donvi = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
         $m_donvi_dn = dsdonvi::where('madonvi', $m_hoso->madonvi)->first();
         $m_toado = getToaDoMacDinh($inputs);
-        $chieurong_bangkhen_px = chkDbl($m_donvi->chieurong_bangkhen) * 3.779527559055;
+        $chieurong_bangkhen_px = chkDbl($m_donvi->chieurong_giaykhen) * 3.779527559055;
         $i = 0;
         $a_truongtoado = [
             'toado_tendoituongin',

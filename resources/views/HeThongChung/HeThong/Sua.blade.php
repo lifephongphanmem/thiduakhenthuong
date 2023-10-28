@@ -146,6 +146,11 @@
                         <label>Đơn vị in phôi mặc định</label>
                         {!! Form::select('madonvi_inphoi', $a_donvi, null, ['class' => 'form-control select2basic']) !!}
                     </div>
+                
+                    <div class="col-6">
+                        <label>Giới hạn thời gian hệ thống</label>
+                        {!! Form::select('thoigianhethong', ['15'=>'15 phút','30'=>'30 phút','60'=>'60 phút'], null, ['class' => 'form-control select2basic']) !!}
+                    </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-md-12">
