@@ -536,7 +536,7 @@ class baocaotonghopController extends Controller
                 + $canhan_dotxuat->where('maphanloaicanbo', '1660638864')->count()
                 + $canhan_dongo->where('maphanloaicanbo', '1660638864')->count();
 
-            $ct->tongtotrinh =  $hoso_conghien->count() + $hoso_chuyende->count() + $hoso_dotxuat->count() + $hoso_dongo->count();
+            $ct->tongtotrinh =  $hoso_congtrang->count() + $hoso_chuyende->count() + $hoso_dotxuat->count() + $hoso_dongo->count();
             $ct->tongtotrinh_canhan =  $canhan_congtrang->count() + $canhan_chuyende->count() + $canhan_dotxuat->count() + $canhan_dongo->count();
             $ct->tongtotrinh_tapthe =  $tapthe_congtrang->count() + $tapthe_chuyende->count() + $tapthe_dotxuat->count() + $tapthe_dongo->count();
 
