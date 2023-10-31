@@ -46,7 +46,7 @@
         {{ Form::hidden('madonvi', null, ['id' => 'madonvi']) }}
         {{ Form::hidden('mahosotdkt', null, ['id' => 'mahosotdkt']) }}
         <div class="card-body">
-            @include('NghiepVu._DungChung.HoSo_ThongTinQD')
+            @include('NghiepVu._DungChung.HoSo_KhenCao_ThongTinQD')
 
             <div class="row">
                 <div class="col-md-12">

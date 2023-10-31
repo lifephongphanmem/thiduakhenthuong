@@ -17,6 +17,8 @@ use App\Model\HeThong\trangthaihoso;
 use App\Model\NghiepVu\KhenCao\dshosodenghikhencao;
 use App\Model\NghiepVu\KhenCao\dshosokhencao;
 use App\Model\NghiepVu\KhenCao\dshosokhencao_canhan;
+use App\Model\NghiepVu\KhenCao\dshosokhencao_hogiadinh;
+use App\Model\NghiepVu\KhenCao\dshosokhencao_tailieu;
 use App\Model\NghiepVu\KhenCao\dshosokhencao_tapthe;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua;
 use App\Model\View\viewdiabandonvi;
@@ -111,7 +113,8 @@ class dshosokhencaonhanuocController extends Controller
         $inputs['url'] = static::$url;
         $inputs['mahinhthuckt'] = session('chucnang')['dshosokhencaonhanuoc']['mahinhthuckt'] ?? 'ALL';
         $inputs['phanloaihoso'] = 'dshosokhencao';
-        
+        $inputs['phanloaikhenthuong'] = 'ALL';
+
         $model = dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
         $model->tendonvi = $donvi->tendonvi;
@@ -120,14 +123,20 @@ class dshosokhencaonhanuocController extends Controller
         $model->tendonvi = $donvi->tendonvi;
         $model_canhan =  dshosokhencao_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
         $model_tapthe = dshosokhencao_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+        $model_hogiadinh = dshosokhencao_hogiadinh::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+        $model_tailieu = dshosokhencao_tailieu::where('mahosotdkt', $inputs['mahosotdkt'])->get();
         $m_phongtrao = dsphongtraothidua::where('phamviapdung', 'TW')->get();
         $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE', 'HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
-
+        //dd($inputs);        
         return view('NghiepVu.KhenCao.NhaNuoc.ThayDoi')
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
+            ->with('model_hogiadinh', $model_hogiadinh)
+            ->with('model_tailieu', $model_tailieu)
+            ->with('a_pltailieu', getPhanLoaiTaiLieuDK())
+            ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
             ->with('a_dhkt_canhan', $a_dhkt_canhan)
             ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
             ->with('a_tapthe', $a_tapthe)
@@ -205,6 +214,7 @@ class dshosokhencaonhanuocController extends Controller
         $inputs['mahosotdkt'] = (string)getdate()[0];
         $inputs['trangthai'] = 'DD';
         $inputs['phanloai'] = 'CHUTICHNUOC';
+        $inputs['capkhenthuong'] = 'TW';
         dshosokhencao::create($inputs);
 
         $trangthai = new trangthaihoso();
@@ -227,26 +237,26 @@ class dshosokhencaonhanuocController extends Controller
                 ->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
-        if (isset($inputs['totrinh'])) {
-            $filedk = $request->file('totrinh');
-            $inputs['totrinh'] = $inputs['mahosotdkt'] . '_totrinh.' . $filedk->getClientOriginalExtension();
-            $filedk->move(public_path() . '/data/totrinh/', $inputs['totrinh']);
-        }
-        if (isset($inputs['baocao'])) {
-            $filedk = $request->file('baocao');
-            $inputs['baocao'] = $inputs['mahosotdkt'] . '_baocao.' . $filedk->getClientOriginalExtension();
-            $filedk->move(public_path() . '/data/baocao/', $inputs['baocao']);
-        }
-        if (isset($inputs['bienban'])) {
-            $filedk = $request->file('bienban');
-            $inputs['bienban'] = $inputs['mahosotdkt'] . '_bienban.' . $filedk->getClientOriginalExtension();
-            $filedk->move(public_path() . '/data/bienban/', $inputs['bienban']);
-        }
-        if (isset($inputs['tailieukhac'])) {
-            $filedk = $request->file('tailieukhac');
-            $inputs['tailieukhac'] = $inputs['mahosotdkt'] . 'tailieukhac.' . $filedk->getClientOriginalExtension();
-            $filedk->move(public_path() . '/data/tailieukhac/', $inputs['tailieukhac']);
-        }        
+        // if (isset($inputs['totrinh'])) {
+        //     $filedk = $request->file('totrinh');
+        //     $inputs['totrinh'] = $inputs['mahosotdkt'] . '_totrinh.' . $filedk->getClientOriginalExtension();
+        //     $filedk->move(public_path() . '/data/totrinh/', $inputs['totrinh']);
+        // }
+        // if (isset($inputs['baocao'])) {
+        //     $filedk = $request->file('baocao');
+        //     $inputs['baocao'] = $inputs['mahosotdkt'] . '_baocao.' . $filedk->getClientOriginalExtension();
+        //     $filedk->move(public_path() . '/data/baocao/', $inputs['baocao']);
+        // }
+        // if (isset($inputs['bienban'])) {
+        //     $filedk = $request->file('bienban');
+        //     $inputs['bienban'] = $inputs['mahosotdkt'] . '_bienban.' . $filedk->getClientOriginalExtension();
+        //     $filedk->move(public_path() . '/data/bienban/', $inputs['bienban']);
+        // }
+        // if (isset($inputs['tailieukhac'])) {
+        //     $filedk = $request->file('tailieukhac');
+        //     $inputs['tailieukhac'] = $inputs['mahosotdkt'] . 'tailieukhac.' . $filedk->getClientOriginalExtension();
+        //     $filedk->move(public_path() . '/data/tailieukhac/', $inputs['tailieukhac']);
+        // }        
         dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first()->update($inputs);
 
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
@@ -640,6 +650,8 @@ class dshosokhencaonhanuocController extends Controller
         $a_dhkt_canhan = getDanhHieuKhenThuong($model->capkhenthuong);
         $a_dhkt_tapthe = getDanhHieuKhenThuong($model->capkhenthuong, 'TAPTHE');
         $model->tendonvi = $donvi->tendonvi;
+        $model->capkhenthuong = 'TW';
+
         $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE', 'HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $model->donvikhenthuong = 'Nhà nước';

@@ -37,7 +37,6 @@
                             <label class="control-label">Danh hiệu thi đua/Hình thức khen thưởng</label>
                             {!! Form::select('madanhhieukhenthuong', $a_dhkt_tapthe, null, [
                                 'class' => 'form-control select2_modal',
-                                'disabled' => true,
                             ]) !!}
                         </div>                        
                     </div>

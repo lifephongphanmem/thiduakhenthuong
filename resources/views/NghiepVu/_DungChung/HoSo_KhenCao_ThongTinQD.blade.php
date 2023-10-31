@@ -18,8 +18,8 @@
     </div>
 
     <div class="col-6">
-        <label>Ngày ra quyết định</label>
-        {!! Form::input('date', 'ngayqd', null, ['class' => 'form-control']) !!}
+        <label>Ngày ra quyết định<span class="require">*</span></label>
+        {!! Form::input('date', 'ngayqd', null, ['class' => 'form-control', 'required']) !!}
     </div>
 </div>
 

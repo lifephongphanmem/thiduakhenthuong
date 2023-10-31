@@ -74,7 +74,7 @@
             <div class="form-group row">
                 <div class="col-6">
                     <label>Cấp độ khen thưởng</label>
-                    {!! Form::select('capkhenthuong', getPhamViKhenCao(), null, ['class' => 'form-control']) !!}
+                    {!! Form::select('capkhenthuong', getPhamViKhenCao('TW'), null, ['class' => 'form-control']) !!}
                 </div>
                 <div class="col-6">
                     <label>Loại hình khen thưởng</label>
@@ -124,9 +124,9 @@
         {!! Form::close() !!}
     </div>
     <!--end::Card-->
-    @include('NghiepVu._DungChung.modal_QD_CaNhan')
-    @include('NghiepVu._DungChung.modal_QD_TapThe')
-    @include('NghiepVu._DungChung.modal_QD_HoGiaDinh')
+    @include('NghiepVu._DungChung.modal_KhenCao_QD_CaNhan')
+    @include('NghiepVu._DungChung.modal_KhenCao_QD_TapThe')
+    @include('NghiepVu._DungChung.modal_KhenCao_QD_HoGiaDinh')
     @include('NghiepVu._DungChung.modal_TaiLieuDinhKem')
     {{-- chưa dùng tiêu chuẩn --}}
     {{-- @include('NghiepVu._DungChung.modal_TieuChuan') --}}

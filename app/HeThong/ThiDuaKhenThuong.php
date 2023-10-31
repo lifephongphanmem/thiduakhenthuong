@@ -213,22 +213,17 @@ function getDanhHieuKhenThuong($capdo, $phanloai = 'CANHAN')
     return $a_ketqua;
 }
 
-function DHKT_BaoCao()
+function DHKT_BaoCao($a_danhsach = null)
 {
     $ketqua = new Collection();
-    // $m_danhhieu = App\Model\DanhMuc\dmdanhhieuthidua::all();
-
-    // foreach ($m_danhhieu as $danhhieu) {
-    //     $danhhieu->madanhhieukhenthuong = $danhhieu->madanhhieutd;
-    //     $danhhieu->tendanhhieukhenthuong = $danhhieu->tendanhhieutd;
-    //     $ketqua->add($danhhieu);
-    // }
     foreach (App\Model\DanhMuc\dmhinhthuckhenthuong::all() as $danhhieu) {
         $danhhieu->madanhhieukhenthuong = $danhhieu->mahinhthuckt;
         $danhhieu->tendanhhieukhenthuong = $danhhieu->tenhinhthuckt;
         $ketqua->add($danhhieu);
     }
-
+    if ($a_danhsach != null) {
+        $ketqua = $ketqua->wherein('madanhhieukhenthuong', $a_danhsach);
+    }
     return $ketqua;
 }
 

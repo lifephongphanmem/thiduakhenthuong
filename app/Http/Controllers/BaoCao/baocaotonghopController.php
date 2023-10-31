@@ -331,7 +331,8 @@ class baocaotonghopController extends Controller
 
         $m_hoso_canhan = dshosothiduakhenthuong_canhan::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();
         $m_hoso_tapthe = dshosothiduakhenthuong_tapthe::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();
-        $model = DHKT_BaoCao();
+        $a_dhkt = array_merge(array_unique(array_column($m_hoso_canhan->toarray(), 'madanhhieukhenthuong')), array_unique(array_column($m_hoso_tapthe->toarray(), 'madanhhieukhenthuong')));
+        $model = DHKT_BaoCao($a_dhkt);
         //dd($model);
         //$m_loaihinhkt = dmloaihinhkhenthuong::wherein('maloaihinhkt', array_unique(array_column($m_hoso->toarray(), 'maloaihinhkt')))->get();
 
@@ -372,6 +373,7 @@ class baocaotonghopController extends Controller
             $ct->tongso_cotr = $canhan_congtrang->count() + $tapthe_congtrang->count();
             $ct->canhan_lada_cotr = $canhan_congtrang->wherein('maphanloaicanbo', ['1660638930', '1660638843', '1660638808'])->count();
             $ct->canhan_lado_cotr = $canhan_congtrang->wherein('maphanloaicanbo', ['1660638976'])->count();
+            
             //Nhóm chuyên đề, đột xuất
             $hoso_chuyende = $m_hoso->wherein('maloaihinhkt', ['1650358255', '1650358265']);
             $canhan_chuyende = $m_hoso_canhan->wherein('mahosotdkt', array_column($hoso_chuyende->toarray(), 'mahosotdkt'))
@@ -382,6 +384,7 @@ class baocaotonghopController extends Controller
             $ct->tongso_chde = $canhan_chuyende->count() + $tapthe_chuyende->count();
             $ct->canhan_lada_chde = $canhan_chuyende->wherein('maphanloaicanbo', ['1660638930', '1660638843', '1660638808'])->count();
             $ct->canhan_lado_chde = $canhan_chuyende->wherein('maphanloaicanbo', ['1660638976'])->count();
+            
             //Nhóm đối ngoại
             $hoso_dongo = $m_hoso->wherein('maloaihinhkt', ['1650358297']);
             $canhan_dongo = $m_hoso_canhan->wherein('mahosotdkt', array_column($hoso_dongo->toarray(), 'mahosotdkt'))
@@ -398,6 +401,7 @@ class baocaotonghopController extends Controller
                 + $tapthe_dongo->where('maphanloaitapthe', '1660638247')->count();
             $ct->tongcn = $canhan_congtrang->count() + $canhan_chuyende->count() +  $canhan_dongo->count();
         }
+
         foreach ($model as $key => $val) {
             if ($val->tongso == 0)
                 $model->forget($key);
@@ -611,8 +615,8 @@ class baocaotonghopController extends Controller
         // CANHAN	1660638930	Các cấp lãnh đạo từ phó phòng trở lên
         // CANHAN	1660638976	Người trực tiếp công tác, lao động, học tập, chiến đấu và phục vụ chiến đấu
 
-        $m_dshosokhencao_canhan = dshosokhencao_canhan::all();
-        $m_dshosokhencao_tapthe = dshosokhencao_tapthe::all();
+        $m_dshosokhencao_canhan = dshosokhencao_canhan::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();;
+        $m_dshosokhencao_tapthe = dshosokhencao_tapthe::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();;
 
         foreach ($model as $ct) {
             //Nhóm công trạng
@@ -727,8 +731,8 @@ class baocaotonghopController extends Controller
         // CANHAN	1660638864	Doanh nhân
         // CANHAN	1660638930	Các cấp lãnh đạo từ phó phòng trở lên
         // CANHAN	1660638976	Người trực tiếp công tác, lao động, học tập, chiến đấu và phục vụ chiến đấu
-        $m_dshosokhencao_canhan = dshosokhencao_canhan::all();
-        $m_dshosokhencao_tapthe = dshosokhencao_tapthe::all();
+        $m_dshosokhencao_canhan = dshosokhencao_canhan::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();;
+        $m_dshosokhencao_tapthe = dshosokhencao_tapthe::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();;
         foreach ($model as $ct) {
             //Nhóm công trạng
             $hoso_congtrang = $m_hoso->wherein('maloaihinhkt', ['1650358223']);

@@ -113,6 +113,7 @@ class dshosokhencaochinhphuController extends Controller
         $inputs['url_qd'] = static::$url;
         $inputs['mahinhthuckt'] = session('chucnang')['dshosokhencaochinhphu']['mahinhthuckt'] ?? 'ALL';
         $inputs['phanloaihoso'] = 'dshosokhencao';
+        $inputs['phanloaikhenthuong'] = 'ALL';
 
         $model = dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
@@ -134,6 +135,8 @@ class dshosokhencaochinhphuController extends Controller
             ->with('model_tapthe', $model_tapthe)
             ->with('model_hogiadinh', $model_hogiadinh)
             ->with('model_tailieu', $model_tailieu)
+            ->with('a_pltailieu', getPhanLoaiTaiLieuDK())
+            ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
             ->with('a_dhkt_canhan', $a_dhkt_canhan)
             ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
             ->with('a_tapthe', $a_tapthe)
@@ -211,6 +214,7 @@ class dshosokhencaochinhphuController extends Controller
         $inputs['mahosotdkt'] = (string)getdate()[0];
         $inputs['trangthai'] = 'DD';
         $inputs['phanloai'] = 'CHINHPHU';
+        $inputs['capkhenthuong'] = 'TW';
         dshosokhencao::create($inputs);
 
         $trangthai = new trangthaihoso();
@@ -233,26 +237,26 @@ class dshosokhencaochinhphuController extends Controller
                 ->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
-        if (isset($inputs['totrinh'])) {
-            $filedk = $request->file('totrinh');
-            $inputs['totrinh'] = $inputs['mahosotdkt'] . '_totrinh.' . $filedk->getClientOriginalExtension();
-            $filedk->move(public_path() . '/data/totrinh/', $inputs['totrinh']);
-        }
-        if (isset($inputs['baocao'])) {
-            $filedk = $request->file('baocao');
-            $inputs['baocao'] = $inputs['mahosotdkt'] . '_baocao.' . $filedk->getClientOriginalExtension();
-            $filedk->move(public_path() . '/data/baocao/', $inputs['baocao']);
-        }
-        if (isset($inputs['bienban'])) {
-            $filedk = $request->file('bienban');
-            $inputs['bienban'] = $inputs['mahosotdkt'] . '_bienban.' . $filedk->getClientOriginalExtension();
-            $filedk->move(public_path() . '/data/bienban/', $inputs['bienban']);
-        }
-        if (isset($inputs['tailieukhac'])) {
-            $filedk = $request->file('tailieukhac');
-            $inputs['tailieukhac'] = $inputs['mahosotdkt'] . 'tailieukhac.' . $filedk->getClientOriginalExtension();
-            $filedk->move(public_path() . '/data/tailieukhac/', $inputs['tailieukhac']);
-        }
+        // if (isset($inputs['totrinh'])) {
+        //     $filedk = $request->file('totrinh');
+        //     $inputs['totrinh'] = $inputs['mahosotdkt'] . '_totrinh.' . $filedk->getClientOriginalExtension();
+        //     $filedk->move(public_path() . '/data/totrinh/', $inputs['totrinh']);
+        // }
+        // if (isset($inputs['baocao'])) {
+        //     $filedk = $request->file('baocao');
+        //     $inputs['baocao'] = $inputs['mahosotdkt'] . '_baocao.' . $filedk->getClientOriginalExtension();
+        //     $filedk->move(public_path() . '/data/baocao/', $inputs['baocao']);
+        // }
+        // if (isset($inputs['bienban'])) {
+        //     $filedk = $request->file('bienban');
+        //     $inputs['bienban'] = $inputs['mahosotdkt'] . '_bienban.' . $filedk->getClientOriginalExtension();
+        //     $filedk->move(public_path() . '/data/bienban/', $inputs['bienban']);
+        // }
+        // if (isset($inputs['tailieukhac'])) {
+        //     $filedk = $request->file('tailieukhac');
+        //     $inputs['tailieukhac'] = $inputs['mahosotdkt'] . 'tailieukhac.' . $filedk->getClientOriginalExtension();
+        //     $filedk->move(public_path() . '/data/tailieukhac/', $inputs['tailieukhac']);
+        // }
         dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first()->update($inputs);
 
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
@@ -646,10 +650,12 @@ class dshosokhencaochinhphuController extends Controller
         $a_dhkt_canhan = getDanhHieuKhenThuong($model->capkhenthuong);
         $a_dhkt_tapthe = getDanhHieuKhenThuong($model->capkhenthuong, 'TAPTHE');
         $model->tendonvi = $donvi->tendonvi;
+        $model->capkhenthuong = 'TW';
         $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE', 'HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $model->donvikhenthuong = 'Chính phủ';
         $model->chucvunguoikyqd = 'Thủ tướng chính phủ';
+
         return view('NghiepVu.KhenCao.ChinhPhu.PheDuyetKT')
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
@@ -657,7 +663,7 @@ class dshosokhencaochinhphuController extends Controller
             ->with('a_dhkt_canhan', $a_dhkt_canhan)
             ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
-            ->with('a_donvikt' , [$model->donvikhenthuong=>$model->donvikhenthuong])
+            ->with('a_donvikt', [$model->donvikhenthuong => $model->donvikhenthuong])
             ->with('a_tapthe', $a_tapthe)
             ->with('a_canhan', $a_canhan)
             ->with('inputs', $inputs)

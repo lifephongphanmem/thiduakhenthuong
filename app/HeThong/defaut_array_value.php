@@ -143,6 +143,7 @@ function getPhanLoaiHoSo_BaoCao()
 
 function getPhamViKhenCao($phamvi = 'T')
 {
+    // dd($phamvi);
     switch ($phamvi) {
         case 'X': {
                 return array(
@@ -153,6 +154,12 @@ function getPhamViKhenCao($phamvi = 'T')
         case 'H': {
                 return array(
                     'T' => 'Hồ sơ khen cấp Tỉnh',
+                );
+                break;
+            }
+        case 'T': {
+                return array(
+                    'TW' => 'Hồ sơ khen cấp Nhà nước',
                 );
                 break;
             }
@@ -598,7 +605,7 @@ function getTaoDuThaoToTrinhPheDuyet(&$model, $maduthao = null)
         $model->thongtintotrinhdenghi = str_replace('[hotennguoikyqd]',  $model->hotennguoikyqd, $model->thongtintotrinhdenghi);
         $model->thongtintotrinhdenghi = str_replace('[soqd]',  $model->soqd, $model->thongtintotrinhdenghi);
         $model->thongtintotrinhdenghi = str_replace('[sototrinh]',  $model->sototrinh, $model->thongtintotrinhdenghi);
-        $model->thongtintotrinhdenghi = str_replace('[diadanh]',  $donvi->diadanh, $model->thongtintotrinhdenghi);
+        $model->thongtintotrinhdenghi = str_replace('[diadanh]',  $donvi_xd->diadanh, $model->thongtintotrinhdenghi);
         $model->thongtintotrinhdenghi = str_replace('[ngayqd]',  Date2Str($model->ngayqd), $model->thongtintotrinhdenghi);
         $model->thongtintotrinhdenghi = str_replace('[ngayhoso]',  Date2Str($model->ngayhoso), $model->thongtintotrinhdenghi);
         $model->thongtintotrinhdenghi = str_replace('[donvidenghi]',  $donvi->tendvhienthi, $model->thongtintotrinhdenghi);
@@ -627,7 +634,7 @@ function getTaoQuyetDinhKT(&$model)
     $model->thongtinquyetdinh = str_replace('[hotennguoikyqd]',  $model->hotennguoikyqd, $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[soqd]',  $model->soqd, $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[sototrinh]',  $model->sototrinh, $model->thongtinquyetdinh);
-    $model->thongtinquyetdinh = str_replace('[diadanh]',  $donvi->diadanh, $model->thongtinquyetdinh);
+    $model->thongtinquyetdinh = str_replace('[diadanh]',  $donvi_kt->diadanh ?? '......', $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[ngayqd]',  Date2Str($model->ngayqd), $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[ngayhoso]',  Date2Str($model->ngayhoso), $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[donvidenghi]',  $donvi->tendvhienthi, $model->thongtinquyetdinh);
@@ -1082,6 +1089,7 @@ function getDoiTuongApDung()
 function getPhamViKhenThuong()
 {
     return array(
+        'TW' => 'Cấp Nhà nước',
         'T' => 'Cấp Tỉnh',
         'SBN' => 'Cấp Sở, ban, ngành',
         'H' => 'Cấp Huyện',
@@ -1346,7 +1354,7 @@ function getTrangThai_TD_HoSo($trangthai)
             'trangthai' => 'Chờ duyệt',
             'class' => 'badge badge-info'
         ],
-        
+
         'DTN' => [
             'trangthai' => 'Đã tiếp<br>nhận',
             'class' => 'badge badge-info'
@@ -1417,7 +1425,7 @@ function getPhanLoaiTaiLieuDK($phanloaihoso = 'ALL')
             'QDKT' => 'Quyết định khen thưởng',
         ];
     }
-
+    //dd($phanloaihoso);
     //Hồ sơ khen thưởng
     $a_kq = [
         'TOTRINH' => 'Tờ trình đề nghị khen thưởng',
