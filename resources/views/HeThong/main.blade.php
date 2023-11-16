@@ -193,7 +193,7 @@
                                         <!--begin::Menu Nav-->
                                         <ul class="menu-nav">
                                             <li class="menu-section">
-                                                <h3 class="menu-text">Thi đua, khen thưởng các cấp</h3>
+                                                <h3 class="menu-text">Thi đua, khen thưởng các cấp - </h3>
                                                 <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                                             </li>
 
