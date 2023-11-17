@@ -391,7 +391,7 @@ class dshosodenghikhenthuongthiduaController extends Controller
             getDonViChuyen($inputs['madonvi'], $chitiet);
         }
 
-        return view('NghiepVu.ThiDuaKhenThuong.XetDuyetHoSo.DanhSach')
+        return view('NghiepVu.ThiDuaKhenThuong.HoSoDeNghiKhenThuongPhongTrao.DanhSach')
             ->with('inputs', $inputs)
             ->with('model', $model)
             ->with('m_phongtrao', $m_phongtrao)
