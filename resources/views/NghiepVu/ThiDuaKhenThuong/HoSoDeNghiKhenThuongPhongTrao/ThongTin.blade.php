@@ -119,11 +119,11 @@
                                             class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->sohoso }}</span>
                                     </a>
 
-                                    @if ($inputs['trangthai'] == 'CC')
+                                    @if (in_array($inputs['trangthai'], ['CC', 'CD']))
                                         <!--
-                                                                    1.Chưa có hồ sơ khen thưởng => tạo hồ sơ đề nghị
-                                                                    2.Có hồ sơ đề nghị => Xem; Sửa; Xoá; Gửi
-                                                                 -->
+                                                                        1.Chưa có hồ sơ khen thưởng => tạo hồ sơ đề nghị
+                                                                        2.Có hồ sơ đề nghị => Xem; Sửa; Xoá; Gửi
+                                                                     -->
                                         @if ($tt->nhanhoso == 'KETTHUC' && chkPhanQuyen('dshosodenghikhenthuongthidua', 'hoanthanh'))
                                             @if ($tt->mahosotdkt == '-1')
                                                 <!-- 1.Chưa có hồ sơ khen thưởng => tạo hồ sơ đề nghị -->

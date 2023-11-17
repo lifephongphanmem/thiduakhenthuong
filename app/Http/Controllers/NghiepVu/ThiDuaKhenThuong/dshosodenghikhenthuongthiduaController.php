@@ -126,7 +126,7 @@ class dshosodenghikhenthuongthiduaController extends Controller
             $a_donviql = getDonViXetDuyetDiaBan($donvi);
         }
         //$a_donviql = getDonViXetDuyetDiaBan($donvi);
-        //dd($model);
+        //dd($inputs);
         return view('NghiepVu.ThiDuaKhenThuong.HoSoDeNghiKhenThuongPhongTrao.ThongTin')
             ->with('inputs', $inputs)
             ->with('model', $model->sortby('tungay'))
