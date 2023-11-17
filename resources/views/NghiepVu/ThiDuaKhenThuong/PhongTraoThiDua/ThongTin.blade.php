@@ -133,7 +133,7 @@
                                             </button>
                                         @endif
                                         <button title="Thiết lập phong trào" type="button"
-                                            onclick="setKetQua('{{ $tt->maphongtraotd }}')"
+                                            onclick="setKetQua('{{ $tt->maphongtraotd }}','{{ $tt->trangthai }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#modal-KetThuc"
                                             data-toggle="modal">
                                             <i class="icon-lg la flaticon-calendar-3 text-warning"></i>
@@ -198,8 +198,9 @@
         <!-- /.modal-dialog -->
     </div>
     <script>
-        function setKetQua(maphongtraotd) {
+        function setKetQua(maphongtraotd, trangthai) {
             $('#frm_KetThuc').find("[name='maphongtraotd']").val(maphongtraotd);
+            $('#frm_KetThuc').find("[name='trangthai']").val(trangthai).trigger('change');
         }
     </script>
 

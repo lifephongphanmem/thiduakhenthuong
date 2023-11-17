@@ -2,6 +2,7 @@
 <div id="indulieu-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
     {!! Form::open(['url' => '', 'id' => 'frm_InDuLieu']) !!}
     <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
+    <input type="hidden" name="phanloaihoso" value="{{ $inputs['phanloaihoso'] ?? 'dshosothiduakhenthuong' }}" />
     <input type="hidden" name="mahosotdkt" />
     <input type="hidden" name="maphongtraotd" />
     <input type="hidden" name="mahosothamgiapt" />
@@ -42,14 +43,16 @@
                         </div>
                     </div>
 
-                    <div class="row">                       
-                        <div class="col-lg-12">
-                            <a onclick="setInDL($(this), '{{ $inputs['url_hs'] . 'InToTrinhHoSo' }}')"
-                                class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
-                                <i class="la flaticon2-print"></i>Tờ trình khen thưởng
-                            </a>
+                    @if (session('admin')->opt_duthaototrinh)
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <a onclick="setInDuThao($(this), '/DungChung/DuThao/InToTrinhDeNghiKhenThuong')"
+                                    class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
+                                    <i class="la flaticon2-print"></i>Tờ trình đề nghị khen thưởng
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    @endif                   
 
                     <div class="row">
                         <div class="col-lg-12">
@@ -62,7 +65,7 @@
                 </div>
 
                 <div id="div_inDuLieu">
-                    <div class="row">                       
+                    <div class="row">
                         <div class="col-lg-12">
                             <a onclick="setInDL($(this), '{{ $inputs['url_qd'] . 'InToTrinhPheDuyet' }}')"
                                 class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
@@ -169,10 +172,15 @@
     function setInDL(e, url) {
         e.prop('href', url + '?mahosotdkt=' + $('#frm_InDuLieu').find("[name='mahosotdkt']").val());
     }
-    
+
     function setInPhoi(e, url) {
         e.prop('href', url + '?mahosotdkt=' + $('#frm_InDuLieu').find("[name='mahosotdkt']").val() + '&madonvi=' + $(
             '#madonvi').val());
+    }
+
+    function setInDuThao(e, url) {
+        e.prop('href', url + '?mahosotdkt=' + $('#frm_InDuLieu').find("[name='mahosotdkt']").val() + '&phanloaihoso=' +
+            $('#frm_InDuLieu').find("[name='phanloaihoso']").val());
     }
     // function setInPhoi(url, phanloai) {
     //     $('#frm_InPhoi').attr('action', url);

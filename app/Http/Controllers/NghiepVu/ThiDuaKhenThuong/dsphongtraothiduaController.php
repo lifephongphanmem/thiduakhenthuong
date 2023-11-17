@@ -54,6 +54,7 @@ class dsphongtraothiduaController extends Controller
         $model = $model->orderby('ngayqd')->get();
         $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
         $m_phongtrao_captren = dsphongtraothidua::where('phamviapdung', getCapDoDiaBanCapTren($donvi->capdo))->get();
+        // dd( $model);
         return view('NghiepVu.ThiDuaKhenThuong.PhongTraoThiDua.ThongTin')
             ->with('model', $model)
             ->with('m_donvi', $m_donvi)
