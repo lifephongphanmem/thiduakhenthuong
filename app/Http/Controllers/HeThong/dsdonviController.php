@@ -252,20 +252,27 @@ class dsdonviController extends Controller
         $path = public_path() . '/data/uploads/' . $filename . '.xlsx';
         $data = [];
 
-        Excel::load($path, function ($reader) use (&$data, $inputs, $path) {
+        Excel::load($path, function ($reader) use (&$data) {            
             $obj = $reader->getExcel();
-            $sheetCount = $obj->getSheetCount();
-            if ($sheetCount < chkDbl($inputs['sheet'])) {
-                File::Delete($path);
-                dd('File excel chỉ có tối đa ' . $sheetCount . ' sheet dữ liệu.');
-            }
-            $sheet = $obj->getSheet($inputs['sheet']);
+            $sheet = $obj->getSheet(0);
             $data = $sheet->toArray(null, true, true, true); // giữ lại tiêu đề A=>'val';
         });
+
+        // Excel::load($path, function ($reader) use (&$data, $inputs, $path) {
+        //     $obj = $reader->getExcel();
+        //     $sheetCount = $obj->getSheetCount();
+        //     if ($sheetCount < chkDbl($inputs['sheet'])) {
+        //         File::Delete($path);
+        //         dd('File excel chỉ có tối đa ' . $sheetCount . ' sheet dữ liệu.');
+        //     }
+        //     $sheet = $obj->getSheet($inputs['sheet']);
+        //     $data = $sheet->toArray(null, true, true, true); // giữ lại tiêu đề A=>'val';
+        // });
         $a_dv = array();
         $a_tk = array();
         $a_ck = [];
         $ma = getdate()[0];
+        //dd($data);
         for ($i = $inputs['tudong']; $i <= $inputs['dendong']; $i++) {
             if (!isset($data[$i][$inputs['tendonvi']])) {
                 continue;
