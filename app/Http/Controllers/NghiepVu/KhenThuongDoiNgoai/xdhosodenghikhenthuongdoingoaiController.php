@@ -150,8 +150,7 @@ class xdhosodenghikhenthuongdoingoaiController extends Controller
         $model->madonvi_kt = $inputs['madonvi_nhan'];
         $model->trangthai_kt = $model->trangthai;
         $model->thoigian_kt = $thoigian;
-        //Gán mặc định quyết định
-        getTaoQuyetDinhKT($model);
+        
         $model->save();
 
         trangthaihoso::create([
@@ -305,6 +304,9 @@ class xdhosodenghikhenthuongdoingoaiController extends Controller
         $inputs = $request->all();
         //dd($inputs );
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $maduthao = duthaoquyetdinh::where('phanloai', 'TOTRINHPHEDUYET')->first()->maduthao ?? '';
+        if ($maduthao != '')
+            getTaoDuThaoToTrinhPheDuyet($model, $maduthao);
         $model->update($inputs);
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_xd);
     }

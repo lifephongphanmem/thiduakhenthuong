@@ -91,7 +91,7 @@
                                 <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
                                 <td class="text-center">{{ getDayVn($tt->ngayhoso) }}</td>
                                 @include('includes.td.td_trangthai_hoso')
-                                <td>{{ $a_donvi[$tt->madonvi_nhan_xd] ?? '' }}</td>
+                                <td>{{ $a_donvi[$tt->madonvi_kt] ?? '' }}</td>
 
                                 <td style="text-align: center">
                                     <button type="button" title="In dữ liệu"
@@ -144,7 +144,8 @@
                                                     <i class="icon-lg la fa-share-square text-success"></i>
                                                 </button>
                                             @endif
-                                            @if ($tt->trangthai == 'BTLXD')
+
+                                            @if ($tt->trangthai_hoso == 'BTLXD')
                                                 <button title="Lý do hồ sơ bị trả lại" type="button"
                                                     onclick="viewLyDo('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}', '{{ $inputs['url_xd'] . 'LayLyDo' }}')"
                                                     class="btn btn-sm btn-clean btn-icon" data-target="#tralai-modal"
@@ -152,7 +153,9 @@
                                                     <i class="icon-lg la fa-archive text-dark"></i>
                                                 </button>
                                             @endif
-                                            @if (in_array($tt->trangthai_hoso, ['DD', 'CD', 'BTLXD']))
+
+                                            @if (in_array($tt->trangthai_hoso, ['DD', 'CD', 'BTLXD']) ||
+                                                    (in_array($tt->trangthai_hoso, ['CXKT', 'DKT']) && $tt->madonvi_kt == '')) <!-- Bổ sung đk đơn vị nhận rỗng để trả lại hồ sơ -->
                                                 <button title="Trả lại hồ sơ" type="button"
                                                     onclick="confirmTraLai('{{ $tt->mahosotdkt }}', '{{ $inputs['madonvi'] }}', '{{ $inputs['url_xd'] . 'TraLai' }}')"
                                                     class="btn btn-sm btn-clean btn-icon" data-target="#modal-tralai"
@@ -172,11 +175,11 @@
                                                 </button>
                                             @endif
                                             @if (session('admin')->opt_duthaototrinh)
-                                            <a title="Tạo dự thảo tờ trình"
-                                                href="{{ url($inputs['url_xd'] . 'ToTrinhPheDuyet?mahosotdkt=' . $tt->mahosotdkt) }}"
-                                                class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
-                                                <i class="icon-lg la flaticon-edit-1 text-success"></i>
-                                            </a>
+                                                <a title="Tạo dự thảo tờ trình"
+                                                    href="{{ url($inputs['url_xd'] . 'ToTrinhPheDuyet?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                                    class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
+                                                    <i class="icon-lg la flaticon-edit-1 text-success"></i>
+                                                </a>
                                             @endif
                                             @if (session('admin')->opt_duthaoquyetdinh)
                                                 <a title="Tạo dự thảo quyết định khen thưởng"

@@ -53,11 +53,13 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
         }
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
-        $model = dscumkhoi::where('madonvixd', $inputs['madonvi'])->get();
+        // $model = dscumkhoi::where('madonvixd', $inputs['madonvi'])->get();
+        $model = dscumkhoi::all();
         $m_hoso = dshosotdktcumkhoi::wherein('macumkhoi', array_column($model->toarray(), 'macumkhoi'))
             ->where('madonvi_xd', $inputs['madonvi'])->get();
         $a_trangthai = array_unique(array_column($m_hoso->toarray(), 'trangthai'));
         $a_donvilocdulieu = getDiaBanCumKhoi(session('admin')->tendangnhap);
+       
         foreach ($model as $key => $chitiet) {
             $hoso = $m_hoso->where('macumkhoi', $chitiet->macumkhoi);
             foreach ($a_trangthai as $trangthai) {
@@ -66,7 +68,7 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
             $chitiet->tonghoso = $hoso->count();
             if (count($a_donvilocdulieu) > 0) {
                 //lọc các hồ sơ theo thiết lập dữ liệu
-                if (!in_array($hoso->macumkhoi, $a_donvilocdulieu))
+                if (!in_array($chitiet->macumkhoi, $a_donvilocdulieu))
                     $model->forget($key);
             }
         }
@@ -122,7 +124,7 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
             $hoso->trangthai_hoso = $hoso->trangthai_xd;
             $hoso->thoigian_hoso = $hoso->thoigian_xd;
             $hoso->lydo_hoso = $hoso->lydo_xd;
-            $hoso->madonvi_nhan_hoso = $hoso->madonvi_nhan_xd;
+            $hoso->madonvi_nhan_hoso = $hoso->madonvi_kt;
             //lọc theo địa bàn
             if (count($a_donvilocdulieu) > 0) {
                 //lọc các hồ sơ theo thiết lập dữ liệu
@@ -130,7 +132,7 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
                     $model->forget($key);
             }
         }
-        // dd($inputs);
+        //  dd($model);
         $inputs['trangthai'] = session('chucnang')['xdhosokhenthuongcumkhoi']['trangthai'] ?? 'CC';
         $inputs['trangthai'] = $inputs['trangthai'] != 'ALL' ? $inputs['trangthai'] : 'CC';
         //dd($inputs);

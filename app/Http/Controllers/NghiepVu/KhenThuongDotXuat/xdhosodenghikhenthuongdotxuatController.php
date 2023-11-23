@@ -632,6 +632,9 @@ class xdhosodenghikhenthuongdotxuatController extends Controller
         $inputs = $request->all();
         //dd($inputs ); 
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $maduthao = duthaoquyetdinh::where('phanloai', 'TOTRINHPHEDUYET')->first()->maduthao ?? '';
+        if ($maduthao != '')
+            getTaoDuThaoToTrinhPheDuyet($model, $maduthao);
         $model->update($inputs);
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_xd);
     }

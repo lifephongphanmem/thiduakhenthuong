@@ -1,5 +1,5 @@
 <!--Modal Tao hồ sơ đề nghị-->
-{!! Form::open(['url' => '/XetDuyetHoSoThiDua/ThemKT', 'id' => 'frm_hoso', 'files' => true]) !!}
+{!! Form::open(['url' => $inputs['url_hs']. 'ThemKT', 'id' => 'frm_hoso', 'files' => true]) !!}
 <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
 <div id="taohoso-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
     <div class="modal-dialog modal-lg">

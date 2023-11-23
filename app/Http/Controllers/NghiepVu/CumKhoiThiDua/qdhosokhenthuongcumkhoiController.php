@@ -53,12 +53,14 @@ class qdhosokhenthuongcumkhoiController extends Controller
         $m_donvi = getDonVi(session('admin')->capdo, 'qdhosokhenthuongcumkhoi');
         if ($m_donvi->count() == 0) {
             return view('errors.403')
-                ->with('message', 'Chưa có đơn vị được phân công nhiệm phê duyệt hồ sơ đề nghị khen thưởng cho cụm, khối thi đua.')
+                ->with('message', 'Chưa có đơn vị được phân công nhiệm phê duyệt đề nghị khen thưởng các hồ sơ đề nghị khen thưởng cho cụm, khối thi đua.')
                 ->with('url', '/');
         }
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
-        $model = dscumkhoi::where('madonvikt', $inputs['madonvi'])->get();
+        
+        // $model = dscumkhoi::where('madonvikt', $inputs['madonvi'])->get();
+        $model = dscumkhoi::all();
         $m_hoso = dshosotdktcumkhoi::wherein('macumkhoi', array_column($model->toarray(), 'macumkhoi'))
             ->where('madonvi_kt', $inputs['madonvi'])->get();
         $a_trangthai = array_unique(array_column($m_hoso->toarray(), 'trangthai'));

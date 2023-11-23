@@ -352,9 +352,9 @@ function getDonViXetDuyetDiaBan($donvi, $kieudulieu = 'ARRAY')
         $a_donvi = array_merge($a_donvi, [$m_diabanQL->madonviKT]);
 
     //2023.05.25 thêm điều kiện đơn vị không gửi đc cho chính mính (kể cả đơn vị quản lý ở cấp H)
-    if ($donvi->capdo != 'T') {
-        $a_donvi = array_diff($a_donvi, [$donvi->madonvi]);
-    }
+    // if ($donvi->capdo != 'T') {
+    //     $a_donvi = array_diff($a_donvi, [$donvi->madonvi]);
+    // }
 
     $model = \App\Model\DanhMuc\dsdonvi::wherein('madonvi', $a_donvi)->get();
 

@@ -200,21 +200,21 @@ class dungchung_duthaokhenthuongController extends Controller
             case 'dshosothiduakhenthuong': {
                     $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
                     if ($model->thongtinquyetdinh == '') {
-                        getTaoQuyetDinhKT($model);
+                        getTaoQuyetDinhKT($model, $inputs['maduthao']);
                     }
                     break;
                 }
             case 'dshosokhencao': {
                     $model = dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first();
                     if ($model->thongtinquyetdinh == '') {
-                        getTaoQuyetDinhKT($model);
+                        getTaoQuyetDinhKT($model, $inputs['maduthao']);
                     }
                     break;
                 }
             case 'dshosotdktcumkhoi': {
                     $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
                     if ($model->thongtinquyetdinh == '') {
-                        getTaoQuyetDinhKTCumKhoi($model);
+                        getTaoQuyetDinhKTCumKhoi($model, $inputs['maduthao']);
                     }
                     break;
                 }
@@ -238,7 +238,7 @@ class dungchung_duthaokhenthuongController extends Controller
         }
         $inputs['maduthao'] = $inputs['maduthao'] ?? array_key_first($a_duthao);
         if ($model->thongtinquyetdinh == '') {
-            getTaoQuyetDinhKT($model);
+            getTaoQuyetDinhKT($model, $inputs['maduthao']);
         }
 
         return view('NghiepVu._DungChung.DuThao.QuyetDinhKhenThuong')
@@ -256,7 +256,7 @@ class dungchung_duthaokhenthuongController extends Controller
         $model->thongtinquyetdinh = ''; //Gán trống để tạo dự thảo mới
         getTaoDuThaoKT($model, $inputs['maduthao']);
         //Gán các trường thông tin
-        getTaoQuyetDinhKT($model);
+        getTaoQuyetDinhKT($model, $inputs['maduthao']);
 
         $a_duthao = array_column(duthaoquyetdinh::all()->toArray(), 'noidung', 'maduthao');
 

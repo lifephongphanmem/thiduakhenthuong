@@ -244,7 +244,7 @@ class xdhosodenghikhenthuongchuyendeController extends Controller
             ->with('a_canhan', $a_canhan)
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Thông tin hồ sơ đề nghị khen thưởng');
-    }     
+    }
 
     public function LayLyDo(Request $request)
     {
@@ -303,8 +303,8 @@ class xdhosodenghikhenthuongchuyendeController extends Controller
         $inputs['phanloaihoso'] = 'dshosothiduakhenthuong';
 
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        $model_tailieu = dshosothiduakhenthuong_tailieu::where('mahosotdkt', $inputs['mahosotdkt'])->get(); 	
-       
+        $model_tailieu = dshosothiduakhenthuong_tailieu::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+
         return view('NghiepVu.KhenThuongChuyenDe.XetDuyet.TrinhKetQua')
             ->with('model', $model)
             ->with('model_tailieu', $model_tailieu)
@@ -316,8 +316,11 @@ class xdhosodenghikhenthuongchuyendeController extends Controller
 
     public function LuuTrinhKetQua(Request $request)
     {
-        $inputs = $request->all();        
-        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();        
+        $inputs = $request->all();
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $maduthao = duthaoquyetdinh::where('phanloai', 'TOTRINHPHEDUYET')->first()->maduthao ?? '';
+        if ($maduthao != '')
+            getTaoDuThaoToTrinhPheDuyet($model, $maduthao);
         $model->update($inputs);
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_xd);
     }

@@ -23,7 +23,7 @@
                             ]) !!}
                         </div>
                     </div>
-                    @if ($inputs['trangthai'] != 'CC')
+                    @if (!in_array($inputs['trangthai'], ['CC', 'CD']))
                         <div class="form-group row">
                             <div id="donvixetduyet" class="col-6">
                                 <label>Đơn vị xét duyệt</label>

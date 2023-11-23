@@ -305,10 +305,10 @@ class xdhosodenghikhenthuongcongtrangController extends Controller
         $inputs['url'] = '/KhenThuongCongTrang/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongCongTrang/KhenThuong/';
         $inputs['phanloaihoso'] = 'dshosothiduakhenthuong';
-        
+
         $inputs['mahinhthuckt'] = session('chucnang')['xdhosodenghikhenthuongcongtrang']['mahinhthuckt'] ?? 'ALL';
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        $model_tailieu = dshosothiduakhenthuong_tailieu::where('mahosotdkt', $inputs['mahosotdkt'])->get();      
+        $model_tailieu = dshosothiduakhenthuong_tailieu::where('mahosotdkt', $inputs['mahosotdkt'])->get();
         //$inputs['madonvi'] = $model->madonvi_xd;//Gán đơn vị tải tài liệu đính kèm
         //dd($model_tailieu);
         return view('NghiepVu.KhenThuongCongTrang.XetDuyetHoSo.TrinhKetQua')
@@ -328,6 +328,9 @@ class xdhosodenghikhenthuongcongtrangController extends Controller
         //     $dinhkem = new dungchung_nghiepvu_tailieuController();
         //     $dinhkem->ThemTaiLieuDK($request, 'dshosothiduakhenthuong', 'totrinhdenghi', $model->madonvi_xd);
         // }
+        $maduthao = duthaoquyetdinh::where('phanloai', 'TOTRINHPHEDUYET')->first()->maduthao ?? '';
+        if ($maduthao != '')
+            getTaoDuThaoToTrinhPheDuyet($model, $maduthao);
         $model->update($inputs);
 
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_xd);
