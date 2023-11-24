@@ -394,7 +394,7 @@ class xdhosodenghikhenthuongthiduaController extends Controller
         return view('NghiepVu.ThiDuaKhenThuong.XetDuyetHoSo.DanhSach')
             ->with('inputs', $inputs)
             ->with('model', $model)
-            ->with('a_phanloaihs', getPhanLoaiHoSo())
+            ->with('a_phanloaihs', getPhanLoaiHoSo('KHENTHUONG'))
             ->with('m_phongtrao', $m_phongtrao)
             ->with('a_donviql', getDonViQuanLyDiaBan($donvi))
             ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))

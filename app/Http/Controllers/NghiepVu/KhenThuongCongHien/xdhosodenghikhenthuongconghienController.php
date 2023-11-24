@@ -112,7 +112,7 @@ class xdhosodenghikhenthuongconghienController extends Controller
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
             ->with('a_donviql', getDonViQuanLyDiaBan($donvi))
-            ->with('a_phanloaihs', getPhanLoaiHoSo())
+            ->with('a_phanloaihs', getPhanLoaiHoSo('KHENTHUONG'))
             ->with('a_loaihinhkt', array_column($m_loaihinh->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách hồ sơ khen thưởng theo cống hiến');

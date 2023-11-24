@@ -17,6 +17,10 @@
             $('#madonvi').change(function() {
                 window.location.href = "{{ $inputs['url'] }}" + "ThongTin?madonvi=" + $('#madonvi').val();
             });
+            //Xét giá trị cho các ô select
+            //frm_hoso
+            var phanloai = "{{ implode(';', array_keys(getPhanLoaiHoSo())) }}";           
+            $('#frm_hoso').find("[name='phanloai[]']").val(phanloai.split(';')).trigger('change');
         });
 
         function setURL(url) {
@@ -71,13 +75,15 @@
                         </li>
 
                         <li>
-                            <button class="btn btn-clean text-dark" title="Thống kê các loại hình khen thưởng: Công trạng; Chuyên đề; Đối ngoại; Đột xuất"
+                            <button class="btn btn-clean text-dark"
+                                title="Thống kê các loại hình khen thưởng: Công trạng; Chuyên đề; Đối ngoại; Đột xuất"
                                 onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenThuong_m2')"
                                 data-target="#modal-khenthuong" data-toggle="modal">Báo
                                 cáo hình thức khen thưởng trên địa bàn (Mẫu 02)</button>
                         </li>
                         <li>
-                            <button class="btn btn-clean text-dark" title="Thống kê các loại hình khen thưởng: Công trạng; Chuyên đề; Đối ngoại; Đột xuất"
+                            <button class="btn btn-clean text-dark"
+                                title="Thống kê các loại hình khen thưởng: Công trạng; Chuyên đề; Đối ngoại; Đột xuất"
                                 onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenThuong_m3')"
                                 data-target="#modal-khenthuong" data-toggle="modal">Báo
                                 cáo hình thức khen thưởng trên địa bàn (Mẫu 03)</button>
@@ -189,7 +195,7 @@
             'class' => 'form-horizontal form-validate',
         ]) !!}
         <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
-        <div class="modal-dialog modal-content">
+        <div class="modal-dialog modal-content modal-lg">
             <div class="modal-header modal-header-primary">
                 <h4 id="modal-header-primary-label" class="modal-title">Thông tin kết xuất hồ sơ đăng ký thi đua, khen
                     thưởng</h4>
@@ -198,22 +204,31 @@
             <div class="modal-body">
                 <p style="color: #0000FF">Thống kê các hồ sơ khen thưởng đã được phê duyệt hoặc khen thưởng theo địa bàn.
                 </p>
-                <div class="form-group row">
+                {{-- <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Địa bàn</label>
-                        {!! Form::select('madiaban', setArrayAll($a_diaban), null, ['class' => 'form-control select2_modal','disabled']) !!}
+                        {!! Form::select('madiaban', setArrayAll($a_diaban), null, [
+                            'class' => 'form-control select2_modal',
+                            'disabled',
+                        ]) !!}
+                    </div>
+                </div> --}}
+
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label>Phạm vị thống kê</label>
+                        {!! Form::select('phamvithongke', setArrayAll($a_phamvithongke), null, ['class' => 'form-control']) !!}
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <div class="col-lg-6">
-                        <label>Phạm vị thống kê</label>
-                        {!! Form::select('phamvithongke', setArrayAll($a_phamvithongke), null, ['class' => 'form-control']) !!}
-                    </div>
-
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <label>Phân loại hồ sơ</label>
-                        {!! Form::select('phanloai', setArrayAll(getPhanLoaiHoSo_BaoCao()), null, ['class' => 'form-control select2_modal']) !!}
+                        {!! Form::select('phanloai[]', getPhanLoaiHoSo(), null, [
+                            'class' => 'form-control select2_modal',
+                            'multiple' => 'multiple',
+                            'required' => 'required',
+                        ]) !!}
                         {{-- {!! Form::select('phamvithongke[]', setArrayAll(getPhanLoaiHoSo_BaoCao()), null, ['class' => 'form-control select2_modal','multiple'=>'true']) !!} --}}
                     </div>
                 </div>
@@ -246,9 +261,9 @@
                         <div class="checkbox-inline">
                             <label class="checkbox checkbox-outline checkbox-success">
                                 <input type="checkbox" name="indonvidulieu">
-                                <span></span>Chỉ in các đơn vị có số liệu khen thưởng</label>                           
+                                <span></span>Chỉ in các đơn vị có số liệu khen thưởng</label>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -280,7 +295,8 @@
                         <label>Địa bàn</label>
                         {!! Form::select('madiaban', setArrayAll($a_diaban), null, [
                             'madiaban' => 'madt',
-                            'class' => 'form-control select2_modal','disabled',
+                            'class' => 'form-control select2_modal',
+                            'disabled',
                         ]) !!}
                     </div>
                 </div>
@@ -335,11 +351,13 @@
         <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
         <div class="modal-dialog modal-content">
             <div class="modal-header modal-header-primary">
-                <h4 id="modal-header-primary-label" class="modal-title">Thông tin kết xuất hình thức khen thưởng trên địa bàn Tỉnh</h4>
+                <h4 id="modal-header-primary-label" class="modal-title">Thông tin kết xuất hình thức khen thưởng trên địa
+                    bàn Tỉnh</h4>
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
             </div>
             <div class="modal-body">
-                <p style="color: #0000FF">Thống kê các danh hiệu thi đua và hình thức khen thưởng đã được phê duyệt theo hồ sơ khen thưởng và hồ sơ đề nghị khen thưởng.</p>
+                <p style="color: #0000FF">Thống kê các danh hiệu thi đua và hình thức khen thưởng đã được phê duyệt theo hồ
+                    sơ khen thưởng và hồ sơ đề nghị khen thưởng.</p>
                 {{-- <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Địa bàn</label>
@@ -358,7 +376,9 @@
 
                     <div class="col-lg-6">
                         <label>Phân loại hồ sơ</label>
-                        {!! Form::select('phanloai', setArrayAll(getPhanLoaiHoSo_BaoCao()), null, ['class' => 'form-control select2_modal']) !!}
+                        {!! Form::select('phanloai', setArrayAll(getPhanLoaiHoSo_BaoCao()), null, [
+                            'class' => 'form-control select2_modal',
+                        ]) !!}
                         {{-- {!! Form::select('phamvithongke[]', setArrayAll(getPhanLoaiHoSo_BaoCao()), null, ['class' => 'form-control select2_modal','multiple'=>'true']) !!} --}}
                     </div>
                 </div>
@@ -407,9 +427,9 @@
                         <div class="checkbox-inline">
                             <label class="checkbox checkbox-outline checkbox-success">
                                 <input type="checkbox" name="indonvidulieu" checked>
-                                <span></span>Chỉ in các đơn vị có số liệu khen thưởng</label>                           
+                                <span></span>Chỉ in các đơn vị có số liệu khen thưởng</label>
                         </div>
-                        
+
                     </div>
                 </div>
 
@@ -423,7 +443,8 @@
     </div>
 
     {{-- Hình thức khen thưởng cấp nhà nước --}}
-    <div id="modal-khenthuongnhanuoc" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
+    <div id="modal-khenthuongnhanuoc" tabindex="-1" role="dialog" aria-hidden="true"
+        class="modal fade kt_select2_modal">
         {!! Form::open([
             'url' => '',
             'target' => '_blank',
@@ -434,17 +455,20 @@
         <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
         <div class="modal-dialog modal-content">
             <div class="modal-header modal-header-primary">
-                <h4 id="modal-header-primary-label" class="modal-title">Thông tin kết xuất hình thức khen thưởng cấp nhà nước</h4>
+                <h4 id="modal-header-primary-label" class="modal-title">Thông tin kết xuất hình thức khen thưởng cấp nhà
+                    nước</h4>
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
             </div>
             <div class="modal-body">
-                <p style="color: #0000FF">Thống kê các danh hiệu thi đua và hình thức khen thưởng đã được phê duyệt theo hồ sơ khen thưởng và hồ sơ đề nghị khen thưởng.</p>
+                <p style="color: #0000FF">Thống kê các danh hiệu thi đua và hình thức khen thưởng đã được phê duyệt theo hồ
+                    sơ khen thưởng và hồ sơ đề nghị khen thưởng.</p>
                 <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Địa bàn</label>
                         {!! Form::select('madiaban', setArrayAll($a_diaban), null, [
                             'madiaban' => 'madt',
-                            'class' => 'form-control select2_modal', 'disabled',
+                            'class' => 'form-control select2_modal',
+                            'disabled',
                         ]) !!}
                     </div>
                 </div>
@@ -467,11 +491,13 @@
 
                     <div class="col-lg-6">
                         <label>Phân loại hồ sơ</label>
-                        {!! Form::select('phanloai', setArrayAll(getPhanLoaiHoSo_BaoCao()), null, ['class' => 'form-control select2_modal']) !!}
+                        {!! Form::select('phanloai', setArrayAll(getPhanLoaiHoSo_BaoCao()), null, [
+                            'class' => 'form-control select2_modal',
+                        ]) !!}
                         {{-- {!! Form::select('phamvithongke[]', setArrayAll(getPhanLoaiHoSo_BaoCao()), null, ['class' => 'form-control select2_modal','multiple'=>'true']) !!} --}}
                     </div>
                 </div>
-               
+
 
                 {{-- <div class="form-group row">
                     <div class="col-lg-12">
@@ -498,9 +524,9 @@
                         <div class="checkbox-inline">
                             <label class="checkbox checkbox-outline checkbox-success">
                                 <input type="checkbox" name="indonvidulieu">
-                                <span></span>Chỉ in các đơn vị có số liệu khen thưởng</label>                           
+                                <span></span>Chỉ in các đơn vị có số liệu khen thưởng</label>
                         </div>
-                        
+
                     </div>
                 </div>
 

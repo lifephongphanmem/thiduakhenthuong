@@ -74,7 +74,7 @@
                         <thead>
                             <tr class="text-center">
                                 <th width="2%">STT</th>
-                                <th>Phân loại hồ sơ</th>
+                                <th width="20%">Phân loại hồ sơ</th>
                                 <th>Nội dung hồ sơ</th>
                                 <th width="8%">Ngày tháng</th>
                                 <th width="8%">Trạng thái</th>

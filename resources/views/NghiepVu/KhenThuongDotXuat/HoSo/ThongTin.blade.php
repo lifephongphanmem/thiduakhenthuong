@@ -74,7 +74,7 @@
                         <thead>
                             <tr class="text-center">
                                 <th width="2%">STT</th>
-                                {{-- <th>Phân loại hồ sơ</th> --}}
+                                <th width="20%">Phân loại hồ sơ</th>
                                 <th>Nội dung hồ sơ</th>
                                 {{-- <th width="15%">Loại hình khen thưởng</th> --}}
                                 <th width="8%">Ngày tạo</th>
@@ -88,7 +88,7 @@
                         @foreach ($model as $key => $tt)
                             <tr>
                                 <td class="text-center">{{ $i++ }}</td>
-                                {{-- <td>{{ $a_phanloaihs[$tt->phanloai] ?? $tt->phanloai }}</td> --}}
+                                <td>{{ $a_phanloaihs[$tt->phanloai] ?? $tt->phanloai }}</td>
                                 <td>{{ $tt->noidung }}</td>
                                 {{-- <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td> --}}
                                 <td class="text-center">{{ getDayVn($tt->ngayhoso) }}</td>

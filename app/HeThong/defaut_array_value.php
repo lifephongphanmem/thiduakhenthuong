@@ -125,20 +125,60 @@ function getPhanLoaiHoSoKT()
     );
 }
 
-function getPhanLoaiHoSo()
+function getPhanLoaiHoSo($phanloai = 'ALL')
 {
-    return array(
-        'KHENTHUONG' => 'Hồ sơ đề nghị cấp trên khen thưởng',
-        //'KTNGANH' => 'Hồ sơ khen thưởng theo ngành', //chuyển lên loại hồ sơ khen thưởng tại đơn vị
-    );
+    $a_kq = '';
+    switch ($phanloai) {
+        case 'ALL': {
+                $a_kq = array(
+                    'KTDONVI' => 'Hồ sơ khen thưởng tại đơn vị',
+                    'KHENTHUONG' => 'Hồ sơ đề nghị cấp trên khen thưởng',
+                    'KHENCAOTHUTUONG' => 'Hồ sơ đề nghị Thủ tướng chính phủ khen thưởng',
+                    'KHENCAOCHUTICHNUOC' => 'Hồ sơ đề nghị Chủ tịch nước khen thưởng',
+                    //'KTNGANH' => 'Hồ sơ khen thưởng theo ngành', //chuyển lên loại hồ sơ khen thưởng tại đơn vị
+                );
+                break;
+            }
+        case 'KTDONVI': {
+                $a_kq = array(
+                    'KTDONVI' => 'Hồ sơ khen thưởng tại đơn vị',
+                );
+                break;
+            }
+        case 'KHENTHUONG': {
+                $a_kq = array(
+                    'KHENTHUONG' => 'Hồ sơ đề nghị cấp trên khen thưởng',
+                    'KHENCAOTHUTUONG' => 'Hồ sơ đề nghị Thủ tướng chính phủ khen thưởng',
+                    'KHENCAOCHUTICHNUOC' => 'Hồ sơ đề nghị Chủ tịch nước khen thưởng',
+                );
+                break;
+            }
+        case 'KHENCAO': {
+                $a_kq = array(
+                    'KHENCAOTHUTUONG' => 'Hồ sơ đề nghị Thủ tướng chính phủ khen thưởng',
+                    'KHENCAOCHUTICHNUOC' => 'Hồ sơ đề nghị Chủ tịch nước khen thưởng',
+                );
+                break;
+            }
+        case 'BAOCAOKHENTINH': {
+                $a_kq = array(
+                    'KTDONVI' => 'Hồ sơ khen thưởng tại đơn vị',
+                    'KHENTHUONG' => 'Hồ sơ đề nghị cấp trên khen thưởng',
+                );
+                break;
+            }
+    }
+
+    return $a_kq;
 }
 
 function getPhanLoaiHoSo_BaoCao()
 {
-    return array(
-        'KTDONVI' => 'Hồ sơ khen thưởng tại đơn vị',
-        'KHENTHUONG' => 'Hồ sơ đề nghị cấp trên khen thưởng',
-    );
+    return getPhanLoaiHoSo('ALL');
+    // return array(
+    //     'KTDONVI' => 'Hồ sơ khen thưởng tại đơn vị',
+    //     'KHENTHUONG' => 'Hồ sơ đề nghị cấp trên khen thưởng',
+    // );
 }
 
 function getPhamViKhenCao($phamvi = 'T')
@@ -618,7 +658,7 @@ function getTaoDuThaoToTrinhPheDuyet(&$model, $maduthao = null)
     }
 }
 
-function getTaoQuyetDinhKT(&$model, $maduthao)
+function getTaoQuyetDinhKT(&$model, $maduthao = null)
 {
     if ($model->thongtinquyetdinh == '') {
         getTaoDuThaoKT($model, $maduthao);

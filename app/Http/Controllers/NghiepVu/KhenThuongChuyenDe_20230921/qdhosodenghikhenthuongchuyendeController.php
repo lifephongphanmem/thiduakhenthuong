@@ -107,7 +107,7 @@ class qdhosodenghikhenthuongchuyendeController extends Controller
             ->with('m_diaban', $m_diaban)
             ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
             ->with('a_loaihinhkt', array_column($m_loaihinh->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
-            ->with('a_phanloaihs', getPhanLoaiHoSo())
+            ->with('a_phanloaihs', getPhanLoaiHoSo('KHENTHUONG'))
             //->with('a_trangthaihoso', getTrangThaiTDKT())
             //->with('a_phamvi', getPhamViPhongTrao())
             ->with('pageTitle', 'Danh sách hồ sơ trình khen thưởng');

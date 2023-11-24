@@ -99,7 +99,7 @@ class dshosodenghikhencaoController extends Controller
             ->with('a_diaban', $a_diaban)
             ->with('a_donviql', getDonViXetDuyetDiaBan($donvi))
             ->with('a_donvinganh', getDonViQuanLyNganh($donvi))
-            ->with('a_phanloaihs', getPhanLoaiHoSo())
+            ->with('a_phanloaihs', getPhanLoaiHoSo('KHENCAO'))
             ->with('a_loaihinhkt', array_column($m_loaihinh->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách hồ sơ đề nghị khen thưởng chuyên đề');

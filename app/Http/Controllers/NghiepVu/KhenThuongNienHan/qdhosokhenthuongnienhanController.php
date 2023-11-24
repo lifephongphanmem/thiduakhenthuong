@@ -93,7 +93,7 @@ class qdhosokhenthuongnienhanController extends Controller
             ->with('m_diaban', $m_diaban)
             ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
             ->with('a_loaihinhkt', array_column($m_loaihinh->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
-            ->with('a_phanloaihs', getPhanLoaiHoSo())
+            ->with('a_phanloaihs', getPhanLoaiHoSo('KHENTHUONG'))
             //->with('a_trangthaihoso', getTrangThaiTDKT())
             //->with('a_phamvi', getPhamViPhongTrao())
             ->with('pageTitle', 'Danh sách hồ sơ trình khen thưởng');
@@ -120,8 +120,8 @@ class qdhosokhenthuongnienhanController extends Controller
         $m_donvi = getDonVi(session('admin')->capdo);
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
         $m_danhhieu = dmdanhhieuthidua::all();
-        $m_canhan = getDoiTuongKhenThuong($model->madonvi);
-        $m_tapthe = getTapTheKhenThuong($model->madonvi);
+        // $m_canhan = getDoiTuongKhenThuong($model->madonvi);
+        // $m_tapthe = getTapTheKhenThuong($model->madonvi);
         $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE', 'HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $m_phongtrao = dsphongtraothidua::all();
@@ -132,8 +132,8 @@ class qdhosokhenthuongnienhanController extends Controller
             ->with('model_detai', $model_detai)
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
-            ->with('m_canhan', $m_canhan)
-            ->with('m_tapthe', $m_tapthe)
+            // ->with('m_canhan', $m_canhan)
+            // ->with('m_tapthe', $m_tapthe)
             ->with('m_phongtraotd', $m_phongtrao)
             ->with('a_phongtraotd', array_column($m_phongtrao->toArray(), 'noidung', 'maphongtraotd'))
             ->with('a_danhhieu', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))

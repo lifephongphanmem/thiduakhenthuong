@@ -81,7 +81,7 @@ class dshosokhenthuongnienhanController extends Controller
             ->with('a_diaban', $a_diaban)
             ->with('a_donviql', getDonViXetDuyetDiaBan($donvi))
             ->with('a_donvinganh', getDonViQuanLyNganh($donvi))
-            ->with('a_phanloaihs', getPhanLoaiHoSo())
+            ->with('a_phanloaihs', getPhanLoaiHoSo('KHENTHUONG'))
             ->with('a_loaihinhkt', array_column($m_loaihinh->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách hồ sơ khen thưởng niên hạn');
@@ -107,8 +107,8 @@ class dshosokhenthuongnienhanController extends Controller
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
         $m_danhhieu = dmdanhhieuthidua::all();
         $m_phongtrao = dsphongtraothidua::all();
-        $m_canhan = getDoiTuongKhenThuong($model->madonvi);
-        $m_tapthe = getTapTheKhenThuong($model->madonvi);
+        // $m_canhan = getDoiTuongKhenThuong($model->madonvi);
+        // $m_tapthe = getTapTheKhenThuong($model->madonvi);
         $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE', 'HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $inputs['mahinhthuckt'] = $model->mahinhthuckt;
@@ -120,8 +120,8 @@ class dshosokhenthuongnienhanController extends Controller
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
             ->with('m_danhhieu', $m_danhhieu)
-            ->with('m_canhan', $m_canhan)
-            ->with('m_tapthe', $m_tapthe)
+            // ->with('m_canhan', $m_canhan)
+            // ->with('m_tapthe', $m_tapthe)
             ->with('m_phongtraotd', $m_phongtrao)
             ->with('a_phongtraotd', array_column($m_phongtrao->toArray(), 'noidung', 'maphongtraotd'))
             ->with('a_danhhieutd', array_column($m_danhhieu->toArray(), 'tendanhhieutd', 'madanhhieutd'))
@@ -368,25 +368,7 @@ class dshosokhenthuongnienhanController extends Controller
         die(json_encode($model));
     }
 
-    public function XoaDoiTuong(Request $request)
-    {
-        $result = array(
-            'status' => 'fail',
-            'message' => 'error',
-        );
-        if (!Session::has('admin')) {
-            $result = array(
-                'status' => 'fail',
-                'message' => 'permission denied',
-            );
-            die(json_encode($result));
-        }
-        //dd($request);
-        $inputs = $request->all();
-        $model = dshosothiduakhenthuong_khenthuong::findorfail($inputs['iddelete']);
-        $model->delete();
-        return redirect(static::$url . 'Sua?mahosotdkt=' . $model->mahosotdkt);
-    }
+    
 
     public function ChuyenHoSo(Request $request)
     {
@@ -415,25 +397,7 @@ class dshosokhenthuongnienhanController extends Controller
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }
 
-    //bỏ
-    public function LayDoiTuong(Request $request)
-    {
-        $result = array(
-            'status' => 'fail',
-            'message' => 'error',
-        );
-        if (!Session::has('admin')) {
-            $result = array(
-                'status' => 'fail',
-                'message' => 'permission denied',
-            );
-            die(json_encode($result));
-        }
-        //dd($request);
-        $inputs = $request->all();
-        $model = dshosothiduakhenthuong_khenthuong::findorfail($inputs['id']);
-        die(json_encode($model));
-    }
+    
 
     public function XoaHoSo(Request $request)
     {
@@ -452,49 +416,6 @@ class dshosokhenthuongnienhanController extends Controller
         $model = dshosothiduakhenthuong::findorfail($inputs['id']);
         $model->delete();
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
-    }
-
-    //bỏ
-    public function NhanExcel(Request $request)
-    {
-
-        $inputs = $request->all();
-        //dd($inputs);
-        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        $filename = $inputs['mahosotdkt'] . '_' . getdate()[0];
-        $request->file('fexcel')->move(public_path() . '/data/uploads/', $filename . '.xlsx');
-        $path = public_path() . '/data/uploads/' . $filename . '.xlsx';
-        $data = [];
-
-        Excel::load($path, function ($reader) use (&$data, $inputs) {
-            $obj = $reader->getExcel();
-            $sheet = $obj->getSheet(0);
-            $data = $sheet->toArray(null, true, true, true); // giữ lại tiêu đề A=>'val';
-        });
-        //dd($data);
-        $maso = getdate()[0];
-        $a_dm = array();
-
-        for ($i = $inputs['tudong']; $i <= $inputs['dendong']; $i++) {
-            if (!isset($data[$i][$inputs['tendoituong']])) {
-                continue;
-            }
-            $a_dm[] = array(
-                'mahosotdkt' => $inputs['mahosotdkt'],
-                'madoituong' => $inputs['mahosotdkt'] . '_' . ($maso + $i),
-                'phanloai' => 'CANHAN',
-                'tendoituong' => $data[$i][$inputs['tendoituong']] ?? '',
-                'gioitinh' => $data[$i][$inputs['gioitinh']] ?? '',
-                'ngaysinh' => $data[$i][$inputs['ngaysinh']] ?? '',
-                'lanhdao' => $data[$i][$inputs['lanhdao']] ?? '',
-                'chucvu' => $data[$i][$inputs['chucvu']] ?? '',
-                'mahinhthuckt' => $data[$i][$inputs['mahinhthuckt']] ?? '',
-            );
-        }
-        dshosothiduakhenthuong_khenthuong::insert($a_dm);
-        File::Delete($path);
-
-        return redirect(static::$url . 'Sua?mahosotdkt=' . $model->mahosotdkt);
     }
 
 

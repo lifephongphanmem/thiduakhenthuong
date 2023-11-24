@@ -2,7 +2,7 @@
     {!! Form::open(['url' => $inputs['url_hs'] . 'Them', 'id' => 'frm_hoso', 'files' => true]) !!}
     <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
     <div id="taohoso-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header modal-header-primary">
                     <h4 id="modal-header-primary-label" class="modal-title">Đồng ý tạo hồ sơ trình khen thưởng?</h4>
@@ -11,18 +11,24 @@
 
                 <div class="modal-body">
                     <div class="form-group row">
-                        <div class="col-6">
+                        <div class="col-4">
                             <label>Loại hình khen thưởng</label>
                             {!! Form::select('maloaihinhkt', $a_loaihinhkt, $inputs['maloaihinhkt'], ['class' => 'form-control']) !!}
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-4">
+                            <label>Phân loại hồ sơ</label>
+                            {!! Form::select('phanloai', getPhanLoaiHoSo('KHENTHUONG'), null, ['class' => 'form-control']) !!}
+                        </div>
+
+                        <div class="col-4">
                             <label>Trạng thái hồ sơ</label>
                             {!! Form::select('trangthai', getTrangThaiChucNangHoSo($inputs['trangthai']), $inputs['trangthai'], [
                                 'class' => 'form-control',
                             ]) !!}
                         </div>
                     </div>
+                    
                     @if (!in_array($inputs['trangthai'], ['CC', 'CD']))
                         <div class="form-group row">
                             <div id="donvixetduyet" class="col-6">
@@ -44,7 +50,6 @@
                             </div>
                         </div>
                     @endif
-
 
                     <div class="form-group row">
                         <div class="col-6">

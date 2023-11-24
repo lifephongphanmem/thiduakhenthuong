@@ -110,7 +110,7 @@ class dshosodenghikhenthuongchuyendeController extends Controller
             ->with('a_diaban', $a_diaban)
             ->with('a_donviql', getDonViXetDuyetDiaBan($donvi))
             ->with('a_donvinganh', getDonViQuanLyNganh($donvi))
-            ->with('a_phanloaihs', getPhanLoaiHoSo())
+            ->with('a_phanloaihs', getPhanLoaiHoSo('KHENTHUONG'))
             ->with('a_loaihinhkt', array_column($m_loaihinh->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách hồ sơ đề nghị khen thưởng chuyên đề');
@@ -199,7 +199,7 @@ class dshosodenghikhenthuongchuyendeController extends Controller
         }
         $inputs = $request->all();
         $inputs['mahosotdkt'] = (string)getdate()[0];
-        $inputs['phanloai'] = 'KHENTHUONG';
+        // $inputs['phanloai'] = 'KHENTHUONG';
         if (isset($inputs['totrinh'])) {
             $filedk = $request->file('totrinh');
             $inputs['totrinh'] = $inputs['mahosotdkt'] . '_totrinh.' . $filedk->getClientOriginalExtension();

@@ -163,23 +163,22 @@ class baocaotonghopController extends Controller
         $inputs['madiaban'] = $inputs['madiaban'] ?? 'ALL';
         $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
         $m_diaban = getDiaBanBaoCaoTongHop($donvi);
-        if ($inputs['madiaban'] != 'ALL') {
-            $m_diaban = $m_diaban->where('madiaban', $inputs['madiaban']);
-        }
+        // if ($inputs['madiaban'] != 'ALL') {
+        //     $m_diaban = $m_diaban->where('madiaban', $inputs['madiaban']);
+        // }
         $model = viewdiabandonvi::wherein('madiaban', array_column($m_diaban->toArray(), 'madiaban'))->get();
         if ($inputs['phamvithongke'] != 'ALL') {
             $model = $model->where('capdo', $inputs['phamvithongke']);
         }
-        $m_hoso = dshosothiduakhenthuong::wherenotin('trangthai', ['CC', 'BTL'])
+        $m_hoso = dshosothiduakhenthuong::where('trangthai', 'DKT')
             ->wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
-            ->wherein('madonvi', array_column($model->toArray(), 'madonvi'));
-
-        if ($inputs['phanloai'] != 'ALL') {
-            $m_hoso = $m_hoso->where('phanloai', $inputs['phanloai']);
-        }
+            ->wherein('madonvi', array_column($model->toArray(), 'madonvi'))
+            ->wherein('phanloai', $inputs['phanloai']);
+       //dd($m_hoso->toSql());
         $m_hoso =  $m_hoso->get();
         $m_loaihinhkt = getLoaiHinhKhenThuong();
         $a_diaban = array_column($model->toArray(), 'tendiaban', 'madiaban');
+        
         foreach ($model as $ct) {
             $ct->tongso = 0;
             foreach ($m_loaihinhkt as $loaihinh) {
@@ -188,7 +187,10 @@ class baocaotonghopController extends Controller
                 $ct->tongso += $ct->$maloaihinhkt;
             }
         }
-
+        $inputs['phanloaihoso'] = '';
+        foreach($inputs['phanloai'] as $phanloai){
+            $inputs['phanloaihoso'] .= (getPhanLoaiHoSo()[$phanloai].'; ');
+        }
         //Thông tin đơn vị
         $m_donvi = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
         return view('BaoCao.TongHop.HoSo')
