@@ -229,7 +229,6 @@
                             'multiple' => 'multiple',
                             'required' => 'required',
                         ]) !!}
-                        {{-- {!! Form::select('phamvithongke[]', setArrayAll(getPhanLoaiHoSo_BaoCao()), null, ['class' => 'form-control select2_modal','multiple'=>'true']) !!} --}}
                     </div>
                 </div>
 
@@ -349,7 +348,7 @@
             'class' => 'form-horizontal form-validate',
         ]) !!}
         <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
-        <div class="modal-dialog modal-content">
+        <div class="modal-dialog modal-content modal-lg">
             <div class="modal-header modal-header-primary">
                 <h4 id="modal-header-primary-label" class="modal-title">Thông tin kết xuất hình thức khen thưởng trên địa
                     bàn Tỉnh</h4>
@@ -369,17 +368,20 @@
                 </div> --}}
 
                 <div class="form-group row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <label>Phạm vị thống kê</label>
                         {!! Form::select('phamvithongke', setArrayAll($a_phamvithongke), null, ['class' => 'form-control']) !!}
                     </div>
+                </div>
 
-                    <div class="col-lg-6">
+                <div class="form-group row">
+                    <div class="col-lg-12">
                         <label>Phân loại hồ sơ</label>
-                        {!! Form::select('phanloai', setArrayAll(getPhanLoaiHoSo_BaoCao()), null, [
+                        {!! Form::select('phanloai[]', getPhanLoaiHoSo('BAOCAOKHENTINH'), null, [
                             'class' => 'form-control select2_modal',
+                            'multiple' => 'multiple',
+                            'required' => 'required',
                         ]) !!}
-                        {{-- {!! Form::select('phamvithongke[]', setArrayAll(getPhanLoaiHoSo_BaoCao()), null, ['class' => 'form-control select2_modal','multiple'=>'true']) !!} --}}
                     </div>
                 </div>
 

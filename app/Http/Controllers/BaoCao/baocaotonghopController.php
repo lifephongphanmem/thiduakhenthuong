@@ -226,12 +226,10 @@ class baocaotonghopController extends Controller
             $model = $model->get();
         }
 
-        $m_hoso = dshosothiduakhenthuong::wherenotin('trangthai', ['CC', 'BTL'])
+        $m_hoso = dshosothiduakhenthuong::where('trangthai', 'DKT')
             ->wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
-            ->wherein('madonvi', array_column($model->toarray(), 'madonvi'));
-        if ($inputs['phanloai'] != 'ALL') {
-            $m_hoso = $m_hoso->where('phanloai', $inputs['phanloai']);
-        }
+            ->wherein('madonvi', array_column($model->toarray(), 'madonvi'))
+            ->wherein('phanloai', $inputs['phanloai']);
 
         if ($inputs['madonvi_kt'] != 'ALL') {
             $m_hoso = $m_hoso->where('madonvi_kt', $inputs['madonvi_kt']);
@@ -282,6 +280,10 @@ class baocaotonghopController extends Controller
                     $view = 'BaoCao.TongHop.KhenThuong_CapTinh';
                 }
         }
+        $inputs['phanloaihoso'] = '';
+        foreach($inputs['phanloai'] as $phanloai){
+            $inputs['phanloaihoso'] .= (getPhanLoaiHoSo()[$phanloai].'; ');
+        }
         // dd($view);
         $m_donvibc = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
         return view($view)
@@ -317,15 +319,11 @@ class baocaotonghopController extends Controller
         if ($inputs['phamvithongke'] != 'ALL') {
             $m_donvi = $m_donvi->where('capdo', $inputs['phamvithongke']);
         }
-        $m_hoso = dshosothiduakhenthuong::wherenotin('trangthai', ['CC', 'BTL'])
+        $m_hoso = dshosothiduakhenthuong::where('trangthai', 'DKT')
             ->wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
             ->wherein('madonvi', array_column($m_donvi->toArray(), 'madonvi'))
-            ->wherein('maloaihinhkt', ['1650358223', '1650358255', '1650358265', '1650358310']);
-
-        //Lọc phân loại hồ sơ
-        if ($inputs['phanloai'] != 'ALL') {
-            $m_hoso = $m_hoso->where('phanloai', $inputs['phanloai']);
-        }
+            ->wherein('maloaihinhkt', ['1650358223', '1650358255', '1650358265', '1650358310'])
+            ->wherein('phanloai', $inputs['phanloai']);
         if ($inputs['madonvi_kt'] != 'ALL') {
             $m_hoso = $m_hoso->where('madonvi_kt', $inputs['madonvi_kt']);
         }
@@ -442,14 +440,11 @@ class baocaotonghopController extends Controller
         if ($inputs['phamvithongke'] != 'ALL') {
             $m_donvi = $m_donvi->where('capdo', $inputs['phamvithongke']);
         }
-        $m_hoso = dshosothiduakhenthuong::wherenotin('trangthai', ['CC', 'BTL'])
+        $m_hoso = dshosothiduakhenthuong::where('trangthai', 'DKT')  
             ->wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
             ->wherein('madonvi', array_column($m_donvi->toArray(), 'madonvi'))
-            ->wherein('maloaihinhkt', ['1650358223', '1650358255', '1650358265', '1650358310']);
-        //Lọc phân loại hồ sơ
-        if ($inputs['phanloai'] != 'ALL') {
-            $m_hoso = $m_hoso->where('phanloai', $inputs['phanloai']);
-        }
+            ->wherein('maloaihinhkt', ['1650358223', '1650358255', '1650358265', '1650358310'])
+            ->wherein('phanloai', $inputs['phanloai']);
         if ($inputs['madonvi_kt'] != 'ALL') {
             $m_hoso = $m_hoso->where('madonvi_kt', $inputs['madonvi_kt']);
         }
@@ -585,6 +580,7 @@ class baocaotonghopController extends Controller
         $m_hoso = dshosokhencao::wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
             //->wherein('madonvi', array_column($m_donvi->toArray(), 'madonvi'))
             ->wherein('maloaihinhkt', ['1650358223', '1650358255', '1650358265', '1650358310', '1650358282'])
+            ->wherein('phanloai', $inputs['phanloai'])
             ->get();
 
         $model = DHKT_BaoCao();
@@ -705,6 +701,7 @@ class baocaotonghopController extends Controller
         $inputs['madiaban'] = $inputs['madiaban'] ?? 'ALL';
         $m_hoso = dshosokhencao::wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
             ->wherein('maloaihinhkt', ['1650358223', '1650358255', '1650358265', '1650358310', '1650358282'])
+            ->wherein('phanloai', $inputs['phanloai'])
             ->get();
         $model = DHKT_BaoCao();
 
