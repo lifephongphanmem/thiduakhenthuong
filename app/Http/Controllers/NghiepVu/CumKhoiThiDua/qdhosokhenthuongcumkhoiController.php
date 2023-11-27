@@ -118,7 +118,7 @@ class qdhosokhenthuongcumkhoiController extends Controller
         //dd($inputs);
         $model = dshosotdktcumkhoi::where('macumkhoi', $inputs['macumkhoi'])
             ->where('madonvi_kt', $inputs['madonvi'])
-            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH'])
+            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH','KHENCAOTHUTUONG' ,'KHENCAOCHUTICHNUOC',])
             ->wherein('trangthai', ['CXKT', 'DXKT', 'DKT']);
         if ($inputs['nam'] != 'ALL') {
             $model = $model->whereyear('ngayhoso', $inputs['nam']);

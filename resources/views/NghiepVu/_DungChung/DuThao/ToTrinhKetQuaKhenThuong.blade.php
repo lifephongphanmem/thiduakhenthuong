@@ -49,6 +49,7 @@
             ]) !!}
             {{ Form::hidden('mahosotdkt', null) }}
             {{ Form::hidden('thongtintotrinhdenghi', null) }}
+            {{ Form::hidden('phanloaihoso', $inputs['phanloaihoso']) }}
 
             <div class="document-editor__toolbar"></div>
             <div class="form-control editor" style="height: auto; border: 1px solid #E4E6EF;">
@@ -77,6 +78,7 @@
     <!--Modal Tạo mới dự thảo-->
     {!! Form::open(['url' => '/DungChung/DuThao/TaoToTrinhKetQuaKhenThuong', 'id' => 'frm_hoso']) !!}
     <input type="hidden" name="mahosotdkt" value="{{ $model->mahosotdkt }}" />
+    <input type="hidden" name="phanloaihoso" value="{{ $inputs['phanloaihoso'] }}" />
     <div id="taoduthao-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">

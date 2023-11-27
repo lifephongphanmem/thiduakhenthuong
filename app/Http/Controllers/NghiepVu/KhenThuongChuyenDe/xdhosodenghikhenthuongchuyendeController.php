@@ -62,7 +62,7 @@ class xdhosodenghikhenthuongchuyendeController extends Controller
         $inputs['maloaihinhkt'] = session('chucnang')['dshosodenghikhenthuongchuyende']['maloaihinhkt'] ?? 'ALL';
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         $model = dshosothiduakhenthuong::where('madonvi_xd', $inputs['madonvi'])
-            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH'])
+            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH','KHENCAOTHUTUONG' ,'KHENCAOCHUTICHNUOC',])
             ->where('maloaihinhkt', $inputs['maloaihinhkt']);
 
         $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';

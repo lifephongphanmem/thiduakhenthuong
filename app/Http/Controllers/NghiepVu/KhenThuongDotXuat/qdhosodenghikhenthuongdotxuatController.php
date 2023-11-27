@@ -61,7 +61,7 @@ class qdhosodenghikhenthuongdotxuatController extends Controller
         $inputs['capdo'] = $m_donvi->where('madonvi', $inputs['madonvi'])->first()->capdo;
 
         $model = dshosothiduakhenthuong::where('madonvi_kt', $inputs['madonvi'])
-            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH'])
+            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH','KHENCAOTHUTUONG' ,'KHENCAOCHUTICHNUOC',])
             ->wherein('trangthai', ['CXKT', 'DXKT', 'DKT']);
 
         if ($inputs['maloaihinhkt'] != 'ALL')

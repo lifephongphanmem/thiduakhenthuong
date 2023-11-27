@@ -20,7 +20,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
@@ -101,7 +101,6 @@
         }
 
         if (ok == false) {
-            //alert('Các trường: \n' + str + 'Không được để trống');
             toastr.error('Thông tin: \n' + str + 'Không hợp lệ', 'Lỗi!.');
             $("frm_chuyen_nganh").submit(function(e) {
                 e.preventDefault();
@@ -110,17 +109,16 @@
             $("frm_chuyen_nganh").unbind('submit').submit();
             $('#frm_chuyen_nganh').submit();
         }
-        //$('#frm_chuyen').submit();
+
     }
 
     function confirmChuyen(mahs, url, phanloaihs, madonvi = '') {
-
-        if (phanloaihs == 'KHENTHUONG') {
+        var arNhom = ['KHENTHUONG', 'KHENCAOTHUTUONG', 'KHENCAOCHUTICHNUOC', ];
+        if (arNhom.includes(phanloaihs)) {
             $('#frm_chuyen').attr('action', url);
             $('#frm_chuyen').find("[name='mahoso']").val(mahs);
             $('#frm_chuyen').find("[name='madonvi_nhan']").val(madonvi);
             $('#chuyen-modal-confirm').modal("show");
-
         } else {
             $('#frm_chuyen_nganh').attr('action', url);
             $('#frm_chuyen_nganh').find("[name='mahoso']").val(mahs);

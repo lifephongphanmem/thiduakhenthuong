@@ -286,18 +286,15 @@ function getDiaBanCumKhoi($tendangnhap)
     if (session('admin')->capdo == 'SSA') {
         return [];
     }
-    //Lấy đơn vị quản lý địa bàn và đơn vi
-    $model = dstaikhoan_phamvi::where('tendangnhap', $tendangnhap)->get();
-    //dd($model->toarray());
-    $a_kq = array_column($model->where('phanloai', 'CUMKHOI')->where('phanloai', 'DONVI')->toarray(), 'maphamvi');
-    //dd($a_kq);
+    //Lấy đơn vị quản lý theo đơn vi
+    $model = dstaikhoan_phamvi::where('tendangnhap', $tendangnhap)->get();   
+    $a_kq = array_column($model->wherein('phanloai', ['DONVI', 'CUMKHOI', 'DIABAN'])->toarray(), 'maphamvi');    
     //Lấy thông tin theo cụm khối
     $a_cumkhoi = array_column(view_dscumkhoi::wherein('macumkhoi', array_column($model->where('phanloai', 'CUMKHOI')->toarray(), 'maphamvi'))->get()->toArray(), 'madonvi');
     $a_kq = array_merge($a_kq, $a_cumkhoi);
     //Lấy thông tin theo địa bàn
     $a_diaban = array_column(viewdiabandonvi::wherein('madiaban', array_column($model->where('phanloai', 'DIABAN')->toarray(), 'maphamvi'))->get()->toArray(), 'madonvi');
     $a_kq = array_merge($a_kq, $a_diaban);
-
     return $a_kq;
 }
 

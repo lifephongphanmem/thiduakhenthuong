@@ -62,7 +62,7 @@ class xdhosodenghikhenthuongcongtrangController extends Controller
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
 
         $model = dshosothiduakhenthuong::where('madonvi_xd', $inputs['madonvi'])
-            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH'])
+            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH','KHENCAOTHUTUONG' ,'KHENCAOCHUTICHNUOC',])
             ->where('maloaihinhkt', $inputs['maloaihinhkt']); //->orderby('ngayhoso')->get();
 
         if (in_array($inputs['maloaihinhkt'], ['', 'ALL', 'all'])) {

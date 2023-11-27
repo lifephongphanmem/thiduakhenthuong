@@ -129,13 +129,22 @@
                                                     <span
                                                         class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->soluongkhenthuong }}</span>
                                                 </a>
-                                                @if (session('admin')->opt_duthaoquyetdinh)
+                                                @if (session('admin')->opt_duthaototrinh)
+                                                    <a title="Tạo dự thảo tờ trình kết quả khen thưởng" target="_blank"
+                                                        href="{{ url('/DungChung/DuThao/ToTrinhKetQuaKhenThuong?mahosotdkt=' . $tt->mahosotdkt.'&phanloaihoso='.$inputs['phanloaihoso']) }}"
+                                                        class="btn btn-sm btn-clean btn-icon">
+                                                        {{-- class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}"> --}}
+                                                        <i class="icon-lg la flaticon-clipboard text-success"></i>
+                                                    </a>
+                                                @endif
+
+                                                {{-- @if (session('admin')->opt_duthaoquyetdinh)
                                                     <a title="Tạo dự thảo quyết định khen thưởng"
                                                         href="{{ url($inputs['url_xd'] . 'QuyetDinh?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                         class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
                                                         <i class="icon-lg la flaticon-edit-1 text-success"></i>
                                                     </a>
-                                                @endif
+                                                @endif --}}
                                                 <button title="Chuyển phê duyệt khen thưởng" type="button"
                                                     onclick="confirmNhanvaTKT('{{ $tt->mahosotdkt }}','{{ $inputs['url_xd'] . 'ChuyenHoSo' }}','{{ $inputs['madonvi'] }}')"
                                                     class="btn btn-sm btn-clean btn-icon"
@@ -155,7 +164,8 @@
                                             @endif
 
                                             @if (in_array($tt->trangthai_hoso, ['DD', 'CD', 'BTLXD']) ||
-                                                    (in_array($tt->trangthai_hoso, ['CXKT', 'DKT']) && $tt->madonvi_kt == '')) <!-- Bổ sung đk đơn vị nhận rỗng để trả lại hồ sơ -->
+                                                    (in_array($tt->trangthai_hoso, ['CXKT', 'DKT']) && $tt->madonvi_kt == ''))
+                                                <!-- Bổ sung đk đơn vị nhận rỗng để trả lại hồ sơ -->
                                                 <button title="Trả lại hồ sơ" type="button"
                                                     onclick="confirmTraLai('{{ $tt->mahosotdkt }}', '{{ $inputs['madonvi'] }}', '{{ $inputs['url_xd'] . 'TraLai' }}')"
                                                     class="btn btn-sm btn-clean btn-icon" data-target="#modal-tralai"

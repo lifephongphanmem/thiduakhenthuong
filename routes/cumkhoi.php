@@ -152,6 +152,8 @@ Route::group(['prefix' => 'CumKhoiThiDua'], function () {
             Route::get('LayLyDo', [dshosodenghikhenthuongcumkhoiController::class, 'LayLyDo']);
             Route::get('LayTieuChuan', [dshosodenghikhenthuongcumkhoiController::class, 'LayTieuChuan']);
             Route::get('LayDoiTuong', [dshosodenghikhenthuongcumkhoiController::class, 'LayDoiTuong']);
+            
+            Route::post('ChuyenHoSo', [dshosodenghikhenthuongcumkhoiController::class, 'ChuyenHoSo']);
 
             //29.10.2022
             Route::get('QuyetDinh', [dshosodenghikhenthuongcumkhoiController::class, 'QuyetDinh']);

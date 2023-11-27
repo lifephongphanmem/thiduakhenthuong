@@ -59,7 +59,7 @@ class qdhosodenghikhenthuongchuyendeController extends Controller
         $inputs['maloaihinhkt'] = session('chucnang')['qdhosodenghikhenthuongchuyende']['maloaihinhkt'] ?? 'ALL';
 
         $model = dshosothiduakhenthuong::where('madonvi_kt', $inputs['madonvi'])
-            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH'])
+            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH','KHENCAOTHUTUONG' ,'KHENCAOCHUTICHNUOC',])
             ->wherein('trangthai', ['CXKT', 'DXKT', 'DKT']);
 
         if ($inputs['maloaihinhkt'] != 'ALL')

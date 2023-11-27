@@ -57,7 +57,7 @@ class dshosodenghikhenthuongdotxuatController extends Controller
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         $inputs['maloaihinhkt'] = session('chucnang')['dshosodenghikhenthuongdotxuat']['maloaihinhkt'] ?? 'ALL';
         $model = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi'])
-            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH']);
+            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH','KHENCAOTHUTUONG' ,'KHENCAOCHUTICHNUOC',]);
         if ($inputs['maloaihinhkt'] != 'ALL')
             $model = $model->where('maloaihinhkt', $inputs['maloaihinhkt']);
         $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';

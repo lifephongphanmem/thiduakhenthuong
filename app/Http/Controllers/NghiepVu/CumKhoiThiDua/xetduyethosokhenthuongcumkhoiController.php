@@ -59,7 +59,8 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
             ->where('madonvi_xd', $inputs['madonvi'])->get();
         $a_trangthai = array_unique(array_column($m_hoso->toarray(), 'trangthai'));
         $a_donvilocdulieu = getDiaBanCumKhoi(session('admin')->tendangnhap);
-       
+        // dd($a_donvilocdulieu);
+        //dd($model);
         foreach ($model as $key => $chitiet) {
             $hoso = $m_hoso->where('macumkhoi', $chitiet->macumkhoi);
             foreach ($a_trangthai as $trangthai) {
@@ -115,10 +116,12 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
         //--lấy địa bàn quản lý theo tài khoản
         $a_donvilocdulieu = getDiaBanCumKhoi(session('admin')->tendangnhap);
         //--
-
+        $m_khencanhan = dshosotdktcumkhoi_canhan::wherein('mahosotdkt', array_column($model->toarray(), 'mahosotdkt'))->get();
+        $m_khentapthe = dshosotdktcumkhoi_tapthe::wherein('mahosotdkt', array_column($model->toarray(), 'mahosotdkt'))->get();
+        
         foreach ($model as $key => $hoso) {
-            $hoso->soluongkhenthuong = dshosotdktcumkhoi_canhan::where('mahosotdkt', $hoso->mahosotdkt)->where('ketqua', '1')->count()
-                + dshosotdktcumkhoi_tapthe::where('mahosotdkt', $hoso->mahosotdkt)->where('ketqua', '1')->count();
+            $hoso->soluongkhenthuong = $m_khencanhan->where('mahosotdkt', $hoso->mahosotdkt)->count()
+                + $m_khentapthe->where('mahosotdkt', $hoso->mahosotdkt)->count();
             //Gán lại trạng thái hồ sơ
             $hoso->madonvi_hoso = $hoso->madonvi_xd;
             $hoso->trangthai_hoso = $hoso->trangthai_xd;
@@ -128,7 +131,7 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
             //lọc theo địa bàn
             if (count($a_donvilocdulieu) > 0) {
                 //lọc các hồ sơ theo thiết lập dữ liệu
-                if (!in_array($hoso->madonvi, $a_donvilocdulieu))
+                if (!in_array($hoso->macumkhoi, $a_donvilocdulieu))
                     $model->forget($key);
             }
         }
