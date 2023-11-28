@@ -284,7 +284,7 @@ class baocaotonghopController extends Controller
         foreach($inputs['phanloai'] as $phanloai){
             $inputs['phanloaihoso'] .= (getPhanLoaiHoSo()[$phanloai].'; ');
         }
-        / dd($model);
+         dd($model);
         $m_donvibc = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
         return view('BaoCao.TongHop.KhenThuong_CapTinh')
         // return view($view)
