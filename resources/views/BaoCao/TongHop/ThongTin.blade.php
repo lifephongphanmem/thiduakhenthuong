@@ -34,7 +34,7 @@
     <div class="card card-custom" style="min-height: 600px">
         <div class="card-header flex-wrap border-1 pt-6 pb-1">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">DANH SÁCH BÁO CÁO TỔNG HỢP</h3>
+                <h3 class="card-label text-uppercase">DANH SÁCH BÁO CÁO TỔNG HỢP 1</h3>
             </div>
         </div>
         <div class="card-body">
