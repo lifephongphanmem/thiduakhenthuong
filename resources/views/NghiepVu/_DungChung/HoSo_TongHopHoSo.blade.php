@@ -42,7 +42,7 @@
                                     <div class="tab-content">
                                         <div class="tab-pane fade active show" id="kt_thongtinchung" role="tabpanel"
                                             aria-labelledby="kt_thongtinchung">
-                                            @if ($inputs['trangthai'] != 'CC')
+                                            @if (!in_array($inputs['trangthai'], ['CC', 'CD']))
                                                 <div class="form-group row">
                                                     <div id="donvixetduyet" class="col-6">
                                                         <label>Đơn vị xét duyệt</label>
@@ -146,7 +146,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
-                    <button type="submit" onclick="chkThongTinHoSo()" class="btn btn-primary">Đồng ý</button>
+                    <button type="submit" onclick="chkThongTinHoSoTH()" class="btn btn-primary">Đồng ý</button>
                 </div>
             </div>
         </div>
@@ -172,7 +172,7 @@
             });
         }
 
-        function chkThongTinHoSo() {
+        function chkThongTinHoSoTH() {
             var ok = true,
                 message = '';
 

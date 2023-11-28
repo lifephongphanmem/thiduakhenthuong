@@ -5,7 +5,7 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header modal-header-primary">
-                    <h4 id="modal-header-primary-label" class="modal-title">Đồng ý tạo hồ sơ trình khen thưởng?</h4>
+                    <h4 id="modal-header-primary-label" class="modal-title">Đồng ý tạo hồ sơ đề nghị khen thưởng?</h4>
                     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
                 </div>
 
@@ -28,7 +28,7 @@
                             ]) !!}
                         </div>
                     </div>
-                    
+
                     @if (!in_array($inputs['trangthai'], ['CC', 'CD']))
                         <div class="form-group row">
                             <div id="donvixetduyet" class="col-6">
@@ -119,13 +119,15 @@
         function chkThongTinHoSo() {
             var ok = true,
                 message = '';
-
-            if ($('#madonvi_xd_themhs')[0] && $('#madonvi_xd_themhs').val() == 'ALL') {
+            var madonvi_xd_themhs = document.getElementById('madonvi_xd_themhs');
+            if (typeof(madonvi_xd_themhs) != 'undefined' && madonvi_xd_themhs != null && $('#madonvi_xd_themhs').val() ==
+                'ALL') {
                 ok = false;
                 message += 'Đơn vị xét duyệt đề nghị không được bỏ trống. \n';
             }
-
-            if ($('#madonvi_kt_themhs')[0] && $('#madonvi_kt_themhs').val() == 'ALL') {
+            var madonvi_kt_themhs = document.getElementById('madonvi_kt_themhs');
+            if (typeof(madonvi_kt_themhs) != 'undefined' && madonvi_kt_themhs != null && $('#madonvi_kt_themhs').val() ==
+                'ALL') {
                 ok = false;
                 message += 'Đơn vị phê duyệt đề nghị không được bỏ trống. \n';
             }
