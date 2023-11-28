@@ -39,7 +39,7 @@
         </tr>
         <tr>
             <td colspan="2" style="text-align: center; font-weight: bold; font-style: italic">
-                Phân loại hồ sơ: {{ getPhanLoaiHoSo_BaoCao()[$inputs['phanloai']] ?? 'Tất cả' }}
+                Phân loại hồ sơ: {{ $inputs['phanloaihoso']  ?? ''}}
             </td>
         </tr>
         <tr>

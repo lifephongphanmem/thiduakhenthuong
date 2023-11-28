@@ -283,8 +283,9 @@ class dungchung_duthaokhenthuongController extends Controller
                     break;
                 }
         }
-
-        $model->thongtinquyetdinh = str_replace('<p>[sangtrangmoi]</p>', '<div class=&#34;sangtrangmoi&#34;></div>', $model->thongtinquyetdinh);
+        $model->thongtinquyetdinh = str_replace('<table>', '<table style="border: 0px;">', $model->thongtinquyetdinh);
+        // dd($model->thongtinquyetdinh);
+        // return view('NghiepVu._DungChung.DuThao.InDuThao')
         return view('NghiepVu._DungChung.DuThao.QuyetDinhKhenThuong')
             ->with('model', $model)
             ->with('inputs', $inputs)

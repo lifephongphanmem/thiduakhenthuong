@@ -389,7 +389,7 @@
                 },
                 dataType: 'JSON',
                 success: function(data) {
-                    //console.log(data);
+                    console.log(data);
                     var form = $('#frm_ThemTapThe');
                     form.find("[name='id']").val(data.id);
                     form.find("[name='maphanloaitapthe']").val(data.maphanloaitapthe).trigger('change');

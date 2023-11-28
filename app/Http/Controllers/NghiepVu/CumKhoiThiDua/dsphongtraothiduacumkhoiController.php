@@ -44,6 +44,8 @@ class dsphongtraothiduacumkhoiController extends Controller
         }
         $inputs = $request->all();
         $inputs['url'] = static::$url;
+        //2023.11.28 Chỉ các đơn vị trưởng cụm khối mới thêm đc phong trào
+        
         $m_donvi = getDonViQuanLyTinh('MODEL');       
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
         // $m_cumkhoi = dscumkhoi::wherein('macumkhoi', array_column($m_donvi->toarray(), 'macumkhoi'))->get();

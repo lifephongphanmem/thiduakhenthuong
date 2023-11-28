@@ -9,12 +9,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\NghiepVu\_DungChung\dungchung_nghiepvuController;
 use App\Http\Controllers\NghiepVu\_DungChung\dungchung_nhanexcelController;
-use App\Model\DanhMuc\dmdanhhieuthidua_tieuchuan;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
 use App\Model\DanhMuc\dmnhomphanloai_chitiet;
-use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
-use App\Model\DanhMuc\duthaoquyetdinh;
 use App\Model\HeThong\trangthaihoso;
 use App\Model\NghiepVu\KhenCao\dshosodenghikhencao;
 use App\Model\NghiepVu\KhenCao\dshosodenghikhencao_canhan;
@@ -22,7 +19,6 @@ use App\Model\NghiepVu\KhenCao\dshosodenghikhencao_hogiadinh;
 use App\Model\NghiepVu\KhenCao\dshosodenghikhencao_tailieu;
 use App\Model\NghiepVu\KhenCao\dshosodenghikhencao_tapthe;
 use App\Model\View\viewdiabandonvi;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -46,13 +42,13 @@ class dshosodenghikhencaoController extends Controller
             return view('errors.noperm')->with('machucnang', 'dshosodenghikhencao')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
-        $inputs['url_hs'] = static::$url;      
+        $inputs['url_hs'] = static::$url;
         $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
         $inputs['phanloaihoso'] = 'dshosodenghikhencao';
 
         $m_donvi = getDonVi(session('admin')->capdo);
         // $m_donvi = getDonVi(session('admin')->capdo, 'dshosodenghikhencao');
-        
+
         $a_diaban = array_column($m_donvi->toArray(), 'tendiaban', 'madiaban');
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
@@ -62,7 +58,7 @@ class dshosodenghikhencaoController extends Controller
 
 
         $model = dshosodenghikhencao::where('madonvi', $inputs['madonvi']);
-            //->where('maloaihinhkt', $inputs['maloaihinhkt']);
+        //->where('maloaihinhkt', $inputs['maloaihinhkt']);
 
         //->orderby('ngayhoso')->get();
 
@@ -89,7 +85,7 @@ class dshosodenghikhencaoController extends Controller
         $model_hoso = dshosodenghikhencao::where(function ($qr) use ($inputs) {
             $qr->where('madonvi_xd', $inputs['madonvi'])->orwhere('madonvi_kt', $inputs['madonvi']);
         })->get();
-        
+
         return view('NghiepVu.KhenCao.HoSoDeNghi.ThongTin')
             ->with('model', $model)
             ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
@@ -113,7 +109,7 @@ class dshosodenghikhencaoController extends Controller
         $inputs = $request->all();
         $inputs['mahoso'] = (string)getdate()[0];
         $inputs['phanloai'] = 'KHENTHUONG';
-       
+
         //Kiểm tra trạng thái hồ sơ
         setThongTinHoSo($inputs);
         //Lưu nhật ký
@@ -138,7 +134,7 @@ class dshosodenghikhencaoController extends Controller
         $inputs = $request->all();
         $inputs['url'] = static::$url;
         $inputs['url_hs'] = static::$url;
-     
+
         $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
         $inputs['phanloaihoso'] = 'dshosodenghikhencao';
 
@@ -187,7 +183,7 @@ class dshosodenghikhencaoController extends Controller
         $model_canhan = dshosodenghikhencao_canhan::where('mahoso', $model->mahoso)->get();
         $model_tapthe = dshosodenghikhencao_tapthe::where('mahoso', $model->mahoso)->get();
         //$model_detai = dshosodenghikhencao_detai::where('mahoso', $model->mahoso)->get();
-        $model_hogiadinh = dshosodenghikhencao_hogiadinh::where('mahoso', $model->mahoso)->get();        
+        $model_hogiadinh = dshosodenghikhencao_hogiadinh::where('mahoso', $model->mahoso)->get();
         $a_phanloaidt = array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai');
         $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
         $a_dhkt = getDanhHieuKhenThuong('ALL');
@@ -205,7 +201,7 @@ class dshosodenghikhencaoController extends Controller
             ->with('pageTitle', 'Thông tin hồ sơ đề nghị khen thưởng');
     }
 
-    
+
 
     public function LuuHoSo(Request $request)
     {
@@ -213,12 +209,12 @@ class dshosodenghikhencaoController extends Controller
         if (!chkPhanQuyen('dshosodenghikhencao', 'thaydoi')) {
             return view('errors.noperm')->with('machucnang', 'dshosodenghikhencao')->with('tenphanquyen', 'thaydoi');
         }
-        $inputs = $request->all();        
+        $inputs = $request->all();
         dshosodenghikhencao::where('mahoso', $inputs['mahoso'])->first()->update($inputs);
 
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
     }
-   
+
 
 
     public function LayLyDo(Request $request)
@@ -246,7 +242,7 @@ class dshosodenghikhencaoController extends Controller
             return view('errors.noperm')->with('machucnang', 'dshosodenghikhencao')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
-        $model = dshosodenghikhencao::where('mahoso', $inputs['mahoso'])->first();        
+        $model = dshosodenghikhencao::where('mahoso', $inputs['mahoso'])->first();
         //đơn vị sử dụng trạng thái CXKT => hồ sơ chuyển đi sẽ có trạng thái CXKT vì đã có đơn vị khen thưởng trong lúc tạo hồ so
         //đơn vị sử dụng trạng thái CC => hồ sơ chuyển đi sẽ có trạng thái DD để đơn vị xét duyệt chuyển cho đơn vị cấp trên
         // $trangthai = session('chucnang')['dshosodenghikhencao']['trangthai'] ?? 'CC';
@@ -366,18 +362,29 @@ class dshosodenghikhencaoController extends Controller
         }
 
         $inputs = $request->all();
-        
         $model = dshosodenghikhencao_tapthe::where('id', $inputs['id'])->first();
+
         unset($inputs['id']);
+        unset($inputs['_token']);
         if ($model == null) {
             $inputs['ketqua'] = 1;
-            // return response()->json($inputs);
-            dshosodenghikhencao_tapthe::create($inputs);
+            //return response()->json($inputs);
+            $model = new dshosodenghikhencao_tapthe();
+            $model->ketqua = 1;
+            // $model->linhvuchoatdong = $inputs['linhvuchoatdong'];
+            $model->madanhhieukhenthuong = $inputs['madanhhieukhenthuong'];
+            $model->mahoso = $inputs['mahoso'];
+            // $model->maloaihinhkt = $inputs['maloaihinhkt'];
+            // $model->maphanloaitapthe = $inputs['maphanloaitapthe'];
+            $model->tencoquan = $inputs['tencoquan'];
+            $model->tentapthe = $inputs['tentapthe'];
+            $model->save();
+            //dshosodenghikhencao_tapthe::create($inputs);
         } else
             $model->update($inputs);
 
         $danhsach = dshosodenghikhencao_tapthe::where('mahoso', $inputs['mahoso'])->get();
-        // return response()->json($danhsach);
+        //return response()->json($danhsach);
         $dungchung = new dungchung_nghiepvuController();
         $dungchung->htmlTapThe($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
 
@@ -425,7 +432,7 @@ class dshosodenghikhencaoController extends Controller
         $dungchung->htmlTapThe($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
 
         return response()->json($result);
-    }    
+    }
 
     public function NhanExcel(Request $request)
     {
