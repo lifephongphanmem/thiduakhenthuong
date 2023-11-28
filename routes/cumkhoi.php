@@ -12,6 +12,7 @@ use App\Http\Controllers\NghiepVu\CumKhoiThiDua\GiaoUoc\dshosogiaouocthiduaContr
 use App\Http\Controllers\NghiepVu\CumKhoiThiDua\GiaoUoc\xdhosogiaouocthiduaController;
 use App\Http\Controllers\NghiepVu\CumKhoiThiDua\qdhosodenghikhenthuongthiduacumkhoiController;
 use App\Http\Controllers\NghiepVu\CumKhoiThiDua\qdhosokhenthuongcumkhoiController;
+use App\Http\Controllers\NghiepVu\CumKhoiThiDua\tnhosokhenthuongcumkhoiController;
 use App\Http\Controllers\NghiepVu\CumKhoiThiDua\xetduyethosokhenthuongcumkhoiController;
 use Illuminate\Support\Facades\Route;
 
@@ -201,6 +202,14 @@ Route::group(['prefix' => 'CumKhoiThiDua'], function () {
 
             Route::get('TrinhKetQua', [xetduyethosokhenthuongcumkhoiController::class, 'TrinhKetQua']);
             Route::post('TrinhKetQua', [xetduyethosokhenthuongcumkhoiController::class, 'LuuTrinhKetQua']);
+        });
+
+        Route::group(['prefix' => 'TiepNhan'], function () {
+            Route::get('ThongTin', [tnhosokhenthuongcumkhoiController::class, 'ThongTin']);
+            Route::get('DanhSach', [tnhosokhenthuongcumkhoiController::class, 'DanhSach']);
+            Route::post('TraLai', [tnhosokhenthuongcumkhoiController::class, 'TraLai']);
+            Route::post('NhanHoSo', [tnhosokhenthuongcumkhoiController::class, 'NhanHoSo']);
+            Route::post('ChuyenHoSo', [tnhosokhenthuongcumkhoiController::class, 'ChuyenHoSo']);
         });
 
         Route::group(['prefix' => 'KhenThuong'], function () {

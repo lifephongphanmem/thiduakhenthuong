@@ -146,7 +146,7 @@ class xetduyethosokhenthuongcumkhoiController extends Controller
             ->with('m_diaban', $m_diaban)
             ->with('m_cumkhoi', $m_cumkhoi)
             ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
-            ->with('a_donviql', getDonViXetDuyetCumKhoi($inputs['macumkhoi']))
+            ->with('a_donviql', getDonViPheDuyetCumKhoi($inputs['macumkhoi']))
             // ->with('a_donviql', getDonViQuanLyCumKhoi($inputs['macumkhoi']))
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('pageTitle', 'Danh sách hồ sơ thi đua');

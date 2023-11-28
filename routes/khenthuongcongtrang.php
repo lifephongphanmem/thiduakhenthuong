@@ -165,8 +165,7 @@ Route::group(['prefix' => 'KhenThuongCongTrang'], function () {
         Route::get('ThongTin', [tnhosodenghikhenthuongcongtrangController::class, 'ThongTin']);
         Route::post('TraLai', 'NghiepVu\KhenThuongCongTrang\tnhosodenghikhenthuongcongtrangController@TraLai');
         Route::post('NhanHoSo', 'NghiepVu\KhenThuongCongTrang\tnhosodenghikhenthuongcongtrangController@NhanHoSo');
-        Route::post('ChuyenHoSo', 'NghiepVu\KhenThuongCongTrang\tnhosodenghikhenthuongcongtrangController@ChuyenHoSo');       
-      
+        Route::post('ChuyenHoSo', 'NghiepVu\KhenThuongCongTrang\tnhosodenghikhenthuongcongtrangController@ChuyenHoSo');
     });
 
     Route::group(['prefix' => 'KhenThuong'], function () {

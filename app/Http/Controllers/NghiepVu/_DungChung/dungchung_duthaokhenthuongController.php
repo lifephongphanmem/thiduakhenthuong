@@ -49,12 +49,12 @@ class dungchung_duthaokhenthuongController extends Controller
                     break;
                 }
         }
-        // dd( $model);
-        $model->thongtinquyetdinh = $model->thongtintotrinhhoso;
-        $model->thongtinquyetdinh = str_replace('<p>[sangtrangmoi]</p>', '<div class=&#34;sangtrangmoi&#34;></div>', $model->thongtinquyetdinh);
+        $model->thongtintotrinhhoso = str_replace('<p>[sangtrangmoi]</p>', '<div class=&#34;sangtrangmoi&#34;></div>', $model->thongtintotrinhhoso);
 
-        return view('NghiepVu._DungChung.DuThao.InDuThao')
+        return view('NghiepVu._DungChung.DuThao.ToTrinhDeNghiKhenThuong')
             ->with('model', $model)
+            ->with('a_duthao', $a_duthao)
+            ->with('inputs', $inputs)
             ->with('pageTitle', 'Tờ trình đề nghị khen thưởng');
     }
 
@@ -135,9 +135,8 @@ class dungchung_duthaokhenthuongController extends Controller
                 }
         }
         //dd($model);
-        $model->thongtinquyetdinh = $model->thongtintotrinhdenghi;
-        $model->thongtinquyetdinh = str_replace('<p>[sangtrangmoi]</p>', '<div class=&#34;sangtrangmoi&#34;></div>', $model->thongtinquyetdinh);
-        return view('NghiepVu._DungChung.DuThao.InDuThao')
+        $model->thongtintotrinhdenghi = str_replace('<p>[sangtrangmoi]</p>', '<div class=&#34;sangtrangmoi&#34;></div>', $model->thongtintotrinhdenghi);
+        return view('NghiepVu._DungChung.DuThao.ToTrinhKetQuaKhenThuong')
             ->with('model', $model)
             ->with('pageTitle', 'Tờ trình đề nghị khen thưởng');
     }
@@ -192,7 +191,7 @@ class dungchung_duthaokhenthuongController extends Controller
 
     public function TaoToTrinhKetQuaKhenThuong(Request $request)
     {
-        $inputs = $request->all();         
+        $inputs = $request->all();
         switch ($inputs['phanloaihoso']) {
             case 'dshosothiduakhenthuong': {
                     $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
@@ -217,7 +216,7 @@ class dungchung_duthaokhenthuongController extends Controller
                 }
         }
 
-        return redirect('/DungChung/DuThao/ToTrinhKetQuaKhenThuong?mahosotdkt=' . $inputs['mahosotdkt'].'&phanloaihoso='.$inputs['phanloaihoso']);
+        return redirect('/DungChung/DuThao/ToTrinhKetQuaKhenThuong?mahosotdkt=' . $inputs['mahosotdkt'] . '&phanloaihoso=' . $inputs['phanloaihoso']);
     }
 
     public function LuuToTrinhKetQuaKhenThuong(Request $request)
