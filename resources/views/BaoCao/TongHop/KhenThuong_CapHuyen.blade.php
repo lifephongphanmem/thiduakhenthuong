@@ -37,11 +37,11 @@
                 Phạm vị thống kê: {{ getPhamViApDung()[$inputs['phamvithongke']] ?? 'Tất cả' }}
             </td>
         </tr>
-        <tr>
+        {{-- <tr>
             <td colspan="2" style="text-align: center; font-weight: bold; font-style: italic">
                 Phân loại hồ sơ: {{ $inputs['phanloaihoso']  ?? ''}}
             </td>
-        </tr>
+        </tr> --}}
         <tr>
             <td colspan="2" style="text-align: center; font-style: italic">
                 Từ ngày: {{ getDayVn($inputs['ngaytu']) }} đến ngày: {{ getDayVn($inputs['ngayden']) }}

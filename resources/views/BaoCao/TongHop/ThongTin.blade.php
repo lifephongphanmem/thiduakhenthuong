@@ -121,6 +121,22 @@
                                 class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
                                 lượng khen thưởng cấp ban ngành đoàn thể trung ương (mẫu 0703.N/BNV-TĐKT)</button>
                         </li>
+
+                        <li>
+                            <button type="button" onclick="setBaoCaoKT('frm_thongtu03','/BaoCao/TongHop/Mau0601')"
+                                class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
+                                phong trào thi đua (mẫu 0601.N/BNV-TĐKT)</button>
+                        </li>
+                        <li>
+                            <button type="button" onclick="setBaoCaoKT('frm_thongtu03','/BaoCao/TongHop/Mau0602')"
+                                class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
+                                lượng khen thưởng cấp nhà nước (mẫu 06702.N/BNV-TĐKT)</button>
+                        </li>
+                        <li>
+                            <button type="button" onclick="setBaoCaoKT('frm_thongtu03','/BaoCao/TongHop/Mau0603')"
+                                class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
+                                lượng khen thưởng cấp ban ngành đoàn thể trung ương (mẫu 0603.N/BNV-TĐKT)</button>
+                        </li>
                     </ol>
                 </div>
             </div>
