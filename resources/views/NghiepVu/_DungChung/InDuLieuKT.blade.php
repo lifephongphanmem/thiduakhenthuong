@@ -23,28 +23,32 @@
                 </div> --}}
 
                 <div class="row">
-                    {{-- <div class="col-lg-12">
+                    <div class="col-lg-12">
                         <a onclick="setInDL($(this), '{{ $inputs['url_hs'] . 'InHoSo' }}')"
                             class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
-                            <i class="la flaticon2-print"></i>Thông tin hồ sơ
+                            <i class="la flaticon2-print"></i>Thông tin hồ sơ đề nghị khen thưởng
                         </a>
-                    </div> --}}
-                    @if (session('admin')->hskhenthuong_totrinh)
+                    </div>
+                </div>
+
+                @if (session('admin')->hskhenthuong_totrinh)
+                    <div class="row">
                         <div class="col-lg-12">
-                            <a onclick="setInDL($(this), '{{ $inputs['url_hs'] . 'InToTrinhHoSo' }}')"
+                            <a onclick="setInDuThao($(this), '/DungChung/DuThao/InToTrinhDeNghiKhenThuong')"
                                 class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
-                                <i class="la flaticon2-print"></i>Tờ trình khen thưởng
+                                <i class="la flaticon2-print"></i>Tờ trình đề nghị khen thưởng
                             </a>
                         </div>
-                    @endif
-                </div>
+                    </div>
+                @endif
+
 
                 <div id="div_inDuLieu">
                     <div class="row">
                         <div class="col-lg-12">
                             <a onclick="setInDL($(this), '{{ $inputs['url_hs'] . 'InHoSoKT' }}')"
                                 class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
-                                <i class="la flaticon2-print"></i>Thông tin hồ sơ khen thưởng
+                                <i class="la flaticon2-print"></i>Thông tin hồ sơ phê duyệt khen thưởng
                             </a>
                         </div>
                     </div>
@@ -52,15 +56,13 @@
                     @if (session('admin')->opt_duthaototrinh)
                         <div class="row">
                             <div class="col-lg-12">
-                                <a onclick="setInDuThao($(this), '/DungChung/DuThao/InToTrinhDeNghiKhenThuong')"
+                                <a onclick="setInDuThao($(this), '/DungChung/DuThao/InToTrinhKetQuaKhenThuong')"
                                     class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
-                                    <i class="la flaticon2-print"></i>Tờ trình đề nghị khen thưởng
+                                    <i class="la flaticon2-print"></i>Tờ trình phê duyệt đề nghị khen thưởng
                                 </a>
                             </div>
                         </div>
                     @endif
-
-
 
                     @if (session('admin')->opt_duthaoquyetdinh)
                         <div class="row">

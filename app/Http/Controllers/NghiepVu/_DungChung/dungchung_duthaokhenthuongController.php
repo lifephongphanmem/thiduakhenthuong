@@ -138,6 +138,8 @@ class dungchung_duthaokhenthuongController extends Controller
         $model->thongtintotrinhdenghi = str_replace('<p>[sangtrangmoi]</p>', '<div class=&#34;sangtrangmoi&#34;></div>', $model->thongtintotrinhdenghi);
         return view('NghiepVu._DungChung.DuThao.ToTrinhKetQuaKhenThuong')
             ->with('model', $model)
+            ->with('inputs', $inputs)
+            ->with('a_duthao', $a_duthao)
             ->with('pageTitle', 'Tờ trình đề nghị khen thưởng');
     }
 
@@ -283,8 +285,10 @@ class dungchung_duthaokhenthuongController extends Controller
         }
 
         $model->thongtinquyetdinh = str_replace('<p>[sangtrangmoi]</p>', '<div class=&#34;sangtrangmoi&#34;></div>', $model->thongtinquyetdinh);
-        return view('NghiepVu._DungChung.DuThao.InDuThao')
+        return view('NghiepVu._DungChung.DuThao.QuyetDinhKhenThuong')
             ->with('model', $model)
+            ->with('inputs', $inputs)
+            ->with('a_duthao', $a_duthao)
             ->with('pageTitle', 'Tờ trình đề nghị khen thưởng');
     }
 

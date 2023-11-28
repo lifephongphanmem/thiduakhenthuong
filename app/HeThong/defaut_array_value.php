@@ -36,6 +36,7 @@ function getChucVuKhenThuong($capdo = 'T')
         'Chủ tịch nước' => 'Chủ tịch nước',
         'Tổng giám đốc' => 'Tổng giám đốc',
         'Giám đốc' => 'Giám đốc',
+        'Chủ tịch' => 'Chủ tịch',
     );
 }
 
