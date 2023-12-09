@@ -73,23 +73,28 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <a onclick="setInDL($(this), '{{ $inputs['url_qd'] . 'InToTrinhPheDuyet' }}')"
-                                class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
-                                <i class="la flaticon2-print"></i>Tờ trình khen thưởng
-                            </a>
+                    @if (session('admin')->opt_duthaototrinh)
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <a onclick="setInDuThao($(this), '/DungChung/DuThao/InToTrinhKetQuaKhenThuong')"
+                                    class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
+                                    <i class="la flaticon2-print"></i>Tờ trình phê duyệt khen thưởng
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    @endif
 
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <a id="btnInQD" onclick="setInQD($(this), '{{ $inputs['url_qd'] . 'InQuyetDinh'}}')"
-                                class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
-                                <i class="la flaticon2-print"></i>Quyết định khen thưởng
-                            </a>
+                    @if (session('admin')->opt_duthaoquyetdinh)
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <a id="btnInQD"
+                                    onclick="setInDuThao($(this), '/DungChung/DuThao/InQuyetDinhKhenThuong')"
+                                    class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
+                                    <i class="la flaticon2-print"></i>Quyết định khen thưởng
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    @endif
 
                     <div id="div_inPhoi">
                     <div class="row">
