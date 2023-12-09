@@ -166,6 +166,21 @@
                 </div>
 
                 <div class="form-group row">
+                    <div class="col-4">
+                        <label>Chuyển hồ sơ đề nghị</label>
+                        {!! Form::select('opt_trinhhosodenghi', getPhanLoaiChuKySo(), null, ['class' => 'form-control select2basic']) !!}
+                    </div>
+                    <div class="col-4">
+                        <label>Chuyển hồ sơ phê duyệt</label>
+                        {!! Form::select('opt_trinhhosoketqua', getPhanLoaiChuKySo(), null, ['class' => 'form-control select2basic']) !!}
+                    </div>
+                    <div class="col-4">
+                        <label>Phê duyệt kết quả khen thưởng</label>
+                        {!! Form::select('opt_pheduyethoso', getPhanLoaiChuKySo(), null, ['class' => 'form-control select2basic']) !!}
+                    </div>
+                </div>
+
+                <div class="form-group row">
                     <div class="col-md-12">
                         <label>Ảnh nhóm hỗ trợ: </label>
                         {!! Form::file('ipf2', null, ['id' => 'ipf2', 'class' => 'form-control']) !!}

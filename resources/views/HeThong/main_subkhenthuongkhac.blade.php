@@ -137,6 +137,18 @@
                                     </li>
                                 @endif
 
+                                @if (chkPhanQuyen('tnhosodenghikhencao', 'phanquyen'))
+                                    <li class="menu-item" aria-haspopup="true">
+                                        <a href="{{ url('/KhenCao/TiepNhanHoSoDN/ThongTin') }}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span
+                                                class="menu-text font-weight-bold">{{ chkGiaoDien('tnhosodenghikhencao', 'tenchucnang') }}</span>
+                                        </a>
+                                    </li>
+                                @endif
+
                                 @if (chkPhanQuyen('xdhosodenghikhencao', 'phanquyen'))
                                     <li class="menu-item" aria-haspopup="true">
                                         <a href="{{ url('/KhenCao/XetDuyetHoSoDN/ThongTin') }}" class="menu-link">
@@ -145,6 +157,18 @@
                                             </i>
                                             <span
                                                 class="menu-text font-weight-bold">{{ chkGiaoDien('xdhosodenghikhencao', 'tenchucnang') }}</span>
+                                        </a>
+                                    </li>
+                                @endif
+
+                                @if (chkPhanQuyen('qdhosodenghikhencao', 'phanquyen'))
+                                    <li class="menu-item" aria-haspopup="true">
+                                        <a href="{{ url('/KhenCao/PheDuyetHoSoDN/ThongTin') }}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span
+                                                class="menu-text font-weight-bold">{{ chkGiaoDien('qdhosodenghikhencao', 'tenchucnang') }}</span>
                                         </a>
                                     </li>
                                 @endif

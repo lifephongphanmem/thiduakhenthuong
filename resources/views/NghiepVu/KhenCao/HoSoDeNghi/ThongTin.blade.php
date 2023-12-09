@@ -32,8 +32,9 @@
             </div>
             <div class="card-toolbar">
                 @if (chkPhanQuyen('dshosodenghikhencao', 'thaydoi'))
-                <button type="button" class="btn btn-success btn-xs mr-2" data-target="#tonghophoso-modal" data-toggle="modal">
-                    <i class="fa fa-plus"></i>&nbsp;Tổng hợp hồ sơ</button>
+                    <button type="button" class="btn btn-success btn-xs mr-2" data-target="#tonghophoso-modal"
+                        data-toggle="modal">
+                        <i class="fa fa-plus"></i>&nbsp;Tổng hợp hồ sơ</button>
 
                     <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
@@ -55,7 +56,7 @@
                             </optgroup>
                         @endforeach
                     </select>
-                </div>               
+                </div>
 
                 <div class="col-2">
                     <label style="font-weight: bold">Năm</label>
@@ -92,25 +93,28 @@
                                     @include('NghiepVu._DungChung.TD_XemThongTinTDKT')
 
                                     @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']) && chkPhanQuyen('dshosodenghikhencao', 'thaydoi'))
-                                    <a href="{{ url($inputs['url_hs'] . 'Sua?mahoso=' . $tt->mahoso) }}"
-                                        class="btn btn-icon btn-clean btn-lg mb-1 position-relative" title="Thông tin hồ sơ khen thưởng">
-                                        <span class="svg-icon svg-icon-xl">
-                                            <i class="icon-lg la flaticon-list text-success"></i>
-                                        </span>
-                                        <span
-                                            class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->soluongkhenthuong }}</span>
-                                    </a>
-                                   
-                                    <button title="Trình hồ sơ đăng ký" type="button"
-                                        onclick="confirmChuyen('{{ $tt->mahoso }}','{{ $inputs['url_hs'] . 'ChuyenHoSo' }}', '{{ $tt->phanloai }}','{{ $tt->madonvi_xd }}')"
-                                        class="btn btn-sm btn-clean btn-icon">
-                                        <i class="icon-lg la fa-share text-primary"></i>
-                                    </button>
-                                    
-                                    <button type="button" onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url_hs'] . 'Xoa' }}')"
-                                        class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm" data-toggle="modal">
-                                        <i class="icon-lg la fa-trash text-danger"></i>
-                                    </button>
+                                        <a href="{{ url($inputs['url_hs'] . 'Sua?mahoso=' . $tt->mahoso) }}"
+                                            class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
+                                            title="Thông tin hồ sơ khen thưởng">
+                                            <span class="svg-icon svg-icon-xl">
+                                                <i class="icon-lg la flaticon-list text-success"></i>
+                                            </span>
+                                            <span
+                                                class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->soluongkhenthuong }}</span>
+                                        </a>
+
+                                        <button title="Trình hồ sơ đăng ký" type="button"
+                                            onclick="confirmChuyen('{{ $tt->mahoso }}','{{ $inputs['url_hs'] . 'ChuyenHoSo' }}', '{{ $tt->phanloai }}','{{ $tt->madonvi_xd }}')"
+                                            class="btn btn-sm btn-clean btn-icon">
+                                            <i class="icon-lg la fa-share text-primary"></i>
+                                        </button>
+
+                                        <button type="button"
+                                            onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url_hs'] . 'Xoa' }}')"
+                                            class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
+                                            data-toggle="modal">
+                                            <i class="icon-lg la fa-trash text-danger"></i>
+                                        </button>
                                     @endif
                                 </td>
                             </tr>

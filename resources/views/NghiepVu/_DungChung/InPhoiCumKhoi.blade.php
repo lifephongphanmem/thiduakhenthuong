@@ -45,6 +45,8 @@
         ]) !!}
         {{ Form::hidden('madonvi', null, ['id' => 'madonvi']) }}
         {{ Form::hidden('mahosotdkt', null, ['id' => 'mahosotdkt']) }}
+        <input type="hidden" name="mahoso" value="{{ $inputs['mahosotdkt'] }}" />
+        <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
         <div class="card-body">
             <h4 class="text-dark font-weight-bold mb-5">Thông tin chung</h4>
             <div class="form-group row">
@@ -167,14 +169,16 @@
                                                                     <i class="icon-lg la fa-edit text-primary icon-2x"></i>
                                                                 </button> --}}
                                                                 <a target="_blank" title="In phôi bằng khen"
-                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InBangKhen?phanloaikhenthuong=CUMKHOI&phanloaidoituong=TAPTHE&id=' . $tt->id) }}"
+                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InBangKhen?phanloaikhenthuong=CUMKHOI&phanloaidoituong=TAPTHE&id=' . $tt->id.'&madonvi='.$inputs['madonvi']) }}"
                                                                     class="btn btn-sm btn-clean btn-icon">
-                                                                    <i class="icon-lg la la-file-invoice text-dark icon-2x"></i>
+                                                                    <i
+                                                                        class="icon-lg la la-file-invoice text-dark icon-2x"></i>
                                                                 </a>
                                                                 <a target="_blank" title="In phôi giấy khen"
-                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InGiayKhen?phanloaikhenthuong=CUMKHOI&phanloaidoituong=TAPTHE&id=' . $tt->id) }}"
+                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InGiayKhen?phanloaikhenthuong=CUMKHOI&phanloaidoituong=TAPTHE&id=' . $tt->id.'&madonvi='.$inputs['madonvi']) }}"
                                                                     class="btn btn-sm btn-clean btn-icon">
-                                                                    <i class="icon-lg la la-file-contract text-dark icon-2x"></i>
+                                                                    <i
+                                                                        class="icon-lg la la-file-contract text-dark icon-2x"></i>
                                                                 </a>
                                                             </td>
                                                         </tr>
@@ -229,14 +233,16 @@
                                                                     <i class="icon-lg la fa-edit text-primary icon-2x"></i>
                                                                 </button> --}}
                                                                 <a target="_blank" title="In phôi bằng khen"
-                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InBangKhen?phanloaikhenthuong=CUMKHOI&phanloaidoituong=CANHAN&id=' . $tt->id) }}"
+                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InBangKhen?phanloaikhenthuong=CUMKHOI&phanloaidoituong=CANHAN&id=' . $tt->id . '&madonvi=' . $inputs['madonvi']) }}"
                                                                     class="btn btn-sm btn-clean btn-icon">
-                                                                    <i class="icon-lg la la-file-invoice text-dark icon-2x"></i>
+                                                                    <i
+                                                                        class="icon-lg la la-file-invoice text-dark icon-2x"></i>
                                                                 </a>
                                                                 <a target="_blank" title="In phôi giấy khen"
-                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InGiayKhen?phanloaikhenthuong=CUMKHOI&phanloaidoituong=CANHAN&id=' . $tt->id) }}"
+                                                                    href="{{ url('/DungChung/InPhoiKhenThuong/InGiayKhen?phanloaikhenthuong=CUMKHOI&phanloaidoituong=CANHAN&id=' . $tt->id . '&madonvi=' . $inputs['madonvi']) }}"
                                                                     class="btn btn-sm btn-clean btn-icon">
-                                                                    <i class="icon-lg la la-file-contract text-dark icon-2x"></i>
+                                                                    <i
+                                                                        class="icon-lg la la-file-contract text-dark icon-2x"></i>
                                                                 </a>
                                                             </td>
                                                         </tr>
@@ -266,7 +272,7 @@
     <!--end::Card-->
 
     {!! Form::open([
-        'url' =>  '/DungChung/NoiDungKhenThuong',
+        'url' => '/DungChung/NoiDungKhenThuong',
         'id' => 'frm_ThayDoi',
         'class' => 'form',
         'files' => true,
@@ -343,7 +349,7 @@
                 dataType: 'JSON',
                 success: function(data) {
                     var form = $('#frm_ThayDoi');
-                    form.find("[name='id']").val(data.id);                  
+                    form.find("[name='id']").val(data.id);
                     form.find("[name='tendoituong']").val(data.tentapthe);
                     form.find("[name='noidungkhenthuong']").val(data.noidungkhenthuong);
                     form.find("[name='phanloai']").val(phanloai);

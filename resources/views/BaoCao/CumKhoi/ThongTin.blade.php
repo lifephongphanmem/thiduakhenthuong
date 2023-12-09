@@ -34,7 +34,7 @@
     <div class="card card-custom" style="min-height: 600px">
         <div class="card-header flex-wrap border-1 pt-6 pb-1">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">DANH SÁCH BÁO CÁO TỔNG HỢP theo địa bàn hành chính</h3>
+                <h3 class="card-label text-uppercase">DANH SÁCH BÁO CÁO TỔNG HỢP THEO CỤM, khối thi đua</h3>
             </div>
         </div>
         <div class="card-body">
@@ -53,89 +53,18 @@
                     <ol>
                         <li>
                             <button class="btn btn-clean text-dark" data-target="#modal-phongtrao" data-toggle="modal">Báo
-                                cáo khen thưởng theo phong trào thi đua</button>
+                                cáo số lượng phong trào thi đua</button>
                         </li>
-                        {{-- báo cáo chi tiết --}}
+                       
                         <li>
                             <button class="btn btn-clean text-dark" data-target="#modal-hosotdkt" data-toggle="modal">Báo
                                 cáo số lượng hồ sơ thi đua, khen thưởng</button>
-                        </li>
-
-                        {{-- <li>
-                            <button class="btn btn-clean text-dark" data-target="#modal-danhhieutd" data-toggle="modal">Danh
-                                hiệu thi đua trên địa
-                                bàn</button>
-                        </li> --}}
+                        </li>                       
 
                         <li>
                             <button class="btn btn-clean text-dark" title="Thống kê tất cả các loại hình khen thưởng"
                                 onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenThuong_m1', 'ALL')"
-                                data-target="#modal-khenthuong" data-toggle="modal">Báo
-                                cáo hình thức khen thưởng trên địa bàn (Mẫu 01)</button>
-                        </li>
-
-                        <li>
-                            <button class="btn btn-clean text-dark"
-                                title="Thống kê các loại hình khen thưởng: Công trạng; Chuyên đề; Đối ngoại; Đột xuất"
-                                onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenThuong_m2')"
-                                data-target="#modal-khenthuong" data-toggle="modal">Báo
-                                cáo hình thức khen thưởng trên địa bàn (Mẫu 02)</button>
-                        </li>
-                        <li>
-                            <button class="btn btn-clean text-dark"
-                                title="Thống kê các loại hình khen thưởng: Công trạng; Chuyên đề; Đối ngoại; Đột xuất"
-                                onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenThuong_m3')"
-                                data-target="#modal-khenthuong" data-toggle="modal">Báo
-                                cáo hình thức khen thưởng trên địa bàn (Mẫu 03)</button>
-                        </li>
-                        <li>
-                            <button class="btn btn-clean text-dark"
-                                onclick="setBaoCaoKT('frm_khenthuongnhanuoc','/BaoCao/TongHop/KhenCao_m1')"
-                                data-target="#modal-khenthuongnhanuoc" data-toggle="modal">Báo
-                                cáo hình thức khen thưởng (Khen thưởng cấp nhà nước - Mẫu 01)</button>
-                        </li>
-
-                        <li>
-                            <button class="btn btn-clean text-dark"
-                                onclick="setBaoCaoKT('frm_khenthuongnhanuoc','/BaoCao/TongHop/KhenCao_m2')"
-                                data-target="#modal-khenthuongnhanuoc" data-toggle="modal">Báo
-                                cáo hình thức khen thưởng (Khen thưởng cấp nhà nước - Mẫu 02)</button>
-                        </li>
-                        {{-- <li>
-                            <button type="button" onclick="setBaoCaoKT('frm_quykhenthuong','/BaoCao/TongHop/QuyKhenThuong')"
-                                class="btn btn-clean text-dark" data-target="#modal-quykhenthuong" data-toggle="modal">
-                                Tổng hợp trích lập và sử dụng quỹ thi đua, khen thưởng</button>
-                        </li> --}}
-                        <li>
-                            <button type="button" onclick="setBaoCaoKT('frm_thongtu03','/BaoCao/TongHop/Mau0701')"
-                                class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
-                                phong trào thi đua (mẫu 0701.N/BNV-TĐKT)</button>
-                        </li>
-                        <li>
-                            <button type="button" onclick="setBaoCaoKT('frm_thongtu03','/BaoCao/TongHop/Mau0702')"
-                                class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
-                                lượng khen thưởng cấp nhà nước (mẫu 0702.N/BNV-TĐKT)</button>
-                        </li>
-                        <li>
-                            <button type="button" onclick="setBaoCaoKT('frm_thongtu03','/BaoCao/TongHop/Mau0703')"
-                                class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
-                                lượng khen thưởng cấp ban ngành đoàn thể trung ương (mẫu 0703.N/BNV-TĐKT)</button>
-                        </li>
-
-                        <li>
-                            <button type="button" onclick="setBaoCaoKT('frm_thongtu03','/BaoCao/TongHop/Mau0601')"
-                                class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
-                                phong trào thi đua (mẫu 0601.N/BNV-TĐKT)</button>
-                        </li>
-                        <li>
-                            <button type="button" onclick="setBaoCaoKT('frm_thongtu03','/BaoCao/TongHop/Mau0602')"
-                                class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
-                                lượng khen thưởng cấp nhà nước (mẫu 06702.N/BNV-TĐKT)</button>
-                        </li>
-                        <li>
-                            <button type="button" onclick="setBaoCaoKT('frm_thongtu03','/BaoCao/TongHop/Mau0603')"
-                                class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
-                                lượng khen thưởng cấp ban ngành đoàn thể trung ương (mẫu 0603.N/BNV-TĐKT)</button>
+                                data-target="#modal-khenthuong" data-toggle="modal">Báo cáo hình thức khen thưởng</button>
                         </li>
                     </ol>
                 </div>

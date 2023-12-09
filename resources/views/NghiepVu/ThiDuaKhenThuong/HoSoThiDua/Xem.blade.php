@@ -66,7 +66,7 @@
         </table>
     @endif
 
-    @if (count($model_hogiadinh) > 0)
+    @if (isset($model_hogiadinh) && count($model_hogiadinh) > 0)
         <p style="text-left: center; font-size: 18px;">Thông tin khen thưởng hộ gia đình</p>
         <table id="data_body1" class="money" cellspacing="0" cellpadding="0" border="1"
             style="margin: 5px auto; border-collapse: collapse;font:normal 12px Times, serif;">

@@ -117,6 +117,30 @@
                                     </li>
                                 @endif
 
+                                @if (chkPhanQuyen('tnhosodenghikhenthuongthiduacumkhoi', 'phanquyen'))
+                                    <li class="menu-item" aria-haspopup="true">
+                                        <a href="{{ url('/CumKhoiThiDua/TiepNhanThiDua/ThongTin') }}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span
+                                                class="menu-text font-weight-bold">{{ chkGiaoDien('tnhosodenghikhenthuongthiduacumkhoi', 'tenchucnang') }}</span>
+                                        </a>
+                                    </li>
+                                @endif
+
+                                @if (chkPhanQuyen('xdhosodenghikhenthuongthiduacumkhoi', 'phanquyen'))
+                                    <li class="menu-item" aria-haspopup="true">
+                                        <a href="{{ url('/CumKhoiThiDua/XetDuyetThiDua/ThongTin') }}" class="menu-link">
+                                            <i class="menu-bullet menu-bullet-dot">
+                                                <span></span>
+                                            </i>
+                                            <span
+                                                class="menu-text font-weight-bold">{{ chkGiaoDien('xdhosodenghikhenthuongthiduacumkhoi', 'tenchucnang') }}</span>
+                                        </a>
+                                    </li>
+                                @endif
+
                                 @if (chkPhanQuyen('qdhosodenghikhenthuongthiduacumkhoi', 'phanquyen'))
                                     <li class="menu-item" aria-haspopup="true">
                                         <a href="{{ url('/CumKhoiThiDua/PheDuyetThiDua/ThongTin') }}" class="menu-link">
@@ -132,8 +156,6 @@
                         </div>
                     </li>
                 @endif
-
-
 
                 @if (chkPhanQuyen('giaouocthiduacumkhoi', 'phanquyen'))
                     <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">

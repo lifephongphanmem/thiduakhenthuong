@@ -37,7 +37,7 @@ class tnhosokhenthuongcumkhoiController extends Controller
     public function ThongTin(Request $request)
     {
         if (!chkPhanQuyen('tnhosokhenthuongcumkhoi', 'danhsach')) {
-            return view('errors.noperm')->with('machucnang', 'qdhosokhenthuongcumkhoi')->with('tenphanquyen', 'danhsach');
+            return view('errors.noperm')->with('machucnang', 'tnhosokhenthuongcumkhoi')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
         $m_donvi = getDonVi(session('admin')->capdo, 'tnhosokhenthuongcumkhoi');

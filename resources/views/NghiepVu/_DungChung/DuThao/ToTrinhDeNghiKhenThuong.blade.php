@@ -72,6 +72,7 @@
     <!--Modal Tạo mới dự thảo-->
     {!! Form::open(['url' => '/DungChung/DuThao/TaoToTrinhDeNghiKhenThuong', 'id' => 'frm_hoso']) !!}
     <input type="hidden" name="mahosotdkt" value="{{ $model->mahosotdkt }}" />
+    <input type="hidden" name="phanloaihoso" value="{{ $inputs['phanloaihoso']}}" />
     <div id="taoduthao-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">

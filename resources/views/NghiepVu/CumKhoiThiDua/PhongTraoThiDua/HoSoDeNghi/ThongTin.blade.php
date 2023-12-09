@@ -16,7 +16,7 @@
         jQuery(document).ready(function() {
             TableManaged3.init();
             $('#madonvi,#nam,#phamviapdung').change(function() {
-                window.location.href = "{{ $inputs['url_xd'] }}" + 'ThongTin?madonvi=' + $('#madonvi')
+                window.location.href = "{{ $inputs['url_hs'] }}" + 'ThongTin?madonvi=' + $('#madonvi')
                     .val() + '&nam=' + $('#nam').val();
             });
         });
@@ -111,14 +111,13 @@
                                             class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->sohoso }}</span>
                                     </a>
 
-
                                     @if (
                                         $tt->nhanhoso == 'KETTHUC' &&
                                             chkPhanQuyen('dshosodenghikhenthuongthidua', 'hoanthanh') &&
-                                            in_array($tt->trangthaikt, ['CC','DD', 'BTLXD', 'CXD']))
+                                            in_array($tt->trangthaikt, ['CC', 'DD', 'BTLXD', 'CXD']))
                                         @if ($tt->mahosotdkt == '-1')
                                             <button title="Tạo hồ sơ khen thưởng" type="button"
-                                                onclick="confirmKhenThuong('{{ $tt->maphongtraotd }}')"
+                                                onclick="confirmKhenThuong('{{ $tt->maphongtraotd }}', '{{$tt->macumkhoi}}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#taohoso-modal"
                                                 data-toggle="modal">
                                                 <i class="icon-lg la flaticon-edit-1 text-success"></i>
@@ -134,11 +133,14 @@
                                                     class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->soluongkhenthuong }}</span>
                                             </a>
 
-                                            <a title="Tạo dự thảo quyết định khen thưởng"
-                                                href="{{ url($inputs['url_xd'] . 'QuyetDinh?mahosotdkt=' . $tt->mahosotdkt) }}"
-                                                class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
-                                                <i class="icon-lg la flaticon-edit-1 text-success"></i>
-                                            </a>
+                                            @if (session('admin')->opt_duthaototrinh)
+                                                <a title="Tạo dự thảo đề nghị khen thưởng" target="_blank"
+                                                    href="{{ url('/DungChung/DuThao/ToTrinhDeNghiKhenThuong?mahosotdkt=' . $tt->mahosotdkt .'&phanloaihoso='.$inputs['phanloaihoso']) }}"
+                                                    class="btn btn-sm btn-clean btn-icon">
+                                                    {{-- class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}"> --}}
+                                                    <i class="icon-lg la flaticon-clipboard text-success"></i>
+                                                </a>
+                                            @endif
 
                                             <button title="Chuyển phê duyệt khen thưởng" type="button"
                                                 onclick="confirmNhanvaTKT('{{ $tt->mahosotdkt }}','{{ $inputs['url_xd'] . 'ChuyenHoSo' }}','{{ $inputs['madonvi'] }}')"
@@ -199,6 +201,7 @@
     <!--Modal Tao hồ sơ đề nghị-->
     {!! Form::open(['url' => $inputs['url_xd'] . 'ThemKT', 'id' => 'frm_hoso', 'files' => true]) !!}
     <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
+    <input type="hidden" name="macumkhoi" />
     <div id="taohoso-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -270,11 +273,12 @@
             $('#frm_delete').submit();
         }
 
-        function confirmKhenThuong(maphongtraotd) {
+        function confirmKhenThuong(maphongtraotd, macumkhoi) {
             $('#frm_hoso').find("[name='maphongtraotd']").val(maphongtraotd).trigger('change');
+            $('#frm_hoso').find("[name='macumkhoi']").val(macumkhoi);
         }
     </script>
-    @include('NghiepVu.ThiDuaKhenThuong._DungChung.InDuLieu')
+    @include('NghiepVu.ThiDuaKhenThuong._DungChung.InDuLieu_CumKhoi')
     @include('includes.modal.modal_unapprove_hs')
     @include('includes.modal.modal_accept_hs')
     @include('includes.modal.modal_nhanvatrinhkt_hs')

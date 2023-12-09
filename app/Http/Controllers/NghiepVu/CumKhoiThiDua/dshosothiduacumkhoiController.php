@@ -228,7 +228,7 @@ class dshosothiduacumkhoiController extends Controller
     public function XemHoSo(Request $request)
     {
         $inputs = $request->all();
-        $model = dshosothamgiathiduacumkhoi::where('mahoso', $inputs['mahoso'])->first();
+        $model = dshosothamgiathiduacumkhoi::where('mahoso', $inputs['mahosothamgiapt'])->first();
         $m_phongtrao = dsphongtraothiduacumkhoi::where('maphongtraotd', $model->maphongtraotd)->first();
         $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
         $model->tendonvi = getThongTinDonVi($model->madonvi, 'tendonvi');

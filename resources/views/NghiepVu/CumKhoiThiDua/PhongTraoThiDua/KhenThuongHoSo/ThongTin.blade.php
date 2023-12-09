@@ -17,7 +17,7 @@
             TableManaged3.init();
             $('#madonvi,#nam,#phamviapdung').change(function() {
                 window.location.href = "{{ $inputs['url_qd'] }}" + 'ThongTin?madonvi=' + $('#madonvi')
-                .val() +
+                    .val() +
                     '&nam=' + $('#nam').val();
             });
         });
@@ -125,12 +125,14 @@
                                                 data-toggle="modal">
                                                 <i class="icon-lg la flaticon-interface-10 text-success"></i>
                                             </button> --}}
-
-                                            <a title="Tạo dự thảo tờ trình"
-                                                href="{{ url($inputs['url_qd'] . 'ToTrinhPheDuyet?mahosotdkt=' . $tt->mahosotdkt) }}"
-                                                class="btn btn-sm btn-clean btn-icon">
-                                                <i class="icon-lg la flaticon-edit-1 text-success"></i>
-                                            </a>
+                                            @if (session('admin')->opt_duthaoquyetdinh)
+                                                <a title="Tạo dự thảo quyết định khen thưởng" target="_blank"
+                                                    href="{{ url('/DungChung/DuThao/QuyetDinhKhenThuong?mahosotdkt=' . $tt->mahosotdkt . '&phanloaihoso=' . $inputs['phanloaihoso']) }}"
+                                                    class="btn btn-sm btn-clean btn-icon">
+                                                    {{-- class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}"> --}}
+                                                    <i class="icon-lg la flaticon-edit-1 text-success"></i>
+                                                </a>
+                                            @endif
 
                                             <a title="Phê duyệt hồ sơ khen thưởng"
                                                 href="{{ url($inputs['url_qd'] . 'PheDuyet?mahosotdkt=' . $tt->mahosotdkt) }}"
@@ -177,6 +179,6 @@
 
     @include('includes.modal.modal_unapprove_hs')
     @include('NghiepVu._DungChung.modal_QD_PheDuyet')
-    @include('NghiepVu.ThiDuaKhenThuong._DungChung.InDuLieu')
+    @include('NghiepVu.ThiDuaKhenThuong._DungChung.InDuLieu_CumKhoi')
     @include('includes.modal.modal_attackfile')
 @stop

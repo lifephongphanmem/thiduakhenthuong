@@ -27,7 +27,7 @@ class dungchung_inphoi_khenthuongController extends Controller
 
     public function DanhSach(Request $request)
     {
-        $inputs = $request->all();
+        $inputs = $request->all();        
         $model =  dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();

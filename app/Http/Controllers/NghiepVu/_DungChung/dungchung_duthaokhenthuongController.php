@@ -61,7 +61,6 @@ class dungchung_duthaokhenthuongController extends Controller
     public function ToTrinhDeNghiKhenThuong(Request $request)
     {
         $inputs = $request->all();
-        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $a_duthao = array_column(duthaoquyetdinh::where('phanloai', 'TOTRINHHOSO')->get()->toArray(), 'noidung', 'maduthao');
         if (count($a_duthao) == 0) {
             return view('errors.nodata')
@@ -70,9 +69,32 @@ class dungchung_duthaokhenthuongController extends Controller
         }
         $inputs['maduthao'] = $inputs['maduthao'] ?? array_key_first($a_duthao);
 
-        if ($model->thongtintotrinhhoso == '') {
-            getTaoDuThaoToTrinhHoSo($model, $inputs['maduthao']);
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $inputs['phanloaihoso'] = $inputs['phanloaihoso'] ?? 'dshosothiduakhenthuong';
+        switch ($inputs['phanloaihoso']) {
+            case 'dshosothiduakhenthuong': {
+                    $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+                    if ($model->thongtintotrinhdenghi == '') {
+                        getTaoDuThaoToTrinhPheDuyet($model, $inputs['maduthao']);
+                    }
+                    break;
+                }
+            case 'dshosokhencao': {
+                    $model = dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+                    if ($model->thongtintotrinhdenghi == '') {
+                        getTaoDuThaoToTrinhPheDuyet($model, $inputs['maduthao']);
+                    }
+                    break;
+                }
+            case 'dshosotdktcumkhoi': {
+                    $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+                    if ($model->thongtintotrinhdenghi == '') {
+                        getTaoDuThaoToTrinhPheDuyetCumKhoi($model, $inputs['maduthao']);
+                    }
+                    break;
+                }
         }
+
         return view('NghiepVu._DungChung.DuThao.ToTrinhDeNghiKhenThuong')
             ->with('model', $model)
             ->with('a_duthao', $a_duthao)
@@ -83,11 +105,31 @@ class dungchung_duthaokhenthuongController extends Controller
     public function TaoToTrinhDeNghiKhenThuong(Request $request)
     {
         $inputs = $request->all();
-        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        $model->thongtintotrinhhoso = ''; //Gán trống để tạo dự thảo mới
-        getTaoDuThaoToTrinhHoSo($model, $inputs['maduthao']);
-        $model->save();
-        return redirect('/DungChung/DuThao/ToTrinhDeNghiKhenThuong?mahosotdkt=' . $inputs['mahosotdkt']);
+        $inputs['phanloaihoso'] = $inputs['phanloaihoso'] ?? 'dshosothiduakhenthuong';
+        switch ($inputs['phanloaihoso']) {
+            case 'dshosothiduakhenthuong': {
+                    $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+                    $model->thongtintotrinhdenghi == '';
+                    getTaoDuThaoToTrinhPheDuyet($model, $inputs['maduthao']);
+                    $model->save();
+                    break;
+                }
+            case 'dshosokhencao': {
+                    $model = dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+                    $model->thongtintotrinhdenghi == '';
+                    getTaoDuThaoToTrinhPheDuyet($model, $inputs['maduthao']);
+                    $model->save();
+                    break;
+                }
+            case 'dshosotdktcumkhoi': {
+                    $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+                    $model->thongtintotrinhdenghi == '';
+                    getTaoDuThaoToTrinhPheDuyetCumKhoi($model, $inputs['maduthao']);
+                    $model->save();
+                    break;
+                }
+        }
+        return redirect('/DungChung/DuThao/ToTrinhDeNghiKhenThuong?mahosotdkt=' . $inputs['mahosotdkt'] . '&phanloaihoso=' . $inputs['phanloaihoso']);
     }
 
     public function LuuToTrinhDeNghiKhenThuong(Request $request)
@@ -296,7 +338,7 @@ class dungchung_duthaokhenthuongController extends Controller
     public function QuyetDinhKhenThuong(Request $request)
     {
         $inputs = $request->all();
-        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+
         $a_duthao = array_column(duthaoquyetdinh::where('phanloai', 'QUYETDINH')->get()->toArray(), 'noidung', 'maduthao');
         if (count($a_duthao) == 0) {
             return view('errors.nodata')
@@ -304,6 +346,30 @@ class dungchung_duthaokhenthuongController extends Controller
                 ->with('pageTitle', 'Thông báo lỗi');
         }
         $inputs['maduthao'] = $inputs['maduthao'] ?? array_key_first($a_duthao);
+        $inputs['phanloaihoso'] = $inputs['phanloaihoso'] ?? 'dshosothiduakhenthuong';
+        switch ($inputs['phanloaihoso']) {
+            case 'dshosothiduakhenthuong': {
+                    $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+                    if ($model->thongtinquyetdinh == '') {
+                        getTaoQuyetDinhKT($model, $inputs['maduthao']);
+                    }
+                    break;
+                }
+            case 'dshosokhencao': {
+                    $model = dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+                    if ($model->thongtinquyetdinh == '') {
+                        getTaoQuyetDinhKT($model, $inputs['maduthao']);
+                    }
+                    break;
+                }
+            case 'dshosotdktcumkhoi': {
+                    $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+                    if ($model->thongtinquyetdinh == '') {
+                        getTaoQuyetDinhKTCumKhoi($model, $inputs['maduthao']);
+                    }
+                    break;
+                }
+        }
         if ($model->thongtinquyetdinh == '') {
             getTaoQuyetDinhKT($model, $inputs['maduthao']);
         }
@@ -318,20 +384,36 @@ class dungchung_duthaokhenthuongController extends Controller
     public function TaoQuyetDinhKhenThuong(Request $request)
     {
         $inputs = $request->all();
-        //dd($inputs);
-        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        $model->thongtinquyetdinh = ''; //Gán trống để tạo dự thảo mới
-        getTaoDuThaoKT($model, $inputs['maduthao']);
-        //Gán các trường thông tin
-        getTaoQuyetDinhKT($model, $inputs['maduthao']);
+        //dd($inputs);        
+        $inputs['phanloaihoso'] = $inputs['phanloaihoso'] ?? 'dshosothiduakhenthuong';
 
-        $a_duthao = array_column(duthaoquyetdinh::all()->toArray(), 'noidung', 'maduthao');
+        switch ($inputs['phanloaihoso']) {
+            case 'dshosothiduakhenthuong': {
+                    $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+                    $model->thongtinquyetdinh = '';
+                    getTaoQuyetDinhKT($model, $inputs['maduthao']);
+                    $model->save();
+                    break;
+                }
+            case 'dshosokhencao': {
+                    $model = dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+                    $model->thongtinquyetdinh = '';
+                    getTaoQuyetDinhKT($model, $inputs['maduthao']);
+                    $model->save();
+                    break;
+                }
+            case 'dshosotdktcumkhoi': {
+                    $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+                    $model->thongtinquyetdinh = '';
+                    getTaoQuyetDinhKTCumKhoi($model, $inputs['maduthao']);
+                    $model->save();
+                    break;
+                }
+        }
 
-        return view('NghiepVu._DungChung.DuThao.QuyetDinhKhenThuong')
-            ->with('model', $model)
-            ->with('a_duthao', $a_duthao)
-            ->with('inputs', $inputs)
-            ->with('pageTitle', 'Quyết định khen thưởng');
+        $a_duthao = array_column(duthaoquyetdinh::where('phanloai', 'QUYETDINH')->get()->toArray(), 'noidung', 'maduthao');
+
+        return redirect('/DungChung/DuThao/QuyetDinhKhenThuong?mahosotdkt=' . $inputs['mahosotdkt'] . '&phanloaihoso=' . $inputs['phanloaihoso']);
     }
 
     public function LuuQuyetDinhKhenThuong(Request $request)

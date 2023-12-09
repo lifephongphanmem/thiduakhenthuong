@@ -100,7 +100,7 @@
                 },
                 dataType: 'JSON',
                 success: function(data) {
-                    //console.log(data);
+                    console.log(data);
                     var form = $('#frm_ThemTapThe');
                     form.find("[name='id']").val(data.id);
                     form.find("[name='maphanloaitapthe']").val(data.maphanloaitapthe).trigger('change');
@@ -116,7 +116,8 @@
             var formData = new FormData($('#frm_ThemTapThe')[0]);
 
             $.ajax({
-                url: "{{ $inputs['url_hs'] }}" + "ThemTapThe",
+                url: "{{ $inputs['url'] }}" + "ThemTapThe",
+                // url: "{{ $inputs['url_hs'] }}" + "ThemTapThe",
                 method: "POST",
                 cache: false,
                 dataType: false,

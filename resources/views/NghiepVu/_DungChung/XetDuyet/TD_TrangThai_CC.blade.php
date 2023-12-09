@@ -6,11 +6,11 @@
     </button>
 @endif
 
-@if (in_array($tt->trangthai_hoso, ['DD', 'BTLXD']))
+@if (in_array($tt->trangthai_hoso, ['DD', 'BTLXD', 'DTN']))
     
     @if (session('admin')->opt_duthaototrinh)
         <a title="Tạo dự thảo tờ trình kết quả khen thưởng" target="_blank"
-            href="{{ url('/DungChung/DuThao/ToTrinhKetQuaKhenThuong?mahosotdkt=' . $tt->mahosotdkt) }}"
+            href="{{ url('/DungChung/DuThao/ToTrinhKetQuaKhenThuong?mahosotdkt=' . $tt->mahosotdkt .'&phanloaihoso='.$inputs['phanloaihoso']) }}"
             class="btn btn-sm btn-clean btn-icon">
             {{-- class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}"> --}}
             <i class="icon-lg la flaticon-clipboard text-success"></i>

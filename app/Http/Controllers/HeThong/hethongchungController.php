@@ -205,7 +205,9 @@ class hethongchungController extends Controller
         $ttuser->opt_duthaototrinh = $a_HeThongChung->opt_duthaototrinh;
         $ttuser->opt_duthaoquyetdinh = $a_HeThongChung->opt_duthaoquyetdinh;
         $ttuser->madonvi_inphoi = $a_HeThongChung->madonvi_inphoi;
-        //dd($ttuser);        
+        $ttuser->opt_trinhhosodenghi = $a_HeThongChung->opt_trinhhosodenghi;
+        $ttuser->opt_trinhhosoketqua = $a_HeThongChung->opt_trinhhosoketqua;
+        $ttuser->opt_pheduyethoso = $a_HeThongChung->opt_pheduyethoso;
 
         Session::put('admin', $ttuser);
         //Gán hệ danh mục chức năng        
@@ -276,9 +278,9 @@ class hethongchungController extends Controller
         }
         $model = hethongchung::first();
         $m_duthao = duthaoquyetdinh::all();
-        $a_duthao_denghi = array_column($m_duthao->where('phanloai','TOTRINHHOSO')->toArray(),  'noidung',  'maduthao');
-        $a_duthao_ketqua = array_column($m_duthao->where('phanloai','TOTRINHPHEDUYET')->toArray(),  'noidung',  'maduthao');
-        $a_duthao_qdkt = array_column($m_duthao->where('phanloai','QUYETDINH')->toArray(),  'noidung',  'maduthao');
+        $a_duthao_denghi = array_column($m_duthao->where('phanloai', 'TOTRINHHOSO')->toArray(),  'noidung',  'maduthao');
+        $a_duthao_ketqua = array_column($m_duthao->where('phanloai', 'TOTRINHPHEDUYET')->toArray(),  'noidung',  'maduthao');
+        $a_duthao_qdkt = array_column($m_duthao->where('phanloai', 'QUYETDINH')->toArray(),  'noidung',  'maduthao');
         //dd($model);
         return view('HeThongChung.HeThong.Sua')
             ->with('model', $model)
@@ -360,10 +362,10 @@ class hethongchungController extends Controller
 
     public function NhatKyHeThong(Request $request)
     {
-        $inputs = $request->all();       
+        $inputs = $request->all();
         $m_donvi = dsdonvi::all();
         $a_donvi = array_column($m_donvi->toarray(), 'tendonvi', 'madonvi');
-        $model = trangthaihoso::wherein('madonvi', array_column($m_donvi->toarray(), 'madonvi'))->get(); 
+        $model = trangthaihoso::wherein('madonvi', array_column($m_donvi->toarray(), 'madonvi'))->get();
         return view('HeThong.NhatKyHeThong')
             ->with('model', $model)
             ->with('inputs', $inputs)

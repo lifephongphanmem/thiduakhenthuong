@@ -12,7 +12,9 @@ use App\Http\Controllers\NghiepVu\CumKhoiThiDua\GiaoUoc\dshosogiaouocthiduaContr
 use App\Http\Controllers\NghiepVu\CumKhoiThiDua\GiaoUoc\xdhosogiaouocthiduaController;
 use App\Http\Controllers\NghiepVu\CumKhoiThiDua\qdhosodenghikhenthuongthiduacumkhoiController;
 use App\Http\Controllers\NghiepVu\CumKhoiThiDua\qdhosokhenthuongcumkhoiController;
+use App\Http\Controllers\NghiepVu\CumKhoiThiDua\tnhosodenghikhenthuongthiduacumkhoiController;
 use App\Http\Controllers\NghiepVu\CumKhoiThiDua\tnhosokhenthuongcumkhoiController;
+use App\Http\Controllers\NghiepVu\CumKhoiThiDua\xdhosodenghikhenthuongthiduacumkhoiController;
 use App\Http\Controllers\NghiepVu\CumKhoiThiDua\xetduyethosokhenthuongcumkhoiController;
 use Illuminate\Support\Facades\Route;
 
@@ -327,6 +329,7 @@ Route::group(['prefix' => 'CumKhoiThiDua'], function () {
     Route::group(['prefix' => 'DeNghiThiDua'], function () {
         Route::get('ThongTin', [dshosodenghikhenthuongthiduacumkhoiController::class, 'ThongTin']);
         Route::get('DanhSach', [dshosodenghikhenthuongthiduacumkhoiController::class, 'DanhSach']);
+        Route::get('InHoSo', [dshosodenghikhenthuongthiduacumkhoiController::class, 'InHoSo']);
         
         Route::post('TraLai', [dshosodenghikhenthuongthiduacumkhoiController::class, 'TraLai']);
         Route::get('Xem', [dshosodenghikhenthuongthiduacumkhoiController::class, 'XemDanhSach']);
@@ -338,18 +341,65 @@ Route::group(['prefix' => 'CumKhoiThiDua'], function () {
         Route::post('XetKT', [dshosodenghikhenthuongthiduacumkhoiController::class, 'LuuKT']);
         Route::post('XoaHoSoKT', [dshosodenghikhenthuongthiduacumkhoiController::class, 'XoaHoSoKT']);
         Route::get('Xem', [dshosodenghikhenthuongthiduacumkhoiController::class, 'XemHoSoKT']);
+
+        Route::post('ThemTapThe', [dshosodenghikhenthuongthiduacumkhoiController::class, 'ThemTapThe']);
+        Route::get('XoaTapThe', [dshosodenghikhenthuongthiduacumkhoiController::class, 'XoaTapThe']);
+        Route::get('LayTapThe', [dshosodenghikhenthuongthiduacumkhoiController::class, 'LayTapThe']);       
+
+        Route::post('ThemCaNhan', [dshosodenghikhenthuongthiduacumkhoiController::class, 'ThemCaNhan']);
+        Route::get('XoaCaNhan', [dshosodenghikhenthuongthiduacumkhoiController::class, 'XoaCaNhan']);
+        Route::get('LayCaNhan', [dshosodenghikhenthuongthiduacumkhoiController::class, 'LayCaNhan']);
     });
+
+    Route::group(['prefix' => 'TiepNhanThiDua'], function () {
+        Route::get('ThongTin', [tnhosodenghikhenthuongthiduacumkhoiController::class, 'ThongTin']);
+        // Route::get('DanhSach', [tnhosodenghikhenthuongthiduacumkhoiController::class, 'DanhSach']);
+        Route::post('TraLai', [tnhosodenghikhenthuongthiduacumkhoiController::class, 'TraLai']);
+        Route::post('NhanHoSo', [tnhosodenghikhenthuongthiduacumkhoiController::class, 'NhanHoSo']);
+        Route::post('ChuyenHoSo', [tnhosodenghikhenthuongthiduacumkhoiController::class, 'ChuyenHoSo']);
+    });
+
+    Route::group(['prefix' => 'XetDuyetThiDua'], function () {
+        Route::get('ThongTin', [xdhosodenghikhenthuongthiduacumkhoiController::class, 'ThongTin']);
+        Route::get('DanhSach', [xdhosodenghikhenthuongthiduacumkhoiController::class, 'DanhSach']);
+        Route::post('TraLai', [xdhosodenghikhenthuongthiduacumkhoiController::class, 'TraLai']);
+        Route::post('NhanHoSo', [xdhosodenghikhenthuongthiduacumkhoiController::class, 'NhanHoSo']);
+        Route::post('ChuyenHoSo', [xdhosodenghikhenthuongthiduacumkhoiController::class, 'ChuyenHoSo']);
+        Route::post('Xem', [xdhosodenghikhenthuongthiduacumkhoiController::class, 'XemHoSo']);
+
+        Route::get('XetKT', [xdhosodenghikhenthuongthiduacumkhoiController::class, 'XetKT']);
+        Route::post('ThemTapThe', [xdhosodenghikhenthuongthiduacumkhoiController::class, 'ThemTapThe']);
+        Route::post('ThemCaNhan', [xdhosodenghikhenthuongthiduacumkhoiController::class, 'ThemCaNhan']);
+        Route::post('GanKhenThuong', [xdhosodenghikhenthuongthiduacumkhoiController::class, 'GanKhenThuong']);
+        ///Route::get('QuyetDinh', [xdhosodenghikhenthuongthiduacumkhoiController::class, 'QuyetDinh']);
+        Route::get('TaoDuThao', [xdhosodenghikhenthuongthiduacumkhoiController::class, 'DuThaoQuyetDinh']);
+        //Route::post('QuyetDinh', [xdhosodenghikhenthuongthiduacumkhoiController::class, 'LuuQuyetDinh']);
+        //Route::post('PheDuyet', [xdhosodenghikhenthuongthiduacumkhoiController::class, 'PheDuyet']);
+        Route::get('LayLyDo', [xdhosodenghikhenthuongthiduacumkhoiController::class, 'LayLyDo']);
+
+        Route::get('ToTrinhPheDuyet', [xdhosodenghikhenthuongthiduacumkhoiController::class, 'ToTrinhPheDuyet']);
+        Route::post('ToTrinhPheDuyet', [xdhosodenghikhenthuongthiduacumkhoiController::class, 'LuuToTrinhPheDuyet']);
+
+        Route::get('TrinhKetQua', [xdhosodenghikhenthuongthiduacumkhoiController::class, 'TrinhKetQua']);
+        Route::post('TrinhKetQua', [xdhosodenghikhenthuongthiduacumkhoiController::class, 'LuuTrinhKetQua']);
+    });
+
+   
 
     Route::group(['prefix' => 'PheDuyetThiDua'], function () {
         Route::get('ThongTin', [qdhosodenghikhenthuongthiduacumkhoiController::class, 'ThongTin']);
 
         Route::get('PheDuyet', [qdhosodenghikhenthuongthiduacumkhoiController::class, 'PheDuyet']);
-        Route::post('PheDuyet', [qdhosodenghikhenthuongthiduacumkhoiController::class, 'LuuPheDuyet']);        
-        
+        Route::post('PheDuyet', [qdhosodenghikhenthuongthiduacumkhoiController::class, 'LuuPheDuyet']); 
+        Route::get('LayTapThe', [dshosodenghikhenthuongthiduacumkhoiController::class, 'LayTapThe']);
+        Route::get('LayCaNhan', [dshosodenghikhenthuongthiduacumkhoiController::class, 'LayCaNhan']);       
+        Route::post('ThemTapThe', [qdhosodenghikhenthuongthiduacumkhoiController::class, 'ThemTapThe']);
+        Route::post('ThemCaNhan', [qdhosodenghikhenthuongthiduacumkhoiController::class, 'ThemCaNhan']);
         // Route::get('QuyetDinh', [qdhosodenghikhenthuongchuyendeController::class, 'QuyetDinh']);
         // Route::get('TaoDuThao', [qdhosodenghikhenthuongchuyendeController::class, 'DuThaoQuyetDinh']);
         // Route::post('QuyetDinh', [qdhosodenghikhenthuongchuyendeController::class, 'LuuQuyetDinh']);
         // Route::post('GanKhenThuong', [qdhosodenghikhenthuongchuyendeController::class, 'GanKhenThuong']);
+        Route::get('InHoSo', [qdhosodenghikhenthuongthiduacumkhoiController::class, 'XemHoSo']);
         Route::post('HuyPheDuyet', [qdhosodenghikhenthuongthiduacumkhoiController::class, 'HuyPheDuyet']);
         Route::post('TraLai', [qdhosodenghikhenthuongthiduacumkhoiController::class, 'TraLai']);
 

@@ -419,7 +419,7 @@ function getTaoDuThaoToTrinhPheDuyetCumKhoi(&$model, $maduthao = null)
         $model->thongtintotrinhdenghi = str_replace('[hotennguoikyqd]',  $model->hotennguoikyqd, $model->thongtintotrinhdenghi);
         $model->thongtintotrinhdenghi = str_replace('[soqd]',  $model->soqd, $model->thongtintotrinhdenghi);
         $model->thongtintotrinhdenghi = str_replace('[sototrinh]',  $model->sototrinh, $model->thongtintotrinhdenghi);
-        $model->thongtintotrinhdenghi = str_replace('[diadanh]',  $donvi_xd->diadanh, $model->thongtintotrinhdenghi);
+        $model->thongtintotrinhdenghi = str_replace('[diadanh]',  $donvi_xd->diadanh ?? '.......', $model->thongtintotrinhdenghi);
         $model->thongtintotrinhdenghi = str_replace('[ngayqd]',  Date2Str($model->ngayqd), $model->thongtintotrinhdenghi);
         $model->thongtintotrinhdenghi = str_replace('[ngayhoso]',  Date2Str($model->ngayhoso), $model->thongtintotrinhdenghi);
         $model->thongtintotrinhdenghi = str_replace('[donvidenghi]',  $donvi->tendvhienthi, $model->thongtintotrinhdenghi);
@@ -611,7 +611,7 @@ function getTaoDuThaoToTrinhPheDuyet(&$model, $maduthao = null)
         $model->thongtintotrinhdenghi = str_replace('[hotennguoikyqd]',  $model->hotennguoikyqd, $model->thongtintotrinhdenghi);
         $model->thongtintotrinhdenghi = str_replace('[soqd]',  $model->soqd, $model->thongtintotrinhdenghi);
         $model->thongtintotrinhdenghi = str_replace('[sototrinh]',  $model->sototrinh, $model->thongtintotrinhdenghi);
-        $model->thongtintotrinhdenghi = str_replace('[diadanh]',  $donvi_xd->diadanh, $model->thongtintotrinhdenghi);
+        $model->thongtintotrinhdenghi = str_replace('[diadanh]',  $donvi_xd->diadanh ?? '......', $model->thongtintotrinhdenghi);
         $model->thongtintotrinhdenghi = str_replace('[ngayqd]',  Date2Str($model->ngayqd), $model->thongtintotrinhdenghi);
         $model->thongtintotrinhdenghi = str_replace('[ngayhoso]',  Date2Str($model->ngayhoso), $model->thongtintotrinhdenghi);
         $model->thongtintotrinhdenghi = str_replace('[donvidenghi]',  $donvi->tendvhienthi, $model->thongtintotrinhdenghi);
@@ -747,7 +747,7 @@ function getTaoQuyetDinhKTCumKhoi(&$model, $maduthao)
     $donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
     $donvi_xd = dsdonvi::where('madonvi', $model->madonvi_xd)->first();
     $donvi_kt = dsdonvi::where('madonvi', $model->madonvi_kt)->first();
-
+    
     $model->thongtinquyetdinh = str_replace('[nguoikytotrinh]', $model->nguoikytotrinh, $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[chucvunguoiky]', $model->chucvunguoiky, $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[chucvunguoikyqd]', $model->chucvunguoikyqd, $model->thongtinquyetdinh);
@@ -839,7 +839,7 @@ function getTaoDuThaoKTCumKhoi(&$model, $maduthao = null)
             $thongtinquyetdinh = str_replace('[khenthuonghogiadinh]',  '', $thongtinquyetdinh);
             $thongtinquyetdinh = str_replace('[soluonghogiadinh]', '', $thongtinquyetdinh);
         }
-
+        
         $model->thongtinquyetdinh = $thongtinquyetdinh;
     }
 }
@@ -1500,4 +1500,14 @@ function getTenTruongDuLieuDuThao()
 
 
     ];
+}
+
+function getPhanLoaiChuKySo($phanloaihoso = 'ALL')
+{
+    
+    $a_kq = [
+        'MACDINH' => 'Không dùng chữ ký số',
+        'BANCOYEU' => 'Chữ ký số của Ban cơ yếu chính phủ',
+    ];
+    return $a_kq;
 }

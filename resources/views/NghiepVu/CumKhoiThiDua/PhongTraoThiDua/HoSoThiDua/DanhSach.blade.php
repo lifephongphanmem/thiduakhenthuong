@@ -243,7 +243,7 @@
         {!! Form::close() !!}
     </div>
 
-    @include('NghiepVu.ThiDuaKhenThuong._DungChung.InDuLieu')
+    @include('NghiepVu.ThiDuaKhenThuong._DungChung.InDuLieu_CumKhoi')
     @include('includes.modal.modal-delete')
     @include('includes.modal.modal_approve_hs')
     @include('includes.modal.modal_attackfile')

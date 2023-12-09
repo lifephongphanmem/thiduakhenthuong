@@ -19,89 +19,6 @@
             TableManaged5.init();
             TableManagedclass.init();
         });
-
-        function confirmDoiTuong(id) {
-            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-
-            $.ajax({
-                url: "{{ $inputs['url_hs'] }}" + "LayCaNhan",
-                type: 'GET',
-                data: {
-                    _token: CSRF_TOKEN,
-                    id: id,
-                },
-                dataType: 'JSON',
-                success: function(data) {
-                    var form = $('#frm_ThemCaNhan');
-                    form.find("[name='madoituong']").val(data.madoituong);
-                    form.find("[name='tendoituong']").val(data.tendoituong);
-                    form.find("[name='ngaysinh']").val(data.ngaysinh);
-                    form.find("[name='gioitinh']").val(data.gioitinh).trigger('change');;
-                    form.find("[name='chucvu']").val(data.chucvu);
-                    form.find("[name='maccvc']").val(data.maccvc);
-                    form.find("[name='lanhdao']").val(data.lanhdao).trigger('change');
-                }
-            })
-            $('#modal-doituong').modal("hide");
-        }
-
-        function confirmTapThe(tentapthe) {
-            var form = $('#frm_ThemTapThe');
-            form.find("[name='tentapthe']").val(tentapthe);
-            $('#modal-tapthe').modal("hide");
-        }
-
-
-        function delKhenThuong(id, url, phanloai) {
-            $('#frm_XoaDoiTuong').attr('action', url);
-            $('#frm_XoaDoiTuong').find("[name='iddelete']").val(id);
-            $('#frm_XoaDoiTuong').find("[name='phanloaixoa']").val(phanloai);
-        }
-
-        function confirmXoaKhenThuong() {
-            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            var form = $('#frm_XoaDoiTuong');
-            var phanloai = form.find("[name='phanloaixoa']").val();
-
-            if (phanloai == 'TAPTHE')
-                $.ajax({
-                    url: form.attr('action'),
-                    type: 'GET',
-                    data: {
-                        _token: CSRF_TOKEN,
-                        id: $('#iddelete').val(),
-                    },
-                    dataType: 'JSON',
-                    success: function(data) {
-                        toastr.success("Bạn đã xóa thông tin đối tượng thành công!", "Thành công!");
-                        $('#dskhenthuongtapthe').replaceWith(data.message);
-                        jQuery(document).ready(function() {
-                            TableManaged4.init();
-                        });
-
-                    }
-                });
-            else
-                $.ajax({
-                    url: form.attr('action'),
-                    type: 'GET',
-                    data: {
-                        _token: CSRF_TOKEN,
-                        id: $('#iddelete').val(),
-                    },
-                    dataType: 'JSON',
-                    success: function(data) {
-                        toastr.success("Bạn đã xóa thông tin đối tượng thành công!", "Thành công!");
-                        $('#dskhenthuongcanhan').replaceWith(data.message);
-                        jQuery(document).ready(function() {
-                            TableManaged3.init();
-                        });
-
-                    }
-                });
-
-            $('#modal-delete-khenthuong').modal("hide");
-        }
     </script>
 @stop
 
@@ -188,7 +105,7 @@
         <div class="card-footer">
             <div class="row text-center">
                 <div class="col-lg-12">
-                    <a href="{{ url($inputs['url_qd'] . 'ThongTin?madonvi=' . $model->madonvi) }}"
+                    <a href="{{ url($inputs['url'] . 'ThongTin?madonvi=' . $model->madonvi) }}"
                         class="btn btn-danger mr-5"><i class="fa fa-reply"></i>&nbsp;Quay lại</a>
                     <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i>Hoàn thành</button>
                 </div>

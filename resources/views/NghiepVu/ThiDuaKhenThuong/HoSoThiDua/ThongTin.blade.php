@@ -15,22 +15,12 @@
     <script>
         jQuery(document).ready(function() {
             TableManaged3.init();
-            $('#madonvi').change(function() {
+            $('#madonvi,#nam').change(function() {
                 window.location.href = '/HoSoThiDua/ThongTin?madonvi=' + $('#madonvi').val() +
                     '&nam=' + $('#nam').val() + '&phanloai=' + $('#phanloai').val() + '&phamviapdung=' + $(
                         '#phamviapdung').val();
             });
-            $('#nam').change(function() {
-                window.location.href = '/HoSoThiDua/ThongTin?madonvi=' + $('#madonvi').val() +
-                    '&nam=' + $('#nam').val() + '&phanloai=' + $('#phanloai').val() + '&phamviapdung=' + $(
-                        '#phamviapdung').val();
-            });
-            $('#phanloai').change(function() {
-                window.location.href = '/HoSoThiDua/ThongTin?madonvi=' + $('#madonvi').val() +
-                    '&nam=' + $('#nam').val() + '&phanloai=' + $('#phanloai').val() + '&phamviapdung=' + $(
-                        '#phamviapdung').val();
-            });
-            $('#phamviapdung').change(function() {
+            $('#phanloai,#phamviapdung').change(function() {
                 window.location.href = '/HoSoThiDua/ThongTin?madonvi=' + $('#madonvi').val() +
                     '&nam=' + $('#nam').val() + '&phanloai=' + $('#phanloai').val() + '&phamviapdung=' + $(
                         '#phamviapdung').val();
