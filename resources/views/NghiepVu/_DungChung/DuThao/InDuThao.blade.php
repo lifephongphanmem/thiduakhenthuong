@@ -35,10 +35,10 @@
             page-break-before: always
         }
 
-        span {
+        /* span {
             text-transform: uppercase;
             font-weight: bold;
-        }
+        } */
 
         @media print {
             .in {

@@ -50,8 +50,8 @@ class dungchung_duthaokhenthuongController extends Controller
                 }
         }
         $model->thongtintotrinhhoso = str_replace('<p>[sangtrangmoi]</p>', '<div class=&#34;sangtrangmoi&#34;></div>', $model->thongtintotrinhhoso);
-
-        return view('NghiepVu._DungChung.DuThao.ToTrinhDeNghiKhenThuong')
+        $model->thongtinquyetdinh = $model->thongtintotrinhhoso;
+        return view('NghiepVu._DungChung.DuThao.InDuThao')
             ->with('model', $model)
             ->with('a_duthao', $a_duthao)
             ->with('inputs', $inputs)
@@ -178,7 +178,8 @@ class dungchung_duthaokhenthuongController extends Controller
         }
         //dd($model);
         $model->thongtintotrinhdenghi = str_replace('<p>[sangtrangmoi]</p>', '<div class=&#34;sangtrangmoi&#34;></div>', $model->thongtintotrinhdenghi);
-        return view('NghiepVu._DungChung.DuThao.ToTrinhKetQuaKhenThuong')
+        $model->thongtinquyetdinh = $model->thongtintotrinhdenghi;
+        return view('NghiepVu._DungChung.DuThao.InDuThao')
             ->with('model', $model)
             ->with('inputs', $inputs)
             ->with('a_duthao', $a_duthao)
@@ -327,8 +328,8 @@ class dungchung_duthaokhenthuongController extends Controller
         }
         $model->thongtinquyetdinh = str_replace('<table>', '<table style="border: 0px;">', $model->thongtinquyetdinh);
         // dd($model->thongtinquyetdinh);
-        // return view('NghiepVu._DungChung.DuThao.InDuThao')
-        return view('NghiepVu._DungChung.DuThao.QuyetDinhKhenThuong')
+         return view('NghiepVu._DungChung.DuThao.InDuThao')
+        //return view('NghiepVu._DungChung.DuThao.QuyetDinhKhenThuong')
             ->with('model', $model)
             ->with('inputs', $inputs)
             ->with('a_duthao', $a_duthao)
