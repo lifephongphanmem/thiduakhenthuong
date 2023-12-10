@@ -45,7 +45,7 @@
             'enctype' => 'multipart/form-data',
         ]) !!}
         {{ Form::hidden('madonvi', null, ['id' => 'madonvi']) }}
-        {{ Form::hidden('mahoso', null, ['id' => 'mahoso']) }}
+        {{ Form::hidden('mahosotdkt', null, ['id' => 'mahosotdkt']) }}
         <div class="card-body">
             <h4 class="text-dark font-weight-bold mb-5">Thông tin chung</h4>
             <div class="form-group row">
@@ -119,7 +119,7 @@
         'enctype' => 'multipart/form-data',
     ]) !!}
     <input type="hidden" name="id" />
-    <input type="hidden" name="mahoso" value="{{ $model->mahoso }}" />
+    <input type="hidden" name="mahosotdkt" value="{{ $model->mahosotdkt }}" />
     <input type="hidden" name="maloaihinhkt" value="{{ $model->maloaihinhkt }}" />
     <div class="modal fade bs-modal-lg" id="modal-create" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-xl">
@@ -294,7 +294,7 @@
         'files' => true,
         'enctype' => 'multipart/form-data',
     ]) !!}
-    <input type="hidden" name="mahoso" value="{{ $model->mahoso }}" />
+    <input type="hidden" name="mahosotdkt" value="{{ $model->mahosotdkt }}" />
     <input type="hidden" name="maloaihinhkt" value="{{ $model->maloaihinhkt }}" />
     <input type="hidden" name="id" />
     <div class="modal fade bs-modal-lg kt_select2_modal" id="modal-create-tapthe" tabindex="-1" role="dialog"

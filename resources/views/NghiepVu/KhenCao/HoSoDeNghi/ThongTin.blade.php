@@ -93,7 +93,7 @@
                                     @include('NghiepVu._DungChung.TD_XemThongTinTDKT')
 
                                     @if (in_array($tt->trangthai, ['CC', 'BTL', 'CXD']) && chkPhanQuyen('dshosodenghikhencao', 'thaydoi'))
-                                        <a href="{{ url($inputs['url_hs'] . 'Sua?mahoso=' . $tt->mahoso) }}"
+                                        <a href="{{ url($inputs['url_hs'] . 'Sua?mahosotdkt=' . $tt->mahosotdkt) }}"
                                             class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
                                             title="Thông tin hồ sơ khen thưởng">
                                             <span class="svg-icon svg-icon-xl">
@@ -104,7 +104,7 @@
                                         </a>
 
                                         <button title="Trình hồ sơ đăng ký" type="button"
-                                            onclick="confirmChuyen('{{ $tt->mahoso }}','{{ $inputs['url_hs'] . 'ChuyenHoSo' }}', '{{ $tt->phanloai }}','{{ $tt->madonvi_xd }}')"
+                                            onclick="confirmChuyen('{{ $tt->mahosotdkt }}','{{ $inputs['url_hs'] . 'ChuyenHoSo' }}', '{{ $tt->phanloai }}','{{ $tt->madonvi_xd }}')"
                                             class="btn btn-sm btn-clean btn-icon">
                                             <i class="icon-lg la fa-share text-primary"></i>
                                         </button>
@@ -129,7 +129,7 @@
     {{-- @include('NghiepVu._DungChung.modal_PheDuyet') --}}
     @include('NghiepVu._DungChung.HoSo_KhenCao_TaoHoSoDeNghi')
     @include('NghiepVu._DungChung.HoSo_TongHopHoSo')
-    {{-- @include('NghiepVu._DungChung.InDuLieu') --}}
+    @include('NghiepVu._DungChung.InDuLieu_KhenCao')
     {{-- @include('includes.modal.modal-delete') --}}
     @include('includes.modal.modal_chuyenhs')
     {{-- @include('includes.modal.modal_attackfile') --}}

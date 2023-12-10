@@ -370,6 +370,13 @@ class dungchung_duthaokhenthuongController extends Controller
                     }
                     break;
                 }
+                case 'dshosotdktcumkhoi': {
+                    $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+                    if ($model->thongtinquyetdinh == '') {
+                        getTaoQuyetDinhKTCumKhoi($model, $inputs['maduthao']);
+                    }
+                    break;
+                }
         }
         if ($model->thongtinquyetdinh == '') {
             getTaoQuyetDinhKT($model, $inputs['maduthao']);

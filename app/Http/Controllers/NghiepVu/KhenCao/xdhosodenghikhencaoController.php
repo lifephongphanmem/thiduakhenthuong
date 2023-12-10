@@ -18,8 +18,11 @@ use App\Model\DanhMuc\duthaoquyetdinh;
 use App\Model\HeThong\trangthaihoso;
 use App\Model\NghiepVu\KhenCao\dshosodenghikhencao;
 use App\Model\NghiepVu\KhenCao\dshosodenghikhencao_canhan;
-use App\Model\NghiepVu\KhenCao\dshosodenghikhencao_tailieu;
+use App\Model\NghiepVu\KhenCao\dshosokhencao_tailieu;
 use App\Model\NghiepVu\KhenCao\dshosodenghikhencao_tapthe;
+use App\Model\NghiepVu\KhenCao\dshosokhencao;
+use App\Model\NghiepVu\KhenCao\dshosokhencao_canhan;
+use App\Model\NghiepVu\KhenCao\dshosokhencao_tapthe;
 use App\Model\View\viewdiabandonvi;
 use Illuminate\Support\Facades\Session;
 
@@ -43,12 +46,12 @@ class xdhosodenghikhencaoController extends Controller
             return view('errors.noperm')->with('machucnang', 'xdhosodenghikhencao')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
-        $inputs['url_hs'] = static::$url;
+        $inputs['url_hs'] = '/KhenCao/HoSoDeNghi/';
         $inputs['url_xd'] = static::$url;
-        $inputs['url_qd'] = static::$url;
+        $inputs['url_qd'] = '/KhenCao/PheDuyetDeNghi/';
         $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
         $inputs['trangthaihoso'] = $inputs['trangthaihoso'] ?? 'ALL';
-        $inputs['phanloaihoso'] = 'dshosodenghikhencao';
+        $inputs['phanloaihoso'] = 'dshosokhencao';
         $m_donvi = getDonVi(session('admin')->capdo);
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
 
@@ -56,7 +59,7 @@ class xdhosodenghikhencaoController extends Controller
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $inputs['maloaihinhkt'] = session('chucnang')['dshosodenghikhenthuongchuyende']['maloaihinhkt'] ?? 'ALL';
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
-        $model = dshosodenghikhencao::where('madonvi_xd', $inputs['madonvi']);
+        $model = dshosokhencao::where('madonvi_xd', $inputs['madonvi']);
 
         $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
         if ($inputs['phanloai'] != 'ALL')
@@ -83,8 +86,8 @@ class xdhosodenghikhencaoController extends Controller
                 if (!in_array($hoso->madonvi, $a_donvilocdulieu))
                     $model->forget($key);
             }
-            $hoso->soluongkhenthuong = dshosodenghikhencao_canhan::where('mahoso', $hoso->mahoso)->where('ketqua', '1')->count()
-                + dshosodenghikhencao_tapthe::where('mahoso', $hoso->mahoso)->where('ketqua', '1')->count();
+            $hoso->soluongkhenthuong = dshosokhencao_canhan::where('mahosotdkt', $hoso->mahosotdkt)->where('ketqua', '1')->count()
+                + dshosokhencao_tapthe::where('mahosotdkt', $hoso->mahosotdkt)->where('ketqua', '1')->count();
             //Gán lại trạng thái hồ sơ
             $hoso->madonvi_hoso = $hoso->madonvi_xd;
             $hoso->trangthai_hoso = $hoso->trangthai_xd;
@@ -115,7 +118,7 @@ class xdhosodenghikhencaoController extends Controller
             return view('errors.noperm')->with('machucnang', 'xdhosodenghikhencao')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
-        $model = dshosodenghikhencao::where('mahoso', $inputs['mahoso'])->first();
+        $model = dshosokhencao::where('mahosotdkt', $inputs['mahoso'])->first();
         //gán trạng thái hồ sơ để theo dõi
         $model->trangthai = 'BTL';
         $model->thoigian = date('Y-m-d H:i:s');
@@ -142,7 +145,7 @@ class xdhosodenghikhencaoController extends Controller
         }
         $inputs = $request->all();
         $thoigian = date('Y-m-d H:i:s');
-        $model = dshosodenghikhencao::where('mahoso', $inputs['mahoso'])->first();
+        $model = dshosokhencao::where('mahosotdkt', $inputs['mahoso'])->first();
         //gán lại trạng thái hồ sơ để theo dõi
         $model->trangthai = 'CXKT';
         $model->trangthai_xd = $model->trangthai;
@@ -180,7 +183,7 @@ class xdhosodenghikhencaoController extends Controller
         $inputs = $request->all();
         // dd($inputs);
         $thoigian = date('Y-m-d H:i:s');
-        $model = dshosodenghikhencao::where('mahoso', $inputs['mahoso'])->first();
+        $model = dshosokhencao::where('mahosotdkt', $inputs['mahoso'])->first();
         //gán lại trạng thái hồ sơ để theo dõi
         $model->trangthai = 'DD';
         $model->trangthai_xd = 'DD';
@@ -210,9 +213,9 @@ class xdhosodenghikhencaoController extends Controller
         $inputs['url_xd'] = '/KhenThuongChuyenDe/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongChuyenDe/KhenThuong/';
         $inputs['mahinhthuckt'] = session('chucnang')['qdhosodenghikhenthuongcongtrang']['mahinhthuckt'] ?? 'ALL';
-        $model = dshosodenghikhencao::where('mahoso', $inputs['mahoso'])->first();
-        $model_canhan = dshosodenghikhencao_canhan::where('mahoso', $inputs['mahoso'])->get();
-        $model_tapthe = dshosodenghikhencao_tapthe::where('mahoso', $inputs['mahoso'])->get();
+        $model = dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $model_canhan = dshosokhencao_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+        $model_tapthe = dshosokhencao_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
 
         $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
         $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
@@ -254,7 +257,7 @@ class xdhosodenghikhencaoController extends Controller
         }
 
         $inputs = $request->all();
-        $model = dshosodenghikhencao::where('mahoso', $inputs['mahoso'])->first();
+        $model = dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model->lydo = $model->lydo_xd;
         die(json_encode($model));
     }
@@ -263,7 +266,7 @@ class xdhosodenghikhencaoController extends Controller
     {
         $inputs = $request->all();
         $inputs['url'] = static::$url;
-        $model = dshosodenghikhencao::where('mahoso', $inputs['mahoso'])->first();
+        $model = dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $inputs['madonvi'] = $model->madonvi;
         $inputs['maduthao'] = $inputs['maduthao'] ?? 'ALL';
         getTaoDuThaoToTrinhPheDuyet($model, $inputs['maduthao']);
@@ -280,7 +283,7 @@ class xdhosodenghikhencaoController extends Controller
     public function LuuToTrinhPheDuyet(Request $request)
     {
         $inputs = $request->all();
-        $model = dshosodenghikhencao::where('mahoso', $inputs['mahoso'])->first();
+        $model = dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model->thongtintotrinhdenghi = $inputs['thongtintotrinhdenghi'];
         $model->save();
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_xd);
@@ -293,10 +296,10 @@ class xdhosodenghikhencaoController extends Controller
         $inputs['url_xd'] = '/KhenThuongChuyenDe/XetDuyet/';
         $inputs['url'] = '/KhenThuongChuyenDe/XetDuyet/';
         $inputs['url_qd'] = '/KhenThuongChuyenDe/KhenThuong/';
-        $inputs['phanloaihoso'] = 'dshosodenghikhencao';
+        $inputs['phanloaihoso'] = 'dshosokhencao';
 
-        $model = dshosodenghikhencao::where('mahoso', $inputs['mahoso'])->first();
-        $model_tailieu = dshosodenghikhencao_tailieu::where('mahoso', $inputs['mahoso'])->get(); 	
+        $model = dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $model_tailieu = dshosokhencao_tailieu::where('mahosotdkt', $inputs['mahosotdkt'])->get(); 	
        
         return view('NghiepVu.KhenThuongChuyenDe.XetDuyet.TrinhKetQua')
             ->with('model', $model)
@@ -310,7 +313,7 @@ class xdhosodenghikhencaoController extends Controller
     public function LuuTrinhKetQua(Request $request)
     {
         $inputs = $request->all();        
-        $model = dshosodenghikhencao::where('mahoso', $inputs['mahoso'])->first();        
+        $model = dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first();        
         $model->update($inputs);
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_xd);
     }

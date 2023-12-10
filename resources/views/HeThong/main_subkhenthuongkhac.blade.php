@@ -139,7 +139,7 @@
 
                                 @if (chkPhanQuyen('tnhosodenghikhencao', 'phanquyen'))
                                     <li class="menu-item" aria-haspopup="true">
-                                        <a href="{{ url('/KhenCao/TiepNhanHoSoDN/ThongTin') }}" class="menu-link">
+                                        <a href="{{ url('/KhenCao/TiepNhanDeNghi/ThongTin') }}" class="menu-link">
                                             <i class="menu-bullet menu-bullet-dot">
                                                 <span></span>
                                             </i>
@@ -163,7 +163,7 @@
 
                                 @if (chkPhanQuyen('qdhosodenghikhencao', 'phanquyen'))
                                     <li class="menu-item" aria-haspopup="true">
-                                        <a href="{{ url('/KhenCao/PheDuyetHoSoDN/ThongTin') }}" class="menu-link">
+                                        <a href="{{ url('/KhenCao/PheDuyetDeNghi/ThongTin') }}" class="menu-link">
                                             <i class="menu-bullet menu-bullet-dot">
                                                 <span></span>
                                             </i>

@@ -21,7 +21,7 @@
         </tr>
         <tr>
             <td colspan="2" style="font-weight: bold;">
-                <h4> THÔNG TIN HỒ SƠ ĐỀ NGHỊ KHEN THƯỞNG </h4>
+                <h4> THÔNG TIN HỒ SƠ PHÊ DUYỆT ĐỀ NGHỊ KHEN THƯỞNG</h4>
             </td>
         </tr>
     </table>
@@ -46,6 +46,26 @@
         <tr>
             <td>Mô tả hồ sơ: {{ $model->noidung }}</td>
         </tr>
+
+
+        <tr>
+            <td>Tên đơn vị quyết định khen thưởng: {{ $model->tendvcqhienthi }}</td>
+        </tr>
+        <tr>
+            <td>Cấp độ khen thưởng: {{ getPhamViApDung()[$model->capkhenthuong] ?? $model->capkhenthuong }}</td>
+        </tr>
+        <tr>
+            <td>Số quyết định: {{ $model->soqd }}</td>
+        </tr>
+        <tr>
+            <td>Ngày ra quyết định: {{ getDayVn($model->ngayqd) }}</td>
+        </tr>
+        <tr>
+            <td>Chức vụ người ký: {{ $model->chucvunguoikyqd }}</td>
+        </tr>
+        <tr>
+            <td>Họ tên người ký: {{ $model->hotennguoikyqd }}</td>
+        </tr>
     </table>
 
     @if (count($model_tapthe) > 0)
@@ -58,6 +78,7 @@
                     <th>Tên tập thể</th>
                     <th>Phân loại tập thể</th>
                     <th>Hình thức khen thưởng/<br>Danh hiệu thi đua</th>
+                    <th>Kết quả</br>khen thưởng</th>
                 </tr>
             </thead>
             <?php $i = 1; ?>
@@ -68,12 +89,13 @@
                     <td>{{ $a_phanloaidt[$tt->maphanloaitapthe] ?? '' }}</td>
                     <td>{{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}</td>
                     {{-- <td>{{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td> --}}
+                    <td class="text-center">{{ $tt->ketqua == '1' ? 'Có' : 'Không' }}</td>
                 </tr>
             @endforeach
         </table>
     @endif
 
-    @if (count($model_hogiadinh) > 0)
+    @if (isset($model_hogiadinh) && count($model_hogiadinh) > 0)
         <p style="text-left: center; font-size: 18px;">Thông tin khen thưởng hộ gia đình</p>
         <table id="data_body3" class="money" cellspacing="0" cellpadding="0" border="1"
             style="margin: 5px auto; border-collapse: collapse;font:normal 12px Times, serif;">
@@ -94,7 +116,7 @@
             @endforeach
         </table>
     @endif
-    
+
     @if (count($model_canhan) > 0)
         <p style="text-left: center; font-size: 18px;">Thông tin khen thưởng cá nhân</p>
         <table id="data_body2" class="money" cellspacing="0" cellpadding="0" border="1"
@@ -106,6 +128,7 @@
                     <th>Phân loại cán bộ</th>
                     <th>Thông tin công tác</th>
                     <th>Hình thức khen thưởng/<br>Danh hiệu thi đua</th>
+                    <th>Kết quả</br>khen thưởng</th>
                 </tr>
             </thead>
             <?php $i = 1; ?>
@@ -117,11 +140,34 @@
                     <td>{{ $tt->chucvu . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}</td>
                     <td>{{ $a_dhkt[$tt->madanhhieukhenthuong] ?? '' }}</td>
                     {{-- <td>{{ $a_danhhieutd[$tt->madanhhieutd] ?? '' }}</td> --}}
+                    <td class="text-center">{{ $tt->ketqua == '1' ? 'Có' : 'Không' }}</td>
                 </tr>
             @endforeach
         </table>
     @endif
-    
+
+    @if (isset($model_detai) && count($model_detai) > 0)
+        <p style="text-left: center; font-size: 18px;">Thông tin đề tài sáng kiến</p>
+        <table id="data_body2" class="money" cellspacing="0" cellpadding="0" border="1"
+            style="margin: 5px auto; border-collapse: collapse;font:normal 12px Times, serif;">
+            <thead>
+                <tr class="text-center">
+                    <th width="10%">STT</th>
+                    <th>Tên đề tài, sáng kiến</th>
+                    <th>Thông tin tác giả</th>
+                </tr>
+            </thead>
+            <?php $i = 1; ?>
+            @foreach ($model_detai as $key => $tt)
+                <tr class="odd gradeX">
+                    <td class="text-center">{{ $i++ }}</td>
+                    <td>{{ $tt->tensangkien }}</td>
+                    <td>{{ $tt->tendoituong . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}</td>
+                </tr>
+            @endforeach
+        </table>
+    @endif
+
     <table id="data_footer" class="header" width="96%" border="0" cellspacing="0" cellpadding="8"
         style="margin:20px auto; text-align: center;">
         <tr>

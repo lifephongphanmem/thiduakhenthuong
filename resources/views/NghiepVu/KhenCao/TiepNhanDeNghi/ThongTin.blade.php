@@ -29,10 +29,10 @@
     <div class="card card-custom wave wave-animate-slow wave-info" style="min-height: 600px">
         <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Danh sách hồ sơ trình khen thưởng theo chuyên đề</h3>
+                <h3 class="card-label text-uppercase">Tiếp nhận hồ sơ trình đề nghị khen thưởng</h3>
             </div>
             <div class="card-toolbar">
-                {{-- @if (chkPhanQuyen('xdhosodenghikhencao', 'thaydoi'))
+                {{-- @if (chkPhanQuyen('tnhosodenghikhenthuongcongtrang', 'thaydoi'))
                     <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
                 @endif --}}
@@ -50,7 +50,7 @@
                                 <th>Tên đơn vị trình</th>
                                 <th>Phân loại hồ sơ</th>
                                 <th>Nội dung hồ sơ</th>
-                                <th width="8%">Ngày tạo</th>
+                                {{-- <th>Ngày tạo</th> --}}
                                 <th width="8%">Trạng thái</th>
                                 <th>Đơn vị tiếp nhận</th>
                                 <th width="15%">Thao tác</th>
@@ -64,54 +64,16 @@
                                 <td>{{ $a_donvi[$tt->madonvi] ?? '' }}</td>
                                 <td>{{ $a_phanloaihs[$tt->phanloai] ?? $tt->phanloai }}</td>
                                 <td>{{ $tt->noidung }}</td>
-                                <td class="text-center">{{ getDayVn($tt->ngayhoso) }}</td>
+                                {{-- <td class="text-center">{{ getDayVn($tt->ngayhoso) }}</td> --}}
                                 @include('includes.td.td_trangthai_hoso')
-                                <td>{{ $a_donvi[$tt->madonvi_nhan_xd] ?? '' }}</td>
+                                <td>{{ $a_donvi[$tt->madonvi_nhan_hoso] ?? '' }}</td>
 
                                 <td style="text-align: center">
                                     @include('NghiepVu._DungChung.TD_XemThongTinTDKT')
-
-                                    @if (chkPhanQuyen('xdhosodenghikhencao', 'thaydoi'))
-                                        @if (in_array($tt->trangthai_hoso, ['CD']))
-                                            <button title="Tiếp nhận hồ sơ" type="button"
-                                                onclick="confirmNhan('{{ $tt->mahosotdkt }}','{{ $inputs['url_xd'] . 'NhanHoSo' }}','{{ $inputs['madonvi'] }}')"
-                                                class="btn btn-sm btn-clean btn-icon" data-target="#nhan-modal-confirm"
-                                                data-toggle="modal">
-                                                <i class="icon-lg flaticon-interface-5 text-success"></i>
-                                            </button>
-                                        @endif
-
-                                        @if (in_array($tt->trangthai_hoso, ['DD', 'BTLXD']))
-                                            <button title="Chuyển phê duyệt khen thưởng" type="button"
-                                                onclick="confirmNhanvaTKT('{{ $tt->mahosotdkt }}','{{ $inputs['url_xd'] . 'ChuyenHoSo' }}','{{ $inputs['madonvi'] }}')"
-                                                class="btn btn-sm btn-clean btn-icon"
-                                                {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}
-                                                data-target="#nhanvatkt-modal" data-toggle="modal">
-                                                <i class="icon-lg la fa-share-square text-success"></i>
-                                            </button>
-                                        @endif
-
-                                        @if ($tt->trangthai_hoso == 'BTLXD')
-                                            <button title="Lý do hồ sơ bị trả lại" type="button"
-                                                onclick="viewLyDo('{{ $tt->mahosotdkt }}','{{ $inputs['madonvi'] }}', '{{ $inputs['url_xd'] . 'LayLyDo' }}')"
-                                                class="btn btn-sm btn-clean btn-icon" data-target="#tralai-modal"
-                                                data-toggle="modal">
-                                                <i class="icon-lg la flaticon2-information text-dark"></i>
-                                            </button>
-                                        @endif
-
-                                        @if (in_array($tt->trangthai_hoso, ['DD', 'CD', 'BTLXD']))
-                                            <button title="Trả lại hồ sơ" type="button"
-                                                onclick="confirmTraLai('{{ $tt->mahosotdkt }}', '{{ $inputs['madonvi'] }}', '{{ $inputs['url_xd'] . 'TraLai' }}')"
-                                                class="btn btn-sm btn-clean btn-icon" data-target="#modal-tralai"
-                                                data-toggle="modal">
-                                                <i class="icon-lg la la-reply text-danger"></i>
-                                            </button>
-                                        @endif
+                                    @if (chkPhanQuyen('tnhosodenghikhencao', 'thaydoi'))
+                                        @include('NghiepVu._DungChung.TiepNhan.TD_TrangThai_CC')
                                     @endif
                                 </td>
-
-
                             </tr>
                         @endforeach
                     </table>
@@ -120,10 +82,9 @@
         </div>
     </div>
     <!--end::Card-->
-
     @include('includes.modal.modal_unapprove_hs')
     @include('includes.modal.modal_accept_hs')
-    @include('includes.modal.modal_nhanvatrinhkt_hs')
+    @include('includes.modal.modal_trinhhs')
     @include('NghiepVu._DungChung.InDuLieu_KhenCao')
     @include('includes.modal.modal_attackfile')
     @include('includes.modal.modal-lydo')

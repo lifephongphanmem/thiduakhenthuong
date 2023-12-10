@@ -36,14 +36,14 @@
                 @endif
 
                 <div id="div_inDuLieu">
-                    {{-- <div class="row">
+                    <div class="row">
                         <div class="col-lg-12">
                             <a onclick="setInDL($(this), '{{ $inputs['url_qd'] . 'InHoSoPD' }}')"
                                 class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
                                 <i class="la flaticon2-print"></i>Thông tin hồ sơ phê duyệt khen thưởng
                             </a>
                         </div>
-                    </div> --}}
+                    </div>
 
                     @if (session('admin')->opt_duthaototrinh)
                         <div class="row">
@@ -69,13 +69,10 @@
                     @endif
                 </div>
 
-                <div id="div_inPhoi">
+                {{-- <div id="div_inPhoi">
                     <div class="row">
                         <div class="col-lg-12">
-                            {{-- <a onclick="setInDL($(this), '{{ $inputs['url_qd'] . 'InPhoi' }}')"
-                                class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
-                                <i class="la flaticon2-print"></i>In phôi bằng khen, giấy khen
-                            </a> --}}
+                            
                             @if ($inputs['phanloaikhenthuong'] == 'CUMKHOI')
                                 <a onclick="setInPhoi($(this), '/DungChung/InPhoiCumKhoi/DanhSach')"
                                     class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
@@ -89,7 +86,7 @@
                             @endif
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-default">Đóng</button>

@@ -1,7 +1,7 @@
 @if ($tt->trangthai == 'CXKT')
     @if (session('admin')->opt_duthaoquyetdinh)
         <a title="Tạo dự thảo quyết định khen thưởng" target="_blank"
-            href="{{ url('/DungChung/DuThao/QuyetDinhKhenThuong?mahosotdkt=' . $tt->mahosotdkt) }}"
+            href="{{ url('/DungChung/DuThao/QuyetDinhKhenThuong?mahosotdkt=' . $tt->mahosotdkt . '&phanloaihoso=' . $inputs['phanloaihoso']) }}"
             class="btn btn-sm btn-clean btn-icon">
             {{-- class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}"> --}}
             <i class="icon-lg la flaticon-edit-1 text-success"></i>
@@ -18,8 +18,6 @@
         class="btn btn-sm btn-clean btn-icon" data-target="#modal-tralai" data-toggle="modal">
         <i class="icon-lg la la-reply text-danger"></i>
     </button>
-
-
 
     @if ($tt->chinhsua)
         <button type="button" onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url_qd'] . 'Xoa' }}')"
