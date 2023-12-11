@@ -11,10 +11,12 @@ use App\Model\DanhMuc\dmloaihinhkhenthuong;
 use App\Model\DanhMuc\dmnhomphanloai_chitiet;
 use App\Model\DanhMuc\dmtoadoinphoi;
 use App\Model\DanhMuc\dsdonvi;
+use App\Model\HeThong\trangthaihoso;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_canhan;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_hogiadinh;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_tapthe;
+use App\Model\NghiepVu\KhenCao\dshosokhencao;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothamgiaphongtraotd;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_canhan;
@@ -797,5 +799,19 @@ class dungchung_nghiepvuController extends Controller
                 . 'text-transform:' . ($inputs['text-transform'] ?? 'none') . ';',
             getTenTruongTheToaDo($inputs['tentruong']) => $inputs['noidung'],
         ];
+    }
+
+    public function InLichSuHoSo(Request $request)
+    {
+        $inputs = $request->all();        
+        $model = trangthaihoso::where('mahoso', $inputs['mahosotdkt'])->get();
+        //dd($model);
+        $a_donvi = array_column(dsdonvi::all()->toArray(),'tendonvi','madonvi');
+        return view('NghiepVu._DungChung.InLichSuHoSo')
+            ->with('model', $model)            
+            ->with('a_donvi', $a_donvi)            
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'Lịch sử hồ sơ');
+        
     }
 }

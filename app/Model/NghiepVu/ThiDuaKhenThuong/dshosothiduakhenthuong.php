@@ -84,5 +84,10 @@ class dshosothiduakhenthuong extends Model
         'nguoikytotrinhdenghi',
         'chucvutotrinhdenghi',
         'totrinhdenghi',
+        //Lưu quy trình xử lý
+        'tendangnhap_xd',
+        'tendangnhap_kt',
+        'noidungxuly_xd',
+        'noidungxuly_kt',
     ];
 }

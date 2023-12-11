@@ -56,13 +56,29 @@
     @case('DTN')
     @case('DKT')
     @case('DXKT')
-
+    @case('DDK')
+    @case('KDK')
     @case('DD')
         <td align="center">
             <span class="{{ $a_trangthai_td['class'] }}">{!! $a_trangthai_td['trangthai'] !!}</span>
             <br>Thời gian:<br><b>{{ getDayVn($tt->thoigian) }}</b>
         </td>
     @break
+
+    @case('DCCVXD')
+        <td align="center">
+            <span class="{{ $a_trangthai_td['class'] }}">{!! $a_trangthai_td['trangthai'] !!}</span>
+            <br>Chuyên viên:<br><b>{{ $tt->tendangnhap_xd }}</b>
+        </td>
+    @break
+
+    @case('DCCVKT')
+        <td align="center">
+            <span class="{{ $a_trangthai_td['class'] }}">{!! $a_trangthai_td['trangthai'] !!}</span>
+            <br>Chuyên viên:<br><b>{{ $tt->tendangnhap_kt }}</b>
+        </td>
+    @break
+    
     @default
         <td align="center">
             <span class="badge badge-info">{{$tt->trangthai}}</span>

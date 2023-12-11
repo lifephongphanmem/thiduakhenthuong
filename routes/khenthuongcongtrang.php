@@ -166,6 +166,10 @@ Route::group(['prefix' => 'KhenThuongCongTrang'], function () {
         Route::post('TraLai', 'NghiepVu\KhenThuongCongTrang\tnhosodenghikhenthuongcongtrangController@TraLai');
         Route::post('NhanHoSo', 'NghiepVu\KhenThuongCongTrang\tnhosodenghikhenthuongcongtrangController@NhanHoSo');
         Route::post('ChuyenHoSo', 'NghiepVu\KhenThuongCongTrang\tnhosodenghikhenthuongcongtrangController@ChuyenHoSo');
+        
+        Route::post('ChuyenChuyenVien', 'NghiepVu\KhenThuongCongTrang\tnhosodenghikhenthuongcongtrangController@ChuyenChuyenVien');
+        Route::post('XuLyHoSo', 'NghiepVu\KhenThuongCongTrang\tnhosodenghikhenthuongcongtrangController@XuLyHoSo');
+        Route::post('LayXuLyHoSo', 'NghiepVu\KhenThuongCongTrang\tnhosodenghikhenthuongcongtrangController@LayXuLyHoSo');
     });
 
     Route::group(['prefix' => 'KhenThuong'], function () {

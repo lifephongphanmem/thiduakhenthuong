@@ -82,6 +82,7 @@ class dstaikhoanController extends Controller
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
             ->with('a_nhomtk', $a_nhomtk)
+            ->with('a_phanloaitk', getPhanLoaiTaiKhoan())
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách tài khoản');
     }

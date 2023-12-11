@@ -410,7 +410,7 @@ function getTaoDuThaoToTrinhPheDuyetCumKhoi(&$model, $maduthao = null)
         $donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
         $donvi_xd = dsdonvi::where('madonvi', $model->madonvi_xd)->first();
         $donvi_kt = dsdonvi::where('madonvi', $model->madonvi_kt)->first();
-        
+
         $model->thongtintotrinhdenghi = str_replace('[noidung]', $model->noidung, $model->thongtintotrinhdenghi);
         $model->thongtintotrinhdenghi = str_replace('[hinhthuckhenthuong]',  'Bằng khen', $model->thongtintotrinhdenghi);
         $model->thongtintotrinhdenghi = str_replace('[nguoikytotrinh]', $model->nguoikytotrinh, $model->thongtintotrinhdenghi);
@@ -747,7 +747,7 @@ function getTaoQuyetDinhKTCumKhoi(&$model, $maduthao)
     $donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
     $donvi_xd = dsdonvi::where('madonvi', $model->madonvi_xd)->first();
     $donvi_kt = dsdonvi::where('madonvi', $model->madonvi_kt)->first();
-    
+
     $model->thongtinquyetdinh = str_replace('[nguoikytotrinh]', $model->nguoikytotrinh, $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[chucvunguoiky]', $model->chucvunguoiky, $model->thongtinquyetdinh);
     $model->thongtinquyetdinh = str_replace('[chucvunguoikyqd]', $model->chucvunguoikyqd, $model->thongtinquyetdinh);
@@ -839,7 +839,7 @@ function getTaoDuThaoKTCumKhoi(&$model, $maduthao = null)
             $thongtinquyetdinh = str_replace('[khenthuonghogiadinh]',  '', $thongtinquyetdinh);
             $thongtinquyetdinh = str_replace('[soluonghogiadinh]', '', $thongtinquyetdinh);
         }
-        
+
         $model->thongtinquyetdinh = $thongtinquyetdinh;
     }
 }
@@ -1317,7 +1317,19 @@ function getTrangThaiHoSo()
         'CXKT' => 'Chờ xét khen thưởng',
         'DKT' => 'Đã khen thưởng',
         'DXKT' => 'Đang xét khen thưởng',
-        'DD' => 'Chờ chuyển<br>khen thưởng',
+        'DD' => 'Chờ chuyển khen thưởng',
+        'DDK' => 'Đủ điều kiện',
+        'KDK' => 'Không điều kiện',
+        'DCCVXD' => 'Đã chuyển chuyên viên',
+        'DCCVKT' => 'Đã chuyển chuyên viên',
+    ];
+}
+
+function getTrangThaiXuLyHoSo()
+{
+    return [        
+        'DDK' => 'Đủ điều kiện',
+        'KDK' => 'Không điều kiện',        
     ];
 }
 
@@ -1332,6 +1344,10 @@ function getTrangThaiChucNangHoSo($trangthai = 'ALL')
         'CXKT' => 'Chờ xét khen thưởng', //Đã gán madonvi_xd,madonvi_kt,
         'DKT' => 'Đã khen thưởng', //Đã gán madonvi_xd,madonvi_kt,
         'BTL' => 'Bị trả lại',
+        'BTLXD' => 'Trả lại xét duyệt',
+        'DXL' => 'Đã xử lý',
+        // 'DDK' => 'Đủ điều kiện',
+        // 'KDK' => 'Không điều kiện',
     ];
     return $trangthai == 'ALL' ? $a_kq : [$trangthai => $a_kq[$trangthai]];
 }
@@ -1398,6 +1414,23 @@ function getTrangThai_TD_HoSo($trangthai)
             'trangthai' => 'Đang xét<br>khen thưởng',
             'class' => 'badge badge-warning'
         ],
+
+        'DDK' => [
+            'trangthai' => 'Đủ điều<br>kiện',
+            'class' => 'badge badge-success'
+        ],
+        'KDK' => [
+            'trangthai' => 'Không đủ điều<br>kiện',
+            'class' => 'badge badge-warning'
+        ],
+        'DCCVXD' => [
+            'trangthai' => 'Đã chuyển</br>chuyên viên',
+            'class' => 'badge badge-warning'
+        ], 
+        'DCCVKT' => [
+            'trangthai' => 'Đã chuyển</br>chuyên viên',
+            'class' => 'badge badge-warning'
+        ],       
     ];
 
     return $a_trangthai[$trangthai] ?? ['trangthai' => $trangthai, 'class' => 'badge badge-info'];
@@ -1504,10 +1537,28 @@ function getTenTruongDuLieuDuThao()
 
 function getPhanLoaiChuKySo($phanloaihoso = 'ALL')
 {
-    
+
     $a_kq = [
         'MACDINH' => 'Không dùng chữ ký số',
         'BANCOYEU' => 'Chữ ký số của Ban cơ yếu chính phủ',
+    ];
+    return $a_kq;
+}
+
+function getQuyTrinhXuLyKhenThuong()
+{
+    $a_kq = [
+        'DIABAN' => 'Theo địa bàn quản lý',
+        'TAIKHOAN' => 'Theo chuyên viên',
+    ];
+    return $a_kq;
+}
+
+function getPhanLoaiTaiKhoan()
+{
+    $a_kq = [
+        'QUANLY' => 'Tài khoản quản lý',
+        'CHUYENVIEN' => 'Tài khoản chuyên viên',
     ];
     return $a_kq;
 }

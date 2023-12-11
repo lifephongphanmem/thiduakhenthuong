@@ -57,5 +57,10 @@ class dshosokhencao extends Model
         'thongtin_kt',
         'trangthai_kt',
         'thoigian_kt',
+        //Lưu quy trình xử lý
+        'tendangnhap_xd',
+        'tendangnhap_kt',
+        'noidungxuly_xd',
+        'noidungxuly_kt',
     ];
 }

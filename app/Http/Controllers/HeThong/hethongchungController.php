@@ -208,6 +208,7 @@ class hethongchungController extends Controller
         $ttuser->opt_trinhhosodenghi = $a_HeThongChung->opt_trinhhosodenghi;
         $ttuser->opt_trinhhosoketqua = $a_HeThongChung->opt_trinhhosoketqua;
         $ttuser->opt_pheduyethoso = $a_HeThongChung->opt_pheduyethoso;
+        $ttuser->opt_quytrinhkhenthuong = $a_HeThongChung->opt_quytrinhkhenthuong;
 
         Session::put('admin', $ttuser);
         //Gán hệ danh mục chức năng        

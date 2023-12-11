@@ -142,12 +142,17 @@
             @if (session('admin')->capdo == 'SSA')
                 <h4 class="text-dark font-weight-bold mb-5">Thiết lập khác (SSA)</h4>
                 <div class="form-group row">
-                    <div class="col-6">
+                    <div class="col-4">
                         <label>Đơn vị in phôi mặc định</label>
                         {!! Form::select('madonvi_inphoi', $a_donvi, null, ['class' => 'form-control select2basic']) !!}
                     </div>
-                
-                    <div class="col-6">
+
+                    <div class="col-4">
+                        <label>Quy trình xử lý khen thưởng</label>
+                        {!! Form::select('opt_quytrinhkhenthuong', getQuyTrinhXuLyKhenThuong(), null, ['class' => 'form-control select2basic']) !!}
+                    </div>
+
+                    <div class="col-4">
                         <label>Giới hạn thời gian hệ thống</label>
                         {!! Form::select('thoigianhethong', ['15'=>'15 phút','30'=>'30 phút','60'=>'60 phút'], null, ['class' => 'form-control select2basic']) !!}
                     </div>

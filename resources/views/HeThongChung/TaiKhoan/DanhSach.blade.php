@@ -63,6 +63,7 @@
                         <thead>
                             <tr class="text-center">
                                 <th width="5%">STT</th>
+                                <th>Phân loại tài khoản</th>
                                 <th>Tên tài khoản</th>
                                 <th width="15%">Tài khoản<br>truy cập</th>
                                 <th width="8%">Trạng thái</th>
@@ -76,6 +77,7 @@
                             @foreach ($model as $key => $tt)
                                 <tr>
                                     <td style="text-align: center">{{ $key + 1 }}</td>
+                                    <td>{{ $a_phanloaitk[$tt->phanloai] ?? $tt->phanloai }}</td>
                                     <td>{{ $tt->tentaikhoan }}</td>
                                     <td class="text-center">{{ $tt->tendangnhap }}</td>
 

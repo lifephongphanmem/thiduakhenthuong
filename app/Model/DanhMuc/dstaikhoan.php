@@ -19,12 +19,13 @@ class dstaikhoan extends Model
         'sadmin',
         'ttnguoitao',
         'lydo',
-        'solandn',
-        
+        'solandn',        
         'manhomchucnang',
         'nhaplieu',
         'tonghop',
         'hethong',
         'chucnangkhac',
+        'dstaikhoan',
+        'phanloai',
     ];
 }

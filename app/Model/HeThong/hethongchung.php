@@ -46,5 +46,6 @@ class hethongchung extends Model
         'opt_trinhhosodenghi',  
         'opt_trinhhosoketqua',
         'opt_pheduyethoso',
+        'opt_quytrinhkhenthuong',
     ];
 }

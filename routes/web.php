@@ -25,6 +25,7 @@ Route::get('TrangChu', 'HeThong\congboController@TrangChu');
 Route::group(['prefix' => 'DungChung'], function () {
     Route::get('getDonViKhenThuong_ThemHS', [dungchung_nghiepvuController::class, 'getDonViKhenThuong_ThemHS']);
     Route::get('lichsucapnhat', [dungchung_nghiepvuController::class, 'getDonViKhenThuong_ThemHS']);
+    Route::get('InLichSuHoSo', [dungchung_nghiepvuController::class, 'InLichSuHoSo']);
     //
     Route::get('DinhKemHoSoKhenThuong', [dungchung_nghiepvu_tailieuController::class, 'DinhKemHoSoKhenThuong']);
     Route::get('DinhKemHoSoKhenCao', [dungchung_nghiepvuController::class, 'DinhKemHoSoKhenCao']);
@@ -79,6 +80,7 @@ Route::group(['prefix' => 'DungChung'], function () {
         //Cụm khối
         Route::get('QuyetDinhCumKhoi', [dungchung_duthaokhenthuongController::class, 'QuyetDinhCumKhoi']);
     });
+
 });
 
 //Giao diện API

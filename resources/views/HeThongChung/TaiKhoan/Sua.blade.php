@@ -12,7 +12,14 @@
 
 @section('content')
     <!--begin::Card-->
-    {!! Form::model($model, ['method' => 'POST', '/TaiKhoan/Sua', 'class' => 'horizontal-form', 'id' => 'update_dmdonvi', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
+    {!! Form::model($model, [
+        'method' => 'POST',
+        '/TaiKhoan/Sua',
+        'class' => 'horizontal-form',
+        'id' => 'update_dmdonvi',
+        'files' => true,
+        'enctype' => 'multipart/form-data',
+    ]) !!}
     {{-- {{ Form::hidden('id', null) }} --}}
     {{ Form::hidden('madonvi', null) }}
     <div class="card card-custom wave wave-animate-slow wave-primary" style="min-height: 600px">
@@ -31,15 +38,18 @@
                     <label>Đơn vị quản lý</label>
                     {!! Form::select('madonvi', $a_donvi, null, ['class' => 'form-control select2basic', 'disabled']) !!}
                 </div>
-
                 <div class="col-lg-4">
-                    <label>Tên tài khoản<span class="require">*</span></label>
-                    {!! Form::text('tentaikhoan', null, ['class' => 'form-control', 'required']) !!}
+                    <label>Phân loại tài khoản</label>
+                    {!! Form::select('phanloai', getPhanLoaiTaiKhoan(), null, ['class' => 'form-control select2basic']) !!}
                 </div>
+
 
                 <div class="col-lg-4">
                     <label>Trạng thái</label>
-                    {!! Form::select('trangthai', ['1' => 'Kích hoạt', '0' => 'Vô hiệu'], null, ['id' => 'trangthai', 'class' => 'form-control']) !!}
+                    {!! Form::select('trangthai', ['1' => 'Kích hoạt', '0' => 'Vô hiệu'], null, [
+                        'id' => 'trangthai',
+                        'class' => 'form-control',
+                    ]) !!}
                 </div>
             </div>
 
@@ -70,8 +80,12 @@
 
             <div class="form-group row">
                 <div class="col-lg-4">
+                    <label>Tên tài khoản<span class="require">*</span></label>
+                    {!! Form::text('tentaikhoan', null, ['class' => 'form-control', 'required']) !!}
+                </div>
+                <div class="col-lg-4">
                     <label>Tài khoản truy cập<span class="require">*</span></label>
-                    {!! Form::text('tendangnhap', null, ['class' => 'form-control', 'readonly'=>'true']) !!}
+                    {!! Form::text('tendangnhap', null, ['class' => 'form-control', 'readonly' => 'true']) !!}
                 </div>
                 <div class="col-lg-4">
                     <label>Mật khẩu mới</label>

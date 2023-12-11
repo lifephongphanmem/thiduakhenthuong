@@ -87,6 +87,14 @@
                         </div>
                     </div>
                 </div> --}}
+                <div class="row">
+                    <div class="col-lg-12">
+                        <a onclick="setInLichSu($(this), '/DungChung/InLichSuHoSo')"
+                            class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
+                            <i class="la flaticon2-print"></i>In lịch sử hồ sơ
+                        </a>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-default">Đóng</button>
@@ -121,5 +129,9 @@
     function setInPhoi(e, url) {
         e.prop('href', url + '?mahosotdkt=' + $('#frm_InDuLieu').find("[name='mahosotdkt']").val() + '&madonvi=' + $(
             '#madonvi').val());
+    }
+    function setInLichSu(e, url) {
+        e.prop('href', url + '?mahosotdkt=' + $('#frm_InDuLieu').find("[name='mahosotdkt']").val() + '&phanloaihoso=' +
+            $('#frm_InDuLieu').find("[name='phanloaihoso']").val());
     }
 </script>

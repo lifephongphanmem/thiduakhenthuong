@@ -287,8 +287,8 @@ function getDiaBanCumKhoi($tendangnhap)
         return [];
     }
     //Lấy đơn vị quản lý theo đơn vi
-    $model = dstaikhoan_phamvi::where('tendangnhap', $tendangnhap)->get();   
-    $a_kq = array_column($model->wherein('phanloai', ['DONVI', 'CUMKHOI', 'DIABAN'])->toarray(), 'maphamvi');    
+    $model = dstaikhoan_phamvi::where('tendangnhap', $tendangnhap)->get();
+    $a_kq = array_column($model->wherein('phanloai', ['DONVI', 'CUMKHOI', 'DIABAN'])->toarray(), 'maphamvi');
     //Lấy thông tin theo cụm khối
     $a_cumkhoi = array_column(view_dscumkhoi::wherein('macumkhoi', array_column($model->where('phanloai', 'CUMKHOI')->toarray(), 'maphamvi'))->get()->toArray(), 'madonvi');
     $a_kq = array_merge($a_kq, $a_cumkhoi);
@@ -296,6 +296,15 @@ function getDiaBanCumKhoi($tendangnhap)
     $a_diaban = array_column(viewdiabandonvi::wherein('madiaban', array_column($model->where('phanloai', 'DIABAN')->toarray(), 'maphamvi'))->get()->toArray(), 'madonvi');
     $a_kq = array_merge($a_kq, $a_diaban);
     return $a_kq;
+}
+
+//Lấy tài khoản lọc dữ liệu
+function getLocTaiKhoanXetDuyet($tendangnhap_xd)
+{
+    if (session('admin')->capdo == 'SSA' || $tendangnhap_xd == session('admin')->tendangnhap)
+        return true;
+    else
+        return false;
 }
 
 //Lấy danh sách cụm, khối lọc
@@ -1017,6 +1026,52 @@ function setTraLaiXD(&$model, &$inputs)
         'madonvi_nhan' => $model->madonvi,
         'madonvi' => $model->madonvi_xd,
         'thongtin' => 'Trả lại hồ sơ đề nghị khen thưởng.',
+    ]);
+}
+
+function setChuyenChuyenVienXD(&$model, &$inputs)
+{
+    //dd($inputs);
+    $model->trangthai = $inputs['trangthai'];
+    $model->thoigian = $inputs['thoigian'];
+
+    $model->tendangnhap_xd = $inputs['tendangnhap_xd'];
+    $model->trangthai_xd = $model->trangthai;
+    $model->thoigian_xd = $model->thoigian;
+    $model->save();
+
+    //Lưu trạng thái
+    trangthaihoso::create([
+        'mahoso' => $inputs['mahoso'],
+        'phanloai' => 'dshosothiduakhenthuong',
+        'trangthai' => $model->trangthai,
+        'thoigian' => $model->thoigian,
+        'madonvi_nhan' => $model->madonvi_xd,
+        'madonvi' => $model->madonvi_xd,
+        'thongtin' => 'Chuyển hồ sơ đề nghị khen thưởng cho chuyên viên xử lý.',
+    ]);
+}
+
+function setXuLyHoSo(&$model, &$inputs)
+{
+    //dd($inputs);
+    $model->trangthai = $inputs['trangthai'];
+    $model->thoigian = $inputs['thoigian'];
+    $model->noidungxuly_xd = $inputs['noidungxuly_xd'];
+    
+    $model->trangthai_xd = $model->trangthai;
+    $model->thoigian_xd = $model->thoigian;
+    $model->save();
+
+    //Lưu trạng thái
+    trangthaihoso::create([
+        'mahoso' => $inputs['mahoso'],
+        'phanloai' => 'dshosothiduakhenthuong',
+        'trangthai' => $model->trangthai,
+        'thoigian' => $model->thoigian,
+        'madonvi_nhan' => $model->madonvi_xd,
+        'madonvi' => $model->madonvi_xd,
+        'thongtin' => 'Chuyên viên xử lý hồ sơ đề nghị khen thưởng.',
     ]);
 }
 

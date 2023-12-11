@@ -70,6 +70,10 @@
 
             <div class="form-group row">
                 <div class="col-lg-4">
+                    <label>Phân loại tài khoản</label>
+                    {!! Form::select('phanloai', getPhanLoaiTaiKhoan(), null, ['class' => 'form-control select2basic']) !!}
+                </div>
+                <div class="col-lg-4">
                     <label>Tài khoản truy cập<span class="require">*</span></label>
                     {!! Form::text('tendangnhap', null, ['class' => 'form-control', 'required']) !!}
                 </div>
