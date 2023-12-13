@@ -94,7 +94,8 @@ class tnhosodenghikhenthuongcongtrangController extends Controller
             $hoso->thoigian_hoso = $hoso->thoigian_xd;
             $hoso->lydo_hoso = $hoso->lydo_xd;
             $hoso->madonvi_nhan_hoso = $hoso->madonvi_kt;
-            if (session('admin')->opt_quytrinhkhenthuong == 'TAIKHOAN') {
+            // dd(getPhanLoaiTaiKhoanTiepNhan());
+            if (session('admin')->opt_quytrinhkhenthuong == 'TAIKHOAN' && !getPhanLoaiTaiKhoanTiepNhan()) {
                 if (!getLocTaiKhoanXetDuyet($hoso->tendangnhap_xd))
                     $model->forget($key);
             } else

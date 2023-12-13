@@ -307,6 +307,16 @@ function getLocTaiKhoanXetDuyet($tendangnhap_xd)
         return false;
 }
 
+//Lấy tài khoản lọc dữ liệu
+function getPhanLoaiTaiKhoanTiepNhan()
+{
+    
+    if (session('admin')->capdo == 'SSA' || session('admin')->phanloai == 'QUANLY')    
+        return true;
+    else
+        return false;
+}
+
 //Lấy danh sách cụm, khối lọc
 function getCumKhoiLocDuLieu($tendangnhap)
 {
