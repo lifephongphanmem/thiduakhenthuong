@@ -102,7 +102,7 @@
                                         <i class="icon-lg la la-file-download text-dark"></i>
                                     </button>
                                     <a title="Danh sách chi tiết"
-                                        href="{{ url($inputs['url_xd'] . 'DanhSach?maphongtraotd=' . $tt->maphongtraotd . '&madonvi=' . $inputs['madonvi'] . '&trangthai=false') }}"
+                                        href="{{ url('/CumKhoiThiDua/XetDuyetThamGiaThiDua/ThongTin?maphongtraotd=' . $tt->maphongtraotd . '&madonvi=' . $inputs['madonvi'] . '&trangthai=false') }}"
                                         class="btn btn-icon btn-clean btn-lg mb-1 position-relative">
                                         <span class="svg-icon svg-icon-xl">
                                             <i class="icon-lg la flaticon-folder-1 text-dark"></i>

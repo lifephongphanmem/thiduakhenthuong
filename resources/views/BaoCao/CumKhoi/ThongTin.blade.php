@@ -63,7 +63,7 @@
 
                         <li>
                             <button class="btn btn-clean text-dark" title="Thống kê tất cả các loại hình khen thưởng"
-                                onclick="setBaoCaoKT('frm_htkt','/BaoCao/TongHop/KhenThuong_m1', 'ALL')"
+                                onclick="setBaoCaoKT('frm_htkt','/BaoCao/CumKhoi/HinhThucKhenThuong', 'ALL')"
                                 data-target="#modal-khenthuong" data-toggle="modal">Báo cáo hình thức khen thưởng</button>
                         </li>
                     </ol>
@@ -75,7 +75,7 @@
     {{-- Phong trào thi đua --}}
     <div id="modal-phongtrao" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
         {!! Form::open([
-            'url' => 'BaoCao/TongHop/PhongTrao',
+            'url' => 'BaoCao/CumKhoi/PhongTraoThiDua',
             'target' => '_blank',
             'method' => 'post',
             'id' => 'frm_phongtrao',
@@ -133,7 +133,7 @@
     {{-- Hồ sơ đăng ký thi đua, khen thưởng --}}
     <div id="modal-hosotdkt" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
         {!! Form::open([
-            'url' => 'BaoCao/TongHop/HoSo',
+            'url' => 'BaoCao/CumKhoi/HoSoKhenThuong',
             'target' => '_blank',
             'method' => 'post',
             'id' => 'frm_hoso',
@@ -162,7 +162,7 @@
                 <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Phạm vị thống kê</label>
-                        {!! Form::select('phamvithongke', setArrayAll($a_phamvithongke), null, ['class' => 'form-control']) !!}
+                        {!! Form::select('macumkhoi', setArrayAll($a_phamvithongke), null, ['class' => 'form-control']) !!}
                     </div>
                 </div>
 
@@ -217,71 +217,7 @@
             </div>
         </div>
         {!! Form::close() !!}
-    </div>
-
-    {{-- Danh hiệu thi đua trên địa bàn --}}
-    <div id="modal-danhhieutd" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
-        {!! Form::open([
-            'url' => 'BaoCao/TongHop/DanhHieu',
-            'target' => '_blank',
-            'method' => 'post',
-            'id' => 'frm_dhtd',
-            'class' => 'form-horizontal form-validate',
-        ]) !!}
-        <div class="modal-dialog modal-content">
-            <div class="modal-header modal-header-primary">
-                <h4 id="modal-header-primary-label" class="modal-title">Thông tin kết xuất danh hiệu thi đua</h4>
-                <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group row">
-                    <div class="col-lg-12">
-                        <label>Địa bàn</label>
-                        {!! Form::select('madiaban', setArrayAll($a_diaban), null, [
-                            'madiaban' => 'madt',
-                            'class' => 'form-control select2_modal',
-                            'disabled',
-                        ]) !!}
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-lg-12">
-                        <label>Thời điểm báo cáo</label>
-                        {!! Form::select('thoidiem', getThoiDiem(), 'CANAM', [
-                            'class' => 'form-control select2_modal',
-                            'onchange' => 'setNgayThang($(this),"frm_dhtd")',
-                        ]) !!}
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-lg-12">
-                        <label>Phạm vị thống kê</label>
-                        {!! Form::select('phamvithongke', setArrayAll($a_phamvithongke), null, ['class' => 'form-control']) !!}
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-lg-6">
-                        <label> Từ ngày</label>
-                        {!! Form::input('date', 'ngaytu', date('Y') . '-01-01', ['id' => 'ngaytu', 'class' => 'form-control']) !!}
-                    </div>
-
-                    <div class="col-lg-6">
-                        <label> Đến ngày</label>
-                        {!! Form::input('date', 'ngayden', date('Y') . '-12-31', ['id' => 'ngayden', 'class' => 'form-control']) !!}
-                    </div>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
-                <button type="submit" name="submit" value="submit" class="btn btn-primary">Đồng ý</button>
-            </div>
-        </div>
-        {!! Form::close() !!}
-    </div>
+    </div>   
 
     {{-- Hình thức khen thưởng --}}
     <div id="modal-khenthuong" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
@@ -330,14 +266,14 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                {{-- <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Đơn vị phê duyệt khen thưởng</label>
                         {!! Form::select('madonvi_kt', setArrayAll($a_donvi_ql), 'ALL', [
                             'class' => 'form-control select2_modal',
                         ]) !!}
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="form-group row">
                     <div class="col-lg-12">
@@ -379,224 +315,6 @@
 
                     </div>
                 </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
-                <button type="submit" name="submit" value="submit" class="btn btn-primary">Đồng ý</button>
-            </div>
-        </div>
-        {!! Form::close() !!}
-    </div>
-
-    {{-- Hình thức khen thưởng cấp nhà nước --}}
-    <div id="modal-khenthuongnhanuoc" tabindex="-1" role="dialog" aria-hidden="true"
-        class="modal fade kt_select2_modal">
-        {!! Form::open([
-            'url' => '',
-            'target' => '_blank',
-            'method' => 'post',
-            'id' => 'frm_khenthuongnhanuoc',
-            'class' => 'form-horizontal form-validate',
-        ]) !!}
-        <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
-        <div class="modal-dialog modal-content">
-            <div class="modal-header modal-header-primary">
-                <h4 id="modal-header-primary-label" class="modal-title">Thông tin kết xuất hình thức khen thưởng cấp nhà
-                    nước</h4>
-                <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p style="color: #0000FF">Thống kê các danh hiệu thi đua và hình thức khen thưởng đã được phê duyệt theo hồ
-                    sơ khen thưởng và hồ sơ đề nghị khen thưởng.</p>
-                <div class="form-group row">
-                    <div class="col-lg-12">
-                        <label>Địa bàn</label>
-                        {!! Form::select('madiaban', setArrayAll($a_diaban), null, [
-                            'madiaban' => 'madt',
-                            'class' => 'form-control select2_modal',
-                            'disabled',
-                        ]) !!}
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-lg-12">
-                        <label>Thời điểm báo cáo</label>
-                        {!! Form::select('thoidiem', getThoiDiem(), 'CANAM', [
-                            'class' => 'form-control select2_modal',
-                            'onchange' => 'setNgayThang($(this),"frm_khenthuongnhanuoc")',
-                        ]) !!}
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-lg-6">
-                        <label>Phạm vị thống kê</label>
-                        {!! Form::select('phamvithongke', setArrayAll($a_phamvithongke), null, ['class' => 'form-control']) !!}
-                    </div>
-
-                    <div class="col-lg-6">
-                        <label>Phân loại hồ sơ</label>
-                        {!! Form::select('phanloai', setArrayAll(getPhanLoaiHoSo_BaoCao()), null, [
-                            'class' => 'form-control select2_modal',
-                        ]) !!}
-                        {{-- {!! Form::select('phamvithongke[]', setArrayAll(getPhanLoaiHoSo_BaoCao()), null, ['class' => 'form-control select2_modal','multiple'=>'true']) !!} --}}
-                    </div>
-                </div>
-
-
-                {{-- <div class="form-group row">
-                    <div class="col-lg-12">
-                        <label>Loại hình khen thưởng</label>
-                        {!! Form::select('loaihinhkhenthuong', setArrayAll($a_loaihinhkt), null, ['class' => 'form-control select2_modal', 'multiple']) !!}
-                    </div>
-                </div> --}}
-
-                <div class="form-group row">
-                    <div class="col-lg-6">
-                        <label> Từ ngày</label>
-                        {!! Form::input('date', 'ngaytu', date('Y') . '-01-01', ['id' => 'ngaytu', 'class' => 'form-control']) !!}
-                    </div>
-
-                    <div class="col-lg-6">
-                        <label> Đến ngày</label>
-                        {!! Form::input('date', 'ngayden', date('Y') . '-12-31', ['id' => 'ngayden', 'class' => 'form-control']) !!}
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-3 col-form-label"></label>
-                    <div class="col-9 col-form-label">
-                        <div class="checkbox-inline">
-                            <label class="checkbox checkbox-outline checkbox-success">
-                                <input type="checkbox" name="indonvidulieu">
-                                <span></span>Chỉ in các đơn vị có số liệu khen thưởng</label>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
-                <button type="submit" name="submit" value="submit" class="btn btn-primary">Đồng ý</button>
-            </div>
-        </div>
-        {!! Form::close() !!}
-    </div>
-
-    {{-- Mẫu thông tu 03 / 2018 --}}
-    <div id="modal-thongtu03" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
-        {!! Form::open([
-            'url' => '',
-            'target' => '_blank',
-            'method' => 'post',
-            'id' => 'frm_thongtu03',
-            'class' => 'form-horizontal form-validate',
-        ]) !!}
-        <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
-        <div class="modal-dialog modal-content">
-            <div class="modal-header modal-header-primary">
-                <h4 id="modal-header-primary-label" class="modal-title">Thông tin kết xuất hình thức khen thưởng</h4>
-                <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group row">
-                    <div class="col-lg-12">
-                        <label>Địa bàn</label>
-                        {!! Form::select('madiaban', setArrayAll($a_diaban), null, [
-                            'madiaban' => 'madt',
-                            'class' => 'form-control select2_modal',
-                        ]) !!}
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-lg-12">
-                        <label>Thời điểm báo cáo</label>
-                        {!! Form::select('thoidiem', getThoiDiem(), 'CANAM', [
-                            'class' => 'form-control select2_modal',
-                            'onchange' => 'setNgayThang($(this),"frm_thongtu03")',
-                        ]) !!}
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-lg-12">
-                        <label>Phạm vị thống kê</label>
-                        {!! Form::select('phamvithongke', setArrayAll($a_phamvithongke), null, ['class' => 'form-control']) !!}
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-lg-6">
-                        <label> Từ ngày</label>
-                        {!! Form::input('date', 'ngaytu', date('Y') . '-01-01', ['id' => 'ngaytu', 'class' => 'form-control']) !!}
-                    </div>
-
-                    <div class="col-lg-6">
-                        <label> Đến ngày</label>
-                        {!! Form::input('date', 'ngayden', date('Y') . '-12-31', ['id' => 'ngayden', 'class' => 'form-control']) !!}
-                    </div>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
-                <button type="submit" name="submit" value="submit" class="btn btn-primary">Đồng ý</button>
-            </div>
-        </div>
-        {!! Form::close() !!}
-    </div>
-
-    {{-- Quy khen thưởng --}}
-    <div id="modal-quykhenthuong" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
-        {!! Form::open([
-            'url' => '',
-            'target' => '_blank',
-            'method' => 'post',
-            'id' => 'frm_quykhenthuong',
-            'class' => 'form-horizontal form-validate',
-        ]) !!}
-        <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
-        <div class="modal-dialog modal-content">
-            <div class="modal-header modal-header-primary">
-                <h4 id="modal-header-primary-label" class="modal-title">Thông tin kết xuất hình thức khen thưởng</h4>
-                <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-            </div>
-            <div class="modal-body">
-
-                <div class="form-group row">
-                    <div class="col-lg-12">
-                        <label>Năm báo cáo</label>
-                        {!! Form::select('nam', getNam(), date('Y'), [
-                            'class' => 'form-control select2_modal',
-                        ]) !!}
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-lg-12">
-                        <label>Thời điểm báo cáo</label>
-                        {!! Form::select('thoidiem', getThoiDiem(), 'CANAM', [
-                            'class' => 'form-control select2_modal',
-                            'onchange' => 'setNgayThang($(this),"frm_quykhenthuong")',
-                        ]) !!}
-                    </div>
-                </div>
-
-                {{-- <div class="form-group row">
-                    <div class="col-lg-6">
-                        <label> Từ ngày</label>
-                        {!! Form::input('date', 'ngaytu', date('Y') . '-01-01', ['id' => 'ngaytu', 'class' => 'form-control']) !!}
-                    </div>
-
-                    <div class="col-lg-6">
-                        <label> Đến ngày</label>
-                        {!! Form::input('date', 'ngayden', date('Y') . '-12-31', ['id' => 'ngayden', 'class' => 'form-control']) !!}
-                    </div>
-                </div> --}}
 
             </div>
             <div class="modal-footer">

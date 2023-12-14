@@ -89,6 +89,8 @@ class dshosothiduacumkhoiController extends Controller
         }
 
         $inputs = $request->all();
+        $inputs['phanloaikhenthuong'] = 'CUMKHOI';
+        $inputs['phanloaihoso'] = 'dshosothamgiathiduacumkhoi';
         //$inputs['url'] = static::$url;
         $inputs['url_hs'] = static::$url;
         $inputs['url_qd'] = '/CumKhoiThiDua/PheDuyetThiDua/';
@@ -334,146 +336,146 @@ class dshosothiduacumkhoiController extends Controller
         return redirect('/CumKhoiThiDua/ThamGiaThiDua/DanhSach?madonvi=' . $model->madonvi . '&macumkhoi=' . $model->macumkhoi);
     }
 
-    public function LayTieuChuan(Request $request)
-    {
-        $result = array(
-            'status' => 'fail',
-            'message' => 'error',
-        );
-        if (!Session::has('admin')) {
-            $result = array(
-                'status' => 'fail',
-                'message' => 'permission denied',
-            );
-            die(json_encode($result));
-        }
-        //dd($request);
-        $inputs = $request->all();
+    // public function LayTieuChuan(Request $request)
+    // {
+    //     $result = array(
+    //         'status' => 'fail',
+    //         'message' => 'error',
+    //     );
+    //     if (!Session::has('admin')) {
+    //         $result = array(
+    //             'status' => 'fail',
+    //             'message' => 'permission denied',
+    //         );
+    //         die(json_encode($result));
+    //     }
+    //     //dd($request);
+    //     $inputs = $request->all();
 
-        $model = dshosothamgiathiduacumkhoi_tieuchuan::where('iddoituong', $inputs['iddoituong'])
-            ->where('mahoso', $inputs['mahoso'])->get();
-        $model_tieuchuan = dsphongtraothiduacumkhoi_tieuchuan::where('maphongtraotd', $inputs['maphongtraotd'])
-            ->where('phanloaidoituong', $inputs['phanloaidoituong'])->get();
+    //     $model = dshosothamgiathiduacumkhoi_tieuchuan::where('iddoituong', $inputs['iddoituong'])
+    //         ->where('mahoso', $inputs['mahoso'])->get();
+    //     $model_tieuchuan = dsphongtraothiduacumkhoi_tieuchuan::where('maphongtraotd', $inputs['maphongtraotd'])
+    //         ->where('phanloaidoituong', $inputs['phanloaidoituong'])->get();
 
-        if (isset($model_tieuchuan)) {
-            $result['message'] = '<div class="row" id="dstieuchuan">';
+    //     if (isset($model_tieuchuan)) {
+    //         $result['message'] = '<div class="row" id="dstieuchuan">';
 
-            $result['message'] .= '<div class="col-md-12">';
-            $result['message'] .= '<table id="sample_4" class="table table-striped table-bordered table-hover" >';
-            $result['message'] .= '<thead>';
-            $result['message'] .= '<tr>';
-            $result['message'] .= '<th width="2%" style="text-align: center">STT</th>';
-            $result['message'] .= '<th style="text-align: center">Tên tiêu chuẩn</th>';
-            $result['message'] .= '<th style="text-align: center" width="12%">Bắt buộc</th>';
-            $result['message'] .= '<th style="text-align: center" width="12%">Đạt điều kiên</th>';
-            $result['message'] .= '<th style="text-align: center" width="5%">Thao tác</th>';
-            $result['message'] .= '</tr>';
-            $result['message'] .= '</thead>';
+    //         $result['message'] .= '<div class="col-md-12">';
+    //         $result['message'] .= '<table id="sample_4" class="table table-striped table-bordered table-hover" >';
+    //         $result['message'] .= '<thead>';
+    //         $result['message'] .= '<tr>';
+    //         $result['message'] .= '<th width="2%" style="text-align: center">STT</th>';
+    //         $result['message'] .= '<th style="text-align: center">Tên tiêu chuẩn</th>';
+    //         $result['message'] .= '<th style="text-align: center" width="12%">Bắt buộc</th>';
+    //         $result['message'] .= '<th style="text-align: center" width="12%">Đạt điều kiên</th>';
+    //         $result['message'] .= '<th style="text-align: center" width="5%">Thao tác</th>';
+    //         $result['message'] .= '</tr>';
+    //         $result['message'] .= '</thead>';
 
-            $result['message'] .= '<tbody>';
-            $key = 1;
-            foreach ($model_tieuchuan as $ct) {
-                $tieuchuan = $model->where('matieuchuandhtd', $ct->matieuchuandhtd)->first();
+    //         $result['message'] .= '<tbody>';
+    //         $key = 1;
+    //         foreach ($model_tieuchuan as $ct) {
+    //             $tieuchuan = $model->where('matieuchuandhtd', $ct->matieuchuandhtd)->first();
 
-                $result['message'] .= '<tr>';
-                $result['message'] .= '<td style="text-align: center">' . $key++ . '</td>';
-                $result['message'] .= '<td>' . $ct->tentieuchuandhtd . '</td>';
-                $result['message'] .= '<td style="text-align: center">' . $ct->batbuoc . '</td>';
-                $result['message'] .= '<td style="text-align: center">' . ($tieuchuan->dieukien ?? 0) . '</td>';
-                $result['message'] .= '<td>' .
-                    '<button type="button" data-target="#modal-luutieuchuan" data-toggle="modal" class="btn btn-sm btn-clean btn-icon" onclick="ThayDoiTieuChuan(' . chr(39) . $ct->matieuchuandhtd . chr(39) . ',' . chr(39) . ($tieuchuan->id ?? -1) . chr(39) . ',' . chr(39) . $ct->tentieuchuandhtd . chr(39) . ')"><i class="fa fa-edit"></i></button>'
-                    . '</td>';
+    //             $result['message'] .= '<tr>';
+    //             $result['message'] .= '<td style="text-align: center">' . $key++ . '</td>';
+    //             $result['message'] .= '<td>' . $ct->tentieuchuandhtd . '</td>';
+    //             $result['message'] .= '<td style="text-align: center">' . $ct->batbuoc . '</td>';
+    //             $result['message'] .= '<td style="text-align: center">' . ($tieuchuan->dieukien ?? 0) . '</td>';
+    //             $result['message'] .= '<td>' .
+    //                 '<button type="button" data-target="#modal-luutieuchuan" data-toggle="modal" class="btn btn-sm btn-clean btn-icon" onclick="ThayDoiTieuChuan(' . chr(39) . $ct->matieuchuandhtd . chr(39) . ',' . chr(39) . ($tieuchuan->id ?? -1) . chr(39) . ',' . chr(39) . $ct->tentieuchuandhtd . chr(39) . ')"><i class="fa fa-edit"></i></button>'
+    //                 . '</td>';
 
-                $result['message'] .= '</tr>';
-            }
-            $result['message'] .= '</tbody>';
-            $result['message'] .= '</table>';
-            $result['message'] .= '</div>';
-            $result['message'] .= '</div>';
-            $result['status'] = 'success';
-        }
-        die(json_encode($result));
-    }
+    //             $result['message'] .= '</tr>';
+    //         }
+    //         $result['message'] .= '</tbody>';
+    //         $result['message'] .= '</table>';
+    //         $result['message'] .= '</div>';
+    //         $result['message'] .= '</div>';
+    //         $result['status'] = 'success';
+    //     }
+    //     die(json_encode($result));
+    // }
 
-    public function LuuTieuChuan(Request $request)
-    {
-        $result = array(
-            'status' => 'fail',
-            'message' => 'error',
-        );
-        if (!Session::has('admin')) {
-            $result = array(
-                'status' => 'fail',
-                'message' => 'permission denied',
-            );
-            die(json_encode($result));
-        }
-        //dd($request);
-        $inputs = $request->all();
-        $model = dshosothamgiathiduacumkhoi_tieuchuan::where('id', $inputs['id'])->first();
+    // public function LuuTieuChuan(Request $request)
+    // {
+    //     $result = array(
+    //         'status' => 'fail',
+    //         'message' => 'error',
+    //     );
+    //     if (!Session::has('admin')) {
+    //         $result = array(
+    //             'status' => 'fail',
+    //             'message' => 'permission denied',
+    //         );
+    //         die(json_encode($result));
+    //     }
+    //     //dd($request);
+    //     $inputs = $request->all();
+    //     $model = dshosothamgiathiduacumkhoi_tieuchuan::where('id', $inputs['id'])->first();
 
-        //chưa lấy biến điều kiện đang dùng tạm để demo
-        if ($model == null) {
-            $m_tieuchuan = dsphongtraothiduacumkhoi_tieuchuan::where('maphongtraotd', $inputs['maphongtraotd'])
-                ->where('matieuchuandhtd', $inputs['matieuchuandhtd'])->first();
-            $model = new dshosothamgiathiduacumkhoi_tieuchuan();
-            $model->iddoituong = $inputs['iddoituong'];
-            $model->matieuchuandhtd = $m_tieuchuan->matieuchuandhtd;
-            $model->tentieuchuandhtd = $m_tieuchuan->tentieuchuandhtd;
-            $model->batbuoc = $m_tieuchuan->batbuoc;
-            //$model->madonvi = $inputs['madonvi'];
-            $model->mahoso = $inputs['mahoso'];
-            $model->dieukien = 1;
-            $model->save();
-        } else {
-            $model->dieukien = 1;
-            $model->save();
-        }
-        //
-        $model = dshosothamgiathiduacumkhoi_tieuchuan::where('iddoituong', $inputs['iddoituong'])
-            ->where('mahoso', $inputs['mahoso'])->get();
-        $model_tieuchuan = dsphongtraothiduacumkhoi_tieuchuan::where('maphongtraotd', $inputs['maphongtraotd'])
-            ->where('phanloaidoituong', $inputs['phanloaidoituong'])->get();
+    //     //chưa lấy biến điều kiện đang dùng tạm để demo
+    //     if ($model == null) {
+    //         $m_tieuchuan = dsphongtraothiduacumkhoi_tieuchuan::where('maphongtraotd', $inputs['maphongtraotd'])
+    //             ->where('matieuchuandhtd', $inputs['matieuchuandhtd'])->first();
+    //         $model = new dshosothamgiathiduacumkhoi_tieuchuan();
+    //         $model->iddoituong = $inputs['iddoituong'];
+    //         $model->matieuchuandhtd = $m_tieuchuan->matieuchuandhtd;
+    //         $model->tentieuchuandhtd = $m_tieuchuan->tentieuchuandhtd;
+    //         $model->batbuoc = $m_tieuchuan->batbuoc;
+    //         //$model->madonvi = $inputs['madonvi'];
+    //         $model->mahoso = $inputs['mahoso'];
+    //         $model->dieukien = 1;
+    //         $model->save();
+    //     } else {
+    //         $model->dieukien = 1;
+    //         $model->save();
+    //     }
+    //     //
+    //     $model = dshosothamgiathiduacumkhoi_tieuchuan::where('iddoituong', $inputs['iddoituong'])
+    //         ->where('mahoso', $inputs['mahoso'])->get();
+    //     $model_tieuchuan = dsphongtraothiduacumkhoi_tieuchuan::where('maphongtraotd', $inputs['maphongtraotd'])
+    //         ->where('phanloaidoituong', $inputs['phanloaidoituong'])->get();
 
-        if (isset($model_tieuchuan)) {
-            $result['message'] = '<div class="row" id="dstieuchuan">';
+    //     if (isset($model_tieuchuan)) {
+    //         $result['message'] = '<div class="row" id="dstieuchuan">';
 
-            $result['message'] .= '<div class="col-md-12">';
-            $result['message'] .= '<table id="sample_4" class="table table-striped table-bordered table-hover" >';
-            $result['message'] .= '<thead>';
-            $result['message'] .= '<tr>';
-            $result['message'] .= '<th width="2%" style="text-align: center">STT</th>';
-            $result['message'] .= '<th style="text-align: center">Tên tiêu chuẩn</th>';
-            $result['message'] .= '<th style="text-align: center" width="12%">Bắt buộc</th>';
-            $result['message'] .= '<th style="text-align: center" width="12%">Đạt điều kiên</th>';
-            $result['message'] .= '<th style="text-align: center" width="5%">Thao tác</th>';
-            $result['message'] .= '</tr>';
-            $result['message'] .= '</thead>';
+    //         $result['message'] .= '<div class="col-md-12">';
+    //         $result['message'] .= '<table id="sample_4" class="table table-striped table-bordered table-hover" >';
+    //         $result['message'] .= '<thead>';
+    //         $result['message'] .= '<tr>';
+    //         $result['message'] .= '<th width="2%" style="text-align: center">STT</th>';
+    //         $result['message'] .= '<th style="text-align: center">Tên tiêu chuẩn</th>';
+    //         $result['message'] .= '<th style="text-align: center" width="12%">Bắt buộc</th>';
+    //         $result['message'] .= '<th style="text-align: center" width="12%">Đạt điều kiên</th>';
+    //         $result['message'] .= '<th style="text-align: center" width="5%">Thao tác</th>';
+    //         $result['message'] .= '</tr>';
+    //         $result['message'] .= '</thead>';
 
-            $result['message'] .= '<tbody>';
-            $key = 1;
-            foreach ($model_tieuchuan as $ct) {
-                $tieuchuan = $model->where('matieuchuandhtd', $ct->matieuchuandhtd)->first();
+    //         $result['message'] .= '<tbody>';
+    //         $key = 1;
+    //         foreach ($model_tieuchuan as $ct) {
+    //             $tieuchuan = $model->where('matieuchuandhtd', $ct->matieuchuandhtd)->first();
 
-                $result['message'] .= '<tr>';
-                $result['message'] .= '<td style="text-align: center">' . $key++ . '</td>';
-                $result['message'] .= '<td>' . $ct->tentieuchuandhtd . '</td>';
-                $result['message'] .= '<td style="text-align: center">' . $ct->batbuoc . '</td>';
-                $result['message'] .= '<td style="text-align: center">' . ($tieuchuan->dieukien ?? 0) . '</td>';
-                $result['message'] .= '<td>' .
-                    '<button type="button" data-target="#modal-luutieuchuan" data-toggle="modal" class="btn btn-sm btn-clean btn-icon" onclick="ThayDoiTieuChuan(' . chr(39) . $ct->matieuchuandhtd . chr(39) . ',' . chr(39) . ($tieuchuan->id ?? -1) . chr(39) . ',' . chr(39) . $ct->tentieuchuandhtd . chr(39) . ')"><i class="fa fa-edit"></i></button>'
-                    . '</td>';
+    //             $result['message'] .= '<tr>';
+    //             $result['message'] .= '<td style="text-align: center">' . $key++ . '</td>';
+    //             $result['message'] .= '<td>' . $ct->tentieuchuandhtd . '</td>';
+    //             $result['message'] .= '<td style="text-align: center">' . $ct->batbuoc . '</td>';
+    //             $result['message'] .= '<td style="text-align: center">' . ($tieuchuan->dieukien ?? 0) . '</td>';
+    //             $result['message'] .= '<td>' .
+    //                 '<button type="button" data-target="#modal-luutieuchuan" data-toggle="modal" class="btn btn-sm btn-clean btn-icon" onclick="ThayDoiTieuChuan(' . chr(39) . $ct->matieuchuandhtd . chr(39) . ',' . chr(39) . ($tieuchuan->id ?? -1) . chr(39) . ',' . chr(39) . $ct->tentieuchuandhtd . chr(39) . ')"><i class="fa fa-edit"></i></button>'
+    //                 . '</td>';
 
-                $result['message'] .= '</tr>';
-            }
-            $result['message'] .= '</tbody>';
-            $result['message'] .= '</table>';
-            $result['message'] .= '</div>';
-            $result['message'] .= '</div>';
-            $result['status'] = 'success';
-        }
-        die(json_encode($result));
-    }
+    //             $result['message'] .= '</tr>';
+    //         }
+    //         $result['message'] .= '</tbody>';
+    //         $result['message'] .= '</table>';
+    //         $result['message'] .= '</div>';
+    //         $result['message'] .= '</div>';
+    //         $result['status'] = 'success';
+    //     }
+    //     die(json_encode($result));
+    // }
 
     public function LayLyDo(Request $request)
     {
@@ -786,82 +788,7 @@ class dshosothiduacumkhoiController extends Controller
         File::Delete($path);
         $model = dshosothamgiathiduacumkhoi::where('mahoso', $inputs['mahoso'])->first();
         return redirect(static::$url . 'Them?maphongtraotd=' . $model->maphongtraotd . '&madonvi=' . $model->madonvi);
-    }
-
-    public function ThemHoGiaDinh(Request $request)
-    {
-        $result = array(
-            'status' => 'fail',
-            'message' => 'error',
-        );
-        if (!Session::has('admin')) {
-            $result = array(
-                'status' => 'fail',
-                'message' => 'permission denied',
-            );
-            die(json_encode($result));
-        }
-
-        $inputs = $request->all();
-        //$id =  $inputs['id'];       
-        $model = dshosothamgiathiduacumkhoi_hogiadinh::where('id', $inputs['id'])->first();
-        unset($inputs['id']);
-        if ($model == null) {
-            dshosothamgiathiduacumkhoi_hogiadinh::create($inputs);
-        } else
-            $model->update($inputs);
-        // return response()->json($inputs['id']);
-
-        $model = dshosothamgiathiduacumkhoi_hogiadinh::where('mahoso', $inputs['mahoso'])->get();
-
-        $dungchung = new dungchung_nghiepvuController();
-        $dungchung->htmlHoGiaDinh($result, $model, static::$url, true, $inputs['maloaihinhkt']);
-
-        return response()->json($result);
-    }
-
-    public function LayHoGiaDinh(Request $request)
-    {
-        $result = array(
-            'status' => 'fail',
-            'message' => 'error',
-        );
-        if (!Session::has('admin')) {
-            $result = array(
-                'status' => 'fail',
-                'message' => 'permission denied',
-            );
-            die(json_encode($result));
-        }
-
-        $inputs = $request->all();
-        $model = dshosothamgiathiduacumkhoi_hogiadinh::findorfail($inputs['id']);
-        die(json_encode($model));
-    }
-
-    public function XoaHoGiaDinh(Request $request)
-    {
-        $result = array(
-            'status' => 'fail',
-            'message' => 'error',
-        );
-        if (!Session::has('admin')) {
-            $result = array(
-                'status' => 'fail',
-                'message' => 'permission denied',
-            );
-            die(json_encode($result));
-        }
-        $inputs = $request->all();
-        $model = dshosothamgiathiduacumkhoi_hogiadinh::findorfail($inputs['id']);
-        $model->delete();
-
-        $danhsach = dshosothamgiathiduacumkhoi_hogiadinh::where('mahoso', $model->mahoso)->get();
-        $dungchung = new dungchung_nghiepvuController();
-        $dungchung->htmlHoGiaDinh($result, $danhsach, static::$url, true, $inputs['maloaihinhkt']);
-
-        return response()->json($result);
-    }
+    }    
 
     public function ToTrinhHoSo(Request $request)
     {

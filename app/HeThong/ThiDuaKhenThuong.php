@@ -710,6 +710,32 @@ function getDSPhongTrao($donvi)
     return $m_phongtrao;
 }
 
+function getDSPhongTraoCumKhoi($donvi)
+{
+    $m_phongtrao = App\Model\View\view_dsphongtrao_cumkhoi::wherein('phamviapdung', ['T', 'TW'])->orderby('tungay')->get();
+    switch ($donvi->capdo) {
+        case 'X': {
+                //đơn vị cấp xã => chỉ các phong trào trong huyện, xã
+                $model_xa = App\Model\View\view_dsphongtrao_cumkhoi::wherein('madiaban', [$donvi->madiaban, $donvi->madiabanQL])->orderby('tungay')->get();
+                break;
+            }
+        case 'H': {
+                //đơn vị cấp huyện =>chỉ các phong trào trong huyện
+                $model_xa = App\Model\View\view_dsphongtrao_cumkhoi::where('madiaban', $donvi->madiaban)->orderby('tungay')->get();
+                break;
+            }
+        case 'T': {
+                //Phong trào theo SBN
+                $model_xa = App\Model\View\view_dsphongtrao_cumkhoi::where('phamviapdung', 'SBN')->orderby('tungay')->get();
+                break;
+            }
+    }
+    foreach ($model_xa as $ct) {
+        $m_phongtrao->add($ct);
+    }
+    return $m_phongtrao;
+}
+
 //Làm sẵn hàm sau lọc theo truonq theodoi = 1
 function getLoaiHinhKhenThuong()
 {
