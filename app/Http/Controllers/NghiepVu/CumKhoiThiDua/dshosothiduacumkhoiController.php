@@ -59,7 +59,7 @@ class dshosothiduacumkhoiController extends Controller
         $inputs['phanloaikhenthuong'] = 'CUMKHOI';
         $inputs['phanloaihoso'] = 'dshosothamgiathiduacumkhoi';
         //$m_donvi = getDonViCK(session('admin')->capdo, null, 'MODEL');
-        $m_donvi = getDonVi(session('admin')->capdo, 'dshosodenghikhenthuongcumkhoi');
+        $m_donvi = getDonViCK(session('admin')->capdo, 'dshosodenghikhenthuongcumkhoi');
         //dd($m_donvi);
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
@@ -94,7 +94,7 @@ class dshosothiduacumkhoiController extends Controller
         //$inputs['url'] = static::$url;
         $inputs['url_hs'] = static::$url;
         $inputs['url_qd'] = '/CumKhoiThiDua/PheDuyetThiDua/';
-        $m_donvi = getDonVi(session('admin')->capdo);
+        $m_donvi = getDonViCK(session('admin')->capdo);
         // $m_donvi = getDonVi(session('admin')->capdo, 'dshosothiduacumkhoi');
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
@@ -104,7 +104,7 @@ class dshosothiduacumkhoiController extends Controller
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
 
         //lấy hết phong trào cấp tỉnh
-        $model = view_dsphongtrao_cumkhoi::orderby('tungay')->get();
+        $model = view_dsphongtrao_cumkhoi::where('macumkhoi',$inputs['macumkhoi'])->orderby('tungay')->get();
 
         $ngayhientai = date('Y-m-d');
         $m_hoso = dshosothamgiathiduacumkhoi::wherein('maphongtraotd', array_column($model->toarray(), 'maphongtraotd'))->get();

@@ -65,25 +65,23 @@
 
             <div class="form-group row">
                 <div class="col-md-12">
+                    <label style="font-weight: bold">Tên phong trào</label>
+                    {!! Form::select('maphongtraotd', $a_phongtraotd, $inputs['maphongtraotd'], ['id' => 'maphongtraotd', 'class' => 'form-control select2basic']) !!}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-12">
 
                     <table class="table table-striped table-bordered table-hover" id="sample_3">
                         <thead>
                             <tr class="text-center">
-                                <th rowspan="2" width="2%">STT</th>
-                                <th colspan="3">Phong trào thi đua</th>
-                                <th colspan="3">Hồ sơ đề nghị khen thưởng</th>
-                                <th rowspan="2" style="text-align: center" width="10%">Thao tác</th>
-                            </tr>
-                            <tr class="text-center">
-                                {{-- <th>Đơn vị phát động</th> --}}
-                                <th>Phạm vị phát động</th>
-                                <th>Nội dung phong trào</th>
-                                {{-- <th width="10%">Thời gian</th> --}}
-                                <th width="8%">Trạng thái</th>
-
+                                <th width="2%">STT</th>
                                 <th>Đơn vị đề nghị</th>
                                 <th>Nội dung hồ sơ</th>
                                 <th>Trạng thái<br>hồ sơ</th>
+                                <th width="8%">Quyết định<br>khen thưởng</th>
+                                <th width="10%">Thao tác</th>
                             </tr>
                         </thead>
 
@@ -91,17 +89,10 @@
                         @foreach ($model as $key => $tt)
                             <tr>
                                 <td class="text-center">{{ $i++ }}</td>
-                                {{-- <td>{{ $tt->tendonvi }}</td> --}}
-                                <td>{{ $a_phamvi[$tt->phamviapdung] ?? '' }}</td>
-                                <td>{{ $tt->noidung }}</td>
-                                {{-- <td class="text-center">Từ {{ getDayVn($tt->tungay) }}</br> đến
-                                    {{ getDayVn($tt->denngay) }}</td> --}}
-                                @include('includes.td.td_trangthai_phongtrao')
-
-                                <td>{{ $a_donvi[$tt->madonvi_xd] ?? '' }}</td>
-                                <td>{{ $tt->noidungkt }}</td>
-                                @include('includes.td.td_trangthai_khenthuong')
-
+                                <td>{{ $a_donvi[$tt->madonvi] ?? '' }}</td>                                
+                                <td>{{ $tt->noidung }}</td>                               
+                                @include('includes.td.td_trangthai_hoso')
+                                <td class="text-center">{{ $tt->soqd }}<br>{{ getDayVn($tt->ngayqd) }}</td>
                                 <td style="text-align: center">
                                     <button type="button" title="In dữ liệu"
                                         onclick="setInDuLieu('{{ $tt->mahosothamgiapt }}','{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}', '{{ $tt->trangthaikt }}')"
@@ -118,7 +109,7 @@
                                     </button>
 
                                     @if (chkPhanQuyen('qdhosodenghikhenthuongthiduacumkhoi', 'hoanthanh'))
-                                        @if ($tt->trangthaikt == 'CXKT')
+                                        @if ($tt->trangthai == 'CXKT')
                                             {{-- <button title="Phê duyệt hồ sơ khen thưởng" type="button"
                                                 onclick="setPheDuyet('{{ $tt->mahosotdkt }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modal-PheDuyet"
@@ -157,7 +148,7 @@
                                             @endif --}}
                                         @endif
 
-                                        @if ($tt->trangthaikt == 'DKT')
+                                        @if ($tt->trangthai == 'DKT')
                                             <button title="Hủy phê duyệt hồ sơ khen thưởng" type="button"
                                                 onclick="setHuyPheDuyet('{{ $tt->mahosotdkt }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#modal-HuyPheDuyet"

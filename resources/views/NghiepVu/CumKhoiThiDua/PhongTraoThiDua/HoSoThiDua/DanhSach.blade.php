@@ -243,7 +243,83 @@
         {!! Form::close() !!}
     </div>
 
-    @include('NghiepVu.ThiDuaKhenThuong._DungChung.InDuLieu_CumKhoi')
+    {{-- In dữ liệu --}}
+    <div id="indulieu-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
+        {!! Form::open(['url' => '', 'id' => 'frm_InDuLieu']) !!}
+        <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
+        <input type="hidden" name="phanloaihoso" value="{{ $inputs['phanloaihoso'] ?? 'dshosothiduakhenthuong' }}" />
+        <input type="hidden" name="mahosotdkt" />
+        <input type="hidden" name="maphongtraotd" />
+        <input type="hidden" name="mahosothamgiapt" />
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-primary">
+                    <h4 id="modal-header-primary-label" class="modal-title">Thông tin in dữ liệu</h4>
+                    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <a onclick="setInPT($(this), '/CumKhoiThiDua/PhongTraoThiDua/')"
+                                class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
+                                <i class="la flaticon2-print"></i>Thông tin phong trào thi đua
+                            </a>
+                        </div>
+                    </div>
+
+                    <div id="div_inHoSo">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <a onclick="setInHS($(this), '/CumKhoiThiDua/ThamGiaThiDua/')"
+                                    class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
+                                    <i class="la flaticon2-print"></i>Thông tin hồ sơ tham gia thi đua
+                                </a>
+                            </div>
+                        </div>
+                    </div>                   
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-default">Đóng</button>
+                </div>
+            </div>
+        </div>
+        {!! Form::close() !!}
+    </div>
+
+
+    <script>
+        function setInDuLieu(mahosothamgiapt, mahosotdkt, maphongtraotd, trangthai, inphoi = false) {
+            $('#div_inDuLieu').hide();
+            $('#div_inHoSo').hide();
+            $('#div_inHoSoDN').hide();
+            $('#frm_InDuLieu').find("[name='mahosotdkt']").val(mahosotdkt);
+            $('#frm_InDuLieu').find("[name='maphongtraotd']").val(maphongtraotd);
+            $('#frm_InDuLieu').find("[name='mahosothamgiapt']").val(mahosothamgiapt);
+            if (mahosothamgiapt != '-1')
+                $('#div_inHoSo').show();
+
+            if (trangthai == 'DKT') {
+                $('#div_inDuLieu').show();
+                if (inphoi)
+                    $('#div_inPhoi').show();
+            }
+
+            if (['DD', 'DTN', 'CXKT', 'DKT'].includes(trangthai)) {
+                $('#div_inHoSoDN').show();
+            }
+        }
+
+        function setInQD(e, url) {
+            e.prop('href', url + '?mahosotdkt=' + $('#frm_InDuLieu').find("[name='mahosotdkt']")
+                .val());
+        }
+
+        function setInHS(e, url) {
+            e.prop('href', url + 'Xem?mahosothamgiapt=' + $('#frm_InDuLieu').find("[name='mahosothamgiapt']").val());
+        }        
+    </script>
+
+
     @include('includes.modal.modal-delete')
     @include('includes.modal.modal_approve_hs')
     @include('includes.modal.modal_attackfile')

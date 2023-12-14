@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\NghiepVu\_DungChung\dungchung_nghiepvuController;
-use App\Model\DanhMuc\dmdanhhieuthidua;
-use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
 use App\Model\DanhMuc\dmnhomphanloai_chitiet;
 use App\Model\DanhMuc\dsdiaban;
@@ -22,10 +20,7 @@ use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_tailieu;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_tapthe;
 use App\Model\NghiepVu\CumKhoiThiDua\dsphongtraothiduacumkhoi;
 use App\Model\View\view_dsphongtrao_cumkhoi;
-use App\Model\View\view_tdkt_canhan;
-use App\Model\View\view_tdkt_tapthe;
 use App\Model\View\viewdiabandonvi;
-use App\Model\View\viewdonvi_dsphongtrao;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
@@ -57,11 +52,13 @@ class qdhosodenghikhenthuongthiduacumkhoiController extends Controller
         $inputs['phanloaikhenthuong'] = 'CUMKHOI';
         $inputs['phanloaihoso'] = 'dshosotdktcumkhoi';
 
-        $m_donvi = getDonVi(session('admin')->capdo);
-        // $m_donvi = getDonVi(session('admin')->capdo, 'qdhosodenghikhenthuongthiduacumkhoi', null, 'MODEL');
+        $m_donvi = getDonVi(session('admin')->capdo,'qdhosodenghikhenthuongthiduacumkhoi');
+        if ($m_donvi->count() == 0) {
+            return view('errors.403')
+                ->with('message', 'Chưa có đơn vị được phân công nhiệm phê duyệt đề nghị khen thưởng các hồ sơ đề nghị khen thưởng cho cụm, khối thi đua.')
+                ->with('url', '/');
+        }
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
-        //dd($m_donvi);
-        //$m_donvi = viewdiabandonvi::wherein('madonvi', array_column($m_donvi->toarray(), 'madonviQL'))->get();
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
@@ -69,46 +66,15 @@ class qdhosodenghikhenthuongthiduacumkhoiController extends Controller
         $inputs['tendvcqhienthi'] = $donvi->tendvcqhienthi;
 
         //lấy hết phong trào cấp tỉnh
-        $model = view_dsphongtrao_cumkhoi::orderby('tungay')->get();
+        $m_phongtrao = view_dsphongtrao_cumkhoi::orderby('tungay')->get();
+        $inputs['maphongtraotd'] = $inputs['maphongtraotd'] ?? ($m_phongtrao->first()->maphongtraotd ?? '');
+        $ngayhientai = date('Y-m-d');       
 
-        $ngayhientai = date('Y-m-d');
-        //$m_hoso = dshosothamgiaphongtraotd::wherein('trangthai', ['CD', 'DD', 'CXKT'])->get();
-
-        // $m_hoso = dshosothamgiaphongtraotd::wherein('mahosothamgiapt', function ($qr) use ($inputs) {
-        //     $qr->select('mahosothamgiapt')->from('dshosothamgiaphongtraotd')
-        //         ->where('madonvi_nhan', $inputs['madonvi'])
-        //         ->orwhere('madonvi_nhan_h', $inputs['madonvi'])
-        //         ->orwhere('madonvi_nhan_t', $inputs['madonvi'])->get();
-        // })->wherein('trangthai', ['CD', 'DD', 'CXKT'])->get();
-
-        $m_khenthuong = dshosotdktcumkhoi::where('madonvi_kt', $inputs['madonvi'])
-            ->wherein('trangthai', ['DD', 'CXKT', 'DKT'])->get();
-
-        //tính thiếu trường hợp phong trao cấp tỉnh... đơn vị nộp trên tỉnh
-        //thống kê lại hồ sơ đăng ký
-        foreach ($model as $ct) {
-            $ct->nhanhoso = 'KETTHUC';
-            if ($ct->trangthai == 'CC') {
-                if ($ct->tungay < $ngayhientai && $ct->denngay > $ngayhientai) {
-                    $ct->nhanhoso = 'DANGNHAN';
-                }
-                if (strtotime($ct->denngay) < strtotime($ngayhientai)) {
-                    $ct->nhanhoso = 'KETTHUC';
-                    $ct->trangthai = 'DD';
-                }
-            }
-
-            // $hoso = $m_hoso->where('maphongtraotd', $ct->maphongtraotd);
-            // $ct->sohoso = $hoso == null ? 0 : $hoso->count();
-            $khenthuong = $m_khenthuong->where('maphongtraotd', $ct->maphongtraotd)->first();
-            $ct->mahosotdkt = $khenthuong->mahosotdkt ?? '-1';
-            $ct->trangthaikt = $khenthuong->trangthai ?? 'CXD';
-            $ct->noidungkt = $khenthuong->noidung ?? '';
-            $ct->madonvi_xd = $khenthuong->madonvi_xd ?? '';
-
-            //gán để ko in hồ sơ mahosothamgiapt
-            $ct->mahosothamgiapt = '-1';
-        }
+        $model = dshosotdktcumkhoi::where('madonvi_kt', $inputs['madonvi'])
+            ->wherein('trangthai', ['CXKT', 'DKT'])
+            ->where('maphongtraotd', $inputs['maphongtraotd'])
+            ->get();
+        
         //dd($model);
         return view('NghiepVu.CumKhoiThiDua.PhongTraoThiDua.KhenThuongHoSo.ThongTin')
             ->with('inputs', $inputs)
@@ -117,6 +83,7 @@ class qdhosodenghikhenthuongthiduacumkhoiController extends Controller
             ->with('m_diaban', $m_diaban)
             ->with('a_trangthaihoso', getTrangThaiTDKT())
             ->with('a_phamvi', getPhamViPhongTrao())
+            ->with('a_phongtraotd', array_column($m_phongtrao->toArray(), 'noidung', 'maphongtraotd'))
             ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
             ->with('pageTitle', 'Khen thưởng hồ sơ thi đua');
     }

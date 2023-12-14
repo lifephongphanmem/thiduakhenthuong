@@ -14,15 +14,7 @@
     <!-- END PAGE LEVEL PLUGINS -->
     <script>
         jQuery(document).ready(function() {
-            TableManaged3.init();
-            $('#madonvi').change(function() {
-                window.location.href = '/XetDuyetHoSoThiDua/ThongTin?madonvi=' + $('#madonvi').val() +
-                    '&nam=' + $('#nam').val();
-            });
-            $('#nam').change(function() {
-                window.location.href = '/XetDuyetHoSoThiDua/ThongTin?madonvi=' + $('#madonvi').val() +
-                    '&nam=' + $('#nam').val();
-            });
+            TableManaged3.init();            
         });
     </script>
 @stop
@@ -53,7 +45,7 @@
                                 <th width="5%">STT</th>
                                 <th>Tên đơn vị đăng ký</th>
                                 <th>Nội dung hồ sơ</th>
-                                <th>Đăng ký<br>thi đua</th>
+                                {{-- <th>Đăng ký<br>thi đua</th> --}}
                                 <th>Trạng thái</th>
                                 <th width="15%">Thao tác</th>
                             </tr>
@@ -64,7 +56,7 @@
                                 <td style="text-align: center">{{ $i++ }}</td>
                                 <td>{{ $a_donvi[$tt->madonvi] ?? '' }}</td>
                                 <td>{{ $tt->noidung }}</td>
-                                <td class="text-center">
+                                {{-- <td class="text-center">
                                     @if ($tt->mahosodk)
                                         <a title="Thông tin hồ sơ đăng ký thi đua"
                                             href="{{ url('/DangKyDanhHieu/HoSo/Xem?mahosodk=' . $tt->mahosodk) }}"
@@ -74,26 +66,26 @@
                                     @else
                                         Chưa đăng ký
                                     @endif
-                                </td>
+                                </td> --}}
                                 @include('includes.td.td_trangthai_hoso')
                                 <td class="text-center">
                                     <a title="Thông tin hồ sơ"
-                                        href="{{ url('/HoSoThiDua/Xem?mahosothamgiapt=' . $tt->mahosothamgiapt) }}"
+                                        href="{{ url('/CumKhoiThiDua/ThamGiaThiDua/Xem?mahosothamgiapt=' . $tt->mahoso) }}"
                                         class="btn btn-sm btn-clean btn-icon" target="_blank">
                                         <i class="icon-lg la fa-eye text-dark"></i>
                                     </a>
                                     
                                     @if ($tt->nhanhoso == 'DANGNHAN')
-                                        @if (in_array($tt->trangthai_hoso, ['CD', 'CNXKT', 'CC']))
+                                        @if (in_array($tt->trangthai, ['CD', 'CNXKT', 'CC']))
                                             <button title="Nhận hồ sơ đăng ký" type="button"
-                                                onclick="confirmNhan('{{ $tt->mahosothamgiapt }}','/XetDuyetHoSoThiDua/NhanHoSo','{{ $inputs['madonvi'] }}')"
+                                                onclick="confirmNhan('{{ $tt->mahoso }}','/CumKhoiThiDua/XetDuyetThamGiaThiDua/NhanHoSo','{{ $inputs['madonvi'] }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#nhan-modal-confirm"
                                                 data-toggle="modal">
                                                 <i class="icon-lg flaticon-interface-5 text-success"></i>
                                             </button>
                                         @endif
                                         <button title="Trả lại hồ sơ" type="button"
-                                            onclick="confirmTraLai('{{ $tt->mahosothamgiapt }}', '{{ $inputs['madonvi'] }}', '/XetDuyetHoSoThiDua/TraLai')"
+                                            onclick="confirmTraLai('{{ $tt->mahoso }}', '{{ $inputs['madonvi'] }}', '/CumKhoiThiDua/XetDuyetThamGiaThiDua/TraLai')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#modal-tralai"
                                             data-toggle="modal">
                                             <i class="icon-lg la la-reply text-danger"></i>

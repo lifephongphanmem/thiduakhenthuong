@@ -20,6 +20,7 @@ use App\Model\NghiepVu\CumKhoiThiDua\dsphongtraothiduacumkhoi_tieuchuan;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua_khenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua_tieuchuan;
+use App\Model\View\view_dscumkhoi;
 use App\Model\View\viewdiabandonvi;
 use Illuminate\Support\Facades\Session;
 
@@ -46,14 +47,15 @@ class dsphongtraothiduacumkhoiController extends Controller
         $inputs['url'] = static::$url;
         //2023.11.28 Chỉ các đơn vị trưởng cụm khối mới thêm đc phong trào
         
-        $m_donvi = getDonViQuanLyTinh('MODEL');       
+        $m_donvi = getDonViTruongCumKhoi('MODEL');       
         $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
-        // $m_cumkhoi = dscumkhoi::wherein('macumkhoi', array_column($m_donvi->toarray(), 'macumkhoi'))->get();
+       
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
         $inputs['phamviapdung'] = $inputs['phamviapdung'] ?? 'ALL';
-        // $inputs['macumkhoi'] = $inputs['macumkhoi'] ?? $m_cumkhoi->first()->macumkhoi;
+        $m_cumkhoi = view_dscumkhoi::where('madonvi', $inputs['madonvi'])->get();
+        $inputs['macumkhoi'] = $inputs['macumkhoi'] ?? $m_cumkhoi->first()->macumkhoi;
         $inputs['phanloaihoso'] = 'dshosotdktcumkhoi';
 
         $model = dsphongtraothiduacumkhoi::where('madonvi', $inputs['madonvi']);
@@ -61,12 +63,12 @@ class dsphongtraothiduacumkhoiController extends Controller
             $model = $model->whereYear('ngayqd', $inputs['nam']);
         if ($inputs['phanloai'] != 'ALL')
             $model = $model->where('phanloai', $inputs['phanloai']);
-
+        // dd($model->get());
         return view('NghiepVu.CumKhoiThiDua.PhongTraoThiDua.DanhSachPhongTrao.ThongTin')
             ->with('model', $model->orderby('ngayqd')->get())
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
-            // ->with('m_cumkhoi', $m_cumkhoi)
+            ->with('m_cumkhoi', $m_cumkhoi)
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('a_phamvi', getPhamViPhongTrao($m_donvi->where('madonvi', $inputs['madonvi'])->first()->capdo ?? 'T'))
             ->with('a_phanloai', getPhanLoaiPhongTraoThiDua(true))
@@ -98,7 +100,8 @@ class dsphongtraothiduacumkhoiController extends Controller
             // $model->macumkhoi = $inputs['macumkhoi'];
             $model->maloaihinhkt = session('chucnang')['dsphongtraothiduacumkhoi']['mahinhthuckt'] ?? '';
         }
-        $m_cumkhoi = dscumkhoi::where('macumkhoi', $model->macumkhoi)->get();
+        $m_cumkhoi = view_dscumkhoi::where('madonvi', $inputs['madonvi'])->get();
+        // $m_cumkhoi = dscumkhoi::where('macumkhoi', $model->macumkhoi)->get();//lấy cụm khối theo đơn vị
         $model->tendonvi = getThongTinDonVi($model->madonvi, 'tendonvi');
         $model_tieuchuan = dsphongtraothiduacumkhoi_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->orderby('phanloaidoituong')->get();
         //dd($model_tieuchuan);
@@ -403,5 +406,20 @@ class dsphongtraothiduacumkhoiController extends Controller
         $result['status'] = 'success';
 
         die(json_encode($result));
+    }
+
+    public function GanTrangThai(Request $request)
+    {
+        if (!chkPhanQuyen('dsphongtraothiduacumkhoi', 'thaydoi')) {
+            return view('errors.noperm')->with('machucnang', 'dsphongtraothiduacumkhoi')->with('tenphanquyen', 'thaydoi');
+        }
+        $inputs = $request->all();
+        //dd($inputs);
+        $model = dsphongtraothiduacumkhoi::where('maphongtraotd', $inputs['maphongtraotd'])->first();
+        $model->trangthai = $inputs['trangthai'];
+        $model->thoigian = date('Y-m-d H:i:s');
+        $model->save();
+
+        return redirect('/CumKhoiThiDua/PhongTraoThiDua/ThongTin?madonvi=' . $model->madonvi);
     }
 }

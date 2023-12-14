@@ -13,6 +13,8 @@ use App\Model\DanhMuc\dmdanhhieuthidua;
 use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
 use App\Model\DanhMuc\dmnhomphanloai_chitiet;
+use App\Model\DanhMuc\dscumkhoi;
+use App\Model\DanhMuc\dscumkhoi_chitiet;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\DanhMuc\duthaoquyetdinh;
@@ -27,6 +29,7 @@ use App\Model\NghiepVu\CumKhoiThiDua\dshosothamgiathiduacumkhoi_tapthe;
 use App\Model\NghiepVu\CumKhoiThiDua\dsphongtraothiduacumkhoi;
 use App\Model\NghiepVu\CumKhoiThiDua\dsphongtraothiduacumkhoi_tieuchuan;
 use App\Model\NghiepVu\DangKyDanhHieu\dshosodangkyphongtraothidua;
+use App\Model\View\view_dscumkhoi;
 use App\Model\View\view_dsphongtrao_cumkhoi;
 use App\Model\View\viewdiabandonvi;
 use App\Model\View\viewdonvi_dsphongtrao;
@@ -48,6 +51,42 @@ class dshosodenghikhenthuongthiduacumkhoiController extends Controller
     }
 
     public function ThongTin(Request $request)
+    {
+        if (!chkPhanQuyen('dshosodenghikhenthuongcumkhoi', 'danhsach')) {
+            return view('errors.noperm')->with('machucnang', 'dshosodenghikhenthuongcumkhoi')->with('tenphanquyen', 'danhsach');
+        }
+        $inputs = $request->all();
+        $inputs['url_hs'] = static::$url;
+        $inputs['url_xd'] = '/CumKhoiThiDua/DeNghiThiDua/';
+        $inputs['url_qd'] = '/CumKhoiThiDua/PheDuyetThiDua/';
+
+        $inputs['phanloaikhenthuong'] = 'CUMKHOI';
+        $inputs['phanloaihoso'] = 'dshosothamgiathiduacumkhoi';
+        //$m_donvi = getDonViCK(session('admin')->capdo, null, 'MODEL');
+        $m_donvi = getDonViCK(session('admin')->capdo, 'dshosodenghikhenthuongcumkhoi');
+        //dd($m_donvi);
+        $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
+        $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
+        $inputs['nam'] = $inputs['nam'] ?? 'ALL';
+        $m_cumkhoi_chitiet = dscumkhoi_chitiet::where('madonvi', $inputs['madonvi'])->get();
+        $model = dscumkhoi::wherein('macumkhoi', array_column($m_cumkhoi_chitiet->toarray(), 'macumkhoi'))->get();
+        $m_hoso = dshosotdktcumkhoi::where('madonvi', $inputs['madonvi'])->get();
+        foreach ($model as $ct) {
+            $ct->sohoso = $m_hoso->where('macumkhoi', $ct->macumkhoi)->count();
+        }
+
+        //dd($model);
+        return view('NghiepVu.CumKhoiThiDua.HoSoKhenThuong.ThongTin')
+            ->with('model', $model)
+            ->with('m_donvi', $m_donvi)
+            ->with('m_diaban', $m_diaban)
+            ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))
+            ->with('a_capdo', getPhamViApDung())
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'Danh sách hồ sơ khen thưởng cụm, khối thi đua');
+    }
+
+    public function DanhSach(Request $request)
     {
         //Chưa xử lý theo cụm khối mới xử lý theo phong trào, do trưởng cụm khối phát động rồi nhập hs đề nghị => chưa tính hết trường hợp
         if (!chkPhanQuyen('dshosodenghikhenthuongthiduacumkhoi', 'danhsach')) {
@@ -100,14 +139,14 @@ class dshosodenghikhenthuongthiduacumkhoiController extends Controller
         
         $a_donviql = getDonViXetDuyetDiaBan_Tam($donvi);
         //dd($a_donviql);    
-        //$a_donviql = getDonViXetDuyetDiaBan($donvi);
-        //dd($model);
-        return view('NghiepVu.CumKhoiThiDua.PhongTraoThiDua.HoSoDeNghi.ThongTin')
+        $m_cumkhoi = view_dscumkhoi::where('madonvi', $inputs['madonvi'])->get();
+        return view('NghiepVu.CumKhoiThiDua.PhongTraoThiDua.HoSoDeNghi.DanhSach')
             ->with('inputs', $inputs)
             ->with('model', $model->sortby('tungay'))
             ->with('a_phongtraotd', array_column($model->toarray(), 'noidung', 'maphongtraotd'))
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
+            ->with('m_cumkhoi', $m_cumkhoi)
             ->with('a_trangthaihoso', getTrangThaiTDKT())
             ->with('a_phamvi', getPhamViPhongTrao())
             ->with('a_donviql', $a_donviql)
@@ -341,7 +380,7 @@ class dshosodenghikhenthuongthiduacumkhoiController extends Controller
             ->with('pageTitle', 'Thông tin hồ sơ đề nghị khen thưởng');
     }
 
-    public function DanhSach(Request $request)
+    public function DanhSachChiTiet(Request $request)
     {
         if (!chkPhanQuyen('dshosodenghikhenthuongthiduacumkhoi', 'danhsach')) {
             return view('errors.noperm')->with('machucnang', 'dshosodenghikhenthuongthiduacumkhoi')->with('tenphanquyen', 'danhsach');
@@ -514,18 +553,9 @@ class dshosodenghikhenthuongthiduacumkhoiController extends Controller
         $inputs['trangthai'] = getTrangThaiChuyenHS(session('chucnang')['dshosodenghikhenthuongthiduacumkhoi']['trangthai'] ?? 'CC');
 
         $inputs['thoigian'] = date('Y-m-d H:i:s');
-        $inputs['lydo'] = ''; //Xóa lý do trả lại
+        $inputs['lydo'] = ''; //Xóa lý do trả lại        
         setChuyenDV_CumKhoi($model, $inputs);
 
-        trangthaihoso::create([
-            'mahoso' => $inputs['mahoso'],
-            'phanloai' => 'dshosotdktcumkhoi',
-            'trangthai' => $model->trangthai,
-            'thoigian' => $thoigian,
-            'madonvi_nhan' => $inputs['madonvi_nhan'],
-            'madonvi' => $inputs['madonvi'],
-            'thongtin' => 'Trình đề nghị khen thưởng.',
-        ]);
         //setTrangThaiHoSo($inputs['madonvi'], $model, ['thoigian' => $thoigian, 'trangthai' => $model->trangthai]);
         //setChuyenHoSo($m_donvi->capdo, $model, ['madonvi' => $inputs['madonvi_nhan'], 'thoigian' => $thoigian, 'trangthai' => $model->trangthai]);
         //dd($model);

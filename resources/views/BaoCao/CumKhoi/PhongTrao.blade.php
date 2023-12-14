@@ -46,7 +46,7 @@
             <tr class="text-center">
                 <th rowspan="2" style="width: 3%">STT</th>
                 <th rowspan="2">Tên phong trào thi đua</th>
-                <th rowspan="2">Phạm vi phát động</th>
+                <th rowspan="2">Tên cụm, khối thi đua</th>
                 <th rowspan="2">Tổng số</th>
                 <th colspan="{{ chkSoKhong(count($a_hinhthuckt_xa)) }}">Khen thưởng cấp Xã</th>
                 <th colspan="{{ chkSoKhong(count($a_hinhthuckt_huyen)) }}">Khen thưởng cấp Huyện</th>
@@ -84,7 +84,7 @@
             <tr>
                 <td class="text-center">{{ $i++ }}</td>
                 <td>{{ $ct->noidung }}</td>
-                <td>{{ $a_phamvi[$ct->phamviapdung] ?? '' }}</td>
+                <td>{{ $a_cumkhoi[$ct->macumkhoi] ?? '' }}</td>
                 <td class="text-center">{{ $ct->tongcong }}</td>
                 @if (count($a_hinhthuckt_xa) > 0)
                     @foreach ($a_hinhthuckt_xa as $item)

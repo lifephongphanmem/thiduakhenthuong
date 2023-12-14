@@ -518,6 +518,20 @@ function getDonViQuanLyTinh($kieudulieu = 'ARRAY')
     }
 }
 
+
+function getDonViTruongCumKhoi($kieudulieu = 'ARRAY')
+{
+    $model = \App\Model\View\view_dstruongcumkhoi::all();    
+    switch ($kieudulieu) {
+        case 'MODEL': {
+                return $model;
+                break;
+            }
+        default:
+            return array_column($model->toarray(), 'tendonvi', 'madonvi');
+    }
+}
+
 //lây các đơn vị có chức năng quản lý địa bàn
 function getDonViXetDuyetHoSo($madonvi = null, $chucnang = null, $kieudulieu = 'ARRAY')
 {
@@ -712,27 +726,7 @@ function getDSPhongTrao($donvi)
 
 function getDSPhongTraoCumKhoi($donvi)
 {
-    $m_phongtrao = App\Model\View\view_dsphongtrao_cumkhoi::wherein('phamviapdung', ['T', 'TW'])->orderby('tungay')->get();
-    switch ($donvi->capdo) {
-        case 'X': {
-                //đơn vị cấp xã => chỉ các phong trào trong huyện, xã
-                $model_xa = App\Model\View\view_dsphongtrao_cumkhoi::wherein('madiaban', [$donvi->madiaban, $donvi->madiabanQL])->orderby('tungay')->get();
-                break;
-            }
-        case 'H': {
-                //đơn vị cấp huyện =>chỉ các phong trào trong huyện
-                $model_xa = App\Model\View\view_dsphongtrao_cumkhoi::where('madiaban', $donvi->madiaban)->orderby('tungay')->get();
-                break;
-            }
-        case 'T': {
-                //Phong trào theo SBN
-                $model_xa = App\Model\View\view_dsphongtrao_cumkhoi::where('phamviapdung', 'SBN')->orderby('tungay')->get();
-                break;
-            }
-    }
-    foreach ($model_xa as $ct) {
-        $m_phongtrao->add($ct);
-    }
+    $m_phongtrao = App\Model\View\view_dsphongtrao_cumkhoi::all();    
     return $m_phongtrao;
 }
 
@@ -1201,7 +1195,6 @@ function setChuyenDV_CumKhoi(&$model, &$inputs)
     $model->thoigian = $inputs['thoigian'];
     $model->lydo = $inputs['lydo'];
     $model->madonvi_nhan = $inputs['madonvi_nhan'];
-
 
     $model->trangthai_xd = $model->trangthai;
     $model->thoigian_xd = $model->thoigian;

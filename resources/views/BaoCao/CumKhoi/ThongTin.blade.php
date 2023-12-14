@@ -19,7 +19,7 @@
             });
             //Xét giá trị cho các ô select
             //frm_hoso
-            var phanloai = "{{ implode(';', array_keys(getPhanLoaiHoSo())) }}";           
+            var phanloai = "{{ implode(';', array_keys(getPhanLoaiHoSo())) }}";
             $('#frm_hoso').find("[name='phanloai[]']").val(phanloai.split(';')).trigger('change');
         });
 
@@ -55,11 +55,11 @@
                             <button class="btn btn-clean text-dark" data-target="#modal-phongtrao" data-toggle="modal">Báo
                                 cáo số lượng phong trào thi đua</button>
                         </li>
-                       
+
                         <li>
                             <button class="btn btn-clean text-dark" data-target="#modal-hosotdkt" data-toggle="modal">Báo
                                 cáo số lượng hồ sơ thi đua, khen thưởng</button>
-                        </li>                       
+                        </li>
 
                         <li>
                             <button class="btn btn-clean text-dark" title="Thống kê tất cả các loại hình khen thưởng"
@@ -159,12 +159,12 @@
                     </div>
                 </div> --}}
 
-                <div class="form-group row">
+                {{-- <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Phạm vị thống kê</label>
                         {!! Form::select('macumkhoi', setArrayAll($a_phamvithongke), null, ['class' => 'form-control']) !!}
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="form-group row">
                     <div class="col-lg-12">
@@ -217,7 +217,7 @@
             </div>
         </div>
         {!! Form::close() !!}
-    </div>   
+    </div>
 
     {{-- Hình thức khen thưởng --}}
     <div id="modal-khenthuong" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
@@ -248,12 +248,12 @@
                     </div>
                 </div> --}}
 
-                <div class="form-group row">
+                {{-- <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Phạm vị thống kê</label>
                         {!! Form::select('phamvithongke', setArrayAll($a_phamvithongke), null, ['class' => 'form-control']) !!}
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="form-group row">
                     <div class="col-lg-12">
@@ -280,7 +280,7 @@
                         <label>Thời điểm báo cáo</label>
                         {!! Form::select('thoidiem', getThoiDiem(), 'CANAM', [
                             'class' => 'form-control select2_modal',
-                            'onchange' => 'setNgayThang($(this),"frm_htkt")',
+                            'onchange' => 'setNgayThang($(this),"frm_htkt")',                            
                         ]) !!}
                     </div>
                 </div>
