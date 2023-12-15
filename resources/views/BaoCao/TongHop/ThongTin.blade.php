@@ -22,10 +22,6 @@
             var phanloai = "{{ implode(';', array_keys(getPhanLoaiHoSo())) }}";           
             $('#frm_hoso').find("[name='phanloai[]']").val(phanloai.split(';')).trigger('change');
         });
-
-        function setURL(url) {
-            $('#thoai_thongtu03').attr('action', url);
-        }
     </script>
 @stop
 
@@ -123,19 +119,29 @@
                         </li>
 
                         <li>
-                            <button type="button" onclick="setBaoCaoKT('frm_thongtu03','/BaoCao/TongHop/Mau0601')"
-                                class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
+                            <button type="button" onclick="setBaoCaoKT('frm_thongtu02','/BaoCao/TongHop/Mau0601')"
+                                class="btn btn-clean text-dark" data-target="#modal-thongtu02" data-toggle="modal">Số
                                 phong trào thi đua (mẫu 0601.N/BNV-TĐKT)</button>
                         </li>
                         <li>
-                            <button type="button" onclick="setBaoCaoKT('frm_thongtu03','/BaoCao/TongHop/Mau0602')"
-                                class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
+                            <button type="button" onclick="setBaoCaoKT('frm_thongtu02','/BaoCao/TongHop/Mau0602')"
+                                class="btn btn-clean text-dark" data-target="#modal-thongtu02" data-toggle="modal">Số
                                 lượng khen thưởng cấp nhà nước (mẫu 06702.N/BNV-TĐKT)</button>
                         </li>
                         <li>
-                            <button type="button" onclick="setBaoCaoKT('frm_thongtu03','/BaoCao/TongHop/Mau0603')"
-                                class="btn btn-clean text-dark" data-target="#modal-thongtu03" data-toggle="modal">Số
+                            <button type="button" onclick="setBaoCaoKT('frm_thongtu02','/BaoCao/TongHop/Mau0603')"
+                                class="btn btn-clean text-dark" data-target="#modal-thongtu02" data-toggle="modal">Số
                                 lượng khen thưởng cấp ban ngành đoàn thể trung ương (mẫu 0603.N/BNV-TĐKT)</button>
+                        </li>
+                        <li>
+                            <button type="button" onclick="setBaoCaoKT('frm_thongtu02','/BaoCao/TongHop/Mau0604')"
+                                class="btn btn-clean text-dark" data-target="#modal-thongtu02" data-toggle="modal">Số
+                                lượng tổ chức làm công tác thi đua, khen thưởng  (mẫu 0604.N/BNV-TĐKT)</button>
+                        </li>
+                        <li>
+                            <button type="button" onclick="setBaoCaoKT('frm_thongtu02','/BaoCao/TongHop/Mau0605')"
+                                class="btn btn-clean text-dark" data-target="#modal-thongtu02" data-toggle="modal">Số
+                                lượng công chức làm công tác thi đua, khen thưởng  (mẫu 0605.N/BNV-TĐKT)</button>
                         </li>
                     </ol>
                 </div>
@@ -557,23 +563,23 @@
         {!! Form::close() !!}
     </div>
 
-    {{-- Mẫu thông tu 03 / 2018 --}}
-    <div id="modal-thongtu03" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
+    {{-- Mẫu thông tu 02 / 2023 --}}
+    <div id="modal-thongtu02" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
         {!! Form::open([
             'url' => '',
             'target' => '_blank',
             'method' => 'post',
-            'id' => 'frm_thongtu03',
+            'id' => 'frm_thongtu02',
             'class' => 'form-horizontal form-validate',
         ]) !!}
         <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
         <div class="modal-dialog modal-content">
             <div class="modal-header modal-header-primary">
-                <h4 id="modal-header-primary-label" class="modal-title">Thông tin kết xuất hình thức khen thưởng</h4>
+                <h4 id="modal-header-primary-label" class="modal-title">Thông tin kết xuất báo cáo thông tư 02/2023/TT-BNV </h4>
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="form-group row">
+                {{-- <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Địa bàn</label>
                         {!! Form::select('madiaban', setArrayAll($a_diaban), null, [
@@ -581,7 +587,7 @@
                             'class' => 'form-control select2_modal',
                         ]) !!}
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="form-group row">
                     <div class="col-lg-12">
@@ -593,12 +599,12 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                {{-- <div class="form-group row">
                     <div class="col-lg-12">
                         <label>Phạm vị thống kê</label>
                         {!! Form::select('phamvithongke', setArrayAll($a_phamvithongke), null, ['class' => 'form-control']) !!}
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="form-group row">
                     <div class="col-lg-6">

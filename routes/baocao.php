@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BaoCao\baocaocumkhoiController;
 use App\Http\Controllers\BaoCao\baocaodonviController;
+use App\Http\Controllers\BaoCao\baocaothongtu022023Controller;
 use App\Http\Controllers\BaoCao\baocaotonghopController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,11 +27,11 @@ Route::group(['prefix' => 'BaoCao'], function () {
         Route::post('Mau0702', 'BaoCao\baocaotonghopController@Mau0702');
         Route::post('Mau0703', 'BaoCao\baocaotonghopController@Mau0703');
 
-        Route::post('Mau0601', [baocaotonghopController::class, 'Mau0701']);
-        Route::post('Mau0602', [baocaotonghopController::class, 'Mau0602']);
-        Route::post('Mau0603', [baocaotonghopController::class, 'Mau0603']);
-        Route::post('Mau0604', [baocaotonghopController::class, 'Mau0604']);
-        Route::post('Mau0605', [baocaotonghopController::class, 'Mau0605']);
+        Route::post('Mau0601', [baocaothongtu022023Controller::class, 'Mau0601']);
+        Route::post('Mau0602', [baocaothongtu022023Controller::class, 'Mau0602']);
+        Route::post('Mau0603', [baocaothongtu022023Controller::class, 'Mau0603']);
+        Route::post('Mau0604', [baocaothongtu022023Controller::class, 'Mau0604']);
+        Route::post('Mau0605', [baocaothongtu022023Controller::class, 'Mau0605']);
         Route::post('QuyKhenThuong', [baocaotonghopController::class, 'QuyKhenThuong']);
     });
     Route::group(['prefix' => 'CumKhoi'], function () {
