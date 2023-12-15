@@ -13,7 +13,7 @@
 @section('content')
     <!--begin::Card-->
     {!! Form::model($model, ['method' => 'POST', '/TaiKhoan/Sua', 'class' => 'horizontal-form', 'id' => 'update_dmdonvi', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
-    {{-- {{ Form::hidden('id', null) }} --}}
+    {{ Form::hidden('id', '-1') }}
     {{ Form::hidden('madonvi', null) }}
     <div class="card card-custom wave wave-animate-slow wave-primary" style="min-height: 600px">
         <div class="card-header flex-wrap border-1 pt-6 pb-0">
