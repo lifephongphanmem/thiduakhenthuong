@@ -36,7 +36,7 @@
     <div class="card card-custom wave wave-animate-slow wave-info" style="min-height: 600px">
         <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Danh sách phong trào thi đua chờ xét khen thưởng trên địa bàn</h3>
+                <h3 class="card-label text-uppercase">Danh sách Hồ sơ đề nghị khen thưởng chờ xét khen thưởng trên địa bàn</h3>
             </div>
             <div class="card-toolbar">
             </div>
@@ -93,7 +93,7 @@
                                 <th>Trạng thái<br>hồ sơ</th>
                             </tr>
                         </thead>
-                        
+
                         <?php $i = 1; ?>
                         @foreach ($model as $key => $tt)
                             <tr>
@@ -111,7 +111,7 @@
 
                                 <td style="text-align: center">
                                     <button type="button" title="In dữ liệu"
-                                        onclick="setInDuLieu('{{ $tt->mahosothamgiapt }}','{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}', '{{ $tt->trangthaikt }}')"
+                                        onclick="setInDuLieu('{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}', '{{ $tt->trangthaikt }}',true)"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#indulieu-modal"
                                         data-toggle="modal">
                                         <i class="icon-lg la flaticon2-print text-dark"></i>
@@ -184,6 +184,7 @@
 
     @include('includes.modal.modal_unapprove_hs')
     @include('NghiepVu._DungChung.modal_QD_PheDuyet')
-    @include('NghiepVu.ThiDuaKhenThuong._DungChung.InDuLieu')
+    {{-- @include('NghiepVu.ThiDuaKhenThuong._DungChung.InDuLieu') --}}
+    @include('NghiepVu._DungChung.InDuLieu')
     @include('includes.modal.modal_attackfile')
 @stop

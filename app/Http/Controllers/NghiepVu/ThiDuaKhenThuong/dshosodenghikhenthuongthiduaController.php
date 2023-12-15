@@ -217,7 +217,7 @@ class dshosodenghikhenthuongthiduaController extends Controller
                         'ketqua' => '1',
                     ];
                 }
-
+                
                 //Lưu trạng thái
                 $hoso->mahosotdkt = $inputs['mahosotdkt'];
                 $thoigian = date('Y-m-d H:i:s');
@@ -293,10 +293,14 @@ class dshosodenghikhenthuongthiduaController extends Controller
         $model_canhan =  dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_hogiadinh =  dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_tailieu =  dshosothiduakhenthuong_tailieu::where('mahosotdkt', $model->mahosotdkt)->get();
-        $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
-        $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
-        $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
-        $a_dhkt_hogiadinh = getDanhHieuKhenThuong($donvi->capdo, 'HOGIADINH');
+        // $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
+        // $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
+        // $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
+        // $a_dhkt_hogiadinh = getDanhHieuKhenThuong($donvi->capdo, 'HOGIADINH');
+        
+        $a_dhkt_canhan = getDanhHieuKhenThuong('ALL');
+        $a_dhkt_tapthe = getDanhHieuKhenThuong('ALL', 'TAPTHE');
+        $a_dhkt_hogiadinh = getDanhHieuKhenThuong('ALL', 'HOGIADINH');
 
         $m_phongtrao = dsphongtraothidua::where('maphongtraotd', $model->maphongtraotd)->first();
         $m_tieuchuan = dsphongtraothidua_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->get();

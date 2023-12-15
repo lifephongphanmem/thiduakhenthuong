@@ -179,10 +179,13 @@ class dshosothiduaController extends Controller
         $inputs['maloaihinhkt'] = session('chucnang')['dshosothidua']['maloaihinhkt'] ?? 'ALL';
         $inputs['mahinhthuckt'] = session('chucnang')['dshosothidua']['mahinhthuckt'] ?? 'ALL';
         $model = dshosothamgiaphongtraotd::where('mahosothamgiapt', $inputs['mahosothamgiapt'])->first();
-        $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
-        $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
-        $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
-        $a_dhkt_hogiadinh = getDanhHieuKhenThuong($donvi->capdo, 'HOGIADINH');
+        // $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
+        // $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
+        // $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
+        // $a_dhkt_hogiadinh = getDanhHieuKhenThuong($donvi->capdo, 'HOGIADINH');
+        $a_dhkt_canhan = getDanhHieuKhenThuong('ALL');
+        $a_dhkt_tapthe = getDanhHieuKhenThuong('ALL', 'TAPTHE');
+        $a_dhkt_hogiadinh = getDanhHieuKhenThuong('ALL', 'HOGIADINH');
         //dd($a_dhkt_hogiadinh);
         $m_phongtrao = dsphongtraothidua::where('maphongtraotd', $model->maphongtraotd)->first();
         $model->tendonvi = getThongTinDonVi($model->madonvi, 'tendonvi');

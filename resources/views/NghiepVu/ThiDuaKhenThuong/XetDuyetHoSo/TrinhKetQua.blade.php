@@ -27,7 +27,7 @@
     <div class="card card-custom" style="min-height: 600px">
         <div class="card-header">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Thông tin phê duyệt đề nghị khen thưởng phong trào thi đua</h3>
+                <h3 class="card-label text-uppercase">Thông tin tờ trình kết quả khen thưởng công trạng và thành tích</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
@@ -37,24 +37,21 @@
 
         {!! Form::model($model, [
             'method' => 'POST',
-            'url' => $inputs['url_qd'] . 'PheDuyet',
+            'url' => $inputs['url'] . 'TrinhKetQua',
             'class' => 'form',
             'id' => 'frm_ThayDoi',
             'files' => true,
             'enctype' => 'multipart/form-data',
         ]) !!}
-        {{ Form::hidden('madonvi', null, ['id' => 'madonvi']) }}
+         {{ Form::hidden('madonvi_xd', null) }} <!-- Lấy thông tin đơn vị để đưa vào bảng tài liệu -->
         {{ Form::hidden('mahosotdkt', null, ['id' => 'mahosotdkt']) }}
         <div class="card-body">
-            @include('NghiepVu._DungChung.HoSo_ThongTinQD')
-
-            @include('NghiepVu._DungChung.HoSo_PheDuyetKhenThuong')
-
+            @include('NghiepVu._DungChung.HoSo_ThongTinToTrinh')
         </div>
         <div class="card-footer">
             <div class="row text-center">
                 <div class="col-lg-12">
-                    <a href="{{ url($inputs['url_qd'] . 'ThongTin?madonvi=' . $model->madonvi_kt) }}"
+                    <a href="{{ url($inputs['url_xd'] . 'ThongTin?madonvi=' . $model->madonvi_xd) }}"
                         class="btn btn-danger mr-5"><i class="fa fa-reply"></i>&nbsp;Quay lại</a>
                     <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i>Hoàn thành</button>
                 </div>
@@ -63,10 +60,6 @@
         {!! Form::close() !!}
     </div>
     <!--end::Card-->
-
-    @include('NghiepVu._DungChung.modal_QD_GanKT')
-    @include('NghiepVu._DungChung.modal_QD_CaNhan')
-    @include('NghiepVu._DungChung.modal_QD_TapThe')
-    @include('NghiepVu._DungChung.modal_QD_HoGiaDinh')
-    @include('NghiepVu._DungChung.modal_QD_TaiLieuDinhKem')
+    @include('NghiepVu._DungChung.modal_ThemDanhMuc')
+    @include('NghiepVu._DungChung.modal_XD_TaiLieuDinhKem')    
 @stop

@@ -289,10 +289,13 @@ class xdhosodenghikhenthuongthiduaController extends Controller
         $model_canhan =  dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_hogiadinh =  dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_tailieu =  dshosothiduakhenthuong_tailieu::where('mahosotdkt', $model->mahosotdkt)->get();
-        $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
-        $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
-        $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
-        $a_dhkt_hogiadinh = getDanhHieuKhenThuong($donvi->capdo, 'HOGIADINH');
+        // $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
+        // $a_dhkt_canhan = getDanhHieuKhenThuong($donvi->capdo);
+        // $a_dhkt_tapthe = getDanhHieuKhenThuong($donvi->capdo, 'TAPTHE');
+        // $a_dhkt_hogiadinh = getDanhHieuKhenThuong($donvi->capdo, 'HOGIADINH');
+        $a_dhkt_canhan = getDanhHieuKhenThuong('ALL');
+        $a_dhkt_tapthe = getDanhHieuKhenThuong('ALL', 'TAPTHE');
+        $a_dhkt_hogiadinh = getDanhHieuKhenThuong('ALL', 'HOGIADINH');
 
         $m_phongtrao = dsphongtraothidua::where('maphongtraotd', $model->maphongtraotd)->first();
         $m_tieuchuan = dsphongtraothidua_tieuchuan::where('maphongtraotd', $model->maphongtraotd)->get();
@@ -443,26 +446,12 @@ class xdhosodenghikhenthuongthiduaController extends Controller
             return view('errors.noperm')->with('machucnang', 'xdhosodenghikhenthuongthidua')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
-        $inputs = $request->all();
-        $thoigian = date('Y-m-d H:i:s');
-        $model = dshosothamgiaphongtraotd::where('mahosothamgiapt', $inputs['mahoso'])->first();
-        $m_nhatky = dshosothamgiaphongtraotd::where('mahosothamgiapt', $inputs['mahoso'])->first();
-        //lấy thông tin lưu nhật ký
-        getDonViChuyen($inputs['madonvi'], $m_nhatky);
-        trangthaihoso::create([
-            'mahoso' => $inputs['mahoso'], 'trangthai' => 'BTL',
-            'thoigian' => $thoigian, 'lydo' => $inputs['lydo'],
-            'madonvi_nhan' => $m_nhatky->madonvi_hoso, 'madonvi' => $m_nhatky->madonvi_nhan_hoso
-        ]);
-        //Gán lại trạng thái cho hồ sơ
-        setNhanHoSo($inputs['madonvi'], $model, ['trangthai' => 'BTL', 'thoigian' => $thoigian, 'lydo' => $inputs['lydo'], 'madonvi_nhan' => '']);
-        setTraLaiHoSo_Nhan($inputs['madonvi'], $model, ['trangthai' => '', 'thoigian' => '', 'lydo' => '', 'madonvi_nhan' => '', 'madonvi' => '']);
-        //dd($model);
-        $model->save();
-
-        $m_hoso = dshosothamgiaphongtraotd::where('mahosothamgiapt', $inputs['mahoso'])->first();
-
-        return redirect('/XetDuyetHoSoThiDua/DanhSach?maphongtraotd=' . $m_hoso->maphongtraotd . '&madonvi=' . $inputs['madonvi']);
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
+        //gán trạng thái hồ sơ để theo dõi
+        $inputs['trangthai'] = 'BTL';
+        $inputs['thoigian'] = date('Y-m-d H:i:s');
+        setTraLaiXD($model, $inputs);
+        return redirect(static::$url . 'DanhSach?madonvi=' . $model->madonvi. '&maphongtraotd=' . $model->maphongtraotd);       
     }
 
     public function NhanHoSo(Request $request)
@@ -520,7 +509,7 @@ class xdhosodenghikhenthuongthiduaController extends Controller
             'madonvi_nhan' => $inputs['madonvi_nhan'],
             'madonvi' => $inputs['madonvi'],
             'thongtin' => 'Trình đề nghị khen thưởng.',
-        ]);       
+        ]);
 
         return redirect(static::$url . 'DanhSach?madonvi=' . $model->madonvi_xd . '&maphongtraotd=' . $model->maphongtraotd);
     }
@@ -1015,5 +1004,44 @@ class xdhosodenghikhenthuongthiduaController extends Controller
         $dungchung = new dungchung_nhanexcelController();
         $dungchung->NhanExcelKhenThuong($request);
         return redirect(static::$url . 'XetKT?mahosotdkt=' . $request->all()['mahoso']);
+    }
+
+    public function TrinhKetQua(Request $request)
+    {
+        $inputs = $request->all();
+        $inputs['url'] = '/XetDuyetHoSoThiDua/';
+        $inputs['url_hs'] = '/HoSoDeNghiKhenThuongThiDua/';
+        $inputs['url_xd'] = '/XetDuyetHoSoThiDua/';
+        $inputs['url_qd'] = '/KhenThuongHoSoThiDua/';
+        $inputs['phanloaihoso'] = 'dshosothiduakhenthuong';
+
+        $inputs['mahinhthuckt'] = session('chucnang')['xdhosodenghikhenthuongcongtrang']['mahinhthuckt'] ?? 'ALL';
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        $model_tailieu = dshosothiduakhenthuong_tailieu::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+        //$inputs['madonvi'] = $model->madonvi_xd;//Gán đơn vị tải tài liệu đính kèm
+        //dd($model_tailieu);
+        return view('NghiepVu.ThiDuaKhenThuong.XetDuyetHoSo.TrinhKetQua')
+            ->with('model', $model)
+            ->with('model_tailieu', $model_tailieu)
+            ->with('a_pltailieu', getPhanLoaiTaiLieuDK())
+            ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'Thông tin tờ trình đề nghị khen thưởng');
+    }
+
+    public function LuuTrinhKetQua(Request $request)
+    {
+        $inputs = $request->all();
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        // if (isset($inputs['totrinhdenghi'])) {
+        //     $dinhkem = new dungchung_nghiepvu_tailieuController();
+        //     $dinhkem->ThemTaiLieuDK($request, 'dshosothiduakhenthuong', 'totrinhdenghi', $model->madonvi_xd);
+        // }
+        $maduthao = duthaoquyetdinh::where('phanloai', 'TOTRINHPHEDUYET')->first()->maduthao ?? '';
+        if ($maduthao != '')
+            getTaoDuThaoToTrinhPheDuyet($model, $maduthao);
+        $model->update($inputs);
+
+        return redirect(static::$url . 'DanhSach?madonvi=' . $model->madonvi_xd . '&maphongtraotd=' . $model->maphongtraotd);
     }
 }

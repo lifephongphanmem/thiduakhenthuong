@@ -139,7 +139,7 @@
 
     function setInPhoi(e, url) {
         e.prop('href', url + '?mahosotdkt=' + $('#frm_InDuLieu').find("[name='mahosotdkt']").val() + '&madonvi=' + $(
-            '#madonvi').val());
+            '#frm_InDuLieu').find("[name='madonvi']").val());
     }
 
     function setInLichSu(e, url) {
