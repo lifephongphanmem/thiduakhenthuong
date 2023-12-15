@@ -428,6 +428,7 @@
     {{-- chưa dùng tiêu chuẩn --}}
     @include('NghiepVu._DungChung.modal_XoaDoiTuong')
     @include('NghiepVu._DungChung.modal_Excel')
+    @include('NghiepVu._DungChung.modal_TaiLieuDinhKem')
 
     @include('NghiepVu._DungChung.modal_ThemPLDoiTuong')
     @include('NghiepVu._DungChung.modal_ThemDanhMuc')

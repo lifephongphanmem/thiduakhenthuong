@@ -18,12 +18,13 @@ class dungchung_nghiepvu_tailieuController extends Controller
 {
     public function ThemTaiLieu(Request $request)
     {
-        $inputs = $request->all();
+        $inputs = $request->all();        
         if (isset($inputs['tentailieu'])) {
             $filedk = $request->file('tentailieu');
             $inputs['tentailieu'] = $inputs['mahosotdkt'] . '.' . $inputs['phanloai'] . '.' . $filedk->getClientOriginalName();
             $filedk->move(public_path() . '/data/tailieudinhkem/', $inputs['tentailieu']);
         }
+        
         switch ($inputs['phanloaihoso']) {
             case 'dshosothiduakhenthuong': {
                     $model = dshosothiduakhenthuong_tailieu::where('id', $inputs['id'])->first();
@@ -87,7 +88,7 @@ class dungchung_nghiepvu_tailieuController extends Controller
             'status' => 'fail',
             'message' => 'error',
         );
-        //return response()->json($inputs);
+        // return response()->json($inputs);
 
         $this->htmlTaiLieu($result, $danhsach, $inputs['madonvi']);
         return response()->json($result);

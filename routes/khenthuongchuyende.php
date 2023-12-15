@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NghiepVu\KhenThuongChuyenDe\dshosodenghikhenthuongchuyendeController;
 use App\Http\Controllers\NghiepVu\KhenThuongChuyenDe\dshosokhenthuongchuyendeController;
 use App\Http\Controllers\NghiepVu\KhenThuongChuyenDe\qdhosodenghikhenthuongchuyendeController;
+use App\Http\Controllers\NghiepVu\KhenThuongChuyenDe\tnhosodenghikhenthuongchuyendeController;
 use App\Http\Controllers\NghiepVu\KhenThuongChuyenDe\xdhosodenghikhenthuongchuyendeController;
 
 //Khen thưởng chuyên đề
@@ -124,6 +125,17 @@ Route::group(['prefix' => 'KhenThuongChuyenDe'], function () {
         Route::get('InQuyetDinh', [qdhosodenghikhenthuongchuyendeController::class, 'InQuyetDinh']);
 
         Route::get('InHoSoPD', [qdhosodenghikhenthuongchuyendeController::class, 'XemHoSo']);
+    });
+
+    Route::group(['prefix' => 'TiepNhan'], function () {
+        Route::get('ThongTin', [tnhosodenghikhenthuongchuyendeController::class, 'ThongTin']);
+        Route::post('TraLai', [tnhosodenghikhenthuongchuyendeController::class, 'TraLai']);
+        Route::post('NhanHoSo', [tnhosodenghikhenthuongchuyendeController::class, 'NhanHoSo']);
+        Route::post('ChuyenHoSo', [tnhosodenghikhenthuongchuyendeController::class, 'ChuyenHoSo']);
+        
+        Route::post('ChuyenChuyenVien', [tnhosodenghikhenthuongchuyendeController::class, 'ChuyenChuyenVien']);
+        Route::post('XuLyHoSo', [tnhosodenghikhenthuongchuyendeController::class, 'XuLyHoSo']);
+        Route::post('LayXuLyHoSo', [tnhosodenghikhenthuongchuyendeController::class, 'LayXuLyHoSo']);
     });
 
     Route::group(['prefix' => 'XetDuyet'], function () {

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NghiepVu\KhenThuongDoiNgoai\dshosodenghikhenthuongdoingoaiController;
 use App\Http\Controllers\NghiepVu\KhenThuongDoiNgoai\dshosokhenthuongdoingoaiController;
 use App\Http\Controllers\NghiepVu\KhenThuongDoiNgoai\qdhosodenghikhenthuongdoingoaiController;
+use App\Http\Controllers\NghiepVu\KhenThuongDoiNgoai\tnhosodenghikhenthuongdoingoaiController;
 use App\Http\Controllers\NghiepVu\KhenThuongDoiNgoai\xdhosodenghikhenthuongdoingoaiController;
 
 Route::group(['prefix' => 'KhenThuongDoiNgoai'], function () {
@@ -122,6 +123,17 @@ Route::group(['prefix' => 'KhenThuongDoiNgoai'], function () {
         Route::post('ToTrinhHoSo', [dshosodenghikhenthuongdoingoaiController::class, 'LuuToTrinhHoSo']);
         Route::get('InToTrinhHoSo', [dshosodenghikhenthuongdoingoaiController::class, 'InToTrinhHoSo']);
         Route::get('InQuyetDinh', [qdhosodenghikhenthuongdoingoaiController::class, 'InQuyetDinh']);
+    });
+
+    Route::group(['prefix' => 'TiepNhan'], function () {
+        Route::get('ThongTin', [tnhosodenghikhenthuongdoingoaiController::class, 'ThongTin']);
+        Route::post('TraLai', [tnhosodenghikhenthuongdoingoaiController::class, 'TraLai']);
+        Route::post('NhanHoSo', [tnhosodenghikhenthuongdoingoaiController::class, 'NhanHoSo']);
+        Route::post('ChuyenHoSo', [tnhosodenghikhenthuongdoingoaiController::class, 'ChuyenHoSo']);
+        
+        Route::post('ChuyenChuyenVien', [tnhosodenghikhenthuongdoingoaiController::class, 'ChuyenChuyenVien']);
+        Route::post('XuLyHoSo', [tnhosodenghikhenthuongdoingoaiController::class, 'XuLyHoSo']);
+        Route::post('LayXuLyHoSo', [tnhosodenghikhenthuongdoingoaiController::class, 'LayXuLyHoSo']);
     });
 
     Route::group(['prefix' => 'XetDuyet'], function () {

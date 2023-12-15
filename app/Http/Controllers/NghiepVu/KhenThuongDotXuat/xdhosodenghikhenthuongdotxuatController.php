@@ -59,8 +59,17 @@ class xdhosodenghikhenthuongdotxuatController extends Controller
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         //$capdo = $donvi->capdo ?? '';
         $inputs['maloaihinhkt'] = session('chucnang')['xdhosodenghikhenthuongdotxuat']['maloaihinhkt'] ?? 'ALL';
+
+        //Xác định xem có dùng chức năng tiếp nhận ko
+        $a_trangthai_xd = ['DD', 'CXKT', 'DKT', 'BTLXD'];
+        if (chkGiaoDien('tnhosodenghikhenthuongdotxuat') != '1') {
+            $a_trangthai_xd[] = 'CD';
+        }
+
         $model = dshosothiduakhenthuong::where('madonvi_xd', $inputs['madonvi'])
-            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH','KHENCAOTHUTUONG' ,'KHENCAOCHUTICHNUOC',]);
+            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH', 'KHENCAOTHUTUONG', 'KHENCAOCHUTICHNUOC',])
+            ->wherein('trangthai_xd', $a_trangthai_xd)
+            ->where('maloaihinhkt', $inputs['maloaihinhkt']);
 
         if ($inputs['maloaihinhkt'] != 'ALL')
             $model = $model->where('maloaihinhkt', $inputs['maloaihinhkt']);
@@ -73,11 +82,11 @@ class xdhosodenghikhenthuongdotxuatController extends Controller
         if ($inputs['nam'] != 'ALL')
             $model = $model->whereyear('ngayhoso', $inputs['nam']);
 
+        //Lấy hồ sơ
+        $model = $model->orderby('ngayhoso')->get();
         //Lọc trạng thái
         if ($inputs['trangthaihoso'] != 'ALL')
             $model = $model->where('trangthai_xd', $inputs['trangthaihoso']);
-        //Lấy hồ sơ
-        $model = $model->orderby('ngayhoso')->get();
 
         $a_donvilocdulieu = getDiaBanCumKhoi(session('admin')->tendangnhap);
 

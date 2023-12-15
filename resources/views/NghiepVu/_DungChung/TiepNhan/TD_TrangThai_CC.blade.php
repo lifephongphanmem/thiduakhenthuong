@@ -15,6 +15,7 @@
 @endif
 @if (session('admin')->opt_quytrinhkhenthuong == 'TAIKHOAN')
     @if (in_array($tt->trangthai_hoso, ['DTN', 'BTLXD']))
+        {{-- Xây dựng hàm kiểm tra tài khoản quản lý --}}
         <button title="Chuyển chuyên viên xử lý" type="button"
             onclick="confirmChuyenChuyenVien('{{ $tt->mahosotdkt }}', '{{ $inputs['madonvi'] }}', '{{ $inputs['url_xd'] . 'ChuyenChuyenVien' }}')"
             class="btn btn-sm btn-clean btn-icon" data-target="#modal-chuyenchuyenvien" data-toggle="modal">

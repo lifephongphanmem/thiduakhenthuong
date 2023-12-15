@@ -57,8 +57,16 @@ class xdhosodenghikhenthuongdoingoaiController extends Controller
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         $inputs['maloaihinhkt'] = session('chucnang')['xdhosodenghikhenthuongdoingoai']['maloaihinhkt'] ?? 'ALL';
 
+        //Xác định xem có dùng chức năng tiếp nhận ko
+        $a_trangthai_xd = ['DD', 'CXKT', 'DKT', 'BTLXD'];
+        if (chkGiaoDien('tnhosodenghikhenthuongdoingoai') != '1') {
+            $a_trangthai_xd[] = 'CD';
+        }
+
         $model = dshosothiduakhenthuong::where('madonvi_xd', $inputs['madonvi'])
-            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH','KHENCAOTHUTUONG' ,'KHENCAOCHUTICHNUOC',]);
+            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH', 'KHENCAOTHUTUONG', 'KHENCAOCHUTICHNUOC',])
+            ->wherein('trangthai_xd', $a_trangthai_xd)
+            ->where('maloaihinhkt', $inputs['maloaihinhkt']);
 
         if ($inputs['maloaihinhkt'] != 'ALL')
             $model = $model->where('maloaihinhkt', $inputs['maloaihinhkt']);
@@ -71,12 +79,13 @@ class xdhosodenghikhenthuongdoingoaiController extends Controller
         if ($inputs['nam'] != 'ALL')
             $model = $model->whereyear('ngayhoso', $inputs['nam']);
 
+        //Lấy hồ sơ
+        $model = $model->orderby('ngayhoso')->get();
         //Lọc trạng thái
         if ($inputs['trangthaihoso'] != 'ALL')
             $model = $model->where('trangthai_xd', $inputs['trangthaihoso']);
 
-        //Lấy hồ sơ
-        $model = $model->orderby('ngayhoso')->get();
+
         if (in_array($inputs['maloaihinhkt'], ['', 'ALL', 'all'])) {
             $m_loaihinh = dmloaihinhkhenthuong::all();
         } else {
@@ -150,7 +159,7 @@ class xdhosodenghikhenthuongdoingoaiController extends Controller
         $model->madonvi_kt = $inputs['madonvi_nhan'];
         $model->trangthai_kt = $model->trangthai;
         $model->thoigian_kt = $thoigian;
-        
+
         $model->save();
 
         trangthaihoso::create([
