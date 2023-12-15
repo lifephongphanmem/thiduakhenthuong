@@ -22,6 +22,7 @@
     ]) !!}
     {{-- {{ Form::hidden('id', null) }} --}}
     {{ Form::hidden('madonvi', null) }}
+    {{ Form::hidden('id', null) }}
     <div class="card card-custom wave wave-animate-slow wave-primary" style="min-height: 600px">
         <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">

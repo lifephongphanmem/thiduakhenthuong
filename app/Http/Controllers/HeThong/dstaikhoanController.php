@@ -122,16 +122,26 @@ class dstaikhoanController extends Controller
         }
         $inputs = $request->all();
         //dd($inputs);
-        // $inputs['nhaplieu'] = isset($inputs['nhaplieu']) ? 1 : 0;
-        // $inputs['tonghop'] = isset($inputs['tonghop']) ? 1 : 0;
-        // $inputs['quantri'] = isset($inputs['quantri']) ? 1 : 0;
         $inputs['tendangnhap'] = chuanhoachuoi($inputs['tendangnhap']);
 
-        $model = dstaikhoan::where('tendangnhap', $inputs['tendangnhap'])->first();
+        $model = dstaikhoan::where('id', $inputs['id'])->first();
         if ($model == null) {
+            $chk = dstaikhoan::where('tendangnhap', $inputs['tendangnhap'])->count();
+            if ($chk > 0) {
+                return view('errors.403')
+                    ->with('message', 'Tên đăng nhập: <b>' . $inputs['tendangnhap'] . '</b> đã tồn tại trên phần mềm.')
+                    ->with('url', '/TaiKhoan/DanhSach?madonvi=' . $inputs['madonvi']);
+            }
+            unset($inputs['id']);
             $inputs['matkhau'] = md5($inputs['matkhaumoi']);
             dstaikhoan::create($inputs);
         } else {
+            $chk = dstaikhoan::where('tendangnhap', $inputs['tendangnhap'])->where('id', '<>', $inputs['id'])->count();
+            if ($chk > 0) {
+                return view('errors.403')
+                    ->with('message', 'Tên đăng nhập: <b>' . $inputs['tendangnhap'] . '</b> đã tồn tại trên phần mềm.')
+                    ->with('url', '/TaiKhoan/DanhSach?madonvi=' . $inputs['madonvi']);
+            }
             if ($inputs['matkhaumoi'] != '')
                 $inputs['matkhau'] = md5($inputs['matkhaumoi']);
 
