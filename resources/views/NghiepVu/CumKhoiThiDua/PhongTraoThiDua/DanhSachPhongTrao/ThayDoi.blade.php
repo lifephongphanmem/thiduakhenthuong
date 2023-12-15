@@ -108,12 +108,12 @@
                 </div>
             </div>
 
-            {{-- <div class="form-group row">
+            <div class="form-group row">
                 <div class="col-12">
                     <label>Cụm, khối thi đua</label>
                     {!! Form::select('macumkhoi', $a_cumkhoi, null, ['class' => 'form-control select2basic']) !!}
                 </div>
-            </div> --}}
+            </div>
             <div class="form-group row">
                 {{-- <div class="col-lg-4">
                     <label>Phạm vị phát động</label>

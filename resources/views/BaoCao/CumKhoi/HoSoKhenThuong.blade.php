@@ -31,11 +31,7 @@
                 Thời điểm báo cáo: {{ getThoiDiem()[$inputs['thoidiem']] }}
             </td>
         </tr>
-        <tr>
-            <td colspan="2" style="text-align: center; font-weight: bold; font-style: italic">
-                Phạm vị thống kê: {{ getPhamViApDung()[$inputs['phamvithongke']] ?? 'Tất cả' }}
-            </td>
-        </tr>
+        
         <tr>
             <td colspan="2" style="text-align: center; font-weight: bold; font-style: italic">
                 Phân loại hồ sơ: {{ $inputs['phanloaihoso'] }}
@@ -65,14 +61,14 @@
             </tr>
         </thead>
         <?php $i = 1; ?>
-        @foreach ($a_diaban as $k_diaban => $v_diaban)
+        @foreach ($a_cumkhoi as $k_cumkhoi => $v_cumkhoi)
             <?php
-            $chitiet = $model->where('madiaban', (string) $k_diaban);
+            $chitiet = $model->where('macumkhoi', (string) $k_cumkhoi);
             $k = 1;
             ?>
             <tr class="font-weight-boldest">
                 <td class="text-bold text-center">{{ IntToRoman($i++) }}</td>
-                <td class="text-bold">{{ $v_diaban }}</td>
+                <td class="text-bold">{{ $v_cumkhoi }}</td>
                 <td class="text-center">{{ dinhdangso($chitiet->sum('tongso'))}}</td>
                 @foreach ($a_loaihinhkt as $k_lh => $v_lh)
                     <td class="text-center">{{ dinhdangso($chitiet->sum($k_lh)) }}</td>

@@ -32,11 +32,11 @@
                 Thời điểm báo cáo: {{ getThoiDiem()[$inputs['thoidiem']] }}
             </td>
         </tr>
-        <tr>
+        {{-- <tr>
             <td colspan="2" style="text-align: center; font-weight: bold; font-style: italic">
                 Phạm vị thống kê: {{ getPhamViApDung()[$inputs['phamvithongke']] ?? 'Tất cả' }}
             </td>
-        </tr>
+        </tr> --}}
         <tr>
             <td colspan="2" style="text-align: center; font-weight: bold; font-style: italic">
                 Phân loại hồ sơ: {{ $inputs['phanloaihoso']  ?? ''}}

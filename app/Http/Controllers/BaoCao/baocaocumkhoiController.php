@@ -19,6 +19,7 @@ use App\Model\NghiepVu\KhenCao\dshosokhencao_canhan;
 use App\Model\NghiepVu\KhenCao\dshosokhencao_tapthe;
 use App\Model\QuyKhenThuong\dsquanlyquykhenthuong;
 use App\Model\QuyKhenThuong\dsquanlyquykhenthuong_chitiet;
+use App\Model\View\view_dscumkhoi;
 use App\Model\View\view_khencao_canhan;
 use App\Model\View\view_khencao_tapthe;
 use App\Model\View\view_tdkt_canhan;
@@ -73,7 +74,7 @@ class baocaocumkhoiController extends Controller
         // }
         // $a_donvi = dsdonvi::wherein('madiaban', array_column($m_diaban->toarray(), 'madiaban'))->get('madonvi');
         $model = getDSPhongTraoCumKhoi($donvi);
-        //dd($inputs);
+        // dd($model);
         //Lọc thời gian khen thưởng
         //ngayqd
         $m_hoso = dshosotdktcumkhoi::wherein('maphongtraotd', array_column($model->toarray(), 'maphongtraotd'))
@@ -160,15 +161,8 @@ class baocaocumkhoiController extends Controller
     {
         $inputs = $request->all();
         $inputs['madiaban'] = $inputs['madiaban'] ?? 'ALL';
-        $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
-        $m_diaban = getDiaBanBaoCaoTongHop($donvi);
-        // if ($inputs['madiaban'] != 'ALL') {
-        //     $m_diaban = $m_diaban->where('madiaban', $inputs['madiaban']);
-        // }
-        $model = viewdiabandonvi::wherein('madiaban', array_column($m_diaban->toArray(), 'madiaban'))->get();
-        if ($inputs['phamvithongke'] != 'ALL') {
-            $model = $model->where('capdo', $inputs['phamvithongke']);
-        }
+        $model = view_dscumkhoi::all();
+        
         $m_hoso = dshosotdktcumkhoi::where('trangthai', 'DKT')
             ->wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
             ->wherein('madonvi', array_column($model->toArray(), 'madonvi'))
@@ -176,8 +170,8 @@ class baocaocumkhoiController extends Controller
        //dd($m_hoso->toSql());
         $m_hoso =  $m_hoso->get();
         $m_loaihinhkt = getLoaiHinhKhenThuong();
-        $a_diaban = array_column($model->toArray(), 'tendiaban', 'madiaban');
-        
+        $a_cumkhoi = array_column($model->toArray(), 'tencumkhoi', 'macumkhoi');
+        // dd($a_cumkhoi);
         foreach ($model as $ct) {
             $ct->tongso = 0;
             foreach ($m_loaihinhkt as $loaihinh) {
@@ -195,7 +189,7 @@ class baocaocumkhoiController extends Controller
         return view('BaoCao.CumKhoi.HoSoKhenThuong')
             ->with('model', $model)
             ->with('m_donvi', $m_donvi)
-            ->with('a_diaban', $a_diaban)
+            ->with('a_cumkhoi', $a_cumkhoi)
             ->with('a_loaihinhkt', array_column($m_loaihinhkt->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             //->with('a_phamvi', getPhamViPhongTrao())
             ->with('inputs', $inputs)
@@ -207,30 +201,14 @@ class baocaocumkhoiController extends Controller
         $inputs = $request->all();
         $inputs['madiaban'] = $inputs['madiaban'] ?? 'ALL';
         $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
-        $m_diaban = getDiaBanBaoCaoTongHop($donvi);
-        if ($inputs['madiaban'] != 'ALL') {
-            $m_diaban = $m_diaban->where('madiaban', $inputs['madiaban']);
-        }
-        //Nếu đơn vị quản lý địa bàn (madonviQL) hoặc đơn vị khen thưởng (madonviKT) thì mới xem đc dữ liệu toàn địa bàn
-        if ($donvi->madonvi == $donvi->madonviQL) {
-            // if ($donvi->madonvi == $donvi->madonviQL || $donvi->madonvi == $donvi->madonviKT) {
-            $m_donvi = viewdiabandonvi::wherein('madiaban', array_column($m_diaban->toArray(), 'madiaban'))->get();
-        } else {
-            $m_donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->get();
-        }
-
-        //$m_donvi = viewdiabandonvi::wherein('madiaban', array_column($m_diaban->toArray(), 'madiaban'))->get();
-        if ($inputs['phamvithongke'] != 'ALL') {
-            $m_donvi = $m_donvi->where('capdo', $inputs['phamvithongke']);
-        }
+       
         $m_hoso = dshosotdktcumkhoi::where('trangthai', 'DKT')
-            ->wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
-            ->wherein('madonvi', array_column($m_donvi->toArray(), 'madonvi'))
+            ->wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])           
             ->wherein('maloaihinhkt', ['1650358223', '1650358255', '1650358265', '1650358310'])
             ->wherein('phanloai', $inputs['phanloai']);
-        if ($inputs['madonvi_kt'] != 'ALL') {
-            $m_hoso = $m_hoso->where('madonvi_kt', $inputs['madonvi_kt']);
-        }
+        // if ($inputs['madonvi_kt'] != 'ALL') {
+        //     $m_hoso = $m_hoso->where('madonvi_kt', $inputs['madonvi_kt']);
+        // }
         $m_hoso =  $m_hoso->get();
 
         $m_hoso_canhan = dshosotdktcumkhoi_canhan::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();

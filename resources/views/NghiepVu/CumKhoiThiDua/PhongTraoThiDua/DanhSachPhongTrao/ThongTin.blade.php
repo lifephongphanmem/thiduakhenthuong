@@ -17,7 +17,7 @@
             TableManaged3.init();
             $('#phanloai, #madonvi, #nam').change(function() {
                 window.location.href = "{{ $inputs['url'] }}" + 'ThongTin?madonvi=' + $('#madonvi').val() +
-                    '&nam=' + $('#nam').val() + '&phanloai=' + $('#phanloai').val();
+                    '&nam=' + $('#nam').val() + '&phanloai=' + $('#phanloai').val()+ '&macumkhoi=' + $('#macumkhoi').val();
             });
 
         });
@@ -34,7 +34,7 @@
             <div class="card-toolbar">
                 <!--begin::Button-->
                 @if (chkPhanQuyen('dsphongtraothiduacumkhoi', 'thaydoi'))
-                    <a href="{{ url($inputs['url'] . 'Them?madonvi=' . $inputs['madonvi'] ) }}"
+                    <a href="{{ url($inputs['url'] . 'Them?madonvi=' . $inputs['madonvi'] . '&nam=' . $inputs['nam']) }}"
                         class="btn btn-success btn-xs">
                         <i class="fa fa-plus"></i> Thêm mới</a>
                     {{-- <a href="{{ url($inputs['url'] . 'Them?madonvi=' . $inputs['madonvi'] . '&macumkhoi=' . $inputs['macumkhoi']) }}"
@@ -73,7 +73,7 @@
                 </div>
             </div>
 
-            {{-- <div class="form-group row">
+            <div class="form-group row">
                 <div class="col-12">
                     <label style="font-weight: bold">Cụm, khối thi đua</label>
                     <select class="form-control select2basic" id="macumkhoi">
@@ -84,17 +84,17 @@
                     </select>
                 </div>
             </div>
-             --}}
-            <div class="form-group row">
-                {{-- <div class="col-md-4">
+            
+            {{-- <div class="form-group row">
+                <div class="col-md-4">
                     <label style="font-weight: bold">Phạm vi phát động</label>
                     {!! Form::select('phamviapdung', setArrayAll($a_phamvi, 'Tất cả', 'ALL'), $inputs['phamviapdung'], [
                         'id' => 'phamviapdung',
                         'class' => 'form-control select2basic',
                     ]) !!}
-                </div> --}}
+                </div>
 
-            </div>
+            </div> --}}
 
             <hr>
             <div class="form-group row">
@@ -144,8 +144,15 @@
                                                 onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url'] . '/Xoa' }}')"
                                                 class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal"
                                                 data-toggle="modal">
-                                                <i class="icon-lg la fa-trash-alt text-danger icon-2x"></i></button>
+                                                <i class="icon-lg la fa-trash-alt text-danger icon-2x"></i>
+                                            </button>
                                         @endif
+                                        <button title="Thiết lập phong trào" type="button"
+                                            onclick="setKetQua('{{ $tt->maphongtraotd }}','{{ $tt->trangthai }}')"
+                                            class="btn btn-sm btn-clean btn-icon" data-target="#modal-KetThuc"
+                                            data-toggle="modal">
+                                            <i class="icon-lg la flaticon-calendar-3 text-warning"></i>
+                                        </button>
                                     @endif
                                 </td>
                             </tr>
@@ -156,6 +163,61 @@
         </div>
     </div>
     <!--end::Card-->
+
+    <!--Modal kết thúc nhận hồ sơ để khen thưởng-->
+    <div class="modal fade" id="modal-KetThuc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {!! Form::open([
+                    'url' => '/CumKhoiThiDua/PhongTraoThiDua/GanTrangThai',
+                    'method' => 'post',
+                    'files' => true,
+                    'id' => 'frm_KetThuc',
+                    'class' => 'form-horizontal',
+                    'enctype' => 'multipart/form-data',
+                ]) !!}
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Thiết lập trạng thái phong trào thi đua</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                </div>
+                <input type="hidden" name="maphongtraotd" id="maphongtraotd">
+                <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}">
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="control-label">Trạng thái phong trào</label>
+                                {!! Form::select(
+                                    'trangthai',
+                                    ['CC' => 'Nhận hồ sơ', 'CXKT' => 'Chờ khen thưởng', 'DKT' => 'Đã kết thúc'],
+                                    null,
+                                    ['class' => 'form-control select2_modal'],
+                                ) !!}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Đồng ý</button>
+                </div>
+                {!! Form::close() !!}
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <script>
+        function setKetQua(maphongtraotd, trangthai) {
+            $('#frm_KetThuc').find("[name='maphongtraotd']").val(maphongtraotd);
+            $('#frm_KetThuc').find("[name='trangthai']").val(trangthai).trigger('change');
+        }
+    </script>
+
     @include('includes.modal.modal-delete')
     @include('includes.modal.modal_attackfile')
 @stop

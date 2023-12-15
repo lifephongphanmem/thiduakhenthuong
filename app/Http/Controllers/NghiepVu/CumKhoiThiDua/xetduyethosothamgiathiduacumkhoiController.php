@@ -37,41 +37,6 @@ class xetduyethosothamgiathiduacumkhoiController extends Controller
         });
     }
 
-    public function DanhSach(Request $request)
-    {
-        if (!chkPhanQuyen('dshosodenghikhenthuongthidua', 'danhsach')) {
-            return view('errors.noperm')->with('machucnang', 'dshosodenghikhenthuongthidua')->with('tenphanquyen', 'danhsach');
-        }
-        $inputs = $request->all();
-        $m_phongtrao = dsphongtraothidua::where('maphongtraotd', $inputs['maphongtraotd'])->first();
-
-        $ngayhientai = date('Y-m-d');
-        $this->KiemTraPhongTrao($m_phongtrao, $ngayhientai);
-        $model = dshosothamgiaphongtraotd::where('maphongtraotd', $inputs['maphongtraotd'])
-            ->wherein('mahosothamgiapt', function ($qr) use ($inputs) {
-                $qr->select('mahosothamgiapt')->from('dshosothamgiaphongtraotd')
-                    ->where('madonvi_nhan', $inputs['madonvi'])
-                    ->orwhere('madonvi_nhan_h', $inputs['madonvi'])
-                    ->orwhere('madonvi_nhan_t', $inputs['madonvi'])->get();
-            })->get();
-        $m_hoso_dangky = dshosodangkyphongtraothidua::all();
-        //Kiểm tra phong trào => nếu đã hết hạn thì ko cho thao tác nhận, trả hồ sơ
-        //Chỉ có thể trả lại và tiếp nhận hồ sơ do cấp nào khen thưởng cấp đó nên ko để chuyển vượt cấp
-        //dd($model);
-        foreach ($model as $chitiet) {
-            $chitiet->nhanhoso = $m_phongtrao->nhanhoso;
-            $chitiet->mahosodk = $m_hoso_dangky->where('madonvi', $chitiet->madonvi)->first()->mahosodk ?? null;
-            getDonViChuyen($inputs['madonvi'], $chitiet);
-        }
-
-        return view('NghiepVu.ThiDuaKhenThuong.HoSoDeNghiKhenThuongPhongTrao.DanhSach')
-            ->with('inputs', $inputs)
-            ->with('model', $model)
-            ->with('m_phongtrao', $m_phongtrao)
-            ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
-            ->with('pageTitle', 'Danh sách hồ sơ đăng ký thi đua');
-    }
-
     public function ThongTin(Request $request)
     {
         if (!chkPhanQuyen('dshosodenghikhenthuongcumkhoi', 'danhsach')) {
@@ -95,7 +60,7 @@ class xetduyethosothamgiathiduacumkhoiController extends Controller
             // $chitiet->mahosodk = $m_hoso_dangky->where('madonvi', $chitiet->madonvi)->first()->mahosodk ?? null;
             getDonViChuyen($inputs['madonvi'], $chitiet);
         }
-
+        //dd($model);
         return view('NghiepVu.CumKhoiThiDua.PhongTraoThiDua.XetDuyetThamGiaThiDua.DanhSach')
             ->with('model', $model)
             ->with('m_phongtrao', $m_phongtrao)
@@ -110,12 +75,12 @@ class xetduyethosothamgiathiduacumkhoiController extends Controller
             return view('errors.noperm')->with('machucnang', 'dshosodenghikhenthuongcumkhoi')->with('tenphanquyen', 'hoanthanh');
         }
         $inputs = $request->all();
-        $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahoso'])->first();
+        $model = dshosothamgiathiduacumkhoi::where('mahoso', $inputs['mahoso'])->first();
         //gán trạng thái hồ sơ để theo dõi
         $inputs['trangthai'] = 'BTL';
         $inputs['thoigian'] = date('Y-m-d H:i:s');
         setTraLaiXD($model, $inputs);
-        return redirect(static::$url . 'DanhSach?madonvi=' . $model->madonvi_xd . '&macumkhoi=' . $model->macumkhoi);
+        return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_xd . '&maphongtraotd=' . $model->maphongtraotd);
     }
 
     public function NhanHoSo(Request $request)
@@ -126,21 +91,21 @@ class xetduyethosothamgiathiduacumkhoiController extends Controller
         $inputs = $request->all();
 
         $thoigian = date('Y-m-d H:i:s');
-        $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahoso'])->first();
+        $model = dshosothamgiathiduacumkhoi::where('mahoso', $inputs['mahoso'])->first();
         //gán lại trạng thái hồ sơ để theo dõi
-        $model->trangthai = 'DTN';
-        $model->trangthai_xd = 'DTN';
+        $model->trangthai = 'DD';
+        $model->trangthai_xd = 'DD';
         $model->thoigian_xd = $thoigian;
         $model->save();
         trangthaihoso::create([
             'mahoso' => $inputs['mahoso'],
-            'phanloai' => 'dshosotdktcumkhoi',
+            'phanloai' => 'dshosothamgiathiduacumkhoi',
             'trangthai' => $model->trangthai,
             'thoigian' => $thoigian,
             'madonvi' => $model->madonvi_xd,
-            'thongtin' => 'Tiếp nhận hồ sơ đề nghị khen thưởng.',
+            'thongtin' => 'Tiếp nhận hồ sơ tham gia phong trào thi đua.',
         ]);
-        return redirect(static::$url . 'DanhSach?madonvi=' . $model->madonvi_xd . '&macumkhoi=' . $model->macumkhoi);
+        return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_xd . '&maphongtraotd=' . $model->maphongtraotd);
     }
 
     function KiemTraPhongTrao(&$phongtrao, $thoigian)
