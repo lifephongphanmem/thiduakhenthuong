@@ -86,7 +86,7 @@
                 </div>
                 <div class="col-lg-4">
                     <label>Tài khoản truy cập<span class="require">*</span></label>
-                    {!! Form::text('tendangnhap', null, ['class' => 'form-control', 'readonly' => 'true']) !!}
+                    {!! Form::text('tendangnhap', null, ['class' => 'form-control',]) !!}
                 </div>
                 <div class="col-lg-4">
                     <label>Mật khẩu mới</label>

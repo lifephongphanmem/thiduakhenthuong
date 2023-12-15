@@ -30,12 +30,11 @@ class baocaothongtu022023Controller extends Controller
             };
             return $next($request);
         });
-    }   
-
-    
+    }    
 
     public function Mau0601(Request $request)
     {
+        //lấy phong trào thi đua và phong trao thi đua cụm khối
         $inputs = $request->all();
         $inputs['madiaban'] = $inputs['madiaban'] ?? 'ALL';
         $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
