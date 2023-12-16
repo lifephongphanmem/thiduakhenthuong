@@ -105,6 +105,7 @@ function setHuyKhenThuong(&$model, $inputs)
     $model->capkhenthuong = null;
     $model->soqd = null;
     $model->ngayqd = null;
+    
     $model->chucvunguoikyqd = null;
     $model->hotennguoikyqd = null;
     $model->thongtinquyetdinh = null;

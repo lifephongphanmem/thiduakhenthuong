@@ -59,7 +59,7 @@ class dshosodenghikhenthuongcongtrangController extends Controller
         $inputs['maloaihinhkt'] = session('chucnang')['dshosodenghikhenthuongcongtrang']['maloaihinhkt'] ?? 'ALL';
         $inputs['trangthai'] = session('chucnang')['dshosodenghikhenthuongcongtrang']['trangthai'] ?? 'CC';
         $model = dshosothiduakhenthuong::where('madonvi', $inputs['madonvi'])
-            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH','KHENCAOTHUTUONG' ,'KHENCAOCHUTICHNUOC',])
+            ->wherein('phanloai', ['KHENTHUONG', 'KTNGANH', 'KHENCAOTHUTUONG', 'KHENCAOCHUTICHNUOC',])
             ->where('maloaihinhkt', $inputs['maloaihinhkt']);
         if (in_array($inputs['maloaihinhkt'], ['', 'ALL', 'all'])) {
             $m_loaihinh = dmloaihinhkhenthuong::all();
@@ -94,9 +94,11 @@ class dshosodenghikhenthuongcongtrangController extends Controller
             $inputs['url_qd'] = '/KhenThuongCongTrang/HoSo/';
         }
         //Lấy danh sách hồ sơ cấp dưới gửi lên
-        $model_hoso = dshosothiduakhenthuong::where('maloaihinhkt', $inputs['maloaihinhkt'])->where(function ($qr) use ($inputs) {
-            $qr->where('madonvi_xd', $inputs['madonvi'])->orwhere('madonvi_kt', $inputs['madonvi']);
-        })->get();
+        $model_hoso = dshosothiduakhenthuong::where('maloaihinhkt', $inputs['maloaihinhkt'])
+            ->where('trangthai', 'DTN')
+            ->where(function ($qr) use ($inputs) {
+                $qr->where('madonvi_xd', $inputs['madonvi'])->orwhere('madonvi_kt', $inputs['madonvi']);
+            })->get();
         //dd($model_hoso);
         return view('NghiepVu.KhenThuongCongTrang.HoSoKhenThuong.ThongTin')
             ->with('model', $model)
@@ -288,6 +290,8 @@ class dshosodenghikhenthuongcongtrangController extends Controller
                 ];
             }
             dshosothiduakhenthuong_hogiadinh::insert($a_hogiadinh);
+            //Cập nhật trạng thái hồ sơ
+            dshosothiduakhenthuong::wherein('mahosotdkt', $a_hoso)->update(['trangthai' => 'DTH', 'trangthai_xd' => 'DTH']);
         }
 
         //Kiểm tra trạng thái hồ sơ

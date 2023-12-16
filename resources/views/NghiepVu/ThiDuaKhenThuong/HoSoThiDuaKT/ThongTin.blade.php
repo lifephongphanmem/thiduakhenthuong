@@ -95,7 +95,7 @@
                                 <td>{{ $tt->noidung }}</td>
                                 <td style="text-align: center">
                                     <button type="button" title="In dữ liệu"
-                                        onclick="setInDuLieu('{{ $tt->mahosothamgiapt }}','{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}', '{{ $tt->trangthaikt }}')"
+                                        onclick="setInDuLieu('{{ $tt->mahosotdkt }}', '{{ $tt->maphongtraotd }}', '{{ $tt->trangthaikt }}', true)"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#indulieu-modal"
                                         data-toggle="modal">
                                         <i class="icon-lg la flaticon2-print text-dark"></i>
@@ -292,7 +292,8 @@
         }
     </script>
 
-    @include('NghiepVu.ThiDuaKhenThuong._DungChung.InDuLieu')
+    @include('NghiepVu._DungChung.InDuLieu')
+    {{-- @include('NghiepVu.ThiDuaKhenThuong._DungChung.InDuLieu') --}}
     @include('includes.modal.modal_attackfile')
     @include('NghiepVu._DungChung.modal_PheDuyet')
 @stop

@@ -26,6 +26,7 @@ use App\Model\NghiepVu\CumKhoiThiDua\dsphongtraothiduacumkhoi_tieuchuan;
 use App\Model\NghiepVu\CumKhoiThiDua\dsphongtraothiduacumkhoicumkhoi;
 use App\Model\View\view_dscumkhoi;
 use App\Model\View\view_dsphongtrao_cumkhoi;
+use App\Model\View\view_dstruongcumkhoi;
 use App\Model\View\viewdiabandonvi;
 use App\Model\View\viewdonvi_dsphongtrao;
 use Illuminate\Support\Facades\File;
@@ -137,14 +138,19 @@ class dshosothiduacumkhoiController extends Controller
         }
         $inputs['trangthai'] = session('chucnang')['dshosothiduacumkhoi']['trangthai'] ?? 'CC';
         $m_cumkhoi = view_dscumkhoi::where('madonvi', $inputs['madonvi'])->get();
-        //  dd($inputs);
+        $m_truongcum = view_dstruongcumkhoi::where('macumkhoi',$inputs['macumkhoi'])->get();
+        if($m_cumkhoi->count() == 0){
+            return view('errors.404')->with('message', 'Cụm, khối thi đua chưa có trưởng cụm, khối. Bạn hãy liên hệ đơn vị quản lý để thêm trưởng cụm khối')
+            ->with('url', '/CumKhoiThiDua/ThamGiaThiDua/ThongTin?madonvi='.$inputs['madonvi']);
+        }
+        
         return view('NghiepVu.CumKhoiThiDua.PhongTraoThiDua.HoSoThiDua.DanhSach')
             ->with('inputs', $inputs)
             ->with('model', $model->sortby('tungay'))
             ->with('m_donvi', $m_donvi)
             ->with('m_cumkhoi', $m_cumkhoi)
             ->with('m_diaban', $m_diaban)
-            ->with('a_donviql', getDonViXetDuyetDiaBan($donvi))
+            ->with('a_donviql', array_column($m_truongcum->toarray(),'tendonvi', 'madonvi'))
             ->with('a_phamvi', getPhamViPhongTrao())
             ->with('a_phanloai', getPhanLoaiPhongTraoThiDua(true))
             ->with('a_trangthaihoso', getTrangThaiTDKT())

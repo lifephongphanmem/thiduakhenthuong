@@ -217,6 +217,7 @@ Route::group(['prefix' => 'HoSoThiDuaKT'], function () {
     Route::get('Sua', [dshosokhenthuongthiduaController::class, 'ThayDoi']);
     Route::post('Sua', [dshosokhenthuongthiduaController::class, 'LuuHoSo']);
     Route::get('InHoSo', [dshosokhenthuongthiduaController::class, 'XemHoSo']);
+    Route::get('InHoSoPD', [dshosokhenthuongthiduaController::class, 'XemHoSo']);
     Route::post('Xoa', [dshosokhenthuongthiduaController::class, 'XoaHoSo']);
 
     Route::post('ThemTapThe', [dshosokhenthuongthiduaController::class, 'ThemTapThe']);

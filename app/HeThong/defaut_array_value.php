@@ -1322,6 +1322,7 @@ function getTrangThaiHoSo()
         'KDK' => 'Không điều kiện',
         'DCCVXD' => 'Đã chuyển chuyên viên',
         'DCCVKT' => 'Đã chuyển chuyên viên',
+        'DTH' => 'Đã tổng hợp',
     ];
 }
 
@@ -1346,6 +1347,7 @@ function getTrangThaiChucNangHoSo($trangthai = 'ALL')
         'BTL' => 'Bị trả lại',
         'BTLXD' => 'Trả lại xét duyệt',
         'DXL' => 'Đã xử lý',
+        'DTH' => 'Đã tổng hợp',
         // 'DDK' => 'Đủ điều kiện',
         // 'KDK' => 'Không điều kiện',
     ];
@@ -1430,6 +1432,10 @@ function getTrangThai_TD_HoSo($trangthai)
         'DCCVKT' => [
             'trangthai' => 'Đã chuyển</br>chuyên viên',
             'class' => 'badge badge-warning'
+        ], 
+        'DTH' => [
+            'trangthai' => 'Đã chuyển</br>tổng hợp',
+            'class' => 'badge badge-success'
         ],       
     ];
 

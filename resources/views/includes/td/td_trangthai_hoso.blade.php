@@ -59,6 +59,7 @@
     @case('DDK')
     @case('KDK')
     @case('DD')
+    @case('DTH')
         <td align="center">
             <span class="{{ $a_trangthai_td['class'] }}">{!! $a_trangthai_td['trangthai'] !!}</span>
             <br>Thời gian:<br><b>{{ getDayVn($tt->thoigian) }}</b>
