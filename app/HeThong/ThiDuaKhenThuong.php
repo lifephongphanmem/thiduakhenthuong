@@ -310,9 +310,8 @@ function getLocTaiKhoanXetDuyet($tendangnhap_xd)
 
 //Lấy tài khoản lọc dữ liệu
 function getPhanLoaiTaiKhoanTiepNhan()
-{
-    
-    if (session('admin')->capdo == 'SSA' || session('admin')->phanloai == 'QUANLY')    
+{    
+    if (session('admin')->capdo == 'SSA' || session('admin')->phanloai == 'QUANLY' || session('admin')->phanloai == '')    
         return true;
     else
         return false;

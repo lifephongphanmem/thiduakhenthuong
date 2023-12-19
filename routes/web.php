@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\API\APIhethongsohoaController;
 use App\Http\Controllers\API\APIketnoiController;
+use App\Http\Controllers\API\APIquanlycanboController;
+use App\Http\Controllers\API\APIquanlyvanbanController;
+use App\Http\Controllers\API\APItdktbonoivuController;
 use App\Http\Controllers\API\APIthongtinchungController;
 use App\Http\Controllers\API\APIxuatdulieuController;
 use App\Http\Controllers\HeThong\dstaikhoanController;
@@ -103,7 +107,27 @@ Route::group(['prefix' => 'HeThongAPI'], function () {
         Route::get('TapThe', [APIxuatdulieuController::class, 'TapThe']);
         Route::get('PhongTrao', [APIxuatdulieuController::class, 'PhongTrao']);        
     });
-    
+
+    Route::group(['prefix' => 'QuanLyVanBan'], function () {
+        Route::get('TruyenHoSo', [APIquanlyvanbanController::class, 'TruyenHoSo']);
+        Route::get('NhanHoSo', [APIquanlyvanbanController::class, 'NhanHoSo']);        
+        Route::post('TaoAPI', [APIquanlyvanbanController::class, 'TaoAPI']);        
+    });
+    Route::group(['prefix' => 'QuanLyCanBo'], function () {
+        Route::get('TruyenHoSo', [APIquanlycanboController::class, 'TruyenHoSo']);
+        Route::get('NhanHoSo', [APIquanlycanboController::class, 'NhanHoSo']);
+        Route::post('TaoAPI', [APIquanlycanboController::class, 'TaoAPI']);
+    });
+    Route::group(['prefix' => 'HeThongSoHoa'], function () {      
+        Route::get('TruyenHoSo', [APIhethongsohoaController::class, 'TruyenHoSo']);
+        Route::get('NhanHoSo', [APIhethongsohoaController::class, 'NhanHoSo']);
+        Route::post('TaoAPI', [APIhethongsohoaController::class, 'TaoAPI']);        
+    });
+    Route::group(['prefix' => 'QuanLyTDKT'], function () {
+        Route::get('TruyenHoSo', [APItdktbonoivuController::class, 'TruyenHoSo']);
+        Route::get('NhanHoSo', [APItdktbonoivuController::class, 'NhanHoSo']);
+        Route::post('TaoAPI', [APItdktbonoivuController::class, 'TaoAPI']);
+    });
 });
 
 

@@ -84,6 +84,7 @@ class tnhosodenghikhenthuongcongtrangController extends Controller
 
         $a_donvilocdulieu = getDiaBanCumKhoi(session('admin')->tendangnhap);
         $a_taikhoanchuyenvien = array_column(dstaikhoan::where('madonvi', $inputs['madonvi'])->where('phanloai', '<>', 'QUANLY')->get()->toarray(), 'tentaikhoan', 'tendangnhap');
+        
         foreach ($model as $key => $hoso) {
             $hoso->soluongkhenthuong = $m_khencanhan->where('mahosotdkt', $hoso->mahosotdkt)->count()
                 + $m_khentapthe->where('mahosotdkt', $hoso->mahosotdkt)->count();
@@ -108,7 +109,7 @@ class tnhosodenghikhenthuongcongtrangController extends Controller
         $inputs['trangthai'] = session('chucnang')['tnhosodenghikhenthuongcongtrang']['trangthai'] ?? 'CC';
         $inputs['trangthai'] = $inputs['trangthai'] != 'ALL' ? $inputs['trangthai'] : 'CC';
         //dd($model->where('trangthai','CXKT')->where('madonvi_kt',''));
-        // dd( $model);
+        // dd( $inputs);
 
         return view('NghiepVu.KhenThuongCongTrang.TiepNhan.ThongTin')
             ->with('model', $model)
