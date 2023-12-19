@@ -51,7 +51,7 @@ class APIquanlyvanbanController extends Controller
         return view('API.QuanLyVanBan.TruyenHoSo')
             ->with('inputs', $inputs)
             ->with('model', $model)
-            ->with('a_phanloaihs', getPhanLoaiHoSo())            
+            ->with('a_phanloaihs', getPhanLoaiHoSo())
             ->with('a_donvi', array_column($m_donvi->toArray(), 'tendonvi', 'madonvi'))
 
             ->with('pageTitle', 'Truyền hồ sơ từ phần mềm quản lý văn bản');
@@ -69,7 +69,7 @@ class APIquanlyvanbanController extends Controller
         $inputs = $request->all();
         $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $machung = 'QuanLyVanBan'; //Sau thiết lập trên hệ thống chung
-        $result['message'] =$inputs['currentUrl'] . $inputs['url'] . '?_token=' . base64_encode($machung . ':' . $inputs['madonvi'] . ':' . $inputs['mahosotdkt']);
+        $result['message'] = $inputs['currentUrl'] . $inputs['url'] . '?_token=' . base64_encode($machung . ':' . $inputs['madonvi'] . ':' . $inputs['mahosotdkt']);
         $result['status'] = 'success';
 
         return (json_encode($result));
@@ -103,6 +103,48 @@ class APIquanlyvanbanController extends Controller
 
     public function getHoSoKhenThuong(Request $request)
     {
+        $inputs = $request->all();
+        $a_API['Header'] = [
+            'Version' => '',
+            'Tran_Code' => '',
+            'Export_Date' => '',
+            'Msg_ID' => '',
+            'Path' => '',
+        ];
+        $a_API['Body'] = [];
+        $a_API['Security'] = ['Signature' => ''];
+        $a_giatri = explode(':', base64_decode($inputs['_token']));
+
+        //Nếu nhóm giá trị nhỏ hơn 3 => lỗi
+        if (count($a_giatri) < 3) {
+            return response()->json([
+                'message' => 'Lỗi đường link API.',
+                'code' => '-1'
+            ], Response::HTTP_OK);
+        }
+        //Chưa kiểm tra thời hạn của link ở $a_giatri[3]
+        $model_khenthuong = dshosothiduakhenthuong::where('mahosotdkt', $a_giatri[2])->get();
+        if (count($model_khenthuong) < 1) {
+            return response()->json([
+                'message' => 'Hồ sơ khen thưởng không hợp lệ.',
+                'code' => '-1'
+            ], Response::HTTP_OK);
+        }
+        $donvi = viewdiabandonvi::where('madonvi', $a_giatri[1])->first();
+        if ($donvi == null) {
+            return response()->json([
+                'message' => 'Đơn vị khen thưởng không hợp lệ.',
+                'code' => '-1'
+            ], Response::HTTP_OK);
+        }
+        $m_donvi = viewdiabandonvi::all();
+        $a_kq = [];
+        foreach ($model_khenthuong as $hoso) {
+            $conHoSo = new APIdungchungController();
+            $a_kq[] = $conHoSo->convertHoSo($hoso, $m_donvi);
+        }
+        $a_API['Body'] = $a_kq;
+        return response()->json($a_API, Response::HTTP_OK);
     }
     public function postHoSoKhenThuong(Request $request)
     {
