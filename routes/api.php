@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('XuatCaNhan', [APIxuatdulieuController::class, 'XuatCaNhan']);
 Route::get('XuatTapThe', [APIxuatdulieuController::class, 'XuatTapThe']);
 
-Route::get('getToKen', [APIthongtinchungController::class, 'getToKen']);
+Route::post('token', [APIthongtinchungController::class, 'token']);
 
 //Danh mục chung
 Route::group(['prefix' => 'DanhMucChung'], function () {
