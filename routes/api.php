@@ -38,6 +38,15 @@ Route::group(['prefix' => 'DanhMucChung'], function () {
     Route::get('LinhVucHoatDong',  [APIthongtinchungController::class, 'LinhVucHoatDong']);
 });
 
+//Nghiệp vụ chung
+Route::group(['prefix' => 'NghiepVu'], function () {
+    Route::get('getDanhSachHoSo', [APIthongtinchungController::class, 'LoaiHinhKhenThuong']);
+    Route::get('getHoSoKhenThuong', [APIthongtinchungController::class, 'HinhThucKhenThuong']);
+    Route::post('postHoSoKhenThuong', [APIthongtinchungController::class, 'PhanLoaiDoiTuong']);
+    Route::get('getKhenThuongCaNhan',  [APIquanlycanboController::class, 'getKhenThuongCaNhan']);
+    Route::get('postKhenThuongCaNhan', [APIquanlycanboController::class, 'postKhenThuongCaNhan']);
+});
+
 //Quản lý cán bộ
 Route::group(['prefix' => 'QuanLyVanBan'], function () {
     //Xem phần getHoso(lấy hồ sơ từ LGSP) chỉ để 01 route dùng chung cho các trạng thái
