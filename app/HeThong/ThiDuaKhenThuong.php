@@ -1309,3 +1309,8 @@ function getDonViToaDoMacDinh($a_donvi)
     $m_donvi = App\Model\View\viewdiabandonvi::wherein('madonvi', $a_donvi)->get();
     return array_column($m_donvi->toarray(), 'tendonvi', 'madonvi');
 }
+
+//Xây dựng hàm để chuyển đổi cơ sở dữ liệu cho Danh sách hồ sơ
+function convertDanhSachHoSo(){
+
+}

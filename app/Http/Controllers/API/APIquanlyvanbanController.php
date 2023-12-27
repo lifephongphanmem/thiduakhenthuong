@@ -146,6 +146,7 @@ class APIquanlyvanbanController extends Controller
         $a_API['Body'] = $a_kq;
         return response()->json($a_API, Response::HTTP_OK);
     }
+    
     public function postHoSoKhenThuong(Request $request)
     {
     }

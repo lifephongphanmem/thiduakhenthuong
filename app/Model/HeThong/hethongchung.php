@@ -47,5 +47,9 @@ class hethongchung extends Model
         'opt_trinhhosoketqua',
         'opt_pheduyethoso',
         'opt_quytrinhkhenthuong',
+        //api
+        'keypublic',
+        'accesstoken',
+        'thoigianhethong',
     ];
 }

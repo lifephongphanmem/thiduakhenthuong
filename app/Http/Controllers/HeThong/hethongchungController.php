@@ -311,7 +311,10 @@ class hethongchungController extends Controller
         $inputs['opt_duthaototrinh'] = isset($inputs['opt_duthaototrinh']);
         $inputs['opt_duthaoquyetdinh'] = isset($inputs['opt_duthaoquyetdinh']);
         $inputs['hskhenthuong_totrinh'] = isset($inputs['hskhenthuong_totrinh']);
-
+        //Tạo mã truy cập API
+        if ($inputs['keypublic'] != '') {
+            $inputs['accesstoken'] = base64_encode('SSA:' . $inputs['keypublic']);
+        }
         //dd($inputs);
         hethongchung::first()->update($inputs);
         return redirect('/HeThongChung/ThongTin');
