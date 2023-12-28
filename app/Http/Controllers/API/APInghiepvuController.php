@@ -7,20 +7,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Model\DanhMuc\dmdanhhieuthidua;
-use App\Model\DanhMuc\dmhinhthuckhenthuong;
-use App\Model\DanhMuc\dmloaihinhkhenthuong;
-use App\Model\DanhMuc\dmnhomphanloai_chitiet;
-use App\Model\DanhMuc\dsdiaban;
-use App\Model\DanhMuc\dsdonvi;
-use App\Model\HeThong\hethongchung;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
-use App\Model\View\view_tdkt_canhan;
-use App\Model\View\view_tdkt_detai;
 use App\Model\View\viewdiabandonvi;
 use Illuminate\Http\Response;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Session;
 
 class APInghiepvuController extends Controller
 {
@@ -34,8 +23,6 @@ class APInghiepvuController extends Controller
         //     return $next($request);
         // });
     }
-
-    
 
     public function getDanhSachHoSo(Request $request)
     {
@@ -57,11 +44,11 @@ class APInghiepvuController extends Controller
             'Msg_ID' => '',
             'Path' => $header['host'][0],
         ];
-        
+
         $a_API['Body'] = [];
         $a_API['Security'] = ['Signature' => ''];
-        
-        $model_khenthuong = dshosothiduakhenthuong::all();       
+
+        $model_khenthuong = dshosothiduakhenthuong::all();
         $m_donvi = viewdiabandonvi::all();
         $a_kq = [];
         foreach ($model_khenthuong as $hoso) {
@@ -72,12 +59,12 @@ class APInghiepvuController extends Controller
         return response()->json($a_API, Response::HTTP_OK);
     }
 
-    public function HinhThucKhenThuong(Request $request)
+    public function getHoSoKhenThuong(Request $request)
     {
         $header = $request->headers->all();
         $body = $request->all();
-
-        if (!$this->checkHeader($header)) {
+        $apidungchung = new APIthongtinchungController();
+        if (!$apidungchung->checkHeader($header)) {
             $a_API = [
                 'matrave' => '-1',
                 'thongbao' => 'Chuỗi truy cập không hợp lệ hoặc đã hết hạn.',
@@ -92,28 +79,35 @@ class APInghiepvuController extends Controller
             'Msg_ID' => '',
             'Path' => $header['host'][0],
         ];
+
         $a_API['Body'] = [];
         $a_API['Security'] = ['Signature' => ''];
-        $model = dmhinhthuckhenthuong::all();
-        $a_kq = [];
-        if (isset($body['PhanLoaiKhenThuong'])) {
-            $model = $model->where('phanloai', $body['PhanLoaiKhenThuong']);
+
+        if (!isset($body['MaHoSoTDKT'])) {
+            $a_API = [
+                'matrave' => '-1',
+                'thongbao' => 'Mã hồ sơ không hợp lệ.',
+            ];
+            return response()->json($a_API, Response::HTTP_OK);
         }
-        foreach ($model as $hoso) {
+
+        $model_khenthuong = dshosothiduakhenthuong::where('mahosotdkt', $body['MaHoSoTDKT'])->get();
+        $m_donvi = viewdiabandonvi::all();
+        $a_kq = [];
+        foreach ($model_khenthuong as $hoso) {
             $conHoSo = new APIdungchungController();
-            $a_kq[] = $conHoSo->convertHinhThucKhenThuong($hoso);
+            $a_kq[] = $conHoSo->convertHoSo($hoso, $m_donvi);
         }
         $a_API['Body'] = $a_kq;
-
         return response()->json($a_API, Response::HTTP_OK);
     }
 
-    public function PhanLoaiDoiTuong(Request $request)
+    public function postHoSoKhenThuong(Request $request)
     {
         $header = $request->headers->all();
         $body = $request->all();
-
-        if (!$this->checkHeader($header)) {
+        $apithongtin = new APIthongtinchungController();
+        if (!$apithongtin->checkHeader($header)) {
             $a_API = [
                 'matrave' => '-1',
                 'thongbao' => 'Chuỗi truy cập không hợp lệ hoặc đã hết hạn.',
@@ -128,28 +122,32 @@ class APInghiepvuController extends Controller
             'Msg_ID' => '',
             'Path' => $header['host'][0],
         ];
+
         $a_API['Body'] = [];
         $a_API['Security'] = ['Signature' => ''];
-        $model = dmnhomphanloai_chitiet::all();
-        $a_kq = [];
-        if (isset($body['NhomDoiTuong'])) {
-            $model = $model->where('manhomphanloai', $body['NhomDoiTuong']);
+        //Kiểm tra thông tin để lưu vào csdl
+        $apidungchung = new APIdungchungController();
+        if (!$apidungchung->convertHoSoKhenThuong2DB($body)) {
+            $a_kq = [
+                'matrave' => '-1',
+                'thongbao' => 'Hồ sơ không đúng định dạng.',
+            ];
+            return response()->json($a_kq, Response::HTTP_OK);
         }
-        foreach ($model as $hoso) {
-            $conHoSo = new APIdungchungController();
-            $a_kq[] = $conHoSo->convertPhanLoaiDoiTuong($hoso);
-        }
-        $a_API['Body'] = $a_kq;
 
+        $a_API['Body'] = [
+            'matrave' => '1',
+            'thongbao' => 'Truyền hồ sơ khen thưởng thành công.',
+        ];;
         return response()->json($a_API, Response::HTTP_OK);
     }
 
-    public function DiaBanHanhChinh(Request $request)
+    public function getKhenThuongCaNhan(Request $request)
     {
         $header = $request->headers->all();
         $body = $request->all();
-
-        if (!$this->checkHeader($header)) {
+        $apidungchung = new APIthongtinchungController();
+        if (!$apidungchung->checkHeader($header)) {
             $a_API = [
                 'matrave' => '-1',
                 'thongbao' => 'Chuỗi truy cập không hợp lệ hoặc đã hết hạn.',
@@ -164,28 +162,43 @@ class APInghiepvuController extends Controller
             'Msg_ID' => '',
             'Path' => $header['host'][0],
         ];
+
         $a_API['Body'] = [];
         $a_API['Security'] = ['Signature' => ''];
-        $model = dsdiaban::all();
-        $a_kq = [];
-        if (isset($body['NhomDiaBan'])) {
-            $model = $model->where('capdo', $body['NhomDiaBan']);
+
+        if (!isset($body['MaHoSoTDKT'])) {
+            $a_API = [
+                'matrave' => '-1',
+                'thongbao' => 'Mã hồ sơ không hợp lệ.',
+            ];
+            return response()->json($a_API, Response::HTTP_OK);
         }
-        foreach ($model as $hoso) {
+
+        if (!isset($body['MaCongChucVienChuc'])) {
+            $a_API = [
+                'matrave' => '-1',
+                'thongbao' => 'Mã công chức, viên chức không hợp lệ.',
+            ];
+            return response()->json($a_API, Response::HTTP_OK);
+        }
+
+        $model_khenthuong = dshosothiduakhenthuong::where('mahosotdkt', $body['MaHoSoTDKT'])->get();
+        $m_donvi = viewdiabandonvi::all();
+        $a_kq = [];
+        foreach ($model_khenthuong as $hoso) {
             $conHoSo = new APIdungchungController();
-            $a_kq[] = $conHoSo->convertDiaBanHanhChinh($hoso);
+            $a_kq[] = $conHoSo->convertHoSoCaNhan($hoso, $m_donvi,$body['MaCongChucVienChuc']);
         }
         $a_API['Body'] = $a_kq;
-
         return response()->json($a_API, Response::HTTP_OK);
     }
 
-    public function DonViSuDung(Request $request)
+    public function postKhenThuongCaNhan(Request $request)
     {
         $header = $request->headers->all();
         $body = $request->all();
-
-        if (!$this->checkHeader($header)) {
+        $apithongtin = new APIthongtinchungController();
+        if (!$apithongtin->checkHeader($header)) {
             $a_API = [
                 'matrave' => '-1',
                 'thongbao' => 'Chuỗi truy cập không hợp lệ hoặc đã hết hạn.',
@@ -200,23 +213,23 @@ class APInghiepvuController extends Controller
             'Msg_ID' => '',
             'Path' => $header['host'][0],
         ];
+
         $a_API['Body'] = [];
         $a_API['Security'] = ['Signature' => ''];
-        $model = dsdonvi::all();
-        $a_kq = [];
-        if (isset($body['MaDiaBan'])) {
-            $model = $model->where('madiaban', $body['madiaban']);
+        //Kiểm tra thông tin để lưu vào csdl
+        $apidungchung = new APIdungchungController();
+        if (!$apidungchung->convertHoSoKhenThuong2DB($body)) {
+            $a_kq = [
+                'matrave' => '-1',
+                'thongbao' => 'Hồ sơ không đúng định dạng.',
+            ];
+            return response()->json($a_kq, Response::HTTP_OK);
         }
-        foreach ($model as $hoso) {
-            $conHoSo = new APIdungchungController();
-            $a_kq[] = $conHoSo->convertDonViSuDung($hoso);
-        }
-        $a_API['Body'] = $a_kq;
 
+        $a_API['Body'] = [
+            'matrave' => '1',
+            'thongbao' => 'Truyền hồ sơ khen thưởng thành công.',
+        ];;
         return response()->json($a_API, Response::HTTP_OK);
-    }
-
-    public function LinhVucHoatDong(Request $request)
-    {
     }
 }
