@@ -11,6 +11,7 @@ return array(
     'App\\Http\\Controllers\\API\\APIdungchungController' => $baseDir . '/app/Http/Controllers/API/APIdungchungController.php',
     'App\\Http\\Controllers\\API\\APIhethongsohoaController' => $baseDir . '/app/Http/Controllers/API/APIhethongsohoaController.php',
     'App\\Http\\Controllers\\API\\APIketnoiController' => $baseDir . '/app/Http/Controllers/API/APIketnoiController.php',
+    'App\\Http\\Controllers\\API\\APInghiepvuController' => $baseDir . '/app/Http/Controllers/API/APInghiepvuController.php',
     'App\\Http\\Controllers\\API\\APIquanlycanboController' => $baseDir . '/app/Http/Controllers/API/APIquanlycanboController.php',
     'App\\Http\\Controllers\\API\\APIquanlyvanbanController' => $baseDir . '/app/Http/Controllers/API/APIquanlyvanbanController.php',
     'App\\Http\\Controllers\\API\\APItdktbonoivuController' => $baseDir . '/app/Http/Controllers/API/APItdktbonoivuController.php',

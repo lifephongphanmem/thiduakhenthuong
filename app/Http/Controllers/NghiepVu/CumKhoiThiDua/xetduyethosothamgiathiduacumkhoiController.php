@@ -50,7 +50,7 @@ class xetduyethosothamgiathiduacumkhoiController extends Controller
         
         $m_phongtrao = dsphongtraothiduacumkhoi::where('maphongtraotd', $inputs['maphongtraotd'])->first();
         $ngayhientai = date('Y-m-d');
-        $this->KiemTraPhongTrao($m_phongtrao, $ngayhientai);
+        KiemTraPhongTrao($m_phongtrao, $ngayhientai);
 
         $model = dshosothamgiathiduacumkhoi::where('madonvi_xd', $inputs['madonvi'])
             ->where('maphongtraotd', $inputs['maphongtraotd'])->get();
@@ -108,18 +108,4 @@ class xetduyethosothamgiathiduacumkhoiController extends Controller
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi_xd . '&maphongtraotd=' . $model->maphongtraotd);
     }
 
-    function KiemTraPhongTrao(&$phongtrao, $thoigian)
-    {
-        if ($phongtrao->trangthai == 'CC') {
-            $phongtrao->nhanhoso = 'CHUABATDAU';
-            if ($phongtrao->tungay < $thoigian && $phongtrao->denngay > $thoigian) {
-                $phongtrao->nhanhoso = 'DANGNHAN';
-            }
-            if (strtotime($phongtrao->denngay) < strtotime($thoigian)) {
-                $phongtrao->nhanhoso = 'KETTHUC';
-            }
-        } else {
-            $phongtrao->nhanhoso = 'KETTHUC';
-        }
-    }
 }

@@ -1568,3 +1568,12 @@ function getPhanLoaiTaiKhoan()
     ];
     return $a_kq;
 }
+
+function getPhanLoaiDotXetKhenThuong()
+{
+    $a_kq = [
+        'KETTHUC' => 'Khen thưởng khi kết thúc phong trào',
+        'NHIEUDOT' => 'Khen thưởng theo từng giai đoạn',
+    ];
+    return $a_kq;
+}

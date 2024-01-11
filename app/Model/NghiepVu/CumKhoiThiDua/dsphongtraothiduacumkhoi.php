@@ -13,6 +13,7 @@ class dsphongtraothiduacumkhoi extends Model
         'macumkhoi',
         'maloaihinhkt',
         'phanloai',
+        'dotxetkhenthuong',
         'soqd', // Số quyết định
         'ngayqd', // Ngày quyết định
         'noidung',

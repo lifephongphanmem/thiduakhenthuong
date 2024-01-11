@@ -120,14 +120,19 @@
                     {!! Form::select('phamviapdung', $a_phamvi, null, ['class' => 'form-control select2basic']) !!}
                 </div> --}}
 
-                <div class="col-lg-6">
+                <div class="col-lg-4">
                     <label>Loại hình khen thưởng</label>
                     {!! Form::select('maloaihinhkt', $a_loaihinhkt, null, ['class' => 'form-control select2basic']) !!}
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-4">
                     <label>Hình thức tổ chức</label>
                     {!! Form::select('phanloai', getPhanLoaiPhongTraoThiDua(), null, ['class' => 'form-control select2basic']) !!}
+                </div>
+                
+                <div class="col-lg-4">
+                    <label>Đợt xét khen thưởng</label>
+                    {!! Form::select('dotxetkhenthuong', getPhanLoaiDotXetKhenThuong(), null, ['class' => 'form-control select2basic']) !!}
                 </div>
             </div>
 

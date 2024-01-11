@@ -450,6 +450,7 @@ class ComposerStaticInit2bbfd3055ada376977abbf3cd3a1a409
         'App\\Http\\Controllers\\API\\APIdungchungController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/APIdungchungController.php',
         'App\\Http\\Controllers\\API\\APIhethongsohoaController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/APIhethongsohoaController.php',
         'App\\Http\\Controllers\\API\\APIketnoiController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/APIketnoiController.php',
+        'App\\Http\\Controllers\\API\\APInghiepvuController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/APInghiepvuController.php',
         'App\\Http\\Controllers\\API\\APIquanlycanboController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/APIquanlycanboController.php',
         'App\\Http\\Controllers\\API\\APIquanlyvanbanController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/APIquanlyvanbanController.php',
         'App\\Http\\Controllers\\API\\APItdktbonoivuController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/APItdktbonoivuController.php',

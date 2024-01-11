@@ -105,7 +105,7 @@ class dshosokhenthuongthiduaController extends Controller
         $m_khenthuong_tapthe = dshosothiduakhenthuong_tapthe::wherein('mahosotdkt', array_column($model->toarray(), 'mahosotdkt'))
             ->where('ketqua', '1')->get();
         foreach ($model as $ct) {
-            $this->KiemTraPhongTrao($ct, $ngayhientai);
+            KiemTraPhongTrao($ct, $ngayhientai);
             $hoso = $m_hoso->where('maphongtraotd', $ct->maphongtraotd);
             $ct->sohoso = $hoso == null ? 0 : $hoso->count();
 
@@ -136,21 +136,6 @@ class dshosokhenthuongthiduaController extends Controller
             ->with('a_donviql', $a_donviql)
             ->with('a_dsdonvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
             ->with('pageTitle', 'Hồ sơ đề nghị khen thưởng thi đua');
-    }
-
-    function KiemTraPhongTrao(&$phongtrao, $thoigian)
-    {
-        if ($phongtrao->trangthai == 'CC') {
-            $phongtrao->nhanhoso = 'CHUABATDAU';
-            if ($phongtrao->tungay < $thoigian && $phongtrao->denngay > $thoigian) {
-                $phongtrao->nhanhoso = 'DANGNHAN';
-            }
-            if (strtotime($phongtrao->denngay) < strtotime($thoigian)) {
-                $phongtrao->nhanhoso = 'KETTHUC';
-            }
-        } else {
-            $phongtrao->nhanhoso = 'KETTHUC';
-        }
     }
 
     public function ThayDoi(Request $request)

@@ -432,7 +432,14 @@ class dshosokhenthuongcumkhoiController extends Controller
     {
         $inputs = $request->all();
         $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        getTaoQuyetDinhKTCumKhoi($model);
+        $a_duthao = array_column(duthaoquyetdinh::where('phanloai', 'QUYETDINH')->get()->toArray(), 'noidung', 'maduthao');
+        if (count($a_duthao) == 0) {
+            return view('errors.nodata')
+                ->with('messegae', 'Hệ thống chưa có mẫu dự thảo quyết định khen thưởng. Hãy liên hệ với đơn vị quản lý để tạo mẫu thảo.')
+                ->with('pageTitle', 'Thông báo lỗi');
+        }
+        $inputs['maduthao'] = $inputs['maduthao'] ?? array_key_first($a_duthao);
+        getTaoQuyetDinhKTCumKhoi($model, $inputs['maduthao']);
         $model->thongtinquyetdinh = str_replace('<p>[sangtrangmoi]</p>', '<div class=&#34;sangtrangmoi&#34;></div>', $model->thongtinquyetdinh);
         return view('BaoCao.DonVi.XemQuyetDinh')
             ->with('model', $model)
@@ -620,7 +627,15 @@ class dshosokhenthuongcumkhoiController extends Controller
         $model->chucvunguoikyqd = $inputs['chucvunguoikyqd'];
         $model->hotennguoikyqd = $inputs['hotennguoikyqd'];
         //dd($model);
-        getTaoQuyetDinhKTCumKhoi($model);
+        $a_duthao = array_column(duthaoquyetdinh::where('phanloai', 'QUYETDINH')->get()->toArray(), 'noidung', 'maduthao');
+        if (count($a_duthao) == 0) {
+            return view('errors.nodata')
+                ->with('messegae', 'Hệ thống chưa có mẫu dự thảo quyết định khen thưởng. Hãy liên hệ với đơn vị quản lý để tạo mẫu thảo.')
+                ->with('pageTitle', 'Thông báo lỗi');
+        }
+        $inputs['maduthao'] = $inputs['maduthao'] ?? array_key_first($a_duthao);
+
+        getTaoQuyetDinhKTCumKhoi($model, $inputs['maduthao']);
         if (isset($inputs['quyetdinh'])) {
             $filedk = $request->file('quyetdinh');
             $inputs['quyetdinh'] = $model->mahosotdkt . 'quyetdinh' . $filedk->getClientOriginalExtension();
@@ -730,7 +745,7 @@ class dshosokhenthuongcumkhoiController extends Controller
                 ->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
-        $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();        
+        $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model->update($inputs);
         return redirect(static::$url . 'ThongTin?madonvi=' . $model->madonvi);
     }

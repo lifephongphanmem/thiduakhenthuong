@@ -135,7 +135,7 @@
             </div> --}}
 
             @if ($model->trangthai == 'DKT')
-                @include('NghiepVu._DungChung.HoSo_ThongTinQD')
+                @include('NghiepVu._DungChung.HoSo_CumKhoi_ThongTinQD')
             @endif
 
             @include('NghiepVu._DungChung.HoSo_DanhSachKhenThuongCumKhoi')

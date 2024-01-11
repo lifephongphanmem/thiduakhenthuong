@@ -51,6 +51,7 @@
             ]) !!}
             {{ Form::hidden('mahosotdkt', null) }}
             {{ Form::hidden('thongtinquyetdinh', null) }}
+            {{ Form::hidden('phanloaihoso', $inputs['phanloaihoso']) }}
 
             <div class="document-editor__toolbar"></div>
             <div class="form-control editor" style="height: auto; border: 1px solid #E4E6EF;">

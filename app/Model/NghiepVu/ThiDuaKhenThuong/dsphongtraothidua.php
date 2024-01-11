@@ -13,6 +13,7 @@ class dsphongtraothidua extends Model
         'maphongtraotd',
         'maloaihinhkt',
         'phanloai',
+        'dotxetkhenthuong',
         'soqd', // Số quyết định
         'ngayqd', // Ngày quyết định
         'noidung',

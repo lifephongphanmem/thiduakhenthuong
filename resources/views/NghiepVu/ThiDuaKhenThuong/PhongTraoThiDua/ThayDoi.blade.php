@@ -209,6 +209,11 @@
                     {!! Form::select('maloaihinhkt', $a_loaihinhkt, null, ['class' => 'form-control select2basic']) !!}
                 </div>
 
+                <div class="col-lg-4">
+                    <label>Đợt xét khen thưởng</label>
+                    {!! Form::select('dotxetkhenthuong', getPhanLoaiDotXetKhenThuong(), null, ['class' => 'form-control select2basic']) !!}
+                </div>
+
                 {{-- <div class="col-lg-4">
                     <label>Hình thức tổ chức</label>
                     {!! Form::select('phanloai', getPhanLoaiPhongTraoThiDua(), null, ['class' => 'form-control select2basic']) !!}
