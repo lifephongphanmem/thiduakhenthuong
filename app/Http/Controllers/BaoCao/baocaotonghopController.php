@@ -51,7 +51,7 @@ class baocaotonghopController extends Controller
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         $m_diaban = getDiaBanBaoCaoTongHop($donvi);        //dd($m_diaban->toArray());
-
+        
         return view('BaoCao.TongHop.ThongTin')
             ->with('m_diaban', $m_diaban)
             ->with('m_donvi', $m_donvi)
@@ -570,6 +570,7 @@ class baocaotonghopController extends Controller
         $inputs = $request->all();
         $inputs['madiaban'] = $inputs['madiaban'] ?? 'ALL';
         $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
+        
         // $m_diaban = getDiaBanBaoCaoTongHop($donvi);
         // if ($inputs['madiaban'] != 'ALL') {
         //     $m_diaban = $m_diaban->where('madiaban', $inputs['madiaban']);
@@ -585,7 +586,7 @@ class baocaotonghopController extends Controller
             ->get();
 
         $model = DHKT_BaoCao();
-        //dd($model);
+        
         //$m_loaihinhkt = dmloaihinhkhenthuong::wherein('maloaihinhkt', array_unique(array_column($m_hoso->toarray(), 'maloaihinhkt')))->get();
 
         //tạm thời fix cứng sau làm lại để tự động
@@ -731,6 +732,9 @@ class baocaotonghopController extends Controller
         // CANHAN	1660638864	Doanh nhân
         // CANHAN	1660638930	Các cấp lãnh đạo từ phó phòng trở lên
         // CANHAN	1660638976	Người trực tiếp công tác, lao động, học tập, chiến đấu và phục vụ chiến đấu
+
+        dd();
+
         $m_dshosokhencao_canhan = dshosokhencao_canhan::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();;
         $m_dshosokhencao_tapthe = dshosokhencao_tapthe::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();;
         foreach ($model as $ct) {
@@ -798,7 +802,7 @@ class baocaotonghopController extends Controller
                 $model->forget($key);
         }
 
-        //dd($model);
+        dd($model);
         $m_donvibc = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
         //dd($m_donvibc);
         return view('BaoCao.TongHop.KhenCao_m2')

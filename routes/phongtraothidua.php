@@ -33,6 +33,7 @@ Route::group(['prefix' => 'PhongTraoThiDua'], function () {
 
 Route::group(['prefix' => 'HoSoThiDua'], function () {
     Route::get('ThongTin', [dshosothiduaController::class, 'ThongTin']);
+    Route::get('DanhSach', [dshosothiduaController::class, 'DanhSach']);
     Route::get('Them', [dshosothiduaController::class, 'ThemHoSo']);
     Route::post('Them', 'NghiepVu\ThiDuaKhenThuong\dshosothiduaController@LuuHoSo');
     Route::get('Sua', 'NghiepVu\ThiDuaKhenThuong\dshosothiduaController@ThayDoi');
