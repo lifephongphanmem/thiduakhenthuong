@@ -85,7 +85,7 @@
         <div class="card-footer">
             <div class="row text-center">
                 <div class="col-lg-12">
-                    <a href="{{ url($inputs['url_xd'] . 'ThongTin?madonvi=' . $inputs['madonvi']) }}"
+                    <a href="{{ url($inputs['url_qd'] . 'ThongTin?madonvi=' . $inputs['madonvi']) }}"
                         class="btn btn-danger mr-5"><i class="fa fa-reply"></i>&nbsp;Quay lại</a>
                 </div>
             </div>

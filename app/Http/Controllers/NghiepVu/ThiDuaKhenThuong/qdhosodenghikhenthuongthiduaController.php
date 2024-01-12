@@ -64,37 +64,11 @@ class qdhosodenghikhenthuongthiduaController extends Controller
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
-        //Lọc danh sách phong trao
-        /*
-        1. Xã: Đơn vị + Huyện quản lý
-        2. Huyện: Đơn vị + Tỉnh
-        3. Sở ban nganh: Đơn vị + Tỉnh
-        4. Tỉnh: Tỉnh
+       
+        /*Lọc danh sách phong trao
+            Đơn vị chỉ lấy các phong trào do đơn vị phát động
         */
-
-        switch ($donvi->capdo) {
-            case 'X': {
-                    //Xã: Đơn vị + Huyện quản lý
-                    $model = viewdonvi_dsphongtrao::wherein('madiaban', [$donvi->madiaban, $donvi->madiabanQL])->orderby('tungay')->get();
-                    break;
-                }
-            case 'H': {
-                    //Huyện: Đơn vị + Tỉnh
-                    $model = viewdonvi_dsphongtrao::where('madiaban', $donvi->madiaban)
-                        ->orwherein('phamviapdung', ['T', 'TW'])
-                        ->orderby('tungay')->get();
-                    break;
-                }
-            case 'T': {
-                    //Sở ban nganh: Đơn vị + Tỉnh
-                    $model = viewdonvi_dsphongtrao::where('madonvi', $inputs['madonvi'])
-                        ->orwherein('phamviapdung', ['T', 'TW'])
-                        ->orderby('tungay')->get();
-                    break;
-                }
-        }
-
-        //kết quả        
+        $model = viewdonvi_dsphongtrao::where('madonvi', $inputs['madonvi'])->orderby('tungay')->get();            
         $inputs['phamviapdung'] = $inputs['phamviapdung'] ?? 'ALL';
         if ($inputs['phamviapdung'] != 'ALL') {
             $model = $model->where('phamviapdung', $inputs['phamviapdung']);
