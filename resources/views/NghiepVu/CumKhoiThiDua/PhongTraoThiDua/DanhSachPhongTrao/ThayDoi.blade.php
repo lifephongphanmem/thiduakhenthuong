@@ -114,27 +114,6 @@
                     {!! Form::select('macumkhoi', $a_cumkhoi, null, ['class' => 'form-control select2basic']) !!}
                 </div>
             </div>
-            <div class="form-group row">
-                {{-- <div class="col-lg-4">
-                    <label>Phạm vị phát động</label>
-                    {!! Form::select('phamviapdung', $a_phamvi, null, ['class' => 'form-control select2basic']) !!}
-                </div> --}}
-
-                <div class="col-lg-4">
-                    <label>Loại hình khen thưởng</label>
-                    {!! Form::select('maloaihinhkt', $a_loaihinhkt, null, ['class' => 'form-control select2basic']) !!}
-                </div>
-
-                <div class="col-lg-4">
-                    <label>Hình thức tổ chức</label>
-                    {!! Form::select('phanloai', getPhanLoaiPhongTraoThiDua(), null, ['class' => 'form-control select2basic']) !!}
-                </div>
-                
-                <div class="col-lg-4">
-                    <label>Đợt xét khen thưởng</label>
-                    {!! Form::select('dotxetkhenthuong', getPhanLoaiDotXetKhenThuong(), null, ['class' => 'form-control select2basic']) !!}
-                </div>
-            </div>
 
             <div class="form-group row">
                 <div class="col-lg-3">
@@ -156,6 +135,28 @@
                     {!! Form::input('date', 'denngay', null, ['class' => 'form-control', 'required']) !!}
                 </div>
             </div>
+
+            <div class="form-group row">
+                <div class="col-lg-3">
+                    <label>Loại hình khen thưởng</label>
+                    {!! Form::select('maloaihinhkt', $a_loaihinhkt, null, ['class' => 'form-control select2basic']) !!}
+                </div>
+                
+                <div class="col-lg-3">
+                    <label>Đợt xét khen thưởng</label>
+                    {!! Form::select('dotxetkhenthuong', getPhanLoaiDotXetKhenThuong(), null, ['class' => 'form-control select2basic']) !!}
+                </div>
+            
+                <div class="col-lg-3">
+                    <label>Thời hạn thi đua</label>
+                    {!! Form::select('thoihanthidua', getThoiHanThiDua(), null, ['class' => 'form-control select2basic']) !!}
+                </div>
+                
+                <div class="col-lg-3">
+                    <label>Phương thức tổ chức</label>
+                    {!! Form::select('phuongthuctochuc', getPhuongThucToChucPhongTrao(), null, ['class' => 'form-control select2basic']) !!}
+                </div>
+            </div>           
 
             <div class="form-group row">
                 <div class="col-lg-12">

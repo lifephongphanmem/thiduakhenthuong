@@ -25,7 +25,7 @@
 
         <tr>
             <td colspan="2" style="text-align: center; font-weight: bold; font-size: 20px;text-transform: uppercase">
-                SỐ LƯỢNG KHEN THƯỞNG CẤP NHÀ NƯỚC 
+                SỐ LƯỢNG KHEN THƯỞNG CẤP NHÀ NƯỚC
             </td>
         </tr>
 
@@ -36,7 +36,7 @@
         </tr>
         <tr>
             <td colspan="2" style="text-align: center; font-weight: bold; font-style: italic">
-                Phạm vị thống kê: {{ getPhamViApDung()[$inputs['phamvithongke']] ?? 'Tất cả' }}
+                {{-- Phạm vị thống kê: {{ getPhamViApDung()[$inputs['phamvithongke']] ?? 'Tất cả' }} --}}
             </td>
         </tr>
         <tr>
@@ -53,341 +53,245 @@
             <th style="width: 5%" rowspan="2">Mã số</th>
             <th style="width: 5%" rowspan="2">Đơn<br>vị<br>tính</th>
             <th style="width: 5%" rowspan="2">Tổng số</th>
-            <th colspan="8">Chia ra</th>
+            <th colspan="{{ count($a_hinhthuckt) }}">Chia ra</th>
         </tr>
         <tr class="text-center">
-            <th style="width: 5%">Các loại huân chương, huy chương (Mỗi hình thức khen thưởng ghi riêng một cột)</th>
-            <th style="width: 5%">Giải thưởng Hồ Chí Minh</th>
-            <th style="width: 5%">Giải thưởng Nhà nước</th>
-            <th style="width: 5%">Danh hiệu vinh dự nhà nước</th>
-            <th style="width: 5%">Cờ thi đua của Chính phủ</th>
-            <th style="width: 5%">Bằng khen của Thủ tướng Chính phủ</th>
-            <th style="width: 5%">Danh hiệu “Chiến sĩ thi đua Toàn quốc"</th>
-            <th style="width: 5%">Các hình thức khen thưởng khác</th>
+            @foreach ($a_hinhthuckt as $key => $val)
+                <th style="width: 5%">{!! $val !!}</th>
+            @endforeach
+
         </tr>
         <tr class="text-center">
             <td>A</td>
             <td>B</td>
             <td>C</td>
             <td>1</td>
-            <td>2</td>
-            <td>3</td>
-            <td>4</td>
-            <td>5</td>
-            <td>6</td>
-            <td>7</td>
-            <td>8</td>
-            <td>9</td>
+            @for ($i = 0; $i < count($a_hinhthuckt); $i++)
+                <td>{{ $i + 2 }}</td>
+            @endfor
+
         </tr>
-        <tr class="font-weight-bold">
+        <tr class="font-weight-bold text-center">
             <td>Tổng số</td>
             <td class="text-center">01</td>
             <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ dinhdangso($model->count()) }}</td>
+            @foreach ($a_hinhthuckt as $key => $val)
+                <td>{{ dinhdangso($model->where('madanhhieukhenthuong', $key)->count()) }}</td>
+            @endforeach
         </tr>
-        <tr class="font-weight-bold">
-            <td>1. Chia theo đơn vị ban hành tờ trình Thủ tướng Chính phủ về khen thưởng</td>
+        <tr class="font-weight-bold text-center">
+            <td class="text-left">1. Chia theo đơn vị ban hành tờ trình Thủ tướng Chính phủ về khen thưởng</td>
             <td class="text-center"></td>
             <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ dinhdangso($model->count()) }}</td>
+            @foreach ($a_hinhthuckt as $key => $val)
+                <td>{{ dinhdangso($model->where('madanhhieukhenthuong', $key)->count()) }}</td>
+            @endforeach
         </tr>
-        <tr>
-            <td>- Bộ, ban, ngành, đoàn thể Trung ương</td>
+        <tr class="text-center">
+            <td class="text-left">- Bộ, ban, ngành, đoàn thể Trung ương</td>
             <td class="text-center">02</td>
             <td>Bộ, ngành</td>
             <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            @foreach ($a_hinhthuckt as $key => $val)
+                <td></td>
+            @endforeach
         </tr>
-        <tr>
-            <td>- Tỉnh, thành phố trực thuộc Trung ương</td>
+        <tr class="text-center">
+            <td class="text-left">- Tỉnh, thành phố trực thuộc Trung ương</td>
             <td class="text-center">03</td>
             <td>Tỉnh, thành phố</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ dinhdangso($model->count()) }}</td>
+            @foreach ($a_hinhthuckt as $key => $val)
+                <td>{{ dinhdangso($model->where('madanhhieukhenthuong', $key)->count()) }}</td>
+            @endforeach
         </tr>
-        <tr class="font-weight-bold">
-            <td>2. Chia theo đối tượng khen thưởng</td>
+        <tr class="font-weight-bold text-center">
+            <td class="text-left">2. Chia theo đối tượng khen thưởng</td>
             <td></td>
             <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ dinhdangso($model->count()) }}</td>
+            @foreach ($a_hinhthuckt as $key => $val)
+                <td>{{ dinhdangso($model->where('madanhhieukhenthuong', $key)->count()) }}</td>
+            @endforeach
         </tr>
-        <tr>
-            <td>- Tập thể</td>
+        <tr class="text-center">
+            <td class="text-left">- Tập thể</td>
             <td class="text-center">06</td>
             <td>Tập thể</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ dinhdangso($model->where('phanloaidoituong', 'TAPTHE')->count()) }}</td>
+            @foreach ($a_hinhthuckt as $key => $val)
+                <td>{{ dinhdangso($model->where('phanloaidoituong', 'TAPTHE')->where('madanhhieukhenthuong', $key)->count()) }}
+                </td>
+            @endforeach
         </tr>
-        <tr>
-            <td class="font-italic">Trong đó: Doanh nghiệp</td>
+        <tr class="text-center">
+            <td class="font-italic text-left">Trong đó: Doanh nghiệp</td>
             <td class="text-center">07</td>
             <td>Doanh nghiệp</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ dinhdangso($model->where('phanloaidoituong', 'TAPTHE')->where('maphanloai', '1660638247')->count()) }}
+            </td>
+            @foreach ($a_hinhthuckt as $key => $val)
+                <td>{{ dinhdangso($model->where('phanloaidoituong', 'TAPTHE')->where('maphanloai', '1660638247')->where('madanhhieukhenthuong', $key)->count()) }}
+                </td>
+            @endforeach
         </tr>
-        <tr>
-            <td>- Hộ gia đình</td>
+        <tr class="text-center">
+            <td class="text-left">- Hộ gia đình</td>
             <td class="text-center">08</td>
             <td>Hộ</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ dinhdangso($model->where('phanloaidoituong', 'HOGIADINH')->count()) }}</td>
+            @foreach ($a_hinhthuckt as $key => $val)
+                <td>{{ dinhdangso($model->where('phanloaidoituong', 'HOGIADINH')->where('madanhhieukhenthuong', $key)->count()) }}
+                </td>
+            @endforeach
         </tr>
-        <tr>
-            <td>- Cá nhân</td>
+        <tr class="text-center">
+            <td class="text-left">- Cá nhân</td>
             <td class="text-center">09</td>
             <td>Người</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ dinhdangso($model->where('phanloaidoituong', 'CANHAN')->count()) }}</td>
+            @foreach ($a_hinhthuckt as $key => $val)
+                <td>{{ dinhdangso($model->where('phanloaidoituong', 'CANHAN')->where('madanhhieukhenthuong', $key)->count()) }}
+                </td>
+            @endforeach
         </tr>
-        <tr>
-            <td>+ Lãnh đạo cấp bộ, cấp tỉnh và tương đương trở lên</td>
+        <tr class="text-center">
+            <td class="text-left">+ Lãnh đạo cấp bộ, cấp tỉnh và tương đương trở lên</td>
             <td class="text-center">10</td>
             <td>Người</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ dinhdangso($model->where('phanloaidoituong', 'CANHAN')->where('maphanloai', '1660638808')->count()) }}
+            </td>
+            @foreach ($a_hinhthuckt as $key => $val)
+                <td>{{ dinhdangso($model->where('phanloaidoituong', 'CANHAN')->where('maphanloai', '1660638808')->where('madanhhieukhenthuong', $key)->count()) }}
+                </td>
+            @endforeach
         </tr>
-        <tr>
-            <td>+ Lãnh đạo cấp vụ, sở, ngành và tương đương</td>
+        <tr class="text-center">
+            <td class="text-left">+ Lãnh đạo cấp vụ, sở, ngành và tương đương</td>
             <td class="text-center">11</td>
             <td>Người</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ dinhdangso($model->where('phanloaidoituong', 'CANHAN')->where('maphanloai', '1660638843')->count()) }}
+            </td>
+            @foreach ($a_hinhthuckt as $key => $val)
+                <td>{{ dinhdangso($model->where('phanloaidoituong', 'CANHAN')->where('maphanloai', '1660638843')->where('madanhhieukhenthuong', $key)->count()) }}
+                </td>
+            @endforeach
         </tr>
-        <tr>
-            <td>+ Doanh nhân</td>
+        <tr class="text-center">
+            <td class="text-left">+ Doanh nhân</td>
             <td class="text-center">12</td>
             <td>Người</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ dinhdangso($model->where('phanloaidoituong', 'CANHAN')->where('maphanloai', '1660638864')->count()) }}
+            </td>
+            @foreach ($a_hinhthuckt as $key => $val)
+                <td>{{ dinhdangso($model->where('phanloaidoituong', 'CANHAN')->where('maphanloai', '1660638864')->where('madanhhieukhenthuong', $key)->count()) }}
+                </td>
+            @endforeach
         </tr>
-        <tr>
-            <td>+ Các cấp lãnh đạo khác từ phó phòng trở lên</td>
+        <tr class="text-center">
+            <td class="text-left">+ Các cấp lãnh đạo khác từ phó phòng trở lên</td>
             <td class="text-center">13</td>
             <td>Người</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ dinhdangso($model->where('phanloaidoituong', 'CANHAN')->where('maphanloai', '1660638930')->count()) }}
+            </td>
+            @foreach ($a_hinhthuckt as $key => $val)
+                <td>{{ dinhdangso($model->where('phanloaidoituong', 'CANHAN')->where('maphanloai', '1660638930')->where('madanhhieukhenthuong', $key)->count()) }}
+                </td>
+            @endforeach
         </tr>
-        <tr>
-            <td>+ Người trực tiếp công tác, lao động, học tập, chiến đấu và phục vụ chiến đấu (công nhân, nông dân,...)</td>
+        <tr class="text-center">
+            <td class="text-left">+ Người trực tiếp công tác, lao động, học tập, chiến đấu và phục vụ chiến đấu (công nhân,
+                nông dân,...)</td>
             <td class="text-center">14</td>
             <td>Người</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ dinhdangso($model->where('phanloaidoituong', 'CANHAN')->where('maphanloai', '1660638976')->count()) }}
+            </td>
+            @foreach ($a_hinhthuckt as $key => $val)
+                <td>{{ dinhdangso($model->where('phanloaidoituong', 'CANHAN')->where('maphanloai', '1660638976')->where('madanhhieukhenthuong', $key)->count()) }}
+                </td>
+            @endforeach
         </tr>
-
-
-        <tr class="font-weight-bold">
-            <td>3. Chia theo phương thức khen thưởng</td>
+        <tr class="font-weight-bold text-center">
+            <td class="text-left">3. Chia theo phương thức khen thưởng</td>
             <td></td>
             <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ dinhdangso($model->count()) }}</td>
+            @foreach ($a_hinhthuckt as $key => $val)
+                <td>{{ dinhdangso($model->where('madanhhieukhenthuong', $key)->count()) }}</td>
+            @endforeach
         </tr>
-        <tr>
-            <td>- Thường xuyên</td>
-            <td class="text-center">15</td>
+        <tr class="text-center">
+            <!-- Công trạng, thành tích -->
+            <td class="text-left">- Thường xuyên</td>
+            <td>15</td>
             <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ dinhdangso($model->where('maloaihinhkt', '1650358223')->count()) }}</td>
+            @foreach ($a_hinhthuckt as $key => $val)
+                <td>{{ dinhdangso($model->where('maloaihinhkt', '1650358223')->where('madanhhieukhenthuong', $key)->count()) }}
+                </td>
+            @endforeach
         </tr>
-        <tr>
-            <td>- Chuyên đề</td>
-            <td class="text-center">16</td>
+        <tr class="text-center">
+            <td class="text-left">- Chuyên đề</td>
+            <td>16</td>
             <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ dinhdangso($model->where('maloaihinhkt', '1650358255')->count()) }}</td>
+            @foreach ($a_hinhthuckt as $key => $val)
+                <td>{{ dinhdangso($model->where('maloaihinhkt', '1650358255')->where('madanhhieukhenthuong', $key)->count()) }}
+                </td>
+            @endforeach
         </tr>
-        <tr>
-            <td>- Đột xuất</td>
+        <tr class="text-center">
+            <td class="text-left">- Đột xuất</td>
             <td class="text-center">17</td>
             <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ dinhdangso($model->where('maloaihinhkt', '1650358265')->count()) }}</td>
+            @foreach ($a_hinhthuckt as $key => $val)
+                <td>{{ dinhdangso($model->where('maloaihinhkt', '1650358265')->where('madanhhieukhenthuong', $key)->count()) }}
+                </td>
+            @endforeach
         </tr>
-        <tr>
-            <td>- Đối ngoại</td>
+        <tr class="text-center">
+            <td class="text-left">- Đối ngoại</td>
             <td class="text-center">18</td>
             <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ dinhdangso($model->where('maloaihinhkt', '1650358310')->count()) }}</td>
+            @foreach ($a_hinhthuckt as $key => $val)
+                <td>{{ dinhdangso($model->where('maloaihinhkt', '1650358310')->where('madanhhieukhenthuong', $key)->count()) }}
+                </td>
+            @endforeach
         </tr>
-        <tr>
-            <td>- Cống hiến.</td>
+        <tr class="text-center">
+            <td class="text-left">- Cống hiến.</td>
             <td class="text-center">19</td>
             <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ dinhdangso($model->where('maloaihinhkt', '1650358282')->count()) }}</td>
+            @foreach ($a_hinhthuckt as $key => $val)
+                <td>{{ dinhdangso($model->where('maloaihinhkt', '1650358282')->where('madanhhieukhenthuong', $key)->count()) }}
+                </td>
+            @endforeach
         </tr>
-        <tr>
-            <td>- Niên hạn</td>
+        <tr class="text-center">
+            <td class="text-left">- Niên hạn</td>
             <td class="text-center">20</td>
             <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ dinhdangso($model->where('maloaihinhkt', '1650358297')->count()) }}</td>
+            @foreach ($a_hinhthuckt as $key => $val)
+                <td>{{ dinhdangso($model->where('maloaihinhkt', '1650358297')->where('madanhhieukhenthuong', $key)->count()) }}
+                </td>
+            @endforeach
         </tr>
-        <tr>
-            <td>- Kháng chiến</td>
+        <tr class="text-center">
+            <td class="text-left">- Kháng chiến</td>
             <td class="text-center">21</td>
             <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ dinhdangso($model->where('maloaihinhkt', 'KHANGCHIEN')->count()) }}</td>
+            @foreach ($a_hinhthuckt as $key => $val)
+                <td>{{ dinhdangso($model->where('maloaihinhkt', 'KHANGCHIEN')->where('madanhhieukhenthuong', $key)->count()) }}
+                </td>
+            @endforeach
         </tr>
     </table>
 

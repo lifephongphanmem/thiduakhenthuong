@@ -9,7 +9,7 @@ class dsphongtraothidua extends Model
     protected $table = 'dsphongtraothidua';
     protected $fillable = [
         'id',
-        'maphongtraotd_coso',//Mã phong trào cấp trên để phát động theo
+        'maphongtraotd_coso', //Mã phong trào cấp trên để phát động theo
         'maphongtraotd',
         'maloaihinhkt',
         'phanloai',
@@ -27,6 +27,8 @@ class dsphongtraothidua extends Model
         'bienban', // Biên bản           
         'tailieukhac', // Tài liệu khác
         'phamviapdung',
+        'thoihanthidua',
+        'phuongthuctochuc',
         //Trạng thái đơn vị
         'madonvi',
         'madonvi_nhan',
@@ -55,5 +57,6 @@ class dsphongtraothidua extends Model
         'thongtin_tw', //chưa dùng
         'trangthai_tw',
         'thoigian_tw',
+        
     ];
 }

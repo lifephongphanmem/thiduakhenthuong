@@ -209,7 +209,18 @@ class hethongchungController extends Controller
         $ttuser->opt_trinhhosoketqua = $a_HeThongChung->opt_trinhhosoketqua;
         $ttuser->opt_pheduyethoso = $a_HeThongChung->opt_pheduyethoso;
         $ttuser->opt_quytrinhkhenthuong = $a_HeThongChung->opt_quytrinhkhenthuong;
-
+        /*
+        //Gán lại thời gian session
+        config()->set('session.lifetime', 60);
+        config(['session.lifetime' =>  60]);
+        $path = base_path('.env');
+        dd(env('SESSION_LIFETIME'));
+        if (file_exists($path)) {
+            file_put_contents($path, str_replace(
+                'SESSION_LIFETIME='.env('SESSION_LIFETIME'), 'SESSION_LIFETIME=156', file_get_contents($path)
+            ));
+        }
+        */
         Session::put('admin', $ttuser);
         //Gán hệ danh mục chức năng        
         Session::put('chucnang', hethongchung_chucnang::all()->keyBy('machucnang')->toArray());

@@ -216,8 +216,8 @@ function getPhamViKhenCao($phamvi = 'T')
 function getPhanLoaiHoSoKhenCao($phanloai = 'ALL')
 {
     $a_kq = array(
-        'CHINHPHU' => 'Hồ sơ khen của Thủ tướng chính phủ',
-        'CHUTICHNUOC' => 'Hồ sơ khen của Chủ tịch nước',
+        'KHENCAOTHUTUONG' => 'Hồ sơ khen của Thủ tướng chính phủ',
+        'KHENCAOCHUTICHNUOC' => 'Hồ sơ khen của Chủ tịch nước',
         'KHANGCHIEN' => 'Hồ sơ khen kháng chiến',
     );
     if ($phanloai == 'ALL') {
@@ -1328,9 +1328,9 @@ function getTrangThaiHoSo()
 
 function getTrangThaiXuLyHoSo()
 {
-    return [        
+    return [
         'DDK' => 'Đủ điều kiện',
-        'KDK' => 'Không điều kiện',        
+        'KDK' => 'Không điều kiện',
     ];
 }
 
@@ -1428,15 +1428,15 @@ function getTrangThai_TD_HoSo($trangthai)
         'DCCVXD' => [
             'trangthai' => 'Đã chuyển</br>chuyên viên',
             'class' => 'badge badge-warning'
-        ], 
+        ],
         'DCCVKT' => [
             'trangthai' => 'Đã chuyển</br>chuyên viên',
             'class' => 'badge badge-warning'
-        ], 
+        ],
         'DTH' => [
             'trangthai' => 'Đã chuyển</br>tổng hợp',
             'class' => 'badge badge-success'
-        ],       
+        ],
     ];
 
     return $a_trangthai[$trangthai] ?? ['trangthai' => $trangthai, 'class' => 'badge badge-info'];
@@ -1574,6 +1574,27 @@ function getPhanLoaiDotXetKhenThuong()
     $a_kq = [
         'KETTHUC' => 'Khen thưởng khi kết thúc phong trào',
         'NHIEUDOT' => 'Khen thưởng theo từng giai đoạn',
+    ];
+    return $a_kq;
+}
+
+function getThoiHanThiDua()
+{
+    $a_kq = [
+        'DUOIMOTNAM' => 'Dưới 01 năm',
+        'MOTNAM' => '01 năm',
+        'MOTNAMDENBANAM' => 'Từ 01 năm đến dưới 03 năm',
+        'BANAMDENNAMNAM' => 'Từ 03 năm đến dưới 05 năm',
+        'TRENNAMNAM' => 'Từ 05 năm trở lên',
+    ];
+    return $a_kq;
+}
+
+function getPhuongThucToChucPhongTrao()
+{
+    $a_kq = [
+        'CHUYENDE' => 'Thi đua theo chuyên đề',
+        'HANGNAM' => 'Thi đua thường xuyên hàng năm',
     ];
     return $a_kq;
 }

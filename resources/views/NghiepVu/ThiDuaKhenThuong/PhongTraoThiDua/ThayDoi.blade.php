@@ -199,6 +199,28 @@
             </div>
 
             <div class="form-group row">
+                <div class="col-lg-3">
+                    <label>Số văn bản<span class="require">*</span></label>
+                    {!! Form::text('soqd', null, ['class' => 'form-control', 'required']) !!}
+                </div>
+                <div class="col-lg-3">
+                    <label>Ngày ban hành<span class="require">*</span></label>
+                    {!! Form::input('date', 'ngayqd', null, ['class' => 'form-control', 'required']) !!}
+                </div>
+
+
+                <div class="col-lg-3">
+                    <label>Ngày nhận hồ sơ<span class="require">*</span></label>
+                    {!! Form::input('date', 'tungay', null, ['class' => 'form-control', 'required']) !!}
+                </div>
+                <div class="col-lg-3">
+                    <label>Ngày kết thúc<span class="require">*</span></label>
+                    {!! Form::input('date', 'denngay', null, ['class' => 'form-control', 'required']) !!}
+                </div>
+            </div>
+
+            
+            <div class="form-group row">
                 <div class="col-lg-4">
                     <label>Phạm vị phát động</label>
                     {!! Form::select('phamviapdung', $a_phamvi, null, ['class' => 'form-control select2basic']) !!}
@@ -221,26 +243,18 @@
             </div>
 
             <div class="form-group row">
-                <div class="col-lg-3">
-                    <label>Số văn bản<span class="require">*</span></label>
-                    {!! Form::text('soqd', null, ['class' => 'form-control', 'required']) !!}
+                <div class="col-lg-4">
+                    <label>Thời hạn thi đua</label>
+                    {!! Form::select('thoihanthidua', getThoiHanThiDua(), null, ['class' => 'form-control select2basic']) !!}
                 </div>
-                <div class="col-lg-3">
-                    <label>Ngày ban hành<span class="require">*</span></label>
-                    {!! Form::input('date', 'ngayqd', null, ['class' => 'form-control', 'required']) !!}
-                </div>
-
-
-                <div class="col-lg-3">
-                    <label>Ngày nhận hồ sơ<span class="require">*</span></label>
-                    {!! Form::input('date', 'tungay', null, ['class' => 'form-control', 'required']) !!}
-                </div>
-                <div class="col-lg-3">
-                    <label>Ngày kết thúc<span class="require">*</span></label>
-                    {!! Form::input('date', 'denngay', null, ['class' => 'form-control', 'required']) !!}
+                
+                <div class="col-lg-4">
+                    <label>Phương thức tổ chức</label>
+                    {!! Form::select('phuongthuctochuc', getPhuongThucToChucPhongTrao(), null, ['class' => 'form-control select2basic']) !!}
                 </div>
             </div>
 
+            
             <div class="form-group row">
                 <div class="col-lg-12">
                     <label>Tên phong trào</label>

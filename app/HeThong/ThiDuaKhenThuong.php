@@ -757,6 +757,8 @@ function getDiaBanTrucThuoc(&$dsdiaban, $madiabanQL, &$ketqua)
 
 function getDSPhongTrao($donvi)
 {
+    /* 2024.01.15 Chưa rõ cách lấy phong trào
+    
     $m_phongtrao = App\Model\View\viewdonvi_dsphongtrao::wherein('phamviapdung', ['T', 'TW'])->orderby('tungay')->get();
     switch ($donvi->capdo) {
         case 'X': {
@@ -779,6 +781,9 @@ function getDSPhongTrao($donvi)
         $m_phongtrao->add($ct);
     }
     return $m_phongtrao;
+    */
+    
+    return App\Model\View\viewdonvi_dsphongtrao::all();
 }
 
 function getDSPhongTraoCumKhoi($donvi)

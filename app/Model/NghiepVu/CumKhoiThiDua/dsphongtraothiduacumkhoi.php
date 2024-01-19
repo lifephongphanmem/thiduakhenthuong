@@ -19,6 +19,8 @@ class dsphongtraothiduacumkhoi extends Model
         'noidung',
         'khauhieu',
         'phamviapdung',
+        'thoihanthidua',
+        'phuongthuctochuc',
         'tungay', // Ngày bắt đầu nhận hồ sơ
         'denngay', // Ngày kết thúc nhận hồ sơ
         'ghichu',
@@ -55,5 +57,6 @@ class dsphongtraothiduacumkhoi extends Model
         'thongtin_tw', //chưa dùng
         'trangthai_tw',
         'thoigian_tw',
+       
     ];
 }

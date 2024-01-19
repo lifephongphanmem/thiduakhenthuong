@@ -21,6 +21,7 @@ use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua;
 use App\Model\QuyKhenThuong\dsquanlyquykhenthuong;
 use App\Model\QuyKhenThuong\dsquanlyquykhenthuong_chitiet;
 use App\Model\View\view_khencao_canhan;
+use App\Model\View\view_khencao_hogiadinh;
 use App\Model\View\view_khencao_tapthe;
 use App\Model\View\view_tdkt_canhan;
 use App\Model\View\view_tdkt_tapthe;
@@ -51,7 +52,7 @@ class baocaotonghopController extends Controller
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         $m_diaban = getDiaBanBaoCaoTongHop($donvi);        //dd($m_diaban->toArray());
-        
+
         return view('BaoCao.TongHop.ThongTin')
             ->with('m_diaban', $m_diaban)
             ->with('m_donvi', $m_donvi)
@@ -174,11 +175,11 @@ class baocaotonghopController extends Controller
             ->wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
             ->wherein('madonvi', array_column($model->toArray(), 'madonvi'))
             ->wherein('phanloai', $inputs['phanloai']);
-       //dd($m_hoso->toSql());
+        //dd($m_hoso->toSql());
         $m_hoso =  $m_hoso->get();
         $m_loaihinhkt = getLoaiHinhKhenThuong();
         $a_diaban = array_column($model->toArray(), 'tendiaban', 'madiaban');
-        
+
         foreach ($model as $ct) {
             $ct->tongso = 0;
             foreach ($m_loaihinhkt as $loaihinh) {
@@ -188,8 +189,8 @@ class baocaotonghopController extends Controller
             }
         }
         $inputs['phanloaihoso'] = '';
-        foreach($inputs['phanloai'] as $phanloai){
-            $inputs['phanloaihoso'] .= (getPhanLoaiHoSo()[$phanloai].'; ');
+        foreach ($inputs['phanloai'] as $phanloai) {
+            $inputs['phanloaihoso'] .= (getPhanLoaiHoSo()[$phanloai] . '; ');
         }
         //Thông tin đơn vị
         $m_donvi = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
@@ -236,9 +237,15 @@ class baocaotonghopController extends Controller
         }
 
         $m_hoso =  $m_hoso->get();
-        //dd($m_hoso);
-        $m_canhan = view_tdkt_canhan::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();
-        $m_tapthe = view_tdkt_tapthe::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();
+        $m_canhan = view_tdkt_canhan::selectraw('madonvi, maloaihinhkt, madanhhieukhenthuong, count(mahosotdkt) as soluong')
+            ->wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)
+            ->groupby('madonvi', 'maloaihinhkt', 'madanhhieukhenthuong')
+            ->get();
+        $m_tapthe = view_tdkt_tapthe::selectraw('madonvi, maloaihinhkt, madanhhieukhenthuong, count(mahosotdkt) as soluong')
+            ->wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)
+            ->groupby('madonvi', 'maloaihinhkt', 'madanhhieukhenthuong')
+            ->get();
+        //dd($m_canhan);
         // dd($m_canhan->where('madanhhieukhenthuong','1650360491'));
         $a_danhhieukhenthuong = array_unique(array_merge(
             array_column($m_canhan->toarray(), 'madanhhieukhenthuong'),
@@ -252,12 +259,12 @@ class baocaotonghopController extends Controller
         foreach ($model as $ct) {
             $canhan = $m_canhan->where('madonvi', $ct->madonvi);
             $tapthe = $m_tapthe->where('madonvi', $ct->madonvi);
-            $ct->tongso = $canhan->count() + $tapthe->count();
+            $ct->tongso = $canhan->sum('soluong') + $tapthe->sum('soluong');
 
             foreach ($a_hinhthuckt as $key => $val) {
                 //$mahinhthuckt = $loaihinh->madanhhieukhenthuong;
-                $ct->$key = $canhan->where('madanhhieukhenthuong', $key)->count()
-                    + $tapthe->where('madanhhieukhenthuong', $key)->count();
+                $ct->$key = $canhan->where('madanhhieukhenthuong', $key)->sum('soluong')
+                    + $tapthe->where('madanhhieukhenthuong', $key)->sum('soluong');
             }
             // if($ct->madonvi == '1668019143')
             // dd($canhan);
@@ -281,8 +288,8 @@ class baocaotonghopController extends Controller
                 }
         }
         $inputs['phanloaihoso'] = '';
-        foreach($inputs['phanloai'] as $phanloai){
-            $inputs['phanloaihoso'] .= (getPhanLoaiHoSo()[$phanloai].'; ');
+        foreach ($inputs['phanloai'] as $phanloai) {
+            $inputs['phanloaihoso'] .= (getPhanLoaiHoSo()[$phanloai] . '; ');
         }
         //  dd($model);
         $m_donvibc = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
@@ -329,9 +336,19 @@ class baocaotonghopController extends Controller
             $m_hoso = $m_hoso->where('madonvi_kt', $inputs['madonvi_kt']);
         }
         $m_hoso =  $m_hoso->get();
-
+        /*
         $m_hoso_canhan = dshosothiduakhenthuong_canhan::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();
         $m_hoso_tapthe = dshosothiduakhenthuong_tapthe::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();
+        */
+        $m_hoso_canhan = view_tdkt_canhan::selectraw('maphanloaicanbo, maloaihinhkt, madanhhieukhenthuong, count(mahosotdkt) as soluong')
+            ->wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))
+            ->groupby('maphanloaicanbo', 'maloaihinhkt', 'madanhhieukhenthuong')
+            ->where('ketqua', 1)->get();
+        $m_hoso_tapthe = view_tdkt_tapthe::selectraw('maphanloaitapthe, maloaihinhkt, madanhhieukhenthuong, count(mahosotdkt) as soluong')
+            ->wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))
+            ->groupby('maphanloaitapthe', 'maloaihinhkt', 'madanhhieukhenthuong')
+            ->where('ketqua', 1)->get();
+
         $a_dhkt = array_merge(array_unique(array_column($m_hoso_canhan->toarray(), 'madanhhieukhenthuong')), array_unique(array_column($m_hoso_tapthe->toarray(), 'madanhhieukhenthuong')));
         $model = DHKT_BaoCao($a_dhkt);
         //dd($model);
@@ -365,42 +382,42 @@ class baocaotonghopController extends Controller
 
         foreach ($model as $ct) {
             //Nhóm công trạng
-            $hoso_congtrang = $m_hoso->wherein('maloaihinhkt', ['1650358223']);
-            $canhan_congtrang = $m_hoso_canhan->wherein('mahosotdkt', array_column($hoso_congtrang->toarray(), 'mahosotdkt'))
+            // $hoso_congtrang = $m_hoso->wherein('maloaihinhkt', ['1650358223']);
+            $canhan_congtrang = $m_hoso_canhan->wherein('maloaihinhkt', ['1650358223'])
                 ->where('madanhhieukhenthuong', $ct->madanhhieukhenthuong);
-            $tapthe_congtrang = $m_hoso_tapthe->wherein('mahosotdkt', array_column($hoso_congtrang->toarray(), 'mahosotdkt'))
+            $tapthe_congtrang = $m_hoso_tapthe->wherein('maloaihinhkt', ['1650358223'])
                 ->where('madanhhieukhenthuong', $ct->madanhhieukhenthuong);
 
-            $ct->tongso_cotr = $canhan_congtrang->count() + $tapthe_congtrang->count();
-            $ct->canhan_lada_cotr = $canhan_congtrang->wherein('maphanloaicanbo', ['1660638930', '1660638843', '1660638808'])->count();
-            $ct->canhan_lado_cotr = $canhan_congtrang->wherein('maphanloaicanbo', ['1660638976'])->count();
-            
+            $ct->tongso_cotr = $canhan_congtrang->sum('soluong') + $tapthe_congtrang->sum('soluong');
+            $ct->canhan_lada_cotr = $canhan_congtrang->wherein('maphanloaicanbo', ['1660638930', '1660638843', '1660638808'])->sum('soluong');
+            $ct->canhan_lado_cotr = $canhan_congtrang->wherein('maphanloaicanbo', ['1660638976'])->sum('soluong');
+
             //Nhóm chuyên đề, đột xuất
-            $hoso_chuyende = $m_hoso->wherein('maloaihinhkt', ['1650358255', '1650358265']);
-            $canhan_chuyende = $m_hoso_canhan->wherein('mahosotdkt', array_column($hoso_chuyende->toarray(), 'mahosotdkt'))
+            // $hoso_chuyende = $m_hoso->wherein('maloaihinhkt', ['1650358255', '1650358265']);
+            $canhan_chuyende = $m_hoso_canhan->wherein('maloaihinhkt', ['1650358255', '1650358265'])
                 ->where('madanhhieukhenthuong', $ct->madanhhieukhenthuong);
-            $tapthe_chuyende = $m_hoso_tapthe->wherein('mahosotdkt', array_column($hoso_chuyende->toarray(), 'mahosotdkt'))
+            $tapthe_chuyende = $m_hoso_tapthe->wherein('maloaihinhkt', ['1650358255', '1650358265'])
                 ->where('madanhhieukhenthuong', $ct->madanhhieukhenthuong);
 
-            $ct->tongso_chde = $canhan_chuyende->count() + $tapthe_chuyende->count();
-            $ct->canhan_lada_chde = $canhan_chuyende->wherein('maphanloaicanbo', ['1660638930', '1660638843', '1660638808'])->count();
-            $ct->canhan_lado_chde = $canhan_chuyende->wherein('maphanloaicanbo', ['1660638976'])->count();
-            
+            $ct->tongso_chde = $canhan_chuyende->sum('soluong') + $tapthe_chuyende->sum('soluong');
+            $ct->canhan_lada_chde = $canhan_chuyende->wherein('maphanloaicanbo', ['1660638930', '1660638843', '1660638808'])->sum('soluong');
+            $ct->canhan_lado_chde = $canhan_chuyende->wherein('maphanloaicanbo', ['1660638976'])->sum('soluong');
+
             //Nhóm đối ngoại
-            $hoso_dongo = $m_hoso->wherein('maloaihinhkt', ['1650358297']);
-            $canhan_dongo = $m_hoso_canhan->wherein('mahosotdkt', array_column($hoso_dongo->toarray(), 'mahosotdkt'))
+            // $hoso_dongo = $m_hoso->wherein('maloaihinhkt', ['1650358297']);
+            $canhan_dongo = $m_hoso_canhan->wherein('maloaihinhkt', ['1650358297'])
                 ->where('madanhhieukhenthuong', $ct->madanhhieukhenthuong);
-            $tapthe_dongo = $m_hoso_tapthe->wherein('mahosotdkt', array_column($hoso_dongo->toarray(), 'mahosotdkt'))
+            $tapthe_dongo = $m_hoso_tapthe->wherein('maloaihinhkt', ['1650358297'])
                 ->where('madanhhieukhenthuong', $ct->madanhhieukhenthuong);
 
-            $ct->tongso_dongo = $canhan_dongo->count() + $tapthe_dongo->count();
+            $ct->tongso_dongo = $canhan_dongo->sum('soluong') + $tapthe_dongo->sum('soluong');
 
             //Gán tổng cộng
             $ct->tongso =  $ct->tongso_cotr +  $ct->tongso_chde +  $ct->tongso_dongo;
-            $ct->tongdn = $tapthe_congtrang->where('maphanloaitapthe', '1660638247')->count()
-                + $tapthe_chuyende->where('maphanloaitapthe', '1660638247')->count()
-                + $tapthe_dongo->where('maphanloaitapthe', '1660638247')->count();
-            $ct->tongcn = $canhan_congtrang->count() + $canhan_chuyende->count() +  $canhan_dongo->count();
+            $ct->tongdn = $tapthe_congtrang->where('maphanloaitapthe', '1660638247')->sum('soluong')
+                + $tapthe_chuyende->where('maphanloaitapthe', '1660638247')->sum('soluong')
+                + $tapthe_dongo->where('maphanloaitapthe', '1660638247')->sum('soluong');
+            $ct->tongcn = $canhan_congtrang->sum('soluong') + $canhan_chuyende->sum('soluong') +  $canhan_dongo->sum('soluong');
         }
 
         foreach ($model as $key => $val) {
@@ -441,7 +458,7 @@ class baocaotonghopController extends Controller
         if ($inputs['phamvithongke'] != 'ALL') {
             $m_donvi = $m_donvi->where('capdo', $inputs['phamvithongke']);
         }
-        $m_hoso = dshosothiduakhenthuong::where('trangthai', 'DKT')  
+        $m_hoso = dshosothiduakhenthuong::where('trangthai', 'DKT')
             ->wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
             ->wherein('madonvi', array_column($m_donvi->toArray(), 'madonvi'))
             ->wherein('maloaihinhkt', ['1650358223', '1650358255', '1650358265', '1650358310'])
@@ -570,7 +587,7 @@ class baocaotonghopController extends Controller
         $inputs = $request->all();
         $inputs['madiaban'] = $inputs['madiaban'] ?? 'ALL';
         $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
-        
+        //dd($inputs['phanloai']);
         // $m_diaban = getDiaBanBaoCaoTongHop($donvi);
         // if ($inputs['madiaban'] != 'ALL') {
         //     $m_diaban = $m_diaban->where('madiaban', $inputs['madiaban']);
@@ -582,11 +599,11 @@ class baocaotonghopController extends Controller
         $m_hoso = dshosokhencao::wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
             //->wherein('madonvi', array_column($m_donvi->toArray(), 'madonvi'))
             ->wherein('maloaihinhkt', ['1650358223', '1650358255', '1650358265', '1650358310', '1650358282'])
-            ->wherein('phanloai', $inputs['phanloai'])
+            //->wherein('phanloai', $inputs['phanloai'])
             ->get();
-
+        //dd($m_hoso);
         $model = DHKT_BaoCao();
-        
+
         //$m_loaihinhkt = dmloaihinhkhenthuong::wherein('maloaihinhkt', array_unique(array_column($m_hoso->toarray(), 'maloaihinhkt')))->get();
 
         //tạm thời fix cứng sau làm lại để tự động
@@ -731,9 +748,7 @@ class baocaotonghopController extends Controller
         // CANHAN	1660638843	Lãnh đạo cấp vụ, sở, ngành và tương đương
         // CANHAN	1660638864	Doanh nhân
         // CANHAN	1660638930	Các cấp lãnh đạo từ phó phòng trở lên
-        // CANHAN	1660638976	Người trực tiếp công tác, lao động, học tập, chiến đấu và phục vụ chiến đấu
-
-        dd();
+        // CANHAN	1660638976	Người trực tiếp công tác, lao động, học tập, chiến đấu và phục vụ chiến đấu       
 
         $m_dshosokhencao_canhan = dshosokhencao_canhan::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();;
         $m_dshosokhencao_tapthe = dshosokhencao_tapthe::wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))->where('ketqua', 1)->get();;
@@ -802,7 +817,7 @@ class baocaotonghopController extends Controller
                 $model->forget($key);
         }
 
-        dd($model);
+        // dd($model);
         $m_donvibc = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
         //dd($m_donvibc);
         return view('BaoCao.TongHop.KhenCao_m2')
@@ -819,7 +834,9 @@ class baocaotonghopController extends Controller
         $inputs['madiaban'] = $inputs['madiaban'] ?? 'ALL';
         $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
         $model = getDSPhongTrao($donvi);
+        $model = $model->wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']]);
         $model = $model->wherein('phamviapdung', ['TW', 'T', 'SBN']);
+        // dd($model);
         $m_donvibc = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
         return view('BaoCao.TongHop.Mau0701TT03')
             ->with('model', $model)
@@ -835,15 +852,68 @@ class baocaotonghopController extends Controller
     {
         $inputs = $request->all();
         $inputs['madiaban'] = $inputs['madiaban'] ?? 'ALL';
-        $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
-        $model = dshosokhencao::all();
-        $model_canhan = view_khencao_canhan::all();
-        $model_tapthe = view_khencao_tapthe::all();
+        $m_hoso = dshosokhencao::wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
+            //->wherein('madonvi', array_column($m_donvi->toArray(), 'madonvi'))
+            ->wherein('maloaihinhkt', ['1650358223', '1650358255', '1650358265', '1650358310', '1650358282'])
+            //->wherein('phanloai', $inputs['phanloai'])
+            ->get();
+        //dd($m_hoso);        
+
+        //tạm thời fix cứng sau làm lại để tự động
+        //Loại hình khen thưởng -- maloaihinhkt
+        // 1650358223	Khen thưởng theo công trạng và thành tích
+        // 1650358255	Khen thưởng theo đợt (hoặc chuyên đề)
+        // 1650358265	Khen thưởng đột xuất
+        // 1650358282	Khen thưởng theo quá trình cống hiến
+        // 1650358297	Khen thưởng theo niên hạn
+        // 1650358310	Khen thưởng đối ngoại
+
+        //Phân loại cán bộ
+        // manhomphanloai	tennhomphanloai
+        // TAPTHE	Tập thể
+        // HOGIADINH	Hộ gia đình
+        // CANHAN	Cá nhân
+
+
+        //manhomphanloai	maphanloai	tenphanloai
+        // TAPTHE	1660638226	Cơ quan hành chính, sự nghiệp
+        // TAPTHE	1660638247	Doanh nghiệp
+        // HOGIADINH	1660638538	Hộ gia đình
+        // CANHAN	1660638808	Lãnh đạo cấp bộ, cấp tỉnh và tương đương trở lên
+        // CANHAN	1660638843	Lãnh đạo cấp vụ, sở, ngành và tương đương
+        // CANHAN	1660638864	Doanh nhân
+        // CANHAN	1660638930	Các cấp lãnh đạo từ phó phòng trở lên
+        // CANHAN	1660638976	Người trực tiếp công tác, lao động, học tập, chiến đấu và phục vụ chiến đấu
+
+        $model = view_khencao_canhan::selectraw("maloaihinhkt, madanhhieukhenthuong, maphanloaicanbo as maphanloai, 'CANHAN' as phanloaidoituong")
+            ->wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))
+            ->where('ketqua', 1)->get();
+
+        $model_tapthe = view_khencao_tapthe::selectraw("maloaihinhkt, madanhhieukhenthuong, maphanloaitapthe as maphanloai, 'TAPTHE' as phanloaidoituong")
+            ->wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))
+            ->where('ketqua', 1)->get();
+        //Gộp khen thưởng tập thể
+        foreach ($model_tapthe as $tapthe) {
+            $model->add($tapthe);
+        }
+
+        $model_hogiadinh = view_khencao_hogiadinh::selectraw("maloaihinhkt, madanhhieukhenthuong, maphanloaitapthe as maphanloai, 'HOGIADINH' as phanloaidoituong")
+            ->wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))
+            ->where('ketqua', 1)->get();
+        //Gộp khen thưởng hộ gia đình
+        foreach ($model_hogiadinh as $tapthe) {
+            $model->add($tapthe);
+        }
+
+        $a_danhhieukhenthuong = array_unique(array_column($model->toarray(), 'madanhhieukhenthuong'));
+        $a_hinhthuckt = array_column(dmhinhthuckhenthuong::wherein('mahinhthuckt', $a_danhhieukhenthuong)->get()->toarray(), 'tenhinhthuckt', 'mahinhthuckt');
+        //    dd($model);
         $m_donvibc = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
         return view('BaoCao.TongHop.Mau0702TT03')
             ->with('model', $model)
-            ->with('model_canhan', $model_canhan)
-            ->with('model_tapthe', $model_tapthe)
+            ->with('a_hinhthuckt', $a_hinhthuckt)
+            // ->with('model_canhan', $model_canhan)
+            // ->with('model_tapthe', $model_tapthe)
             ->with('m_donvi', $m_donvibc)
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Báo cáo tổng hợp số lượng khen thưởng cấp nhà nước');
@@ -851,18 +921,78 @@ class baocaotonghopController extends Controller
 
     public function Mau0703(Request $request)
     {
+        /*2024.01.19 Đây là mẫu của bộ nội vụ (theo quảng bình) nên chưa lấy đc dữ liệu
+        */
         $inputs = $request->all();
         $inputs['madiaban'] = $inputs['madiaban'] ?? 'ALL';
-        $donvi = viewdiabandonvi::where('madonvi', $inputs['madonvi'])->first();
-        $model = dshosokhencao::all();
-        $model_canhan = view_khencao_canhan::all();
-        $model_tapthe = view_khencao_tapthe::all();
+        $m_hoso = dshosokhencao::wherebetween('ngayqd', [$inputs['ngaytu'], $inputs['ngayden']])
+            //->wherein('madonvi', array_column($m_donvi->toArray(), 'madonvi'))
+            ->wherein('maloaihinhkt', ['1650358223', '1650358255', '1650358265', '1650358310', '1650358282'])
+            //->wherein('phanloai', $inputs['phanloai'])
+            ->get();
+        //dd($m_hoso);        
+
+        //tạm thời fix cứng sau làm lại để tự động
+        //Loại hình khen thưởng -- maloaihinhkt
+        // 1650358223	Khen thưởng theo công trạng và thành tích
+        // 1650358255	Khen thưởng theo đợt (hoặc chuyên đề)
+        // 1650358265	Khen thưởng đột xuất
+        // 1650358282	Khen thưởng theo quá trình cống hiến
+        // 1650358297	Khen thưởng theo niên hạn
+        // 1650358310	Khen thưởng đối ngoại
+
+        //Phân loại cán bộ
+        // manhomphanloai	tennhomphanloai
+        // TAPTHE	Tập thể
+        // HOGIADINH	Hộ gia đình
+        // CANHAN	Cá nhân
+
+
+        //manhomphanloai	maphanloai	tenphanloai
+        // TAPTHE	1660638226	Cơ quan hành chính, sự nghiệp
+        // TAPTHE	1660638247	Doanh nghiệp
+        // HOGIADINH	1660638538	Hộ gia đình
+        // CANHAN	1660638808	Lãnh đạo cấp bộ, cấp tỉnh và tương đương trở lên
+        // CANHAN	1660638843	Lãnh đạo cấp vụ, sở, ngành và tương đương
+        // CANHAN	1660638864	Doanh nhân
+        // CANHAN	1660638930	Các cấp lãnh đạo từ phó phòng trở lên
+        // CANHAN	1660638976	Người trực tiếp công tác, lao động, học tập, chiến đấu và phục vụ chiến đấu
+
+        //Lấy nhóm khen thưởng theo danh mục
+        $a_hinhthuckt = array_column(dmhinhthuckhenthuong::all()->toarray(), 'phanloai', 'mahinhthuckt');
+
+        $model = view_khencao_canhan::selectraw("maloaihinhkt, madanhhieukhenthuong, maphanloaicanbo as maphanloai, 'CANHAN' as phanloaidoituong")
+            ->wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))
+            ->where('ketqua', 1)->get();
+        //Gán lại nhóm khen thưởng
+        foreach ($model as $khenthuong) {
+            $khenthuong->nhomkhenthuong = $a_hinhthuckt[$khenthuong->madanhhieukhenthuong] ?? '';
+            //Điều kiện lọc các khen thưởng ko thuộc 
+        }
+
+        $model_tapthe = view_khencao_tapthe::selectraw("maloaihinhkt, madanhhieukhenthuong, maphanloaitapthe as maphanloai, 'TAPTHE' as phanloaidoituong")
+            ->wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))
+            ->where('ketqua', 1)->get();
+        //Gộp khen thưởng tập thể
+        foreach ($model_tapthe as $tapthe) {
+            $tapthe->nhomkhenthuong = $a_hinhthuckt[$tapthe->madanhhieukhenthuong] ?? '';
+            $model->add($tapthe);
+        }
+
+        $model_hogiadinh = view_khencao_hogiadinh::selectraw("maloaihinhkt, madanhhieukhenthuong, maphanloaitapthe as maphanloai, 'HOGIADINH' as phanloaidoituong")
+            ->wherein('mahosotdkt', array_column($m_hoso->toarray(), 'mahosotdkt'))
+            ->where('ketqua', 1)->get();
+        //Gộp khen thưởng hộ gia đình
+        foreach ($model_hogiadinh as $tapthe) {
+            $tapthe->nhomkhenthuong = $a_hinhthuckt[$tapthe->madanhhieukhenthuong] ?? '';
+            $model->add($tapthe);
+        }
+
+        //    dd($model);
         $m_donvibc = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
         return view('BaoCao.TongHop.Mau0703TT03')
             ->with('model', $model)
             ->with('m_donvi', $m_donvibc)
-            ->with('model_canhan', $model_canhan)
-            ->with('model_tapthe', $model_tapthe)
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Báo cáo tổng hợp phong trào thi đua');
     }

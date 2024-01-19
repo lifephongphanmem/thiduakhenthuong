@@ -21,7 +21,7 @@ class view_dsphongtrao_cumkhoi extends Model
 //                          dbo.dsphongtraothiduacumkhoi.madonvi_h, dbo.dsphongtraothiduacumkhoi.madonvi_nhan_h, dbo.dsphongtraothiduacumkhoi.lydo_h, dbo.dsphongtraothiduacumkhoi.thongtin_h, dbo.dsphongtraothiduacumkhoi.trangthai_h, 
 //                          dbo.dsphongtraothiduacumkhoi.thoigian_h, dbo.dsphongtraothiduacumkhoi.madonvi_t, dbo.dsphongtraothiduacumkhoi.madonvi_nhan_t, dbo.dsphongtraothiduacumkhoi.lydo_t, dbo.dsphongtraothiduacumkhoi.thongtin_t, 
 //                          dbo.dsphongtraothiduacumkhoi.trangthai_t, dbo.dsphongtraothiduacumkhoi.thoigian_t, dbo.dsphongtraothiduacumkhoi.madonvi_tw, dbo.dsphongtraothiduacumkhoi.madonvi_nhan_tw, dbo.dsphongtraothiduacumkhoi.lydo_tw, 
-//                          dbo.dsphongtraothiduacumkhoi.thongtin_tw, dbo.dsphongtraothiduacumkhoi.trangthai_tw, dbo.dsphongtraothiduacumkhoi.thoigian_tw
+//                          dbo.dsphongtraothiduacumkhoi.thongtin_tw, dbo.dsphongtraothiduacumkhoi.trangthai_tw, dbo.dsphongtraothiduacumkhoi.thoigian_tw, dbo.dsphongtraothiduacumkhoi.thoihanthidua, dbo.dsphongtraothiduacumkhoi.phuongthuctochuc
 // FROM            dbo.dsdonvi INNER JOIN
 //                          dbo.dsdiaban ON dbo.dsdonvi.madiaban = dbo.dsdiaban.madiaban INNER JOIN
 //                          dbo.dsphongtraothiduacumkhoi ON dbo.dsdonvi.madonvi = dbo.dsphongtraothiduacumkhoi.madonvi
