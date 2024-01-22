@@ -27,7 +27,7 @@ class dungchung_inphoi_khenthuongController extends Controller
 
     public function DanhSach(Request $request)
     {
-        $inputs = $request->all();        
+        $inputs = $request->all();
         $model =  dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model_canhan = dshosothiduakhenthuong_canhan::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
@@ -684,14 +684,15 @@ class dungchung_inphoi_khenthuongController extends Controller
         //dd($chieurong_bangkhen_px);
 
         //1 Milimét [mm] = 3,779 527 559 055 Pixel [px] 
+        $i_sobang = 1;
         foreach ($model as $doituong) {
             //$doituong->noidungkhenthuong = catchuoi(($doituong->noidungkhenthuong != '' ? $doituong->noidungkhenthuong : 'Nội dung khen thưởng'), $m_donvi->sochu);
             $doituong->noidungkhenthuong = $doituong->noidungkhenthuong != '' ? $doituong->noidungkhenthuong : ($m_hoso->noidung != '' ? catchuoi($m_hoso->noidung, $m_donvi->sochu) : 'Nội dung khen thưởng');
             $doituong->chucvunguoikyqd = $doituong->chucvunguoikyqd != '' ? $doituong->chucvunguoikyqd : ($m_hoso->chucvunguoikyqd != '' ? $m_hoso->chucvunguoikyqd : 'Chức vụ người ký');
             $doituong->hotennguoikyqd = $doituong->hotennguoikyqd != '' ? $doituong->hotennguoikyqd : ($m_hoso->hotennguoikyqd != '' ? $m_hoso->hotennguoikyqd : 'Họ tên người ký');
             $doituong->ngayqd = $doituong->ngayqd != '' ? $doituong->ngayqd : ($m_donvi->diadanh . ', ' . Date2Str($m_hoso->ngayqd));
-            $doituong->quyetdinh = $doituong->quyetdinh != '' ? $doituong->quyetdinh : ('Số: ' . $m_hoso->soqd . ', ' . Date2Str($m_hoso->ngayqd) . '</br>Số bằng: 01');
-
+            $doituong->quyetdinh = $doituong->quyetdinh != '' ? $doituong->quyetdinh : ('Số: ' . $m_hoso->soqd . ', ' . Date2Str($m_hoso->ngayqd) . '</br>Số bằng: '. str_pad($i_sobang, 2, '0', STR_PAD_LEFT));
+            $i_sobang++;
             switch ($inputs["phanloaidoituong"]) {
                 case "CANHAN": {
                         $doituong->tendoituongin = $doituong->tendoituongin != '' ? $doituong->tendoituongin : $doituong->tendoituong;
@@ -816,15 +817,16 @@ class dungchung_inphoi_khenthuongController extends Controller
         ];
         //dd($chieurong_bangkhen_px);
 
-        //1 Milimét [mm] = 3,779 527 559 055 Pixel [px] 
+        //1 Milimét [mm] = 3,779 527 559 055 Pixel [px]
+        $i_sobang = 1;
         foreach ($model as $doituong) {
             //$doituong->noidungkhenthuong = catchuoi(($doituong->noidungkhenthuong != '' ? $doituong->noidungkhenthuong : 'Nội dung khen thưởng'), $m_donvi->sochu);
             $doituong->noidungkhenthuong = $doituong->noidungkhenthuong != '' ? $doituong->noidungkhenthuong : ($m_hoso->noidung != '' ? catchuoi($m_hoso->noidung, $m_donvi->sochu) : 'Nội dung khen thưởng');
             $doituong->chucvunguoikyqd = $doituong->chucvunguoikyqd != '' ? $doituong->chucvunguoikyqd : ($m_hoso->chucvunguoikyqd != '' ? $m_hoso->chucvunguoikyqd : 'Chức vụ người ký');
             $doituong->hotennguoikyqd = $doituong->hotennguoikyqd != '' ? $doituong->hotennguoikyqd : ($m_hoso->hotennguoikyqd != '' ? $m_hoso->hotennguoikyqd : 'Họ tên người ký');
             $doituong->ngayqd = $doituong->ngayqd != '' ? $doituong->ngayqd : ($m_donvi->diadanh . ', ' . Date2Str($m_hoso->ngayqd));
-            $doituong->quyetdinh = $doituong->quyetdinh != '' ? $doituong->quyetdinh : ('Số: ' . $m_hoso->soqd . ', ' . Date2Str($m_hoso->ngayqd) . '</br>Số bằng: 01');
-
+            $doituong->quyetdinh = $doituong->quyetdinh != '' ? $doituong->quyetdinh : ('Số: ' . $m_hoso->soqd . ', ' . Date2Str($m_hoso->ngayqd) . '</br>Số bằng: ' . str_pad($i_sobang, 2, '0', STR_PAD_LEFT));
+            $i_sobang++;
             switch ($inputs["phanloaidoituong"]) {
                 case "CANHAN": {
                         $doituong->tendoituongin = $doituong->tendoituongin != '' ? $doituong->tendoituongin : $doituong->tendoituong;
