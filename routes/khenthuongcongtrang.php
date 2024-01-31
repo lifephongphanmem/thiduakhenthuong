@@ -137,6 +137,8 @@ Route::group(['prefix' => 'KhenThuongCongTrang'], function () {
         Route::post('TraLai', 'NghiepVu\KhenThuongCongTrang\xdhosodenghikhenthuongcongtrangController@TraLai');
         Route::post('NhanHoSo', 'NghiepVu\KhenThuongCongTrang\xdhosodenghikhenthuongcongtrangController@NhanHoSo');
         Route::post('ChuyenHoSo', 'NghiepVu\KhenThuongCongTrang\xdhosodenghikhenthuongcongtrangController@ChuyenHoSo');
+
+        Route::post('TraLaiQuyTrinhTaiKhoan', 'NghiepVu\KhenThuongCongTrang\xdhosodenghikhenthuongcongtrangController@TraLaiQuyTrinhTaiKhoan');
         
         /*2023.09.21 Lọc dần các chức năng thừa
         Route::get('XetKT', [xdhosodenghikhenthuongcongtrangController::class, 'XetKT']);
@@ -170,6 +172,7 @@ Route::group(['prefix' => 'KhenThuongCongTrang'], function () {
         Route::post('ChuyenChuyenVien', 'NghiepVu\KhenThuongCongTrang\tnhosodenghikhenthuongcongtrangController@ChuyenChuyenVien');
         Route::post('XuLyHoSo', 'NghiepVu\KhenThuongCongTrang\tnhosodenghikhenthuongcongtrangController@XuLyHoSo');
         Route::post('LayXuLyHoSo', 'NghiepVu\KhenThuongCongTrang\tnhosodenghikhenthuongcongtrangController@LayXuLyHoSo');
+        Route::get('QuaTrinhXuLyHoSo', 'NghiepVu\KhenThuongCongTrang\tnhosodenghikhenthuongcongtrangController@QuaTrinhXuLyHoSo');
     });
 
     Route::group(['prefix' => 'KhenThuong'], function () {

@@ -1320,8 +1320,8 @@ function getTrangThaiHoSo()
         'DD' => 'Chờ chuyển khen thưởng',
         'DDK' => 'Đủ điều kiện',
         'KDK' => 'Không điều kiện',
-        'DCCVXD' => 'Đã chuyển chuyên viên',
-        'DCCVKT' => 'Đã chuyển chuyên viên',
+        'DCCVXD' => 'Đã chuyển chuyên viên xét duyệt',
+        'DCCVKT' => 'Đã chuyển chuyên viên khen thưởng',
         'DTH' => 'Đã tổng hợp',
     ];
 }
@@ -1426,11 +1426,11 @@ function getTrangThai_TD_HoSo($trangthai)
             'class' => 'badge badge-warning'
         ],
         'DCCVXD' => [
-            'trangthai' => 'Đã chuyển</br>chuyên viên',
+            'trangthai' => 'Đã chuyển</br>chuyên viên</br>xét duyệt',
             'class' => 'badge badge-warning'
         ],
         'DCCVKT' => [
-            'trangthai' => 'Đã chuyển</br>chuyên viên',
+            'trangthai' => 'Đã chuyển</br>chuyên viên</br>khen thưởng',
             'class' => 'badge badge-warning'
         ],
         'DTH' => [
@@ -1563,8 +1563,11 @@ function getQuyTrinhXuLyKhenThuong()
 function getPhanLoaiTaiKhoan()
 {
     $a_kq = [
-        'QUANLY' => 'Tài khoản quản lý',
+        'LANHDAO' => 'Tài khoản lãnh đạo',
+        'QUANLY' => 'Tài khoản trưởng ban (trưởng phòng)',
+        'PHOPHONG' => 'Tài khoản phó trưởng ban (phó trưởng phòng)',
         'CHUYENVIEN' => 'Tài khoản chuyên viên',
+        'VANTHU' => 'Tài khoản văn thư',
     ];
     return $a_kq;
 }

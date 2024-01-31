@@ -11,17 +11,34 @@
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
 
             </div>
-            <div class="modal-body">                
+            <div class="modal-body">
                 <div class="form-group row">
                     <div class="col-md-12">
-                        <label class="control-label">Chuyên viên</label>
-                        {!! Form::select('tendangnhap_xd', $a_taikhoanchuyenvien, null, ['class' => 'form-control select2_modal']) !!}
+                        <label class="control-label">Cán bộ chuyển hồ sơ</label>
+                        {!! Form::select('tendangnhap_xl', $a_taikhoanchuyenvien, session('admin')->tendangnhap, [
+                            'class' => 'form-control select2_modal',
+                        ]) !!}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <label class="control-label">Cán bộ tiếp nhận hồ sơ</label>
+                        {!! Form::select('tendangnhap_tn', $a_taikhoanchuyenvien, null, ['class' => 'form-control select2_modal']) !!}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <label class=" control-label">Diễn giải nội dung</label>
+                        {!! Form::textarea('noidungxuly_xl', null, ['rows' => 3, 'cols' => 10, 'class' => 'form-control']) !!}
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
-                <button type="submit" data-dismiss="modal" class="btn btn-primary" onclick="clickChuyenChuyenVien()">Đồng
+                <button type="submit" data-dismiss="modal" class="btn btn-primary"
+                    onclick="clickChuyenChuyenVien()">Đồng
                     ý</button>
             </div>
         </div>
@@ -37,22 +54,37 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header modal-header-primary">
-                <h4 id="modal-header-primary-label" class="modal-title">Thông tin xử lý hồ sơ
-                </h4>
+                <h4 id="modal-header-primary-label" class="modal-title">Thông tin xử lý hồ sơ</h4>
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-
             </div>
-            <div class="modal-body">                
+            <div class="modal-body">
                 <div class="form-group row">
                     <div class="col-md-12">
-                        <label class="control-label">Trạng thái hồ sơ</label>
-                        {!! Form::select('trangthai', getTrangThaiXuLyHoSo(), null, ['class' => 'form-control select2_modal']) !!}
+                        <label class="control-label">Cán bộ chuyển hồ sơ</label>
+                        {!! Form::select('tendangnhap_xl', $a_taikhoanchuyenvien, null, ['class' => 'form-control select2_modal']) !!}
                     </div>
                 </div>
+                <!-- Tài khoản quản lý + SSA: có thông tin trạng thái hồ sơ -->
+                {{-- @if (getPhanLoaiTaiKhoanTiepNhan()) --}}
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label class="control-label">Trạng thái hồ sơ</label>
+                            {!! Form::select('trangthai', getTrangThaiXuLyHoSo(), null, ['class' => 'form-control select2_modal']) !!}
+                        </div>
+                    </div>
+                {{-- @endif --}}
+
                 <div class="form-group row">
                     <div class="col-md-12">
                         <label class=" control-label">Diễn giải nội dung</label>
-                        {!! Form::textarea('noidungxuly_xd', null, ['rows' => 3, 'cols' => 10, 'class' => 'form-control']) !!}
+                        {!! Form::textarea('noidungxuly_xl', null, ['rows' => 3, 'cols' => 10, 'class' => 'form-control']) !!}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <label class="control-label">Cán bộ tiếp nhận hồ sơ</label>
+                        {!! Form::select('tendangnhap_tn', $a_taikhoanchuyenvien, null, ['class' => 'form-control select2_modal']) !!}
                     </div>
                 </div>
             </div>
@@ -79,11 +111,11 @@
                 <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
 
             </div>
-            <div class="modal-body">  
+            <div class="modal-body">
                 <div class="form-group row">
                     <div class="col-md-12">
                         <label class="control-label">Chuyên viên</label>
-                        {!! Form::select('tendangnhap_xd', $a_taikhoanchuyenvien, null, ['class' => 'form-control select2_modal']) !!}
+                        {!! Form::select('tendangnhap_xl', $a_taikhoanchuyenvien, null, ['class' => 'form-control select2_modal']) !!}
                     </div>
                 </div>
 
@@ -96,12 +128,12 @@
                 <div class="form-group row">
                     <div class="col-md-12">
                         <label class=" control-label">Diễn giải nội dung</label>
-                        {!! Form::textarea('noidungxuly_xd', null, ['rows' => 3, 'cols' => 10, 'class' => 'form-control']) !!}
+                        {!! Form::textarea('noidungxuly_xl', null, ['rows' => 3, 'cols' => 10, 'class' => 'form-control']) !!}
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>                
+                <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
             </div>
         </div>
     </div>
@@ -123,17 +155,16 @@
         $('#frm_xulyhoso').submit();
     }
 
-    function confirmXuLyHoSo(mahs, madonvi, url) {
+    function confirmXuLyHoSo(mahs, madonvi, url, tendangnhap_xl) {
         $('#frm_xulyhoso').attr('action', url);
         $('#frm_xulyhoso').find("[name='mahoso']").val(mahs);
         $('#frm_xulyhoso').find("[name='madonvi']").val(madonvi);
+        $('#frm_xulyhoso').find("[name='tendangnhap_xl']").val(tendangnhap_xl);
     }
 
-    function viewXuLyHoSo(tendangnhap_xd, trangthai, noidungxuly_xd){
-        $('#frm_layxulyhoso').find("[name='tendangnhap_xd']").val(tendangnhap_xd).trigger('change');
+    function viewXuLyHoSo(tendangnhap_xl, trangthai, noidungxuly_xl) {
+        $('#frm_layxulyhoso').find("[name='tendangnhap_xl']").val(tendangnhap_xl).trigger('change');
         $('#frm_layxulyhoso').find("[name='trangthai']").val(trangthai).trigger('change');
-        $('#frm_layxulyhoso').find("[name='noidungxuly_xd']").val(noidungxuly_xd);
+        $('#frm_layxulyhoso').find("[name='noidungxuly_xl']").val(noidungxuly_xl);
     }
-
-
 </script>

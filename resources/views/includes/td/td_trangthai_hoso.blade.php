@@ -42,9 +42,11 @@
 @switch($tt->trangthai)
     @case('CC')
     @case('CXD')
+
     @case('KHS')
     @case('CD')
-    @case('BTL') 
+
+    @case('BTL')
     @case('BTLXD')
         <td align="center">
             <span class="{{ $a_trangthai_td['class'] }}">{!! $a_trangthai_td['trangthai'] !!}</span>
@@ -53,12 +55,16 @@
 
     @case('CNXKT')
     @case('CXKT')
+
     @case('DTN')
     @case('DKT')
+
     @case('DXKT')
     @case('DDK')
+
     @case('KDK')
     @case('DD')
+
     @case('DTH')
         <td align="center">
             <span class="{{ $a_trangthai_td['class'] }}">{!! $a_trangthai_td['trangthai'] !!}</span>
@@ -69,19 +75,19 @@
     @case('DCCVXD')
         <td align="center">
             <span class="{{ $a_trangthai_td['class'] }}">{!! $a_trangthai_td['trangthai'] !!}</span>
-            <br>Chuyên viên:<br><b>{{ $tt->tendangnhap_xd }}</b>
+            {{-- <br>Chuyên viên:<br><b>{{ $tt->tendangnhap_xd }}</b> --}}
         </td>
     @break
 
     @case('DCCVKT')
         <td align="center">
             <span class="{{ $a_trangthai_td['class'] }}">{!! $a_trangthai_td['trangthai'] !!}</span>
-            <br>Chuyên viên:<br><b>{{ $tt->tendangnhap_kt }}</b>
+            {{-- <br>Chuyên viên:<br><b>{{ $tt->tendangnhap_kt }}</b> --}}
         </td>
     @break
-    
+
     @default
         <td align="center">
-            <span class="badge badge-info">{{$tt->trangthai}}</span>
+            <span class="badge badge-info">{{ $tt->trangthai }}</span>
         </td>
 @endswitch

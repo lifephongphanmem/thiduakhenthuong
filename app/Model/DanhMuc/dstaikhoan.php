@@ -19,7 +19,7 @@ class dstaikhoan extends Model
         'sadmin',
         'ttnguoitao',
         'lydo',
-        'solandn',        
+        'solandn',
         'manhomchucnang',
         'nhaplieu',
         'tonghop',
@@ -27,5 +27,10 @@ class dstaikhoan extends Model
         'chucnangkhac',
         'dstaikhoan',
         'phanloai',
+        'taikhoantiepnhan', //Danh sách tài khoản: tk1;tk2;tk3;...
+        'ngaysinh',
+        'trinhdodaotao',
+        'ngaycongtac', //Thời gian làm công tác để tính thâm niên
+        'gioitinh', //0: Nam; 1: Nữ
     ];
 }

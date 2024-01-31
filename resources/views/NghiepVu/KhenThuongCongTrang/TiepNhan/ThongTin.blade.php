@@ -50,8 +50,10 @@
                                 <th>Tên đơn vị trình</th>
                                 <th>Phân loại hồ sơ</th>
                                 <th>Nội dung hồ sơ</th>
-                                {{-- <th>Ngày tạo</th> --}}
                                 <th width="8%">Trạng thái</th>
+                                @if (session('admin')->opt_quytrinhkhenthuong == 'TAIKHOAN')
+                                    <th>Cán bộ đang xử lý</th>
+                                @endif
                                 <th>Đơn vị tiếp nhận</th>
                                 <th width="15%">Thao tác</th>
                             </tr>
@@ -64,15 +66,15 @@
                                 <td>{{ $a_donvi[$tt->madonvi] ?? '' }}</td>
                                 <td>{{ $a_phanloaihs[$tt->phanloai] ?? $tt->phanloai }}</td>
                                 <td>{{ $tt->noidung }}</td>
-                                {{-- <td class="text-center">{{ getDayVn($tt->ngayhoso) }}</td> --}}
                                 @include('includes.td.td_trangthai_hoso')
+                                @if (session('admin')->opt_quytrinhkhenthuong == 'TAIKHOAN')
+                                <td>{{ $tt->tendangnhap_xl }}</td>
+                                @endif
                                 <td>{{ $a_donvi[$tt->madonvi_nhan_hoso] ?? '' }}</td>
 
                                 <td style="text-align: center">
                                     @include('NghiepVu._DungChung.TD_XemThongTinTDKT')
-                                    @if (chkPhanQuyen('tnhosodenghikhenthuongcongtrang', 'thaydoi'))
-                                        @include('NghiepVu._DungChung.TiepNhan.TD_TrangThai_CC')
-                                    @endif
+                                    @include('NghiepVu._DungChung.TiepNhan.TD_TrangThai_CC')
                                 </td>
                             </tr>
                         @endforeach

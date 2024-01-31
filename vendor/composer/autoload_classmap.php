@@ -223,6 +223,7 @@ return array(
     'App\\Model\\View\\view_dsphongtrao_cumkhoi' => $baseDir . '/app/Model/View/view_dsphongtrao_cumkhoi.php',
     'App\\Model\\View\\view_dstruongcumkhoi' => $baseDir . '/app/Model/View/view_dstruongcumkhoi.php',
     'App\\Model\\View\\view_khencao_canhan' => $baseDir . '/app/Model/View/view_khencao_canhan.php',
+    'App\\Model\\View\\view_khencao_hogiadinh' => $baseDir . '/app/Model/View/view_khencao_hogiadinh.php',
     'App\\Model\\View\\view_khencao_tapthe' => $baseDir . '/app/Model/View/view_khencao_tapthe.php',
     'App\\Model\\View\\view_tdkt_canhan' => $baseDir . '/app/Model/View/view_tdkt_canhan.php',
     'App\\Model\\View\\view_tdkt_detai' => $baseDir . '/app/Model/View/view_tdkt_detai.php',
