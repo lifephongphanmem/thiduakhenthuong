@@ -1,17 +1,17 @@
 @if (in_array($tt->trangthai_hoso, ['DD', 'CD', 'CXKT']))
-    @if (session('admin')->opt_quytrinhkhenthuong == 'TAIKHOAN')
+    {{-- @if (session('admin')->opt_quytrinhkhenthuong == 'TAIKHOAN')
         <button title="Trả lại hồ sơ" type="button"
             onclick="confirmTraLai('{{ $tt->mahosotdkt }}', '{{ $inputs['madonvi'] }}', '{{ $inputs['url_xd'] . 'TraLaiQuyTrinhTaiKhoan' }}')"
             class="btn btn-sm btn-clean btn-icon" data-target="#modal-tralai" data-toggle="modal">
             <i class="icon-lg la la-reply text-danger"></i>
         </button>
-    @else
+    @else --}}
         <button title="Trả lại hồ sơ" type="button"
             onclick="confirmTraLai('{{ $tt->mahosotdkt }}', '{{ $inputs['madonvi'] }}', '{{ $inputs['url_xd'] . 'TraLai' }}')"
             class="btn btn-sm btn-clean btn-icon" data-target="#modal-tralai" data-toggle="modal">
             <i class="icon-lg la la-reply text-danger"></i>
         </button>
-    @endif
+    {{-- @endif --}}
 @endif
 
 @if (in_array($tt->trangthai_hoso, ['CXKT']))

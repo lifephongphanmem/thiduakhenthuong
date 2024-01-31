@@ -337,4 +337,16 @@ class tnhosodenghikhenthuongcongtrangController extends Controller
         setXuLyHoSo($model, $inputs);
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
     }
+
+    public function QuaTrinhXuLyHoSo(Request $request)
+    {
+        $inputs = $request->all();
+        $model = dshosothiduakhenthuong_xuly::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+        $a_canbo = array_column( dstaikhoan::all()->toArray(),'tentaikhoan','tendangnhap');
+        return view('NghiepVu._DungChung.InQuaTrinhXuLy')
+            ->with('model', $model)           
+            ->with('a_canbo', $a_canbo)
+            ->with('a_trangthaihs', getTrangThaiHoSo())            
+            ->with('pageTitle', 'Thông tin quá trình xử lý hồ sơ đề nghị khen thưởng');
+    }
 }

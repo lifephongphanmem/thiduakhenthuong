@@ -1127,7 +1127,8 @@ function setChuyenChuyenVienXD(&$model, &$inputs)
     //dd($inputs);
     $model->trangthai = $inputs['trangthai'];
     $model->thoigian = $inputs['thoigian'];
-
+    
+    $model->trangthai_xl = $inputs['trangthai_xl'];
     $model->tendangnhap_xl = $inputs['tendangnhap_tn'];
     $model->trangthai_xd = $model->trangthai;
     $model->thoigian_xd = $model->thoigian;
@@ -1149,6 +1150,7 @@ function setChuyenChuyenVienXD(&$model, &$inputs)
 function setXuLyHoSo(&$model, &$inputs)
 {
     //dd($inputs);
+    $model->trangthai_xl = $inputs['trangthai_xl'];
     $model->tendangnhap_xl = $inputs['tendangnhap_tn'];
     $model->thoigian_xd = $inputs['thoigian']; 
     $model->save();
