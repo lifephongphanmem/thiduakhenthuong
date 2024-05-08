@@ -216,8 +216,8 @@ function getPhamViKhenCao($phamvi = 'T')
 function getPhanLoaiHoSoKhenCao($phanloai = 'ALL')
 {
     $a_kq = array(
-        'CHINHPHU' => 'Hồ sơ khen của Thủ tướng chính phủ',
-        'CHUTICHNUOC' => 'Hồ sơ khen của Chủ tịch nước',
+        'KHENCAOTHUTUONG' => 'Hồ sơ khen của Thủ tướng chính phủ',
+        'KHENCAOCHUTICHNUOC' => 'Hồ sơ khen của Chủ tịch nước',
         'KHANGCHIEN' => 'Hồ sơ khen kháng chiến',
     );
     if ($phanloai == 'ALL') {
@@ -1320,17 +1320,17 @@ function getTrangThaiHoSo()
         'DD' => 'Chờ chuyển khen thưởng',
         'DDK' => 'Đủ điều kiện',
         'KDK' => 'Không điều kiện',
-        'DCCVXD' => 'Đã chuyển chuyên viên',
-        'DCCVKT' => 'Đã chuyển chuyên viên',
+        'DCCVXD' => 'Đã chuyển chuyên viên xét duyệt',
+        'DCCVKT' => 'Đã chuyển chuyên viên khen thưởng',
         'DTH' => 'Đã tổng hợp',
     ];
 }
 
 function getTrangThaiXuLyHoSo()
 {
-    return [        
+    return [
         'DDK' => 'Đủ điều kiện',
-        'KDK' => 'Không điều kiện',        
+        'KDK' => 'Không điều kiện',
     ];
 }
 
@@ -1426,17 +1426,17 @@ function getTrangThai_TD_HoSo($trangthai)
             'class' => 'badge badge-warning'
         ],
         'DCCVXD' => [
-            'trangthai' => 'Đã chuyển</br>chuyên viên',
+            'trangthai' => 'Đã chuyển</br>chuyên viên</br>xét duyệt',
             'class' => 'badge badge-warning'
-        ], 
+        ],
         'DCCVKT' => [
-            'trangthai' => 'Đã chuyển</br>chuyên viên',
+            'trangthai' => 'Đã chuyển</br>chuyên viên</br>khen thưởng',
             'class' => 'badge badge-warning'
-        ], 
+        ],
         'DTH' => [
             'trangthai' => 'Đã chuyển</br>tổng hợp',
             'class' => 'badge badge-success'
-        ],       
+        ],
     ];
 
     return $a_trangthai[$trangthai] ?? ['trangthai' => $trangthai, 'class' => 'badge badge-info'];
@@ -1563,8 +1563,41 @@ function getQuyTrinhXuLyKhenThuong()
 function getPhanLoaiTaiKhoan()
 {
     $a_kq = [
-        'QUANLY' => 'Tài khoản quản lý',
+        'LANHDAO' => 'Tài khoản lãnh đạo',
+        'QUANLY' => 'Tài khoản trưởng ban (trưởng phòng)',
+        'PHOPHONG' => 'Tài khoản phó trưởng ban (phó trưởng phòng)',
         'CHUYENVIEN' => 'Tài khoản chuyên viên',
+        'VANTHU' => 'Tài khoản văn thư',
+    ];
+    return $a_kq;
+}
+
+function getPhanLoaiDotXetKhenThuong()
+{
+    $a_kq = [
+        'KETTHUC' => 'Khen thưởng khi kết thúc phong trào',
+        'NHIEUDOT' => 'Khen thưởng theo từng giai đoạn',
+    ];
+    return $a_kq;
+}
+
+function getThoiHanThiDua()
+{
+    $a_kq = [
+        'DUOIMOTNAM' => 'Dưới 01 năm',
+        'MOTNAM' => '01 năm',
+        'MOTNAMDENBANAM' => 'Từ 01 năm đến dưới 03 năm',
+        'BANAMDENNAMNAM' => 'Từ 03 năm đến dưới 05 năm',
+        'TRENNAMNAM' => 'Từ 05 năm trở lên',
+    ];
+    return $a_kq;
+}
+
+function getPhuongThucToChucPhongTrao()
+{
+    $a_kq = [
+        'CHUYENDE' => 'Thi đua theo chuyên đề',
+        'HANGNAM' => 'Thi đua thường xuyên hàng năm',
     ];
     return $a_kq;
 }

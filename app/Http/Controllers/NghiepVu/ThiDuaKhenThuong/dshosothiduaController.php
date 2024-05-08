@@ -42,7 +42,7 @@ class dshosothiduaController extends Controller
         });
     }
 
-    public function ThongTin(Request $request)
+    public function ThongTin_20240112(Request $request)
     {
         if (!chkPhanQuyen('dshosothidua', 'danhsach')) {
             return view('errors.noperm')->with('machucnang', 'dshosothidua')->with('tenphanquyen', 'danhsach');
@@ -108,6 +108,82 @@ class dshosothiduaController extends Controller
             $HoSo = $m_hoso->where('maphongtraotd', $DangKy->maphongtraotd)->wherein('trangthai', ['CD', 'DD', 'CNXKT', 'DXKT', 'CXKT', 'DKT']);
             $DangKy->sohoso = $HoSo == null ? 0 : $HoSo->count();
 
+
+            $hoso = $m_hoso->where('maphongtraotd', $DangKy->maphongtraotd)->where('madonvi', $inputs['madonvi'])->first();
+            $DangKy->trangthai = $hoso->trangthai ?? 'CXD';
+            $DangKy->thoigian = $hoso->thoigian ?? '';
+            $DangKy->hosodonvi = $hoso == null ? 0 : 1;
+            $DangKy->id = $hoso == null ? -1 : $hoso->id;
+            $DangKy->mahosothamgiapt = $hoso == null ? -1 : $hoso->mahosothamgiapt;
+            $DangKy->mahosotdkt = $hoso->mahosotdkt ?? '-1';
+        }
+        $inputs['trangthai'] = session('chucnang')['dshosothidua']['trangthai'] ?? 'CC';
+        //  dd($inputs);
+        return view('NghiepVu.ThiDuaKhenThuong.HoSoThiDua.ThongTin')
+            ->with('inputs', $inputs)
+            ->with('model', $model->sortby('tungay'))
+            ->with('m_donvi', $m_donvi)
+            ->with('m_diaban', $m_diaban)
+            ->with('a_donviql', getDonViXetDuyetDiaBan($donvi))
+            ->with('a_phamvi', getPhamViPhongTrao())
+            ->with('a_phanloai', getPhanLoaiPhongTraoThiDua(true))
+            ->with('a_trangthaihoso', getTrangThaiTDKT())
+            ->with('pageTitle', 'Danh sách hồ sơ thi đua');
+    }
+
+    public function ThongTin(Request $request)
+    {
+        if (!chkPhanQuyen('dshosothidua', 'danhsach')) {
+            return view('errors.noperm')->with('machucnang', 'dshosothidua')->with('tenphanquyen', 'danhsach');
+        }
+
+        $inputs = $request->all();
+        $inputs['url'] = static::$url;
+        $inputs['url_hs'] = '/HoSoThiDua/';
+        $inputs['url_qd'] = '/KhenThuongHoSoThiDua/';
+        $m_donvi = getDonVi(session('admin')->capdo, 'dshosothidua');
+        $m_diaban = dsdiaban::wherein('madiaban', array_column($m_donvi->toarray(), 'madiaban'))->get();
+        $inputs['nam'] = $inputs['nam'] ?? 'ALL';
+        $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
+        $inputs['phamviapdung'] = $inputs['phamviapdung'] ?? 'ALL';
+        $inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
+        $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
+
+        //lấy hết phong trào cấp tỉnh
+        $model = viewdonvi_dsphongtrao::wherein('phamviapdung', ['T', 'TW'])->orderby('tungay')->get();
+
+        switch ($donvi->capdo) {
+            case 'X': {
+                    //đơn vị cấp xã => chỉ các phong trào trong huyện, xã
+                    $model_xa = viewdonvi_dsphongtrao::wherein('madiaban', [$donvi->madiaban, $donvi->madiabanQL])->orderby('tungay')->get();
+                    break;
+                }
+            case 'H': {
+                    //đơn vị cấp huyện =>chỉ các phong trào trong huyện
+                    $model_xa = viewdonvi_dsphongtrao::where('madiaban', $donvi->madiaban)->orderby('tungay')->get();
+                    break;
+                }
+            case 'T': {
+                    //Phong trào theo SBN
+                    $model_xa = viewdonvi_dsphongtrao::where('madonvi', $inputs['madonvi'])->orderby('tungay')->get();
+                    break;
+                }
+        }
+        foreach ($model_xa as $ct) {
+            $model->add($ct);
+        }
+        //kết quả
+        if ($inputs['phamviapdung'] != 'ALL') {
+            $model = $model->where('phamviapdung', $inputs['phamviapdung']);
+        }
+
+        $ngayhientai = date('Y-m-d');
+        $m_hoso = dshosothamgiaphongtraotd::wherein('maphongtraotd', array_column($model->toarray(), 'maphongtraotd'))->get();
+
+        foreach ($model as $DangKy) {
+            KiemTraPhongTrao($DangKy, $ngayhientai);
+            $HoSo = $m_hoso->where('maphongtraotd', $DangKy->maphongtraotd)->wherein('trangthai', ['CD', 'DD', 'CNXKT', 'DXKT', 'CXKT', 'DKT']);
+            $DangKy->sohoso = $HoSo == null ? 0 : $HoSo->count();
 
             $hoso = $m_hoso->where('maphongtraotd', $DangKy->maphongtraotd)->where('madonvi', $inputs['madonvi'])->first();
             $DangKy->trangthai = $hoso->trangthai ?? 'CXD';

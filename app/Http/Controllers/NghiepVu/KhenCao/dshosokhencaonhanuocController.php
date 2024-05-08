@@ -70,7 +70,7 @@ class dshosokhencaonhanuocController extends Controller
         //$inputs['capkhenthuong'] = $inputs['capkhenthuong'] ?? 'ALL';
         //$inputs['phanloai'] = $inputs['phanloai'] ?? 'ALL';
         $model = dshosokhencao::where('madonvi', $inputs['madonvi'])
-            ->where('phanloai', 'CHUTICHNUOC');
+            ->where('phanloai', 'KHENCAOCHUTICHNUOC');
         if ($inputs['maloaihinhkt'] != 'ALL')
             $model = $model->where('maloaihinhkt', $inputs['maloaihinhkt']);
         $model = $model->orderby('ngayhoso')->get();
@@ -213,7 +213,7 @@ class dshosokhencaonhanuocController extends Controller
         $inputs = $request->all();
         $inputs['mahosotdkt'] = (string)getdate()[0];
         $inputs['trangthai'] = 'DD';
-        $inputs['phanloai'] = 'CHUTICHNUOC';
+        $inputs['phanloai'] = 'KHENCAOCHUTICHNUOC';
         $inputs['capkhenthuong'] = 'TW';
         dshosokhencao::create($inputs);
 

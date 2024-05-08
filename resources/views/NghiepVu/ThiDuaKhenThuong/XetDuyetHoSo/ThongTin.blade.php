@@ -79,7 +79,7 @@
                         <thead>
                             <tr class="text-center">
                                 <th rowspan="2" width="2%">STT</th>
-                                <th rowspan="2">Phạm vị phát động</th>
+                                <th rowspan="2" width="20%">Đơn vị phát động </br>Phạm vị phát động</th>
                                 <th rowspan="2">Tên phong trào thi đua</th>
                                 <th colspan="{{ count($a_trangthai_hoso) == 0 ? 1 : count($a_trangthai_hoso) }}">Số lượng hồ
                                     sơ</th>
@@ -100,7 +100,7 @@
                             <tr>
                                 <td style="text-align: center">{{ $i++ }}</td>
                                 <td class="text-center">
-                                    {{ $a_phamvi[$tt->phamviapdung] ?? '' }}<br>({{ $a_trangthaihoso[$tt->nhanhoso] }})
+                                    {{ $tt->tendonvi }}<br>{{ $a_phamvi[$tt->phamviapdung] ?? '' }}<br>({{ $a_trangthaihoso[$tt->nhanhoso] }})
                                 </td>
                                 <td>{{ $tt->noidung }}</td>
                                 @if (count($a_trangthai_hoso) == 0)
@@ -126,41 +126,4 @@
         </div>
     </div>
     <!--end::Card-->
-
-    {!! Form::open(['url' => '', 'id' => 'frm_delete']) !!}
-    <div id="delete-modal-confirm" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header modal-header-primary">
-                    <h4 id="modal-header-primary-label" class="modal-title">Đồng ý xoá?</h4>
-                    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-                    <input type="hidden" name="mahosotdkt" />
-                </div>
-                <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
-                    <button type="submit" data-dismiss="modal" class="btn btn-primary" onclick="clickdelete()">Đồng
-                        ý</button>
-                </div>
-            </div>
-        </div>
-        {!! Form::close() !!}
-    </div>
-    <script>
-        function confirmDelete(mahosotdkt, url) {
-            $('#frm_delete').attr('action', url);
-            $('#frm_delete').find("[name='mahosotdkt']").val(mahosotdkt);
-        }
-
-        function clickdelete() {
-            $('#frm_delete').submit();
-        }
-    </script>
-
-    @include('NghiepVu.ThiDuaKhenThuong._DungChung.InDuLieu')
-    @include('NghiepVu.ThiDuaKhenThuong._DungChung.HoSo_TaoHoSo')
-    @include('includes.modal.modal_unapprove_hs')
-    @include('includes.modal.modal_accept_hs')
-    @include('includes.modal.modal_nhanvatrinhkt_hs')
-    @include('includes.modal.modal_attackfile')
-    @include('includes.modal.modal-lydo')
 @stop

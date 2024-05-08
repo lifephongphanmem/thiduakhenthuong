@@ -91,5 +91,8 @@ class dshosotdktcumkhoi extends Model
         'tendangnhap_kt',
         'noidungxuly_xd',
         'noidungxuly_kt',
+        //Xử lý hồ so theo TQ
+        'trangthai_xl', //Trạng thái xử lý hồ sơ
+        'tendangnhap_xl', //Tài khoản đang xử lý hồ sơ
     ];
 }

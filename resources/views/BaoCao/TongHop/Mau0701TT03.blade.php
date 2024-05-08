@@ -34,11 +34,11 @@
                 Thời điểm báo cáo: {{ getThoiDiem()[$inputs['thoidiem']] }}
             </td>
         </tr>
-        <tr>
+        {{-- <tr>
             <td colspan="2" style="text-align: center; font-weight: bold; font-style: italic">
                 Phạm vị thống kê: {{ getPhamViApDung()[$inputs['phamvithongke']] ?? 'Tất cả' }}
             </td>
-        </tr>
+        </tr> --}}
         <tr>
             <td colspan="2" style="text-align: center; font-style: italic">
                 Từ ngày: {{ getDayVn($inputs['ngaytu']) }} đến ngày: {{ getDayVn($inputs['ngayden']) }}
@@ -73,83 +73,83 @@
             <td class="text-center">{{ dinhdangso($model->wherein('phamviapdung',['T','SBN'])->count()) }}</td>
         </tr>
         <tr class="font-weight-bold">
-            <td>1. Chia theo phạm vi đối tượng thi đua</td>
+            <td class="text-left">1. Chia theo phạm vi đối tượng thi đua</td>
             <td></td>
             <td class="text-center">{{ dinhdangso($model->count()) }}</td>
-            <td></td>
-            <td></td>
+            <td class="text-center">{{ dinhdangso($model->wherein('phamviapdung',['TW',])->count()) }}</td>
+            <td class="text-center">{{ dinhdangso($model->wherein('phamviapdung',['T','SBN',])->count()) }}</td>
         </tr>
         <tr>
-            <td>- Toàn quốc</td>
+            <td class="text-left">- Toàn quốc</td>
             <td class="text-center">02</td>
             <td class="text-center">{{ dinhdangso($model->wherein('phamviapdung',['TW',])->count()) }}</td>
             <td class="text-center">{{ dinhdangso($model->wherein('phamviapdung',['TW',])->count()) }}</td>
             <td></td>
         </tr>
         <tr>
-            <td>- Bộ, ban, ngành đoàn thể trung ương, tỉnh, thành phố trực thuộc Trung ương</td>
+            <td class="text-left">- Bộ, ban, ngành đoàn thể trung ương, tỉnh, thành phố trực thuộc Trung ương</td>
             <td class="text-center">03</td>
             <td class="text-center">{{ dinhdangso($model->wherein('phamviapdung',['T','SBN'])->count()) }}</td>
             <td></td>
             <td class="text-center">{{ dinhdangso($model->wherein('phamviapdung',['T','SBN'])->count()) }}</td>
         </tr>
         <tr class="font-weight-bold">
-            <td>2. Chia theo thời hạn thi đua</td>
+            <td class="text-left">2. Chia theo thời hạn thi đua</td>
             <td></td>
             <td class="text-center">{{ dinhdangso($model->count()) }}</td>
             <td class="text-center">{{ dinhdangso($model->wherein('phamviapdung',['TW',])->count()) }}</td>
             <td class="text-center">{{ dinhdangso($model->wherein('phamviapdung',['T','SBN'])->count()) }}</td>
         </tr>
         <tr>
-            <td>- Dưới 1 năm</td>
+            <td class="text-left">- Dưới 1 năm</td>
             <td class="text-center">06</td>
-            <td class="text-center">{{ dinhdangso($model->wherein('phanloai',['DOT'])->count()) }}</td>
-            <td class="text-center">{{ dinhdangso($model->wherein('phanloai',['DOT'])->wherein('phamviapdung',['TW'])->count()) }}</td>
-            <td class="text-center">{{ dinhdangso($model->wherein('phanloai',['DOT'])->wherein('phamviapdung',['T','SBN'])->count()) }}</td>
+            <td class="text-center">{{ dinhdangso($model->wherein('thoihanthidua',['DUOIMOTNAM'])->count()) }}</td>
+            <td class="text-center">{{ dinhdangso($model->wherein('thoihanthidua',['DUOIMOTNAM'])->wherein('phamviapdung',['TW'])->count()) }}</td>
+            <td class="text-center">{{ dinhdangso($model->wherein('thoihanthidua',['DUOIMOTNAM'])->wherein('phamviapdung',['T','SBN'])->count()) }}</td>
         </tr>
         </tr>
         <tr>
-            <td>- 1 năm</td>
+            <td class="text-left">- 1 năm</td>
             <td class="text-center">07</td>
-            <td class="text-center">{{ dinhdangso($model->wherein('phanloai',['CHUYENDE','HANGNAM'])->count()) }}</td>
-            <td class="text-center">{{ dinhdangso($model->wherein('phanloai',['CHUYENDE','HANGNAM'])->wherein('phamviapdung',['TW'])->count()) }}</td>
-            <td class="text-center">{{ dinhdangso($model->wherein('phanloai',['CHUYENDE','HANGNAM'])->wherein('phamviapdung',['T','SBN'])->count()) }}</td>
+            <td class="text-center">{{ dinhdangso($model->wherein('thoihanthidua',['MOTNAM'])->count()) }}</td>
+            <td class="text-center">{{ dinhdangso($model->wherein('thoihanthidua',['MOTNAM'])->wherein('phamviapdung',['TW'])->count()) }}</td>
+            <td class="text-center">{{ dinhdangso($model->wherein('thoihanthidua',['MOTNAM'])->wherein('phamviapdung',['T','SBN'])->count()) }}</td>
         </tr>
         <tr>
-            <td>- Từ 1 năm đến dưới 3 năm</td>
+            <td class="text-left">- Từ 1 năm đến dưới 3 năm</td>
             <td class="text-center">08</td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td class="text-center">{{ dinhdangso($model->wherein('thoihanthidua',['MOTNAMDENBANAM'])->count()) }}</td>
+            <td class="text-center">{{ dinhdangso($model->wherein('thoihanthidua',['MOTNAMDENBANAM'])->wherein('phamviapdung',['TW'])->count()) }}</td>
+            <td class="text-center">{{ dinhdangso($model->wherein('thoihanthidua',['MOTNAMDENBANAM'])->wherein('phamviapdung',['T','SBN'])->count()) }}</td>
         </tr>
         <tr>
-            <td>- Từ 3 năm trở lên</td>
+            <td class="text-left">- Từ 3 năm trở lên</td>
             <td class="text-center">09</td>
-            <td class="text-center">{{ dinhdangso($model->wherein('phanloai',['NAMNAM'])->count()) }}</td>
-            <td class="text-center">{{ dinhdangso($model->wherein('phanloai',['NAMNAM'])->wherein('phamviapdung',['TW'])->count()) }}</td>
-            <td class="text-center">{{ dinhdangso($model->wherein('phanloai',['NAMNAM'])->wherein('phamviapdung',['T','SBN'])->count()) }}</td>
+            <td class="text-center">{{ dinhdangso($model->wherein('thoihanthidua',['BANAMDENNAMNAM','TRENNAMNAM'])->count()) }}</td>
+            <td class="text-center">{{ dinhdangso($model->wherein('thoihanthidua',['BANAMDENNAMNAM','TRENNAMNAM'])->wherein('phamviapdung',['TW'])->count()) }}</td>
+            <td class="text-center">{{ dinhdangso($model->wherein('thoihanthidua',['BANAMDENNAMNAM','TRENNAMNAM'])->wherein('phamviapdung',['T','SBN'])->count()) }}</td>
         </tr>
         <tr class="font-weight-bold">
-            <td>3. Chia theo phương thức tổ chức phong trào thi đua</td>
+            <td class="text-left">3. Chia theo phương thức tổ chức phong trào thi đua</td>
             <td></td>
-            <td class="text-center">{{ dinhdangso($model->wherein('phanloai',['HANGNAM','CHUYENDE'])->count()) }}</td>
-            <td class="text-center">{{ dinhdangso($model->wherein('phanloai',['HANGNAM','CHUYENDE'])->wherein('phamviapdung',['TW'])->count()) }}</td>
-            <td class="text-center">{{ dinhdangso($model->wherein('phanloai',['HANGNAM','CHUYENDE'])->wherein('phamviapdung',['T','SBN'])->count()) }}</td>
+            <td class="text-center">{{ dinhdangso($model->count()) }}</td>
+            <td class="text-center">{{ dinhdangso($model->wherein('phamviapdung',['TW'])->count()) }}</td>
+            <td class="text-center">{{ dinhdangso($model->wherein('phamviapdung',['T','SBN'])->count()) }}</td>
         </tr>
         <tr>
-            <td>- Thi đua theo chuyên đề</td>
+            <td class="text-left">- Thi đua theo chuyên đề</td>
             <td class="text-center">10</td>
-            <td class="text-center">{{ dinhdangso($model->wherein('phanloai',['CHUYENDE'])->count()) }}</td>
-            <td class="text-center">{{ dinhdangso($model->wherein('phanloai',['CHUYENDE'])->wherein('phamviapdung',['TW'])->count()) }}</td>
-            <td class="text-center">{{ dinhdangso($model->wherein('phanloai',['CHUYENDE'])->wherein('phamviapdung',['T','SBN'])->count()) }}</td>
+            <td class="text-center">{{ dinhdangso($model->wherein('phuongthuctochuc',['CHUYENDE'])->count()) }}</td>
+            <td class="text-center">{{ dinhdangso($model->wherein('phuongthuctochuc',['CHUYENDE'])->wherein('phamviapdung',['TW'])->count()) }}</td>
+            <td class="text-center">{{ dinhdangso($model->wherein('phuongthuctochuc',['CHUYENDE'])->wherein('phamviapdung',['T','SBN'])->count()) }}</td>
         </tr>
         </tr>
         <tr>
-            <td>- Thi đua thường xuyên hàng năm</td>
+            <td class="text-left">- Thi đua thường xuyên hàng năm</td>
             <td class="text-center">11</td>
-            <td class="text-center">{{ dinhdangso($model->wherein('phanloai',['HANGNAM'])->count()) }}</td>
-            <td class="text-center">{{ dinhdangso($model->wherein('phanloai',['HANGNAM'])->wherein('phamviapdung',['TW'])->count()) }}</td>
-            <td class="text-center">{{ dinhdangso($model->wherein('phanloai',['HANGNAM'])->wherein('phamviapdung',['T','SBN'])->count()) }}</td>
+            <td class="text-center">{{ dinhdangso($model->wherein('phuongthuctochuc',['HANGNAM'])->count()) }}</td>
+            <td class="text-center">{{ dinhdangso($model->wherein('phuongthuctochuc',['HANGNAM'])->wherein('phamviapdung',['TW'])->count()) }}</td>
+            <td class="text-center">{{ dinhdangso($model->wherein('phuongthuctochuc',['HANGNAM'])->wherein('phamviapdung',['T','SBN'])->count()) }}</td>
         </tr>
         </tr>       
     </table>
@@ -161,7 +161,7 @@
         </tr>
         <tr class="font-weight-bold">
             <td>Người lập biểu</td>
-            <td>Thủ trưởng đơn vị</td>
+            <td>{{ $m_donvi->cdlanhdao }}</td>
         </tr>
         <tr class="font-italic">
             <td>(Ký, họ tên)</td>
@@ -172,7 +172,7 @@
 
             </td>
         <tr>
-            <td>{{ $m_donvi->ketoan }}</td>
+            <td>{{ $m_donvi->nguoilapbieu }}</td>
             <td>{{ $m_donvi->lanhdao }}</td>
         </tr>
     </table>

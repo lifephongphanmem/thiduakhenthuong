@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\APIhethongsohoaController;
+use App\Http\Controllers\API\APInghiepvuController;
 use App\Http\Controllers\API\APIquanlycanboController;
 use App\Http\Controllers\API\APIquanlyvanbanController;
 use App\Http\Controllers\API\APItdktbonoivuController;
@@ -26,16 +27,31 @@ use Illuminate\Support\Facades\Route;
 Route::get('XuatCaNhan', [APIxuatdulieuController::class, 'XuatCaNhan']);
 Route::get('XuatTapThe', [APIxuatdulieuController::class, 'XuatTapThe']);
 
-Route::get('getToKen', [APIthongtinchungController::class, 'getToKen']);
+Route::post('token', [APIthongtinchungController::class, 'token']);
 
 //Danh mục chung
 Route::group(['prefix' => 'DanhMucChung'], function () {
-    Route::get('LoaiHinhKhenThuong', [APIthongtinchungController::class, 'LoaiHinhKhenThuong']);
-    Route::get('HinhThucKhenThuong', [APIthongtinchungController::class, 'HinhThucKhenThuong']);
-    Route::get('PhanLoaiDoiTuong', [APIthongtinchungController::class, 'PhanLoaiDoiTuong']);
-    Route::get('DiaBanHanhChinh',  [APIthongtinchungController::class, 'DiaBanHanhChinh']);
-    Route::get('DonViSuDung',  [APIthongtinchungController::class, 'DonViSuDung']);    
-    Route::get('LinhVucHoatDong',  [APIthongtinchungController::class, 'LinhVucHoatDong']);
+    Route::post('LoaiHinhKhenThuong', [APIthongtinchungController::class, 'LoaiHinhKhenThuong']);
+    Route::post('HinhThucKhenThuong', [APIthongtinchungController::class, 'HinhThucKhenThuong']);
+    Route::post('PhanLoaiDoiTuong', [APIthongtinchungController::class, 'PhanLoaiDoiTuong']);
+    Route::post('DiaBanHanhChinh',  [APIthongtinchungController::class, 'DiaBanHanhChinh']);
+    Route::post('DonViSuDung',  [APIthongtinchungController::class, 'DonViSuDung']);    
+    Route::post('LinhVucHoatDong',  [APIthongtinchungController::class, 'LinhVucHoatDong']);
+
+    Route::post('getDanhSachHoSo', [APInghiepvuController::class, 'getDanhSachHoSo']);
+    Route::post('getHoSoKhenThuong', [APInghiepvuController::class, 'getHoSoKhenThuong']);
+    Route::post('postHoSoKhenThuong', [APInghiepvuController::class, 'postHoSoKhenThuong']);
+    Route::post('getKhenThuongCaNhan',  [APInghiepvuController::class, 'getKhenThuongCaNhan']);
+    Route::post('postKhenThuongCaNhan', [APInghiepvuController::class, 'postKhenThuongCaNhan']);
+});
+
+//Nghiệp vụ chung
+Route::group(['prefix' => 'NghiepVu'], function () {
+    Route::post('getDanhSachHoSo', [APInghiepvuController::class, 'getDanhSachHoSo']);
+    Route::post('getHoSoKhenThuong', [APInghiepvuController::class, 'getHoSoKhenThuong']);
+    Route::post('postHoSoKhenThuong', [APInghiepvuController::class, 'postHoSoKhenThuong']);
+    Route::post('getKhenThuongCaNhan',  [APInghiepvuController::class, 'getKhenThuongCaNhan']);
+    Route::post('postKhenThuongCaNhan', [APInghiepvuController::class, 'postKhenThuongCaNhan']);
 });
 
 //Quản lý cán bộ

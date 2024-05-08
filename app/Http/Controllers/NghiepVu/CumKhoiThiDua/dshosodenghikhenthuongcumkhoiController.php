@@ -130,18 +130,9 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
         }
 
         $inputs['phanloaikhenthuong'] = 'CUMKHOI';
-        //Thiết lập thông tin trưởng cụm khối
-        if ($inputs['nam'] != 'ALL') {
-            $truongcumkhoi = view_dstruongcumkhoi::whereYear('ngaytu', $inputs['nam'])
-                ->where('macumkhoi', $inputs['macumkhoi'])
-                ->where('madonvi', $inputs['madonvi'])->first();
-
-            //nếu trưởng cụm khối == null =>lấy đơn vị quản lý để thêm hồ sơ
-            $truongcumkhoi = $truongcumkhoi->madonvi ?? null;
-            $inputs['truongcumkhoi'] = $truongcumkhoi == $inputs['madonvi'] ? true : false;
-        } else {
-            $inputs['truongcumkhoi'] = false;
-        }
+        //Thiết lập thông tin trưởng cụm khối (nếu năm nay chưa thiết lập danh sách thì lấy năm trước)
+        $inputs['truongcumkhoi'] = chkTruongCumKhoi($inputs['nam'],$inputs['macumkhoi'],$inputs['madonvi']);       
+        
 
         // $a_donviql = array_column($m_cumkhoi->where('macumkhoi',$inputs['macumkhoi'])->madonvi);
         return view('NghiepVu.CumKhoiThiDua.HoSoKhenThuong.DanhSach')
@@ -1013,18 +1004,18 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
         return redirect(static::$url . 'DanhSach?madonvi=' . $model->madonvi . '&macumkhoi=' . $model->macumkhoi);
     }
 
-    public function InToTrinhHoSo(Request $request)
-    {
-        $inputs = $request->all();
-        $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
-        getTaoDuThaoToTrinhHoSoCumKhoi($model);
-        $model->thongtinquyetdinh = $model->thongtintotrinhhoso;
-        $model->thongtinquyetdinh = str_replace('<p>[sangtrangmoi]</p>', '<div class=&#34;sangtrangmoi&#34;></div>', $model->thongtinquyetdinh);
-        //dd($model);
-        return view('BaoCao.DonVi.XemQuyetDinh')
-            ->with('model', $model)
-            ->with('pageTitle', 'Tờ trình khen thưởng');
-    }
+    // public function InToTrinhHoSo(Request $request)
+    // {
+    //     $inputs = $request->all();
+    //     $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+    //     getTaoDuThaoToTrinhHoSoCumKhoi($model);
+    //     $model->thongtinquyetdinh = $model->thongtintotrinhhoso;
+    //     $model->thongtinquyetdinh = str_replace('<p>[sangtrangmoi]</p>', '<div class=&#34;sangtrangmoi&#34;></div>', $model->thongtinquyetdinh);
+    //     //dd($model);
+    //     return view('BaoCao.DonVi.XemQuyetDinh')
+    //         ->with('model', $model)
+    //         ->with('pageTitle', 'Tờ trình khen thưởng');
+    // }
 
     public function NhanExcel(Request $request)
     {

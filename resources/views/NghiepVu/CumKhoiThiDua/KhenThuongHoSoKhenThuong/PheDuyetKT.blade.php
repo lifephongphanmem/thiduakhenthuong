@@ -48,13 +48,14 @@
         <div class="card-body">
             @include('NghiepVu._DungChung.HoSo_ThongTinQD')
 
-            @include('NghiepVu._DungChung.HoSo_PheDuyetKhenThuongCumKhoi')
+            @include('NghiepVu._DungChung.HoSo_CumKhoi_ThiDua_PheDuyetKhenThuong')
+            {{-- @include('NghiepVu._DungChung.HoSo_PheDuyetKhenThuongCumKhoi') --}}
 
         </div>
         <div class="card-footer">
             <div class="row text-center">
                 <div class="col-lg-12">
-                    <a href="{{ url($inputs['url_xd'] . 'ThongTin?madonvi=' . $model->madonvi_xd) }}"
+                    <a href="{{ url($inputs['url_qd'] . 'DanhSach?madonvi=' . $model->madonvi_kt.'&macumkhoi='.$model->macumkhoi) }}"
                         class="btn btn-danger mr-5"><i class="fa fa-reply"></i>&nbsp;Quay lại</a>
                     <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i>Hoàn thành</button>
                 </div>
@@ -67,5 +68,6 @@
     @include('NghiepVu._DungChung.modal_QD_GanKT')
     @include('NghiepVu._DungChung.modal_QD_CaNhan')
     @include('NghiepVu._DungChung.modal_QD_TapThe')
+    @include('NghiepVu._DungChung.modal_QD_TaiLieuDinhKem')
     @include('NghiepVu._DungChung.modal_ThemDanhMuc')
 @stop

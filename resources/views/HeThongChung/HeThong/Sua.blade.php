@@ -139,6 +139,13 @@
                 </div>
             </div>
 
+            <div class="form-group row">
+                <div class="col-12">
+                    <label>Mã truy cập API (AcceccToken)</label>
+                    {!! Form::textarea('accesstoken', null, ['class' => 'form-control', 'rows'=>2]) !!}
+                </div>                
+            </div>
+
             @if (session('admin')->capdo == 'SSA')
                 <h4 class="text-dark font-weight-bold mb-5">Thiết lập khác (SSA)</h4>
                 <div class="form-group row">
@@ -157,6 +164,14 @@
                         {!! Form::select('thoigianhethong', ['15'=>'15 phút','30'=>'30 phút','60'=>'60 phút'], null, ['class' => 'form-control select2basic']) !!}
                     </div>
                 </div>
+
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label>Mã chung API (Publickey)</label>
+                        {!! Form::text('keypublic', null, ['class' => 'form-control']) !!}
+                    </div>                    
+                </div>
+
                 <div class="form-group row">
                     <div class="col-md-12">
                         <label>Tài liệu hướng dẫn sử dụng: </label>

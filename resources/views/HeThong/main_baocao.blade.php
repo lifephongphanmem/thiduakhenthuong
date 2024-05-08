@@ -25,6 +25,10 @@
             margin: auto;
         }
 
+        /* tr {
+            text-align: center;
+        } */
+
         td,
         th {
             padding: 5px;

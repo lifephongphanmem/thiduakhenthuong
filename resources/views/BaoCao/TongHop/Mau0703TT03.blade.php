@@ -70,7 +70,6 @@
             <td></td>
             <td></td>
             <td></td>
-
         </tr>
         
         <tr class="font-weight-bold">
@@ -82,7 +81,6 @@
             <td></td>
             <td></td>
             <td></td>
-
         </tr>
         <tr>
             <td>- Tập thể</td>

@@ -48,11 +48,13 @@
         <a href="/">
             <img alt="Logo" src="{{ url('assets/media/logos/LoGo_TDKT.jpg') }}" class="logo-default max-h-30px" />
         </a>
+
+
         <!--end::Logo-->
         <!--begin::Toolbar-->
         <div class="d-flex align-items-center">
             <!--begin::Aside Mobile Toggle-->
-            <button class="btn p-0 burger-icon ml-4" id="kt_aside_mobile_toggle" title="Menu">
+            <button class="btn p-0 burger-icon ml-4 mr-2" id="kt_aside_mobile_toggle" title="Menu">
                 <span></span>
             </button>
             <!--end::Aside Mobile Toggle-->
@@ -62,6 +64,11 @@
             </button>-->
             <!--end::Header Menu Mobile Toggle-->
             <!--begin::Topbar Mobile Toggle-->
+            <a href="{{ url('/DanhSachTaiKhoan') }}">
+                <img alt="Logo" src="{{ url('assets/media/logos/LoGo_TDKT.jpg') }}"
+                    class="logo-default max-h-30px" />
+            </a>
+
             <button class="btn btn-hover-text-primary p-0 ml-2" id="kt_header_mobile_topbar_toggle">
                 <span class="svg-icon svg-icon-xl">
                     <!--begin::Svg Icon | path:assets/media/svg/icons/General/User.svg-->
@@ -91,6 +98,91 @@
             <!--begin::Wrapper-->
             <!--Test-->
             <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+
+                <!-- 2023.12.26 Chưa làm ẩn hiện menu aside -->
+                <!--begin::Aside-->
+                {{-- <div class="aside aside-left" id="kt_aside">
+                    <!--begin::Secondary-->
+                    <div class="aside-secondary d-flex flex-row-fluid">
+                        <!--begin::Workspace-->
+                        <div class="aside-workspace scroll scroll-push my-2">
+                            <!--begin::Tab Content-->
+                            <div class="tab-content">
+                                <!--begin::Tab Pane-->
+                                <div class="tab-pane fade show active" id="kt_aside_tab_2">
+                                    <!--begin::Aside Menu-->
+                                    <div class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper">
+                                        <!--begin::Menu Container-->
+                                        <div id="kt_aside_menu" class="aside-menu min-h-lg-800px" data-menu-vertical="1"
+                                            data-menu-scroll="1">
+                                            <!--begin::Menu Nav-->
+                                            <ul class="menu-nav">
+                                                <li class="menu-section">
+                                                    <h3 class="menu-text">Thi đua, khen thưởng các cấp - </h3>
+                                                    <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
+                                                </li>
+
+                                                <li class="menu-item menu-item-submenu" aria-haspopup="true"
+                                                    data-menu-toggle="hover">
+                                                    <a href="javascript:;" class="menu-link menu-toggle">
+                                                        <span class="svg-icon menu-icon">
+                                                            <i class="fas fa-folder"></i>
+                                                        </span>
+                                                        <span class="menu-text font-weight-bold">Quản lý phong trào thi
+                                                            đua</span>
+                                                        <i class="menu-arrow"></i>
+                                                    </a>
+                                                    <div class="menu-submenu">
+                                                        <i class="menu-arrow"></i>
+                                                        <ul class="menu-subnav">
+
+                                                            <li class="menu-item menu-item-submenu"
+                                                                aria-haspopup="true" data-menu-toggle="hover">
+                                                                <a href="javascript:;" class="menu-link menu-toggle">
+                                                                    <i class="menu-bullet menu-bullet-dot">
+                                                                        <span></span>
+                                                                    </i>
+                                                                    <span class="menu-text font-weight-bold">Phong
+                                                                        trào</span>
+                                                                    <i class="menu-arrow"></i>
+                                                                </a>
+                                                                <div class="menu-submenu">
+                                                                    <i class="menu-arrow"></i>
+                                                                    <ul class="menu-subnav">
+                                                                        <li class="menu-item" aria-haspopup="true">
+                                                                            <a href="{{ url('/PhongTraoThiDua/ThongTin') }}"
+                                                                                class="menu-link">
+                                                                                <i class="menu-bullet menu-bullet-dot">
+                                                                                    <span></span>
+                                                                                </i>
+                                                                                <span
+                                                                                    class="menu-text font-weight-bold">Danh
+                                                                                    sách phong trào</span>
+                                                                            </a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <!--end::Menu Nav-->
+                                        </div>
+                                        <!--end::Menu Container-->
+                                    </div>
+                                    <!--end::Aside Menu-->
+                                </div>
+                                <!--end::Tab Pane-->
+                            </div>
+                            <!--end::Tab Content-->
+                        </div>
+                        <!--end::Workspace-->
+                    </div>
+                    <!--end::Secondary-->
+                </div> --}}
+                <!--end::Aside-->
+                <!-- 2023.12.26 Chưa làm ẩn hiện menu aside -->
                 <!--begin::Header-->
                 <div id="kt_header" class="header header-fixed">
                     <!--begin::Container-->
@@ -100,25 +192,106 @@
                             <!--begin::Header Menu-->
                             <div class="topbar-item">
                                 <!--begin::Header Nav-->
-
-
                                 <a class="no-underline btn btn-sm font-weight-bold" href="/">
                                     <h2 style="text-transform: uppercase;"><img
                                             src="{{ url('assets/media/logos/TDKT.png') }}" class="max-h-35px" />
-                                        
+
                                     </h2>
                                 </a>
-                                <b class="text-uppercase" style="color: #25aae2">THI ĐUA KHEN THƯỞNG - {{$hethong->diadanh}}</b>
+                                <b class="text-uppercase" style="color: #25aae2">THI ĐUA KHEN THƯỞNG -
+                                    {{ $hethong->diadanh }}</b>
                                 <!--end::Header Nav-->
                             </div>
                             <!--end::Header Menu-->
                         </div>
                         <!--end::Header Menu Wrapper-->
                         <div class="topbar">
+                            <!--begin::Subheader-->
+                            <div class="subheader py-2 py-lg-4 subheader-solid bg-white" id="kt_subheader">
+                                <div
+                                    class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                                    <!--begin::Info-->
+                                    <div class="d-flex align-items-stretch mr-3">
+                                        <!--begin::Header Menu Wrapper-->
+                                        <div class="header-menu-wrapper header-menu-wrapper-left"
+                                            id="kt_header_menu_wrapper">
+                                            <!--begin::Header Menu-->
+                                            <div id="kt_header_menu"
+                                                class="header-menu header-menu-left header-menu-mobile header-menu-layout-default">
+                                                <!--begin::Header Nav-->
+                                                <ul class="menu-nav">
+                                                    <li class="menu-item" aria-haspopup="true">
+                                                        <a href="/CongBo/VanBan" class="menu-link">
+                                                            <span class="menu-text">Văn bản QLNN</span>
+                                                        </a>
+                                                    </li>
+
+                                                    <li class="menu-item" aria-haspopup="true">
+                                                        <a href="/CongBo/QuyetDinh" class="menu-link">
+                                                            <span class="menu-text">Quyết định khen thưởng</span>
+                                                        </a>
+                                                    </li>
+
+                                                    <li class="menu-item menu-item-submenu menu-item-rel"
+                                                        data-menu-toggle="click" aria-haspopup="true">
+                                                        <a href="javascript:;" class="menu-link menu-toggle">
+                                                            <span class="menu-text">Hỗ trợ</span>
+                                                            <span class="menu-desc"></span>
+                                                            <i class="menu-arrow"></i>
+                                                        </a>
+                                                        <div
+                                                            class="menu-submenu menu-submenu-classic menu-submenu-left">
+                                                            <ul class="menu-subnav">
+                                                                <li class="menu-item" aria-haspopup="true">
+                                                                    <a target="_blank"
+                                                                        href="{{ url('/DanhSachTaiKhoan') }}"
+                                                                        class="menu-link">
+
+                                                                        <span class="menu-text">Danh sách tài khoản
+                                                                            tập
+                                                                            huấn</span>
+                                                                    </a>
+                                                                </li>
+                                                                <li class="menu-item" aria-haspopup="true">
+                                                                    <a target="_blank"
+                                                                        href="{{ url('/DanhSachHoTro') }}"
+                                                                        class="menu-link">
+
+                                                                        <span class="menu-text">Thông tin hỗ
+                                                                            trợ</span>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <!--end::Header Nav-->
+                                            </div>
+                                            <!--end::Header Menu-->
+                                        </div>
+                                        <!--end::Header Menu Wrapper-->
+                                    </div>
+                                    <!--end::Info-->
+                                    <!--begin::Toolbar-->
+                                    <div class="d-flex align-items-center">
+                                        <a href="#" class="btn btn-sm btn-light font-weight-bold mr-2">
+                                            <span id='ct6'
+                                                class="text-primary font-size-base font-weight-bolder">
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <!--end::Toolbar-->
+                                </div>
+
+                            </div>
+                            <!--end::Subheader-->
+                        </div>
+                        <div class="topbar">
                             <!--begin::Header Menu-->
                             <div class="topbar-item">
                                 @if (Illuminate\Support\Facades\Session::has('admin'))
-                                    <a class="btn btn-sm btn-light mr-1 pulse pulse-danger text-primary font-weight-bolder" href="/">
+                                    <a class="btn btn-sm btn-light mr-1 pulse pulse-danger text-primary font-weight-bolder"
+                                        href="/">
                                         <span class="pulse-ring"></span>
                                         <span class="svg-icon svg-icon-xl svg-icon-primary">
                                             <!--begin::Svg Icon | path:assets/media/svg/icons/Code/Compiling.svg-->
@@ -127,8 +300,7 @@
                                                 height="24px" viewBox="0 0 24 24" version="1.1">
                                                 <g stroke="none" stroke-width="1" fill="none"
                                                     fill-rule="evenodd">
-                                                    <rect x="0" y="0" width="24"
-                                                        height="24"></rect>
+                                                    <rect x="0" y="0" width="24" height="24"></rect>
                                                     <path
                                                         d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z"
                                                         fill="#000000" opacity="0.3"></path>
@@ -141,28 +313,28 @@
                                         </span>
                                         Vào chương trình</a>
                                 @else
-                                <a class="btn btn-sm btn-light mr-1 pulse pulse-danger text-primary font-weight-bolder" href="/DangNhap">
-                                    <span class="pulse-ring"></span>
-                                    <span class="svg-icon svg-icon-xl svg-icon-primary">
-                                        <!--begin::Svg Icon | path:assets/media/svg/icons/Code/Compiling.svg-->
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                            xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
-                                            height="24px" viewBox="0 0 24 24" version="1.1">
-                                            <g stroke="none" stroke-width="1" fill="none"
-                                                fill-rule="evenodd">
-                                                <rect x="0" y="0" width="24"
-                                                    height="24"></rect>
-                                                <path
-                                                    d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z"
-                                                    fill="#000000" opacity="0.3"></path>
-                                                <path
-                                                    d="M8.56066017,16.6819805 L10.6819805,14.5606602 C11.267767,13.9748737 12.2175144,13.9748737 12.8033009,14.5606602 L14.9246212,16.6819805 C15.5104076,17.267767 15.5104076,18.2175144 14.9246212,18.8033009 L12.8033009,20.9246212 C12.2175144,21.5104076 11.267767,21.5104076 10.6819805,20.9246212 L8.56066017,18.8033009 C7.97487373,18.2175144 7.97487373,17.267767 8.56066017,16.6819805 Z M8.56066017,4.68198052 L10.6819805,2.56066017 C11.267767,1.97487373 12.2175144,1.97487373 12.8033009,2.56066017 L14.9246212,4.68198052 C15.5104076,5.26776695 15.5104076,6.21751442 14.9246212,6.80330086 L12.8033009,8.9246212 C12.2175144,9.51040764 11.267767,9.51040764 10.6819805,8.9246212 L8.56066017,6.80330086 C7.97487373,6.21751442 7.97487373,5.26776695 8.56066017,4.68198052 Z"
-                                                    fill="#000000"></path>
-                                            </g>
-                                        </svg>
-                                        <!--end::Svg Icon-->
-                                    </span>
-                                    Đăng nhập</a>
+                                    <a class="btn btn-sm btn-light mr-1 pulse pulse-danger text-primary font-weight-bolder"
+                                        href="/DangNhap">
+                                        <span class="pulse-ring"></span>
+                                        <span class="svg-icon svg-icon-xl svg-icon-primary">
+                                            <!--begin::Svg Icon | path:assets/media/svg/icons/Code/Compiling.svg-->
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                                                height="24px" viewBox="0 0 24 24" version="1.1">
+                                                <g stroke="none" stroke-width="1" fill="none"
+                                                    fill-rule="evenodd">
+                                                    <rect x="0" y="0" width="24" height="24"></rect>
+                                                    <path
+                                                        d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z"
+                                                        fill="#000000" opacity="0.3"></path>
+                                                    <path
+                                                        d="M8.56066017,16.6819805 L10.6819805,14.5606602 C11.267767,13.9748737 12.2175144,13.9748737 12.8033009,14.5606602 L14.9246212,16.6819805 C15.5104076,17.267767 15.5104076,18.2175144 14.9246212,18.8033009 L12.8033009,20.9246212 C12.2175144,21.5104076 11.267767,21.5104076 10.6819805,20.9246212 L8.56066017,18.8033009 C7.97487373,18.2175144 7.97487373,17.267767 8.56066017,16.6819805 Z M8.56066017,4.68198052 L10.6819805,2.56066017 C11.267767,1.97487373 12.2175144,1.97487373 12.8033009,2.56066017 L14.9246212,4.68198052 C15.5104076,5.26776695 15.5104076,6.21751442 14.9246212,6.80330086 L12.8033009,8.9246212 C12.2175144,9.51040764 11.267767,9.51040764 10.6819805,8.9246212 L8.56066017,6.80330086 C7.97487373,6.21751442 7.97487373,5.26776695 8.56066017,4.68198052 Z"
+                                                        fill="#000000"></path>
+                                                </g>
+                                            </svg>
+                                            <!--end::Svg Icon-->
+                                        </span>
+                                        Đăng nhập</a>
                                 @endif
                             </div>
                             <!--end::Header Menu-->
@@ -171,83 +343,11 @@
                     <!--end::Container-->
                 </div>
                 <!--end::Header-->
+
                 <!--begin::Content-->
                 <div class="content d-flex flex-column flex-column-fluid" id="kt_content"
                     style="background-image: url('/assets/media/bg/bg-10.jpg')">
-                    <!--begin::Subheader-->
-                    <div class="subheader py-2 py-lg-4 subheader-solid bg-white" id="kt_subheader">
-                        <div
-                            class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
-                            <!--begin::Info-->
-                            <div class="d-flex align-items-stretch mr-3">
-                                <!--begin::Header Menu Wrapper-->
-                                <div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
-                                    <!--begin::Header Menu-->
-                                    <div id="kt_header_menu"
-                                        class="header-menu header-menu-left header-menu-mobile header-menu-layout-default">
-                                        <!--begin::Header Nav-->
-                                        <ul class="menu-nav">
-                                            <li class="menu-item" aria-haspopup="true">
-                                                <a href="/CongBo/VanBan" class="menu-link">
-                                                    <span class="menu-text">Văn bản QLNN</span>
-                                                </a>
-                                            </li>
 
-                                            <li class="menu-item" aria-haspopup="true">
-                                                <a href="/CongBo/QuyetDinh" class="menu-link">
-                                                    <span class="menu-text">Quyết định khen thưởng</span>
-                                                </a>
-                                            </li>
-
-                                            <li class="menu-item menu-item-submenu menu-item-rel"
-                                                data-menu-toggle="click" aria-haspopup="true">
-                                                <a href="javascript:;" class="menu-link menu-toggle">
-                                                    <span class="menu-text">Hỗ trợ</span>
-                                                    <span class="menu-desc"></span>
-                                                    <i class="menu-arrow"></i>
-                                                </a>
-                                                <div class="menu-submenu menu-submenu-classic menu-submenu-left">
-                                                    <ul class="menu-subnav">
-                                                        <li class="menu-item" aria-haspopup="true">
-                                                            <a target="_blank"
-                                                                href="{{url('/DanhSachTaiKhoan')}}"
-                                                                class="menu-link">
-
-                                                                <span class="menu-text">Danh sách tài khoản tập
-                                                                    huấn</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="menu-item" aria-haspopup="true">
-                                                            <a target="_blank"
-                                                            href="{{url('/DanhSachHoTro')}}"
-                                                                class="menu-link">
-
-                                                                <span class="menu-text">Thông tin hỗ trợ</span>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <!--end::Header Nav-->
-                                    </div>
-                                    <!--end::Header Menu-->
-                                </div>
-                                <!--end::Header Menu Wrapper-->
-                            </div>
-                            <!--end::Info-->
-                            <!--begin::Toolbar-->
-                            <div class="d-flex align-items-center">
-                                <a href="#" class="btn btn-sm btn-light font-weight-bold mr-2">
-                                    <span id='ct6' class="text-primary font-size-base font-weight-bolder">
-                                    </span>
-                                </a>
-                            </div>
-                            <!--end::Toolbar-->
-                        </div>
-
-                    </div>
-                    <!--end::Subheader-->
                     <!--begin::Entry-->
                     <div class="d-flex flex-column-fluid">
                         <!--begin::Container-->
@@ -267,11 +367,12 @@
                     <div class="container d-flex flex-column justify-content-between">
                         <div class="row">
                             <div class="col-8">
-                                <p>Đơn vị: &nbsp;<b style="color: #25aae2">{{$hethong->tendonvi}}</b>
+                                <p>Đơn vị: &nbsp;<b style="color: #25aae2">{{ $hethong->tendonvi }}</b>
                                 </p>
-                                <p>Địa chỉ: &nbsp;<b style="color: #25aae2">{{$hethong->diachi}}</b></p>
-                                <p>Thông tin liên hệ: &nbsp;<b style="color: #25aae2">Điện thoại: {{$hethong->dienthoai}} -
-                                        Email: {{$hethong->emailql}}</b></p>
+                                <p>Địa chỉ: &nbsp;<b style="color: #25aae2">{{ $hethong->diachi }}</b></p>
+                                <p>Thông tin liên hệ: &nbsp;<b style="color: #25aae2">Điện thoại:
+                                        {{ $hethong->dienthoai }} -
+                                        Email: {{ $hethong->emailql }}</b></p>
                             </div>
                             <div class="col-4 footer-block" style="text-align: left">
                                 <p>Đơn vị phát triển: &nbsp;<b style="color: #25aae2">Công ty phát triển phần mềm Cuộc
@@ -317,8 +418,8 @@
                     height="24px" viewBox="0 0 24 24" version="1.1">
                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                         <polygon points="0 0 24 0 24 24 0 24"></polygon>
-                        <rect fill="#000000" opacity="0.3" x="11" y="10" width="2"
-                            height="10" rx="1"></rect>
+                        <rect fill="#000000" opacity="0.3" x="11" y="10" width="2" height="10"
+                            rx="1"></rect>
                         <path
                             d="M6.70710678,12.7071068 C6.31658249,13.0976311 5.68341751,13.0976311 5.29289322,12.7071068 C4.90236893,12.3165825 4.90236893,11.6834175 5.29289322,11.2928932 L11.2928932,5.29289322 C11.6714722,4.91431428 12.2810586,4.90106866 12.6757246,5.26284586 L18.6757246,10.7628459 C19.0828436,11.1360383 19.1103465,11.7686056 18.7371541,12.1757246 C18.3639617,12.5828436 17.7313944,12.6103465 17.3242754,12.2371541 L12.0300757,7.38413782 L6.70710678,12.7071068 Z"
                             fill="#000000" fill-rule="nonzero"></path>
@@ -454,6 +555,8 @@
         <script>
             jQuery(document).ready(function() {
                 TableManaged3.init();
+                // var toggleElement = document.querySelector("#kt_aside_toggle);
+                //     var toggle = KTToggle.getInstance(toggleElement); toggle.disabled();
             });
         </script>
 

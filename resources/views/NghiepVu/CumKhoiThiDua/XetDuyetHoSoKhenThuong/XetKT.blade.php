@@ -260,7 +260,8 @@
                                                             <td class="text-center">{{ $i++ }}</td>
                                                             <td>{{ $tt->tentapthe }}</td>
                                                             <td>{{ $a_tapthe[$tt->maphanloaitapthe] ?? '' }}</td>
-                                                            <td class="text-center">{{ $a_dhkt_tapthe[$tt->madanhhieukhenthuong] ?? '' }}</td>
+                                                            <td class="text-center">
+                                                                {{ $a_dhkt_tapthe[$tt->madanhhieukhenthuong] ?? '' }}</td>
 
                                                             @if ($tt->ketqua == 1)
                                                                 <td class="text-center">
@@ -331,7 +332,8 @@
                                                             <td class="text-center">
                                                                 {{ $tt->chucvu . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}
                                                             </td>
-                                                            <td class="text-center">{{ $a_dhkt_canhan[$tt->madanhhieukhenthuong] ?? '' }}</td>
+                                                            <td class="text-center">
+                                                                {{ $a_dhkt_canhan[$tt->madanhhieukhenthuong] ?? '' }}</td>
                                                             @if ($tt->ketqua == 1)
                                                                 <td class="text-center">
                                                                     <button class="btn btn-sm btn-clean btn-icon">
@@ -423,7 +425,7 @@
         <div class="card-footer">
             <div class="row text-center">
                 <div class="col-lg-12">
-                    <a href="{{ url($inputs['url_xd'] . 'ThongTin?madonvi=' . $inputs['madonvi']) }}"
+                    <a href="{{ url($inputs['url_xd'] . 'DanhSach?madonvi=' . $model->madonvi_xd . '&macumkhoi=' . $model->macumkhoi) }}"
                         class="btn btn-danger mr-5"><i class="fa fa-reply"></i>&nbsp;Quay lại</a>
 
                 </div>
@@ -432,7 +434,7 @@
         {!! Form::close() !!}
     </div>
     <!--end::Card-->
-    
+
     @include('NghiepVu._DungChung.modal_QD_GanKT')
     @include('NghiepVu._DungChung.modal_QD_CaNhan')
     @include('NghiepVu._DungChung.modal_QD_TapThe')

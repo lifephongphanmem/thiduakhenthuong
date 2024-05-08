@@ -118,7 +118,7 @@ class dshosodenghikhenthuongthiduacumkhoiController extends Controller
         $m_khenthuong_canhan = dshosotdktcumkhoi_canhan::wherein('mahosotdkt', array_column($m_khenthuong->toarray(),'mahosotdkt'))->get();
         $m_khenthuong_tapthe = dshosotdktcumkhoi_tapthe::wherein('mahosotdkt', array_column($m_khenthuong->toarray(),'mahosotdkt'))->get();
         foreach ($model as $ct) {
-            $this->KiemTraPhongTrao($ct, $ngayhientai);
+            KiemTraPhongTrao($ct, $ngayhientai);
             $hoso = $m_hoso->where('maphongtraotd', $ct->maphongtraotd);
             $ct->sohoso = $hoso == null ? 0 : $hoso->count();
 
@@ -154,20 +154,7 @@ class dshosodenghikhenthuongthiduacumkhoiController extends Controller
             ->with('pageTitle', 'Hồ sơ đề nghị khen thưởng thi đua');
     }
 
-    function KiemTraPhongTrao(&$phongtrao, $thoigian)
-    {
-        if ($phongtrao->trangthai == 'CC') {
-            $phongtrao->nhanhoso = 'CHUABATDAU';
-            if ($phongtrao->tungay < $thoigian && $phongtrao->denngay > $thoigian) {
-                $phongtrao->nhanhoso = 'DANGNHAN';
-            }
-            if (strtotime($phongtrao->denngay) < strtotime($thoigian)) {
-                $phongtrao->nhanhoso = 'KETTHUC';
-            }
-        } else {
-            $phongtrao->nhanhoso = 'KETTHUC';
-        }
-    }
+ 
 
     public function ThemKT(Request $request)
     {
@@ -393,7 +380,7 @@ class dshosodenghikhenthuongthiduacumkhoiController extends Controller
         $m_phongtrao = dsphongtraothiduacumkhoi::where('maphongtraotd', $inputs['maphongtraotd'])->first();
 
         $ngayhientai = date('Y-m-d');
-        $this->KiemTraPhongTrao($m_phongtrao, $ngayhientai);
+        KiemTraPhongTrao($m_phongtrao, $ngayhientai);
         $model = dshosothamgiathiduacumkhoi::where('maphongtraotd', $inputs['maphongtraotd'])
             ->wherein('mahoso', function ($qr) use ($inputs) {
                 $qr->select('mahoso')->from('dshosothamgiathiduacumkhoi')

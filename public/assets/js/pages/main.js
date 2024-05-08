@@ -96,6 +96,11 @@ $(function () {
         url = url.substring(0, index - 1) + '/ThongTin';
     }
 
+    var index = url.indexOf('DSHoSoThamGia');
+    if (index > 0) {
+        url = url.substring(0, index - 1) + '/ThongTin';
+    }
+
     var index = url.indexOf('Xem');
     if (index > 0) {
         url = url.substring(0, index - 1) + '/ThongTin';

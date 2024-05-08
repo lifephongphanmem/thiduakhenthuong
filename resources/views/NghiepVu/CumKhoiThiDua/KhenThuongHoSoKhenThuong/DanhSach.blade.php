@@ -137,6 +137,15 @@
                                     </button>
                                     @if ($inputs['trangthai'] == 'CC')
                                         @if ($tt->trangthai == 'CXKT')
+                                            @if (session('admin')->opt_duthaoquyetdinh)
+                                                <a title="Tạo dự thảo quyết định khen thưởng" target="_blank"
+                                                    href="{{ url('/DungChung/DuThao/QuyetDinhKhenThuong?mahosotdkt=' . $tt->mahosotdkt . '&phanloaihoso=' . $inputs['phanloaihoso']) }}"
+                                                    class="btn btn-sm btn-clean btn-icon">
+                                                    {{-- class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}"> --}}
+                                                    <i class="icon-lg la flaticon-edit-1 text-success"></i>
+                                                </a>
+                                            @endif
+
                                             @if (chkPhanQuyen('qdhosokhenthuongcumkhoi', 'thaydoi'))
                                                 <button title="Trả lại hồ sơ" type="button"
                                                     onclick="confirmTraLai('{{ $tt->mahosotdkt }}', '{{ $inputs['madonvi'] }}', '{{ $inputs['url_qd'] . 'TraLai' }}')"
@@ -145,6 +154,7 @@
                                                     <i class="icon-lg la la-reply text-danger"></i>
                                                 </button>
                                             @endif
+
                                             @if (chkPhanQuyen('qdhosokhenthuongcumkhoi', 'hoanthanh'))
                                                 <a title="Phê duyệt hồ sơ khen thưởng"
                                                     href="{{ url($inputs['url_qd'] . 'PheDuyet?mahosotdkt=' . $tt->mahosotdkt) }}"

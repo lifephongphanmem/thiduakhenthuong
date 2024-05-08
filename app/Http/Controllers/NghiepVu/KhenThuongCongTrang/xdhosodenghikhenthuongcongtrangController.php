@@ -142,6 +142,21 @@ class xdhosodenghikhenthuongcongtrangController extends Controller
         return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
     }
 
+    //Trả lại hồ sơ theo quy trình tài khoản: Trả lại cho bước tiếp nhận
+    public function TraLaiQuyTrinhTaiKhoan(Request $request)
+    {
+        if (!chkPhanQuyen('xdhosodenghikhenthuongcongtrang', 'hoanthanh')) {
+            return view('errors.noperm')->with('machucnang', 'xdhosodenghikhenthuongcongtrang')->with('tenphanquyen', 'hoanthanh');
+        }
+        $inputs = $request->all();
+        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahoso'])->first();
+        //gán trạng thái hồ sơ để theo dõi
+        $inputs['trangthai'] = 'BTLXD';
+        $inputs['thoigian'] = date('Y-m-d H:i:s');
+        setTraLaiXD($model, $inputs);
+        return redirect(static::$url . 'ThongTin?madonvi=' . $inputs['madonvi']);
+    }
+
     //chưa dùng
     public function ChuyenHoSo(Request $request)
     {

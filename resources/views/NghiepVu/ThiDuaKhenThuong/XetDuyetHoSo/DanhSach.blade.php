@@ -32,7 +32,7 @@
     <div class="card card-custom wave wave-animate-slow wave-info" style="min-height: 600px">
         <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Danh sách hồ sơ thi đua từ đơn vị cấp dưới</h3>
+                <h3 class="card-label text-uppercase">Danh sách hồ sơ đề nghị khen thưởng từ đơn vị cấp dưới</h3>
             </div>
             <div class="card-toolbar">
             </div>
@@ -44,7 +44,6 @@
                     <textarea class="form-control" readonly>{{ $m_phongtrao->noidung }}</textarea>
                 </div>
             </div>
-
 
             <div class="form-group row">
                 <div class="col-md-12">
