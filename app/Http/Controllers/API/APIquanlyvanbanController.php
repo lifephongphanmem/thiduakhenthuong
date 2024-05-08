@@ -67,9 +67,10 @@ class APIquanlyvanbanController extends Controller
         );
 
         $inputs = $request->all();
-        $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+
         $machung = 'QuanLyVanBan'; //Sau thiết lập trên hệ thống chung
-        $result['message'] = $inputs['currentUrl'] . $inputs['url'] . '?_token=' . base64_encode($machung . ':' . $inputs['madonvi'] . ':' . $inputs['mahosotdkt']);
+        $dungchung = new APIdungchungController();
+        $result['message'] = $dungchung->taoAPI($inputs['currentUrl'], $inputs['url'], $machung, $inputs['madonvi'], $inputs['mahosotdkt']);
         $result['status'] = 'success';
 
         return (json_encode($result));
@@ -146,6 +147,7 @@ class APIquanlyvanbanController extends Controller
         $a_API['Body'] = $a_kq;
         return response()->json($a_API, Response::HTTP_OK);
     }
+
     public function postHoSoKhenThuong(Request $request)
     {
     }

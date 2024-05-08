@@ -25,7 +25,7 @@
     <div class="card card-custom wave wave-animate-slow wave-info">
         <div class="card-header">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Danh sách hồ sơ thi đua khen thưởng</h3>
+                <h3 class="card-label text-uppercase">Danh sách khen thưởng theo cá nhân</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
@@ -41,23 +41,29 @@
                         'id' => 'madonvi',
                         'class' => 'form-control select2basic',
                     ]) !!}
-                </div>                
+                </div>
             </div>
 
             <div class="form-group row">
                 <div class="col-12">
-                    <table class="table table-striped table-bordered table-hover" id="sample_3">
+                    <table class="table table-bordered table-hover" id="sample_3">
                         <thead>
                             <tr class="text-center">
                                 <th width="2%">STT</th>
-                                <th width="20%">Phân loại hồ sơ</th>
-                                <th>Nội dung hồ sơ</th>
-                                <th width="8%">Ngày tháng</th>
-                                <th width="8%">Trạng thái</th>
-                                <th>Đơn vị đề nghị</th>
-                                <th>Đơn vị xét duyệt</th>
+                                <th>Tên đối tượng</th>
+                                {{-- <th width="8%">Ngày sinh</th> --}}
+                                {{-- <th>Giới</br>tính</th> --}}
+                                <th>Phân loại cán bộ</th>
+                                <th>Thông tin công tác</th>
+                                <th>Hình thức khen thưởng /<br>Danh hiệu thi đua</th>
+                                <th>Loại hình<br>khen thưởng</th>
+                                <th>Tờ trình<br>đề nghị</th>
+                                <th>Đơn vị<br>đề nghị</th>
+                                <th>Tờ trình<br>kết quả</th>
+                                <th>Đơn vị<br>xét duyệt</th>
+                                <th>Số quyết định<br>khen thưởng</th>
                                 <th>Đơn vị phê duyệt</th>
-                                <th width="10%">Thao tác</th>
+                                <th width="5%">Thao tác</th>
                             </tr>
                         </thead>
 
@@ -65,19 +71,29 @@
                         @foreach ($model as $key => $tt)
                             <tr>
                                 <td class="text-center">{{ $i++ }}</td>
-                                <td>{{ $a_phanloaihs[$tt->phanloai] ?? $tt->phanloai }}</td>
-                                <td>{{ $tt->noidung }}</td>
-                                <td class="text-center">{{ $tt->sototrinh }}<br>{{ getDayVn($tt->ngayhoso) }}
+                                <td>{{ $tt->tendoituong }}</td>
+                                {{-- <td>{{ $tt->gioitinh }}</td> --}}
+                                <td>{{ $a_canhan[$tt->maphanloaicanbo] ?? '' }}</td>
+                                <td class="text-center">
+                                    {{ $tt->chucvu . ',' . $tt->tenphongban . ',' . $tt->tencoquan }}
                                 </td>
-                                @include('includes.td.td_trangthai_hoso')
+                                <td class="text-center">
+                                    {{ $a_dhkt_canhan[$tt->madanhhieukhenthuong] ?? '' }}
+                                </td>
+                                <td class="text-center">
+                                    {{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}
+                                </td>
+                                <td class="text-center">{{ $tt->sototrinh }}<br>{{ getDayVn($tt->ngayhoso) }} </td>
+                                {{-- @include('includes.td.td_trangthai_hoso') --}}
                                 <td>{{ $a_donvi[$tt->madonvi] ?? '' }}</td>
+                                <td class="text-center">{{ $tt->sototrinhdenghi }}<br>{{ getDayVn($tt->ngaythangtotrinhdenghi) }} </td>
                                 <td>{{ $a_donvi[$tt->madonvi_xd] ?? '' }}</td>
+                                <td class="text-center">{{ $tt->soqd }}<br>{{ getDayVn($tt->ngayqd) }} </td>
                                 <td>{{ $a_donvi[$tt->madonvi_kt] ?? '' }}</td>
 
                                 <td style="text-align: center">
-
                                     <button type="button" title="Tạo link API"
-                                        onclick="TaoLinkAPI('{{ $tt->mahosotdkt }}', '{{ $inputs['madonvi'] }}')"
+                                        onclick="TaoLinkAPI('{{ $tt->id }}', '{{ $inputs['madonvi'] }}')"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#taoapi-modal"
                                         data-toggle="modal">
                                         <i class="icon-lg la flaticon-multimedia-4 text-dark"></i>
@@ -129,7 +145,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>                    
+                    <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
                 </div>
             </div>
         </div>
@@ -148,9 +164,9 @@
             $('#frm_api').find("[name='mahosotdkt']").val(mahosotdkt);
             $('#frm_api').find("[name='madonvi']").val(madonvi);
             $('#frm_api').find("[name='currentUrl']").val(window.location.origin);
-            $('#frm_api').find("[name='url']").val("/api/QuanLyVanBan/getHoSoKhenThuong");
+            $('#frm_api').find("[name='url']").val("/api/QuanLyCanBo/getKhenThuongCaNhan");
             var formData = new FormData($('#frm_api')[0]);
-            
+
             let currentUrl = window.location.origin;
             $.ajax({
                 url: "{{ $inputs['url'] }}" + "TaoAPI",
@@ -158,7 +174,7 @@
                 cache: false,
                 dataType: false,
                 processData: false,
-                contentType: false,                
+                contentType: false,
                 data: formData,
                 success: function(data) {
                     // console.log(data);
