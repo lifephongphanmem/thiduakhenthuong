@@ -9,6 +9,7 @@ use App\Model\DanhMuc\dsdonvi;
 use App\Model\DanhMuc\dstaikhoan;
 use App\Model\DanhMuc\dstaikhoan_phanquyen;
 use App\Model\DanhMuc\duthaoquyetdinh;
+use App\Model\HeThong\dsvanphonghotro;
 use App\Model\HeThong\hethongchung;
 use App\Model\HeThong\hethongchung_chucnang;
 use App\Model\HeThong\trangthaihoso;
@@ -29,9 +30,16 @@ class hethongchungController extends Controller
                 //123456; 123456@!
                 return redirect('/DoiMatKhau');
             else
-                return view('HeThong.dashboard')
-                    ->with('model', getHeThongChung())
-                    ->with('pageTitle', 'Thông tin hỗ trợ');
+                $model_vp = dsvanphonghotro::orderBy('stt')->get();
+            $a_vp = a_unique(array_column($model_vp->toArray(), 'vanphong'));
+            $col = (int) 12 / (count($a_vp) > 0 ? count($a_vp) : 1);
+            $col = $col < 4 ? 4 : $col;
+            return view('HeThong.dashboard')
+                ->with('model_vp', $model_vp)
+                ->with('a_vp', $a_vp)
+                ->with('col', $col)
+                ->with('model', getHeThongChung())
+                ->with('pageTitle', 'Thông tin hỗ trợ');
         } else {
             return redirect('/TrangChu');
         }
@@ -366,9 +374,18 @@ class hethongchungController extends Controller
         foreach ($model as $ct) {
             $ct->tendonvi = $a_donvi[$ct->madonvi] ?? $ct->madonvi;
         }
+
+        $model_vp = dsvanphonghotro::orderBy('stt')->get();
+        $a_vp = a_unique(array_column($model_vp->toArray(), 'vanphong'));
+        $col = (int) 12 / (count($a_vp) > 0 ? count($a_vp) : 1);
+        $col = $col < 4 ? 4 : $col;
         //dd($inputs);
         return view('HeThong.DanhSachHoTro')
             ->with('model', $model)
+            ->with('model_vp', $model_vp)
+            ->with('a_vp', $a_vp)
+            ->with('col', $col)
+            ->with('model_hethong', getHeThongChung())
             ->with('inputs', $inputs)
             ->with('hethong', hethongchung::first())
             ->with('a_diaban', array_column(dsdiaban::all()->toArray(), 'tendiaban', 'madiaban'))
