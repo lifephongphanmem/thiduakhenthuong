@@ -31,18 +31,22 @@ class dungchung_nhanexcelController extends Controller
         if ($request->file('fexcel') == null) {
             dd('File dữ liệu không tồn tại.');
         }
-        //dd($inputs);
-        //$model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        // dd($inputs);
+        // $model = dshosothiduakhenthuong::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $filename = $inputs['mahoso'] . '_' . getdate()[0];
         $request->file('fexcel')->move(public_path() . '/data/uploads/', $filename . '.xlsx');
         $path = public_path() . '/data/uploads/' . $filename . '.xlsx';
         $data = [];
+        try {
+            Excel::load($path, function ($reader) use (&$data) {
+                $obj = $reader->getExcel();
+                $sheet = $obj->getSheet(0);
+                $data = $sheet->toArray(null, true, true, true); // giữ lại tiêu đề A=>'val';
 
-        Excel::load($path, function ($reader) use (&$data) {
-            $obj = $reader->getExcel();
-            $sheet = $obj->getSheet(0);
-            $data = $sheet->toArray(null, true, true, true); // giữ lại tiêu đề A=>'val';
-        });
+            });
+        } catch (\Exception $e) {
+            dd( 'Lỗi: ' . $e->getMessage());
+        }
         $a_dm_canhan = array();
         $a_dm_tapthe = array();
         $a_dm_hogiadinh = array();

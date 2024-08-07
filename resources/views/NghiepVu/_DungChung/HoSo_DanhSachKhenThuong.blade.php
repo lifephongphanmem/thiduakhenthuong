@@ -199,7 +199,7 @@
                                         onclick="setCaNhan()">
                                         <i class="fa fa-plus"></i></button>
 
-                                    <button title="Nhận từ file Excel" data-target="#modal-nhanexcel"
+                                    <button onclick="setNhanExcel('{{ $model->mahosotdkt }}')" title="Nhận từ file Excel" data-target="#modal-nhanexcel"
                                         data-toggle="modal" type="button" class="btn btn-info btn-icon btn-sm"><i
                                             class="fas fa-file-import"></i></button>
 
