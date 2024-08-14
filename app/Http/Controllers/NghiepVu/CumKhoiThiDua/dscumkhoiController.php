@@ -43,7 +43,7 @@ class dscumkhoiController extends Controller
         foreach ($model as $ct) {
             $ct->sodonvi = $m_chitiet->where('macumkhoi', $ct->macumkhoi)->count();
         }
-        //dd($m_chitiet);
+        //dd($inputs);
         $m_donvi = dsdonvi::all();
         return view('NghiepVu.CumKhoiThiDua.DanhSach.ThongTin')
             ->with('model', $model)
@@ -60,12 +60,14 @@ class dscumkhoiController extends Controller
             return view('errors.noperm')->with('machucnang', 'dscumkhoithidua')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
+        //dd($inputs);
         $inputs['macumkhoi'] = $inputs['macumkhoi'] ?? null;
 
         $model = dscumkhoi::where('macumkhoi', $inputs['macumkhoi'])->first();
         if ($model == null) {
             $model = new dscumkhoi();
             $model->macumkhoi = getdate()[0];
+            $model->maqdphancumkhoi = $inputs['maqdphancumkhoi'];
         }
         $model_chitiet = view_dscumkhoi::where('macumkhoi', $model->macumkhoi)->select('tendonvi', 'madonvi')->distinct()->get();
         $a_donviql = array_column($model_chitiet->toarray(), 'tendonvi', 'madonvi');
@@ -89,6 +91,7 @@ class dscumkhoiController extends Controller
             return view('errors.noperm')->with('machucnang', 'dscumkhoithidua')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
+        //dd($inputs);
         if (isset($inputs['ipf1'])) {
             $filedk = $request->file('ipf1');
             $inputs['ipf1'] = $inputs['macumkhoi'] . '_qd.' . $filedk->getClientOriginalExtension();
@@ -106,7 +109,7 @@ class dscumkhoiController extends Controller
         } else {
             $model->update($inputs);
         }
-        return redirect(static::$url . 'ThongTin');
+        return redirect(static::$url . 'ThongTin?maqdphancumkhoi=' . $inputs['maqdphancumkhoi']);
     }
 
     public function Xoa(Request $request)
@@ -115,13 +118,15 @@ class dscumkhoiController extends Controller
             return view('errors.noperm')->with('machucnang', 'dscumkhoithidua')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
-        dscumkhoi::findorfail($inputs['id'])->delete();
-        return redirect(static::$url . 'ThongTin');
+        $model = dscumkhoi::findorfail($inputs['id']);
+        $model->delete();
+        return redirect(static::$url . 'ThongTin?maqdphancumkhoi=' . $model->maqdphancumkhoi);
     }
 
     public function DanhSach(Request $request)
     {
         $inputs = $request->all();
+        //dd($inputs);
         $m_cumkhoi = dscumkhoi::where('macumkhoi', $inputs['macumkhoi'])->first();
         $model = dscumkhoi_chitiet::where('macumkhoi', $inputs['macumkhoi'])->get();
 

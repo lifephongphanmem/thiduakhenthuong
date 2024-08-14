@@ -29,7 +29,7 @@
             <div class="card-toolbar">
                 <!--begin::Button-->
                 @if (chkPhanQuyen('dscumkhoithidua', 'thaydoi'))
-                    <a href="{{ url($inputs['url'] . 'Them') }}" class="btn btn-success btn-xs">
+                    <a href="{{ url($inputs['url'] . 'Them?maqdphancumkhoi='.$inputs['maqdphancumkhoi']) }}" class="btn btn-success btn-xs">
                         <i class="fa fa-plus"></i> Thêm mới</a>
                 @endif
                 <!--end::Button-->

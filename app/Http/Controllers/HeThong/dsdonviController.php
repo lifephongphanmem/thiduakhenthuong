@@ -333,7 +333,7 @@ class dsdonviController extends Controller
                 }
             }            
         }
-        dd($a_pq);
+        //dd($a_pq);
         if ($nhandulieu) {
             foreach (array_chunk($a_pq, 50) as $data) {
                 dstaikhoan_phanquyen::insert($data);
