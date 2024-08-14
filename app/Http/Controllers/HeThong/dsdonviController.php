@@ -321,8 +321,8 @@ class dsdonviController extends Controller
                         'danhsach' => $pq->danhsach,
                         'thaydoi' => $pq->thaydoi,
                         'hoanthanh' => $pq->hoanthanh,
-                        'tiepnhan' => $pq->tiepnhan,
-                        'xuly' => $pq->xuly,
+                        'tiepnhan' => $pq->tiepnhan ?? 0,
+                        'xuly' => $pq->xuly?? 0,
                     ];
                 if ($inputs['macumkhoi'] != 'NULL') {
                     $a_ck[] = [
@@ -334,13 +334,17 @@ class dsdonviController extends Controller
             }            
         }
         //dd($a_pq);
-        if ($nhandulieu) {
+        if ($nhandulieu) {            
+            foreach (array_chunk($a_dv, 50) as $data) {
+                dsdonvi::insert($data);
+            }
+            foreach (array_chunk($a_tk, 50) as $data) {
+                dstaikhoan::insert($data);
+            } 
             foreach (array_chunk($a_pq, 50) as $data) {
                 dstaikhoan_phanquyen::insert($data);
-            }
-            dstaikhoan::insert($a_tk);
+            }          
             dscumkhoi_chitiet::insert($a_ck);
-            dsdonvi::insert($a_dv);
             File::Delete($path);
         } else {
             return view('errors.403')
