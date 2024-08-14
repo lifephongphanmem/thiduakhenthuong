@@ -151,13 +151,18 @@
                                             <label class="form-control-label">Tài khoản đăng nhập</label>
                                             {!! Form::text('tendangnhap', 'C', ['class' => 'form-control']) !!}
                                         </div>
+
+                                        <div class="col-md-3">
+                                            <label class="form-control-label">Tài khoản đăng nhập</label>
+                                            {!! Form::text('matkhau', 'D', ['class' => 'form-control']) !!}
+                                        </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <div class="col-md-3">
                                             <label class="control-label">Sheet nhận dữ liệu<span
                                                     class="require">*</span></label>
-                                            {!! Form::text('sheet', '0', ['class' => 'form-control']) !!}
+                                            {!! Form::text('sheet', '1', ['class' => 'form-control']) !!}
                                         </div>
 
                                         <div class="col-md-3">

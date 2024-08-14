@@ -59,16 +59,23 @@
                     <table class="table table-bordered table-hover" id="sample_3">
                         <thead>
                             <tr class="text-center">
-                                <th width="5%">STT</th>
-                                <th>Tên cụm, khối thi đua</th>                                
-                                <th width="8%">Số</br>hồ sơ</th>
-                                <th width="30%">Đơn vị quản lý cụm, khối</th>
-                                <th width="10%">Thao tác</th>
+                                <th rowspan="2" width="5%">STT</th>
+                                <th colspan="2">Phân cụm, khối thi đua</th>                               
+                                <th rowspan="2">Tên cụm, khối thi đua</th>                                
+                                <th rowspan="2" width="8%">Số</br>hồ sơ</th>
+                                <th rowspan="2" width="25%">Đơn vị quản lý cụm, khối</th>
+                                <th rowspan="2" width="10%">Thao tác</th>
                             </tr>
+                            <tr class="text-center">
+                            <th>Số quyết</br>định</th>
+                            <th>Trạng thái</br>áp dụng</th>
+                        </tr>
                         </thead>
                         @foreach ($model as $key => $tt)
                             <tr>
                                 <td style="text-align: center">{{ $key + 1 }}</td>
+                                <td>{{ $tt->soqd }}</td>
+                                <td>{{ $tt->tinhtrang == '1'? "Đang tạo hồ sơ" : '' }}</td>
                                 <td class="active">{{ $tt->tencumkhoi }}</td>                               
                                 <td class=" text-center">{{ $tt->sohoso }}</td>
                                 <td>{{ $a_donvi[$tt->madonviql] ?? '' }}</td>

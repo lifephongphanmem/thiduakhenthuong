@@ -105,7 +105,7 @@ class dshosothiduacumkhoiController extends Controller
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
 
         //lấy hết phong trào cấp tỉnh
-        $model = view_dsphongtrao_cumkhoi::where('macumkhoi',$inputs['macumkhoi'])->orderby('tungay')->get();
+        $model = view_dsphongtrao_cumkhoi::where('macumkhoi', $inputs['macumkhoi'])->orderby('tungay')->get();
 
         $ngayhientai = date('Y-m-d');
         $m_hoso = dshosothamgiathiduacumkhoi::wherein('maphongtraotd', array_column($model->toarray(), 'maphongtraotd'))->get();
@@ -138,19 +138,19 @@ class dshosothiduacumkhoiController extends Controller
         }
         $inputs['trangthai'] = session('chucnang')['dshosothiduacumkhoi']['trangthai'] ?? 'CC';
         $m_cumkhoi = view_dscumkhoi::where('madonvi', $inputs['madonvi'])->get();
-        $m_truongcum = view_dstruongcumkhoi::where('macumkhoi',$inputs['macumkhoi'])->get();
-        if($m_cumkhoi->count() == 0){
+        $m_truongcum = view_dstruongcumkhoi::where('macumkhoi', $inputs['macumkhoi'])->get();
+        if ($m_cumkhoi->count() == 0) {
             return view('errors.404')->with('message', 'Cụm, khối thi đua chưa có trưởng cụm, khối. Bạn hãy liên hệ đơn vị quản lý để thêm trưởng cụm khối')
-            ->with('url', '/CumKhoiThiDua/ThamGiaThiDua/ThongTin?madonvi='.$inputs['madonvi']);
+                ->with('url', '/CumKhoiThiDua/ThamGiaThiDua/ThongTin?madonvi=' . $inputs['madonvi']);
         }
-        
+
         return view('NghiepVu.CumKhoiThiDua.PhongTraoThiDua.HoSoThiDua.DanhSach')
             ->with('inputs', $inputs)
             ->with('model', $model->sortby('tungay'))
             ->with('m_donvi', $m_donvi)
             ->with('m_cumkhoi', $m_cumkhoi)
             ->with('m_diaban', $m_diaban)
-            ->with('a_donviql', array_column($m_truongcum->toarray(),'tendonvi', 'madonvi'))
+            ->with('a_donviql', array_column($m_truongcum->toarray(), 'tendonvi', 'madonvi'))
             ->with('a_phamvi', getPhamViPhongTrao())
             ->with('a_phanloai', getPhanLoaiPhongTraoThiDua(true))
             ->with('a_trangthaihoso', getTrangThaiTDKT())
@@ -320,14 +320,14 @@ class dshosothiduacumkhoiController extends Controller
         }
         $inputs = $request->all();
         $model = dshosothamgiathiduacumkhoi::where('mahoso', $inputs['mahoso'])->first();
-        
-        $inputs['trangthai'] = getTrangThaiChuyenHS(session('chucnang')['dshosothiduacumkhoi']['trangthai'] ?? 'CC');       
+
+        $inputs['trangthai'] = getTrangThaiChuyenHS(session('chucnang')['dshosothiduacumkhoi']['trangthai'] ?? 'CC');
         $model->trangthai = $inputs['trangthai'];
         $model->madonvi_nhan = $inputs['madonvi_nhan'];
         $model->thoigian = date('Y-m-d H:i:s');
         $model->madonvi_xd = $inputs['madonvi_nhan'];
         $model->trangthai_xd = $model->trangthai;
-        $model->thoigian_xd = $model->thoigian;        
+        $model->thoigian_xd = $model->thoigian;
         $model->save();
 
         $trangthai = new trangthaihoso();
@@ -794,7 +794,7 @@ class dshosothiduacumkhoiController extends Controller
         File::Delete($path);
         $model = dshosothamgiathiduacumkhoi::where('mahoso', $inputs['mahoso'])->first();
         return redirect(static::$url . 'Them?maphongtraotd=' . $model->maphongtraotd . '&madonvi=' . $model->madonvi);
-    }    
+    }
 
     public function ToTrinhHoSo(Request $request)
     {

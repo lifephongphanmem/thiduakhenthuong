@@ -9,8 +9,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\DanhMuc\dscumkhoi;
 use App\Model\DanhMuc\dscumkhoi_chitiet;
+use App\Model\DanhMuc\dscumkhoi_qdphancumkhoi;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
+use App\Model\DanhMuc\dsquyetdinhcumkhoi;
 use App\Model\View\view_dscumkhoi;
 use App\Model\View\viewdiabandonvi;
 use Illuminate\Support\Facades\Session;
@@ -27,6 +29,7 @@ class dscumkhoiController extends Controller
             return $next($request);
         });
     }
+
     public function ThongTin(Request $request)
     {
         if (!chkPhanQuyen('dscumkhoithidua', 'danhsach')) {
@@ -34,7 +37,8 @@ class dscumkhoiController extends Controller
         }
         $inputs = $request->all();
         $inputs['url'] = static::$url;
-        $model = dscumkhoi::all();
+        $inputs['maqdphancumkhoi'] = $inputs['maqdphancumkhoi'] ?? null;
+        $model = dscumkhoi::where('maqdphancumkhoi', $inputs['maqdphancumkhoi'])->get();
         $m_chitiet = dscumkhoi_chitiet::all();
         foreach ($model as $ct) {
             $ct->sodonvi = $m_chitiet->where('macumkhoi', $ct->macumkhoi)->count();
@@ -48,7 +52,7 @@ class dscumkhoiController extends Controller
             ->with('a_capdo', getPhamViApDung())
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách cụm, khối thi đua');
-    }   
+    }
 
     public function ThayDoi(Request $request)
     {
@@ -63,11 +67,11 @@ class dscumkhoiController extends Controller
             $model = new dscumkhoi();
             $model->macumkhoi = getdate()[0];
         }
-        $model_chitiet = view_dscumkhoi::where('macumkhoi', $model->macumkhoi)->select('tendonvi', 'madonvi')->distinct()->get();        
+        $model_chitiet = view_dscumkhoi::where('macumkhoi', $model->macumkhoi)->select('tendonvi', 'madonvi')->distinct()->get();
         $a_donviql = array_column($model_chitiet->toarray(), 'tendonvi', 'madonvi');
         $a_donvixd = getDonViXetDuyetCumKhoi();
         $a_donvikt = getDonViPheDuyetCumKhoi();
-        
+
         // $m_donvi = dsdonvi::wherein('madonvi', function ($qr) {
         //     $qr->select('madonviQL')->from('dsdiaban')->get();
         // })->get();

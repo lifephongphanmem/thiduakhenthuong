@@ -15,9 +15,9 @@
     <script>
         jQuery(document).ready(function() {
             TableManaged3.init();
-
-            $('#madonvi').change(function() {
-                window.location.href = "{{ $inputs['url_xd'] }}" + 'ThongTin?madonvi=' + $('#madonvi');
+            $('#madonvi,#maqdphancumkhoi').change(function() {
+                window.location.href = "{{ $inputs['url_xd'] }}" + 'ThongTin?madonvi=' + $('#madonvi')
+                .val() + '&maqdphancumkhoi=' + $('#maqdphancumkhoi').val();
             });
         });
     </script>
@@ -36,7 +36,7 @@
         </div>
         <div class="card-body">
             <div class="form-group row">
-                <div class="col-md-5">
+                <div class="col-md-6">
                     <label style="font-weight: bold">Đơn vị</label>
                     <select class="form-control select2basic" id="madonvi">
                         @foreach ($m_diaban as $diaban)
@@ -47,6 +47,15 @@
                                         value="{{ $ct->madonvi }}">{{ $ct->tendonvi }}</option>
                                 @endforeach
                             </optgroup>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label style="font-weight: bold">Quyết định phân cụm, khối</label>
+                    <select class="form-control select2basic" id="maqdphancumkhoi">
+                        @foreach ($m_quyetdinh as $ct)
+                            <option {{ $ct->maqdphancumkhoi == $inputs['maqdphancumkhoi'] ? 'selected' : '' }}
+                                value="{{ $ct->maqdphancumkhoi }}">{{ $ct->soqd . ' - ' . $ct->noidung }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -71,7 +80,8 @@
                             <tr class="text-center">
                                 <th rowspan="2" width="2%">STT</th>
                                 <th rowspan="2">Cụm, khối thi đua</th>
-                                <th colspan="{{ count($a_trangthai_hoso) == 0 ? 1 : count($a_trangthai_hoso) }}">Số lượng hồ sơ</th>
+                                <th colspan="{{ count($a_trangthai_hoso) == 0 ? 1 : count($a_trangthai_hoso) }}">Số lượng hồ
+                                    sơ</th>
                                 <th rowspan="2" width="8%">Thao tác</th>
                             </tr>
                             <tr class="text-center">
@@ -94,7 +104,7 @@
                                     <td></td>
                                 @else
                                     @foreach ($a_trangthai_hoso as $trangthai_hoso)
-                                        <td class="text-center">{{dinhdangso($tt->$trangthai_hoso) }}</td>
+                                        <td class="text-center">{{ dinhdangso($tt->$trangthai_hoso) }}</td>
                                     @endforeach
                                 @endif
 

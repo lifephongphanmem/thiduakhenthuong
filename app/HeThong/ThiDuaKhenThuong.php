@@ -1,5 +1,7 @@
 <?php
 
+use App\Model\DanhMuc\dscumkhoi;
+use App\Model\DanhMuc\dscumkhoi_qdphancumkhoi;
 use App\Model\DanhMuc\dstaikhoan_phamvi;
 use App\Model\HeThong\trangthaihoso;
 
@@ -1510,4 +1512,14 @@ function getHoSoXuLy($a_mahosotdkt, $tendangnhap, $phanloai)
                 }
         }
     }
+}
+
+//Lấy hồ sơ xử lý theo ten đăng nhập
+function getKiemTraTrangThaiCumKhoi($macumkhoi)
+{
+    $cumkhoi = dscumkhoi::where('macumkhoi',$macumkhoi)->first();
+    if($cumkhoi == null){
+        return 0;
+    }
+    return dscumkhoi_qdphancumkhoi::where('maqdphancumkhoi', $cumkhoi->maqdphancumkhoi)->first()->tinhtrang ?? 0;
 }
