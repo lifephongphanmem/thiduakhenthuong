@@ -380,10 +380,6 @@ class dstaikhoanController extends Controller
         $inputs = $request->all();
         $inputs['url'] = '/TaiKhoan/PhamViDuLieu/';
 
-
-
-
-
         $model = dstaikhoan_phamvi::where('tendangnhap', $inputs['tendangnhap'])
             ->where('maphamvi', $inputs['maphamvi'])->first();
 
@@ -424,5 +420,33 @@ class dstaikhoanController extends Controller
         $model = dstaikhoan_phamvi::findorFail($id);
         $model->delete();
         return redirect('/TaiKhoan/PhamViDuLieu?tendangnhap=' . $model->tendangnhap . '&machucnang=' . $model->machucnang);
+    }
+
+    public function DanhSachDayDu(Request $request)
+    {
+        if (!chkPhanQuyen('dstaikhoan', 'danhsach')) {
+            return view('errors.noperm')->with('machucnang', 'dstaikhoan');
+        }
+
+        $inputs = $request->all();       
+        $a_donvi = array_column(dsdonvi::all()->toArray(),'tendonvi','madonvi');
+        $model = dstaikhoan::all();
+        
+        return view('HeThongChung.TaiKhoan.DanhSachDayDu')
+            ->with('model', $model)
+            ->with('a_donvi', $a_donvi)
+            ->with('inputs', $inputs)
+            ->with('pageTitle', 'Danh sách tài khoản');
+    }
+
+    public function XoaTaiKhoanDayDu(Request $request)
+    {
+        if (!chkPhanQuyen('dstaikhoan', 'thaydoi')) {
+            return view('errors.noperm')->with('machucnang', 'dstaikhoan');
+        }
+        $id = $request->all()['id'];
+        $model = dstaikhoan::findorFail($id);
+        $model->delete();
+        return redirect('/TaiKhoan/DanhSachDayDu');
     }
 }

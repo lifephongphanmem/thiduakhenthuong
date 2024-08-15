@@ -58,7 +58,9 @@ Route::group(['prefix' => 'TaiKhoan'], function () {
     Route::get('PhamViDuLieu', [dstaikhoanController::class,'PhamViDuLieu']);
     Route::post('PhamViDuLieu', [dstaikhoanController::class,'LuuPhamViDuLieu']);
     Route::post('XoaPhamViDuLieu', [dstaikhoanController::class,'XoaPhamViDuLieu']);
-
+    //Làm danh sách đầy đủ tài khoản để theo dõi (do có trường hợp xoá đơn vị nhưng ko xoá tài khoản)
+    Route::get('DanhSachDayDu', 'HeThong\dstaikhoanController@DanhSachDayDu');
+    Route::post('XoaTaiKhoan', 'HeThong\dstaikhoanController@XoaTaiKhoanDayDu');
 });
 Route::group(['prefix' => 'HeThongAPI'], function () {
     //Route::get('CaNhan', 'HeThong\HeThongAPIController@CaNhan');

@@ -204,6 +204,17 @@
                                                 class="menu-text font-weight-bold">{{ chkGiaoDien('dstaikhoan', 'tenchucnang') }}</span>
                                         </a>
                                     </li>
+                                    @if (session('admin')->capdo == 'SSA')
+                                        <li class="menu-item" aria-haspopup="true">
+                                            <a href="{{ url('/TaiKhoan/DanhSachDayDu') }}" class="menu-link">
+                                                <i class="menu-bullet menu-bullet-dot">
+                                                    <span></span>
+                                                </i>
+                                                <span class="menu-text font-weight-bold">Danh sách tài khoản (đầy
+                                                    đủ)</span>
+                                            </a>
+                                        </li>
+                                    @endif
                                 @endif
                                 @if (chkPhanQuyen('dsnhomtaikhoan', 'phanquyen'))
                                     <li class="menu-item" aria-haspopup="true">
@@ -660,14 +671,14 @@
                 @endif
 
                 @if (chkPhanQuyen('vanphonghotro', 'phanquyen'))
-                <li class="menu-item" aria-haspopup="true">
-                    <a href="{{ url('/VanPhongHoTro/ThongTin') }}" class="menu-link">
-                        <i class="menu-bullet menu-bullet-dot">
-                            <span></span>
-                        </i>
-                        <span class="menu-text font-weight-bold">Văn phòng hỗ trợ</span>
-                    </a>
-                </li>
+                    <li class="menu-item" aria-haspopup="true">
+                        <a href="{{ url('/VanPhongHoTro/ThongTin') }}" class="menu-link">
+                            <i class="menu-bullet menu-bullet-dot">
+                                <span></span>
+                            </i>
+                            <span class="menu-text font-weight-bold">Văn phòng hỗ trợ</span>
+                        </a>
+                    </li>
                 @endif
             </ul>
         </div>

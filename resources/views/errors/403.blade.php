@@ -48,7 +48,7 @@ License: You must have a valid license purchased only from themeforest(the above
             <p class="font-size-h3 text-danger font-weight-normal">{!! isset($message) ? $message : 'Phần mềm không thể thực hiện thao tác !!!' !!} </p>
             <p>
                 @if (isset($url))
-                    <a href='{{ isset($url) }}'>Quay lại</a>.
+                    <a href='{{ $url }}'>Quay lại</a>.
                 @else
                     <button id="backButton">Quay lại</button>
                 @endif
