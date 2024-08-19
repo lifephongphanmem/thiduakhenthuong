@@ -430,7 +430,7 @@ class dstaikhoanController extends Controller
 
         $inputs = $request->all();       
         $a_donvi = array_column(dsdonvi::all()->toArray(),'tendonvi','madonvi');
-        $model = dstaikhoan::all();
+        $model = dstaikhoan::where('tendangnhap','<>','SSA')->get();
         
         return view('HeThongChung.TaiKhoan.DanhSachDayDu')
             ->with('model', $model)

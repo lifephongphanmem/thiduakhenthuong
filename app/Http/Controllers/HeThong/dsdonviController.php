@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\DanhMuc\dscumkhoi;
 use App\Model\DanhMuc\dscumkhoi_chitiet;
+use App\Model\DanhMuc\dscumkhoi_qdphancumkhoi;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\DanhMuc\dsnhomtaikhoan;
@@ -66,12 +67,14 @@ class dsdonviController extends Controller
             $chitiet->sotaikhoan = $m_taikhoan->where('madonvi', $chitiet->madonvi)->count();
         }
         $a_nhomchucnang = array_column(dsnhomtaikhoan::all()->toArray(), 'tennhomchucnang', 'manhomchucnang');
-        $a_cumkhoi = array_column(dscumkhoi::all()->toArray(), 'tencumkhoi', 'macumkhoi');
+        $m_cumkhoi_quyetdinh = dscumkhoi_qdphancumkhoi::all();
+        $m_cumkhoi_danhsach = dscumkhoi::all();
         return view('HeThongChung.DonVi.DanhSach')
             ->with('model', $model)
             ->with('m_diaban', $m_diaban)
             ->with('a_nhomchucnang', $a_nhomchucnang)
-            ->with('a_cumkhoi', $a_cumkhoi)
+            ->with('m_cumkhoi_quyetdinh', $m_cumkhoi_quyetdinh)
+            ->with('m_cumkhoi_danhsach', $m_cumkhoi_danhsach)
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách đơn vị');
     }
@@ -351,9 +354,6 @@ class dsdonviController extends Controller
                 ->with('message', $thongbao)
                 ->with('url', '/DiaBan/ThongTin');
         }
-
-       
-       
 
         return redirect(static::$url . 'DanhSach?madiaban=' . $inputs['madiaban']);
     }
