@@ -9,6 +9,7 @@ class dscumkhoi extends Model
     protected $table = 'dscumkhoi';
     protected $fillable = [
         'id',
+        'maqdphancumkhoi',
         'macumkhoi',
         'tencumkhoi',
         'ngaythanhlap',

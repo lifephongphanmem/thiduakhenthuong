@@ -144,6 +144,11 @@ $(function () {
     if (index > 0) {
         url = url.substring(0, index - 1) + '/ThongTin';
     }
+    //Chi tiết cụm khối
+    var index = url.indexOf('ChiTietCumKhoi');
+    if (index > 0) {
+        url = url.substring(0, index - 1) + '/ThongTin';
+    }
     
     chk = url.split('/');
     //alert(url);

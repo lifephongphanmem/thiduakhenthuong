@@ -9,10 +9,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\DanhMuc\dscumkhoi;
 use App\Model\DanhMuc\dscumkhoi_chitiet;
+use App\Model\DanhMuc\dscumkhoi_qdphancumkhoi;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\DanhMuc\dsnhomtaikhoan;
+use App\Model\DanhMuc\dsnhomtaikhoan_phanquyen;
 use App\Model\DanhMuc\dstaikhoan;
+use App\Model\DanhMuc\dstaikhoan_phanquyen;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
@@ -64,12 +67,14 @@ class dsdonviController extends Controller
             $chitiet->sotaikhoan = $m_taikhoan->where('madonvi', $chitiet->madonvi)->count();
         }
         $a_nhomchucnang = array_column(dsnhomtaikhoan::all()->toArray(), 'tennhomchucnang', 'manhomchucnang');
-        $a_cumkhoi = array_column(dscumkhoi::all()->toArray(), 'tencumkhoi', 'macumkhoi');
+        $m_cumkhoi_quyetdinh = dscumkhoi_qdphancumkhoi::all();
+        $m_cumkhoi_danhsach = dscumkhoi::all();
         return view('HeThongChung.DonVi.DanhSach')
             ->with('model', $model)
             ->with('m_diaban', $m_diaban)
             ->with('a_nhomchucnang', $a_nhomchucnang)
-            ->with('a_cumkhoi', $a_cumkhoi)
+            ->with('m_cumkhoi_quyetdinh', $m_cumkhoi_quyetdinh)
+            ->with('m_cumkhoi_danhsach', $m_cumkhoi_danhsach)
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Danh sách đơn vị');
     }
@@ -190,19 +195,19 @@ class dsdonviController extends Controller
         //$a_diaban = array_column($m_donvi->toArray(), 'tendiaban', 'madiaban');
         $inputs['madonvi'] = session('admin')->madonvi;
         $model = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
-        $m_donvi = dsdonvi::where('madiaban',$model->madiaban)->get();
+        $m_donvi = dsdonvi::where('madiaban', $model->madiaban)->get();
         //dd($model);
         return view('HeThongChung.DonVi.ThongTinDonVi')
             ->with('model', $model)
             ->with('m_donvi', $m_donvi)
-            ->with('a_diaban',array_column(dsdiaban::where('madiaban',$model->madiaban)->get()->toArray(), 'tendiaban', 'madiaban'))
+            ->with('a_diaban', array_column(dsdiaban::where('madiaban', $model->madiaban)->get()->toArray(), 'tendiaban', 'madiaban'))
             ->with('pageTitle', 'Chỉnh sửa thông tin đơn vị');
     }
 
     public function LuuThongTinDonVi(Request $request)
     {
 
-        $inputs = $request->all(); 
+        $inputs = $request->all();
         //dd($inputs);
         $model = dsdonvi::where('madonvi', $inputs['madonvi'])->first();
         if (isset($inputs['phoi_bangkhen'])) {
@@ -223,7 +228,7 @@ class dsdonviController extends Controller
             $model->update($inputs);
         }
 
-        
+
 
         return redirect('/');
     }
@@ -244,17 +249,20 @@ class dsdonviController extends Controller
                 ->with('url', '/DiaBan/ThongTin');
         }
         //$model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahosotdkt'])->first();
+        //Lấy danh sách phân quyền
+        $model_phanquyen = dsnhomtaikhoan_phanquyen::where('manhomchucnang', $inputs['manhomchucnang'])->get();
 
         $filename = $inputs['madiaban'] . '_' . getdate()[0];
-        $model_diaban = dsdiaban::where('madiaban', $inputs['madiaban'])->first();
+        //$model_diaban = dsdiaban::where('madiaban', $inputs['madiaban'])->first();
 
         $request->file('fexcel')->move(public_path() . '/data/uploads/', $filename . '.xlsx');
         $path = public_path() . '/data/uploads/' . $filename . '.xlsx';
         $data = [];
-
-        Excel::load($path, function ($reader) use (&$data) {            
+        $inputs['sheet'] = $inputs['sheet'] ?? 1;
+        $sheet = $inputs['sheet'] - 1 < 0 ? 0 : $inputs['sheet'] - 1;
+        Excel::load($path, function ($reader) use (&$data, $sheet) {
             $obj = $reader->getExcel();
-            $sheet = $obj->getSheet(0);
+            $sheet = $obj->getSheet($sheet);
             $data = $sheet->toArray(null, true, true, true); // giữ lại tiêu đề A=>'val';
         });
 
@@ -271,40 +279,81 @@ class dsdonviController extends Controller
         $a_dv = array();
         $a_tk = array();
         $a_ck = [];
+        $a_pq = [];
         $ma = getdate()[0];
-        //dd($data);
+        $ima = 1;
+        $a_taikhoan = array_column(dstaikhoan::all()->toArray(), 'tendangnhap');
+        //Kiểm tra dữ liệu
+        $thongbao = 'Tài khoản đã có trên hệ thống: ';
+        $nhandulieu = true;
+
         for ($i = $inputs['tudong']; $i <= $inputs['dendong']; $i++) {
             if (!isset($data[$i][$inputs['tendonvi']])) {
                 continue;
             }
+            //Gán biến
+            $tk = $data[$i][$inputs['tendangnhap']] ?? '';
+            $matkhau = $data[$i][$inputs['matkhau']] ?? '123456abc';
+            $madv = $ma . $ima++;
+
             $a_dv[] = array(
                 'madiaban' => $inputs['madiaban'],
                 'tendonvi' => $data[$i][$inputs['tendonvi']] ?? '',
-                'madonvi' => $ma,
+                'madonvi' => $madv,
             );
 
-            $a_tk[] = array(
-                'madonvi' => $ma,
-                'manhomchucnang' => $inputs['manhomchucnang'],
-                'tentaikhoan' => $data[$i][$inputs['tendonvi']] ?? '',
-                'matkhau' => '2d17247d02f162064940feff49988f8e',
-                'trangthai' => '1',
-                'tendangnhap' => $data[$i][$inputs['tendangnhap']] ?? '',
-            );
-            if ($inputs['macumkhoi'] != 'NULL') {
-                $a_ck[] = [
-                    'madonvi' => $ma,
-                    'macumkhoi' => $inputs['macumkhoi'],
-                    'phanloai' => 'THANHVIEN',
-                ];
-            }
-            $ma++;
+            //Check tài khoản
+            if (in_array($tk, $a_taikhoan)) {
+                $thongbao .= $tk . ';';
+                $nhandulieu = false;
+            } else {
+                $a_tk[] = array(
+                    'madonvi' => $madv,
+                    'manhomchucnang' => $inputs['manhomchucnang'],
+                    'tentaikhoan' => $data[$i][$inputs['tendonvi']] ?? '',
+                    'matkhau' => md5($matkhau),
+                    'trangthai' => '1',
+                    'tendangnhap' =>  $tk,
+                    'gioitinh' => '1',
+                );
+                foreach ($model_phanquyen as $pq)
+                    $a_pq[] = [
+                        'tendangnhap' => $tk,
+                        'machucnang' => $pq->machucnang,
+                        'phanquyen' => $pq->phanquyen,
+                        'danhsach' => $pq->danhsach,
+                        'thaydoi' => $pq->thaydoi,
+                        'hoanthanh' => $pq->hoanthanh,
+                        'tiepnhan' => $pq->tiepnhan ?? 0,
+                        'xuly' => $pq->xuly?? 0,
+                    ];
+                if ($inputs['macumkhoi'] != 'NULL') {
+                    $a_ck[] = [
+                        'madonvi' => $madv,
+                        'macumkhoi' => $inputs['macumkhoi'],
+                        'phanloai' => 'THANHVIEN',
+                    ];
+                }
+            }            
         }
-        
-        dsdonvi::insert($a_dv);
-        dstaikhoan::insert($a_tk);
-        dscumkhoi_chitiet::insert($a_ck);
-        File::Delete($path);
+        //dd($a_pq);
+        if ($nhandulieu) {            
+            foreach (array_chunk($a_dv, 50) as $data) {
+                dsdonvi::insert($data);
+            }
+            foreach (array_chunk($a_tk, 50) as $data) {
+                dstaikhoan::insert($data);
+            } 
+            foreach (array_chunk($a_pq, 50) as $data) {
+                dstaikhoan_phanquyen::insert($data);
+            }          
+            dscumkhoi_chitiet::insert($a_ck);
+            File::Delete($path);
+        } else {
+            return view('errors.403')
+                ->with('message', $thongbao)
+                ->with('url', '/DiaBan/ThongTin');
+        }
 
         return redirect(static::$url . 'DanhSach?madiaban=' . $inputs['madiaban']);
     }

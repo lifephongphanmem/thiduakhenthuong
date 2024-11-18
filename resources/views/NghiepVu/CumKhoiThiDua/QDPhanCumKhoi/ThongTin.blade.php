@@ -24,12 +24,12 @@
     <div class="card card-custom wave wave-animate-slow wave-primary" style="min-height: 600px">
         <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Danh sách cụm, khối thi đua</h3>
+                <h3 class="card-label text-uppercase">Danh sách quyết định cụm, khối thi đua</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
                 @if (chkPhanQuyen('dscumkhoithidua', 'thaydoi'))
-                    <a href="{{ url($inputs['url'] . 'Them?maqdphancumkhoi='.$inputs['maqdphancumkhoi']) }}" class="btn btn-success btn-xs">
+                    <a href="{{ url($inputs['url'] . 'Them') }}" class="btn btn-success btn-xs">
                         <i class="fa fa-plus"></i> Thêm mới</a>
                 @endif
                 <!--end::Button-->
@@ -43,10 +43,10 @@
                         <thead>
                             <tr class="text-center">
                                 <th width="5%">STT</th>
-                                <th>Tên cụm, khối thi đua</th>
-                                <th>Đơn vị quản</br>lý hồ sơ</th>
-                                <th>Đơn vị xét</br>duyệt hồ sơ</th>
-                                <th>Đơn vị phê</br>duyệt khen thưởng</th>
+                                <th>Số QĐ</th>
+                                <th>Ngày áp dụng</th>
+                                <th>Nội dụng quyết định</th>
+                                <th>Tình trạng áp dụng</th>
                                 <th width="15%">Thao tác</th>
                             </tr>
                         </thead>
@@ -54,19 +54,19 @@
                         @foreach ($model as $key => $tt)
                             <tr>
                                 <td style="text-align: center">{{ $i++ }}</td>
-                                <td class="active">{{ $tt->tencumkhoi }}</td>
-                                <td>{{ $a_donvi[$tt->madonviql] ?? '' }}</td>
-                                <td>{{ $a_donvi[$tt->madonvixd] ?? '' }}</td>
-                                <td>{{ $a_donvi[$tt->madonvikt] ?? '' }}</td>
+                                <td class="active">{{ $tt->soqd }}</td>
+                                <td>{{ getDayVn($tt->ngayapdung) }}</td>
+                                <td>{{ $tt->noidung }}</td>
+                                <td>{{ $tt->tinhtrang == '1' ? 'Đang áp dụng' : '' }}</td>
                                 <td class=" text-center">
                                     @if (chkPhanQuyen('dscumkhoithidua', 'thaydoi'))
                                         <a title="Chỉnh sửa"
-                                            href="{{ url($inputs['url'] . 'Sua?macumkhoi=' . $tt->macumkhoi) }}"
+                                            href="{{ url($inputs['url'] . 'Sua?maqdphancumkhoi=' . $tt->maqdphancumkhoi) }}"
                                             class="btn btn-sm btn-clean btn-icon"><i
                                                 class="icon-lg flaticon-edit-1 text-primary"></i>
                                         </a>
 
-                                        <a href="{{ url($inputs['url'] . 'DanhSach/?macumkhoi=' . $tt->macumkhoi) }}"
+                                        <a href="{{ url($inputs['url_cumkhoi'] . 'ThongTin/?maqdphancumkhoi=' . $tt->maqdphancumkhoi) }}"
                                             class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
                                             title="Danh sách đơn vị">
                                             <span class="svg-icon svg-icon-xl">
@@ -77,7 +77,7 @@
                                         </a>
 
                                         <button title="Tài liệu đính kèm" type="button"
-                                            onclick="get_attack('{{ $tt->macumkhoi }}','{{ $inputs['url'] . 'TaiLieuDinhKem' }}')"
+                                            onclick="get_attack('{{ $tt->maqdphancumkhoi }}','{{ $inputs['url'] . 'TaiLieuDinhKem' }}')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
                                             data-toggle="modal">
                                             <i class="icon-lg flaticon-download text-dark"></i>

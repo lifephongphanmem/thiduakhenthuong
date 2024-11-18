@@ -16,6 +16,7 @@ use App\Model\DanhMuc\dmloaihinhkhenthuong;
 use App\Model\DanhMuc\dmnhomphanloai_chitiet;
 use App\Model\DanhMuc\dscumkhoi;
 use App\Model\DanhMuc\dscumkhoi_chitiet;
+use App\Model\DanhMuc\dscumkhoi_qdphancumkhoi;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\DanhMuc\dstruongcumkhoi;
@@ -66,12 +67,23 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
         $inputs['nam'] = $inputs['nam'] ?? 'ALL';
         $m_cumkhoi_chitiet = dscumkhoi_chitiet::where('madonvi', $inputs['madonvi'])->get();
-        $model = dscumkhoi::wherein('macumkhoi', array_column($m_cumkhoi_chitiet->toarray(), 'macumkhoi'))->get();
+        $model = dscumkhoi::wherein('macumkhoi', array_column($m_cumkhoi_chitiet->toarray(), 'macumkhoi'))->get();      
+
+        $model_qd = dscumkhoi_qdphancumkhoi::all();
         $m_hoso = dshosotdktcumkhoi::where('madonvi', $inputs['madonvi'])->get();
         foreach ($model as $ct) {
+            $quyetdinh = $model_qd->where('maqdphancumkhoi', $ct->maqdphancumkhoi)->first();
+            if (isset($quyetdinh)) {
+                $ct->soqd = $quyetdinh->soqd;
+                $ct->tinhtrang = $quyetdinh->tinhtrang;
+            } else {
+                $ct->soqd = null;
+                $ct->tinhtrang = 0;
+            }
             $ct->sohoso = $m_hoso->where('macumkhoi', $ct->macumkhoi)->count();
         }
 
+        
         //dd($model);
         return view('NghiepVu.CumKhoiThiDua.HoSoKhenThuong.ThongTin')
             ->with('model', $model)
@@ -95,10 +107,10 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
         $inputs['nam'] = $inputs['nam'] ?? date('Y');
         $inputs['maloaihinhkt'] = $inputs['maloaihinhkt'] ?? 'ALL';
         $inputs['phanloaihoso'] = 'dshosotdktcumkhoi';
-       
+
         $model = dshosotdktcumkhoi::where('macumkhoi', $inputs['macumkhoi']);
-            //->wherein('phanloai', ['KHENTHUONG', 'KTNGANH', 'KHENCAOTHUTUONG' ,'KHENCAOCHUTICHNUOC']);
-            //->where('madonvi', $inputs['madonvi']);
+        //->wherein('phanloai', ['KHENTHUONG', 'KTNGANH', 'KHENCAOTHUTUONG' ,'KHENCAOCHUTICHNUOC']);
+        //->where('madonvi', $inputs['madonvi']);
         if ($inputs['nam'] != 'ALL') {
             $model = $model->whereyear('ngayhoso', $inputs['nam']);
         }
@@ -106,7 +118,7 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
             $model = $model->where('maloaihinhkt', $inputs['maloaihinhkt']);
         }
         $model = $model->orderby('ngayhoso')->get();
-//  dd($inputs);
+        //  dd($inputs);
         $model_canhan = dshosotdktcumkhoi_canhan::wherein('mahosotdkt', array_column($model->toarray(), 'mahosotdkt'))->where('ketqua', '1')->get();
         $model_tapthe = dshosotdktcumkhoi_tapthe::wherein('mahosotdkt', array_column($model->toarray(), 'mahosotdkt'))->where('ketqua', '1')->get();
         foreach ($model as $hoso) {
@@ -131,8 +143,8 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
 
         $inputs['phanloaikhenthuong'] = 'CUMKHOI';
         //Thiết lập thông tin trưởng cụm khối (nếu năm nay chưa thiết lập danh sách thì lấy năm trước)
-        $inputs['truongcumkhoi'] = chkTruongCumKhoi($inputs['nam'],$inputs['macumkhoi'],$inputs['madonvi']);       
-        
+        $inputs['truongcumkhoi'] = chkTruongCumKhoi($inputs['nam'], $inputs['macumkhoi'], $inputs['madonvi']);
+
 
         // $a_donviql = array_column($m_cumkhoi->where('macumkhoi',$inputs['macumkhoi'])->madonvi);
         return view('NghiepVu.CumKhoiThiDua.HoSoKhenThuong.DanhSach')
@@ -156,13 +168,14 @@ class dshosodenghikhenthuongcumkhoiController extends Controller
             return view('errors.noperm')->with('machucnang', 'dshosodenghikhenthuongcumkhoi')->with('tenphanquyen', 'thaydoi');
         }
         $inputs = $request->all();
+        //Kiểm tra trang thái cụm, khối
+        $trangthai = getKiemTraTrangThaiCumKhoi($inputs['macumkhoi']);
+        if ($trangthai == 0) {
+            return view('errors.403')->with('message', 'Cụm, khối thi đua đang không thể tạo hồ sơ. Bạn cần vào quyết định phân cụm, khối để gán lại trạng thái áp dụng.');
+        }
         $inputs['mahosotdkt'] = (string)getdate()[0];
         $inputs['phanloai'] = 'KHENTHUONG';
-        if (isset($inputs['totrinh'])) {
-            $filedk = $request->file('totrinh');
-            $inputs['totrinh'] = $inputs['mahosotdkt'] . '_totrinh.' . $filedk->getClientOriginalExtension();
-            $filedk->move(public_path() . '/data/totrinh/', $inputs['totrinh']);
-        }
+
         //Kiểm tra trạng thái hồ sơ
         setThongTinHoSo($inputs);
         dshosotdktcumkhoi::create($inputs);

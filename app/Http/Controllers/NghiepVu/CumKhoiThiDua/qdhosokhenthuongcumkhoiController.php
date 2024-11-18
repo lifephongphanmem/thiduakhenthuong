@@ -15,6 +15,7 @@ use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
 use App\Model\DanhMuc\dmnhomphanloai_chitiet;
 use App\Model\DanhMuc\dscumkhoi;
+use App\Model\DanhMuc\dscumkhoi_qdphancumkhoi;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\DanhMuc\duthaoquyetdinh;
@@ -60,7 +61,9 @@ class qdhosokhenthuongcumkhoiController extends Controller
         $inputs['madonvi'] = $inputs['madonvi'] ?? $m_donvi->first()->madonvi;
 
         // $model = dscumkhoi::where('madonvikt', $inputs['madonvi'])->get();
-        $model = dscumkhoi::all();
+        $model_qd = dscumkhoi_qdphancumkhoi::orderby('ngayqd','desc')->get();
+        $inputs['maqdphancumkhoi'] = $inputs['maqdphancumkhoi'] ?? $model_qd->first()->maqdphancumkhoi;
+        $model = dscumkhoi::where('maqdphancumkhoi',$inputs['maqdphancumkhoi'])->get();       
         $m_hoso = dshosotdktcumkhoi::wherein('macumkhoi', array_column($model->toarray(), 'macumkhoi'))
             ->where('madonvi_kt', $inputs['madonvi'])->get();
         $a_trangthai = array_unique(array_column($m_hoso->toarray(), 'trangthai'));
@@ -79,6 +82,7 @@ class qdhosokhenthuongcumkhoiController extends Controller
             ->with('model', $model)
             ->with('m_donvi', $m_donvi)
             ->with('m_diaban', $m_diaban)
+            ->with('m_quyetdinh', $model_qd)
             ->with('a_trangthai_hoso', $a_trangthai)
             ->with('a_trangthai', getTrangThaiHoSo())
             ->with('inputs', $inputs)

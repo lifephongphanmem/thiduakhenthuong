@@ -99,7 +99,7 @@
     <!--end::Card-->
 
     {{-- Nhận file Excel --}}
-    <div class="modal fade bs-modal-lg" id="modal-nhanexcel" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade bs-modal-lg kt_select2_modal" id="modal-nhanexcel" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
@@ -151,13 +151,18 @@
                                             <label class="form-control-label">Tài khoản đăng nhập</label>
                                             {!! Form::text('tendangnhap', 'C', ['class' => 'form-control']) !!}
                                         </div>
+
+                                        <div class="col-md-3">
+                                            <label class="form-control-label">Mật khẩu</label>
+                                            {!! Form::text('matkhau', 'D', ['class' => 'form-control']) !!}
+                                        </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <div class="col-md-3">
                                             <label class="control-label">Sheet nhận dữ liệu<span
                                                     class="require">*</span></label>
-                                            {!! Form::text('sheet', '0', ['class' => 'form-control']) !!}
+                                            {!! Form::text('sheet', '1', ['class' => 'form-control']) !!}
                                         </div>
 
                                         <div class="col-md-3">
@@ -181,20 +186,26 @@
                                     <hr>
                                     <h4>Tham số mặc định</h4>
                                     <div class="form-group row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <label class="control-label">Nhóm chức năng<span
                                                     class="require">*</span></label>
                                             {!! Form::select('manhomchucnang', $a_nhomchucnang, null, [
-                                                'class' => 'form-control',
+                                                'class' => 'form-control select2_modal',
                                             ]) !!}
                                         </div>
-
-                                        <div class="col-md-4">
+                                   
+                                        <div class="col-md-6">
                                             <label class="control-label">Cụm, khối thi đua<span
                                                     class="require">*</span></label>
-                                            {!! Form::select('macumkhoi', setArrayAll($a_cumkhoi, 'Không chọn', 'NULL'), null, [
-                                                'class' => 'form-control',
-                                            ]) !!}
+                                            <select class="form-control select2_modal" name="macumkhoi"
+                                                @foreach ($m_cumkhoi_quyetdinh as $qd)
+                                                            <optgroup label="{{ $qd->soqd . ' - ' . $qd->noidung }}">
+                                                                <?php $donvi = $m_cumkhoi_danhsach->where('maqdphancumkhoi', $qd->maqdphancumkhoi); ?>
+                                                                @foreach ($donvi as $ct)
+                                                                    <option value="{{ $ct->macumkhoi }}">{{ $ct->tencumkhoi }}</option> @endforeach
+                                                </optgroup>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     <hr>

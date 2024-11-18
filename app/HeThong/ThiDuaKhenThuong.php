@@ -1,5 +1,7 @@
 <?php
 
+use App\Model\DanhMuc\dscumkhoi;
+use App\Model\DanhMuc\dscumkhoi_qdphancumkhoi;
 use App\Model\DanhMuc\dstaikhoan_phamvi;
 use App\Model\HeThong\trangthaihoso;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothamgiaphongtraotd;
@@ -1513,6 +1515,7 @@ function getHoSoXuLy($a_mahosotdkt, $tendangnhap, $phanloai)
     }
 }
 
+
 //Hàm check thông tin để hiện thông báo
 function checkkmes($madonvi,$maloaihinhkt,$chucnang,$phanloai){
     //Kiểm tra theo chức năng
@@ -1549,4 +1552,13 @@ function storeThongBao($url, $noidung, $chucnang, $mahs_mapt, $phamvi, $madonvi)
     ];
 
     thongbao::create($data);
+}
+//Lấy hồ sơ xử lý theo ten đăng nhập
+function getKiemTraTrangThaiCumKhoi($macumkhoi)
+{
+    $cumkhoi = dscumkhoi::where('macumkhoi',$macumkhoi)->first();
+    if($cumkhoi == null){
+        return 0;
+    }
+    return dscumkhoi_qdphancumkhoi::where('maqdphancumkhoi', $cumkhoi->maqdphancumkhoi)->first()->tinhtrang ?? 0;
 }

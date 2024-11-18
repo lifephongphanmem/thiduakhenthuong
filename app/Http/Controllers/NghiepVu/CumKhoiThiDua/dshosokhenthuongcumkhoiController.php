@@ -25,6 +25,7 @@ use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_detai;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_tailieu;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_tapthe;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua;
+use App\Model\View\view_dscumkhoi;
 use App\Model\View\view_dstruongcumkhoi;
 use App\Model\View\viewdiabandonvi;
 use Illuminate\Support\Facades\File;
@@ -70,12 +71,16 @@ class dshosokhenthuongcumkhoiController extends Controller
         $a_diabancumkhoi = getCumKhoiLocDuLieu(session('admin')->tendangnhap);
         if (count($a_diabancumkhoi) > 0)
             $m_cumkhoi = dscumkhoi::wherein('macumkhoi', $a_diabancumkhoi)->get();
-        else
-            $m_cumkhoi = dscumkhoi::all();
+        else {
+            $a_cumkhoi = array_column(view_dscumkhoi::where('madonvi', $inputs['madonvi'])->get()->toarray(), 'macumkhoi');
+            $m_cumkhoi = dscumkhoi::wherein('macumkhoi', $a_cumkhoi)->get();
+        }
+
+        //Lọc các cụm khối của đơn vị
 
         $inputs['macumkhoi'] = $inputs['macumkhoi'] ?? $m_cumkhoi->first()->macumkhoi;
         //Trường hợp chọn lại đơn vị nhưng mã cụm khối vẫn theo đơn vị cũ
-        $inputs['macumkhoi'] = $m_cumkhoi->where('macumkhoi', $inputs['macumkhoi'])->first() != null ? $inputs['macumkhoi'] : $m_cumkhoi->first()->macumkhoi;
+        $inputs['macumkhoi'] = $m_cumkhoi->where('macumkhoi', $inputs['macumkhoi'])->first() != null ? $inputs['macumkhoi'] : ($m_cumkhoi->first()->macumkhoi ?? null);
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();
         $inputs['tendvcqhienthi'] = $donvi->tendvcqhienthi;
         $inputs['capdo'] = $donvi->capdo;
@@ -111,7 +116,7 @@ class dshosokhenthuongcumkhoiController extends Controller
             ->where('macumkhoi', $inputs['macumkhoi'])
             ->where('madonvi', $inputs['madonvi'])->first();
         //nếu trưởng cụm khối == null =>lấy đơn vị quản lý để thêm hồ sơ
-        $truongcumkhoi = $truongcumkhoi->madonvi ?? $m_cumkhoi->where('macumkhoi', $inputs['macumkhoi'])->first()->madonviql;
+        $truongcumkhoi = $truongcumkhoi->madonvi ?? ($m_cumkhoi->where('macumkhoi', $inputs['macumkhoi'])->first()->madonviql ?? null);
         $inputs['truongcumkhoi'] = $truongcumkhoi == $inputs['madonvi'] ? true : false;
         //dd($inputs);
         return view('NghiepVu.CumKhoiThiDua.HoSoKT.ThongTin')

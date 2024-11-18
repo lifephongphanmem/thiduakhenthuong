@@ -21,12 +21,11 @@
         'enctype' => 'multipart/form-data',
     ]) !!}
     {{-- {{ Form::hidden('id', null) }} --}}
-    {{ Form::hidden('macumkhoi', null) }}
     {{ Form::hidden('maqdphancumkhoi', null) }}
     <div class="card card-custom wave wave-animate-slow wave-primary" style="min-height: 600px">
         <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Thông tin chi tiết cụm, khối thi đua</h3>
+                <h3 class="card-label text-uppercase">Thông tin quyết định phân cụm, khối thi đua</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
@@ -36,36 +35,41 @@
         <div class="card-body">
             <div class="form-group row">
                 <div class="col-3">
-                    <label>Ngày tạo</label>
-                    {!! Form::input('date', 'ngaythanhlap', null, ['class' => 'form-control']) !!}
+                    <label>Số quyết định<span class="require">*</span></label>
+                    {!! Form::text('soqd', null, ['class' => 'form-control', 'required']) !!}
                 </div>
-
-                <div class="col-9">
-                    <label>Tên cụm, khối thi đua<span class="require">*</span></label>
-                    {!! Form::text('tencumkhoi', null, ['class' => 'form-control', 'required']) !!}
+                <div class="col-3">
+                    <label>Ngày quyết định</label>
+                    {!! Form::input('date', 'ngayqd', null, ['class' => 'form-control']) !!}
+                </div>
+                <div class="col-6">
+                    <label>Đơn vị ban hành</label>
+                    {!! Form::text('dvbanhanh', null, ['class' => 'form-control']) !!}
                 </div>
             </div>
 
             <div class="form-group row">
-                <div class="col-4">
-                    <label>Đơn vị quản lý hồ sơ</label>
-                    {!! Form::select('madonviql', $a_donviql, null,  ['class' => 'form-control select2basic']) !!}
+                <div class="col-12">
+                    <label>Nội dung quyết định</label>
+                    {!! Form::textarea('noidung', null, ['class' => 'form-control', 'rows' => '3']) !!}
                 </div>
+            </div>
 
-                <div class="col-4">
-                    <label>Đơn vị xét duyệt hồ sơ<span class="require">*</span></label>
-                    {!! Form::select('madonvixd', $a_donvixd, null, ['class' => 'form-control select2basic', 'required']) !!}
+            <div class="form-group row">
+                <div class="col-3">
+                    <label>Ngày áp dụng</label>
+                    {!! Form::input('date', 'ngayapdung', null, ['class' => 'form-control', 'required']) !!}
                 </div>
-                <div class="col-4">
-                    <label>Đơn vị phê duyệt khen thưởng<span class="require">*</span></label>
-                    {!! Form::select('madonvikt', $a_donvikt, null, ['class' => 'form-control select2basic', 'required']) !!}
+                <div class="col-3">
+                    <label>Tình trạng áp dụng</label>
+                    {!! Form::select('tinhtrang', ['1'=>'Đang áp dụng', '0'=>'Không áp dụng'],null,  ['class' => 'form-control']) !!}
                 </div>
             </div>
 
             <div class="form-group row">
                 <div class="col-12">
                     <label>Quyết định phân cụm, khối </label>
-                    {!! Form::file('ipf1', null, ['id' => 'ipf1', 'class' => 'form-control']) !!}
+                    {!! Form::file('ipf1', null, ['class' => 'form-control']) !!}
                     @if ($model->ipf1 != '')
                         <span class="form-control" style="border-style: none">
                             <a href="{{ url('/data/quyetdinh/' . $model->ipf1) }}" target="_blank">{{ $model->ipf1 }}</a>
@@ -73,24 +77,11 @@
                     @endif
                 </div>
             </div>
-
-            <div class="form-group row">
-                <div class="col-12">
-                    <label>Tài liệu khác: </label>
-                    {!! Form::file('ipf2', null, ['id' => 'ipf2', 'class' => 'form-control']) !!}
-                    @if ($model->ipf2 != '')
-                        <span class="form-control" style="border-style: none">
-                            <a href="{{ url('/data/tailieukhac/' . $model->ipf2) }}" target="_blank">{{ $model->ipf2 }}</a>
-                        </span>
-                    @endif
-                </div>
-            </div>
-
         </div>
         <div class="card-footer">
             <div class="row text-center">
                 <div class="col-lg-12">
-                    <a href="{{ url('/CumKhoiThiDua/CumKhoi/ThongTin') }}" class="btn btn-danger mr-5"><i
+                    <a href="{{ url('/CumKhoiThiDua/QDPhanCumKhoi/ThongTin') }}" class="btn btn-danger mr-5"><i
                             class="fa fa-reply"></i>&nbsp;Quay lại</a>
                     <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i>Hoàn thành</button>
                 </div>
