@@ -638,10 +638,10 @@ class dshosokhencaonhanuocController extends Controller
     public function PheDuyet(Request $request)
     {
         $inputs = $request->all();
-        $inputs['url'] = '/KhenCao/ChinhPhu/';
-        $inputs['url_hs'] = '/KhenCao/ChinhPhu/';
-        $inputs['url_xd'] = '/KhenCao/ChinhPhu/';
-        $inputs['url_qd'] = '/KhenCao/ChinhPhu/';
+        $inputs['url'] = '/KhenCao/NhaNuoc/';
+        $inputs['url_hs'] = '/KhenCao/NhaNuoc/';
+        $inputs['url_xd'] = '/KhenCao/NhaNuoc/';
+        $inputs['url_qd'] = '/KhenCao/NhaNuoc/';
         $inputs['mahinhthuckt'] = session('chucnang')['dshosokhenthuongconghien']['mahinhthuckt'] ?? 'ALL';
         $model = dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model_canhan = dshosokhencao_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
@@ -678,6 +678,7 @@ class dshosokhencaonhanuocController extends Controller
                 ->with('machucnang', 'dshosokhencaonhanuoc')
                 ->with('tenphanquyen', 'hoanthanh');
         }
+
         $inputs = $request->all();
         $thoigian = date('Y-m-d H:i:s');
         $model = dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first();
