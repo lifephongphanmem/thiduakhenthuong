@@ -2,7 +2,8 @@
 
 use App\Model\DanhMuc\dstaikhoan_phamvi;
 use App\Model\HeThong\trangthaihoso;
-
+use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothamgiaphongtraotd;
+use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
 use App\Model\View\view_dscumkhoi;
 
 use App\Model\View\viewdiabandonvi;
@@ -1510,4 +1511,42 @@ function getHoSoXuLy($a_mahosotdkt, $tendangnhap, $phanloai)
                 }
         }
     }
+}
+
+//Hàm check thông tin để hiện thông báo
+function checkkmes($madonvi,$maloaihinhkt,$chucnang,$phanloai){
+    //Kiểm tra theo chức năng
+    switch($chucnang){
+        case 'hosodenghikhenthuong':
+        //Kiểm tra theo loại hình khen thưởng: quản lý khen thương/phong trào thi đua/ thi đua cụm khối
+        //Phong trào thi đua
+        if($phanloai == 'phongtraothidua'){
+            $model = dshosothamgiaphongtraotd::where('maphongtraotd', $maloaihinhkt)
+            ->wherein('mahosothamgiapt', function ($qr) use ($madonvi) {
+                $qr->select('mahosothamgiapt')->from('dshosothamgiaphongtraotd')
+                    ->where('madonvi_nhan', $madonvi)
+                    ->orwhere('madonvi_nhan_h', $madonvi)
+                    ->orwhere('madonvi_nhan_t', $madonvi)->get();
+            })->get();
+        }
+        case 'xetduyethoso':
+        case 'pheduyethoso':
+    }
+}
+
+function storeThongBao($url, $noidung, $chucnang, $mahs_mapt, $phamvi, $madonvi)
+{
+    $mathongbao = getdate()[0];
+    $data = [
+        'mathongbao' => $mathongbao,
+        'noidung' => $noidung,
+        'url' => $url,
+        'chucnang' => $chucnang,
+        'mahs_mapt' => $mahs_mapt,
+        'phamvi' => $phamvi,
+        'madonvi_thongbao' => $madonvi,
+        'trangthai' => 'CHUADOC'
+    ];
+
+    thongbao::create($data);
 }
