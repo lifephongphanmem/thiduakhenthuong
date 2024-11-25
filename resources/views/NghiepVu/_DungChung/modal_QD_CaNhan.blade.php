@@ -73,7 +73,7 @@
                     <div class="col-md-12">
                         <label class="control-label">Danh hiệu thi đua/Hình thức khen thưởng</label>
                         {!! Form::select('madanhhieukhenthuong', $a_dhkt_canhan, null, [
-                            'class' => 'form-control select2_modal','disabled'=>true
+                            'class' => 'form-control select2_modal','disabled'=>false
                         ]) !!}
                     </div>
                     {{-- <div class="col-md-6">
