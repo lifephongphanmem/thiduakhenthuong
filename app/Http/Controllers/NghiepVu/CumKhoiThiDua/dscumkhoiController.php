@@ -126,14 +126,19 @@ class dscumkhoiController extends Controller
     public function DanhSach(Request $request)
     {
         $inputs = $request->all();
-        //dd($inputs);
         $m_cumkhoi = dscumkhoi::where('macumkhoi', $inputs['macumkhoi'])->first();
         $model = dscumkhoi_chitiet::where('macumkhoi', $inputs['macumkhoi'])->get();
+        $m_donvi = dsdonvi::wherenotin('madonvi', function ($qr) use ($m_cumkhoi) {
+            $qr->select('madonvi')->from('view_dscumkhoi')->where('maqdphancumkhoi', $m_cumkhoi->maqdphancumkhoi);
+        })->get();
+        //dd($m_donvi);
+        $a_phanloai = array_keys(getPhanLoaiDonViCumKhoi());
+        $a_donvi = array_column(dsdonvi::wherein('madonvi', array_column($model->toarray(), 'madonvi'))->get()->toArray(), 'tendonvi', 'madonvi');
+        //sap xep lai ket qa
+        $model = $model->sortBy(function ($item) use ($a_phanloai) {
+            return array_search($item['phanloai'], $a_phanloai);
+        })->values();
 
-        $a_donvi = array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi');
-        $m_donvi = viewdiabandonvi::all();
-        //$m_donvi = viewdiabandonvi::wherenotin('madonvi', array_column($model->toarray(), 'madonvi'))->get();
-        //$m_donvi = viewdiabandonvi::where('capdo', $m_cumkhoi->capdo)->get();
         return view('NghiepVu.CumKhoiThiDua.DanhSach.DanhSach')
             ->with('model', $model)
             ->with('m_cumkhoi', $m_cumkhoi)
@@ -147,15 +152,37 @@ class dscumkhoiController extends Controller
 
     public function ThemDonVi(Request $request)
     {
-
         if (!chkPhanQuyen('dscumkhoithidua', 'thaydoi')) {
             return view('errors.noperm')->with('machucnang', 'dscumkhoithidua')->with('tenphanquyen', 'thaydoi');
         }
+
         $inputs = $request->all();
-        $model = dscumkhoi_chitiet::where('madonvi', $inputs['madonvi'])->where('macumkhoi', $inputs['macumkhoi'])->first();
-        if ($model == null) {
-            dscumkhoi_chitiet::create($inputs);
-        } else {
+
+        $a_donvi = explode(';', $inputs['a_madonvi']);
+        if (count($a_donvi) > 0) {
+            $a_ketqua = [];
+            foreach ($a_donvi as $donvi) {
+                if ($donvi != '')
+                    $a_ketqua[] = [
+                        'macumkhoi' => $inputs['macumkhoi'],
+                        'madonvi' => $donvi,
+                        'phanloai' => 'THANHVIEN',
+                    ];
+            }
+            dscumkhoi_chitiet::insert($a_ketqua);
+        }       
+        return redirect(static::$url . 'DanhSach?macumkhoi=' . $inputs['macumkhoi']);
+    }
+
+    public function SuaPhanLoai(Request $request)
+    {
+        if (!chkPhanQuyen('dscumkhoithidua', 'thaydoi')) {
+            return view('errors.noperm')->with('machucnang', 'dscumkhoithidua')->with('tenphanquyen', 'thaydoi');
+        }
+
+        $inputs = $request->all();       
+        $model = dscumkhoi_chitiet::where('madonvi', $inputs['madonvi'])->where('macumkhoi', $inputs['macumkhoi'])->first();        
+        if ($model != null) {
             $model->update($inputs);
         }
         if ($inputs['phanloai'] == "TRUONGKHOI") {

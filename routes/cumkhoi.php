@@ -39,7 +39,7 @@ Route::group(['prefix' => 'CumKhoiThiDua'], function () {
         Route::get('TaiLieuDinhKem', [dscumkhoi_qdphancumkhoiController::class, 'TaiLieuDinhKem']);
     });
 
-    Route::group(['prefix' => 'CumKhoi'], function () {       
+    Route::group(['prefix' => 'CumKhoi'], function () {
 
         Route::get('ThongTin', [dscumkhoiController::class, 'ThongTin']);
         Route::get('Them', 'NghiepVu\CumKhoiThiDua\dscumkhoiController@ThayDoi');
@@ -52,6 +52,7 @@ Route::group(['prefix' => 'CumKhoiThiDua'], function () {
         Route::post('XoaDonVi', 'NghiepVu\CumKhoiThiDua\dscumkhoiController@XoaDonVi');
         Route::get('TaiLieuDinhKem', [dscumkhoiController::class, 'TaiLieuDinhKem']);
         Route::get('ChiTietCumKhoi', [dscumkhoiController::class, 'ChiTietCumKhoi']);
+        Route::post('SuaPhanLoai', [dscumkhoiController::class, 'SuaPhanLoai']);
     });
     Route::group(['prefix' => 'TruongCumKhoi'], function () {
         Route::get('ThongTin', [dstruongcumkhoiController::class, 'ThongTin']);
