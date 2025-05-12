@@ -16,6 +16,7 @@ use App\Model\DanhMuc\dsdonvi;
 use App\Model\HeThong\trangthaihoso;
 use App\Model\NghiepVu\KhenCao\dshosokhencao;
 use App\Model\NghiepVu\KhenCao\dshosokhencao_canhan;
+use App\Model\NghiepVu\KhenCao\dshosokhencao_tailieu;
 use App\Model\NghiepVu\KhenCao\dshosokhencao_tapthe;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dsphongtraothidua;
 use App\Model\View\viewdiabandonvi;
@@ -104,6 +105,8 @@ class dshosokhencaokhangchienController extends Controller
         $inputs['url_xd'] = static::$url;
         $inputs['url_qd'] = static::$url;
         $inputs['url'] = static::$url;
+        $inputs['phanloaihoso'] = 'dshosokhencao';
+        $inputs['phanloaikhenthuong'] = 'KHENTHUONG';
         $inputs['mahinhthuckt'] = session('chucnang')['dshosokhencaokhangchien']['mahinhthuckt'] ?? 'ALL';
         $model = dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
@@ -113,6 +116,7 @@ class dshosokhencaokhangchienController extends Controller
         $model->tendonvi = $donvi->tendonvi;
         $model_canhan =  dshosokhencao_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
         $model_tapthe = dshosokhencao_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+        $model_tailieu = dshosokhencao_tailieu::where('mahosotdkt', $model->mahosotdkt)->get();
         $m_phongtrao = dsphongtraothidua::where('phamviapdung', 'TW')->get();
         $a_tapthe = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['TAPTHE', 'HOGIADINH'])->get()->toarray(), 'tenphanloai', 'maphanloai');
         $a_canhan = array_column(dmnhomphanloai_chitiet::wherein('manhomphanloai', ['CANHAN'])->get()->toarray(), 'tenphanloai', 'maphanloai');
@@ -121,12 +125,15 @@ class dshosokhencaokhangchienController extends Controller
             ->with('model', $model)
             ->with('model_canhan', $model_canhan)
             ->with('model_tapthe', $model_tapthe)
+            ->with('model_tailieu', $model_tailieu)
             ->with('a_dhkt_canhan', $a_dhkt_canhan)
             ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
             ->with('a_tapthe', $a_tapthe)
             ->with('a_canhan', $a_canhan)
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
             ->with('a_phongtraotd', array_column($m_phongtrao->toArray(), 'noidung', 'maphongtraotd'))
+            ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
+            ->with('a_pltailieu', getPhanLoaiTaiLieuDK())
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Thông tin hồ sơ đề nghị khen cao');
     }
@@ -186,7 +193,7 @@ class dshosokhencaokhangchienController extends Controller
             ->with('model', $model)
             ->with('pageTitle', 'Quyết định khen thưởng');
     }
-    
+
     public function Them(Request $request)
     {
         if (!chkPhanQuyen('dshosokhencaokhangchien', 'thaydoi')) {
@@ -643,7 +650,7 @@ class dshosokhencaokhangchienController extends Controller
             ->with('a_dhkt_canhan', $a_dhkt_canhan)
             ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
-            ->with('a_donvikt' , array_unique(array_merge([$model->donvikhenthuong], getDonViKhenThuong())))
+            ->with('a_donvikt', array_unique(array_merge([$model->donvikhenthuong], getDonViKhenThuong())))
             ->with('a_tapthe', $a_tapthe)
             ->with('a_canhan', $a_canhan)
             ->with('inputs', $inputs)
@@ -694,7 +701,7 @@ class dshosokhencaokhangchienController extends Controller
         setTrangThaiHoSo($inputs['madonvi'], $model, ['thoigian' => $thoigian, 'trangthai' => $trangthai]);
         $model->trangthai = $trangthai; //gán trạng thái hồ sơ để theo dõi
         $model->donvikhenthuong = null;
-        
+
         $model->soqd = null;
         $model->ngayqd = null;
         $model->chucvunguoikyqd = null;

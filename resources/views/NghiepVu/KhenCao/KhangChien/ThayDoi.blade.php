@@ -91,7 +91,7 @@
                     <label>Ngày tháng trình<span class="require">*</span></label>
                     {!! Form::input('date', 'ngayhoso', null, ['class' => 'form-control', 'required']) !!}
                 </div>
-           
+
                 <div class="col-3">
                     <label>Chức vụ người ký tờ trình</label>
                     {!! Form::text('chucvunguoiky', null, ['class' => 'form-control']) !!}
@@ -109,7 +109,7 @@
                 </div>
             </div>
 
-            <div class="form-group row">
+            {{-- <div class="form-group row">
                 <div class="col-lg-6">
                     <label>Tờ trình: </label>
                     {!! Form::file('totrinh', null, ['id' => 'totrinh', 'class' => 'form-control']) !!}
@@ -130,9 +130,9 @@
                         </span>
                     @endif
                 </div>
-            </div>
+            </div> --}}
 
-            <div class="form-group row">
+            {{-- <div class="form-group row">
                 <div class="col-lg-6">
                     <label>Biên bản cuộc họp: </label>
                     {!! Form::file('bienban', null, ['id' => 'bienban', 'class' => 'form-control']) !!}
@@ -154,7 +154,7 @@
                         </span>
                     @endif
                 </div>
-            </div>
+            </div> --}}
 
             <div class="row">
                 <div class="col-md-12">
@@ -178,7 +178,14 @@
                                             <span class="nav-text">Khen thưởng cá nhân</span>
                                         </a>
                                     </li>
-
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#kt_tailieu">
+                                            <span class="nav-icon">
+                                                <i class="far flaticon-folder-1"></i>
+                                            </span>
+                                            <span class="nav-text">Tài liệu đính kèm</span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="card-toolbar">
@@ -353,7 +360,69 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="tab-pane fade" id="kt_tailieu" role="tabpanel" aria-labelledby="kt_tailieu">
+                                    <div class="form-group row">
+                                        <div class="col-lg-12 text-right">
+                                            <div class="btn-group" role="group">
+                                                <button title="Thêm đối tượng" type="button"
+                                                    data-target="#modal-tailieu" data-toggle="modal"
+                                                    class="btn btn-light-dark btn-icon btn-sm" onclick="setTaiLieu()">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
 
+                                    <div class="row" id="dstailieu">
+                                        <div class="col-md-12">
+                                            <table class="table table-bordered table-hover dulieubang">
+                                                <thead>
+                                                    <tr class="text-center">
+                                                        <th width="2%">STT</th>
+                                                        <th width="20%">Đơn vị tải lên</th>
+                                                        <th width="20%">Phân loại tài liệu</th>
+                                                        <th>Nội dung tóm tắt</th>
+                                                        <th width="15%">Thao tác</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php $i = 1; ?>
+                                                    @foreach ($model_tailieu as $key => $tt)
+                                                        <tr class="odd gradeX">
+                                                            <td class="text-center">{{ $i++ }}</td>
+                                                            <td>{{ $a_donvi[$tt->madonvi] ?? $tt->madonvi }}</td>
+                                                            <td>{{ $a_pltailieu[$tt->phanloai] ?? $tt->phanloai }}</td>
+                                                            <td class="text-center">{{ $tt->noidung }}</td>
+
+                                                            <td class="text-center">
+                                                                <button title="Sửa thông tin" type="button"
+                                                                    onclick="getTaiLieu('{{ $tt->id }}')"
+                                                                    class="btn btn-sm btn-clean btn-icon"
+                                                                    data-target="#modal-tailieu" data-toggle="modal">
+                                                                    <i class="icon-lg la fa-edit text-primary"></i>
+                                                                </button>
+                                                                <button title="Xóa" type="button"
+                                                                    onclick="delTaiLieu('{{ $tt->id }}')"
+                                                                    class="btn btn-sm btn-clean btn-icon"
+                                                                    data-target="#modal-delete-tailieu"
+                                                                    data-toggle="modal">
+                                                                    <i class="icon-lg la fa-trash text-danger"></i>
+                                                                </button>
+                                                                @if ($tt->tentailieu != '')
+                                                                    <a target="_blank" title="Tải file đính kèm"
+                                                                        href="{{ '/data/tailieudinhkem/' . $tt->tentailieu }}"
+                                                                        class="btn btn-clean btn-icon btn-sm"><i
+                                                                            class="fa flaticon-download text-info"></i>
+                                                                    </a>
+                                                                @endif
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -377,6 +446,7 @@
     <!--end::Card-->
     @include('NghiepVu._DungChung.modal_QD_CaNhan')
     @include('NghiepVu._DungChung.modal_QD_TapThe')
+        @include('NghiepVu._DungChung.modal_TaiLieuDinhKem')
     {{-- chưa dùng tiêu chuẩn --}}
     {{-- @include('NghiepVu._DungChung.modal_TieuChuan') --}}
     @include('NghiepVu._DungChung.modal_XoaDoiTuong')
