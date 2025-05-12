@@ -69,16 +69,16 @@ class dshosokhenthuongcumkhoiController extends Controller
         $inputs['maloaihinhkt'] = $inputs['maloaihinhkt'] ?? 'ALL';
         //Lọc cụm khối theo thiết lập lọc dữ liệu của tài khoản
         $a_diabancumkhoi = getCumKhoiLocDuLieu(session('admin')->tendangnhap);
-        if (count($a_diabancumkhoi) > 0)
+        if (count($a_diabancumkhoi) > 0){
             $m_cumkhoi = dscumkhoi::wherein('macumkhoi', $a_diabancumkhoi)->get();
-        else {
+        }else {
             $a_cumkhoi = array_column(view_dscumkhoi::where('madonvi', $inputs['madonvi'])->get()->toarray(), 'macumkhoi');
             $m_cumkhoi = dscumkhoi::wherein('macumkhoi', $a_cumkhoi)->get();
         }
-
+        // dd($m_cumkhoi);
         //Lọc các cụm khối của đơn vị
 
-        $inputs['macumkhoi'] = $inputs['macumkhoi'] ?? $m_cumkhoi->first()->macumkhoi;
+        $inputs['macumkhoi'] = $inputs['macumkhoi'] ?? ($m_cumkhoi->first()->macumkhoi ?? null);
         //Trường hợp chọn lại đơn vị nhưng mã cụm khối vẫn theo đơn vị cũ
         $inputs['macumkhoi'] = $m_cumkhoi->where('macumkhoi', $inputs['macumkhoi'])->first() != null ? $inputs['macumkhoi'] : ($m_cumkhoi->first()->macumkhoi ?? null);
         $donvi = $m_donvi->where('madonvi', $inputs['madonvi'])->first();

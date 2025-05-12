@@ -602,7 +602,7 @@ function getTaoDuThaoToTrinhPheDuyet(&$model, $maduthao = null)
         $donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
         $donvi_xd = dsdonvi::where('madonvi', $model->madonvi_xd)->first();
         $donvi_kt = dsdonvi::where('madonvi', $model->madonvi_kt)->first();
-
+// dd($model);
         $model->thongtintotrinhdenghi = str_replace('[noidung]', $model->noidung, $model->thongtintotrinhdenghi);
         $model->thongtintotrinhdenghi = str_replace('[hinhthuckhenthuong]',  'Bằng khen', $model->thongtintotrinhdenghi);
         $model->thongtintotrinhdenghi = str_replace('[nguoikytotrinh]', $model->nguoikytotrinh, $model->thongtintotrinhdenghi);

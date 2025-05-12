@@ -164,7 +164,7 @@ class dungchung_duthaokhenthuongController extends Controller
     public function InToTrinhKetQuaKhenThuong(Request $request)
     {
         $inputs = $request->all();
-        //dd($inputs);
+        // dd($inputs);
         $a_duthao = array_column(duthaoquyetdinh::where('phanloai', 'TOTRINHPHEDUYET')->get()->toArray(), 'noidung', 'maduthao');
         if (count($a_duthao) == 0) {
             return view('errors.nodata')
@@ -195,7 +195,7 @@ class dungchung_duthaokhenthuongController extends Controller
                     break;
                 }
         }
-        //dd($model);
+        // dd($model->thongtintotrinhdenghi);
         $model->thongtintotrinhdenghi = str_replace('<p>[sangtrangmoi]</p>', '<div class=&#34;sangtrangmoi&#34;></div>', $model->thongtintotrinhdenghi);
         $model->thongtinquyetdinh = $model->thongtintotrinhdenghi;
         return view('NghiepVu._DungChung.DuThao.InDuThao')
