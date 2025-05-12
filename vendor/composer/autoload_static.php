@@ -158,9 +158,9 @@ class ComposerStaticInit2bbfd3055ada376977abbf3cd3a1a409
     public static $prefixDirsPsr4 = array (
         'phpDocumentor\\Reflection\\' => 
         array (
-            0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            0 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
         ),
         'XdgBaseDir\\' => 
         array (
@@ -487,6 +487,7 @@ class ComposerStaticInit2bbfd3055ada376977abbf3cd3a1a409
         'App\\Http\\Controllers\\NghiepVu\\CumKhoiThiDua\\GiaoUoc\\dshosogiaouocthiduaController' => __DIR__ . '/../..' . '/app/Http/Controllers/NghiepVu/CumKhoiThiDua/GiaoUoc/dshosogiaouocthiduaController.php',
         'App\\Http\\Controllers\\NghiepVu\\CumKhoiThiDua\\GiaoUoc\\xdhosogiaouocthiduaController' => __DIR__ . '/../..' . '/app/Http/Controllers/NghiepVu/CumKhoiThiDua/GiaoUoc/xdhosogiaouocthiduaController.php',
         'App\\Http\\Controllers\\NghiepVu\\CumKhoiThiDua\\dscumkhoiController' => __DIR__ . '/../..' . '/app/Http/Controllers/NghiepVu/CumKhoiThiDua/dscumkhoiController.php',
+        'App\\Http\\Controllers\\NghiepVu\\CumKhoiThiDua\\dscumkhoi_qdphancumkhoiController' => __DIR__ . '/../..' . '/app/Http/Controllers/NghiepVu/CumKhoiThiDua/dscumkhoi_qdphancumkhoiController.php',
         'App\\Http\\Controllers\\NghiepVu\\CumKhoiThiDua\\dshosodenghikhenthuongcumkhoiController' => __DIR__ . '/../..' . '/app/Http/Controllers/NghiepVu/CumKhoiThiDua/dshosodenghikhenthuongcumkhoiController.php',
         'App\\Http\\Controllers\\NghiepVu\\CumKhoiThiDua\\dshosodenghikhenthuongthiduacumkhoiController' => __DIR__ . '/../..' . '/app/Http/Controllers/NghiepVu/CumKhoiThiDua/dshosodenghikhenthuongthiduacumkhoiController.php',
         'App\\Http\\Controllers\\NghiepVu\\CumKhoiThiDua\\dshosokhenthuongcumkhoiController' => __DIR__ . '/../..' . '/app/Http/Controllers/NghiepVu/CumKhoiThiDua/dshosokhenthuongcumkhoiController.php',
@@ -554,6 +555,7 @@ class ComposerStaticInit2bbfd3055ada376977abbf3cd3a1a409
         'App\\Http\\Controllers\\NghiepVu\\_DungChung\\dungchung_nghiepvu_tailieuController' => __DIR__ . '/../..' . '/app/Http/Controllers/NghiepVu/_DungChung/dungchung_nghiepvu_tailieuController.php',
         'App\\Http\\Controllers\\NghiepVu\\_DungChung\\dungchung_nhanexcelController' => __DIR__ . '/../..' . '/app/Http/Controllers/NghiepVu/_DungChung/dungchung_nhanexcelController.php',
         'App\\Http\\Controllers\\QuyKhenThuong\\dsquanlyquykhenthuongController' => __DIR__ . '/../..' . '/app/Http/Controllers/QuyKhenThuong/dsquanlyquykhenthuongController.php',
+        'App\\Http\\Controllers\\ThongBao\\thongbaoController' => __DIR__ . '/../..' . '/app/Http/Controllers/ThongBao/thongbaoController.php',
         'App\\Http\\Controllers\\TraCuu\\tracuucanhanController' => __DIR__ . '/../..' . '/app/Http/Controllers/TraCuu/tracuucanhanController.php',
         'App\\Http\\Controllers\\TraCuu\\tracuuphongtraoController' => __DIR__ . '/../..' . '/app/Http/Controllers/TraCuu/tracuuphongtraoController.php',
         'App\\Http\\Controllers\\TraCuu\\tracuutaptheController' => __DIR__ . '/../..' . '/app/Http/Controllers/TraCuu/tracuutaptheController.php',
@@ -581,6 +583,7 @@ class ComposerStaticInit2bbfd3055ada376977abbf3cd3a1a409
         'App\\Model\\DanhMuc\\dmtoadoinphoi' => __DIR__ . '/../..' . '/app/Model/DanhMuc/dmtoadoinphoi.php',
         'App\\Model\\DanhMuc\\dscumkhoi' => __DIR__ . '/../..' . '/app/Model/DanhMuc/dscumkhoi.php',
         'App\\Model\\DanhMuc\\dscumkhoi_chitiet' => __DIR__ . '/../..' . '/app/Model/DanhMuc/dscumkhoi_chitiet.php',
+        'App\\Model\\DanhMuc\\dscumkhoi_qdphancumkhoi' => __DIR__ . '/../..' . '/app/Model/DanhMuc/dscumkhoi_qdphancumkhoi.php',
         'App\\Model\\DanhMuc\\dsdiaban' => __DIR__ . '/../..' . '/app/Model/DanhMuc/dsdiaban.php',
         'App\\Model\\DanhMuc\\dsdonvi' => __DIR__ . '/../..' . '/app/Model/DanhMuc/dsdonvi.php',
         'App\\Model\\DanhMuc\\dsnhomtaikhoan' => __DIR__ . '/../..' . '/app/Model/DanhMuc/dsnhomtaikhoan.php',
@@ -660,6 +663,7 @@ class ComposerStaticInit2bbfd3055ada376977abbf3cd3a1a409
         'App\\Model\\NghiepVu\\ThiDuaKhenThuong\\dsphongtraothidua_tieuchuan' => __DIR__ . '/../..' . '/app/Model/NghiepVu/ThiDuaKhenThuong/dsphongtraothidua_tieuchuan.php',
         'App\\Model\\QuyKhenThuong\\dsquanlyquykhenthuong' => __DIR__ . '/../..' . '/app/Model/QuyKhenThuong/dsquanlyquykhenthuong.php',
         'App\\Model\\QuyKhenThuong\\dsquanlyquykhenthuong_chitiet' => __DIR__ . '/../..' . '/app/Model/QuyKhenThuong/dsquanlyquykhenthuong_chitiet.php',
+        'App\\Model\\ThongBao\\thongbao' => __DIR__ . '/../..' . '/app/Model/ThongBao/thongbao.php',
         'App\\Model\\VanBan\\dsquyetdinhkhenthuong' => __DIR__ . '/../..' . '/app/Model/VanBan/dsquyetdinhkhenthuong.php',
         'App\\Model\\VanBan\\dsvanbanphaply' => __DIR__ . '/../..' . '/app/Model/VanBan/dsvanbanphaply.php',
         'App\\Model\\View\\view_cumkhoi_canhan' => __DIR__ . '/../..' . '/app/Model/View/view_cumkhoi_canhan.php',

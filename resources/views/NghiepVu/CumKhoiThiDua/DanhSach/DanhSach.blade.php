@@ -33,7 +33,7 @@
             </div>
             <div class="card-toolbar">
                 @if (chkPhanQuyen('dscumkhoithidua', 'thaydoi'))
-                    <button type="button" class="btn btn-success btn-xs" data-target="#modify-modal" data-toggle="modal">
+                    <button type="button" class="btn btn-success btn-xs" data-target="#add-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
                 @endif
             </div>
@@ -63,7 +63,7 @@
                                 <td>{{ $a_donvi[$tt->madonvi] ?? '' }}</td>
                                 <td>{{ $a_phanloai[$tt->phanloai] ?? '' }}</td>
                                 <td class="text-center">
-                                    <button title="Danh sách tiêu chuẩn" type="button"
+                                    <button title="Thay đổi" type="button"
                                         onclick="getThongTin('{{ $tt->madonvi }}', '{{ $tt->phanloai }}')"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                         data-toggle="modal">
@@ -93,13 +93,64 @@
     </div>
     <!--end::Card-->
 
-    {!! Form::open(['url' => 'CumKhoiThiDua/CumKhoi/ThemDonVi', 'id' => 'frm_modify']) !!}
-    {{ Form::hidden('macumkhoi', $inputs['macumkhoi'], ['id' => 'macumkhoi']) }}
-    <div id="modify-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
-        <div class="modal-dialog">
+    {!! Form::open(['url' => 'CumKhoiThiDua/CumKhoi/ThemDonVi', 'id' => 'frm_add']) !!}
+    {{ Form::hidden('macumkhoi', $inputs['macumkhoi']) }}
+    {{ Form::hidden('a_madonvi', null, ['id' => 'a_madonvi']) }}
+    <div id="add-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header modal-header-primary">
-                    <h4 id="modal-header-primary-label" class="modal-title">Thông tin địa đơn vị</h4>
+                    <h4 id="modal-header-primary-label" class="modal-title">Thông tin đơn vị</h4>
+                    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div>
+                            <table class="table table-striped table-bordered table-hover dulieubang">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th width="5%">STT</th>
+                                        <th>Tên đơn vị</th>
+                                        <th style="text-align: center" width="5%">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                @foreach ($m_donvi as $key => $tt)
+                                    <tr>
+                                        <td style="text-align: center">{{ $key + 1 }}</td>
+                                        <td>{{ $tt->tendonvi }}</td>
+                                        <td class="text-center">
+                                            <div class="col-9 col-form-label text-center">
+                                                <div class="checkbox-inline">
+                                                    <label class="checkbox checkbox-outline checkbox-success">
+                                                        <input type="checkbox"
+                                                            onclick="ganMaDonVi(this,'{{ $tt->madonvi }}')" />
+                                                        <span></span>Chọn đơn vị</label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
+                    <button type="submit" id="submit" name="submit" value="submit" class="btn btn-primary">Đồng
+                        ý</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {!! Form::close() !!}
+
+    {!! Form::open(['url' => 'CumKhoiThiDua/CumKhoi/SuaPhanLoai', 'id' => 'frm_modify']) !!}
+    {{ Form::hidden('macumkhoi', $inputs['macumkhoi']) }}
+    <div id="modify-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header modal-header-primary">
+                    <h4 id="modal-header-primary-label" class="modal-title">Thông tin đơn vị</h4>
                     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -107,35 +158,46 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <label class="control-label">Tên đơn vị</label>
-                                <select class="form-control select2_modal" name="madonvi">
-                                    @foreach ($a_diaban as $key => $val)
-                                        <optgroup label="{{ $val }}">
-                                            <?php $donvi = $m_donvi->where('madiaban', $key); ?>
-                                            @foreach ($donvi as $ct)
-                                                <option value="{{ $ct->madonvi }}">{{ $ct->tendonvi }}</option>
-                                            @endforeach
-                                        </optgroup>
-                                    @endforeach
-                                </select>
+                                {!! Form::select('madonvi', $a_donvi, null, [
+                                    'id' => 'madonvi',
+                                    'class' => 'form-control select2_modal',
+                                ]) !!}                                
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-md-12">
-                                <label class="control-label">Phân loại</label>
-                                {!! Form::select('phanloai', getPhanLoaiDonViCumKhoi(), null, ['id' => 'phanloai', 'class' => 'form-control select2_modal']) !!}
+                                <label class="control-label">Phân loại đơn vị</label>
+                                 {!! Form::select('phanloai', getPhanLoaiDonViCumKhoi(), null, [
+                                    'id' => 'phanloai',
+                                    'class' => 'form-control select2_modal',
+                                ]) !!}
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
-                    <button type="submit" id="submit" name="submit" value="submit" class="btn btn-primary">Đồng ý</button>
+                    <button type="submit" id="submit" name="submit" value="submit" class="btn btn-primary">Đồng
+                        ý</button>
                 </div>
             </div>
         </div>
     </div>
     {!! Form::close() !!}
 
+    <script>
+        let a_madonvi = "";
+
+        function ganMaDonVi(obj, madonvi) {
+            let ma = madonvi + ";";
+            if (obj.checked) {
+                if (!a_madonvi.includes(ma))
+                    a_madonvi += ma;
+            } else {
+                a_madonvi = a_madonvi.replaceAll(ma, "");
+            }
+            $('#a_madonvi').val(a_madonvi);
+        }
+    </script>
     @include('includes.modal.modal-delete')
 @stop
