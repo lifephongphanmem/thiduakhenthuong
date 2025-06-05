@@ -25,7 +25,7 @@
     <div class="card card-custom" style="min-height: 600px">
         <div class="card-header">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Thông tin kết quả tìm kiếm kết quả khen thưởng cho tập thể</h3>
+                <h3 class="card-label text-uppercase">Thông tin kết quả tìm kiếm kết quả khen cao cho tập thể</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
@@ -76,7 +76,7 @@
                                     <td>{{ $a_loaihinhkt[$tt->maloaihinhkt] ?? '' }}</td>
                                     <td>
                                         <button title="Tài liệu đính kèm" type="button"
-                                            onclick="get_attack('{{ $tt->mahosotdkt }}', '/DungChung/DinhKemHoSoKhenThuong')"
+                                            onclick="get_attack('{{ $tt->mahosotdkt }}', '/DungChung/DinhKemHoSoKhenCao')"
                                             class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
                                             data-toggle="modal">
                                             <i class="icon-lg la la-file-download text-dark icon-2x"></i>
@@ -91,7 +91,7 @@
             <div class="card-footer">
                 <div class="row text-center">
                     <div class="col-lg-12">
-                        <a href="{{ url('/TraCuu/TapThe/ThongTin') }}" class="btn btn-danger mr-5"><i
+                        <a href="{{ url('/TraCuu/KhenCao/TapThe/ThongTin') }}" class="btn btn-danger mr-5"><i
                                 class="fa fa-reply"></i>&nbsp;Quay lại</a>
 
                     </div>
@@ -121,7 +121,7 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <button type="submit" onclick="setInDL('/TraCuu/TapThe/InKetQua')"
+                                <button type="submit" onclick="setInDL('/TraCuu/KhenCao/TapThe/InKetQua')"
                                     class="btn btn-sm btn-clean text-dark font-weight-bold" target="_blank">
                                     <i class="la flaticon2-print"></i>Kết quả tìm kiếm
                                 </button>

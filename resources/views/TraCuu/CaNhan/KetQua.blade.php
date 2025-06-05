@@ -144,6 +144,8 @@
         <input type="hidden" name="gioitinh" value="{{ $inputs['gioitinh'] }}" />
         <input type="hidden" name="maphanloaicanbo" value="{{ $inputs['maphanloaicanbo'] }}" />
         <input type="hidden" name="maloaihinhkt" value="{{ $inputs['maloaihinhkt'] }}" />
+        <input type="hidden" name="madonvi" value="{{ $inputs['madonvi'] }}" />
+        <input type="hidden" name="madiaban" value="{{ $inputs['madiaban'] }}" />
 
         <div class="modal-dialog">
             <div class="modal-content">
