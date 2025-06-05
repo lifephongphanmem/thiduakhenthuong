@@ -47,6 +47,43 @@
                         </a>
                     </li>
                 @endif
+                <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+                    <a href="javascript:;" class="menu-link menu-toggle">
+                        <i class="menu-bullet menu-bullet-dot">
+                            <span></span>
+                        </i>
+                        <span
+                            class="menu-text font-weight-bold">{{ chkGiaoDien('timkiemkhencao', 'tenchucnang') }}</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="menu-submenu">
+                        <i class="menu-arrow"></i>
+                        <ul class="menu-subnav">
+                            @if (chkPhanQuyen('timkiemkhencaocanhan', 'phanquyen'))
+                                <li class="menu-item" aria-haspopup="true">
+                                    <a href="{{ url('/TraCuu/KhenCao/CaNhan/ThongTin') }}" class="menu-link">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span
+                                            class="menu-text font-weight-bold">{{ chkGiaoDien('timkiemkhencaocanhan', 'tenchucnang') }}</span>
+                                    </a>
+                                </li>
+                            @endif
+                            @if (chkPhanQuyen('timkiemkhencaotapthe', 'phanquyen'))
+                                <li class="menu-item" aria-haspopup="true">
+                                    <a href="{{ url('/TraCuu/KhenCao/TapThe/ThongTin') }}" class="menu-link">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span
+                                            class="menu-text font-weight-bold">{{ chkGiaoDien('timkiemkhencaotapthe', 'tenchucnang') }}</span>
+                                    </a>
+                                </li>
+                            @endif
+                        </ul>
+                    </div>
+                </li>
             </ul>
         </div>
     </li>

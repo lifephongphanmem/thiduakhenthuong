@@ -38,7 +38,7 @@ class tracuutaptheController extends Controller
     public function ThongTin(Request $request)
     {
         if (!chkPhanQuyen('timkiemphongtrao', 'danhsach')) {
-            return view('errors.noperm')->with('machucnang', 'timkiemphongtrao')->with('tenphanquyen', 'danhsach');
+            return view('errors.noperm')->with('machucnang', 'timkiemtapthe')->with('tenphanquyen', 'danhsach');
         }
         $inputs = $request->all();
         $inputs['url'] = static::$url;
@@ -85,6 +85,7 @@ class tracuutaptheController extends Controller
             ->with('a_dhkt', $a_dhkt)
             ->with('phamvi', getPhamViApDung())
             ->with('inputs', $inputs)
+            ->with('a_linhvuc', getLinhVucHoatDong())
             ->with('a_danhhieu', array_column(dmdanhhieuthidua::all()->toArray(), 'tendanhhieutd', 'madanhhieutd'))
             ->with('a_hinhthuckt', array_column(dmhinhthuckhenthuong::all()->toArray(), 'tenhinhthuckt', 'mahinhthuckt'))
             ->with('a_tapthe', array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai'))

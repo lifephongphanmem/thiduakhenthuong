@@ -17,6 +17,7 @@ use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_canhan;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_hogiadinh;
 use App\Model\NghiepVu\CumKhoiThiDua\dshosotdktcumkhoi_tapthe;
 use App\Model\NghiepVu\KhenCao\dshosokhencao;
+use App\Model\NghiepVu\KhenCao\dshosokhencao_tailieu;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothamgiaphongtraotd;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong;
 use App\Model\NghiepVu\ThiDuaKhenThuong\dshosothiduakhenthuong_canhan;
@@ -328,48 +329,41 @@ class dungchung_nghiepvuController extends Controller
 
         $inputs = $request->all();
         $result['message'] = '<div class="modal-body" id = "dinh_kem" >';
-        $model = dshosotdktcumkhoi::where('mahosotdkt', $inputs['mahs'])->first();
-        if ($model != null) {
-            if (isset($model->totrinh)) {
-                $result['message'] .= '<div class="form-group row">';
-                $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Tờ trình:</label>';
-                $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/totrinh/' . $model->totrinh) . '">' . $model->totrinh . '</a ></div>';
-                $result['message'] .= '</div>';
-            }
+        $model = dshosokhencao_tailieu::where('mahosotdkt', $inputs['mahs'])->get();
+        if ($model->count() > 0) {
+            $a_pltailieu = getPhanLoaiTaiLieuDK();
+            $a_donvi = array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi');
+            $result['message'] .= '<div class="col-md-12">';
+            $result['message'] .= '<table class="table table-bordered table-hover dulieubang">';
+            $result['message'] .= '<thead>';
+            $result['message'] .= '<tr class="text-center">';
+            $result['message'] .= '<th width="2%">STT</th>';
+            $result['message'] .= '<th width="20%">Đơn vị tải lên</th>';
+            $result['message'] .= '<th width="20%">Phân loại tài liệu</th>';
+            $result['message'] .= '<th>Nội dung tóm tắt</th>';
+            $result['message'] .= '<th width="15%">Thao tác</th>';
+            $result['message'] .= '</tr>';
+            $result['message'] .= '</thead>';
+            $result['message'] .= '<tbody>';
+            $i = 1;
+            foreach ($model as $tt) {
+                $result['message'] .= '<tr class="odd gradeX">';
+                $result['message'] .= '<td class="text-center">' . $i++ . '</td>';
+                $result['message'] .= '<td>' . ($a_donvi[$tt->madonvi] ?? $tt->madonvi) . '</td>';
+                $result['message'] .= '<td>' . ($a_pltailieu[$tt->phanloai] ?? '') . '</td>';
+                $result['message'] .= '<td>' . $tt->noidung . '</td>';
+                $result['message'] .= '<td class="text-center">';
 
-            if (isset($model->baocao)) {
-                $result['message'] .= '<div class="form-group row">';
-                $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Báo cáo thành tích:</label>';
-                $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/baocao/' . $model->baocao) . '">' . $model->baocao . '</a ></div>';
-                $result['message'] .= '</div>';
+                if ($tt->tentailieu != '')
+                    $result['message'] .= '<a target="_blank" title="Tải file đính kèm"
+                            href="/data/tailieudinhkem/' . $tt->tentailieu . '" class="btn btn-clean btn-icon btn-sm"><i class="fa flaticon-download text-info"></i></a>';
+                $result['message'] .= '</td>';
+                $result['message'] .= '</tr>';
             }
+            $result['message'] .= '</tbody>';
+            $result['message'] .= '</table>';
+            $result['message'] .= '</div>';
 
-            if (isset($model->bienban)) {
-                $result['message'] .= '<div class="form-group row">';
-                $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Biên bản cuộc họp</label>';
-                $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/bienban/' . $model->bienban) . '">' . $model->bienban . '</a ></div>';
-                $result['message'] .= '</div>';
-            }
-            if (isset($model->tailieukhac)) {
-                $result['message'] .= '<div class="form-group row">';
-                $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Tài liệu khác</label>';
-                $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/tailieukhac/' . $model->tailieukhac) . '">' . $model->tailieukhac . '</a ></div>';
-                $result['message'] .= '</div>';
-            }
-
-            if (isset($model->totrinhdenghi)) {
-                $result['message'] .= '<div class="form-group row">';
-                $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Tờ trình kết quả khen thưởng:</label>';
-                $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/totrinh/' . $model->totrinhdenghi) . '">' . $model->totrinhdenghi . '</a ></div>';
-                $result['message'] .= '</div>';
-            }
-
-            if (isset($model->quyetdinh)) {
-                $result['message'] .= '<div class="form-group row">';
-                $result['message'] .= '<label class="col-3 col-form-label font-weight-bold" >Quyết định khen thưởng:</label>';
-                $result['message'] .= '<div class="col-9 form-control"><a target = "_blank" href = "' . url('/data/quyetdinh/' . $model->quyetdinh) . '">' . $model->quyetdinh . '</a ></div>';
-                $result['message'] .= '</div>';
-            }
         }
         $result['message'] .= '</div>';
         $result['status'] = 'success';
@@ -803,15 +797,14 @@ class dungchung_nghiepvuController extends Controller
 
     public function InLichSuHoSo(Request $request)
     {
-        $inputs = $request->all();        
+        $inputs = $request->all();
         $model = trangthaihoso::where('mahoso', $inputs['mahosotdkt'])->get();
         //dd($model);
-        $a_donvi = array_column(dsdonvi::all()->toArray(),'tendonvi','madonvi');
+        $a_donvi = array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi');
         return view('NghiepVu._DungChung.InLichSuHoSo')
-            ->with('model', $model)            
-            ->with('a_donvi', $a_donvi)            
+            ->with('model', $model)
+            ->with('a_donvi', $a_donvi)
             ->with('inputs', $inputs)
             ->with('pageTitle', 'Lịch sử hồ sơ');
-        
     }
 }
