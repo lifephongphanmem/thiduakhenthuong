@@ -128,7 +128,8 @@
                                         <i class="icon-lg la flaticon2-print text-dark"></i>
                                     </button>
                                     <button title="Tài liệu đính kèm" type="button"
-                                        onclick="get_attack('{{ $tt->mahosotdkt }}', '{{ $inputs['url_hs'] . 'TaiLieuDinhKem' }}')"
+                                        {{-- onclick="get_attack('{{ $tt->mahosotdkt }}', '{{ $inputs['url_hs'] . 'TaiLieuDinhKem' }}')" --}}
+                                        onclick="get_attack('{{ $tt->mahosotdkt }}','/DungChung/DinhKemHoSoKhenCao')"
                                         class="btn btn-sm btn-clean btn-icon" data-target="#dinhkem-modal-confirm"
                                         data-toggle="modal">
                                         <i class="icon-lg la la-file-download text-dark"></i>
