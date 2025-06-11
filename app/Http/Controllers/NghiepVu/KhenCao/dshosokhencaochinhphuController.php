@@ -642,10 +642,13 @@ class dshosokhencaochinhphuController extends Controller
         $inputs['url_hs'] = '/KhenCao/ChinhPhu/';
         $inputs['url_xd'] = '/KhenCao/ChinhPhu/';
         $inputs['url_qd'] = '/KhenCao/ChinhPhu/';
+        $inputs['phanloaihoso'] = 'dshosokhencao';
+        $inputs['phanloaikhenthuong'] = 'ALL';
         $inputs['mahinhthuckt'] = session('chucnang')['dshosokhenthuongconghien']['mahinhthuckt'] ?? 'ALL';
         $model = dshosokhencao::where('mahosotdkt', $inputs['mahosotdkt'])->first();
         $model_canhan = dshosokhencao_canhan::where('mahosotdkt', $inputs['mahosotdkt'])->get();
         $model_tapthe = dshosokhencao_tapthe::where('mahosotdkt', $inputs['mahosotdkt'])->get();
+        $model_tailieu = dshosokhencao_tailieu::where('mahosotdkt', $inputs['mahosotdkt'])->get();
         $donvi = viewdiabandonvi::where('madonvi', $model->madonvi)->first();
         $a_dhkt_canhan = getDanhHieuKhenThuong($model->capkhenthuong);
         $a_dhkt_tapthe = getDanhHieuKhenThuong($model->capkhenthuong, 'TAPTHE');
@@ -662,7 +665,10 @@ class dshosokhencaochinhphuController extends Controller
             ->with('model_tapthe', $model_tapthe)
             ->with('a_dhkt_canhan', $a_dhkt_canhan)
             ->with('a_dhkt_tapthe', $a_dhkt_tapthe)
+            ->with('model_tailieu', $model_tailieu)
             ->with('a_loaihinhkt', array_column(dmloaihinhkhenthuong::all()->toArray(), 'tenloaihinhkt', 'maloaihinhkt'))
+            ->with('a_pltailieu', getPhanLoaiTaiLieuDK())
+            ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))
             ->with('a_donvikt', [$model->donvikhenthuong => $model->donvikhenthuong])
             ->with('a_tapthe', $a_tapthe)
             ->with('a_canhan', $a_canhan)
