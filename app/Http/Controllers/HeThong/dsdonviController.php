@@ -236,7 +236,6 @@ class dsdonviController extends Controller
     public function NhanExcel(Request $request)
     {
         $inputs = $request->all();
-        //dd($inputs);
         if (!isset($inputs['manhomchucnang'])) {
             return view('errors.403')
                 ->with('message', 'Bạn cần tạo nhóm chức năng trước khi nhận dữ liệu để phân quyền thuận tiện hơn.')
@@ -265,7 +264,7 @@ class dsdonviController extends Controller
             $sheet = $obj->getSheet($sheet);
             $data = $sheet->toArray(null, true, true, true); // giữ lại tiêu đề A=>'val';
         });
-
+// dd($data);
         // Excel::load($path, function ($reader) use (&$data, $inputs, $path) {
         //     $obj = $reader->getExcel();
         //     $sheetCount = $obj->getSheetCount();

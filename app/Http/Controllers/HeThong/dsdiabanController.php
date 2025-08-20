@@ -7,9 +7,11 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Model\DanhMuc\dscumkhoi;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\DanhMuc\dsnhomtaikhoan;
+use App\Model\DanhMuc\dsnhomtaikhoan_phanquyen;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
@@ -41,6 +43,8 @@ class dsdiabanController extends Controller
         }
         $a_donvi = array_column($m_donvi->toarray(), 'tendonvi', 'madonvi');
         $a_nhomchucnang = array_column(dsnhomtaikhoan::all()->toArray(), 'tennhomchucnang', 'manhomchucnang');
+        $a_cumkhoi = array_column(dscumkhoi::all()->toArray(), 'tencumkhoi', 'macumkhoi');
+        $a_diabancaptren = array_column($model->wherein('capdo', ['T', 'H'])->toArray(), 'tendiaban', 'madiaban');
         return view('HeThongChung.DiaBan.ThongTin')
             ->with('model', $model)
             ->with('inputs', $inputs)
@@ -48,6 +52,8 @@ class dsdiabanController extends Controller
             ->with('a_diaban', getDiaBan_All(true))
             ->with('a_donvi', $a_donvi)
             ->with('a_nhomchucnang', $a_nhomchucnang)
+            ->with('a_cumkhoi', $a_cumkhoi)
+            ->with('a_diabancaptren', $a_diabancaptren)
             ->with('pageTitle', 'Danh sách địa bàn');
     }
 
@@ -136,6 +142,155 @@ class dsdiabanController extends Controller
         $result['status'] = 'success';
         return response()->json($result);
     }
+        public function NhanExcel(Request $request)
+    {
+        $inputs = $request->all();
+        // dd($inputs);
+        if (!isset($inputs['manhomchucnang'])) {
+            return view('errors.403')
+                ->with('message', 'Bạn cần tạo nhóm chức năng trước khi nhận dữ liệu để phân quyền thuận tiện hơn.')
+                ->with('url', '/DiaBan/ThongTin');
+        }
 
-    
+        if (!isset($inputs['fexcel'])) {
+            return view('errors.403')
+                ->with('message', 'File Excel không hợp lệ.')
+                ->with('url', '/DiaBan/ThongTin');
+        }
+
+        //Lấy địa bàn quản lý
+        $capdoquanly = dsdiaban::where('madiaban', $inputs['madiabanQL'])->first()->capdo;
+        $capdo = 'X';
+        if ($capdoquanly == 'T')
+            $capdo = 'H';
+        //Lấy danh sách phân quyền
+        $model_phanquyen = dsnhomtaikhoan_phanquyen::where('manhomchucnang', $inputs['manhomchucnang'])->get();
+        $model_phanquyen_tonghop = dsnhomtaikhoan_phanquyen::where('manhomchucnang', $inputs['manhomchucnangth'])->get();
+        //Đọc dữ liệu
+        $dataObj = new ColectionImport();
+        $theArray = Excel::toArray($dataObj, $inputs['fexcel']);
+        $data = $theArray[0];
+
+        $a_diaban = [];
+        $a_dv = array();
+        $a_tk = array();
+        $a_ck = [];
+        $a_pq = [];
+        $ma = getdate()[0];
+        $ima = 1;
+        $a_taikhoan = array_column(dstaikhoan::all()->toArray(), 'tendangnhap');
+        //Kiểm tra dữ liệu
+        $thongbao = 'Tài khoản đã có trên hệ thống: ';
+        $nhandulieu = true;
+        for ($i = ($inputs['tudong'] - 1); $i <= $inputs['dendong']; $i++) {
+            if (!isset($data[$i][ColumnName()[$inputs['tendonvi']]])) {
+                continue;
+            }
+            $madiaban = $ma . $ima++;
+            $a_diaban[] = [
+                'madiaban' => $madiaban,
+                'tendiaban' => $data[$i][ColumnName()[$inputs['tendonvi']]] ?? '',
+                'capdo' => $capdo,
+                'phanloai' =>  $inputs['phanloai'],
+                'madiabanQL' => $inputs['madiabanQL'],
+            ];
+            $a_dv[] = array(
+                'madiaban' => $madiaban,
+                'tendonvi' => $data[$i][ColumnName()[$inputs['tendonvi']]] ?? '',
+                'madonvi' => $madiaban,
+            );
+            //Tài khoản
+            $matkhau = $data[$i][ColumnName()[$inputs['matkhau']]] ?? 'thidua@KH2024';//Lấy tạm cho khánh hòa->sau lấy theo thiết lập
+            $tk = $data[$i][ColumnName()[$inputs['tendangnhap']]] ?? '';
+            //Check tài khoản
+            if (in_array($tk, $a_taikhoan)) {
+                $thongbao .= $tk . ';';
+                $nhandulieu = false;
+            } else {
+                $a_tk[] = array(
+                    'madonvi' => $madiaban,
+                    'manhomchucnang' => $inputs['manhomchucnang'],
+                    'tentaikhoan' => $data[$i][ColumnName()[$inputs['tendonvi']]] ?? '',
+                    'matkhau' => md5($matkhau),
+                    'trangthai' => '1',
+                    'tendangnhap' => $tk,
+                );
+                foreach ($model_phanquyen as $pq)
+                    $a_pq[] = [
+                        'tendangnhap' => $tk,
+                        'machucnang' => $pq->machucnang,
+                        'phanquyen' => $pq->phanquyen,
+                        'danhsach' => $pq->danhsach,
+                        'thaydoi' => $pq->thaydoi,
+                        'hoanthanh' => $pq->hoanthanh,
+                        'tiepnhan' => $pq->tiepnhan,
+                        'xuly' => $pq->xuly,
+                    ];
+            }
+
+            //Tài khoản tổng hợp
+            $tktonghop = $data[$i][ColumnName()[$inputs['tentonghop']]] ?? '';
+            if ($tktonghop != '')
+                if (in_array($tktonghop, $a_taikhoan)) {
+                    $thongbao .= $tktonghop . ';';
+                    $nhandulieu = false;
+                } else {
+                    $a_tk[] = array(
+                        'madonvi' => $madiaban,
+                        'manhomchucnang' => $inputs['manhomchucnang'],
+                        'tentaikhoan' => 'Tổng hợp ' . $data[$i][ColumnName()[$inputs['tendonvi']]] ?? '',
+                        'matkhau' => md5($matkhau),
+                        'trangthai' => '1',
+                        'tendangnhap' => $tktonghop,
+                    );
+                    foreach ($model_phanquyen_tonghop as $pq)
+                        $a_pq[] = [
+                            'tendangnhap' => $tktonghop,
+                            'machucnang' => $pq->machucnang,
+                            'phanquyen' => $pq->phanquyen,
+                            'danhsach' => $pq->danhsach,
+                            'thaydoi' => $pq->thaydoi,
+                            'hoanthanh' => $pq->hoanthanh,
+                            'tiepnhan' => $pq->tiepnhan,
+                            'xuly' => $pq->xuly,
+                        ];
+                }
+
+
+            if ($inputs['macumkhoi'] != 'NULL') {
+                $a_ck[] = [
+                    'madonvi' => $madiaban,
+                    'macumkhoi' => $inputs['macumkhoi'],
+                    'phanloai' => 'THANHVIEN',
+                ];
+            }
+        }
+        //dd($a_tk);
+        if ($nhandulieu) {
+            foreach (array_chunk($a_pq, 50) as $data) {
+                dstaikhoan_phanquyen::insert($data);
+            }
+
+            foreach (array_chunk($a_tk, 50) as $data) {
+                dstaikhoan::insert($data);
+            }
+
+            foreach (array_chunk($a_diaban, 50) as $data) {
+                dsdiaban::insert($data);
+            }
+
+            foreach (array_chunk($a_dv, 50) as $data) {
+                dsdonvi::insert($data);
+            }
+
+            foreach (array_chunk($a_ck, 50) as $data) {
+                dscumkhoi_chitiet::insert($data);
+            }
+        } else {
+            return view('errors.403')
+                ->with('message', $thongbao)
+                ->with('url', '/DiaBan/ThongTin');
+        }
+        return redirect(static::$url . 'ThongTin');
+    }
 }
