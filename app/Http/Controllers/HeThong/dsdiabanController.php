@@ -7,11 +7,16 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Imports\CollectionImport;
 use App\Model\DanhMuc\dscumkhoi;
+use App\Model\DanhMuc\dscumkhoi_chitiet;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\DanhMuc\dsnhomtaikhoan;
 use App\Model\DanhMuc\dsnhomtaikhoan_phanquyen;
+use App\Model\DanhMuc\dstaikhoan;
+use App\Model\DanhMuc\dstaikhoan_phanquyen;
+use App\Model\HeThong\hethongchung;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
@@ -45,10 +50,14 @@ class dsdiabanController extends Controller
         $a_nhomchucnang = array_column(dsnhomtaikhoan::all()->toArray(), 'tennhomchucnang', 'manhomchucnang');
         $a_cumkhoi = array_column(dscumkhoi::all()->toArray(), 'tencumkhoi', 'macumkhoi');
         $a_diabancaptren = array_column($model->wherein('capdo', ['T', 'H'])->toArray(), 'tendiaban', 'madiaban');
-        return view('HeThongChung.DiaBan.ThongTin')
+
+        $thongtin_sapnhap = hethongchung::first()->sapnhap_giaodien;
+        $view = $thongtin_sapnhap == 1 ? 'HeThongChung.DiaBan.ThongTin' : 'HeThongChung.DiaBan.ThongTin_TruocSapNhap';
+        // return view('HeThongChung.DiaBan.ThongTin')
+        return view($view)
             ->with('model', $model)
             ->with('inputs', $inputs)
-            ->with('a_phanloai', getPhanLoaiDonVi_DiaBan())
+            ->with('a_phanloai', getPhanLoaiDiaBan())
             ->with('a_diaban', getDiaBan_All(true))
             ->with('a_donvi', $a_donvi)
             ->with('a_nhomchucnang', $a_nhomchucnang)
@@ -142,7 +151,7 @@ class dsdiabanController extends Controller
         $result['status'] = 'success';
         return response()->json($result);
     }
-        public function NhanExcel(Request $request)
+    public function NhanExcel(Request $request)
     {
         $inputs = $request->all();
         // dd($inputs);
@@ -161,13 +170,13 @@ class dsdiabanController extends Controller
         //Lấy địa bàn quản lý
         $capdoquanly = dsdiaban::where('madiaban', $inputs['madiabanQL'])->first()->capdo;
         $capdo = 'X';
-        if ($capdoquanly == 'T')
-            $capdo = 'H';
+        // if ($capdoquanly == 'T')
+        //     $capdo = 'H';
         //Lấy danh sách phân quyền
         $model_phanquyen = dsnhomtaikhoan_phanquyen::where('manhomchucnang', $inputs['manhomchucnang'])->get();
         $model_phanquyen_tonghop = dsnhomtaikhoan_phanquyen::where('manhomchucnang', $inputs['manhomchucnangth'])->get();
         //Đọc dữ liệu
-        $dataObj = new ColectionImport();
+        $dataObj = new CollectionImport;
         $theArray = Excel::toArray($dataObj, $inputs['fexcel']);
         $data = $theArray[0];
 
@@ -182,6 +191,7 @@ class dsdiabanController extends Controller
         //Kiểm tra dữ liệu
         $thongbao = 'Tài khoản đã có trên hệ thống: ';
         $nhandulieu = true;
+        // dd($inputs);
         for ($i = ($inputs['tudong'] - 1); $i <= $inputs['dendong']; $i++) {
             if (!isset($data[$i][ColumnName()[$inputs['tendonvi']]])) {
                 continue;
@@ -200,7 +210,7 @@ class dsdiabanController extends Controller
                 'madonvi' => $madiaban,
             );
             //Tài khoản
-            $matkhau = $data[$i][ColumnName()[$inputs['matkhau']]] ?? 'thidua@KH2024';//Lấy tạm cho khánh hòa->sau lấy theo thiết lập
+            $matkhau = $data[$i][ColumnName()[$inputs['matkhau']]] ?? getDefaultPass();
             $tk = $data[$i][ColumnName()[$inputs['tendangnhap']]] ?? '';
             //Check tài khoản
             if (in_array($tk, $a_taikhoan)) {
@@ -265,7 +275,6 @@ class dsdiabanController extends Controller
                 ];
             }
         }
-        //dd($a_tk);
         if ($nhandulieu) {
             foreach (array_chunk($a_pq, 50) as $data) {
                 dstaikhoan_phanquyen::insert($data);
@@ -291,6 +300,73 @@ class dsdiabanController extends Controller
                 ->with('message', $thongbao)
                 ->with('url', '/DiaBan/ThongTin');
         }
+        return redirect(static::$url . 'ThongTin');
+    }
+    public function TrangThai(Request $request)
+    {
+        $inputs = $request->all();
+        $model = dsdiaban::where('madiaban', $inputs['madiaban'])->first();
+
+        if ($model) {
+            if ($model->trangthai == 'TD') {
+                //Chuyển trạng thái sang null để mở lại địa bàn
+                //Cập nhật lại lý do để xóa lý do lúc dừng hđ nếu có
+                $model->update([
+                    'trangthai' => null,
+                    'lydo' => $inputs['lydo'] ?? null,
+                    'ngaydung' => $inputs['ngaydung']
+                ]);
+            } else {
+                $model->update([
+                    'trangthai' => 'TD',
+                    'lydo' => $inputs['lydo'] ?? null,
+                    'ngaydung' => $inputs['ngaydung']
+                ]);
+
+                //Dừng luôn cả những đơn vị thuộc địa bàn
+                $a_madonvi = dsdonvi::where('madiaban', $inputs['madiaban'])->pluck('madonvi')->toarray();
+                //đóng đơn vị
+                dsdonvi::where('madiaban', $inputs['madiaban'])->update([
+                    'trangthai' => 'TD',
+                    'ngaydung' => $inputs['ngaydung'],
+                    'lydo' => $inputs['lydo'] ?? ''
+                ]);
+                //Khóa luôn tất cả tài khoản
+                dstaikhoan::wherein('madonvi', $a_madonvi)->update([
+                    'trangthai' => 0,
+                    'lydo' =>  $inputs['lydo'] ?? '',
+                ]);
+
+                //Tạm dừng địa bàn cha thì những địa bàn còn cũng đồng thời bị tạm dừng(áp dụng cho trường hợp địa bàn cấp huyện->dừng hđ địa bàn cho nhanh)
+                //Chỉ áp dụng cho trường hợp tạm dừng thôi, còn muốn mở thì phải mở từng đơn vị riêng
+                $model_c1 = dsdiaban::where('madiabanQL', $inputs['madiaban'])->get();
+               if ($model_c1->count() > 0) {
+                    foreach ($model_c1 as $ct) {
+                        $ct->update([
+                            'trangthai' => 'TD',
+                            'lydo' => $inputs['lydo'] ?? null,
+                            'ngaydung' => $inputs['ngaydung']
+                        ]);
+
+                        //Dừng luôn cả những đơn vị thuộc địa bàn
+                        $a_madonvi = dsdonvi::where('madiaban', $ct->madiaban)->pluck('madonvi')->toarray();
+                        //đóng đơn vị
+                        dsdonvi::where('madiaban', $ct->madiaban)->update([
+                            'trangthai' => 'TD',
+                            'ngaydung' => $inputs['ngaydung'],
+                            'lydo' => $inputs['lydo'] ?? ''
+                        ]);
+                        //Khóa luôn tất cả tài khoản
+                        dstaikhoan::wherein('madonvi', $a_madonvi)->update([
+                            'trangthai' => 0,
+                            'lydo' =>  $inputs['lydo'] ?? '',
+                        ]);
+                    }
+                }
+            }
+        }
+
+
         return redirect(static::$url . 'ThongTin');
     }
 }

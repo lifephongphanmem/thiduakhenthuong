@@ -12,9 +12,14 @@ class dsdiaban extends Model
         'madiaban',
         'tendiaban',
         'capdo',
-        'madonviQL',//Đơn vị phê duyệt khen thưởng
-        'madonviKT',//Đơn vị xét duyệt hồ sơ
+        'phanloai',
+        'madonviQL', //Đơn vị phê duyệt khen thưởng
+        'madonviKT', //Đơn vị xét duyệt hồ sơ
         'madiabanQL',
         'ghichu',
+        'madiabanQLNganh', //Địa bàn quản lý ngành
+        'trangthai', //Nếu dừng hđ thì trạng thái sẽ là TD, nếu hđ thì trạng thái sẽ là null
+        'ngaydung',
+        'lydo'
     ];
 }

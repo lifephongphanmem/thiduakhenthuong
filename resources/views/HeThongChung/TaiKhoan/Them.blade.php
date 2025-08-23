@@ -79,7 +79,7 @@
                 </div>
                 <div class="col-lg-4">
                     <label>Mật khẩu<span class="require">*</span></label>
-                    {!! Form::text('matkhaumoi', null, ['class' => 'form-control', 'required']) !!}
+                    {!! Form::text('matkhaumoi', getDefaultPass(), ['class' => 'form-control', 'required']) !!}
                 </div>
             </div>
         </div>

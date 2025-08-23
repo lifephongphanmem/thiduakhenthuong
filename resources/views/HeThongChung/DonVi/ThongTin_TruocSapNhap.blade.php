@@ -62,14 +62,15 @@
                     <table class="table table-striped table-bordered table-hover" id="sample_3">
                         <thead>
                             <tr class="text-center">
-                                <th colspan="2">Phạm vị</th>
-                                <th rowspan="2">Phạm vị khen thưởng</th>
+                                <th colspan="3">STT</th>
+                                <th rowspan="2">Tên địa bàn</th>
                                 <th rowspan="2" width="25%">Đơn vị phê<br>duyệt khen thưởng</th>
                                 <th rowspan="2" width="25%">Đơn vị xét<br>duyệt hồ sơ</th>
                                 <th rowspan="2" width="10%">Thao tác</th>
                             </tr>
                             <tr>
                                 <th width="3%">T</th>
+                                <th width="3%">H</th>
                                 <th width="3%">X</th>
                             </tr>
                         </thead>
@@ -81,6 +82,7 @@
                             @foreach ($model_t as $ct_t)
                                 <tr class="success">
                                     <td class="text-center text-uppercase">{{ toAlpha($i++) }}</td>
+                                    <td></td>
                                     <td></td>
                                     <td class="font-weight-bold">{{ $ct_t->tendiaban }}</td>
                                     <td>{{ $a_donvi[$ct_t->madonviQL] ?? '' }}</td>
@@ -109,37 +111,73 @@
                                 </tr>
                                 <?php
                                 $j = 1;
-                                $model_x = $model->where('madiabanQL', $ct_t->madiaban);
+                                $model_h = $model->where('madiabanQL', $ct_t->madiaban);
                                 ?>
-                                @foreach ($model_x as $ct_x)
+                                @foreach ($model_h as $ct_h)
                                     <tr class="info">
                                         <td></td>
-                                        <td style="text-align: center">{{ $j++ }}</td>
-                                        <td>{{ $ct_x->tendiaban }}</td>
-                                        <td>{{ $a_donvi[$ct_x->madonviQL] ?? '' }}</td>
-                                        <td>{{ $a_donvi[$ct_x->madonviKT] ?? '' }}</td>
+                                        <td style="text-align: center">{{ romanNumerals($j++) }}</td>
+                                        <td></td>
+                                        <td>{{ $ct_h->tendiaban }}</td>
+                                        <td>{{ $a_donvi[$ct_h->madonviQL] ?? '' }}</td>
+                                        <td>{{ $a_donvi[$ct_h->madonviKT] ?? '' }}</td>
                                         <td style="text-align: center">
                                             @if (chkPhanQuyen('dsdonvi', 'thaydoi'))
                                                 <button
-                                                    onclick="setDiaBan('{{ $ct_x->madiaban }}','{{ $ct_x->tendiaban }}','{{ $ct_x->madonviQL }}','{{ $ct_x->madonviKT }}')"
+                                                    onclick="setDiaBan('{{ $ct_h->madiaban }}','{{ $ct_h->tendiaban }}','{{ $ct_h->madonviQL }}','{{ $ct_h->madonviKT }}')"
                                                     class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                     title="Thay đổi thông tin địa bàn" data-toggle="modal">
                                                     <i class="icon-lg flaticon-edit-1 text-primary"></i>
                                                 </button>
 
-                                                <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_x->madiaban }}"
+                                                <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_h->madiaban }}"
                                                     class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
                                                     title="Danh sách đơn vị">
                                                     <span class="svg-icon svg-icon-xl">
                                                         <i class="icon-lg flaticon-list-2 text-dark"></i>
                                                     </span>
                                                     <span
-                                                        class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $ct_x->sodonvi }}</span>
+                                                        class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $ct_h->sodonvi }}</span>
                                                 </a>
                                             @endif
 
                                         </td>
                                     </tr>
+                                    <?php
+                                    $k = 1;
+                                    $model_x = $model->where('madiabanQL', $ct_h->madiaban);
+                                    ?>
+                                    @foreach ($model_x as $ct_x)
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td style="text-align: center">{{ $k++ }}</td>
+                                            <td class="em" style="font-style: italic;">{{ $ct_x->tendiaban }}</td>
+                                            <td>{{ $a_donvi[$ct_x->madonviQL] ?? '' }}</td>
+                                            <td>{{ $a_donvi[$ct_x->madonviKT] ?? '' }}</td>
+                                            <td style="text-align: center">
+                                                @if (chkPhanQuyen('dsdonvi', 'thaydoi'))
+                                                    <button
+                                                        onclick="setDiaBan('{{ $ct_x->madiaban }}','{{ $ct_x->tendiaban }}','{{ $ct_x->madonviQL }}','{{ $ct_x->madonviKT }}')"
+                                                        class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
+                                                        title="Thay đổi thông tin địa bàn" data-toggle="modal">
+                                                        <i class="icon-lg flaticon-edit-1 text-primary"></i>
+                                                    </button>
+
+                                                    <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_x->madiaban }}"
+                                                        class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
+                                                        title="Danh sách đơn vị">
+                                                        <span class="svg-icon svg-icon-xl">
+                                                            <i class="icon-lg flaticon-list-2 text-dark"></i>
+                                                        </span>
+                                                        <span
+                                                            class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $ct_x->sodonvi }}</span>
+                                                    </a>
+                                                @endif
+
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 @endforeach
                             @endforeach
                         </tbody>
@@ -174,11 +212,11 @@
                         </div>
 
                         <div id="donviql" class="form-group row">
-                            <div class="col-6">
+                            <div class="col6">
                                 <label class="control-label">Đơn vị phê duyệt khen thưởng</label>
                                 {!! Form::select('madonviQL', [], null, ['id' => 'madonviQL', 'class' => 'form-control select2_modal']) !!}
                             </div>
-                            <div class="col-6">
+                            <div class="col6">
                                 <label class="control-label">Đơn vị xét duyệt hồ sơ</label>
                                 {!! Form::select('madonviKT', [], null, ['id' => 'madonviKT', 'class' => 'form-control select2_modal']) !!}
                             </div>

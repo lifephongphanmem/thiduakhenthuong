@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Imports\CollectionImport;
 use App\Model\DanhMuc\dscumkhoi;
 use App\Model\DanhMuc\dscumkhoi_chitiet;
 use App\Model\DanhMuc\dscumkhoi_qdphancumkhoi;
@@ -16,6 +17,7 @@ use App\Model\DanhMuc\dsnhomtaikhoan;
 use App\Model\DanhMuc\dsnhomtaikhoan_phanquyen;
 use App\Model\DanhMuc\dstaikhoan;
 use App\Model\DanhMuc\dstaikhoan_phanquyen;
+use App\Model\HeThong\hethongchung;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
@@ -44,8 +46,10 @@ class dsdonviController extends Controller
         foreach ($model as $chitiet) {
             $chitiet->sodonvi = $m_donvi->where('madiaban', $chitiet->madiaban)->count();
         }
-
-        return view('HeThongChung.DonVi.ThongTin')
+        $thongtin_sapnhap = hethongchung::first()->sapnhap_giaodien;
+        $view = $thongtin_sapnhap == 1 ? 'HeThongChung.DonVi.ThongTin' : 'HeThongChung.DonVi.ThongTin_TruocSapNhap';
+        // return view('HeThongChung.DonVi.ThongTin')
+        return view($view)
             ->with('model', $model)
             ->with('inputs', $inputs)
             ->with('a_donvi', array_column($m_donvi->toarray(), 'tendonvi', 'madonvi'))
@@ -251,30 +255,23 @@ class dsdonviController extends Controller
         //Lấy danh sách phân quyền
         $model_phanquyen = dsnhomtaikhoan_phanquyen::where('manhomchucnang', $inputs['manhomchucnang'])->get();
 
-        $filename = $inputs['madiaban'] . '_' . getdate()[0];
+        // $filename = $inputs['madiaban'] . '_' . getdate()[0];
         //$model_diaban = dsdiaban::where('madiaban', $inputs['madiaban'])->first();
 
-        $request->file('fexcel')->move(public_path() . '/data/uploads/', $filename . '.xlsx');
-        $path = public_path() . '/data/uploads/' . $filename . '.xlsx';
-        $data = [];
-        $inputs['sheet'] = $inputs['sheet'] ?? 1;
-        $sheet = $inputs['sheet'] - 1 < 0 ? 0 : $inputs['sheet'] - 1;
-        Excel::load($path, function ($reader) use (&$data, $sheet) {
-            $obj = $reader->getExcel();
-            $sheet = $obj->getSheet($sheet);
-            $data = $sheet->toArray(null, true, true, true); // giữ lại tiêu đề A=>'val';
-        });
-// dd($data);
-        // Excel::load($path, function ($reader) use (&$data, $inputs, $path) {
+        // $request->file('fexcel')->move(public_path() . '/data/uploads/', $filename . '.xlsx');
+        // $path = public_path() . '/data/uploads/' . $filename . '.xlsx';
+        // $data = [];
+        // $inputs['sheet'] = $inputs['sheet'] ?? 1;
+        // $sheet = $inputs['sheet'] - 1 < 0 ? 0 : $inputs['sheet'] - 1;
+        // Excel::load($path, function ($reader) use (&$data, $sheet) {
         //     $obj = $reader->getExcel();
-        //     $sheetCount = $obj->getSheetCount();
-        //     if ($sheetCount < chkDbl($inputs['sheet'])) {
-        //         File::Delete($path);
-        //         dd('File excel chỉ có tối đa ' . $sheetCount . ' sheet dữ liệu.');
-        //     }
-        //     $sheet = $obj->getSheet($inputs['sheet']);
+        //     $sheet = $obj->getSheet($sheet);
         //     $data = $sheet->toArray(null, true, true, true); // giữ lại tiêu đề A=>'val';
         // });
+
+        $dataObj = new CollectionImport();
+        $theArray = Excel::toArray($dataObj, $inputs['fexcel']);
+        $data = $theArray[0];
         $a_dv = array();
         $a_tk = array();
         $a_ck = [];
@@ -286,18 +283,18 @@ class dsdonviController extends Controller
         $thongbao = 'Tài khoản đã có trên hệ thống: ';
         $nhandulieu = true;
 
-        for ($i = $inputs['tudong']; $i <= $inputs['dendong']; $i++) {
-            if (!isset($data[$i][$inputs['tendonvi']])) {
+        for ($i = ($inputs['tudong'] - 1); $i <= $inputs['dendong']; $i++) {
+            if (!isset($data[$i][ColumnName()[$inputs['tendonvi']]])) {
                 continue;
             }
             //Gán biến
-            $tk = $data[$i][$inputs['tendangnhap']] ?? '';
-            $matkhau = $data[$i][$inputs['matkhau']] ?? '123456abc';
+            $tk = $data[$i][ColumnName()[$inputs['tendangnhap']]] ?? '';
+            $matkhau = $data[$i][ColumnName()[$inputs['matkhau']]] ?? getDefaultPass();
             $madv = $ma . $ima++;
 
             $a_dv[] = array(
                 'madiaban' => $inputs['madiaban'],
-                'tendonvi' => $data[$i][$inputs['tendonvi']] ?? '',
+                'tendonvi' => $data[$i][ColumnName()[$inputs['tendonvi']]] ?? '',
                 'madonvi' => $madv,
             );
 
@@ -309,7 +306,7 @@ class dsdonviController extends Controller
                 $a_tk[] = array(
                     'madonvi' => $madv,
                     'manhomchucnang' => $inputs['manhomchucnang'],
-                    'tentaikhoan' => $data[$i][$inputs['tendonvi']] ?? '',
+                    'tentaikhoan' => $data[$i][ColumnName()[$inputs['tendonvi']]] ?? '',
                     'matkhau' => md5($matkhau),
                     'trangthai' => '1',
                     'tendangnhap' =>  $tk,
@@ -324,7 +321,7 @@ class dsdonviController extends Controller
                         'thaydoi' => $pq->thaydoi,
                         'hoanthanh' => $pq->hoanthanh,
                         'tiepnhan' => $pq->tiepnhan ?? 0,
-                        'xuly' => $pq->xuly?? 0,
+                        'xuly' => $pq->xuly ?? 0,
                     ];
                 if ($inputs['macumkhoi'] != 'NULL') {
                     $a_ck[] = [
@@ -333,21 +330,21 @@ class dsdonviController extends Controller
                         'phanloai' => 'THANHVIEN',
                     ];
                 }
-            }            
+            }
         }
-        //dd($a_pq);
-        if ($nhandulieu) {            
+
+        if ($nhandulieu) {
             foreach (array_chunk($a_dv, 50) as $data) {
                 dsdonvi::insert($data);
             }
             foreach (array_chunk($a_tk, 50) as $data) {
                 dstaikhoan::insert($data);
-            } 
+            }
             foreach (array_chunk($a_pq, 50) as $data) {
                 dstaikhoan_phanquyen::insert($data);
-            }          
+            }
             dscumkhoi_chitiet::insert($a_ck);
-            File::Delete($path);
+            // File::Delete($path);
         } else {
             return view('errors.403')
                 ->with('message', $thongbao)

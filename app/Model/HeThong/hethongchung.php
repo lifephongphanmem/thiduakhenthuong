@@ -43,7 +43,7 @@ class hethongchung extends Model
         'maduthaototrinhketqua',
         'maduthaoquyetdinh',
         'madonvi_inphoi',
-        'opt_trinhhosodenghi',  
+        'opt_trinhhosodenghi',
         'opt_trinhhosoketqua',
         'opt_pheduyethoso',
         'opt_quytrinhkhenthuong',
@@ -51,5 +51,8 @@ class hethongchung extends Model
         'keypublic',
         'accesstoken',
         'thoigianhethong',
+        'sapnhap_giaodien',
+        'luongcoso',
+        'default_pass',
     ];
 }

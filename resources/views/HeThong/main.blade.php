@@ -214,13 +214,16 @@
                                                 </span>
                                                 <span class="menu-text font-weight-bold text-dark">
                                                     &nbsp;{{ session('admin')->tentaikhoan }}</span>
-                                                <span> <a href="{{ '/ThongBao/ThongTin' }}"
+                                                <span>
+                                                    <!-- //Tạm bỏ thông báo vì chức năng chưa hoạt động ổn 
+                                                    <a href="{{ '/ThongBao/ThongTin' }}"
                                                         class="btn btn-icon pulse pulse-primary ">
                                                         <i class="flaticon2-bell-4 text-danger"></i>
                                                         <span class="pulse-ring"></span>
                                                         <span
                                                             class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">1</span>
                                                     </a>
+                                                -->
                                                 </span>
                                             </p>
                                         </li>
