@@ -142,8 +142,8 @@
             <div class="form-group row">
                 <div class="col-12">
                     <label>Mã truy cập API (AcceccToken)</label>
-                    {!! Form::textarea('accesstoken', null, ['class' => 'form-control', 'rows'=>2]) !!}
-                </div>                
+                    {!! Form::textarea('accesstoken', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                </div>
             </div>
 
             @if (session('admin')->capdo == 'SSA')
@@ -156,12 +156,16 @@
 
                     <div class="col-4">
                         <label>Quy trình xử lý khen thưởng</label>
-                        {!! Form::select('opt_quytrinhkhenthuong', getQuyTrinhXuLyKhenThuong(), null, ['class' => 'form-control select2basic']) !!}
+                        {!! Form::select('opt_quytrinhkhenthuong', getQuyTrinhXuLyKhenThuong(), null, [
+                            'class' => 'form-control select2basic',
+                        ]) !!}
                     </div>
 
                     <div class="col-4">
                         <label>Giới hạn thời gian hệ thống</label>
-                        {!! Form::select('thoigianhethong', ['15'=>'15 phút','30'=>'30 phút','60'=>'60 phút'], null, ['class' => 'form-control select2basic']) !!}
+                        {!! Form::select('thoigianhethong', ['15' => '15 phút', '30' => '30 phút', '60' => '60 phút'], null, [
+                            'class' => 'form-control select2basic',
+                        ]) !!}
                     </div>
                 </div>
 
@@ -169,7 +173,23 @@
                     <div class="col-4">
                         <label>Mã chung API (Publickey)</label>
                         {!! Form::text('keypublic', null, ['class' => 'form-control']) !!}
-                    </div>                    
+                    </div>
+                    <div class="col-4">
+                        <label>Giao diện địa bàn, đơn vị</label>
+                        {!! Form::select('sapnhap_giaodien', [1 => 'Sau sáp nhập', 0 => 'Trước sáp nhập'], null, [
+                            'class' => 'form-control select2basic',
+                        ]) !!}
+                    </div>
+                    <div class="col-4">
+                        <label>Lương cơ sở</label>
+                        {!! Form::text('luongcoso', null, ['class' => 'form-control']) !!}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label>Mật khẩu mặc định</label>
+                        {!! Form::text('default_pass', null, ['class' => 'form-control']) !!}
+                    </div>
                 </div>
 
                 <div class="form-group row">

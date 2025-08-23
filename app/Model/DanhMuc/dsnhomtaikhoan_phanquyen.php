@@ -16,5 +16,7 @@ class dsnhomtaikhoan_phanquyen extends Model
         'thaydoi',
         'hoanthanh',
         'ghichu',
+        'tiepnhan',
+        'xuly'
     ];
 }

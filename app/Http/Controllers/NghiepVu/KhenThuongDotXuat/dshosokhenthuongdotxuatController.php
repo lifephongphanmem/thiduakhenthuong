@@ -14,6 +14,7 @@ use App\Model\DanhMuc\dmdanhhieuthidua;
 use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
 use App\Model\DanhMuc\dmnhomphanloai_chitiet;
+use App\Model\DanhMuc\donvisapnhap;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\DanhMuc\duthaoquyetdinh;
@@ -90,6 +91,10 @@ class dshosokhenthuongdotxuatController extends Controller
             $hoso->soluongkhenthuong = $model_canhan->where('mahosotdkt', $hoso->mahosotdkt)->count()
                 + $model_tapthe->where('mahosotdkt', $hoso->mahosotdkt)->count();
         }
+        $inputs['url'] = '/DungChung/HoSoKT/DonViCapDuoi?madonvi=' . $inputs['madonvi'] . '&maloaihinhkt=' . $inputs['maloaihinhkt'] . '&phanloai=dshosokhenthuongdotxuat';
+        $inputs['url_hsdv'] = '/DonVi/SapNhap/HoSoKT?madonvi=' . $inputs['madonvi'] . '&maloaihinhkt=' . $inputs['maloaihinhkt'] . '&phanloai=dshosokhenthuongdotxuat';
+        $donvi_sapnhap = donvisapnhap::where('madonvi_sapnhap', $inputs['madonvi'])->get();
+        $inputs['donvisapnhap'] = count($donvi_sapnhap) > 0 ? true : false;
         //dd($model);
         return view('NghiepVu.KhenThuongDotXuat.HoSoKT.ThongTin')
             ->with('model', $model)
@@ -171,7 +176,7 @@ class dshosokhenthuongdotxuatController extends Controller
         $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_detai = dshosothiduakhenthuong_detai::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_hogiadinh = dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)->get();
-        
+
         $a_phanloaidt = array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai');
         $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
         $a_dhkt = getDanhHieuKhenThuong('ALL');
@@ -199,7 +204,7 @@ class dshosokhenthuongdotxuatController extends Controller
         $model_tapthe = dshosothiduakhenthuong_tapthe::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_detai = dshosothiduakhenthuong_detai::where('mahosotdkt', $model->mahosotdkt)->get();
         $model_hogiadinh = dshosothiduakhenthuong_hogiadinh::where('mahosotdkt', $model->mahosotdkt)->get();
-        
+
         $a_phanloaidt = array_column(dmnhomphanloai_chitiet::all()->toarray(), 'tenphanloai', 'maphanloai');
         $m_donvi = dsdonvi::where('madonvi', $model->madonvi)->first();
         $a_dhkt = getDanhHieuKhenThuong('ALL');

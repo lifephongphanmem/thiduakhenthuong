@@ -1033,7 +1033,28 @@ function getPhanLoaiPhongTraoThiDua($all = false)
     }
     return $a_kq;
 }
-
+function getPhanLoaiDiaBan()
+{
+    return array(
+        // 'DVHC' => 'Đơn vị hành chính, sự nghiệp',
+        'DIABAN' => 'Địa bàn hành chính',
+        'DOANHNGHIEP' => 'Doanh nghiệp'
+    );
+}
+function getPhanLoaiDonVi_HC()
+{
+    return array(
+        'DVHC' => 'Đơn vị hành chính',
+        'DVSN' => 'Đơn vị sự nghiệp công lập',
+        'LLVT-QS' => 'Lực lượng vũ trang - Quân sự',
+        'LLVT-CA' => 'Lực lượng vũ trang - Công an',
+        'DOANHNGHIEP' => 'Doanh nghiệp',
+        'TCXH' => 'Tổ chức chính trị - xã hội',
+        'TCXH-NN' => 'Tổ chức xã hội nghề nghiệp',
+        'TT' => '	Tôn giáo - tín ngưỡng',
+        'KHAC' => '	Khác',
+    );
+}
 function getPhanLoaiDonVi_DiaBan()
 {
     return array(

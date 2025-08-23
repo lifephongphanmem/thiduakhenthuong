@@ -13,6 +13,7 @@ use App\Model\DanhMuc\dmdanhhieuthidua;
 use App\Model\DanhMuc\dmhinhthuckhenthuong;
 use App\Model\DanhMuc\dmloaihinhkhenthuong;
 use App\Model\DanhMuc\dmnhomphanloai_chitiet;
+use App\Model\DanhMuc\donvisapnhap;
 use App\Model\DanhMuc\dsdiaban;
 use App\Model\DanhMuc\dsdonvi;
 use App\Model\DanhMuc\duthaoquyetdinh;
@@ -89,7 +90,11 @@ class dshosokhenthuongcongtrangController extends Controller
             $hoso->soluongkhenthuong = $model_canhan->where('mahosotdkt', $hoso->mahosotdkt)->count()
                 + $model_tapthe->where('mahosotdkt', $hoso->mahosotdkt)->count();
         }
-        //dd($inputs);
+        $inputs['url'] = '/DungChung/HoSoKT/DonViCapDuoi?madonvi=' . $inputs['madonvi'] . '&maloaihinhkt=' . $inputs['maloaihinhkt'] . '&phanloai=dshosokhenthuongcongtrang';
+        $inputs['url_hsdv'] = '/DonVi/SapNhap/HoSoKT?madonvi=' . $inputs['madonvi'] . '&maloaihinhkt=' . $inputs['maloaihinhkt'] . '&phanloai=dshosokhenthuongcongtrang';
+        $donvi_sapnhap = donvisapnhap::where('madonvi_sapnhap', $inputs['madonvi'])->get();
+        $inputs['donvisapnhap'] = count($donvi_sapnhap) > 0 ? true : false;
+        // dd($inputs);
         return view('NghiepVu.KhenThuongCongTrang.HoSoKT.ThongTin')
             ->with('model', $model)
             ->with('a_donvi', array_column(dsdonvi::all()->toArray(), 'tendonvi', 'madonvi'))

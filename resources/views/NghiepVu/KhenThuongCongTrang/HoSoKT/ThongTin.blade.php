@@ -31,6 +31,11 @@
                 <h3 class="card-label text-uppercase">Danh sách hồ sơ khen thưởng theo công trạng và thành tích</h3>
             </div>
             <div class="card-toolbar">
+                @if ($inputs['donvisapnhap'])
+                    <a href="{{ $inputs['url_hsdv'] }}" class="btn btn-success btn-xs mr-3">
+                        <i class="icon-lg la flaticon-edit-1"></i>&nbsp;Hồ sơ đơn vị sáp nhập
+                    </a>
+                @endif
                 @if (chkPhanQuyen('dshosokhenthuongcongtrang', 'thaydoi'))
                     <button type="button" class="btn btn-success btn-xs" data-target="#taohoso-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới
@@ -142,11 +147,11 @@
                                                 </a>
 
                                                 <a title="Tạo dự thảo tờ trình"
-                                                href="{{ url($inputs['url_hs'] . 'ToTrinhHoSo?mahosotdkt=' . $tt->mahosotdkt) }}"
-                                                class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
-                                                <i class="icon-lg la flaticon-edit-1 text-success"></i>
-                                            </a>
-                                            
+                                                    href="{{ url($inputs['url_hs'] . 'ToTrinhHoSo?mahosotdkt=' . $tt->mahosotdkt) }}"
+                                                    class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">
+                                                    <i class="icon-lg la flaticon-edit-1 text-success"></i>
+                                                </a>
+
                                                 <a title="Tạo dự thảo quyết định khen thưởng"
                                                     href="{{ url($inputs['url_hs'] . 'QuyetDinh?mahosotdkt=' . $tt->mahosotdkt) }}"
                                                     class="btn btn-sm btn-clean btn-icon {{ $tt->soluongkhenthuong == 0 ? 'disabled' : '' }}">

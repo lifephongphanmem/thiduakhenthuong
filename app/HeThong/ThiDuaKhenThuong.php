@@ -1562,3 +1562,7 @@ function getKiemTraTrangThaiCumKhoi($macumkhoi)
     }
     return dscumkhoi_qdphancumkhoi::where('maqdphancumkhoi', $cumkhoi->maqdphancumkhoi)->first()->tinhtrang ?? 0;
 }
+function getDefaultPass()
+{
+    return App\Model\HeThong\hethongchung::value('default_pass') ?? '123456abc';
+}

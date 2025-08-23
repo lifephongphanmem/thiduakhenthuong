@@ -15,6 +15,9 @@
     <script>
         jQuery(document).ready(function() {
             TableManaged3.init();
+            $('#madiaban').change(function() {
+                window.location.href = '/DonVi/DanhSach?madiaban=' + $(this).val();
+            });
         });
     </script>
 @stop
@@ -67,6 +70,7 @@
                                     <td class="text-center">{{ $key + 1 }}</td>
                                     <td class="active">{{ $tt->tendonvi }}</td>
                                     <td class="text-center">
+
                                         <a title="Sửa thông tin" href="{{ url('/DonVi/Sua?madonvi=' . $tt->madonvi) }}"
                                             class="btn btn-sm btn-clean btn-icon">
                                             <i class="icon-lg la flaticon-edit-1 text-primary"></i>
@@ -81,12 +85,19 @@
                                                 class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $tt->sotaikhoan }}</span>
                                         </a>
 
-                                        <button title="Xóa thông tin" type="button"
-                                            onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url'] . 'Xoa' }}')"
-                                            class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
-                                            data-toggle="modal">
-                                            <i class="icon-lg flaticon-delete text-danger"></i>
-                                        </button>
+                                        @if ($tt->trangthai != 'TD')
+                                            <a title="Sáp nhập đơn vị"
+                                                href="{{ url('/DonVi/SapNhap/ThongTin?madonvi=' . $tt->madonvi) }}"
+                                                class="btn btn-sm btn-clean btn-icon">
+                                                <i class="icon-lg la la-object-group text-primary"></i>
+                                            </a>
+                                            <button title="Xóa thông tin" type="button"
+                                                onclick="confirmDelete('{{ $tt->id }}','{{ $inputs['url'] . 'Xoa' }}')"
+                                                class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
+                                                data-toggle="modal">
+                                                <i class="icon-lg flaticon-delete text-danger"></i>
+                                            </button>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -99,7 +110,8 @@
     <!--end::Card-->
 
     {{-- Nhận file Excel --}}
-    <div class="modal fade bs-modal-lg kt_select2_modal" id="modal-nhanexcel" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade bs-modal-lg kt_select2_modal" id="modal-nhanexcel" tabindex="-1" role="dialog"
+        aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
@@ -166,7 +178,8 @@
                                         </div>
 
                                         <div class="col-md-3">
-                                            <label class="control-label">Nhận từ dòng<span class="require">*</span></label>
+                                            <label class="control-label">Nhận từ dòng<span
+                                                    class="require">*</span></label>
                                             {!! Form::text('tudong', '4', ['class' => 'form-control']) !!}
                                             {{-- {!! Form::text('tudong', '4', ['class' => 'form-control', 'required', 'data-mask' => 'fdecimal']) !!} --}}
                                         </div>
@@ -193,7 +206,7 @@
                                                 'class' => 'form-control select2_modal',
                                             ]) !!}
                                         </div>
-                                   
+
                                         <div class="col-md-6">
                                             <label class="control-label">Cụm, khối thi đua<span
                                                     class="require">*</span></label>

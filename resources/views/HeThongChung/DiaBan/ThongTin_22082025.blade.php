@@ -30,14 +30,13 @@
             $('#madiaban').attr('readonly', true);
         }
 
-        function setDiaBan(madiaban, tendiaban, capdo, madonviQL, madiabanQL, madonviKT, madiabanQLNganh) {
+        function setDiaBan(madiaban, tendiaban, capdo, madonviQL, madiabanQL, madonviKT) {
             var form = $('#frm_modify');
             form.find("[name='madiaban']").val(madiaban);
             form.find("[name='tendiaban']").val(tendiaban);
             form.find("[name='capdo']").val(capdo).trigger('change');
 
             form.find("[name='madiabanQL']").val(madiabanQL).trigger('change');
-            form.find("[name='madiabanQLNganh']").val(madiabanQLNganh).trigger('change');
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
                 url: "/DiaBan/LayDonVi",
@@ -45,42 +44,18 @@
                 data: {
                     _token: CSRF_TOKEN,
                     madiaban: form.find("[name='madiaban']").val(),
-                    madiabanQL: form.find("[name='madiabanQL']").val(),
                 },
                 dataType: 'JSON',
                 success: function(data) {
                     console.log(data);
                     if (data.status == 'success') {
                         $('#donviql').replaceWith(data.message);
-                        // $('#taikhoanquanly').replaceWith(data.message_taikhoan);
                         form.find("[name='madonviQL']").val(madonviQL).trigger('change');
                         form.find("[name='madonviKT']").val(madonviKT).trigger('change');
-                        form.find("[name='madiabanQLNganh']").val(madiabanQLNganh).trigger('change');
                     }
                 }
             });
         }
-        // function getTaiKhoan()
-        // {
-        //     var form = $('#frm_modify');
-        //     var madiaban=form.find("[name='madiabanQL']").val();
-        //     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-        //     $.ajax({
-        //         url: "/DiaBan/LayTaiKhoan",
-        //         type: "GET",
-        //         data: {
-        //             _token: CSRF_TOKEN,
-        //             madiaban: madiaban,
-        //         },
-        //         dataType: 'JSON',
-        //         success: function(data) {
-        //             console.log(data);
-        //             if (data.status == 'success') {
-        //                 $('#taikhoanquanly').replaceWith(data.message);
-        //             }
-        //         }
-        //     });
-        // }
     </script>
 @stop
 
@@ -89,7 +64,7 @@
     <div class="card card-custom wave wave-animate-slow wave-primary" style="min-height: 600px">
         <div class="card-header flex-wrap border-1 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label text-uppercase">Thông tin {{ chkGiaoDien('dsdiaban', 'tenchucnang') }}</h3>
+                <h3 class="card-label text-uppercase">Danh sách địa bàn hành chính</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Button-->
@@ -98,8 +73,7 @@
                         data-toggle="modal" type="button" class="btn btn-info btn-sm mr-5"><i
                             class="fas fa-file-import"></i>Nhận Excel
                     </button>
-
-                    <button type="button" onclick="setDiaBan('','','T','','')" class="btn btn-success btn-sm"
+                    <button type="button" onclick="setDiaBan('','','T','','')" class="btn btn-success btn-xs"
                         data-target="#modify-modal" data-toggle="modal">
                         <i class="fa fa-plus"></i>&nbsp;Thêm mới</button>
                 @endif
@@ -112,17 +86,16 @@
                     <table class="table table-bordered table-hover" id="sample_3">
                         <thead>
                             <tr class="text-center">
-                                <th colspan="2">Phạm vi</th>
+                                <th colspan="3">STT</th>
                                 <th rowspan="2">Mã số</th>
-                                <th rowspan="2">Tên phạm vị khen thưởng</th>
-                                <th rowspan="2" width="15%">Đơn vị phê<br>duyệt khen thưởng</th>
-                                <th rowspan="2" width="15%">Đơn vị xét<br>duyệt hồ sơ</th>
-                                <th rowspan="2" width="15%">Phân loại</th>
+                                <th rowspan="2">Tên địa bàn</th>
+                                <th rowspan="2" width="25%">Đơn vị phê<br>duyệt khen thưởng</th>
+                                <th rowspan="2" width="25%">Đơn vị xét<br>duyệt hồ sơ</th>
                                 <th rowspan="2" width="10%">Thao tác</th>
                             </tr>
                             <tr>
                                 <th width="3%">T</th>
-                                {{-- <th width="3%">H</th> --}}
+                                <th width="3%">H</th>
                                 <th width="3%">X</th>
                             </tr>
                         </thead>
@@ -134,125 +107,141 @@
                             @foreach ($model_t as $ct_t)
                                 <?php
                                 $j = 1;
-                                $model_x = $model->where('madiabanQL', $ct_t->madiaban);
+                                $model_h = $model->where('madiabanQL', $ct_t->madiaban);
                                 ?>
                                 <tr class="success">
                                     <td class="text-primary text-center text-uppercase">{{ toAlpha($i++) }}</td>
+                                    <td></td>
                                     <td></td>
                                     <td class="text-primary">{{ $ct_t->madiaban }}</td>
                                     <td class="text-primary">{{ $ct_t->tendiaban }}</td>
                                     <td class="text-primary">{{ $a_donvi[$ct_t->madonviQL] ?? '' }}</td>
                                     <td class="text-primary">{{ $a_donvi[$ct_t->madonviKT] ?? '' }}</td>
-                                    <td class="text-primary">{{ $a_phanloai[$ct_t->phanloai] ?? '' }}</td>
                                     <td style="text-align: center">
                                         @if (chkPhanQuyen('dsdonvi', 'thaydoi'))
                                             <button
-                                                onclick="setTrangThai('{{ $ct_t->madiaban }}','{{ $ct_t->trangthai }}','{{ $ct_t->lydo }}')"
-                                                class="btn btn-sm btn-clean btn-icon" data-target="#trangthai-modal"
-                                                title="{{ $ct_t->title }}" data-toggle="modal">
-                                                <i class="icon-lg text-warning flaticon-exclamation-square"></i>
+                                                onclick="setDiaBan('{{ $ct_t->madiaban }}','{{ $ct_t->tendiaban }}','{{ $ct_t->capdo }}','{{ $ct_t->madonviQL }}','{{ $ct_t->madiabanQL }}','{{ $ct_t->madonviKT }}')"
+                                                class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
+                                                title="Thay đổi thông tin địa bàn" data-toggle="modal">
+                                                <i class="icon-lg flaticon-edit-1 text-primary"></i>
                                             </button>
-                                            @if ($ct_t->trangthai == null)
+
+                                            <button onclick="setDiaBan('','','H','','{{ $ct_t->madiaban }}')"
+                                                class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
+                                                title="Thêm địa bàn trực thuộc" data-toggle="modal">
+                                                <i class="icon-lg flaticon-add text-info"></i>
+                                            </button>
+
+                                            <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_t->madiaban }}"
+                                                class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
+                                                title="Danh sách đơn vị">
+                                                <span class="svg-icon svg-icon-xl">
+                                                    <i class="icon-lg flaticon-list-2 text-dark"></i>
+                                                </span>
+                                                <span
+                                                    class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $ct_t->sodonvi }}</span>
+                                            </a>
+
+
+
+                                            <button title="Xóa thông tin" type="button"
+                                                onclick="confirmDelete('{{ $ct_t->id }}','/DiaBan/Xoa')"
+                                                class="btn btn-sm btn-clean btn-icon" data-target="#delete-modal-confirm"
+                                                data-toggle="modal">
+                                                <i class="icon-lg flaticon-delete text-danger"></i>
+                                            </button>
+                                        @endif
+
+                                    </td>
+                                </tr>
+
+                                @foreach ($model_h as $ct_h)
+                                    <tr class="info">
+                                        <td></td>
+                                        <td class="text-info text-center">{{ romanNumerals($j++) }}</td>
+                                        <td></td>
+                                        <td class="text-info">{{ $ct_h->madiaban }}</td>
+                                        <td class="text-info">{{ $ct_h->tendiaban }}</td>
+                                        <td class="text-info">{{ $a_donvi[$ct_h->madonviQL] ?? '' }}</b></td>
+                                        <td class="text-info">{{ $a_donvi[$ct_h->madonviKT] ?? '' }}</b></td>
+                                        <td style="text-align: center">
+                                            @if (chkPhanQuyen('dsdonvi', 'thaydoi'))
                                                 <button
-                                                    onclick="setDiaBan('{{ $ct_t->madiaban }}','{{ $ct_t->tendiaban }}','{{ $ct_t->capdo }}','{{ $ct_t->madonviQL }}','{{ $ct_t->madiabanQL }}','{{ $ct_t->madonviKT }}','{{ $ct_t->madiabanQLNganh }}')"
+                                                    onclick="setDiaBan('{{ $ct_h->madiaban }}','{{ $ct_h->tendiaban }}','{{ $ct_h->capdo }}','{{ $ct_h->madonviQL }}','{{ $ct_h->madiabanQL }}','{{ $ct_h->madonviKT }}')"
                                                     class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                     title="Thay đổi thông tin địa bàn" data-toggle="modal">
                                                     <i class="icon-lg flaticon-edit-1 text-primary"></i>
                                                 </button>
 
-                                                <button onclick="setDiaBan('','','H','','{{ $ct_t->madiaban }}')"
+                                                <button onclick="setDiaBan('','','X','','{{ $ct_h->madiaban }}')"
                                                     class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                     title="Thêm địa bàn trực thuộc" data-toggle="modal">
                                                     <i class="icon-lg flaticon-add text-info"></i>
                                                 </button>
 
-                                                <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_t->madiaban }}"
+                                                <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_h->madiaban }}"
                                                     class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
                                                     title="Danh sách đơn vị">
                                                     <span class="svg-icon svg-icon-xl">
                                                         <i class="icon-lg flaticon-list-2 text-dark"></i>
                                                     </span>
                                                     <span
-                                                        class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $ct_t->sodonvi }}</span>
+                                                        class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $ct_h->sodonvi }}</span>
                                                 </a>
 
-
-                                                {{-- <a href="{{ '/DonVi/QuanLyNganh/ThongTin?madiaban=' . $ct_t->madiaban }}"
-                                                    class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
-                                                    title="Danh sách đơn vị quản lý ngành">
-                                                    <span class="svg-icon svg-icon-xl">
-                                                        <i class="icon-lg text-info flaticon2-document"></i>
-                                                    </span>
-                                                </a> --}}
                                                 <button title="Xóa thông tin" type="button"
-                                                    onclick="confirmDelete('{{ $ct_t->id }}','/DiaBan/Xoa')"
+                                                    onclick="confirmDelete('{{ $ct_h->id }}','/DiaBan/Xoa')"
                                                     class="btn btn-sm btn-clean btn-icon"
                                                     data-target="#delete-modal-confirm" data-toggle="modal">
                                                     <i class="icon-lg flaticon-delete text-danger"></i>
                                                 </button>
                                             @endif
-                                        @endif
 
-                                    </td>
-                                </tr>
-
-                                @foreach ($model_x as $ct_h)
-                                    <tr class="info">
-                                        <td></td>
-                                        <td class="text-info text-center">{{ $j++ }}</td>
-                                        <td class="text-info">{{ $ct_h->madiaban }}</td>
-                                        <td class="text-info">{{ $ct_h->tendiaban }}</td>
-                                        <td class="text-info">{{ $a_donvi[$ct_h->madonviQL] ?? '' }}</b></td>
-                                        <td class="text-info">{{ $a_donvi[$ct_h->madonviKT] ?? '' }}</b></td>
-                                        <td class="text-info">{{ $a_phanloai[$ct_h->phanloai] ?? '' }}</td>
-                                        <td style="text-align: center">
-                                            @if (chkPhanQuyen('dsdonvi', 'thaydoi'))
-                                                <button
-                                                    onclick="setTrangThai('{{ $ct_h->madiaban }}','{{ $ct_h->trangthai }}','{{ $ct_h->lydo }}')"
-                                                    class="btn btn-sm btn-clean btn-icon" data-target="#trangthai-modal"
-                                                    title="{{ $ct_h->title }}" data-toggle="modal">
-                                                    <i class="icon-lg text-warning flaticon-exclamation-square"></i>
-                                                </button>
-                                                @if ($ct_h->trangthai == null)
+                                        </td>
+                                    </tr>
+                                    <?php
+                                    $k = 1;
+                                    $model_x = $model->where('madiabanQL', $ct_h->madiaban);
+                                    ?>
+                                    @foreach ($model_x as $ct_x)
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td style="text-align: center">{{ $k++ }}</td>
+                                            <td style="font-style: italic;">{{ $ct_x->madiaban }}</td>
+                                            <td style="font-style: italic;">{{ $ct_x->tendiaban }}</td>
+                                            <td style="font-style: italic;"> {{ $a_donvi[$ct_x->madonviQL] ?? '' }}</td>
+                                            <td style="font-style: italic;"> {{ $a_donvi[$ct_x->madonviKT] ?? '' }}</td>
+                                            <td style="text-align: center">
+                                                @if (chkPhanQuyen('dsdonvi', 'thaydoi'))
                                                     <button
-                                                        onclick="setDiaBan('{{ $ct_h->madiaban }}','{{ $ct_h->tendiaban }}','{{ $ct_h->capdo }}','{{ $ct_h->madonviQL }}','{{ $ct_h->madiabanQL }}','{{ $ct_h->madonviKT }}','{{ $ct_h->madiabanQLNganh }}')"
+                                                        onclick="setDiaBan('{{ $ct_x->madiaban }}','{{ $ct_x->tendiaban }}','{{ $ct_x->capdo }}','{{ $ct_x->madonviQL }}','{{ $ct_x->madiabanQL }}','{{ $ct_x->madonviKT }}')"
                                                         class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
                                                         title="Thay đổi thông tin địa bàn" data-toggle="modal">
                                                         <i class="icon-lg flaticon-edit-1 text-primary"></i>
                                                     </button>
 
-                                                    {{-- <button onclick="setDiaBan('','','X','','{{ $ct_h->madiaban }}')"
-                                                    class="btn btn-sm btn-clean btn-icon" data-target="#modify-modal"
-                                                    title="Thêm địa bàn trực thuộc" data-toggle="modal">
-                                                    <i class="icon-lg flaticon-add text-info"></i>
-                                                </button> --}}
-                                                    <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_h->madiaban }}"
+                                                    <a href="{{ '/DonVi/DanhSach?madiaban=' . $ct_x->madiaban }}"
                                                         class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
                                                         title="Danh sách đơn vị">
                                                         <span class="svg-icon svg-icon-xl">
                                                             <i class="icon-lg flaticon-list-2 text-dark"></i>
                                                         </span>
                                                         <span
-                                                            class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $ct_h->sodonvi }}</span>
+                                                            class="label label-sm label-light-danger text-dark label-rounded font-weight-bolder position-absolute top-0 right-0">{{ $ct_x->sodonvi }}</span>
                                                     </a>
-                                                    {{-- <a href="{{ '/DonVi/QuanLyNganh/ThongTin?madiaban=' . $ct_h->madiaban }}"
-                                                        class="btn btn-icon btn-clean btn-lg mb-1 position-relative"
-                                                        title="Danh sách đơn vị quản lý ngành">
-                                                        <span class="svg-icon svg-icon-xl">
-                                                            <i class="icon-lg text-info flaticon2-document"></i>
-                                                        </span>
-                                                    </a> --}}
+
                                                     <button title="Xóa thông tin" type="button"
-                                                        onclick="confirmDelete('{{ $ct_h->id }}','/DiaBan/Xoa')"
+                                                        onclick="confirmDelete('{{ $ct_x->id }}','/DiaBan/Xoa')"
                                                         class="btn btn-sm btn-clean btn-icon"
                                                         data-target="#delete-modal-confirm" data-toggle="modal">
                                                         <i class="icon-lg flaticon-delete text-danger"></i>
                                                     </button>
                                                 @endif
-                                            @endif
 
-                                        </td>
-                                    </tr>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 @endforeach
                             @endforeach
                         </tbody>
@@ -301,22 +290,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <div class="col-md-6">
-                                <label class="control-label">Phân loại phạm vị<span class="require">*</span></label>
-                                {!! Form::select('phanloai', $a_phanloai, null, [
-                                    'class' => 'form-control select2_modal',
-                                ]) !!}
-                            </div>
-                            <div class="col-6">
-                                <label class="control-label">Địa bàn QL Ngành</label>
-                                {!! Form::select('madiabanQLNganh', $a_diaban, null, [
-                                    'id' => 'madiabanQLNganh',
-                                    'class' => 'form-control select2_modal',
-                                ]) !!}
-                            </div>
-                        </div>
-
                         <div id="donviql" class="form-group row">
                             <div class="col6">
                                 <label class="control-label">Đơn vị phê duyệt khen thưởng</label>
@@ -327,55 +300,6 @@
                                 {!! Form::select('madonviKT', [], null, ['id' => 'madonviKT', 'class' => 'form-control select2_modal']) !!}
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
-                    <button type="submit" id="submit" name="submit" value="submit" class="btn btn-primary">Đồng
-                        ý</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    {!! Form::close() !!}
-    <!--Modal thông tin dừng hoạt động -->
-    {!! Form::open(['url' => 'DiaBan/TrangThai', 'id' => 'frm_trangthai']) !!}
-    <div id="trangthai-modal" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade kt_select2_modal">
-        <div class="modal-dialog modal-xs">
-            <div class="modal-content">
-                <div class="modal-header modal-header-primary">
-                    <h4 id="modal-header-primary-label" class="modal-title">Thông tin</h4>
-                    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <p style="color: #0000FF" id="thongbao">Dừng hoạt động địa bàn sẽ dừng hoạt động tất cả đơn vị và tài
-                        khoản thuộc địa
-                        bàn và các địa bàn trực thuộc!</p>
-                    <input type="hidden" name="madiaban" />
-                    <div class="form-horizontal">
-                        <div class="form-group row">
-                            <div class="col-12">
-                                <label class="control-label">Thời gian</label>
-                                {!! Form::date('ngaydung', now(), ['id' => 'ngaydung', 'class' => 'form-control']) !!}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-12">
-                                <label class="control-label">Trạng thái</label>
-                                {!! Form::select('trangthai', ['TD' => 'Dừng hoạt động', 'KH' => 'Kích hoạt'], null, [
-                                    'id' => 'trangthai',
-                                    'class' => 'form-control select2_modal',
-                                    'disabled' => true,
-                                ]) !!}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-12">
-                                <label class="control-label">Lý do</label>
-                                {!! Form::textarea('lydo', null, ['id' => 'ngaydung', 'class' => 'form-control', 'rows' => 3]) !!}
-                            </div>
-                        </div>
-
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -461,7 +385,7 @@
                                         <div class="col-md-3">
                                             <label class="control-label">Nhận từ dòng<span
                                                     class="require">*</span></label>
-                                            {!! Form::text('tudong', '4', ['class' => 'form-control']) !!}
+                                            {!! Form::text('tudong', '2', ['class' => 'form-control']) !!}
                                             {{-- {!! Form::text('tudong', '4', ['class' => 'form-control', 'required', 'data-mask' => 'fdecimal']) !!} --}}
                                         </div>
 
@@ -544,24 +468,13 @@
             <!-- /.modal-dialog -->
         </div>
     </div>
+
     <script>
         function setDiaBanExCel(madiaban) {
             var form = $('#frm_NhanExcel');
             form.find("[name='madiaban']").val(madiaban);
         }
 
-        function setTrangThai(madiaban, trangthai, lydo) {
-            var form = $('#frm_trangthai');
-            var tt = trangthai == 'TD' ? 'KH' : 'TD';
-            form.find("[name='madiaban']").val(madiaban);
-            form.find("[name='trangthai']").val(tt);
-            form.find("[name='lydo']").val(lydo);
-            xuLyTrangThai(tt);
-        }
-
-        function xuLyTrangThai(trangthai) {
-            $('#thongbao').toggle(trangthai === 'TD');
-        }
     </script>
 
     @include('includes.modal.modal-delete')
